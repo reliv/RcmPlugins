@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * RcmCallToActionBox content template
+ *
+ * Used for rendering simple content
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   Plugins\Image
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
+ */
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-call-to-action-box/style.css'
+);
+$sd=$this->data;
+$te=$this->data;
+?>
+<div>
+
+    <h1>
+        <a data-textEdit="top"
+           href="<?php echo $this->data->href?>">
+            <?php echo $this->data->top?>
+        </a>
+        <a href="<?php echo $this->data->href?>">
+            <span class="arrowLogo">&nbsp;</span>
+        </a>
+    </h1>
+
+    <h2>
+        <a data-textEdit="middle"
+           href="<?php echo $this->data->href?>">
+            <?php echo $this->data->middle?>
+        </a>
+    </h2>
+
+    <p data-textEdit="bottom">
+        <?php echo $this->data->bottom?>
+    </p>
+
+    <img alt="<?php echo $this->data->top?>"
+         class="bg"
+         src="<?php echo
+             $this->getContentBasePath() . $this->data->imageSrc?>"
+        >
+
+</div>

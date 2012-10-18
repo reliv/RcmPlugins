@@ -1,26 +1,26 @@
 /**
- * RcmPortalAnnouncementBox
+ * RcmCallToActionBox
  *
- * JS for editing RcmPortalAnnouncementBox
+ * JS for editing RcmCallToActionBox
  *
  * PHP version 5.3
  *
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmPortalAnnouncementBox
+ * @package   RcmPlugins\RcmCallToActionBox
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
- * @license   http://www.nolicense.com None
+ * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
+var RcmCallToActionBoxEdit = function (instanceId, container) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmPortalAnnouncementBox}
+     * @type {RcmCallToActionBox}
      */
     var me = this;
 
@@ -36,6 +36,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
      *
      * @type {Object}
      */
+    var imgTag = container.find('img');
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -78,12 +79,13 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
 
         return {
             'href': aTags.attr('href'),
+            'imageSrc': imgTag.attr('src')
         }
     }
 
     me.getAssets = function(){
-        var saveData = me.getSaveData();
-        return [saveData.href];
+        var data = me.getSaveData();
+        return [data.imageSrc, data.href];
     }
 
     /**
@@ -96,6 +98,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
+            .addImage('imageSrc', 'Image', imgTag.attr('src'))
             .addInput('href', 'Link Url', aTags.attr('href'))
             .dialog({
                 title:'Properties',
@@ -109,6 +112,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
 
                         //Get user-entered data from form
                         aTags.attr('href', form.find('[name=href]').val());
+                        imgTag.attr('src', form.find('[name=imageSrc]').val());
 
                         $(this).dialog("close");
                     }

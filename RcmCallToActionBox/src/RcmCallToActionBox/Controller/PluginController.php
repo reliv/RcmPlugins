@@ -10,14 +10,14 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmPortalAnnouncementBox
+ * @package   RcmPlugins\RcmCallToActionBox
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
- * @license   http://www.nolicense.com None
+ * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmPortalAnnouncementBox\Controller;
+namespace RcmCallToActionBox\Controller;
 
 /**
  * Plugin Controller
@@ -25,10 +25,10 @@ namespace RcmPortalAnnouncementBox\Controller;
  * This is the main controller for this plugin
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmPortalAnnouncementBox
+ * @package   RcmPlugins\RcmCallToActionBox
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
- * @license   http://www.nolicense.com None
+ * @license   License.txt New BSD License
  * @version   Release: 1.0
  * @link      http://ci.reliv.com/confluence
  *
@@ -40,6 +40,6 @@ class PluginController
     /**
      * @var string tells pluginAction() which template to use
      */
-    protected $template='rcm-portal-announcement-box/plugin';
+    protected $template='rcm-call-to-action-box/plugin';
 
 }

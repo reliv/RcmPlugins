@@ -20,17 +20,17 @@
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-portal-announcement-box/style.css'
 );
-$sd=$this->content->saveData;
-$te=$this->content->textEdits;
-?>
-<div style="padding:5px;height:200px;width:200px;position: relative;">
-   <div data-textEdit="middle" style="height: 3px;width: 100% auto;background-color: #f15d22; border: 0px; margin: 5px auto;color:#ffffff;font-weight: bold;text-align: center; vertical-align: middle; display: table-cell; verical-align: middle">
-    <?php echo $te->middle?>
-    </div>
 
-    <span data-richEdit="html" style="width: 100%;">
-        <?php echo $this->content->richEdits->html ?>
-    </span>
+?>
+<div style="padding:5px;height:200px;width:200px;">
+   <div data-textEdit="middle"
+        style="position: relative; white-space: nowrap;height: 3px;width:200px; background-color: #f15d22; border: 0px; margin: 5px auto;color:#ffffff;font-weight: bold;text-align: center; vertical-align: middle; display: table-cell; verical-align: middle">
+    <?php echo $this->data->middle?>
+   </div>
+
+    <p data-richEdit="html" style="width:200px; position: relative;">
+        <?php echo $this->data->html ?>
+    </p>
 
 
 </div>
