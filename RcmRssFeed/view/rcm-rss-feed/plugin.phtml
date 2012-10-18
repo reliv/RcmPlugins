@@ -1,0 +1,34 @@
+<?php
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-rss-feed/style.css'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-rss-feed/rssReader.js'
+);
+?>
+
+<script type="text/javascript">
+$(function(){
+    $(".rss-feed-<?php echo $this->rssInstanceId; ?>");
+
+
+    new rssReader(
+        '<?php echo $this->rssProxy; ?>',
+        <?php echo $this->rssInstanceId; ?>,
+        $(".rss-feed-<?php echo $this->rssInstanceId; ?>"),
+        null
+    );
+});
+</script>
+
+<div class="rcmRssFeedReaderMainContainer"
+    data-rcmRssFeedUrl="<?php echo $this->rssUrl; ?>"
+    data-rcmRssFeedLimit="<?php echo $this->rssDisplayLimit; ?>"
+    data-rcmRssFeedProxy="<?php echo $this->rssProxy; ?>"
+>
+
+    <h2 data-textEdit="headline"><?php echo $this->rssDisplayHeadline; ?></h2>
+
+    <span class="rss-feed-<?php echo $this->rssInstanceId; ?>">Loading...</span>
+</div>

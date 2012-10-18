@@ -1,0 +1,8 @@
+.rcmRssFeedLine {
+    padding-top: 12px;
+}
+
+.rcmRssFeedLine a {
+    font-weight: bold;
+    text-decoration: none;
+}

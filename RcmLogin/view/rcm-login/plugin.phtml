@@ -1,0 +1,82 @@
+<?php
+/**
+ * Visitor-facing plugin template
+ *
+ * Visitor-facing plugin template
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   RcmPlugins\Navigation
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
+ */
+?>
+<script type="text/javascript">
+    $(function () {
+        $("#loginSubmit").bind('click', function () {
+            $("#loginForm").submit();
+        });
+    });
+</script>
+<div class="rcmLogin">
+    <form method="post" action="/login/auth/eng" id="loginForm">
+        <p>&nbsp;</p>
+
+        <h1 data-textEdit="loginHeader">
+            <?php echo $this->data->loginHeader; ?>
+        </h1>
+
+        <div data-textEdit="loginErrorInvalidCopy" class="loginError"
+             align="center" <?php if (empty($this->rcmLoginError)): ?>style="display: none;"  <?php endif; ?> >
+            <?php echo $this->data->loginErrorInvalidCopy; ?>
+        </div>
+        <p>&nbsp;</p>
+
+        <p>
+                <span data-textEdit="userNameCopy">
+                    <?php echo $this->data->userNameCopy; ?>
+                </span><br>
+            <input type="text" value="" name="userName">
+        </p>
+
+        <p>
+                <span data-textEdit="loginPasswordCopy">
+                    <?php echo $this->data->loginPasswordCopy; ?>
+                </span> <br>
+            <input type="password" value="" name="loginPass">
+        </p>
+
+        <p>&nbsp;</p>
+
+        <div>
+            <a href="#" id="loginSubmit" class="submitButton"
+               data-textEdit="loginSubmitCopy">
+                <?php echo $this->data->loginSubmitCopy; ?>
+            </a>
+        </div>
+        <p>&nbsp;</p>
+
+        <p>
+            <a href="#" data-textEdit="loginForgotPasswordCopy">
+                <?php echo $this->data->loginForgotPasswordCopy; ?>
+            </a>
+        </p>
+
+        <div style="position: absolute; left: -999999px;"><input type="submit"
+                                                                 value=""
+                                                                 name="submitButton"/>
+        </div>
+        <p>&nbsp;</p>
+
+        <div data-richedit="bottomLoginText">
+            <?php echo $this->data->bottomLoginText; ?>
+        </div>
+    </form>
+    <div style="clear:both;"></div>
+</div>

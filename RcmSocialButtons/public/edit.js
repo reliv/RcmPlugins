@@ -1,0 +1,237 @@
+/**
+ * RcmSocialButtons
+ *
+ * JS for editing RcmSocialButtons
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   RcmPlugins\RcmSocialButtons
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
+ */
+var RcmSocialButtonsEdit = function (instanceId, container) {
+
+    /**
+     * Always refers to this object unlike the 'this' JS variable;
+     * @type {RcmSocialButtons}
+     */
+    var me = this;
+
+    /**
+     * jQuery object for the two links
+     * @type {Object}
+     */
+    var aTags = container.find('a');
+
+    /**
+     * Background image jQuery object
+     * @type {Object}
+     */
+    var imgTag = container.find('img');
+
+    /**
+     * Config options from the module config
+     * @type {Object}
+     */
+    var config = '';
+
+    var pluginData = '';
+
+    /**
+     * Called by content management system to make this plugin user-editable
+     *
+     * @return {Null}
+     */
+    me.initEdit = function () {
+        me.disableShareThis();
+
+        var haveSaveData = false;
+        var haveConfig = false;
+
+        $.getJSON(
+            '/rmc-plugin-admin-proxy/rcm-social-buttons/' + instanceId
+                + '/admin-config',
+            function(data) {
+                config = data;
+                haveConfig = true;
+                if (haveConfig && haveSaveData) {
+                    me.completeInitEdit();
+                }
+            }
+        );
+
+        $.getJSON(
+            '/rmc-plugin-admin-proxy/rcm-social-buttons/' + instanceId
+                + '/admin-content',
+            function success(data) {
+                pluginData = data.saveData;
+                haveSaveData = true;
+                if (haveConfig && haveSaveData) {
+                    me.completeInitEdit();
+                }
+            }
+        );
+    }
+
+    /**
+     * Completes the edit init after we get our data via ajax
+     *
+     * @return {Null}
+     */
+    me.completeInitEdit = function () {
+
+        //Double clicking will show properties dialog
+        container.delegate('.rcmSocialButtonsWrapper', 'dblclick', function (e) {
+            e.preventDefault();
+            me.showEditDialog();
+        });
+
+        //Add right click menu
+        $.contextMenu({
+            selector:rcm.getPluginContainerSelector(instanceId) + ' .rcmSocialButtonsWrapper',
+            //Here are the right click menu options
+            items:{
+                edit:{
+                    name:'Edit Properties',
+                    icon:'edit',
+                    callback:function () {
+                        me.showEditDialog();
+                    }
+                }
+
+            }
+        });
+    }
+
+    /**
+     * Called by content management system to get this plugins data for saving
+     * on the server
+     *
+     * @return {Object}
+     */
+    me.getSaveData = function () {
+        return pluginData;
+    }
+
+    /**
+     * Disables the share this functionality so we can edit
+     * @return {Null}
+     */
+    me.disableShareThis = function () {
+        //Disable the normal social sharing functionality
+        container.find('*').click(function (e) {
+            e.stopPropagation()
+        });
+    }
+
+    /**
+     * Displays a dialog box to edit href and image src
+     *
+     * @return {Null}
+     */
+    me.showEditDialog = function () {
+
+        //Create and show our edit dialog
+        var form = $('<form></form>');
+        form.addClass('simple');
+        form.addSelect(
+            'style',
+            'Button Style',
+            {
+                '':'Small buttons',
+                '_large':'Large buttons',
+                '_hcount':'Buttons with horizontal counters',
+                '_vcount':'Buttons with vertical counters'
+            },
+            pluginData.style
+        )
+        var checkBoxDiv = $('<div></div>')
+        checkBoxDiv.append('<label>Buttons</label><br>');
+        me.iterateAvailableButtons(function (name, desc) {
+            checkBoxDiv.addCheckBox(
+                name,
+                desc,
+                me.buttonEnabled(name)
+            );
+        })
+        checkBoxDiv.find('p').attr('style', 'margin:0,padding:0 0 0 10px');
+        form.append(checkBoxDiv);
+        form.addInput('href', '"ShareThis" Publisher Key:', saveData.publisherKey);
+        form.dialog({
+            title:'Properties',
+            modal:true,
+            width:620,
+            buttons:{
+                Cancel:function () {
+                    $(this).dialog("close");
+                },
+                Ok:function () {
+
+                    //get style from form
+                    pluginData.style = form.find('[name=style]').val();
+
+                    //get buttons from form
+                    pluginData.buttons = [];
+                    me.iterateAvailableButtons(function (name, desc) {
+                        if (form.find('[name="' + name + '"]').prop("checked")) {
+                            pluginData.buttons.push(name);
+                        }
+                    pluginData.publisherKey = form.find('[name=href]').val();
+
+                    });
+
+                    me.render();
+
+                    $(this).dialog("close");
+                }
+            }
+        });
+    }
+
+    /**
+     * Renders saveData into html on the page
+     *
+     * @return {Null}
+     */
+    me.render = function () {
+        var contDiv = container.children('.rcmSocialButtonsWrapper');
+        contDiv.empty();
+        me.iterateAvailableButtons(function (name, desc) {
+            if (me.buttonEnabled(name)) {
+                var span = $('<span></span>');
+                span.addClass('st_' + name + pluginData.style);
+                contDiv.append(span);
+            }
+        });
+        stButtons.locateElements();
+        me.disableShareThis();
+    }
+
+    /**
+     * Checks if an available button is currently enabled
+     *
+     * @param {String} name button name
+     * @return {Boolean}
+     */
+    me.buttonEnabled = function (name) {
+        return ($.inArray(name, pluginData.buttons) != -1)
+    }
+
+    /**
+     * Calls a callback function for each available button
+     *
+     * @param {Function} callBack callback function
+     * @return {Null}
+     */
+    me.iterateAvailableButtons = function (callBack) {
+        for (var name in config.availableButtons) {
+            callBack(name, config.availableButtons[name])
+        }
+    }
+}

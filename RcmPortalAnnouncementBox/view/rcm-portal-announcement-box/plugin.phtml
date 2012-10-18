@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * RcmPortalAnnouncementBox content template
+ *
+ * Used for rendering simple content
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   Plugins\Image
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   http://www.nolicense.com None
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
+ */
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-portal-announcement-box/style.css'
+);
+$sd=$this->content->saveData;
+$te=$this->content->textEdits;
+?>
+<div style="padding:5px;height:200px;width:200px;position: relative;">
+   <div data-textEdit="middle" style="height: 3px;width: 100% auto;background-color: #f15d22; border: 0px; margin: 5px auto;color:#ffffff;font-weight: bold;text-align: center; vertical-align: middle; display: table-cell; verical-align: middle">
+    <?php echo $te->middle?>
+    </div>
+
+    <span data-richEdit="html" style="width: 100%;">
+        <?php echo $this->content->richEdits->html ?>
+    </span>
+
+
+</div>

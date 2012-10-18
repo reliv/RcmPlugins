@@ -1,0 +1,67 @@
+.RcmPortalAnnouncementBox {
+    position: relative;
+    /*float: left;*/
+    /*padding-right: 19px;*/
+}
+.RcmPortalAnnouncementBox:last-of-type {
+    position: relative;
+    float: left;
+    padding-right: 0px;
+}
+
+.RcmPortalAnnouncementBox div {
+    margin:0;
+    width: 191px;
+    height: 105px;
+    position: relative;
+    border: 1px solid #CCC;
+    /* border-radius: 15px 0 15px 0; */
+    padding: 10px;
+    overflow: hidden;
+    background-color: white;
+}
+.RcmPortalAnnouncementBox div .bg {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* border-bottom-right-radius: 15px; */
+}
+
+.RcmPortalAnnouncementBox div h1 {
+    padding-bottom: 6px;
+    text-decoration: none;
+    line-height: 16px;
+    margin-bottom: 0px;
+    z-index: 1;
+    position: relative;
+}
+
+.RcmPortalAnnouncementBox div h1 a {
+    font-weight: bold;
+    font-size: 16px;
+    color: #00A3E6;
+}
+
+.RcmPortalAnnouncementBox div h2 {
+    line-height: 18px;
+    margin-bottom: 5;
+    z-index: 1;
+    position: relative;
+}
+
+.RcmPortalAnnouncementBox div h2 a {
+    color: #8DC63F;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.RcmPortalAnnouncementBox div p{
+    margin: 0px;
+    width: 80px;
+    z-index: 1;
+    position: relative;
+}
+
+.RcmPortalAnnouncementBox a {
+    text-decoration: none;
+}
