@@ -160,7 +160,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         })
         checkBoxDiv.find('p').attr('style', 'margin:0,padding:0 0 0 10px');
         form.append(checkBoxDiv);
-        form.addInput('href', '"ShareThis" Publisher Key:', saveData.publisherKey);
+        form.addInput('href', '"ShareThis" Publisher Key:', data.publisherKey);
         form.dialog({
             title:'Properties',
             modal:true,
