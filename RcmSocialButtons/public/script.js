@@ -15,8 +15,14 @@ $(function(){
 
         //console.log('RCM SHARE THIS: getting script....');
 
+        //Figure out the path to the share-this js file
+        var subDomain='w';
+        if(window.location.protocol == 'https:'){
+            subDomain='ws';
+        }
+
         //Load the js file
-        $.getScript('//w.sharethis.com/button/buttons.js',
+        $.getScript('//'+subDomain+'.sharethis.com/button/buttons.js',
 
             //Callback after script is loaded
             function(){
