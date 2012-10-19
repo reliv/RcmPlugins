@@ -42,14 +42,13 @@ class PluginController
      */
     protected $template='rcm-social-buttons/plugin';
 
-    function AdminConfigAction(){
+    function AdminAvailableButtonsAction(){
         $config = $this->getServiceLocator()->get('config');
-        $config = $config['rcmPlugin']['RcmSocialButtons'];
-        $config = array(
-            'publisherKey' => $config['shareThisPublisherKey'],
-            'availableButtons' => $config['availableButtons'],
-        );
+        $availableButtons
+            = json_encode(
+                $config['rcmPlugin']['RcmSocialButtons']['availableButtons']
+            );
         header('Content-type: application/json');
-        exit(json_encode($config));
+        exit($availableButtons);
     }
 }

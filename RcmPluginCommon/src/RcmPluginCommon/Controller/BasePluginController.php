@@ -86,7 +86,7 @@ class BasePluginController extends \Zend\Mvc\Controller\AbstractActionController
             ->findOneByInstanceId($instanceId);
         if (!$entity) {
             throw new PluginDataNotFoundException(
-                "Instance #$instanceId of $className not in DB."
+                "Plugin Instance #$instanceId of $className not in DB."
             );
         }
         return $entity;

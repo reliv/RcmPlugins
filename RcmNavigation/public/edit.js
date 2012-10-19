@@ -61,7 +61,7 @@ var RcmNavigationEdit = function (instanceId, container) {
      * Called by content management system to get this plugins data for saving
      * on the server
      *
-     * @return {String}
+     * @return {Object}
      */
     me.getSaveData = function () {
 
@@ -69,7 +69,9 @@ var RcmNavigationEdit = function (instanceId, container) {
         me.removeEditElements();
 
         //Save our html to the hidden input box
-        return container.children('ul').html();
+        return {
+            'html':container.children('ul').html()
+        };
     }
 
     /**
@@ -90,7 +92,7 @@ var RcmNavigationEdit = function (instanceId, container) {
     me.addEditElements = function () {
 
         //Add right click menu
-        $.contextMenu({
+        rcmEdit.pluginContextMenu({
             selector:containerSelector+' li',
 
             //Make nav stay popped up when right click menu opens
@@ -202,7 +204,7 @@ var RcmNavigationEdit = function (instanceId, container) {
     me.removeEditElements = function () {
 
         //Remove right click menu
-        $.contextMenu(
+        rcmEdit.pluginContextMenu(
             'destroy',
             containerSelector + ' li'
         );

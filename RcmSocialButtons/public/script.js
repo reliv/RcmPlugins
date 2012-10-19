@@ -13,8 +13,6 @@ $(function(){
         //ShareThis requires this code before loading their JS file
         var switchTo5x=true;
 
-        //console.log('RCM SHARE THIS: getting script....');
-
         //Figure out the path to the share-this js file
         var subDomain='w';
         if(window.location.protocol == 'https:'){
@@ -27,16 +25,12 @@ $(function(){
             //Callback after script is loaded
             function(){
 
-                //console.log('RCM SHARE THIS: Setting API key...');
-
                 //ShareThis requires this code after loading their JS file
                 stLight.options({
                     publisher: socialButtonsWrapper.first()
                         .attr('data-rcmSocialButtonsPublisherKey'),
                     onhover: false
                 });
-
-                //console.log('RCM SHARE THIS: Done setting API key');
 
             }
         );

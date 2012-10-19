@@ -39,9 +39,9 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
      * Config options from the module config
      * @type {Object}
      */
-    var config = '';
+    var availableButtons = null;
 
-    var pluginData = '';
+    var data = null;
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -51,16 +51,12 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
     me.initEdit = function () {
         me.disableShareThis();
 
-        var haveSaveData = false;
-        var haveConfig = false;
-
         $.getJSON(
             '/rmc-plugin-admin-proxy/rcm-social-buttons/' + instanceId
-                + '/admin-config',
-            function(data) {
-                config = data;
-                haveConfig = true;
-                if (haveConfig && haveSaveData) {
+                + '/admin-available-buttons',
+            function(returnedData) {
+                availableButtons = returnedData;
+                if (me.haveDataAndAvailableButtons()) {
                     me.completeInitEdit();
                 }
             }
@@ -68,24 +64,26 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
 
         $.getJSON(
             '/rmc-plugin-admin-proxy/rcm-social-buttons/' + instanceId
-                + '/admin-content',
-            function success(data) {
-                pluginData = data.saveData;
-                haveSaveData = true;
-                if (haveConfig && haveSaveData) {
+                + '/admin-data',
+            function success(returnedData) {
+                data = returnedData;
+                if (me.haveDataAndAvailableButtons()) {
                     me.completeInitEdit();
                 }
             }
         );
     }
 
+    me.haveDataAndAvailableButtons = function(){
+        return (data!=null && availableButtons!=null);
+    }
+    
     /**
      * Completes the edit init after we get our data via ajax
      *
      * @return {Null}
      */
     me.completeInitEdit = function () {
-
         //Double clicking will show properties dialog
         container.delegate('.rcmSocialButtonsWrapper', 'dblclick', function (e) {
             e.preventDefault();
@@ -93,7 +91,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         });
 
         //Add right click menu
-        $.contextMenu({
+        rcmEdit.pluginContextMenu({
             selector:rcm.getPluginContainerSelector(instanceId) + ' .rcmSocialButtonsWrapper',
             //Here are the right click menu options
             items:{
@@ -116,7 +114,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
      * @return {Object}
      */
     me.getSaveData = function () {
-        return pluginData;
+        return data;
     }
 
     /**
@@ -149,7 +147,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
                 '_hcount':'Buttons with horizontal counters',
                 '_vcount':'Buttons with vertical counters'
             },
-            pluginData.style
+            data.style
         )
         var checkBoxDiv = $('<div></div>')
         checkBoxDiv.append('<label>Buttons</label><br>');
@@ -174,15 +172,15 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
                 Ok:function () {
 
                     //get style from form
-                    pluginData.style = form.find('[name=style]').val();
+                    data.style = form.find('[name=style]').val();
 
                     //get buttons from form
-                    pluginData.buttons = [];
+                    data.buttons = [];
                     me.iterateAvailableButtons(function (name, desc) {
                         if (form.find('[name="' + name + '"]').prop("checked")) {
-                            pluginData.buttons.push(name);
+                            data.buttons.push(name);
                         }
-                    pluginData.publisherKey = form.find('[name=href]').val();
+                    data.publisherKey = form.find('[name=href]').val();
 
                     });
 
@@ -205,7 +203,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         me.iterateAvailableButtons(function (name, desc) {
             if (me.buttonEnabled(name)) {
                 var span = $('<span></span>');
-                span.addClass('st_' + name + pluginData.style);
+                span.addClass('st_' + name + data.style);
                 contDiv.append(span);
             }
         });
@@ -220,7 +218,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
      * @return {Boolean}
      */
     me.buttonEnabled = function (name) {
-        return ($.inArray(name, pluginData.buttons) != -1)
+        return ($.inArray(name, data.buttons) != -1)
     }
 
     /**
@@ -230,8 +228,8 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
      * @return {Null}
      */
     me.iterateAvailableButtons = function (callBack) {
-        for (var name in config.availableButtons) {
-            callBack(name, config.availableButtons[name])
+        for (var name in availableButtons) {
+            callBack(name, availableButtons[name])
         }
     }
 }

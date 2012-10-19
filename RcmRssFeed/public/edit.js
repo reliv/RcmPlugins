@@ -41,7 +41,7 @@ var RcmRssFeedEdit = function (instanceId, container) {
         });
 
         //Add right click menu
-        $.contextMenu({
+        rcmEdit.pluginContextMenu({
             selector:'[data-rcmPluginInstanceId="' + instanceId + '"]',
             //Here are the right click menu options
             items:{
