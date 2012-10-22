@@ -35,7 +35,7 @@ use RcmPluginCommon\Controller\BasePluginController;
  * @link      http://ci.reliv.com/confluence
  *
  */
-class JsonDataPluginControllerAbstract extends BasePluginController
+class JsonDataPluginController extends BasePluginController
     implements \Rcm\Controller\PluginControllerInterface
 {
     /**
@@ -104,6 +104,30 @@ class JsonDataPluginControllerAbstract extends BasePluginController
     function deleteAction($instanceId)
     {
         $this->deleteEntity($instanceId, $this->storageClass);
+    }
+
+    /**
+     * Sets the Template property
+     *
+     * @param string $template
+     *
+     * @return null
+     *
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * Gets the Template property
+     *
+     * @return string Template
+     *
+     */
+    public function getTemplate()
+    {
+        return $this->template;
     }
 
     /**

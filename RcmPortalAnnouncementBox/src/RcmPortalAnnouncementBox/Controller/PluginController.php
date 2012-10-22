@@ -34,7 +34,7 @@ namespace RcmPortalAnnouncementBox\Controller;
  *
  */
 class PluginController
-    extends \RcmPluginCommon\Controller\JsonDataPluginControllerAbstract
+    extends \RcmPluginCommon\Controller\JsonDataPluginController
     implements \Rcm\Controller\PluginControllerInterface
 {
     /**

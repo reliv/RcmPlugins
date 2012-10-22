@@ -18,6 +18,8 @@
 
 namespace RcmHtmlArea;
 
+use \RcmPluginCommon\Controller\JsonDataPluginController;
+
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -76,7 +78,13 @@ class Module
     public function getServiceConfig()
     {
         return array(
-
+            'factories' => array(
+                'RcmHtmlArea\Controller\PluginController'=>function(){
+                    $controller = new JsonDataPluginController();
+                    $controller->setTemplate('rcm-html-area/plugin');
+                    return $controller;
+                }
+            )
         );
     }
 }
