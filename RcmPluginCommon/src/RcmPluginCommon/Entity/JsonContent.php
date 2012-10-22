@@ -93,6 +93,10 @@ class JsonContent
         return json_decode($this->data);
     }
 
+    public function getDataAsArray(){
+        return json_decode($this->data,true);
+    }
+
     /**
      * Gets the data that will be stored in the DB as JSON without decoding it
      * 
