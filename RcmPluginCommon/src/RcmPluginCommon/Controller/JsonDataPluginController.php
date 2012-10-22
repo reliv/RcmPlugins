@@ -54,6 +54,28 @@ class JsonDataPluginController extends BasePluginController
      */
     protected $storageClass = 'RcmPluginCommon\Entity\JsonContent';
 
+
+    protected $defaultJsonContentFilePath = null;
+
+    public function setDefaultJsonContentFilePath($defaultJsonContentFilePath)
+    {
+        $this->defaultJsonContentFilePath = $defaultJsonContentFilePath;
+    }
+
+    /**
+     * Returns the path of the default json content file. Looks in the default
+     * location if this property is not set
+     * @return null|string
+     */
+    public function getDefaultJsonContentFilePath()
+    {
+        if(!$this->defaultJsonContentFilePath){
+            $reflection = new \ReflectionClass(get_class($this));
+            return  dirname($reflection->getFileName())
+                . '/../../../config/default.content.json';
+        }
+        return $this->defaultJsonContentFilePath;
+    }
     /**
      * Plugin Action - Returns the guest-facing view model for this plugin
      *
@@ -179,11 +201,8 @@ class JsonDataPluginController extends BasePluginController
      */
     function getDefaultJsonContent()
     {
-        $reflection = new \ReflectionClass(get_class($this));
-
         return $this->readJsonFile(
-            dirname($reflection->getFileName())
-                . '/../../../config/default.content.json'
+            $this->getDefaultJsonContentFilePath()
         );
     }
 

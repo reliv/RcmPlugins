@@ -61,6 +61,9 @@ class Module
                 'RcmHtmlArea\Controller\PluginController'=>function(){
                     $controller = new JsonDataPluginController();
                     $controller->setTemplate('rcm-html-area/plugin');
+                    $controller->setDefaultJsonContentFilePath(
+                        __DIR__ . '/config/default.content.json'
+                    );
                     return $controller;
                 }
             )
