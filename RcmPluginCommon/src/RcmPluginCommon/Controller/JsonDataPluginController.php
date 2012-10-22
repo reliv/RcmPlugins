@@ -171,8 +171,10 @@ class JsonDataPluginController extends BasePluginController
             $content = $this->readEntity($instanceId, $this->storageClass);
         }
         /*
-         * @TODO FIX THIS
+         * @TODO RETURN RESPONSE OBJECT INSTEAD OF EXITING
          */
+        echo $content->getDataAsJson();
+        exit();
         $response = new \Zend\Http\Response();
         $response->setContent($content->getDataAsJson());
         $headers=new \Zend\Http\Headers();
