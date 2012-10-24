@@ -35,14 +35,14 @@ namespace RcmSocialButtons\Controller;
  */
 class PluginController
     extends \RcmPluginCommon\Controller\JsonDataPluginController
-    implements \Rcm\Controller\PluginControllerInterface
+    implements \Rcm\Controller\PluginInterface
 {
     /**
-     * @var string tells pluginAction() which template to use
+     * @var string tells renderInstance() which template to use
      */
     protected $template='rcm-social-buttons/plugin';
 
-    function AdminAvailableButtonsAction(){
+    function AvailableButtonsAdminAjaxAction(){
         $config = $this->getServiceLocator()->get('config');
         $availableButtons
             = json_encode(

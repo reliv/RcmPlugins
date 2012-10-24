@@ -13,7 +13,7 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
-     * @covers Rcm\Controller\PluginControllerInterface
+     * @covers Rcm\Controller\PluginInterface
      */
     protected function setUp()
     {
@@ -29,8 +29,8 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Rcm\Controller\PluginControllerInterface::saveAction
-     * @covers RcmPortalAnnouncementBox\Controller\PluginController::saveAction
+     * @covers Rcm\Controller\PluginInterface::saveInstance
+     * @covers RcmPortalAnnouncementBox\Controller\PluginController::saveInstance
      */
     function testGetDefaultJsonContent(){
 

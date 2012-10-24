@@ -36,10 +36,10 @@ use RcmPluginCommon\Controller\BasePluginController;
  *
  */
 class JsonDataPluginController extends BasePluginController
-    implements \Rcm\Controller\PluginControllerInterface
+    implements \Rcm\Controller\PluginInterface
 {
     /**
-     * @var string Tells function pluginAction() which template to use.
+     * @var string Tells function renderInstance() which template to use.
      *
      * This can be overridden in child controllers
      */
@@ -50,13 +50,110 @@ class JsonDataPluginController extends BasePluginController
      *
      * This can be overridden in child controllers
      *
-     * Used by functions pluginAction(), saveAction(), and deleteAction();
+     * Used by functions renderInstance(), saveInstance(), and deleteAction();
      */
     protected $storageClass = 'RcmPluginCommon\Entity\JsonContent';
 
-
     protected $defaultJsonContentFilePath = null;
 
+    /**
+     * Reads a plugin instance from persistent storage returns a view model for
+     * it
+     *
+     * @param int $instanceId plugin instance id
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    function renderInstance($instanceId){
+        $view = new \Zend\View\Model\ViewModel(
+            array(
+                'data' => $this->readJsonDataFromDb($instanceId)->getData()
+            )
+        );
+        $view->setTemplate($this->template);
+        return $view;
+    }
+
+    /**
+     * Returns a view model filled with content for a brand new instance. This
+     * usually comes out of a config file rather than writable persistent
+     * storage like a database.
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    function renderDefaultInstance(){
+        $view = new \Zend\View\Model\ViewModel(
+            array(
+                'data' =>  $this->getDefaultJsonContent()
+            )
+        );
+        $view->setTemplate($this->template);
+        return $view;
+    }
+
+    /**
+     * Saves a plugin instance to persistent storage
+     *
+     * @param string $instanceId plugin instance id
+     * @param array  $data       posted data to be saved
+     *
+     * @return null
+     */
+    function saveInstance($instanceId,$data){
+        $this->getEm()->persist(
+            new $this->storageClass($instanceId, $data)
+        );
+        $this->getEm()->flush();
+    }
+
+    /**
+     * Deletes a plugin instance from persistent storage
+     *
+     * @param string $instanceId plugin instance id
+     *
+     * @return null
+     */
+    function deleteInstance($instanceId){
+        $this->deleteEntity($instanceId, $this->storageClass);
+    }
+
+    /**
+     * Get entity content as JSON. This is called by the editor javascript of
+     * some plugins. Urls look like
+     * '/rmc-plugin-admin-proxy/rcm-plugin-name/223/admin-data'
+     *
+     * @param integer $instanceId instance id
+     *
+     * @return null
+     */
+    function dataAdminAjaxAction($instanceId)
+    {
+        if ($instanceId < 0) {
+            $content = new \RcmPluginCommon\Entity\JsonContent(
+                null, $this->getDefaultJsonContent()
+            );
+        } else {
+            $content = $this->readEntity($instanceId, $this->storageClass);
+        }
+        /*
+         * @TODO RETURN RESPONSE OBJECT INSTEAD OF EXITING. FOR SOME REASON ZF2
+         * DOES NOT RENDER THE RESPONSE OBJECT
+         */
+        echo $content->getDataAsJson();
+        exit();
+//        $response = new \Zend\Http\Response();
+//        $response->setContent($content->getDataAsJson());
+//        $headers=new \Zend\Http\Headers();
+//        $headers->addHeaderLine('Content-type','application/json');
+//        $response->setHeaders($headers);
+//        return $response;
+    }
+
+    /**
+     * Sets the default content JSON file path
+     *
+     * @param $defaultJsonContentFilePath
+     */
     public function setDefaultJsonContentFilePath($defaultJsonContentFilePath)
     {
         $this->defaultJsonContentFilePath = $defaultJsonContentFilePath;
@@ -75,57 +172,6 @@ class JsonDataPluginController extends BasePluginController
                 . '/../../../config/default.content.json';
         }
         return $this->defaultJsonContentFilePath;
-    }
-    /**
-     * Plugin Action - Returns the guest-facing view model for this plugin
-     *
-     * @param int $instanceId plugin instance id
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    function pluginAction($instanceId)
-    {
-        if ($instanceId < 0) {
-            $content = new \RcmPluginCommon\Entity\JsonContent(
-                null, $this->getDefaultJsonContent()
-            );
-        } else {
-            $content = $this->getJsonContent($instanceId);
-        }
-        $view
-            = new \Zend\View\Model\ViewModel(array(
-            'data' => $content->getData()
-        ));
-        $view->setTemplate($this->template);
-        return $view;
-    }
-
-    /**
-     * Save Action - saves input data for a plugin instance to DB
-     *
-     * @param string $instanceId plugin instance id
-     * @param array  $data       posted data to be saved
-     *
-     * @return null
-     */
-    function saveAction($instanceId, $data)
-    {
-        $this->getEm()->persist(
-            new $this->storageClass($instanceId, $data)
-        );
-        $this->getEm()->flush();
-    }
-
-    /**
-     * Delete Action - Deletes all data for a plugin instance from DB
-     *
-     * @param string $instanceId plugin instance id
-     *
-     * @return null
-     */
-    function deleteAction($instanceId)
-    {
-        $this->deleteEntity($instanceId, $this->storageClass);
     }
 
     /**
@@ -153,45 +199,13 @@ class JsonDataPluginController extends BasePluginController
     }
 
     /**
-     * Get entity content as JSON. This is called by the editor javascript of
-     * some plugins. Urls look like
-     * '/rmc-plugin-admin-proxy/rcm-plugin-name/223/admin-data'
-     *
-     * @param integer $instanceId instance id
-     *
-     * @return null
-     */
-    function AdminDataAction($instanceId)
-    {
-        if ($instanceId < 0) {
-            $content = new \RcmPluginCommon\Entity\JsonContent(
-                null, $this->getDefaultJsonContent()
-            );
-        } else {
-            $content = $this->readEntity($instanceId, $this->storageClass);
-        }
-        /*
-         * @TODO RETURN RESPONSE OBJECT INSTEAD OF EXITING. FOR SOME REASON ZF2
-         * DOES NOT RENDER THE RESPONSE OBJECT
-         */
-        echo $content->getDataAsJson();
-        exit();
-//        $response = new \Zend\Http\Response();
-//        $response->setContent($content->getDataAsJson());
-//        $headers=new \Zend\Http\Headers();
-//        $headers->addHeaderLine('Content-type','application/json');
-//        $response->setHeaders($headers);
-//        return $response;
-    }
-
-    /**
      * Returns the JSON content for a given plugin instance Id
      *
      * @param integer $instanceId plugin instance id
      *
      * @return object
      */
-    function getJsonContent($instanceId)
+    function readJsonDataFromDb($instanceId)
     {
         return $this->readEntity($instanceId, $this->storageClass);
     }

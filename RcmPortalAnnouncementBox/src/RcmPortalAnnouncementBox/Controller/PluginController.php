@@ -35,10 +35,10 @@ namespace RcmPortalAnnouncementBox\Controller;
  */
 class PluginController
     extends \RcmPluginCommon\Controller\JsonDataPluginController
-    implements \Rcm\Controller\PluginControllerInterface
+    implements \Rcm\Controller\PluginInterface
 {
     /**
-     * @var string tells pluginAction() which template to use
+     * @var string tells renderInstance() which template to use
      */
     protected $template='rcm-portal-announcement-box/plugin';
 

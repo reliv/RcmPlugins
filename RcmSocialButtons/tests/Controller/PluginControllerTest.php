@@ -13,7 +13,7 @@ class PluginControllerTest extends \Rcm\Base\BaseTest
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
-     * @covers Rcm\Controller\PluginControllerInterface
+     * @covers Rcm\Controller\PluginInterface
      */
     protected function setUp()
     {
@@ -29,8 +29,8 @@ class PluginControllerTest extends \Rcm\Base\BaseTest
     }
 
     /**
-     * @covers Rcm\Controller\PluginControllerInterface::saveAction
-     * @covers RcmSocialButtons\Controller\PluginController::saveAction
+     * @covers Rcm\Controller\PluginInterface::saveInstance
+     * @covers RcmSocialButtons\Controller\PluginController::saveInstance
      */
     function testSaveAction(){
         $em=$this->getEmMock();
@@ -40,6 +40,6 @@ class PluginControllerTest extends \Rcm\Base\BaseTest
 
         $this->unit->setEm($em);
 
-        $this->unit->saveAction(42,'<p>hi</p>');
+        $this->unit->saveInstance(42,'<p>hi</p>');
     }
 }

@@ -37,16 +37,16 @@ use \Zend\View\Model\ViewModel;
  */
 class PluginController
     extends \RcmPluginCommon\Controller\JsonDataPluginController
-    implements \Rcm\Controller\PluginControllerInterface
+    implements \Rcm\Controller\PluginInterface
 {
     /**
      * @var string template to render content with
      */
     protected $template = 'rcm-login/plugin';
 
-    public function pluginAction($instanceId)
+    public function renderInstance($instanceId)
     {
-        $view = parent::pluginAction($instanceId);
+        $view = parent::renderInstance($instanceId);
         $this->request = $this->getEvent()->getRequest();
 
         $error = $this->params()->fromQuery('rcmLoginError', null);

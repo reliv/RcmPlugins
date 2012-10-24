@@ -35,14 +35,14 @@ namespace RcmRssFeed\Controller;
  */
 class PluginController
     extends \RcmPluginCommon\Controller\JsonDataPluginController
-    implements \Rcm\Controller\PluginControllerInterface
+    implements \Rcm\Controller\PluginInterface
 {
     /**
      * @var string template to render content with
      */
     protected $template = 'rcm-rss-feed/plugin';
 
-    public function pluginAction($instanceId) {
+    public function renderInstance($instanceId) {
         if ($instanceId <0) {
             $content = new \RcmPluginCommon\Entity\JsonContent(
                 null, $this->getDefaultJsonContent()
