@@ -20,6 +20,16 @@
     overflow: hidden;
     background-color: white;
 }
+.RcmCallToActionBox div div{
+    margin:0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    position: static;
+    border: none;
+    overflow: auto;
+    background-color: transparent;
+}
 .RcmCallToActionBox div .bg {
     position: absolute;
     bottom: 0;
