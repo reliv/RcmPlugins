@@ -171,16 +171,17 @@ class JsonDataPluginController extends BasePluginController
             $content = $this->readEntity($instanceId, $this->storageClass);
         }
         /*
-         * @TODO RETURN RESPONSE OBJECT INSTEAD OF EXITING
+         * @TODO RETURN RESPONSE OBJECT INSTEAD OF EXITING. FOR SOME REASON ZF2
+         * DOES NOT RENDER THE RESPONSE OBJECT
          */
         echo $content->getDataAsJson();
         exit();
-        $response = new \Zend\Http\Response();
-        $response->setContent($content->getDataAsJson());
-        $headers=new \Zend\Http\Headers();
-        $headers->addHeaderLine('Content-type','application/json');
-        $response->setHeaders($headers);
-        return $response;
+//        $response = new \Zend\Http\Response();
+//        $response->setContent($content->getDataAsJson());
+//        $headers=new \Zend\Http\Headers();
+//        $headers->addHeaderLine('Content-type','application/json');
+//        $response->setHeaders($headers);
+//        return $response;
     }
 
     /**
