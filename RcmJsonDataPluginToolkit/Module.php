@@ -8,7 +8,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPluginCommon
+ * @package   RcmJsonDataPluginToolkit
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -16,7 +16,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 
-namespace RcmPluginCommon;
+namespace RcmJsonDataPluginToolkit;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -25,7 +25,7 @@ namespace RcmPluginCommon;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @package   RcmPluginCommons\RcmPluginCommon
+ * @package   RcmJsonDataPluginToolkits\RcmJsonDataPluginToolkit
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License

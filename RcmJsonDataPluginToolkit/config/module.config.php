@@ -11,7 +11,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPluginCommons\RcmPluginCommon
+ * @package   RcmJsonDataPluginToolkits\RcmJsonDataPluginToolkit
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -29,16 +29,16 @@ return array(
 
     'doctrine' => array(
         'driver' => array(
-            'RcmPluginCommon' => array(
+            'RcmJsonDataPluginToolkit' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__.'/../src/RcmPluginCommon/Entity'
+                    __DIR__.'/../src/RcmJsonDataPluginToolkit/Entity'
                 )
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'RcmPluginCommon' => 'RcmPluginCommon'
+                    'RcmJsonDataPluginToolkit' => 'RcmJsonDataPluginToolkit'
                 )
             )
         )

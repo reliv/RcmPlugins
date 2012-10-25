@@ -10,16 +10,14 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPluginCommons\RcmPluginCommon
+ * @package   RcmJsonDataPluginToolkits\RcmJsonDataPluginToolkit
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmPluginCommon\Controller;
-
-use RcmPluginCommon\Controller\BasePluginController;
+namespace RcmJsonDataPluginToolkit\Controller;
 
 /**
  * Plugin Controller
@@ -27,7 +25,7 @@ use RcmPluginCommon\Controller\BasePluginController;
  * This is the main controller for this plugin
  *
  * @category  Reliv
- * @package   RcmPluginCommons\RcmPluginCommon
+ * @package   RcmJsonDataPluginToolkits\RcmJsonDataPluginToolkit
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -35,7 +33,8 @@ use RcmPluginCommon\Controller\BasePluginController;
  * @link      http://ci.reliv.com/confluence
  *
  */
-class JsonDataPluginController extends BasePluginController
+class JsonDataPluginController
+    extends \Zend\Mvc\Controller\AbstractActionController
     implements \Rcm\Controller\PluginInterface
 {
     /**
@@ -45,16 +44,40 @@ class JsonDataPluginController extends BasePluginController
      */
     protected $template = 'rcm-html-area/plugin';
 
-    /**
-     * @var String The default content class name.
-     *
-     * This can be overridden in child controllers
-     *
-     * Used by functions renderInstance(), saveInstance(), and deleteAction();
-     */
-    protected $storageClass = 'RcmPluginCommon\Entity\JsonContent';
-
     protected $defaultJsonContentFilePath = null;
+
+    /**
+     * @var EntityManager entity manager
+     */
+    public $entityManager;
+
+    /**
+     * Gets the doctrine entity manager
+     *
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public function getEm()
+    {
+        $emClass='Doctrine\ORM\EntityManager';
+
+        //If the entity manger was not injected, go get it.
+        if (!is_a($this->entityManager, $emClass)) {
+            $this->entityManager = $this->getServiceLocator()->get($emClass);
+        }
+
+        return $this->entityManager;
+    }
+
+    /**
+     * Sets the doctrine entity manager - this is used for testing only
+     *
+     * @param $entityManager \Doctrine\ORM\EntityManager doctrine entity manager
+     *
+     * @return null
+     */
+    function setEm($entityManager){
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * Reads a plugin instance from persistent storage returns a view model for
@@ -101,7 +124,7 @@ class JsonDataPluginController extends BasePluginController
      */
     function saveInstance($instanceId,$data){
         $this->getEm()->persist(
-            new $this->storageClass($instanceId, $data)
+            new \RcmJsonDataPluginToolkit\Entity\JsonContent($instanceId, $data)
         );
         $this->getEm()->flush();
     }
@@ -114,7 +137,9 @@ class JsonDataPluginController extends BasePluginController
      * @return null
      */
     function deleteInstance($instanceId){
-        $this->deleteEntity($instanceId, $this->storageClass);
+        $entity = $this->readJsonDataFromDb($instanceId);
+        $this->getEm()->remove($entity);
+        $this->getEm()->flush();
     }
 
     /**
@@ -129,11 +154,11 @@ class JsonDataPluginController extends BasePluginController
     function dataAdminAjaxAction($instanceId)
     {
         if ($instanceId < 0) {
-            $content = new \RcmPluginCommon\Entity\JsonContent(
+            $content = new \RcmJsonDataPluginToolkit\Entity\JsonContent(
                 null, $this->getDefaultJsonContent()
             );
         } else {
-            $content = $this->readEntity($instanceId, $this->storageClass);
+            $content = $this->readJsonDataFromDb($instanceId);
         }
         /*
          * @TODO RETURN RESPONSE OBJECT INSTEAD OF EXITING. FOR SOME REASON ZF2
@@ -207,7 +232,13 @@ class JsonDataPluginController extends BasePluginController
      */
     function readJsonDataFromDb($instanceId)
     {
-        return $this->readEntity($instanceId, $this->storageClass);
+        $entity = $this->getEm()
+            ->getRepository('RcmJsonDataPluginToolkit\Entity\JsonContent')
+            ->findOneByInstanceId($instanceId);
+        if (!$entity) {
+            throw new PluginDataNotFoundException();
+        }
+        return $entity;
     }
 
     /**
@@ -229,14 +260,14 @@ class JsonDataPluginController extends BasePluginController
      * @param string $fileName
      *
      * @return object
-     * @throws \RcmPluginCommon\Exception\RuntimeException
+     * @throws \RcmJsonDataPluginToolkit\Exception\RuntimeException
      */
     function readJsonFile($fileName){
 
         $contentObject = json_decode(file_get_contents($fileName));
 
         if(!$contentObject){
-            throw new \RcmPluginCommon\Exception\RuntimeException(
+            throw new \RcmJsonDataPluginToolkit\Exception\RuntimeException(
                 ' File contains invalid JSON:' .$fileName
             );
         }

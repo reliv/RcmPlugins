@@ -10,14 +10,14 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPluginCommons\RcmPluginCommon
+ * @package   RcmJsonDataPluginToolkits\RcmJsonDataPluginToolkit
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmPluginCommon\Entity;
+namespace RcmJsonDataPluginToolkit\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,7 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPluginCommon\Entity
+ * @package   RcmJsonDataPluginToolkit\Entity
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
