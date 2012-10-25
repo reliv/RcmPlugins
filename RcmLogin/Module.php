@@ -79,14 +79,10 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmLogin\Controller\PluginController' =>
-                function($serviceMgr)
+                'RcmLogin' =>
+                function()
                 {
-                    $service = new \RcmLogin\Controller\PluginController();
-                    $service->setEm(
-                        $serviceMgr->get('doctrine.entitymanager.ormdefault')
-                    );
-                    return $service;
+                    return new \RcmLogin\Controller\PluginController();
                 },
             )
         );

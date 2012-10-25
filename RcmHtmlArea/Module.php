@@ -58,7 +58,7 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmHtmlArea\Controller\PluginController'=>function(){
+                'RcmHtmlArea'=>function(){
                     $controller = new JsonDataPluginController();
                     $controller->setTemplate('rcm-html-area/plugin');
                     $controller->setDefaultJsonContentFilePath(

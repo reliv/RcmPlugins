@@ -58,7 +58,7 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmNavigation\Controller\PluginController'=>function(){
+                'RcmNavigation'=>function(){
                     $controller = new JsonDataPluginController();
                     $controller->setTemplate('rcm-navigation/plugin');
                     $controller->setDefaultJsonContentFilePath(

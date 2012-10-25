@@ -76,7 +76,13 @@ class Module
     public function getServiceConfig()
     {
         return array(
-
+            'factories' => array(
+                'RcmRssFeed' =>
+                function()
+                {
+                    return new \RcmRssFeed\Controller\PluginController();
+                }
+            )
         );
     }
 }

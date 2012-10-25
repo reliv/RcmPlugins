@@ -77,14 +77,10 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmSocialButtons\Controller\PluginController' =>
-                function($serviceMgr)
+                'RcmSocialButtons' =>
+                function()
                 {
-                    $controller = new \RcmSocialButtons\Controller\PluginController();
-                    $controller->setEm(
-                        $serviceMgr->get('doctrine.entitymanager.ormdefault')
-                    );
-                    return $controller;
+                    return new \RcmSocialButtons\Controller\PluginController();
                 }
             )
         );

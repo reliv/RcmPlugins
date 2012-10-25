@@ -58,7 +58,7 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmCallToActionBox\Controller\PluginController'=>function(){
+                'RcmCallToActionBox'=>function(){
                     $controller = new JsonDataPluginController();
                     $controller->setTemplate('rcm-call-to-action-box/plugin');
                     $controller->setDefaultJsonContentFilePath(
