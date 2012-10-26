@@ -34,7 +34,7 @@ namespace RcmRssFeed\Controller;
  *
  */
 class PluginController
-    extends \RcmPluginCommon\Controller\JsonDataPluginController
+    extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
     implements \Rcm\Controller\PluginInterface
 {
     /**
@@ -48,7 +48,7 @@ class PluginController
                 null, $this->getDefaultJsonContent()
             );
         } else {
-            $content = $this->readEntity($instanceId, $this->storageClass);
+            $content = $this->readJsonDataFromDb($instanceId);
 
         }
 
