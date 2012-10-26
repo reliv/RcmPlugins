@@ -34,7 +34,7 @@ namespace RcmRssFeed\Controller;
  *
  */
 class PluginController
-    extends \RcmPluginCommon\Controller\JsonDataPluginController
+    extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
     implements \Rcm\Controller\PluginInterface
 {
     /**
@@ -43,14 +43,9 @@ class PluginController
     protected $template = 'rcm-rss-feed/plugin';
 
     public function renderInstance($instanceId) {
-        if ($instanceId <0) {
-            $content = new \RcmPluginCommon\Entity\JsonContent(
-                null, $this->getDefaultJsonContent()
-            );
-        } else {
-            $content = $this->readEntity($instanceId, $this->storageClass);
 
-        }
+        $content = $this->readJsonDataFromDb($instanceId);
+
 
         $data = $content->getData();
 
@@ -69,6 +64,35 @@ class PluginController
         return $view;
     }
 
+    /**
+     * Returns a view model filled with content for a brand new instance. This
+     * usually comes out of a config file rather than writable persistent
+     * storage like a database.
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
+    function renderDefaultInstance(){
+        $content = new \RcmJsonDataPluginToolkit\Entity\JsonContent(
+            null, $this->getDefaultJsonContent()
+        );
+
+        $data = $content->getData();
+
+        $feedUrl = $data->rcmRssFeedUrl;
+        $limit = $data->rcmRssFeedLimit;
+        $headline = $data->headline;
+
+        $view = new \Zend\View\Model\ViewModel();
+        $view->setTemplate($this->template);
+        $view->setVariable('rssInstanceId', -1);
+        $view->setVariable('rssProxy', '/rcm-rss-proxy');
+        $view->setVariable('rssUrl', $feedUrl);
+        $view->setVariable('rssDisplayLimit', $limit);
+        $view->setVariable('rssDisplayHeadline', $headline);
+
+        return $view;
+    }
+
     public function rssProxyAction()
     {
         $feedUrl = $this->getEvent()->getRequest()->getQuery()->get('urlOverride');
@@ -76,11 +100,11 @@ class PluginController
         $instanceId = $this->getEvent()->getRequest()->getQuery()->get('instanceId');
 
         if ($instanceId <0) {
-            $content = new \RcmPluginCommon\Entity\JsonContent(
+            $content = new \RcmJsonDataPluginToolkit\Entity\JsonContent(
                 null, $this->getDefaultJsonContent()
             );
         } else {
-            $content = $this->readEntity($instanceId, $this->storageClass);
+            $content = $entity = $this->readJsonDataFromDb($instanceId);
 
         }
 

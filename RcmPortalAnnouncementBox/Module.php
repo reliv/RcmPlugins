@@ -18,7 +18,7 @@
 
 namespace RcmPortalAnnouncementBox;
 
-use \RcmPluginCommon\Controller\JsonDataPluginController;
+use \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
