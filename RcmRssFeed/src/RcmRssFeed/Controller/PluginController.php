@@ -42,7 +42,10 @@ class PluginController
      */
     protected $template = 'rcm-rss-feed/plugin';
 
-    public function renderInstance($instanceId) {
+    public function renderInstance
+
+
+    ($instanceId) {
 
         $content = $this->readJsonDataFromDb($instanceId);
 
