@@ -49,7 +49,7 @@ class LoginController extends BaseController
             return $this->redirectInvalid();
         }
 
-        /** @var \Rcm\Model\UserManagement\DoctrineUserManager $userManager  */
+        /** @var \Rcm\UserManagement\DoctrineUserManager $userManager  */
         $userManager = $this->getServiceLocator()->get('rcmUserManager');
 
         //try {

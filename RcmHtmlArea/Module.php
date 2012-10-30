@@ -58,11 +58,11 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmHtmlArea'=>function(){
-                    $controller = new JsonDataPluginController();
-                    $controller->setTemplate('rcm-html-area/plugin');
-                    $controller->setDefaultJsonContentFilePath(
-                        __DIR__ . '/config/default.content.json'
+                'RcmHtmlArea'=>function($serviceMgr){
+                    $controller = new JsonDataPluginController(
+                        'rcm-html-area/plugin',
+                        __DIR__ . '/config/default.content.json',
+                        $serviceMgr->get('em')
                     );
                     return $controller;
                 }

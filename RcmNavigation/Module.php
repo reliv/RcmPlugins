@@ -58,11 +58,11 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmNavigation'=>function(){
-                    $controller = new JsonDataPluginController();
-                    $controller->setTemplate('rcm-navigation/plugin');
-                    $controller->setDefaultJsonContentFilePath(
-                        __DIR__ . '/config/default.content.json'
+                'RcmNavigation'=>function($serviceMgr){
+                    $controller = new JsonDataPluginController(
+                        'rcm-navigation/plugin',
+                        __DIR__ . '/config/default.content.json',
+                        $serviceMgr->get('em')
                     );
                     return $controller;
                 }

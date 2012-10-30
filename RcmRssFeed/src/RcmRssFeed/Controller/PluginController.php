@@ -35,7 +35,7 @@ namespace RcmRssFeed\Controller;
  */
 class PluginController
     extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
-    implements \Rcm\Controller\PluginInterface
+    implements \Rcm\Plugin\PluginInterface
 {
     /**
      * @var string template to render content with

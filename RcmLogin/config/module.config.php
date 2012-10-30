@@ -53,22 +53,6 @@ return array(
         ),
     ),
 
-    'doctrine' => array(
-        'driver' => array(
-            'RcmLogin' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(
-                    __DIR__.'/../src/RcmLogin/Entity'
-                )
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                    'RcmLogin' => 'RcmLogin'
-                )
-            )
-        )
-    ),
     'controllers' => array(
         'invokables' => array(
             'RcmLogin\Controller\LoginController'

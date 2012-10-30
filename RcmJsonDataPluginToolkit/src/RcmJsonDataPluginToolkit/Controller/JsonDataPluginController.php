@@ -35,7 +35,7 @@ namespace RcmJsonDataPluginToolkit\Controller;
  */
 class JsonDataPluginController
     extends \Zend\Mvc\Controller\AbstractActionController
-    implements \Rcm\Controller\PluginInterface
+    implements \Rcm\Plugin\PluginInterface
 {
     /**
      * @var string Tells function renderInstance() which template to use.
@@ -47,36 +47,18 @@ class JsonDataPluginController
     protected $defaultJsonContentFilePath = null;
 
     /**
-     * @var EntityManager entity manager
+     * @var \Doctrine\ORM\EntityManager entity manager
      */
-    public $entityManager;
+    protected $entityMgr;
 
-    /**
-     * Gets the doctrine entity manager
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEm()
-    {
-        $emClass='Doctrine\ORM\EntityManager';
-
-        //If the entity manger was not injected, go get it.
-        if (!is_a($this->entityManager, $emClass)) {
-            $this->entityManager = $this->getServiceLocator()->get($emClass);
-        }
-
-        return $this->entityManager;
-    }
-
-    /**
-     * Sets the doctrine entity manager - this is used for testing only
-     *
-     * @param $entityManager \Doctrine\ORM\EntityManager doctrine entity manager
-     *
-     * @return null
-     */
-    function setEm($entityManager){
-        $this->entityManager = $entityManager;
+    function __construct(
+        $template,
+        $defaultJsonContentFilePath,
+        \Doctrine\ORM\EntityManager $entityMgr
+    ) {
+        $this->template = $template;
+        $this->defaultJsonContentFilePath = $defaultJsonContentFilePath;
+        $this->entityMgr = $entityMgr;
     }
 
     /**
@@ -123,10 +105,10 @@ class JsonDataPluginController
      * @return null
      */
     function saveInstance($instanceId,$data){
-        $this->getEm()->persist(
+        $this->entityMgr->persist(
             new \RcmJsonDataPluginToolkit\Entity\JsonContent($instanceId, $data)
         );
-        $this->getEm()->flush();
+        $this->entityMgr->flush();
     }
 
     /**
@@ -138,8 +120,8 @@ class JsonDataPluginController
      */
     function deleteInstance($instanceId){
         $entity = $this->readJsonDataFromDb($instanceId);
-        $this->getEm()->remove($entity);
-        $this->getEm()->flush();
+        $this->entityMgr->remove($entity);
+        $this->entityMgr->flush();
     }
 
     /**
@@ -175,16 +157,6 @@ class JsonDataPluginController
     }
 
     /**
-     * Sets the default content JSON file path
-     *
-     * @param $defaultJsonContentFilePath
-     */
-    public function setDefaultJsonContentFilePath($defaultJsonContentFilePath)
-    {
-        $this->defaultJsonContentFilePath = $defaultJsonContentFilePath;
-    }
-
-    /**
      * Returns the path of the default json content file. Looks in the default
      * location if this property is not set
      * @return null|string
@@ -199,29 +171,6 @@ class JsonDataPluginController
         return $this->defaultJsonContentFilePath;
     }
 
-    /**
-     * Sets the Template property
-     *
-     * @param string $template
-     *
-     * @return null
-     *
-     */
-    public function setTemplate($template)
-    {
-        $this->template = $template;
-    }
-
-    /**
-     * Gets the Template property
-     *
-     * @return string Template
-     *
-     */
-    public function getTemplate()
-    {
-        return $this->template;
-    }
 
     /**
      * Returns the JSON content for a given plugin instance Id
@@ -232,7 +181,7 @@ class JsonDataPluginController
      */
     function readJsonDataFromDb($instanceId)
     {
-        $entity = $this->getEm()
+        $entity = $this->entityMgr
             ->getRepository('RcmJsonDataPluginToolkit\Entity\JsonContent')
             ->findOneByInstanceId($instanceId);
         if (!$entity) {

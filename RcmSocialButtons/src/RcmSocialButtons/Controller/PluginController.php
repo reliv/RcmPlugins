@@ -35,7 +35,7 @@ namespace RcmSocialButtons\Controller;
  */
 class PluginController
     extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
-    implements \Rcm\Controller\PluginInterface
+    implements \Rcm\Plugin\PluginInterface
 {
     /**
      * @var string tells renderInstance() which template to use

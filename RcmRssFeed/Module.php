@@ -18,6 +18,8 @@
 
 namespace RcmRssFeed;
 
+use \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
+
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -78,9 +80,14 @@ class Module
         return array(
             'factories' => array(
                 'RcmRssFeed' =>
-                function()
+                function($serviceMgr)
                 {
-                    return new \RcmRssFeed\Controller\PluginController();
+                    $controller = new JsonDataPluginController(
+                        'rcm-rss-feed/plugin',
+                        __DIR__ . '/config/default.content.json',
+                        $serviceMgr->get('em')
+                    );
+                    return $controller;
                 }
             )
         );
