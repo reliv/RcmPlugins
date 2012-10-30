@@ -37,12 +37,7 @@ class PluginController
     extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
     implements \Rcm\Plugin\PluginInterface
 {
-    /**
-     * @var string tells renderInstance() which template to use
-     */
-    protected $template='rcm-social-buttons/plugin';
-
-    function AvailableButtonsAdminAjaxAction(){
+    function availableButtonsAdminAjaxAction(){
         $config = $this->getServiceLocator()->get('config');
         $availableButtons
             = json_encode(

@@ -68,8 +68,8 @@ var RcmRssFeedEdit = function (instanceId, container) {
     me.getSaveData = function () {
 
         return {
-            'rcmRssFeedUrl': me.feedUrl,
-            'rcmRssFeedLimit': me.feedLimit
+            'rssFeedUrl': me.feedUrl,
+            'rssFeedLimit': me.feedLimit
         }
     }
 

@@ -18,9 +18,6 @@
 
 namespace RcmSocialButtons;
 
-use \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
-
-
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -83,11 +80,12 @@ class Module
                 'RcmSocialButtons' =>
                 function($serviceMgr)
                 {
-                    $controller = new JsonDataPluginController(
-                        'rcm-social-buttons/plugin',
-                        __DIR__ . '/config/default.content.json',
-                        $serviceMgr->get('em')
-                    );
+                    $controller
+                        = new \RcmSocialButtons\Controller\PluginController(
+                            'rcm-social-buttons/plugin',
+                            __DIR__ . '/config/default.content.json',
+                            $serviceMgr->get('em')
+                        );
                     return $controller;
                 }
             )
