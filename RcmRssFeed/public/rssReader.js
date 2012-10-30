@@ -22,7 +22,8 @@ function rssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
             var newLine = $("<p>").html('<a href="'+value.feedlink+'">'+value.feedtitle+'</a>').addClass("rcmRssFeedLine");
             $(me.displayContainer).append(newLine);
         });
-    }).error(function(){
+    }).error(function(e){
+            console.log(e);
         var newLine = $("<p>").html('There was a problem retrieving the RSS feed');
         $(me.displayContainer).html(newLine);
     });

@@ -37,13 +37,6 @@ return array(
         ),
     ),
 
-    'controllers' => array(
-        'invokables' => array(
-            'RcmRssFeed\Controller\PluginController'
-            => 'RcmRssFeed\Controller\PluginController',
-        ),
-    ),
-
     'router' => array(
         'routes' => array (
             'rcm-rss-proxy' => array(
@@ -51,8 +44,7 @@ return array(
                 'options' => array(
                     'route'    => '/rcm-rss-proxy',
                     'defaults' => array(
-                        'controller'
-                        => 'RcmRssFeed\Controller\PluginController',
+                        'controller' => 'rcmRssFeedProxyController',
                         'action'     => 'rssProxy',
                     ),
                 ),

@@ -39,7 +39,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @link      http://ci.reliv.com/confluence
  *
  * @ORM\Entity
- * @ORM\Table(name="rcm_common_jsoncontent")
+ * @ORM\Table(name="rcm_plugin_json_content")
  */
 class JsonContent
 {

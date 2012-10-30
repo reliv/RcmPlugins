@@ -37,34 +37,11 @@ class PluginController
     extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
     implements \Rcm\Plugin\PluginInterface
 {
-    /**
-     * @var string template to render content with
-     */
-    protected $template = 'rcm-rss-feed/plugin';
-
-    public function renderInstance
-
-
-    ($instanceId) {
-
-        $content = $this->readJsonDataFromDb($instanceId);
-
-
-        $data = $content->getData();
-
-        $feedUrl = $data->rcmRssFeedUrl;
-        $limit = $data->rcmRssFeedLimit;
-        $headline = $data->headline;
-
-        $view = new \Zend\View\Model\ViewModel();
-        $view->setTemplate($this->template);
-        $view->setVariable('rssInstanceId', $instanceId);
-        $view->setVariable('rssProxy', '/rcm-rss-proxy');
-        $view->setVariable('rssUrl', $feedUrl);
-        $view->setVariable('rssDisplayLimit', $limit);
-        $view->setVariable('rssDisplayHeadline', $headline);
-
-        return $view;
+    public function renderInstance($instanceId)
+    {
+        return $this->buildView(
+            $this->readJsonDataFromDb($instanceId)->getData()
+        );
     }
 
     /**
@@ -74,82 +51,21 @@ class PluginController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    function renderDefaultInstance(){
-        $content = new \RcmJsonDataPluginToolkit\Entity\JsonContent(
-            null, $this->getDefaultJsonContent()
-        );
+    function renderDefaultInstance()
+    {
+        return $this->buildView($this->getDefaultJsonContent());
+    }
 
-        $data = $content->getData();
-
-        $feedUrl = $data->rcmRssFeedUrl;
-        $limit = $data->rcmRssFeedLimit;
-        $headline = $data->headline;
-
-        $view = new \Zend\View\Model\ViewModel();
+    function buildView($data)
+    {
+        $view = new \Zend\View\Model\ViewModel(array(
+            'data' => $data,
+            'rssProxy' => '/rcm-rss-proxy'
+        ));
         $view->setTemplate($this->template);
-        $view->setVariable('rssInstanceId', -1);
-        $view->setVariable('rssProxy', '/rcm-rss-proxy');
-        $view->setVariable('rssUrl', $feedUrl);
-        $view->setVariable('rssDisplayLimit', $limit);
-        $view->setVariable('rssDisplayHeadline', $headline);
-
         return $view;
     }
 
-    public function rssProxyAction()
-    {
-        $feedUrl = $this->getEvent()->getRequest()->getQuery()->get('urlOverride');
-        $limit = $this->getEvent()->getRequest()->getQuery()->get('limit');
-        $instanceId = $this->getEvent()->getRequest()->getQuery()->get('instanceId');
 
-        if ($instanceId <0) {
-            $content = new \RcmJsonDataPluginToolkit\Entity\JsonContent(
-                null, $this->getDefaultJsonContent()
-            );
-        } else {
-            $content = $entity = $this->readJsonDataFromDb($instanceId);
-
-        }
-
-        $data = $content->getData();
-
-        if (empty($feedUrl) || $feedUrl == 'null') {
-            $feedUrl = $data->rcmRssFeedUrl;
-        }
-
-        if (empty($limit)) {
-            $limit = $data->rcmRssFeedLimit;
-        }
-
-        $rssReader = new \Zend\Feed\Reader\Reader();
-        $data = $rssReader->import($feedUrl);
-
-        $feedCount = 0;
-
-        foreach ($data as $entry) {
-
-            if ($feedCount == $limit) {
-                break;
-            }
-
-            $viewRssData[] = array (
-                'feedtitle'        => $entry->getTitle(),
-                'description'  => $entry->getDescription(),
-                'dateModified' => $entry->getDateModified(),
-                'authors'       => $entry->getAuthors(),
-                'feedlink'         => $entry->getLink()
-            );
-
-            $feedCount++;
-        }
-
-        $expires = 60*5;//Five Minutes
-        header("Pragma: public");
-        header("Cache-Control: maxage=".$expires);
-        header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-
-        echo json_encode($viewRssData);
-        exit;
-    }
 
 }

@@ -1,5 +1,5 @@
 {
     "headline":"Planet PHP Feed",
-    "rcmRssFeedUrl":"http:\/\/www.planet-php.net\/rdf\/",
-    "rcmRssFeedLimit":"6"
+    "rssFeedUrl":"http:\/\/www.planet-php.net\/rdf\/",
+    "rssFeedLimit":"6"
 }

@@ -82,9 +82,25 @@ class Module
                 'RcmRssFeed' =>
                 function($serviceMgr)
                 {
-                    $controller = new JsonDataPluginController(
+                    $controller = new \RcmRssFeed\Controller\PluginController(
                         'rcm-rss-feed/plugin',
                         __DIR__ . '/config/default.content.json',
+                        $serviceMgr->get('em')
+                    );
+                    return $controller;
+                }
+            )
+        );
+    }
+
+    function getControllerConfig(){
+        return array(
+            'factories' => array(
+                'rcmRssFeedProxyController' => function($controllerMgr){
+                    $serviceMgr = $controllerMgr->getServiceLocator();
+                    $controller = new \RcmRssFeed\Controller\ProxyController(
+                        null,
+                        null,
                         $serviceMgr->get('em')
                     );
                     return $controller;

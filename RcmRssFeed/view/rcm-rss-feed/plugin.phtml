@@ -10,25 +10,25 @@ $this->headScript()->appendFile(
 
 <script type="text/javascript">
 $(function(){
-    $(".rss-feed-<?php echo $this->rssInstanceId; ?>");
+    $(".rss-feed-<?php echo $this->rcmPluginInstanceId; ?>");
 
 
     new rssReader(
         '<?php echo $this->rssProxy; ?>',
-        <?php echo $this->rssInstanceId; ?>,
-        $(".rss-feed-<?php echo $this->rssInstanceId; ?>"),
+        <?php echo $this->rcmPluginInstanceId; ?>,
+        $(".rss-feed-<?php echo $this->rcmPluginInstanceId; ?>"),
         null
     );
 });
 </script>
 
 <div class="rcmRssFeedReaderMainContainer"
-    data-rcmRssFeedUrl="<?php echo $this->rssUrl; ?>"
-    data-rcmRssFeedLimit="<?php echo $this->rssDisplayLimit; ?>"
+    data-rcmRssFeedUrl="<?php echo $this->data->rssFeedUrl; ?>"
+    data-rcmRssFeedLimit="<?php echo $this->data->rssFeedLimit; ?>"
     data-rcmRssFeedProxy="<?php echo $this->rssProxy; ?>"
 >
 
-    <h2 data-textEdit="headline"><?php echo $this->rssDisplayHeadline; ?></h2>
+    <h2 data-textEdit="headline"><?php echo $this->data->headline; ?></h2>
 
-    <span class="rss-feed-<?php echo $this->rssInstanceId; ?>">Loading...</span>
+    <span class="rss-feed-<?php echo $this->rcmPluginInstanceId; ?>">Loading...</span>
 </div>
