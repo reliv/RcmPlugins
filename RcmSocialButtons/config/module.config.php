@@ -47,5 +47,4 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-
 );
