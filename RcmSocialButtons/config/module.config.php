@@ -29,8 +29,8 @@ return array(
             'tooltip' => 'Facebook, Twitter, and many more social sharing buttons powered by "Share This"',
             'icon' => '',
             'editJs'=>'/modules/rcm-social-buttons/edit.js',
+
             //Plugin Specific
-            //'shareThisPublisherKey' => '4d9fa33d-2583-4179-be25-7c8c7a7ac8c3',
             'availableButtons' => array(
                 'facebook' => 'Facebook',
                 'google' => 'Google',
