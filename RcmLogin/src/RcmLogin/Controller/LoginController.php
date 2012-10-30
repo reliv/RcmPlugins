@@ -53,7 +53,7 @@ class LoginController extends BaseController
         $userManager = $this->getServiceLocator()->get('rcmUserManager');
 
         //try {
-            if (!$userManager->login($username, $password)) {
+            if (!$userManager->loginUser($username, $password)) {
                 return $this->redirectInvalid();
             }
 

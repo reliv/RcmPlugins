@@ -44,19 +44,11 @@ return array(
                 'options' => array(
                     'route'    => '/login/auth[/:language]',
                     'defaults' => array(
-                        'controller'
-                        => 'RcmLogin\Controller\LoginController',
+                        'controller' => 'rcmLoginController',
                         'action'     => 'loginAuth',
                     ),
                 ),
             ),
-        ),
-    ),
-
-    'controllers' => array(
-        'invokables' => array(
-            'RcmLogin\Controller\LoginController'
-            => 'RcmLogin\Controller\LoginController',
         ),
     ),
 );
