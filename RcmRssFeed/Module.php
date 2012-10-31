@@ -99,9 +99,8 @@ class Module
                 'rcmRssFeedProxyController' => function($controllerMgr){
                     $serviceMgr = $controllerMgr->getServiceLocator();
                     $controller = new \RcmRssFeed\Controller\ProxyController(
-                        null,
-                        null,
-                        $serviceMgr->get('em')
+                        $serviceMgr->get('em'),
+                        $serviceMgr->get('rcmUserManager')
                     );
                     return $controller;
                 }

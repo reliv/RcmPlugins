@@ -11,9 +11,20 @@ namespace RcmRssFeed\Controller;
 class ProxyController
     extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
 {
+
+    protected $userMgr;
+
+    function __construct(
+        \Doctrine\ORM\EntityManager $entityMgr,
+        \Rcm\UserManagement\UserManagerInterface $userMgr
+    ) {
+        parent::__construct(null,null,$entityMgr);
+        $this->userMgr = $userMgr;
+    }
+
     public function rssProxyAction()
     {
-        $feedUrl = $this->getEvent()->getRequest()->getQuery()->get(
+        $overrideFeedUrl = $this->getEvent()->getRequest()->getQuery()->get(
             'urlOverride'
         );
         $limit = $this->getEvent()->getRequest()->getQuery()->get('limit');
@@ -28,8 +39,17 @@ class ProxyController
 
         }
 
-        if (empty($feedUrl) || $feedUrl == 'null') {
-            $feedUrl = $data->rssFeedUrl;
+        $feedUrl = $data->rssFeedUrl;
+
+        if (!empty($overrideFeedUrl) && $overrideFeedUrl != 'null') {
+            $permissions = $this->userMgr->getLoggedInAdminPermissions();
+            /**
+             * Only admins can override the url. This prevents people from using
+             * our proxy to DDOS other sites.
+             */
+            if(is_a($permissions,'\Rcm\Entity\AdminPermissions')){
+                $feedUrl = $overrideFeedUrl;
+            }
         }
 
         if (empty($limit)) {
