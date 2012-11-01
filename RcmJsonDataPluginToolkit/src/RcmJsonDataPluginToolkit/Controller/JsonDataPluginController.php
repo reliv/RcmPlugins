@@ -39,12 +39,14 @@ class JsonDataPluginController
 {
     /**
      * @var string Tells function renderInstance() which template to use.
-     *
-     * This can be overridden in child controllers
      */
-    protected $template = 'rcm-html-area/plugin';
+    protected $template;
 
-    protected $defaultJsonContentFilePath = null;
+    /**
+     * @var string Tells function renderDefaultInstance() where the default data
+     * for a new instance of this plugin is
+     */
+    protected $defaultJsonContentFilePath;
 
     /**
      * @var \Doctrine\ORM\EntityManager entity manager
@@ -52,13 +54,13 @@ class JsonDataPluginController
     protected $entityMgr;
 
     function __construct(
-        $template,
-        $defaultJsonContentFilePath,
-        \Doctrine\ORM\EntityManager $entityMgr
+        \Doctrine\ORM\EntityManager $entityMgr,
+        $template = null,
+        $defaultJsonContentFilePath = null
     ) {
+        $this->entityMgr = $entityMgr;
         $this->template = $template;
         $this->defaultJsonContentFilePath = $defaultJsonContentFilePath;
-        $this->entityMgr = $entityMgr;
     }
 
     /**

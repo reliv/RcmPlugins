@@ -60,9 +60,9 @@ class Module
             'factories' => array(
                 'RcmNavigation'=>function($serviceMgr){
                     $controller = new JsonDataPluginController(
+                        $serviceMgr->get('em'),
                         'rcm-navigation/plugin',
-                        __DIR__ . '/config/default.content.json',
-                        $serviceMgr->get('em')
+                        __DIR__ . '/config/default.content.json'
                     );
                     return $controller;
                 }

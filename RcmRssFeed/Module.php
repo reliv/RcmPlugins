@@ -83,9 +83,9 @@ class Module
                 function($serviceMgr)
                 {
                     $controller = new \RcmRssFeed\Controller\PluginController(
+                        $serviceMgr->get('em'),
                         'rcm-rss-feed/plugin',
-                        __DIR__ . '/config/default.content.json',
-                        $serviceMgr->get('em')
+                        __DIR__ . '/config/default.content.json'
                     );
                     return $controller;
                 }
