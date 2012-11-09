@@ -11,10 +11,9 @@
 
 .RcmPortalAnnouncementBox div {
     margin:0;
-    width: 208px;
+    width: 220px;
     position: relative;
     border: 1px solid #CCC;
-    /* border-radius: 15px 0 15px 0; */
     padding: 0px;
     overflow: hidden;
     background-color: white;
@@ -56,7 +55,7 @@
 
 .RcmPortalAnnouncementBox div p{
     margin: 0px;
-    width: 200px;
+    width: 196px;
     z-index: 1;
     position: relative;
 }
@@ -69,7 +68,7 @@
     color: white;
     font-weight: bold;
     height: 30px;
-    width: 208px;
+    width: 220px;
     position: relative;
     text-align: center;
     display: table-cell;
@@ -78,26 +77,33 @@
 }
 .RcmPortalAnnouncementBox div .bottom {
     background: #ffffff;
-    width: 200px;
+    width: 190px;
     position: relative;
     line-height: 18px;
-    text-align: left;
-    margin: 5px;
+    display: block;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
     border: hidden;
+    text-align: left;
+    z-index: 10000;
+
 }
 
 div .containerbox {
     background: #fff;
     margin: 0 auto;
-    width: 206px;
+    width: 212px;
     height: 200px;
     padding: 0px;
     text-align: center;
 
     /* border-radius */
-    -moz-border-radius: 8px 8px 8px 8px;
-    -webkit-border-radius:5px 5px 5px 5px;
-    -khtml-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -khtml-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
 
     /* -webkit-border-radius: 5px;
