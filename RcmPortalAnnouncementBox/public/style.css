@@ -104,7 +104,3 @@ div .containerbox {
     -moz-border-radius: 5px;
     border-radius: 5px; */
     /* box-shadow */
-    -webkit-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
-    -moz-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
-    box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
-}
