@@ -22,15 +22,17 @@ $this->headLink()->appendStylesheet(
 );
 
 ?>
-<div style="padding:5px;height:200px;width:200px;">
-   <div data-textEdit="middle"
-        style="position: relative; white-space: nowrap;height: 3px;width:200px; background-color: #f15d22; border: 0px; margin: 5px auto;color:#ffffff;font-weight: bold;text-align: center; vertical-align: middle; display: table-cell; verical-align: middle">
-    <?php echo $this->data->middle?>
+<div class="containerbox">
+   <div data-textEdit="top" class="top">
+    <?php echo $this->data->top?>
    </div>
 
-    <p data-richEdit="html" style="width:200px; position: relative;">
+    <div data-richEdit="html" class="bottom">
         <?php echo $this->data->html ?>
+    </div>
+    <p style="height: 7px; width:30px; position: absolute; bottom: 5px; right: 10px; color: black;border: 1px; padding: 5px; margin: 5px;">
+    <a data-textEdit="href" href="<?php echo $this->data->href?>">
+        <i><?php echo $this->data->href?></i>
+    </a>
     </p>
-
-
 </div>

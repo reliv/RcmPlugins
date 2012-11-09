@@ -1,9 +1,6 @@
-{"textEdits":{
-    "top":"TOP",
+{
+    "top":"Header title",
     "middle":"Middle",
-    "bottom":"This is the bottom content."
-}, "saveData":{
-    "imageSrc":"\/modules\/reliv-application\/content\/images\/rcm-portal-announcement-box\/lady_with_comp.jpg",
-    "href":"#"
-}}
-
+    "html":"This is the box content.",
+    "href":"more..."
+}

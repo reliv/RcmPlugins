@@ -11,12 +11,11 @@
 
 .RcmPortalAnnouncementBox div {
     margin:0;
-    width: 191px;
-    height: 105px;
+    width: 208px;
     position: relative;
     border: 1px solid #CCC;
     /* border-radius: 15px 0 15px 0; */
-    padding: 10px;
+    padding: 0px;
     overflow: hidden;
     background-color: white;
 }
@@ -57,11 +56,50 @@
 
 .RcmPortalAnnouncementBox div p{
     margin: 0px;
-    width: 80px;
+    width: 200px;
     z-index: 1;
     position: relative;
 }
 
 .RcmPortalAnnouncementBox a {
     text-decoration: none;
+}
+.RcmPortalAnnouncementBox div .top {
+    background: #f8971d;
+    color: white;
+    font-weight: bold;
+    height: 30px;
+    width: 208px;
+    position: relative;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+
+}
+.RcmPortalAnnouncementBox div .bottom {
+    background: #ffffff;
+    height: 200px;
+    width: 200px;
+    position: relative;
+    line-height: 18px;
+    text-align: left;
+    margin: 5px;
+    border: 0px;
+}
+
+.RcmPortalAnnouncementBox div .containerbox {
+    background: #fff;
+    margin: 0 auto;
+    width: 206px;
+    height: 500px;
+    padding: 0px;
+    text-align: center;
+    /* border-radius */
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    /* box-shadow */
+    -webkit-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+    -moz-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+    box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
 }

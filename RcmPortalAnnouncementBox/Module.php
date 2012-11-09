@@ -62,7 +62,7 @@ class Module
                 {
                     $controller = new JsonDataPluginController(
                         $serviceMgr->get('em'),
-                        'rcm-html-area/plugin',
+                        'rcm-portal-announcement-box/plugin',
                         __DIR__ . '/config/default.content.json'
                     );
                     return $controller;

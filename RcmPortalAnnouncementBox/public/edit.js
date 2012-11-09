@@ -65,7 +65,6 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
             }
         });
 
-
     }
 
     /**
@@ -77,7 +76,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
     me.getSaveData = function () {
 
         return {
-            'href': aTags.attr('href'),
+            'href': aTags.attr('href')
         }
     }
 
