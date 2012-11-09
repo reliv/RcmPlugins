@@ -2,5 +2,6 @@
     "top":"Header title",
     "middle":"Middle",
     "html":"This is the box content.",
-    "href":"more..."
+    "text":"more...",
+    "href":"http://www.reliv.com"
 }

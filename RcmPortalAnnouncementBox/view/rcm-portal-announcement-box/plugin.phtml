@@ -29,9 +29,9 @@ $this->headLink()->appendStylesheet(
     <div data-richEdit="html" class="bottom">
         <?php echo $this->data->html ?>
     </div>
-    <p style="height: 7px; width:30px; position: absolute; bottom: 5px; right: 12px; color: black;border: 1px; padding: 5px; margin: 5px;">
-    <a data-textEdit="href" href="<?php echo $this->data->href?>">
-        <i><?php echo $this->data->href?></i>
+    <p style="height: 7px; width:30px; position: absolute; bottom: 5px; right: 15px; color: black;border: 1px; padding: 5px; margin: 5px;z-index: 1000">
+    <a data-textEdit="text" href="<?php echo $this->data->href?>">
+        <i><?php echo $this->data->text?></i>
     </a>
     </p>
 </div>
