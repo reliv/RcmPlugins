@@ -92,7 +92,7 @@
 
 }
 
-div .containerbox {
+.RcmPortalAnnouncementBox  .containerbox {
     background: #fff;
     margin: 0 auto;
     width: 212px;
@@ -104,9 +104,21 @@ div .containerbox {
     -moz-border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
     -khtml-border-radius: 10px 10px 10px 10px;
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px
+}
 
-    /* -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px; */
-    /* box-shadow */
+.dottedeUrlContainer {
+    border: 1px dashed black;
+}
+
+div .linkStyle {
+    height: 7px;
+    width:44px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 10px;
+    margin: 5px;
+    border:none;
+
+}

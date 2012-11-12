@@ -44,6 +44,8 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
      */
     me.initEdit = function(){
 
+       // container.find('.urlContainer').attr('class','dottedeUrlContainer');
+
         //Double clicking will show properties dialog
         container.delegate('div', 'dblclick', function(event){
             me.showEditDialog();

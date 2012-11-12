@@ -1,7 +1,8 @@
 {
-    "top":"Header title",
+    "top":"Quick Fox - Lazy Dog",
     "middle":"Middle",
-    "html":"This is the box content.",
+    "html":"The quick brown fox jumps over the lazy dog.",
     "text":"more...",
-    "href":"http://www.reliv.com"
+    "imageSrc":"\/modules\/reliv-application\/content\/images\/rcm-call-to-action-box\/lady_with_comp.jpg",
+    "href":"http://en.wikipedia.org/wiki/The_quick_brown_fox_jumps_over_the_lazy_dog"
 }

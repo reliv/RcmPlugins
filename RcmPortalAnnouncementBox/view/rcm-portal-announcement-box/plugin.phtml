@@ -23,15 +23,18 @@ $this->headLink()->appendStylesheet(
 
 ?>
 <div class="containerbox">
-   <div data-textEdit="top" class="top">
-    <?php echo $this->data->top?>
-   </div>
-    <div data-richEdit="html" class="bottom">
-        <?php echo $this->data->html ?>
+    <div data-textEdit="top" class="top">
+        <?php echo $this->data->top?>
     </div>
-    <p style="height: 7px; width:30px; position: absolute; bottom: 5px; right: 15px; color: black;border: 1px; padding: 5px; margin: 5px;z-index: 1000">
-    <a data-textEdit="text" href="<?php echo $this->data->href?>">
-        <i><?php echo $this->data->text?></i>
-    </a>
-    </p>
+    <div data-richEdit="html" class="bottom">
+
+        <img alt="<?php echo $this->data->bottom?>" align="right"
+             src="<?php echo $this->getContentBasePath() . $this->data->imageSrc?> "/>
+        <?php echo $this->data->html?>
+    </div>
+    <div class="linkStyle">
+        <a data-textEdit="text" href="<?php echo $this->data->href?>" class="urlContainer">
+            <i><?php echo $this->data->text?></i>
+        </a>
+    </div>
 </div>
