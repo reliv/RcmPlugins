@@ -18,7 +18,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 namespace RcmJsonDataPluginToolkit\Controller;
-
+use \RcmJsonDataPluginToolkit\Exception\PluginDataNotFoundException;
 /**
  * Plugin Controller
  *
@@ -187,7 +187,7 @@ class JsonDataPluginController
             ->getRepository('RcmJsonDataPluginToolkit\Entity\JsonContent')
             ->findOneByInstanceId($instanceId);
         if (!$entity) {
-            throw new PluginDataNotFoundException();
+            throw new PluginDataNotFoundException('Json content not found in DB for instance #'.$instanceId);
         }
         return $entity;
     }
