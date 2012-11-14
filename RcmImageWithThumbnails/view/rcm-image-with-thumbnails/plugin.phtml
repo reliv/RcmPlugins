@@ -4,7 +4,7 @@
  * RcmPortalAnnouncementBox content template
  *
  * Used for rendering simple content
- *
+ *RcmPortalAnnouncementBox
  * PHP version 5.3
  *
  * LICENSE: No License yet
@@ -18,7 +18,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 $this->headLink()->appendStylesheet(
-    $this->basePath() . '/modules/rcm-portal-announcement-box/style.css'
+    $this->basePath() . '/modules/rcm-image-with-thumbnails/style.css'
 );
 
 ?>
@@ -27,6 +27,9 @@ $this->headLink()->appendStylesheet(
         <?php echo $this->data->top?>
     </div>
     <div data-richEdit="html" class="bottom">
+
+        <img alt="<?php echo $this->data->bottom?>" align="right"
+             src="<?php echo $this->getContentBasePath() . $this->data->imageSrc?> "/>
         <?php echo $this->data->html?>
     </div>
     <div class="linkStyle">
