@@ -143,7 +143,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                     }
                 },
                 separator2:"-",
-                delete:{
+                deleteLink:{
                     name:'Delete Link',
                     icon:'delete',
                     callback:function () {
