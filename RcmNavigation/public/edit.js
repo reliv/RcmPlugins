@@ -213,7 +213,9 @@ var RcmNavigationEdit = function (instanceId, container) {
         container.find('li a').removeAttr('contenteditable');
 
         //Prevent links from being arrangeable
-        container.find('ul').sortable('destroy');
+        if (arrangeMode) {
+            container.find('ul').sortable('destroy');
+        }
     }
 
     /**

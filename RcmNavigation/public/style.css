@@ -3,6 +3,7 @@
     margin: 0;
     list-style: none;
     line-height: 1;
+    overflow: visible !important;
 }
 
 .RcmNavigation a {
