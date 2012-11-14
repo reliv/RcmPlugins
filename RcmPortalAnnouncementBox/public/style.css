@@ -1,7 +1,7 @@
 .rcmContainer .RcmPortalAnnouncementBox {
     position: relative;
     width: 220px;
-    height: 107px;
+    height: 207px;
     border: 1px solid #CCC;
     border-radius: 10px 10px 0px 0px;
     padding: 0px;
@@ -26,6 +26,7 @@
     position: relative;
     text-align: center;
     line-height: 30px;
+    border-radius: 10px 10px 0px 0px;
 }
 .RcmPortalAnnouncementBox div .bottom {
     position: relative;
