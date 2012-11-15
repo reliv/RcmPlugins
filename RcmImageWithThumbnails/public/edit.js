@@ -15,7 +15,7 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-var RcmImageWithThumbnails = function (instanceId, container) {
+var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -29,7 +29,7 @@ var RcmImageWithThumbnails = function (instanceId, container) {
      *
      * @type {Object}
      */
-    var imgTag = container.find('img');
+    var imgTag = $(container).find('img');
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -37,7 +37,6 @@ var RcmImageWithThumbnails = function (instanceId, container) {
      * @return {Null}
      */
     me.initEdit = function(){
-
         //Double clicking will show properties dialog
         container.delegate('div', 'dblclick', function(event){
             me.showEditDialog();

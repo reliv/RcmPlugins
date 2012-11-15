@@ -49,6 +49,8 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
      * @return {Null}
      */
     me.initEdit = function () {
+
+        alert('hi');
         me.disableShareThis();
 
         $.getJSON(
