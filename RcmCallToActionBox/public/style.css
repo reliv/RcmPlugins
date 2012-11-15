@@ -1,3 +1,16 @@
+/* Shouldn't it look like this for the hover borders to display correctly?
+.rcmContainer .RcmCallToActionBox{
+    width: 194px;
+    height: 107px;
+}
+
+.RcmCallToActionBox .rcmPluginContainer{
+    position: relative;
+    border: 1px solid #CCC;
+    border-radius: 15px 0 15px 0;
+    padding: 10px;
+}*/
+
 .rcmContainer .RcmCallToActionBox {
     position: relative;
     width: 194px;
