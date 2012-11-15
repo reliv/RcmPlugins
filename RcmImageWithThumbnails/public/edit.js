@@ -1,21 +1,21 @@
 /**
- * RcmImageWithThumbnails
+ * RcmCallToActionBox
  *
- * JS for editing RcmImageWithThumbnails
+ * JS for editing RcmCallToActionBox
  *
  * PHP version 5.3
  *
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmImageWithThumbnails
+ * @package   RcmPlugins\RcmCallToActionBox
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
- * @license   http://www.nolicense.com None
+ * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-var RcmImageWithThumbnailsEdit = function (instanceId, container) {
+var RcmImageWithThumbnails = function (instanceId, container) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -25,17 +25,11 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
     var me = this;
 
     /**
-     * jQuery object for the two links
-     *
-     * @type {Object}
-     */
-    var aTags = container.find('a');
-
-    /**
      * Background image jQuery object
      *
      * @type {Object}
      */
+    var imgTag = container.find('img');
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -43,8 +37,6 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
      * @return {Null}
      */
     me.initEdit = function(){
-
-       // container.find('.urlContainer').attr('class','dottedeUrlContainer');
 
         //Double clicking will show properties dialog
         container.delegate('div', 'dblclick', function(event){
@@ -67,6 +59,7 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
             }
         });
 
+
     }
 
     /**
@@ -78,13 +71,16 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
     me.getSaveData = function () {
 
         return {
-            'href': aTags.attr('href')
+            'large_image':imgTag.attr('src'),
+            'thumb1': imgTag.attr('src'),
+            'thumb2': imgTag.attr('src'),
+            'thumb3': imgTag.attr('src')
         }
     }
 
     me.getAssets = function(){
-        var saveData = me.getSaveData();
-        return [saveData.href];
+        var data = me.getSaveData();
+        return [data.large_image, data.thumb1, data.thumb2, data.thumb3];
     }
 
     /**
@@ -97,7 +93,10 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .addInput('href', 'Link Url', aTags.attr('href'))
+            .addImage('large_image', 'Image', imgTag.attr('src'))
+            .addImage('thumb1', 'Image', imgTag.attr('src'))
+            .addImage('thumb2', 'Image', imgTag.attr('src'))
+            .addImage('thumb3', 'Image', imgTag.attr('src'))
             .dialog({
                 title:'Properties',
                 modal:true,
@@ -109,8 +108,10 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                     Ok:function () {
 
                         //Get user-entered data from form
-                        aTags.attr('href', form.find('[name=href]').val());
-
+                        imgTag.attr('src', form.find('[name=large_image]').val());
+                        imgTag.attr('src', form.find('[name=thumb1]').val());
+                        imgTag.attr('src', form.find('[name=thumb2]').val());
+                        imgTag.attr('src', form.find('[name=thumb3]').val());
                         $(this).dialog("close");
                     }
                 }

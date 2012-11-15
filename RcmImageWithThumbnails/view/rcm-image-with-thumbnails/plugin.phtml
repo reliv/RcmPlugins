@@ -17,24 +17,22 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
+//$this->headLink()->appendStylesheet(
+//    $this->basePath() . '/modules/rcm-image-with-thumbnails/style.css'
+//);
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-image-with-thumbnails/style.css'
 );
 
 ?>
-<div class="containerbox">
-    <div data-textEdit="top" class="top">
-        <?php echo $this->data->top?>
-    </div>
-    <div data-richEdit="html" class="bottom">
-
-        <img alt="<?php echo $this->data->bottom?>" align="right"
-             src="<?php echo $this->getContentBasePath() . $this->data->imageSrc?> "/>
-        <?php echo $this->data->html?>
-    </div>
-    <div class="linkStyle">
-        <a data-textEdit="text" href="<?php echo $this->data->href?>" class="urlContainer">
-            <i><?php echo $this->data->text?></i>
-        </a>
-    </div>
+<div class="rcmImageWithThumbnails_mainImage"><img
+        src="<?php echo $this->getContentBasePath() . $this->data->large_image?>"/>
+</div>
+<div>
+    <span class="rcmImageWithThumbnails_thumb"><img
+            src="<?php echo $this->getContentBasePath() . $this->data->thumb1?>"></span>
+    <span class="rcmImageWithThumbnails_thumb"><img
+            src="<?php echo $this->getContentBasePath() . $this->data->thumb2?>"></span>
+    <span class="rcmImageWithThumbnails_thumb"><img
+            src="<?php echo $this->getContentBasePath() . $this->data->thumb3?>"></span>
 </div>
