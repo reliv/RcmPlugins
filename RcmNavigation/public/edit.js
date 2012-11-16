@@ -129,8 +129,9 @@ var RcmNavigationEdit = function (instanceId, container) {
                         +(arrangeMode?' (on)':''),
                     disabled:arrangeMode,
                     callback:function(){
+                        me.removeEditElements();
                         arrangeMode = true;
-                        me.refresh();
+                        me.addEditElements();
                     }
                 },
                 editMode:{
@@ -138,8 +139,9 @@ var RcmNavigationEdit = function (instanceId, container) {
                         +(!arrangeMode?' (on)':''),
                     disabled:!arrangeMode,
                     callback:function(){
+                        me.removeEditElements();
                         arrangeMode = false;
-                        me.refresh();
+                        me.addEditElements();
                     }
                 },
                 separator2:"-",
@@ -214,7 +216,6 @@ var RcmNavigationEdit = function (instanceId, container) {
 
         //Prevent links from being arrangeable
         if (arrangeMode) {
-            container.find('ul').sortable();
             container.find('ul').sortable('destroy');
         }
     }
