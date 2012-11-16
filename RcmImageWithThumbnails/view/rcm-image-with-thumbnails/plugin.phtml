@@ -24,11 +24,16 @@ $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-image-with-thumbnails/style.css'
 );
 
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-image-with-thumbnails/script.js'
+);
+
+
 ?>
 <div class="rcmImageWithThumbnails_mainImage"><img
         src="<?php echo $this->getContentBasePath() . $this->data->large_image?>"/>
 </div>
-<div>
+<div class="thumbWrapper">
     <span class="rcmImageWithThumbnails_thumb"><img
             src="<?php echo $this->getContentBasePath() . $this->data->thumb1?>"></span>
     <span class="rcmImageWithThumbnails_thumb"><img

@@ -58,7 +58,8 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmCallToActionBox'=>function($serviceMgr){
+                'RcmCallToActionBox'=>function($serviceMgr)
+                {
                     $controller = new JsonDataPluginController(
                         $serviceMgr->get('em'),
                         'rcm-call-to-action-box/plugin',

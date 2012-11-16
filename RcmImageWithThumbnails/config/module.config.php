@@ -25,7 +25,7 @@ return array(
         'RcmImageWithThumbnails'=>array(
             'type' => 'Basic',
             'display' => 'Image With Thumbnails',
-            'tooltip' => 'Editable box with three text areas and a background image',
+            'tooltip' => 'Image with Thumbnails',
             'icon' => '',
             'editJs'=>'/modules/rcm-image-with-thumbnails/edit.js',
         ),
