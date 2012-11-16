@@ -214,6 +214,7 @@ var RcmNavigationEdit = function (instanceId, container) {
 
         //Prevent links from being arrangeable
         if (arrangeMode) {
+            container.find('ul').sortable();
             container.find('ul').sortable('destroy');
         }
     }
