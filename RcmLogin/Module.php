@@ -102,7 +102,8 @@ class Module
                     $controller = new \RcmLogin\Controller\LoginController(
                         $serviceMgr->get('rcmUserManager'),
                         $serviceMgr->get('rcmPluginManager'),
-                        $serviceMgr->get('em')
+                        $serviceMgr->get('em'),
+                        $serviceMgr->get('config')
                     );
                     return $controller;
                 },
