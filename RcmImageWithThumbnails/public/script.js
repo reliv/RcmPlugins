@@ -1,37 +1,22 @@
-$(function(){
+
+
+var RcmImageWithThumbnails = function (instanceId) {
+
+    alert('abcdefghijklmnopqrstuvwxyz');
+
+    /**
+     * Plugin container div jQuery object
+     * @type {Object}
+     */
+    var container = rcm.getPluginContainer(instanceId);
 
     var thumbWrapper = $('.thumbWrapper');
 
-    thumbWrapper.append('helloooooo');
-
-    $('.RcmImageWithThumbnails .thumbWrapper img').click(
+    container.find('.thumbWrapper img').click(
         function(){
-            console.log($(this).attr('src'));
-            var newSrc=$(this).attr('src');
-            $('.RcmImageWithThumbnails .rcmImageWithThumbnails_mainImage img').attr('src',newSrc)
+            // console.log($(this).attr('src'));
+            var newSrc=$(this).attr('data-mainImage');
+            container.find('.rcmImageWithThumbnails_mainImage img').attr('src',newSrc)
         }
     );
-
-
-
-});
-
-
-function $(blah){
-    fdasklhjfs
-    asdf
-    sa
-    f
-    sa
-    f
-    as
-    f
-    sa
-    fa
-    s
-    fs
-    a
-    f
-    sadf
-    ds
-}
+};

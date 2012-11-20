@@ -25,19 +25,20 @@ $this->headLink()->appendStylesheet(
 );
 
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-image-with-thumbnails/script.js'
+    $this->basePath() . '/modules/rcm-image-with-thumbnails/script2.js'
 );
 
 
 ?>
-<div class="rcmImageWithThumbnails_mainImage"><img
-        src="<?php echo $this->getContentBasePath() . $this->data->large_image?>"/>
-</div>
-<div class="thumbWrapper">
-    <span class="rcmImageWithThumbnails_thumb"><img
-            src="<?php echo $this->getContentBasePath() . $this->data->thumb1?>"></span>
-    <span class="rcmImageWithThumbnails_thumb"><img
-            src="<?php echo $this->getContentBasePath() . $this->data->thumb2?>"></span>
-    <span class="rcmImageWithThumbnails_thumb"><img
-            src="<?php echo $this->getContentBasePath() . $this->data->thumb3?>"></span>
-</div>
+
+<div class="mainImage"><img src="<?php echo $this->getContentBasePath() . $this->data->main_image1?>" border="0"/></div>
+
+<a href="#" rel="<?php echo $this->getContentBasePath() . $this->data->main_image1?>" class="image"><img src="
+            <?php echo $this->getContentBasePath() . $this->data->thumb1?>" class="thumb" border="0"/></a>
+<a href="#" rel="<?php echo $this->getContentBasePath() . $this->data->main_image2?>" class="image"><img src="
+           <?php echo $this->getContentBasePath() . $this->data->thumb2?>" class="thumb" border="0"/></a>
+<a href="#" rel="<?php echo $this->getContentBasePath() . $this->data->main_image3?>" class="image"><img src="
+           <?php echo $this->getContentBasePath() . $this->data->thumb3?>" class="thumb" border="0"/></a>
+
+<div class="clear"></div>
+

@@ -5,15 +5,12 @@
     padding: 0px;
 }
 
-
-.RcmImageWithThumbnails  .rcmImageWithThumbnails_mainImage {
-    position: relative;
+.RcmImageWithThumbnails #image{
+    border:0px #666 solid;
 }
 
-.RcmImageWithThumbnails  .rcmImageWithThumbnails_thumb {
-    position: relative;
-    float: left;
-    padding-right: 10px;
-    border: 1px solid #CCC;
-
+.RcmImageWithThumbnails .thumb{
+    float:left;
+    margin-right:10px;
+    margin-top:10px;
 }

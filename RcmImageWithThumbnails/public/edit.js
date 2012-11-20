@@ -32,14 +32,19 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
      *
      */
 
+    var mainImage = container.find('a[rel]');
 
-    var imgTagLarge = container.find('.rcmImageWithThumbnails_mainImage img');
+    var imgTagMain1 = $(mainImage.get(0));
+    var imgTagMain2 = $(mainImage.get(1));
+    var imgTagMain3 = $(mainImage.get(2));
 
-    var thumbs = container.find('.thumbWrapper img')
+    var thumbs = container.find('img.thumb')
 
     var imgTagThumb1 = $(thumbs.get(0));
     var imgTagThumb2 = $(thumbs.get(1));
     var imgTagThumb3 = $(thumbs.get(2));
+
+
     /**
      * Called by content management system to make this plugin user-editable
      *
@@ -66,7 +71,7 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
             }
         });
-
+    console.log(me.getSaveData());
 
     }
 
@@ -78,8 +83,20 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
      */
     me.getSaveData = function () {
 
+        /*
         return {
-            'large_image': imgTagLarge.attr('src'),
+            "main_image1":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/SlimplicityChoc.jpg",
+            "main_image2":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/SlimplicityStraw.jpg",
+            "main_image3":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/SlimplicityVan.jpg",
+            "thumb1":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/thumb_SlimplicityChoc.jpg",
+            "thumb2":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/thumb_SlimplicityStraw.jpg",
+            "thumb3":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/thumb_SlimplicityVan.jpg"
+        };
+        */
+        return {
+            'main_image1': imgTagMain1.attr('rel'),
+            'main_image2': imgTagMain2.attr('rel'),
+            'main_image3': imgTagMain3.attr('rel'),
             'thumb1': imgTagThumb1.attr('src'),
             'thumb2': imgTagThumb2.attr('src'),
             'thumb3': imgTagThumb3.attr('src')
@@ -88,7 +105,7 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
     me.getAssets = function(){
         var data = me.getSaveData();
-        return [data.large_image, data.thumb1, data.thumb2, data.thumb3];
+        return [data.main_image1, data.main_image2, data.main_image3, data.thumb1, data.thumb2, data.thumb3];
     }
 
     /**
@@ -101,7 +118,9 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .addImage('large_image', 'Image', imgTagLarge.attr('src'))
+            .addImage('main_image1', 'Image', imgTagMain1.attr('rel'))
+            .addImage('main_image2', 'Image', imgTagMain2.attr('rel'))
+            .addImage('main_image3', 'Image', imgTagMain3.attr('rel'))
             .addImage('thumb1', 'Image', imgTagThumb1.attr('src'))
             .addImage('thumb2', 'Image', imgTagThumb2.attr('src'))
             .addImage('thumb3', 'Image', imgTagThumb3.attr('src'))
@@ -116,7 +135,9 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                     Ok:function () {
 
                         //Get user-entered data from form
-                        imgTagLarge.attr('src', form.find('[name=large_image]').val());
+                        imgTagMain1.attr('src', form.find('[name=main_image1]').val());
+                        imgTagMain2.attr('src', form.find('[name=main_image2]').val());
+                        imgTagMain3.attr('src', form.find('[name=main_image3]').val());
                         imgTagThumb1.attr('src', form.find('[name=thumb1]').val());
                         imgTagThumb2.attr('src', form.find('[name=thumb2]').val());
                         imgTagThumb3.attr('src', form.find('[name=thumb3]').val());
