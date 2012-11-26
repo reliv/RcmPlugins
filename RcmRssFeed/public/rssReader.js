@@ -23,7 +23,6 @@ function rssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
             $(me.displayContainer).append(newLine);
         });
     }).error(function(e){
-            console.log(e);
         var newLine = $("<p>").html('There was a problem retrieving the RSS feed');
         $(me.displayContainer).html(newLine);
     });
