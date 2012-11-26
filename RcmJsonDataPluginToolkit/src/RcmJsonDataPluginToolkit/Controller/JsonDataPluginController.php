@@ -18,7 +18,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 namespace RcmJsonDataPluginToolkit\Controller;
-use \RcmJsonDataPluginToolkit\Exception\PluginDataNotFoundException;
+use \Rcm\Exception\PluginDataNotFoundException;
 /**
  * Plugin Controller
  *
@@ -173,13 +173,12 @@ class JsonDataPluginController
         return $this->defaultJsonContentFilePath;
     }
 
-
     /**
      * Returns the JSON content for a given plugin instance Id
+     * @param $instanceId
      *
-     * @param integer $instanceId plugin instance id
-     *
-     * @return object
+     * @return \RcmJsonDataPluginToolkit\Entity\JsonContent|null
+     * @throws \Rcm\Exception\PluginDataNotFoundException
      */
     function readJsonDataFromDb($instanceId)
     {
