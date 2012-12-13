@@ -31,47 +31,110 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
      *
      *
      */
+    var containerSelector = rcm.getPluginContainerSelector(instanceId);
 
-    var mainImage = container.find('a[rel]');
-
-    var imgTagMain1 = $(mainImage.get(0));
-    var imgTagMain2 = $(mainImage.get(1));
-    var imgTagMain3 = $(mainImage.get(2));
-
-    var thumbs = container.find('img.thumb')
-
-    var imgTagThumb1 = $(thumbs.get(0));
-    var imgTagThumb2 = $(thumbs.get(1));
-    var imgTagThumb3 = $(thumbs.get(2));
-
-
+    me.newImageTemplate = '<a href="#" rel="" class="image"><img src="" class="thumb" border="0" /></a>';
+    me.emptyImageTemplate = '<a href="#" rel="/modules/reliv-application/content/images/rcm-image-with-thumbnails/placeholder.jpg" class="image"><img src="/modules/reliv-application/content/images/rcm-image-with-thumbnails/thumb_placeholder.jpg" class="thumb" border="0" /></a>';
+    me.emptyMainImageTemplate = '<div class="mainImage"><img src="/modules/reliv-application/content/images/rcm-image-with-thumbnails/placeholder.jpg" border="0"/></div>';
     /**
      * Called by content management system to make this plugin user-editable
      *
      * @return {Null}
      */
     me.initEdit = function(){
-        //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(event){
-            me.showEditDialog();
+        container.delegate('a.image', 'dblclick', function(event){
+            me.showEditDialog($(this));
         });
+        me.addEditElements();
+    }
 
+
+    me.addEditElements = function () {
         //Add right click menu
+        //alert(containerSelector);
+
         rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId),
-            //Here are the right click menu options
-            items:{
-                edit:{
-                    name:'Edit Properties',
-                    icon:'edit',
-                    callback:function () {
-                        me.showEditDialog();
+                selector:containerSelector+' a.image',
+
+                items:{
+                    edit:{
+                        name:'Edit Properties',
+                        icon:'edit',
+                        callback:function () {
+                            me.showEditDialog($(this));
+                        }
+                    },
+                    createNew:{
+                        name:'Create New Image Set',
+                        icon:'edit',
+                        callback:function () {
+                        var newImg=$(me.newImageTemplate);
+                        $(this).after(newImg);
+                        me.showEditDialog(newImg, true);
+                        }
+                    },
+                    deleteImage:{
+                        name:'Delete image set',
+                        icon:'delete',
+                        callback:function () {
+                            var aTag = $(this);
+                            var aTags = container.find('a');
+                          // alert($(aTags).length);
+
+                            if(aTags.length==1){
+
+
+                                /*confirm = function(
+                                    text,
+                                    okCallBack,
+                                    cancelCallBack
+                                )
+
+
+*/
+                                 //   me.showEditDialog(newImg, true);
+
+                                    $().confirm(
+
+                                        'Delete this link? <br /><br />' + aTag.html() + '<br /><br />',
+
+                                        function () {
+
+                                           // aTag.remove();
+                                            var newImg=$(me.emptyImageTemplate);
+                                            var newMainImg=$(me.emptyMainImageTemplate);
+                                            var mainImageVal = container.find('div.mainImage')
+                                            $(aTag).replaceWith(newImg);
+                                            $(mainImageVal).replaceWith(newMainImg);
+                                        },
+
+                                        function(){
+
+                                        }
+
+                                    );
+
+                             //   var msg='Cannot delete the last image in a menu. Edit instead.';
+                             //   alert(msg);
+                            } else {
+
+                                $().confirm(
+                                    'Delete this link? <br /><br />' + aTag.html() + '<br /><br />',
+                                    function () {
+                                        aTag.remove();
+                                    }
+                                );
+
+                            }
+                        }
                     }
+
                 }
 
-            }
         });
-    console.log(me.getSaveData());
+
+
+   // console.log(me.getSaveData());
 
     }
 
@@ -83,29 +146,29 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
      */
     me.getSaveData = function () {
 
-        /*
-        return {
-            "main_image1":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/SlimplicityChoc.jpg",
-            "main_image2":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/SlimplicityStraw.jpg",
-            "main_image3":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/SlimplicityVan.jpg",
-            "thumb1":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/thumb_SlimplicityChoc.jpg",
-            "thumb2":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/thumb_SlimplicityStraw.jpg",
-            "thumb3":"\/modules\/reliv-application\/content\/images\/rcm-image-with-thumbnails\/thumb_SlimplicityVan.jpg"
-        };
-        */
-        return {
-            'main_image1': imgTagMain1.attr('rel'),
-            'main_image2': imgTagMain2.attr('rel'),
-            'main_image3': imgTagMain3.attr('rel'),
-            'thumb1': imgTagThumb1.attr('src'),
-            'thumb2': imgTagThumb2.attr('src'),
-            'thumb3': imgTagThumb3.attr('src')
-        }
+
+        var aTags = container.find('.image');
+        var imageArray = [];
+
+        $.each(aTags, function(key, nonJqueryATag) {
+
+            var aTag=$(nonJqueryATag);
+
+            imageArray.push(
+                {
+                    'main':aTag.attr('rel'),
+                    'thumb':aTag.find('.thumb').attr('src')
+                }
+            );
+
+        });
+
+       return imageArray;
+
     }
 
     me.getAssets = function(){
-        var data = me.getSaveData();
-        return [data.main_image1, data.main_image2, data.main_image3, data.thumb1, data.thumb2, data.thumb3];
+        return me.getSaveData();
     }
 
     /**
@@ -113,35 +176,52 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
      *
      * @return {Null}
      */
-    me.showEditDialog = function () {
+    me.showEditDialog = function (aTag, deleteOnClose) {
+        //console.log(aTag);
+
+
+        var mainVal = aTag.attr('rel');
+        var thumbVal = aTag.find('.thumb').attr('src')
+
+        var okClicked = false;
 
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .addImage('main_image1', 'Image', imgTagMain1.attr('rel'))
-            .addImage('main_image2', 'Image', imgTagMain2.attr('rel'))
-            .addImage('main_image3', 'Image', imgTagMain3.attr('rel'))
-            .addImage('thumb1', 'Image', imgTagThumb1.attr('src'))
-            .addImage('thumb2', 'Image', imgTagThumb2.attr('src'))
-            .addImage('thumb3', 'Image', imgTagThumb3.attr('src'))
+            .addImage('main', 'Image', mainVal)
+            .addImage('thumb', 'Image', thumbVal)
+
             .dialog({
                 title:'Properties',
                 modal:true,
                 width:620,
+                close:function () {
+                    if (deleteOnClose && !okClicked) {
+                        // Remove the new li that was created if the user clicks
+                        // cancel
+                        aTag.remove();
+                        me.refresh();
+                    }
+                },
                 buttons:{
                     Cancel:function () {
                         $(this).dialog("close");
                     },
                     Ok:function () {
-
                         //Get user-entered data from form
-                        imgTagMain1.attr('src', form.find('[name=main_image1]').val());
-                        imgTagMain2.attr('src', form.find('[name=main_image2]').val());
-                        imgTagMain3.attr('src', form.find('[name=main_image3]').val());
-                        imgTagThumb1.attr('src', form.find('[name=thumb1]').val());
-                        imgTagThumb2.attr('src', form.find('[name=thumb2]').val());
-                        imgTagThumb3.attr('src', form.find('[name=thumb3]').val());
-                        $(this).dialog("close");
+
+                        var newMainVal = form.find('[name=main]').val();
+                        var newThumbVal = form.find('[name=thumb]').val();
+
+                        aTag.attr('rel', newMainVal);
+                        aTag.find('.thumb').attr('src', newThumbVal);
+                        var button = this;
+                        var continueOkClick = function () {
+                        okClicked = true;
+                        $(button).dialog("close");
+                        }
+                        //$(this).dialog("close");
+                        continueOkClick();
                     }
                 }
             });

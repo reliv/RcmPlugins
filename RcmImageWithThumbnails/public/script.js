@@ -2,8 +2,6 @@
 
 var RcmImageWithThumbnails = function (instanceId) {
 
-    alert('abcdefghijklmnopqrstuvwxyz');
-
     /**
      * Plugin container div jQuery object
      * @type {Object}

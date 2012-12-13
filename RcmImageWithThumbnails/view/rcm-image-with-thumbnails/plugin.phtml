@@ -1,25 +1,6 @@
 <?php
 
-/**
- * RcmPortalAnnouncementBox content template
- *
- * Used for rendering simple content
- *RcmPortalAnnouncementBox
- * PHP version 5.3
- *
- * LICENSE: No License yet
- *
- * @category  Reliv
- * @package   Plugins\Image
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
- * @license   http://www.nolicense.com None
- * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
- */
-//$this->headLink()->appendStylesheet(
-//    $this->basePath() . '/modules/rcm-image-with-thumbnails/style.css'
-//);
+
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-image-with-thumbnails/style.css'
 );
@@ -31,14 +12,16 @@ $this->headScript()->appendFile(
 
 ?>
 
-<div class="mainImage"><img src="<?php echo $this->getContentBasePath() . $this->data->main_image1?>" border="0"/></div>
+<div class="mainImage"><img src="<?php echo $this->data[0]->main?>" border="0"/></div>
 
-<a href="#" rel="<?php echo $this->getContentBasePath() . $this->data->main_image1?>" class="image"><img src="
-            <?php echo $this->getContentBasePath() . $this->data->thumb1?>" class="thumb" border="0"/></a>
-<a href="#" rel="<?php echo $this->getContentBasePath() . $this->data->main_image2?>" class="image"><img src="
-           <?php echo $this->getContentBasePath() . $this->data->thumb2?>" class="thumb" border="0"/></a>
-<a href="#" rel="<?php echo $this->getContentBasePath() . $this->data->main_image3?>" class="image"><img src="
-           <?php echo $this->getContentBasePath() . $this->data->thumb3?>" class="thumb" border="0"/></a>
+<? foreach($this->data as $value) :?>
+
+    <a href="#" rel="<?php echo $value->main; ?>" class="image">
+        <img src="<?php echo $value->thumb; ?>" class="thumb" border="0" />
+    </a>
+
+<?php endforeach; ?>
+
 
 <div class="clear"></div>
 

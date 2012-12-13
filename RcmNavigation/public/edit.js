@@ -118,7 +118,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                     name:'Create New Link',
                     icon:'edit',
                     callback:function () {
-                        var newLi=$(me.newLinkTemplate)
+                        var newLi=$(me.newLinkTemplate);
                         $(this).after(newLi);
                         me.showEditDialog(newLi, true);
                     }
