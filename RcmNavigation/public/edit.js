@@ -20,7 +20,7 @@ var RcmNavigationEdit = function (instanceId, container) {
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmNavigation}
+     * @type {RcmNavigationEdit}
      */
     var me = this;
 
@@ -46,8 +46,6 @@ var RcmNavigationEdit = function (instanceId, container) {
 
     /**
      * Called by content management system to make this plugin user-editable
-     *
-     * @return {Null}
      */
     me.initEdit = function(){
         container.delegate('li', 'dblclick', function(event){
@@ -55,7 +53,7 @@ var RcmNavigationEdit = function (instanceId, container) {
             me.showEditDialog($(this));
         });
         me.addEditElements();
-    }
+    };
 
     /**
      * Called by content management system to get this plugins data for saving
@@ -72,22 +70,18 @@ var RcmNavigationEdit = function (instanceId, container) {
         return {
             'html':container.children('ul').html()
         };
-    }
+    };
 
     /**
      * Ensure everything is editable, especially after recent changes
-     *
-     * @return {Null}
      */
     me.refresh = function () {
         me.removeEditElements();
         me.addEditElements();
-    }
+    };
 
     /**
      * Add the elements we need for editing to the DOM
-     *
-     * @return {Null}
      */
     me.addEditElements = function () {
 
@@ -102,7 +96,7 @@ var RcmNavigationEdit = function (instanceId, container) {
             },
 
             events:{
-                hide:function (opt) {
+                hide:function () {
                     //Keep nav open for 200ms after the right click menu closes
                     //to ensure the nav stays open if the mouse is still over it
                     setTimeout(function () {
@@ -190,12 +184,10 @@ var RcmNavigationEdit = function (instanceId, container) {
             //Make links directly editable
             container.find('li a').attr('contenteditable', 'true');
         }
-    }
+    };
 
     /**
      * Remove the elements we need for editing from the DOM
-     *
-     * @return {Null}
      */
     me.removeEditElements = function () {
 
@@ -212,26 +204,24 @@ var RcmNavigationEdit = function (instanceId, container) {
         if (arrangeMode) {
             container.find('ul').sortable('destroy');
         }
-    }
+    };
 
     /**
      * Displays a dialog box to edit or add links
      *
-     * @param {Object} a the a tag that we are editing
-     * @param {Boolean} deleteOnClose will delete the link if user clicks cancel
-     *
-     * @return {Null}
+     * @param {Object} li the tag that we are editing
+     * @param {Boolean} [deleteOnClose] will delete the link if user clicks cancel
      */
     me.showEditDialog = function (li, deleteOnClose) {
 
         var a = li.children('a');
 
-        //Find out what kind of submenu this link has
-        var submenu = 'none';
+        //Find out what kind of subMenu this link has
+        var subMenu = 'none';
         if (li.children('div.columnCount_1').length > 0) {
-            submenu = 'oneCol';
+            subMenu = 'oneCol';
         } else if (li.children('div.columnCount_2').length > 0) {
-            submenu = 'twoCol';
+            subMenu = 'twoCol';
         }
 
         //Find out what css class this link has
@@ -254,13 +244,13 @@ var RcmNavigationEdit = function (instanceId, container) {
                 true
             )
             .addSelect(
-                'submenu', 'Submenu',
+                'subMenu', 'SubMenu',
                 {
                     'none':'None',
                     'oneCol':'Single column',
                     'twoCol':'Double column'
                 },
-                submenu
+                subMenu
             )
             .dialog({
                 title:'Properties',
@@ -284,7 +274,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                         a.html(form.find('[name=text]').val());
                         a.attr('href', form.find('[name=href]').val());
                         li.attr('class', form.find('[name=cssClass]').val());
-                        var newSubmenu = form.find('[name=submenu]').val();
+                        var newSubMenu = form.find('[name=subMenu]').val();
 
                         //Put this in a closure so modifySubMenu can call it
                         var button = this;
@@ -292,12 +282,12 @@ var RcmNavigationEdit = function (instanceId, container) {
                             okClicked = true;
                             $(button).dialog("close");
                             me.refresh();
-                        }
+                        };
 
-                        //Modify the submenu if needed
+                        //Modify the subMenu if needed
 
-                        if (submenu != newSubmenu) {
-                            me.modifySubmenu(li, submenu, newSubmenu,
+                        if (subMenu != newSubMenu) {
+                            me.modifySubMenu(li, subMenu, newSubMenu,
                                 continueOkClick);
                         } else {
                             continueOkClick();
@@ -306,28 +296,26 @@ var RcmNavigationEdit = function (instanceId, container) {
                 }
             });
 
-    }
+    };
 
     /**
-     * Adds submenus, removes submenus, and changes submenu column count
+     * Adds subMenus, removes subMenus, and changes subMenu column count
      *
-     * @param {Object} li submenu's parent li
-     * @param {String} submenu current submenu setting
-     * @param {String} newSubmenu new submenu setting
+     * @param {Object} li subMenu's parent li
+     * @param {String} subMenu current subMenu setting
+     * @param {String} newSubMenu new subMenu setting
      * @param {Function} successCallBack call this if all is well
-     *
-     * @return {Boolean} success
      */
-    me.modifySubmenu = function (li, submenu, newSubmenu, successCallBack) {
+    me.modifySubMenu = function (li, subMenu, newSubMenu, successCallBack) {
 
         //Save our column-one contents in case we switch column counts
         var colOneContents = newLinkTemplate;
-        if (submenu != 'none') {
+        if (subMenu != 'none') {
             colOneContents = li.find('ul.column_1').html();
         }
 
         //Change to one column
-        if (newSubmenu == 'oneCol') {
+        if (newSubMenu == 'oneCol') {
             var modify = function () {
                 li.children('div').remove();
                 li.append(
@@ -338,11 +326,11 @@ var RcmNavigationEdit = function (instanceId, container) {
                         + '</div>'
                 );
                 successCallBack();
-            }
-            if (submenu != 'twoCol') {
+            };
+            if (subMenu != 'twoCol') {
                 modify();
             } else {
-                $().confirm('By changing the submenu from double column to '
+                $().confirm('By changing the subMenu from double column to '
                     + 'single column, you will be removing a column '
                     + 'which may contain links. Proceed?',
                     function () {
@@ -353,7 +341,7 @@ var RcmNavigationEdit = function (instanceId, container) {
         }
 
         //Change to two column
-        else if (newSubmenu == 'twoCol') {
+        else if (newSubMenu == 'twoCol') {
             li.children('div').remove();
             li.append(
                 '<div class="popup columnCount_2">'
@@ -369,8 +357,8 @@ var RcmNavigationEdit = function (instanceId, container) {
         }
 
         //Remove child menu
-        else if (newSubmenu == 'none') {
-            $().confirm('You are removing a submenu which may contain '
+        else if (newSubMenu == 'none') {
+            $().confirm('You are removing a subMenu which may contain '
                 + 'links. Proceed?',
                 function () {
                     li.children('div.popup').remove();
@@ -380,4 +368,4 @@ var RcmNavigationEdit = function (instanceId, container) {
         }
 
     }
-}
+};
