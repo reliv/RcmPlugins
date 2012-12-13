@@ -1,3 +1,4 @@
+//script
 $(function() {
     $(".RcmImageWithThumbnails").find(".image").click(function() {
         var newSrc = $(this).attr("rel");
