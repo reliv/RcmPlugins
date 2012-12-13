@@ -42,7 +42,7 @@ var RcmNavigationEdit = function (instanceId, container) {
      *
      * @type {String}
      */
-    me.newLinkTemplate = '<li><a href="">Untitled Link</a></li>';
+    var newLinkTemplate = '<li><a href="">Untitled Link</a></li>';
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -118,7 +118,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                     name:'Create New Link',
                     icon:'edit',
                     callback:function () {
-                        var newLi=$(me.newLinkTemplate);
+                        var newLi=$(newLinkTemplate);
                         $(this).after(newLi);
                         me.showEditDialog(newLi, true);
                     }
@@ -152,22 +152,16 @@ var RcmNavigationEdit = function (instanceId, container) {
                         var li = $(this);
                         var a = $(this).children('a');
                         var ul = li.parent();
-                        if(ul.children('li').length==1){
-                            var msg='Cannot delete the last link in a menu.';
-                            if(ul.parent().is('div.popup')){
-                                msg += ' If you are trying to delete this ' +
-                                    'submenu, you can do so from the properties' +
-                                    ' window of this submenu\'s parent link.';
-                            }
-                            alert(msg);
-                        }else{
-                            $().confirm(
-                                'Delete this link?<br><br>"' + a.html() + '"',
-                                function () {
-                                    li.remove();
+                        $().confirm(
+                            'Delete this link?<br><br>"' + a.html() + '"',
+                            function () {
+                                li.remove();
+                                //Don't let them delete the last link
+                                if(ul.children('li').length==0){
+                                    ul.append(newLinkTemplate);
                                 }
-                            );
-                        }
+                            }
+                        );
                     }
                 },
                 separator3:"-",
@@ -327,7 +321,7 @@ var RcmNavigationEdit = function (instanceId, container) {
     me.modifySubmenu = function (li, submenu, newSubmenu, successCallBack) {
 
         //Save our column-one contents in case we switch column counts
-        var colOneContents = me.newLinkTemplate;
+        var colOneContents = newLinkTemplate;
         if (submenu != 'none') {
             colOneContents = li.find('ul.column_1').html();
         }
@@ -367,7 +361,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                     + colOneContents
                     + '</ul>'
                     + '<ul class="column column_2">'
-                    + me.newLinkTemplate
+                    + newLinkTemplate
                     + '</ul>'
                     + '</div>'
             );
