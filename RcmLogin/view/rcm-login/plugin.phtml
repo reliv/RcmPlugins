@@ -16,6 +16,10 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
+
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-login/style.css'
+);
 ?>
 <script type="text/javascript">
     $(function () {
@@ -24,10 +28,10 @@
         });
     });
 </script>
+
+
 <div class="rcmLogin">
     <form method="post" action="/login/auth/eng" id="loginForm">
-        <p>&nbsp;</p>
-
         <h1 data-textEdit="loginHeader">
             <?php echo $this->data->loginHeader; ?>
         </h1>
@@ -36,8 +40,6 @@
              align="center" <?php if (empty($this->rcmLoginError)): ?>style="display: none;"  <?php endif; ?> >
             <?php echo $this->data->loginErrorInvalidCopy; ?>
         </div>
-        <p>&nbsp;</p>
-
         <p>
                 <span data-textEdit="userNameCopy">
                     <?php echo $this->data->userNameCopy; ?>
@@ -52,16 +54,12 @@
             <input type="password" value="" name="loginPass">
         </p>
 
-        <p>&nbsp;</p>
-
         <div>
             <a href="#" id="loginSubmit" class="submitButton"
                data-textEdit="loginSubmitCopy">
                 <?php echo $this->data->loginSubmitCopy; ?>
             </a>
         </div>
-        <p>&nbsp;</p>
-
         <p>
             <a href="#" data-textEdit="loginForgotPasswordCopy">
                 <?php echo $this->data->loginForgotPasswordCopy; ?>
