@@ -24,7 +24,7 @@ return array(
 
     'rcmPlugin' => array(
         'RcmNavigation'=>array(
-            'type' => 'Basic',
+            'type' => 'Common',
             'display' => 'Navigation Menu',
             'tooltip' => 'Navigation menu that can display sub-menus when users mouse-over the main menu.',
             'icon' => '',

@@ -23,7 +23,7 @@ return array(
 
     'rcmPlugin' => array(
         'RcmHtmlArea'=>array(
-            'type' => 'Basic',
+            'type' => 'Common',
             'display' => 'Rich Content Area',
             'tooltip' => 'An editable area that allows you to add text, images, lists, links and more.',
             'icon' => ''

@@ -23,7 +23,7 @@ return array(
 
     'rcmPlugin' => array(
         'RcmLogin'=>array(
-            'type' => 'Application',
+            'type' => 'Common',
             'display' => 'Login Area',
             'tooltip' => 'Adds login area to page',
             'icon' => '',

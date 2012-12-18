@@ -23,9 +23,9 @@ return array(
 
     'rcmPlugin' => array(
         'RcmPortalAnnouncementBox'=>array(
-            'type' => 'Basic',
-            'display' => 'Portal Announcement Box',
-            'tooltip' => 'Editable box with three text areas and a background image',
+            'type' => 'Content Templates',
+            'display' => 'Feature Box',
+            'tooltip' => 'Editable box with three text areas',
             'icon' => '',
             'editJs'=>'/modules/rcm-portal-announcement-box/edit.js',
         ),
