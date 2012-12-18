@@ -23,7 +23,7 @@ return array(
 
     'rcmPlugin' => array(
         'RcmRssFeed'=>array(
-            'type' => 'Basic',
+            'type' => 'Social Media',
             'display' => 'Rss Feed Reader',
             'tooltip' => 'Rss Reader and Display',
             'icon' => '',

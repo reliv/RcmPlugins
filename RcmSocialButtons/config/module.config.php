@@ -24,8 +24,8 @@ return array(
     'rcmPlugin' => array(
         'RcmSocialButtons'=>array(
 
-            'type' => 'Basic',
-            'display' => 'Social Share Buttons',
+            'type' => 'Social Media',
+            'display' => 'Share-it Social Buttons',
             'tooltip' => 'Facebook, Twitter, and many more social sharing buttons powered by "Share This"',
             'icon' => '',
             'editJs'=>'/modules/rcm-social-buttons/edit.js',

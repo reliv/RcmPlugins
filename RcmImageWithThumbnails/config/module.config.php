@@ -23,8 +23,8 @@ return array(
 
     'rcmPlugin' => array(
         'RcmImageWithThumbnails'=>array(
-            'type' => 'Basic',
-            'display' => 'Image With Thumbnails',
+            'type' => 'Images & Slide Shows',
+            'display' => 'Image Gallery',
             'tooltip' => 'Image with Thumbnails',
             'icon' => '',
             'editJs'=>'/modules/rcm-image-with-thumbnails/edit.js',
