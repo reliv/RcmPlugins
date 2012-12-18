@@ -83,7 +83,7 @@ class Module
                 'RcmLogin' =>
                 function($serviceMgr)
                 {
-                    $controller = new JsonDataPluginController(
+                    $controller = new \RcmLogin\Controller\PluginController(
                         $serviceMgr->get('em'),
                         'rcm-login/plugin',
                         __DIR__ . '/config/default.content.json'

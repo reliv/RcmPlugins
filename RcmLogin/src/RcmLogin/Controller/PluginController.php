@@ -46,6 +46,7 @@ class PluginController
 
     public function renderInstance($instanceId)
     {
+        $this->ensureHttps();
         $view = parent::renderInstance($instanceId);
         $this->request = $this->getEvent()->getRequest();
 
@@ -65,5 +66,19 @@ class PluginController
     function getDefaultJsonContent(){
         $r = parent::getDefaultJsonContent();
         return $r;
+    }
+
+    function ensureHttps(){
+        if(!$this->isHttps()){
+            $redirectUrl =
+                'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+            header('Location: ' . $redirectUrl);
+            exit();
+        }
+    }
+
+    function isHttps()
+    {
+        return (isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : null) == 'on';
     }
 }
