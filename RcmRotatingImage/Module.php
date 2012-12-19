@@ -82,7 +82,8 @@ class Module
                 {
                     $service
                         = new \RcmRotatingImage\Controller\PluginController(
-                            $serviceMgr->get('em')
+                            $serviceMgr->get('em'),
+                            'rcm-rotating-image/plugin'
                         );
                     return $service;
                 }

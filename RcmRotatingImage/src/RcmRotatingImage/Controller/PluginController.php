@@ -57,7 +57,7 @@ class PluginController extends JsonDataPluginController
                 'data' => $data
             )
         );
-        $view->setTemplate('rcm-rotating-image/plugin');
+        $view->setTemplate($this->template);
         return $view;
     }
 }

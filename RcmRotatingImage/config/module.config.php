@@ -24,8 +24,8 @@ return array(
     'rcmPlugin' => array(
         'RcmRotatingImage'=>array(
             'type' => 'Images & Slide Shows',
-            'display' => 'Rotating Image Box',
-            'tooltip' => 'Displays a different randomly selected image each time a visitor comes to the site.',
+            'display' => 'Rotating Image',
+            'tooltip' => 'Displays a different randomly selected image from a list each time a visitor comes to the site.',
             'icon' => '',
             'editJs'=>'/modules/rcm-rotating-image/edit.js',
             'editCss'=>'/modules/rcm-rotating-image/edit.css',
