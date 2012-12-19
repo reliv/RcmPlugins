@@ -129,7 +129,7 @@ class JsonDataPluginController
     /**
      * Get entity content as JSON. This is called by the editor javascript of
      * some plugins. Urls look like
-     * '/rmc-plugin-admin-proxy/rcm-plugin-name/223/admin-data'
+     * '/rcm-plugin-admin-proxy/rcm-plugin-name/223/admin-data'
      *
      * @param integer $instanceId instance id
      *
