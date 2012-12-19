@@ -78,8 +78,8 @@ var RcmRotatingImageEdit = function(instanceId, container){
         var image =  data.images[me.current];
 
         //Render image
-        var a = container.children('div').children('a');
-        var img = a.children('img');
+        var a = container.find('a');
+        var img = container.find('.winner');
         img.attr('src', image.src);
         img.attr('alt', image.alt);
         a.attr('href', image.href);

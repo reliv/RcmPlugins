@@ -17,15 +17,18 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-//$this->headLink()->appendStylesheet(
-//    $this->basePath() . '/modules/rcm-rotating-image/style.css'
-//);
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-rotating-image/script.js',
+    'text/javascript'
+);
 ?>
 <div>
-    <a href="<?php echo $this->image->href?>">
-        <img src="<?php echo
-            $this->getContentBasePath() . $this->image->src?>"
-             alt="<?php echo $this->image->alt?>">
+    <a>
+        <div class="images">
+            <?php foreach($this->data->images as $image){
+                echo '<img style="display: none;" data-src="'.$image->src.'" data-href="'.$image->href.'" alt="'.$image->href.'">';
+            }?>
+        </div>
 
         <div data-textEdit="learnMore" class="learnMore">
             <?php echo $this->data->learnMore ?>
