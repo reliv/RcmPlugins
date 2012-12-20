@@ -45,16 +45,14 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
         container.delegate('a.image', 'dblclick', function(event){
             me.showEditDialog($(this));
         });
-        me.addEditElements();
-    }
 
+        container.find('.imgThumbs').sortable();
 
-    me.addEditElements = function () {
-        //Add right click menu
-        //alert(containerSelector);
+        container.find('.imgThumbs').disableSelection();
+
 
         rcmEdit.pluginContextMenu({
-                selector:containerSelector+' a.image',
+                selector:containerSelector+' a.image, ' + containerSelector+' div.mainImage',
 
                 items:{
                     edit:{
@@ -68,31 +66,32 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                         name:'Create New Image Set',
                         icon:'edit',
                         callback:function () {
-                        var newImg=$(me.newImageTemplate);
-                        $(this).after(newImg);
-                        me.showEditDialog(newImg, true);
+                            var newImg=$(me.newImageTemplate);
+                            $(this).after(newImg);
+                            me.showEditDialog(newImg, true);
                         }
                     },
+
                     deleteImage:{
                         name:'Delete image set',
                         icon:'delete',
                         callback:function () {
-                            var aTag = $(this);
+
                             var aTags = container.find('a');
+                            var aTag;
+
+
+                            var selectedIndex = container.find('.mainImage').attr('data-selected');
+
+                            if($(this).hasClass('mainImage')){
+                                aTag = $(aTags.get(selectedIndex));
+                            }else{
+                                aTag = $(this);
+                            }
+
                           // alert($(aTags).length);
 
                             if(aTags.length==1){
-
-
-                                /*confirm = function(
-                                    text,
-                                    okCallBack,
-                                    cancelCallBack
-                                )
-
-
-*/
-                                 //   me.showEditDialog(newImg, true);
 
                                     $().confirm(
 
@@ -114,8 +113,6 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
                                     );
 
-                             //   var msg='Cannot delete the last image in a menu. Edit instead.';
-                             //   alert(msg);
                             } else {
 
                                 $().confirm(
@@ -132,9 +129,6 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                 }
 
         });
-
-
-   // console.log(me.getSaveData());
 
     }
 

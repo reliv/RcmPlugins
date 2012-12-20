@@ -14,14 +14,17 @@ $this->headScript()->appendFile(
 
 <div class="mainImage"><img src="<?php echo $this->data[0]->main?>" border="0"/></div>
 
+<ul class="imgThumbs">
+
 <? foreach($this->data as $value) :?>
 
-    <a href="#" rel="<?php echo $value->main; ?>" class="image">
-        <img src="<?php echo $value->thumb; ?>" class="thumb" border="0" />
-    </a>
+    <li>
+        <a href="#" rel="<?php echo $value->main; ?>" class="image">
+            <img src="<?php echo $value->thumb; ?>" class="thumb" border="0" />
+        </a>
+    </li>
 
 <?php endforeach; ?>
 
-
-<div class="clear"></div>
+</ul>
 

@@ -10,7 +10,13 @@
 }
 
 .RcmImageWithThumbnails .thumb{
-    float:left;
+   /* float:left; */
     margin-right:10px;
     margin-top:10px;
+}
+
+.RcmImageWithThumbnails  ul.imgThumbs  li {
+    list-style-type: none;
+    display: inline-block;
+
 }
