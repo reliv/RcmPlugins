@@ -33,12 +33,13 @@
     margin-bottom: 0px;
     z-index: 1;
     position: relative;
-}
-
-.RcmCallToActionBox div h1 a {
     font-weight: bold;
     font-size: 16px;
     color: #00A3E6;
+}
+
+.RcmCallToActionBox div h1 a {
+
 }
 
 .RcmCallToActionBox div h2 {
@@ -46,12 +47,13 @@
     margin-bottom: 5;
     z-index: 1;
     position: relative;
-}
-
-.RcmCallToActionBox div h2 a {
     color: #8DC63F;
     font-weight: bold;
     font-size: 13px;
+}
+
+.RcmCallToActionBox div h2 a {
+
 }
 
 .RcmCallToActionBox div p{
@@ -61,6 +63,7 @@
     position: relative;
 }
 
-.RcmCallToActionBox a {
+.RcmCallToActionBox a, .RcmCallToActionBox a:hover {
     text-decoration: none;
+    color: inherit;
 }

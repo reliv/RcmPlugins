@@ -23,23 +23,16 @@ $this->headLink()->appendStylesheet(
 $sd=$this->data;
 $te=$this->data;
 ?>
+<a href="<?php echo $this->data->href?>">
 <div>
 
-    <h1>
-        <a data-textEdit="top"
-           href="<?php echo $this->data->href?>">
-            <?php echo $this->data->top?>
-        </a>
-        <a href="<?php echo $this->data->href?>">
-            <span class="arrowLogo">&nbsp;</span>
-        </a>
+
+    <h1 data-textEdit="top">
+            <?php echo $this->data->top; ?>
     </h1>
 
-    <h2>
-        <a data-textEdit="middle"
-           href="<?php echo $this->data->href?>">
-            <?php echo $this->data->middle?>
-        </a>
+    <h2 data-textEdit="middle">
+           <?php echo $this->data->middle; ?>
     </h2>
 
     <p data-textEdit="bottom">
@@ -53,3 +46,5 @@ $te=$this->data;
         >
 
 </div>
+</a>
+
