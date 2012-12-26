@@ -35,7 +35,7 @@ class ProxyController
         if ($instanceId < 0) {
             $data= $this->getDefaultJsonContent();
         } else {
-            $data = $this->readJsonDataFromDb($instanceId)->getData();
+            $data = $this->readJsonDataFromDb($instanceId);
 
         }
 

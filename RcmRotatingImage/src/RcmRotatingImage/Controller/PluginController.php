@@ -48,7 +48,7 @@ class PluginController extends JsonDataPluginController
      */
     function renderInstance($instanceId)
     {
-        $data=$this->readJsonDataFromDb($instanceId)->getData();
+        $data=$this->readJsonDataFromDb($instanceId);
         $images=$data->images;
         $image = $images[array_rand($images, 1)];
         $view = new ViewModel(

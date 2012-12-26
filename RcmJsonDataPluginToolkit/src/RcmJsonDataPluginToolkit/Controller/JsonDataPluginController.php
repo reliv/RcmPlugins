@@ -74,7 +74,7 @@ class JsonDataPluginController
     function renderInstance($instanceId){
         $view = new \Zend\View\Model\ViewModel(
             array(
-                'data' => $this->readJsonDataFromDb($instanceId)->getData()
+                'data' => $this->readJsonDataFromDb($instanceId)
             )
         );
         $view->setTemplate($this->template);
@@ -121,7 +121,7 @@ class JsonDataPluginController
      * @return null
      */
     function deleteInstance($instanceId){
-        $entity = $this->readJsonDataFromDb($instanceId);
+        $entity = $this->readJsonEntityFromDb($instanceId);
         $this->entityMgr->remove($entity);
         $this->entityMgr->flush();
     }
@@ -142,7 +142,7 @@ class JsonDataPluginController
                 null, $this->getDefaultJsonContent()
             );
         } else {
-            $content = $this->readJsonDataFromDb($instanceId);
+            $content = $this->readJsonEntityFromDb($instanceId);
         }
         /*
          * @TODO RETURN RESPONSE OBJECT INSTEAD OF EXITING. FOR SOME REASON ZF2
@@ -180,7 +180,7 @@ class JsonDataPluginController
      * @return \RcmJsonDataPluginToolkit\Entity\JsonContent|null
      * @throws \Rcm\Exception\PluginDataNotFoundException
      */
-    function readJsonDataFromDb($instanceId)
+    function readJsonEntityFromDb($instanceId)
     {
         $entity = $this->entityMgr
             ->getRepository('RcmJsonDataPluginToolkit\Entity\JsonContent')
@@ -189,6 +189,10 @@ class JsonDataPluginController
             throw new PluginDataNotFoundException('Json content not found in DB for instance #'.$instanceId);
         }
         return $entity;
+    }
+
+    function readJsonDataFromDb($instanceId){
+        return $this->readJsonEntityFromDb($instanceId)->getData();
     }
 
     /**

@@ -40,7 +40,7 @@ class PluginController
     public function renderInstance($instanceId)
     {
         return $this->buildView(
-            $this->readJsonDataFromDb($instanceId)->getData()
+            $this->readJsonDataFromDb($instanceId)
         );
     }
 
