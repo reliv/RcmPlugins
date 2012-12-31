@@ -18,8 +18,7 @@
 
 namespace RcmEventCalender;
 
-use \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
-
+use \RcmEventCalender\Controller\PluginController;
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -60,10 +59,10 @@ class Module
             'factories' => array(
                 'RcmEventCalender'=>function($serviceMgr)
                 {
-                    $controller = new JsonDataPluginController(
-                        $serviceMgr->get('em'),
-                        'rcm-event-calender/plugin',
-                        __DIR__ . '/config/default.content.json'
+                    $controller = new PluginController(
+                            $serviceMgr->get('em'),
+                            'rcm-event-calender/plugin',
+                            __DIR__ . '/config/default.content.json'
                     );
                     return $controller;
                 }
