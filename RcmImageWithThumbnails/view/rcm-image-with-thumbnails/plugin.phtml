@@ -15,15 +15,15 @@ $this->headScript()->appendFile(
 <div class="mainImage"><img src="<?php echo $this->data[0]->main?>" border="0"/></div>
 
 <ul class="imgThumbs">
-
+<? $i=0; ?>
 <? foreach($this->data as $value) :?>
 
     <li>
         <a href="#" rel="<?php echo $value->main; ?>" class="image">
-            <img src="<?php echo $value->thumb; ?>" class="thumb" border="0" />
+            <img src="<?php echo $value->thumb; ?>" class="thumb <?php if ($i==0) echo "selected"; ?>"  border="0" />
         </a>
     </li>
-
+<? $i++; ?>
 <?php endforeach; ?>
 
 </ul>
