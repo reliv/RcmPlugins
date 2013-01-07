@@ -49,7 +49,7 @@ class PluginController
         $data=$this->readJsonDataFromDb($instanceId);
         $categoryName=$data->category;
 
-        $repo=$this->entityMgr->getRepository('RcmEventCalenderCategory');
+        $repo=$this->entityMgr->getRepository('RcmEventCalender\Category');
         $category=$repo->findByName($categoryName);
         $events = $category->getEvents();
 
