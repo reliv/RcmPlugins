@@ -4,9 +4,10 @@ $(function() {
         var container = $(this).closest('.rcmPluginContainer');
         var newSrc = $(this).attr("rel");
         var mainImage = container.find('.mainImage');
-        //mainImage.hide();
-        //mainImage.fadeIn('fast');
+        container.find('.thumb').removeClass('selected');
         mainImage.find('img').attr('src', newSrc);
+        $(this).find('.thumb').addClass('selected');
+
         return false;
     });
 });
