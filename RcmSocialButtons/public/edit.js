@@ -19,21 +19,9 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
-     * @type {RcmSocialButtons}
+     * @type {RcmSocialButtonsEdit}
      */
     var me = this;
-
-    /**
-     * jQuery object for the two links
-     * @type {Object}
-     */
-    var aTags = container.find('a');
-
-    /**
-     * Background image jQuery object
-     * @type {Object}
-     */
-    var imgTag = container.find('img');
 
     /**
      * Config options from the module config
@@ -46,7 +34,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
     /**
      * Called by content management system to make this plugin user-editable
      *
-     * @return {Null}
+
      */
     me.initEdit = function () {
 
@@ -73,16 +61,14 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
                 }
             }
         );
-    }
+    };
 
     me.haveDataAndAvailableButtons = function(){
         return (data!=null && availableButtons!=null);
-    }
+    };
     
     /**
      * Completes the edit init after we get our data via ajax
-     *
-     * @return {Null}
      */
     me.completeInitEdit = function () {
         //Double clicking will show properties dialog
@@ -106,7 +92,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
 
             }
         });
-    }
+    };
 
     /**
      * Called by content management system to get this plugins data for saving
@@ -116,23 +102,23 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
      */
     me.getSaveData = function () {
         return data;
-    }
+    };
 
     /**
      * Disables the share this functionality so we can edit
-     * @return {Null}
+
      */
     me.disableShareThis = function () {
         //Disable the normal social sharing functionality
         container.find('*').click(function (e) {
-            e.stopPropagation()
+            e.stopPropagation();
         });
-    }
+    };
 
     /**
      * Displays a dialog box to edit href and image src
      *
-     * @return {Null}
+
      */
     me.showEditDialog = function () {
 
@@ -149,8 +135,8 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
                 '_vcount':'Buttons with vertical counters'
             },
             data.style
-        )
-        var checkBoxDiv = $('<div></div>')
+        );
+        var checkBoxDiv = $('<div></div>');
         checkBoxDiv.append('<label>Buttons</label><br>');
         me.iterateAvailableButtons(function (name, desc) {
             checkBoxDiv.addCheckBox(
@@ -158,10 +144,10 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
                 desc,
                 me.buttonEnabled(name)
             );
-        })
+        });
         checkBoxDiv.find('p').attr('style', 'margin:0,padding:0 0 0 10px');
         form.append(checkBoxDiv);
-        form.addInput('href', '"ShareThis" Publisher Key:', data.publisherKey);
+        form.addInput('href', '"ShareThis" Publisher Key:', data.shareThisKey);
         form.dialog({
             title:'Properties',
             modal:true,
@@ -177,11 +163,11 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
 
                     //get buttons from form
                     data.buttons = [];
-                    me.iterateAvailableButtons(function (name, desc) {
+                    me.iterateAvailableButtons(function (name) {
                         if (form.find('[name="' + name + '"]').prop("checked")) {
                             data.buttons.push(name);
                         }
-                    data.publisherKey = form.find('[name=href]').val();
+                    data.shareThisKey = form.find('[name=href]').val();
 
                     });
 
@@ -191,17 +177,15 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
                 }
             }
         });
-    }
+    };
 
     /**
      * Renders saveData into html on the page
-     *
-     * @return {Null}
      */
     me.render = function () {
         var contDiv = container.children('.rcmSocialButtonsWrapper');
         contDiv.empty();
-        me.iterateAvailableButtons(function (name, desc) {
+        me.iterateAvailableButtons(function (name) {
             if (me.buttonEnabled(name)) {
                 var span = $('<span></span>');
                 span.addClass('st_' + name + data.style);
@@ -210,7 +194,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         });
         stButtons.locateElements();
         me.disableShareThis();
-    }
+    };
 
     /**
      * Checks if an available button is currently enabled
@@ -220,17 +204,17 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
      */
     me.buttonEnabled = function (name) {
         return ($.inArray(name, data.buttons) != -1)
-    }
+    };
 
     /**
      * Calls a callback function for each available button
      *
      * @param {Function} callBack callback function
-     * @return {Null}
+
      */
     me.iterateAvailableButtons = function (callBack) {
         for (var name in availableButtons) {
-            callBack(name, availableButtons[name])
+            callBack(name, availableButtons[name]);
         }
     }
-}
+};
