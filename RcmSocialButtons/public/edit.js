@@ -192,7 +192,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
                 contDiv.append(span);
             }
         });
-        stButtons.locateElements();
+        rcmSocialButtonsReload();
         me.disableShareThis();
     };
 

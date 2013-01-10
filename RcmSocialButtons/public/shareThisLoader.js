@@ -1,5 +1,6 @@
-//ShareThis requires this code before loading their JS file
-var switchTo5x=true;
+rcmSocialButtonsReload = function(){
+    stButtons.locateElements();
+};
 
 $(function(){
 
@@ -12,6 +13,9 @@ $(function(){
 
         //Mark as loaded so we don't pull in their JS twice when we have two plugins
         window.rcmSocialButtonsJsLoaded = true;
+
+        //ShareThis requires this code before loading their JS file
+        var switchTo5x=true;
 
         //Figure out the path to the share-this js file
         var subDomain='w';
