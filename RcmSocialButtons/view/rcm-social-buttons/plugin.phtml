@@ -23,11 +23,12 @@ $this->headScript()->appendFile(
 );
 ?>
 
+<a class="rcmShareThisKey"
+   data-rcmShareThisKey="<?php echo $this->data->shareThisKey?>"></a>
+
 <div class="rcmSocialButtonsWrapper">
     <?php foreach ($this->data->buttons as $button): ?>
         <span class='st_<?php echo $button . $this->data->style?>'>
         </span>
     <?php endforeach ?>
 </div>
-<a class="rcmShareThisKey"
-   data-rcmShareThisKey="<?php echo $this->data->shareThisKey?>"></a>

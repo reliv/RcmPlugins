@@ -158,6 +158,10 @@ class JsonDataPluginController
 //        return $response;
     }
 
+    function defaultDataAdminAjaxAction(){
+        exit(json_encode($this->getDefaultJsonContent()));
+    }
+
     /**
      * Returns the path of the default json content file. Looks in the default
      * location if this property is not set
