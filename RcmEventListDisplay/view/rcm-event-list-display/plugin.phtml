@@ -34,7 +34,7 @@ $eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 <?php if(count($this->events)):?>
 
     <?php foreach($this->events as $event):?>
-        <div class="event">
+        <div class="event" data-eventId="<?php echo $event->getEventId()?>">
             <a name="event<?php echo $event->getEventId()?>"></a>
             <h3><?php echo $event->getTitle()?></h3>
             <div class="days">

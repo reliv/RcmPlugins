@@ -90,9 +90,9 @@ class PluginController
     }
 
     function renderDefaultInstance(){
-        $view = parent::renderDefaultInstance();
-        $view->setVariable('events',array());
-        return $view;
+        return $this->renderInstanceFromData(
+            $this->getDefaultJsonContent()
+        );
     }
 }
 

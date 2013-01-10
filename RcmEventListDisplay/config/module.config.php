@@ -23,8 +23,8 @@ return array(
 
     'rcmPlugin' => array(
         'RcmEventListDisplay'=>array(
-            'type' => 'Reliv',
-            'display' => 'Event List',
+            'type' => 'Social Media',
+            'display' => 'Event List Display',
             'tooltip' => 'Displays the list of events in a given event category',
             'icon' => '',
             'editJs'=>'/modules/rcm-event-list-display/edit.js',

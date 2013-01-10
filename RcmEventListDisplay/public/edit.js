@@ -68,25 +68,32 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         defaultData = returnedDefaultData;
 
         //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(){
-            me.showEditDialog();
-        });
+        container.delegate('.event', 'dblclick', me.handleOpenEventManager);
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId),
+            selector:rcm.getPluginContainerSelector(instanceId) + ' .event',
             //Here are the right click menu options
             items:{
+                eventManger:{
+                    name:'Open Event Manager (Add/Remove/Edit Events)',
+                    icon:'edit',
+                    callback:me.handleOpenEventManager
+                },
                 edit:{
-                    name:'Edit Properties',
+                    name:'Properties for this Event List Display',
                     icon:'edit',
                     callback:function () {
                         me.showEditDialog();
                     }
                 }
-
             }
         });
+    };
+
+    me.handleOpenEventManager = function(){
+        var eventId = $(this).attr('data-eventId');
+        alert(eventId);
     };
 
     /**
