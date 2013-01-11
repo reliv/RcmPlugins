@@ -11,7 +11,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmEventCalender
+ * @package   RcmPlugins\RcmEventCalenderCore
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -21,16 +21,6 @@
 
 return array(
 
-    'rcmPlugin' => array(
-        'RcmEventCalender'=>array(
-            'type' => 'Reliv',
-            'display' => 'Event Calender',
-            'tooltip' => 'Event Calender',
-            'icon' => '',
-            'editJs'=>'/modules/rcm-event-calender/edit.js',
-        ),
-    ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -39,16 +29,16 @@ return array(
 
     'doctrine' => array(
         'driver' => array(
-            'RcmEventCalender' => array(
+            'RcmEventCalenderCore' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__ . '/../src/RcmEventCalender/Entity'
+                    __DIR__ . '/../src/RcmEventCalenderCore/Entity'
                 )
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'RcmEventCalender' => 'RcmEventCalender'
+                    'RcmEventCalenderCore' => 'RcmEventCalenderCore'
                 )
             )
         )

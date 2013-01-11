@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * RcmEventListDisplay content template
+ *
+ * Used for rendering simple content
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   Plugins\Image
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
+ */
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-social-buttons/shareThisLoader.js',
+    'text/javascript'
+);
+
+$eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
+    . '#event';
+
+?>
+
+<a class="rcmShareThisKey"
+   data-rcmShareThisKey="<?php echo $this->data->shareThisKey?>"></a>
+
+<?php if(count($this->events)):?>
+
+    <?php foreach($this->events as $event):?>
+        <div class="event" data-eventId="<?php echo $event->getEventId()?>">
+            <a name="event<?php echo $event->getEventId()?>"></a>
+            <h3><?php echo $event->getTitle()?></h3>
+            <div class="days">
+                <?php echo $event->getDaysText()?>
+            </div>
+            <?php echo $event->getText()?>
+            <div class="eventFoot">
+                <span class="st_sharethis"
+                     st_title="<?php echo $event->getText()?>"
+                     st_url="<?php echo $eventUrl . $event->getEventId()?>"
+                     displayText='Share'>
+                </span>
+                -&nbsp;&nbsp;
+                <a href="https://maps.google.com/maps?saddr=&daddr=<?php
+                    echo urlencode($event->getMapAddress())
+                   ?>"
+                   target="_blank"
+                    >
+                    <?php echo $this->data->translate->directions?>
+                </a>
+            </div>
+        </div>
+        <br>
+    <?php endforeach?>
+
+<?php else:?>
+
+    <?php echo $this->data->translate->noEvents?>
+
+<?php endif?>

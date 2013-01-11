@@ -8,7 +8,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmEventCalender
+ * @package   RcmEventListDisplay
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -16,9 +16,9 @@
  * @link      http://ci.reliv.com/confluence
  */
 
-namespace RcmEventCalender;
+namespace RcmEventListDisplay;
 
-use \RcmEventCalender\Controller\PluginController;
+use \RcmEventListDisplay\Controller\PluginController;
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -26,7 +26,7 @@ use \RcmEventCalender\Controller\PluginController;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmEventCalender
+ * @package   RcmPlugins\RcmEventListDisplay
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -78,12 +78,13 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmEventCalender'=>function($serviceMgr)
+                'RcmEventListDisplay'=>function($serviceMgr)
                 {
                     $controller = new PluginController(
                             $serviceMgr->get('em'),
-                            'rcm-event-calender/plugin',
-                            __DIR__ . '/config/default.content.json'
+                            'rcm-event-list-display/plugin',
+                            __DIR__ . '/config/default.content.json',
+                            $serviceMgr->get('CalenderModel')
                     );
                     return $controller;
                 }

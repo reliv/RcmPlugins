@@ -137,13 +137,7 @@ class JsonDataPluginController
      */
     function dataAdminAjaxAction($instanceId)
     {
-        if ($instanceId < 0) {
-            $content = new \RcmJsonDataPluginToolkit\Entity\JsonContent(
-                null, $this->getDefaultJsonContent()
-            );
-        } else {
-            $content = $this->readJsonEntityFromDb($instanceId);
-        }
+        $content=$this->getJsonContent($instanceId);
         /*
          * @TODO RETURN RESPONSE OBJECT INSTEAD OF EXITING. FOR SOME REASON ZF2
          * DOES NOT RENDER THE RESPONSE OBJECT
@@ -156,6 +150,27 @@ class JsonDataPluginController
 //        $headers->addHeaderLine('Content-type','application/json');
 //        $response->setHeaders($headers);
 //        return $response;
+    }
+
+    function getJsonContent($instanceId){
+        if ($instanceId < 0) {
+            return new \RcmJsonDataPluginToolkit\Entity\JsonContent(
+                null, $this->getDefaultJsonContent()
+            );
+        } else {
+            return $this->readJsonEntityFromDb($instanceId);
+        }
+    }
+
+    function dataAndDefaultDataAdminAjaxAction($instanceId){
+        exit(
+            json_encode(
+                array(
+                    'data'=>$this->getJsonContent($instanceId)->getData(),
+                    'defaultData'=>$this->getDefaultJsonContent()
+                )
+            )
+        );
     }
 
     /**

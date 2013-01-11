@@ -1,6 +1,6 @@
 <?php
 
-namespace RcmEventCalender\Entity;
+namespace RcmEventCalenderCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
     Doctrine\Common\Collections\ArrayCollection;

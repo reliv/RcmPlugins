@@ -18,13 +18,15 @@
  * @link      http://ci.reliv.com/confluence
  */
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-social-buttons/script.js',
+    $this->basePath() . '/modules/rcm-social-buttons/shareThisLoader.js',
     'text/javascript'
 );
 ?>
 
-<div class="rcmSocialButtonsWrapper"
-     data-rcmSocialButtonsPublisherKey="<?php echo $this->data->publisherKey?>">
+<a class="rcmShareThisKey"
+   data-rcmShareThisKey="<?php echo $this->data->shareThisKey?>"></a>
+
+<div class="rcmSocialButtonsWrapper">
     <?php foreach ($this->data->buttons as $button): ?>
         <span class='st_<?php echo $button . $this->data->style?>'>
         </span>

@@ -1,6 +1,6 @@
 <?php
 
-namespace RcmEventCalender\Entity;
+namespace RcmEventCalenderCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
     Doctrine\Common\Collections\ArrayCollection;
@@ -23,16 +23,6 @@ class Event
     protected $eventId;
 
     /**
-     * @ORM\OneToMany(
-     *     targetEntity="Day",
-     *     mappedBy="event",
-     *     indexBy="date",
-     *     cascade={"persist", "remove"}
-     * )
-     */
-    protected $days;
-
-    /**
      * @ORM\ManyToOne(
      *     targetEntity="Category",
      *     inversedBy="events",
@@ -45,17 +35,52 @@ class Event
     /**
      * @ORM\Column(type="string")
      */
+    protected $title;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     protected $text;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $firstDay;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $lastDay;
 
     /**
      * @ORM\Column(type="string")
      */
     protected $mapAddress;
 
+    /**
+     * @ORM\ManyToOne(
+     *     targetEntity="Category",
+     *     inversedBy="days",
+     *     cascade={"persist", "remove"}
+     * )
+     * @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")
+     **/
     protected $category;
 
     function __construct(){
         $this->days = new ArrayCollection();
+    }
+
+    function getDaysText($dateFormat="F d"){
+        if(
+            !is_a($this->lastDay,'\DateTime')
+            || $this->firstDay==$this->lastDay
+        ) {
+            return $this->firstDay->format($dateFormat);
+        }else{
+            return $this->firstDay->format($dateFormat)
+                . ' - ' . $this->lastDay->format($dateFormat);
+        }
     }
 
     public function setCategory($category)
@@ -130,5 +155,35 @@ class Event
     public function getText()
     {
         return $this->text;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setFirstDay($firstDay)
+    {
+        $this->firstDay = $firstDay;
+    }
+
+    public function getFirstDay()
+    {
+        return $this->firstDay;
+    }
+
+    public function setLastDay($lastDay)
+    {
+        $this->lastDay = $lastDay;
+    }
+
+    public function getLastDay()
+    {
+        return $this->lastDay;
     }
 }

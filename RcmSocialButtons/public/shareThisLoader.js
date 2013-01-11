@@ -1,9 +1,13 @@
+rcmSocialButtonsReload = function(){
+    stButtons.locateElements();
+};
+
 $(function(){
 
-    var socialButtonsWrapper = $('.rcmSocialButtonsWrapper');
+    var shareThisKey = $('.rcmShareThisKey');
 
     if(
-        socialButtonsWrapper.length
+        shareThisKey.length
         && typeof(window.rcmSocialButtonsJsLoaded) == 'undefined'
     ) {
 
@@ -27,8 +31,8 @@ $(function(){
 
                 //ShareThis requires this code after loading their JS file
                 stLight.options({
-                    publisher: socialButtonsWrapper.first()
-                        .attr('data-rcmSocialButtonsPublisherKey'),
+                    publisher: shareThisKey.first()
+                        .attr('data-rcmShareThisKey'),
                     onhover: false
                 });
 
