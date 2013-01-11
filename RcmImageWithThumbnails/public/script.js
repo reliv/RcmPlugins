@@ -1,5 +1,3 @@
-
-
 var RcmImageWithThumbnails = function (instanceId) {
 
     /**

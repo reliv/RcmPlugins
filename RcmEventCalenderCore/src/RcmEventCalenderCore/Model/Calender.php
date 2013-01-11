@@ -37,7 +37,11 @@ class Calender
         return $query->getResult();
     }
 
-    function getEventById($eventId){
+    function getEvent($eventId){
         return $this->eventRepo->findOneByEventId($eventId);
+    }
+
+    function deleteEvent($eventId){
+        $this->entityMgr->remove($this->eventRepo->findOneByEventId($eventId));
     }
 }

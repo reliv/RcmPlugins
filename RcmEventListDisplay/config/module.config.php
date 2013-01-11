@@ -27,7 +27,7 @@ return array(
             'display' => 'Event List Display',
             'tooltip' => 'Displays the list of events in a given event category',
             'icon' => '',
-            'editJs'=>'/modules/rcm-event-list-display/edit.js',
+            'editJs'=>'/modules/rcm-event-list-display/rcm-event-list-display-edit.js',
         ),
     ),
 
