@@ -1,18 +1,14 @@
-var RcmImageWithThumbnails = function (instanceId) {
+//script
+$(function() {
+    $(".RcmImageWithThumbnails").find(".image").click(function() {
+        var container = $(this).closest('.rcmPluginContainer');
+        var newSrc = $(this).attr("rel");
+        var mainImage = container.find('.mainImage');
+        container.find('.thumb').removeClass('selected');
+        mainImage.find('img').attr('src', newSrc);
+        $(this).find('.thumb').addClass('selected');
 
-    /**
-     * Plugin container div jQuery object
-     * @type {Object}
-     */
-    var container = rcm.getPluginContainer(instanceId);
+        return false;
+    });
+});
 
-    var thumbWrapper = $('.thumbWrapper');
-
-    container.find('.thumbWrapper img').click(
-        function(){
-            // console.log($(this).attr('src'));
-            var newSrc=$(this).attr('data-mainImage');
-            container.find('.rcmImageWithThumbnails_mainImage img').attr('src',newSrc)
-        }
-    );
-};

@@ -9,7 +9,7 @@
  *
  * @category  Reliv
  * @package   RcmPlugins\RcmImageWithThumbnails
- * @author    Rod McNew <rmcnew@relivinc.com>
+ * @author    Brian Janish <bjanish@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
@@ -94,13 +94,14 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                             var aTag;
 
 
-                            var selectedIndex = container.find('.mainImage').attr('data-selected');
+                           /* var selectedIndex = container.find('.mainImage').attr('data-selected');
 
                             if($(this).hasClass('mainImage')){
                                 aTag = $(aTags.get(selectedIndex));
                             }else{
                                 aTag = $(this);
                             }
+                            */
                             if($(this).hasClass('image')) {
 
                                 aTag=$(this);
@@ -123,9 +124,12 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                                         function () {
 
                                            // aTag.remove();
+
                                             var newImg=$(me.emptyImageTemplate);
                                             var newMainImg=$(me.emptyMainImageTemplate);
-                                            var mainImageVal = container.find('div.mainImage')
+
+                                            var mainImageVal = container.find('.mainImage');
+
                                             $(aTag).replaceWith(newImg);
                                             $(mainImageVal).replaceWith(newMainImg);
                                         },
@@ -141,7 +145,22 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                                 $().confirm(
                                     'Delete this link? <br /><br />' + aTag.html() + '<br /><br />',
                                     function () {
+
+                                        var mainImageVal = container.find('.imgClass').attr('src');
+                                        var mainRelVal = aTag.attr('rel');
+
+                                        console.log(mainRelVal);
+                                        console.log(mainImageVal);
+                                        console.log(initialImg);
+
                                         aTag.remove();
+
+                                        var initialImg = container.find('a.image').attr('rel');
+                                        if(mainImageVal == mainRelVal){
+
+                                            container.find('.imgClass').attr('src', initialImg);
+
+                                        }
                                     }
                                 );
 
