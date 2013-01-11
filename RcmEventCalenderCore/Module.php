@@ -18,7 +18,8 @@
 
 namespace RcmEventCalenderCore;
 
-use RcmEventCalenderCore\Model\Calender;
+use RcmEventCalenderCore\Model\Calender,
+    RcmEventCalenderCore\Controller\EventAPIController;
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -84,6 +85,19 @@ class Module
                         $serviceMgr->get('em')
                     );
                     return $service;
+                }
+            )
+        );
+    }
+
+    function getControllerConfig(){
+        return array(
+            'factories' => array(
+                'EventAPIController' => function ($controllerMgr) {
+                    $serviceMgr=$controllerMgr->getServiceLocator();
+                    return new EventAPIController(
+                        $serviceMgr->get('CalenderModel')
+                    );
                 }
             )
         );

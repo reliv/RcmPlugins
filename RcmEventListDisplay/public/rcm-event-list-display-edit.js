@@ -24,6 +24,11 @@ $.ajax({
     url: '/modules/rcm/js/admin/ajax-edit-helper.js',
     dataType: 'script'
 });
+$.ajax({
+    async: false,
+    url: '/modules/rcm-event-calender-core/rcm-event-manager.js',
+    dataType: 'script'
+});
 
 var RcmEventListDisplayEdit = function (instanceId, container) {
 
@@ -48,10 +53,14 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
 
     var ajaxEditHelper = new AjaxEditHelper(instanceId, 'rcm-event-list-display');
 
+    var eventManager = new RcmEventManager(
+        container.find('dataContainer').attr('data-eventCategoryId')
+    );
+
     /**
      * Called by content management system to make this plugin user-editable
      */
-    me.initEdit = function () {
+    this.initEdit = function () {
         ajaxEditHelper.getDataAndDefaultDataFromServer(
             me.completeEditInit
         );
@@ -63,7 +72,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      * @param {Object} returnedData
      * @param {Object} returnedDefaultData
      */
-    me.completeEditInit = function(returnedData, returnedDefaultData){
+    this.completeEditInit = function(returnedData, returnedDefaultData){
         data = returnedData;
         defaultData = returnedDefaultData;
 
@@ -75,23 +84,69 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
             selector:rcm.getPluginContainerSelector(instanceId) + ' .event',
             //Here are the right click menu options
             items:{
-                eventManger:{
-                    name:'Open Event Manager (Add/Remove/Edit Events)',
+                addEvent:{
+                    name:'Add New Event',
                     icon:'edit',
-                    callback:me.handleOpenEventManager
+                    callback:function(){
+                        eventManager.addEvent(
+                            me.render
+                        );
+                    }
                 },
+                deleteEvent:{
+                    name:'Delete this Event',
+                    icon:'delete',
+                    callback:function(){
+                        eventManager.deleteEvent(
+                            $(this).attr('data-eventId'),
+                            me.render
+                        );
+                    }
+                },
+                editEvent:{
+                    name:'Edit this Event',
+                    icon:'edit',
+                    callback:function(){
+                        eventManager.editEvent(
+                            $(this).attr('data-eventId'),
+                            me.render
+                        )
+                    }
+                },
+                'sep1':'-',
                 edit:{
                     name:'Properties for this Event List Display',
                     icon:'edit',
-                    callback:function () {
-                        me.showEditDialog();
+                    callback:me.showEditDialog
+                }
+            }
+        });
+
+        //Add right click menu
+        rcmEdit.pluginContextMenu({
+            selector:rcm.getPluginContainerSelector(instanceId) + ' .noEvent',
+            //Here are the right click menu options
+            items:{
+                addEvent:{
+                    name:'Add New Event',
+                    icon:'edit',
+                    callback:function(){
+                        eventManager.addEvent(
+                            me.render
+                        );
                     }
+                },
+                'sep1':'-',
+                edit:{
+                    name:'Properties for this Event List Display',
+                    icon:'edit',
+                    callback:me.showEditDialog
                 }
             }
         });
     };
 
-    me.handleOpenEventManager = function(){
+    this.handleOpenEventManager = function(){
         var eventId = $(this).attr('data-eventId');
         alert(eventId);
     };
@@ -102,7 +157,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      *
      * @return {Object}
      */
-    me.getSaveData = function () {
+    this.getSaveData = function () {
         return data;
     };
 
@@ -110,7 +165,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      *
      */
-    me.showEditDialog = function () {
+    this.showEditDialog = function () {
 
         //Create and show our edit dialog
         var form = $('<form></form>').addClass('simple');
@@ -144,14 +199,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
                                 .val();
                         });
 
-                        container.load(
-                            '/rcm-plugin-admin-proxy/rcm-event-list-display/'
-                                + instanceId + '/preview'
-                            ,data
-                            ,function(){
-                                rcmSocialButtonsReload();
-                            }
-                        );
+                        me.render();
 
                         $(this).dialog("close");
                     }
@@ -159,4 +207,15 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
             });
 
     };
+
+    this.render = function(){
+        container.load(
+            '/rcm-plugin-admin-proxy/rcm-event-list-display/'
+                + instanceId + '/preview'
+            ,data
+            ,function(){
+                rcmSocialButtonsReload();
+            }
+        );
+    }
 };

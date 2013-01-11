@@ -3,7 +3,8 @@
 namespace RcmEventCalenderCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
-    Doctrine\Common\Collections\ArrayCollection;
+    Doctrine\Common\Collections\ArrayCollection
+;
 
 /**
  *
@@ -45,12 +46,12 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $firstDay;
+    protected $startDay;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    protected $lastDay;
+    protected $endDay;
 
     /**
      * @ORM\Column(type="string")
@@ -71,15 +72,29 @@ class Event
         $this->days = new ArrayCollection();
     }
 
+    /**
+     * PHP calls this during json_encode()
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'eventId' => $this->eventId,
+            'title'=> $this->title,
+            'text' => $this->text,
+            'startDay' => $this->startDay->format('Y-m-d'),
+            'endDay' => $this->endDay->format('Y-m-d'),
+        );
+    }
+
     function getDaysText($dateFormat="F d"){
         if(
-            !is_a($this->lastDay,'\DateTime')
-            || $this->firstDay==$this->lastDay
+            $this->startDay==$this->endDay
         ) {
-            return $this->firstDay->format($dateFormat);
+            return $this->startDay->format($dateFormat);
         }else{
-            return $this->firstDay->format($dateFormat)
-                . ' - ' . $this->lastDay->format($dateFormat);
+            return $this->startDay->format($dateFormat)
+                . ' - ' . $this->endDay->format($dateFormat);
         }
     }
 
@@ -167,23 +182,23 @@ class Event
         return $this->title;
     }
 
-    public function setFirstDay($firstDay)
+    public function setStartDay($startDay)
     {
-        $this->firstDay = $firstDay;
+        $this->startDay = $startDay;
     }
 
     public function getFirstDay()
     {
-        return $this->firstDay;
+        return $this->startDay;
     }
 
-    public function setLastDay($lastDay)
+    public function setEndDay($endDay)
     {
-        $this->lastDay = $lastDay;
+        $this->endDay = $endDay;
     }
 
     public function getLastDay()
     {
-        return $this->lastDay;
+        return $this->endDay;
     }
 }

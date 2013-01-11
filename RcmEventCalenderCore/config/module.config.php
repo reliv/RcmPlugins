@@ -21,6 +21,22 @@
 
 return array(
 
+    'router' => array(
+        'routes' => array (
+            'online-app-distributor-app-sponsor' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcm-event-calender/events/:eventId',
+                    'verb' => 'get',
+                    'defaults' => array(
+                        'controller' => 'EventAPIController',
+                        'action'     => 'eventGet',
+                    )
+                ),
+            ),
+        ),
+    ),
+
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',

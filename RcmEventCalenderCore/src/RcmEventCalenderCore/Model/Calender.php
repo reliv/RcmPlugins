@@ -9,11 +9,15 @@ class Calender
      */
     protected $entityMgr;
 
+    protected $eventRepo;
+
     /**
      * @param \Doctrine\ORM\EntityManager $entityMgr
      */
     function __construct(\Doctrine\ORM\EntityManager $entityMgr){
         $this->entityMgr = $entityMgr;
+        $this->eventRepo  = $this->entityMgr
+            ->getRepository('RcmEventCalenderCore\Entity\Event');
     }
 
     /**
@@ -27,9 +31,13 @@ class Calender
                 SELECT e FROM RcmEventCalenderCore\Entity\Event e
                 JOIN e.category c
                 WHERE c.name=:categoryName
-                order by e.firstDay
+                order by e.startDay
             ');
         $query->setParameter('categoryName', $category);
         return $query->getResult();
+    }
+
+    function getEventById($eventId){
+        return $this->eventRepo->findOneByEventId($eventId);
     }
 }
