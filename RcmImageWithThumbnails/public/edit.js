@@ -52,14 +52,27 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
 
         rcmEdit.pluginContextMenu({
-                selector:containerSelector+' a.image, ' + containerSelector+' div.mainImage',
+                selector:containerSelector+' a.image, ' + containerSelector+' .imgClass',
 
                 items:{
                     edit:{
                         name:'Edit Properties',
                         icon:'edit',
                         callback:function () {
-                            me.showEditDialog($(this));
+
+                            var aTag;
+
+                            if($(this).hasClass('image')) {
+
+                                aTag=$(this);
+
+                            } else
+                            if($(this).hasClass('imgClass')) {
+
+                                aTag = container.find('a[rel = "'+($(this).attr('src'))+'"]');
+
+                            }
+                            me.showEditDialog(aTag);
                         }
                     },
                     createNew:{
@@ -87,6 +100,16 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                                 aTag = $(aTags.get(selectedIndex));
                             }else{
                                 aTag = $(this);
+                            }
+                            if($(this).hasClass('image')) {
+
+                                aTag=$(this);
+
+                            } else
+                            if($(this).hasClass('imgClass')) {
+
+                                aTag = container.find('a[rel = "'+($(this).attr('src'))+'"]');
+
                             }
 
                           // alert($(aTags).length);
