@@ -3,7 +3,8 @@
 namespace RcmEventCalenderCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
-    Doctrine\Common\Collections\ArrayCollection
+    Doctrine\Common\Collections\ArrayCollection,
+    \RcmEventCalenderCore\Exception\InvalidArgumentException
 ;
 
 /**
@@ -26,12 +27,11 @@ class Event
     /**
      * @ORM\ManyToOne(
      *     targetEntity="Category",
-     *     inversedBy="events",
-     *     cascade={"persist", "remove"}
+     *     inversedBy="days"
      * )
      * @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")
      **/
-    protected $event;
+    protected $category;
 
     /**
      * @ORM\Column(type="string")
@@ -46,27 +46,17 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $startDay;
+    protected $startDate;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $endDay;
+    protected $endDate;
 
     /**
      * @ORM\Column(type="string")
      */
     protected $mapAddress;
-
-    /**
-     * @ORM\ManyToOne(
-     *     targetEntity="Category",
-     *     inversedBy="days",
-     *     cascade={"persist", "remove"}
-     * )
-     * @ORM\JoinColumn(name="categoryId", referencedColumnName="categoryId")
-     **/
-    protected $category;
 
     function __construct(){
         $this->days = new ArrayCollection();
@@ -82,19 +72,19 @@ class Event
             'eventId' => $this->eventId,
             'title'=> $this->title,
             'text' => $this->text,
-            'startDay' => $this->startDay->format('Y-m-d'),
-            'endDay' => $this->endDay->format('Y-m-d'),
+            'startDate' => $this->startDate->format('Y-m-d'),
+            'endDate' => $this->endDate->format('Y-m-d'),
         );
     }
 
     function getDaysText($dateFormat="F d"){
         if(
-            $this->startDay==$this->endDay
+            $this->startDate==$this->endDate
         ) {
-            return $this->startDay->format($dateFormat);
+            return $this->startDate->format($dateFormat);
         }else{
-            return $this->startDay->format($dateFormat)
-                . ' - ' . $this->endDay->format($dateFormat);
+            return $this->startDate->format($dateFormat)
+                . ' - ' . $this->endDate->format($dateFormat);
         }
     }
 
@@ -154,6 +144,9 @@ class Event
 
     public function setMapAddress($mapAddress)
     {
+        if(!$mapAddress){
+            throw new InvalidArgumentException('Invalid mapAddress');
+        }
         $this->mapAddress = $mapAddress;
     }
 
@@ -164,6 +157,9 @@ class Event
 
     public function setText($text)
     {
+        if(!$text){
+            throw new InvalidArgumentException('Invalid text');
+        }
         $this->text = $text;
     }
 
@@ -174,6 +170,9 @@ class Event
 
     public function setTitle($title)
     {
+        if(!$title){
+            throw new InvalidArgumentException('Invalid title');
+        }
         $this->title = $title;
     }
 
@@ -182,23 +181,39 @@ class Event
         return $this->title;
     }
 
-    public function setStartDay($startDay)
+    public function setStartDate(\DateTime $startDate)
     {
-        $this->startDay = $startDay;
+        $this->startDate = $startDate;
+    }
+
+    public function setStartDateFromString($date){
+        $dateTime = \DateTime::CreateFromFormat('Y-m-d', $date);
+        if(!$dateTime){
+            throw new InvalidArgumentException('Invalid startDate');
+        }
+        $this->setStartDate($dateTime);
+    }
+
+    public function setEndDateFromString($date){
+        $dateTime = \DateTime::CreateFromFormat('Y-m-d', $date);
+        if(!$dateTime){
+            throw new InvalidArgumentException('Invalid endDate');
+        }
+        $this->setEndDate($dateTime);
     }
 
     public function getFirstDay()
     {
-        return $this->startDay;
+        return $this->startDate;
     }
 
-    public function setEndDay($endDay)
+    public function setEndDate(\DateTime $endDate)
     {
-        $this->endDay = $endDay;
+        $this->endDate = $endDate;
     }
 
     public function getLastDay()
     {
-        return $this->endDay;
+        return $this->endDate;
     }
 }

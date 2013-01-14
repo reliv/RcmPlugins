@@ -23,14 +23,12 @@ return array(
 
     'router' => array(
         'routes' => array (
-            'online-app-distributor-app-sponsor' => array(
+            'rcm-event-calender-core-event' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/rcm-event-calender/events/:eventId',
-                    'verb' => 'get',
+                    'route' => '/rcm-event-calender/events[/:id]',
                     'defaults' => array(
                         'controller' => 'EventAPIController',
-                        'action'     => 'eventGet',
                     )
                 ),
             ),
@@ -41,6 +39,10 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
+        //This this breaks core add/remove plugins
+//        'strategies' => array(
+//            'ViewJsonStrategy',
+//        ),
     ),
 
     'doctrine' => array(
