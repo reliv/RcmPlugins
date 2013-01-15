@@ -25,8 +25,8 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
                 categoryId:defaultCategoryId,
                 title:'',
                 text:'',
-                startDate:'',
-                endDate:'',
+                startDate:me.getToday(),
+                endDate:me.getToday(),
                 mapAddress:''
             },
             function(event, okButton){
@@ -43,6 +43,12 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
             }
         );
     };
+
+    this.getToday = function(){
+        var today = new Date();
+        return today.getFullYear() + '-' + today.getMonth()+1 + '-'
+            + today.getDate();
+    }
 
     this.handleAjaxError = function(){
         $().confirm(
