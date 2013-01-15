@@ -54,7 +54,10 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
     var ajaxEditHelper = new AjaxEditHelper(instanceId, 'rcm-event-list-display');
 
     var eventManager = new RcmEventManager(
-        container.find('dataContainer').attr('data-eventCategoryId')
+        container.find('dataContainer').attr('data-eventCategoryId'),
+        function(){
+            me.render();
+        }
     );
 
     /**
@@ -146,19 +149,6 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         });
     };
 
-    this.requestCategories = function(callBack){
-        $.getJSON(
-            '/rcm-event-calender/categories',
-            function(result) {
-                var categories=[];
-                $.each(result, function(){
-                    categories[this.categoryId]=this.name;
-                });
-                callBack(categories);
-            }
-        );
-    }
-
     this.handleOpenEventManager = function(){
         var eventId = $(this).attr('data-eventId');
         alert(eventId);
@@ -178,14 +168,15 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      *
      */
-    this.showEditDialog = function () {
-        me.requestCategories(me.continueShowEditDialog);
-    }
-
-    this.continueShowEditDialog = function(categories){
+    this.showEditDialog = function(){
         //Create and show our edit dialog
         var form = $('<form></form>').addClass('simple');
-        form.addSelect('category', 'Event Category', categories, data.category);
+        form.addSelect(
+            'category',
+            'Event Category',
+            eventManager.getCategories(),
+            data.categoryId
+        );
         form.addInput(
             'shareThisKey',
             '"ShareThis" Published Key',
@@ -207,7 +198,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
                     Ok:function () {
 
                         //Get user-entered data from form
-                        data.category= form.find('[name=category]').val();
+                        data.categoryId= form.find('[name=categoryId]').val();
                         data.shareThisKey= form.find('[name=shareThisKey]').val();
 
                         $.each(defaultData.translate, function(key){
