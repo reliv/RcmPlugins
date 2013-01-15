@@ -39,10 +39,9 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
-        //This this breaks core add/remove plugins
-//        'strategies' => array(
-//            'ViewJsonStrategy',
-//        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
     ),
 
     'doctrine' => array(
