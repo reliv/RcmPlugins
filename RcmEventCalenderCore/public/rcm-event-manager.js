@@ -123,9 +123,9 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
         form.addSelect('categoryId', 'Event Category', categories, event.categoryId);
         form.addInput('title', 'Title', event.title);
         form.addInput('text', 'Text', event.text);
+        form.addInput('startDate', 'Start Date (YYYY-MM-DD)', event.startDate);
+        form.addInput('endDate', 'End Date (YYYY-MM-DD)', event.endDate);
         form.addInput('mapAddress', 'Map Address', event.mapAddress);
-
-        form.append('<h1>TODO: DATES</h1>')
 
         form.dialog({
             title:formTitle,
@@ -141,9 +141,9 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
                     event.categoryId= form.find('[name=categoryId]').val();
                     event.title= form.find('[name=title]').val();
                     event.text= form.find('[name=text]').val();
+                    event.startDate = form.find('[name=startDate]').val();
+                    event.endDate = form.find('[name=endDate]').val();
                     event.mapAddress= form.find('[name=mapAddress]').val();
-                    event.startDate = '2013-6-1';
-                    event.endDate = '2013-6-1';
 
                     okCallback(event,$(this));
                 }
