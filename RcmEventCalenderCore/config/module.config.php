@@ -32,6 +32,15 @@ return array(
                     )
                 ),
             ),
+            'rcm-event-calender-core-category' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcm-event-calender/categories[/:id]',
+                    'defaults' => array(
+                        'controller' => 'CategoryAPIController',
+                    )
+                ),
+            ),
         ),
     ),
 

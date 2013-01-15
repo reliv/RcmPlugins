@@ -25,12 +25,13 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function getList(){
-        $this->getResponse()->setStatusCode(403);//Forbidden
-        return new JsonModel(
-            array(
-                'message' => 'Listing all resources is forbidden'
-            )
-        );
+        $events = $this->calender->getEvents();
+        $eventList=array();
+        foreach($events as $event){
+            $eventList[] = $event->jsonSerialize();
+
+        }
+        return new JsonModel($eventList);
     }
 
     /**
@@ -55,26 +56,30 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function create($data){
-        $post=$this->getEvent()->getRequest()->getPost();
-        $response= $this->getResponse();
+
+        //Ensure they posted all required fields to avoid undefined index errors
+        $requiredErrorView = $this->checkRequired($data);
+        if($requiredErrorView){
+            return $requiredErrorView;
+        }
+
         try{
             $eventId=$this->calender->createEvent(
-                $post->get('categoryId'),
-                $post->get('title'),
-                $post->get('text'),
-                $post->get('startDate'),
-                $post->get('endDate'),
-                $post->get('mapAddress')
+                $data['categoryId'],
+                $data['title'],
+                $data['text'],
+                $data['startDate'],
+                $data['endDate'],
+                $data['mapAddress']
             );
         }catch(\RcmEventCalenderCore\Exception\InvalidArgumentException $e){
-            $response->setStatusCode(400);//Bad Request
+            $this->getResponse()->setStatusCode(400);//Bad Request
             //Return the message so troubleshooters tell which field is invalid
             return new JsonModel(array('message'=>$e->getMessage()));
         }
-        $location=$this->url()->fromRoute('rcm-event-calender-core-event')
-            . "/$eventId";
-        $response->setStatusCode(201);//Created
-        $response->getHeaders()->addHeaderLine("Location: $location");
+        $location=$this->getEventsUrl(). "/$eventId";
+        $this->getResponse()->setStatusCode(201);//Created
+        $this->getResponse()->getHeaders()->addHeaderLine("Location: $location");
         return new JsonModel();
     }
 
@@ -86,11 +91,11 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function update($id, $data){
-        $response= $this->getResponse();
 
+        //Forbid new Id's
         $event = $this->calender->getEvent($id);
         if(!$event){
-            $response->setStatusCode(403);//Forbidden
+            $this->getResponse()->setStatusCode(403);//Forbidden
             return new JsonModel(
                 array(
                     'message' => 'PUT is forbidden for new resources. Use POST.'
@@ -98,45 +103,25 @@ class EventAPIController extends AbstractRestfulController
             );
         }
 
-        //Pars the PUT vars (post doesn't work because this is a PUT)
-        $put = array();
-        parse_str($this->getEvent()->getRequest()->getContent(), $put);
-
         //Ensure they posted all required fields to avoid undefined index errors
-        foreach(
-            array(
-                'categoryId',
-                'title',
-                'text',
-                'startDate',
-                'endDate',
-                'mapAddress'
-            )
-            as $requiredName
-        ) {
-            if(empty($put[$requiredName])){
-                $response->setStatusCode(400);//Bad Request
-                return new JsonModel(
-                    array(
-                        'message'=> "Field $requiredName is required"
-                    )
-                );
-            }
+        $requiredErrorView = $this->checkRequired($data);
+        if($requiredErrorView){
+            return $requiredErrorView;
         }
 
         //Update the event
         try{
             $this->calender->updateEvent(
                 $id,
-                $put['categoryId'],
-                $put['title'],
-                $put['text'],
-                $put['startDate'],
-                $put['endDate'],
-                $put['mapAddress']
+                $data['categoryId'],
+                $data['title'],
+                $data['text'],
+                $data['startDate'],
+                $data['endDate'],
+                $data['mapAddress']
             );
         }catch(\RcmEventCalenderCore\Exception\InvalidArgumentException $e){
-            $response->setStatusCode(400);//Bad Request
+            $this->getResponse()->setStatusCode(400);//Bad Request
             //Return the message so troubleshooters tell which field is invalid
             return new JsonModel(array('message'=>$e->getMessage()));
         }
@@ -159,5 +144,33 @@ class EventAPIController extends AbstractRestfulController
         $this->calender->deleteEvent($id);
         $this->getResponse()->setStatusCode(204);//204 = OK, No Content Returned
         return new JsonModel();
+    }
+
+    function checkRequired($data){
+        foreach(
+            array(
+                'categoryId',
+                'title',
+                'text',
+                'startDate',
+                'endDate',
+                'mapAddress'
+            )
+            as $requiredName
+        ) {
+            if(empty($data[$requiredName])){
+                $this->getResponse()->setStatusCode(400);//Bad Request
+                return new JsonModel(
+                    array(
+                        'message'=> "Field $requiredName is required"
+                    )
+                );
+            }
+        }
+        return null;
+    }
+
+    function getEventsUrl(){
+        return $this->url()->fromRoute('rcm-event-calender-core-event');
     }
 }

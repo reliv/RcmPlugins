@@ -146,6 +146,19 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         });
     };
 
+    this.requestCategories = function(callBack){
+        $.getJSON(
+            '/rcm-event-calender/categories',
+            function(result) {
+                var categories=[];
+                $.each(result, function(){
+                    categories[this.categoryId]=this.name;
+                });
+                callBack(categories);
+            }
+        );
+    }
+
     this.handleOpenEventManager = function(){
         var eventId = $(this).attr('data-eventId');
         alert(eventId);
@@ -166,10 +179,13 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      *
      */
     this.showEditDialog = function () {
+        me.requestCategories(me.continueShowEditDialog);
+    }
 
+    this.continueShowEditDialog = function(categories){
         //Create and show our edit dialog
         var form = $('<form></form>').addClass('simple');
-        form.addInput('category', 'Event Category', data.category);
+        form.addSelect('category', 'Event Category', categories, data.category);
         form.addInput(
             'shareThisKey',
             '"ShareThis" Published Key',

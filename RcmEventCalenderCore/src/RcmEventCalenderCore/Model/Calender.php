@@ -29,19 +29,38 @@ class Calender
     }
 
     /**
-     * @param $category
+     * @param integer $categoryId
      *
      * @return array
      */
-    function getEventsInCategory($category){
+    function getEvents($categoryId=null, $includeExpired=false){
+
+        $join = null;
+        $categoryClaus = null;
+        if($categoryId){
+            $join = 'JOIN e.category c';
+            $categoryClaus = 'AND c.categoryId=:categoryId';
+        }
+
+        $nonExpiredClause = 'AND e.endDate >= CURRENT_DATE()';
+        if($includeExpired){
+            $nonExpiredClause = null;
+        }
+
         $query = $this->entityMgr->createQuery(
-            '
+            "
                 SELECT e FROM RcmEventCalenderCore\Entity\Event e
-                JOIN e.category c
-                WHERE c.name=:categoryName
-                order by e.startDate
-            ');
-        $query->setParameter('categoryName', $category);
+                $join
+                WHERE TRUE = TRUE
+                $nonExpiredClause
+                $categoryClaus
+                ORDER BY e.startDate
+            "
+        );
+
+        if($categoryId){
+            $query->setParameter('categoryId', $categoryId);
+        }
         return $query->getResult();
     }
 
@@ -105,5 +124,9 @@ class Calender
     function deleteEvent($eventId){
         $this->entityMgr->remove($this->eventRepo->findOneByEventId($eventId));
         $this->entityMgr->flush();
+    }
+
+    function getAllCategories(){
+        return $this->categoryRepo->findAll();
     }
 }

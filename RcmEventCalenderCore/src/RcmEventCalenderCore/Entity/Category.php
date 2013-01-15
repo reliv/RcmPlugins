@@ -42,6 +42,18 @@ class Category
     }
 
     /**
+     * PHP calls this during json_encode()
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'categoryId' => $this->categoryId,
+            'name'=> $this->name,
+        );
+    }
+
+    /**
      * Sets the CategoryId property
      *
      * @param int $categoryId

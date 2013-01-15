@@ -77,7 +77,7 @@ class PluginController
 
     function renderInstanceFromData($data){
 
-        $events = $this->calender->getEventsInCategory($data->category);
+        $events = $this->calender->getEvents($data->categoryId);
 
         $view = new \Zend\View\Model\ViewModel(
             array(

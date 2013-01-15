@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM,
 
 class Event
 {
+    const DATE_FORMAT = 'Y-m-d';
+    
     /**
      * @var int Auto-Incremented Primary Key
      *
@@ -72,8 +74,8 @@ class Event
             'eventId' => $this->eventId,
             'title'=> $this->title,
             'text' => $this->text,
-            'startDate' => $this->startDate->format('Y-m-d'),
-            'endDate' => $this->endDate->format('Y-m-d'),
+            'startDate' => $this->startDate->format(self::DATE_FORMAT),
+            'endDate' => $this->endDate->format(self::DATE_FORMAT),
         );
     }
 
@@ -187,7 +189,7 @@ class Event
     }
 
     public function setStartDateFromString($date){
-        $dateTime = \DateTime::CreateFromFormat('Y-m-d', $date);
+        $dateTime = \DateTime::CreateFromFormat(self::DATE_FORMAT, $date);
         if(!$dateTime){
             throw new InvalidArgumentException('Invalid startDate');
         }
@@ -195,16 +197,28 @@ class Event
     }
 
     public function setEndDateFromString($date){
-        $dateTime = \DateTime::CreateFromFormat('Y-m-d', $date);
+        $dateTime = \DateTime::CreateFromFormat(self::DATE_FORMAT, $date);
         if(!$dateTime){
             throw new InvalidArgumentException('Invalid endDate');
         }
         $this->setEndDate($dateTime);
     }
 
-    public function getFirstDay()
+    public function getStartDate()
     {
         return $this->startDate;
+    }
+
+    function getStartDateAsString(){
+        if(is_a($this->startDate,'\DateTime')){
+            return $this->startDate->format(self::DATE_FORMAT);
+        }
+    }
+
+    function getEndDateAsString(){
+        if(is_a($this->endDate,'\DateTime')){
+            return $this->endDate->format(self::DATE_FORMAT);
+        }
     }
 
     public function setEndDate(\DateTime $endDate)
