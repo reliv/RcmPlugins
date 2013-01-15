@@ -13,12 +13,14 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
      */
     var me = this;
 
+    var eventsUrl = '/rcm-event-calender/events'
+
     var categories = [];
     /**
      *
      * @param {Function} [okCallback]
      */
-    this.addEvent = function(okCallback){
+    this.addEvent = function(){
         me.showEventPropertiesDialog(
             'New Event',
             {
@@ -34,7 +36,7 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
                 console.log(event);
 
                 $.post(
-                    '/rcm-event-calender/events',
+                    eventsUrl,
                     event,
                     function() {
                         eventsChangedCallback();
@@ -57,8 +59,19 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
      * @param {Integer} eventId
      * @param {Function} [okCallback]
      */
-    this.deleteEvent = function(eventId, okCallback){
-
+    this.deleteEvent = function(eventId){
+        $().confirm(
+            'Delete this event?',
+            function(){
+                $.ajax({
+                    url: eventsUrl + '/' + eventId,
+                    type: 'DELETE',
+                    success: function(response) {
+                        eventsChangedCallback();
+                    }
+                });
+            }
+        )
     };
 
     /**
@@ -66,7 +79,7 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
      * @param {Integer} eventId
      * @param {Function} [okCallback]
      */
-    this.editEvent = function(eventId, okCallback){
+    this.editEvent = function(eventId){
 
     }
 
