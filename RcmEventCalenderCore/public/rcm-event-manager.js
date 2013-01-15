@@ -17,8 +17,6 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
 
     var categories = [];
     /**
-     *
-     * @param {Function} [okCallback]
      */
     this.addEvent = function(){
         me.showEventPropertiesDialog(
@@ -32,44 +30,47 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
                 mapAddress:''
             },
             function(event, okButton){
-
-                console.log(event);
-
-                $.post(
-                    eventsUrl,
-                    event,
-                    function() {
+                $.ajax({
+                    url: eventsUrl,
+                    type: 'POST',
+                    data: event,
+                    success: function(response) {
                         eventsChangedCallback();
                         okButton.dialog('close');
-                     }
-                ).error(me.handleAjaxError)
+                    },
+                    error:me.handleAjaxError
+                });
             }
         );
     };
 
     this.handleAjaxError = function(){
         $().confirm(
-            'There was a problem communicating with the server.'
-                + ' Please Try again.'
+            'There was a problem. Please Try again.'
         )
     }
 
     /**
      *
      * @param {Integer} eventId
-     * @param {Function} [okCallback]
      */
     this.deleteEvent = function(eventId){
-        $().confirm(
-            'Delete this event?',
-            function(){
-                $.ajax({
-                    url: eventsUrl + '/' + eventId,
-                    type: 'DELETE',
-                    success: function(response) {
-                        eventsChangedCallback();
+        me.getEvent(
+            eventId,
+            function(event){
+                $().confirm(
+                    'Delete this event?<br><br>' + event.title,
+                    function(){
+                        $.ajax({
+                            url: eventsUrl + '/' + eventId,
+                            type: 'DELETE',
+                            success: function(response) {
+                                eventsChangedCallback();
+                            },
+                            error:me.handleAjaxError
+                        });
                     }
-                });
+                )
             }
         )
     };
@@ -77,10 +78,38 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
     /**
      *
      * @param {Integer} eventId
-     * @param {Function} [okCallback]
      */
     this.editEvent = function(eventId){
+        me.getEvent(
+            eventId,
+            function(event){
+                me.showEventPropertiesDialog(
+                    'Edit Event',
+                    event,
+                    function(event, okButton){
+                        $.ajax({
+                            url: eventsUrl + '/' + eventId,
+                            type: 'PUT',
+                            data: event,
+                            success: function(response) {
+                                eventsChangedCallback();
+                                okButton.dialog('close');
+                            },
+                            error:me.handleAjaxError
+                        });
+                    }
+                );
+            }
+        );
+    }
 
+    this.getEvent = function(eventId, callback){
+        $.getJSON(
+            eventsUrl + '/' + eventId,
+                function(response) {
+                callback(response)
+            }
+        ).error(me.handleAjaxError);
     }
 
     /**
@@ -94,6 +123,9 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
         form.addSelect('categoryId', 'Event Category', categories, event.categoryId);
         form.addInput('title', 'Title', event.title);
         form.addInput('text', 'Text', event.text);
+        form.addInput('mapAddress', 'Map Address', event.mapAddress);
+
+        form.append('<h1>TODO: DATES</h1>')
 
         form.dialog({
             title:formTitle,
@@ -109,9 +141,9 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
                     event.categoryId= form.find('[name=categoryId]').val();
                     event.title= form.find('[name=title]').val();
                     event.text= form.find('[name=text]').val();
+                    event.mapAddress= form.find('[name=mapAddress]').val();
                     event.startDate = '2013-6-1';
                     event.endDate = '2013-6-1';
-                    event.mapAddress = '123 main st. st charles mo';
 
                     okCallback(event,$(this));
                 }

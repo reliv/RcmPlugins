@@ -74,6 +74,7 @@ class Event
             'eventId' => $this->eventId,
             'title'=> $this->title,
             'text' => $this->text,
+            'mapAddress' => $this->mapAddress,
             'startDate' => $this->startDate->format(self::DATE_FORMAT),
             'endDate' => $this->endDate->format(self::DATE_FORMAT),
         );
