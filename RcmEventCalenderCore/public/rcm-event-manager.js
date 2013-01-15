@@ -122,7 +122,7 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
         var form = $('<form></form>').addClass('simple');
         form.addSelect('categoryId', 'Event Category', categories, event.categoryId);
         form.addInput('title', 'Title', event.title);
-        form.addInput('text', 'Text', event.text);
+        form.addRichEdit('text', 'Text', event.text);
         form.addInput('startDate', 'Start Date (YYYY-MM-DD)', event.startDate);
         form.addInput('endDate', 'End Date (YYYY-MM-DD)', event.endDate);
         form.addInput('mapAddress', 'Map Address', event.mapAddress);
@@ -140,10 +140,12 @@ var RcmEventManager = function (defaultCategoryId, eventsChangedCallback) {
                     //Get user-entered data from form
                     event.categoryId= form.find('[name=categoryId]').val();
                     event.title= form.find('[name=title]').val();
-                    event.text= form.find('[name=text]').val();
                     event.startDate = form.find('[name=startDate]').val();
                     event.endDate = form.find('[name=endDate]').val();
                     event.mapAddress= form.find('[name=mapAddress]').val();
+
+                    var editorId = form.find('.text').attr('id');
+                    event.text = CKEDITOR.instances[editorId].getData();
 
                     okCallback(event,$(this));
                 }
