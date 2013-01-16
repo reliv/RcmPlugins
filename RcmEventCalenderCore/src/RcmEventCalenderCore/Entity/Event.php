@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM,
 
 class Event
 {
-    const DATE_FORMAT = 'Y-m-d';
+    const DATE_FORMAT = 'm/d/Y';
     
     /**
      * @var int Auto-Incremented Primary Key

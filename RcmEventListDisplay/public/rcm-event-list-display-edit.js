@@ -54,10 +54,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
     var ajaxEditHelper = new AjaxEditHelper(instanceId, 'rcm-event-list-display');
 
     var eventManager = new RcmEventManager(
-        container.find('dataContainer').attr('data-eventCategoryId'),
-        function(){
-            me.render();
-        }
+        container.find('dataContainer').attr('data-eventCategoryId')
     );
 
     /**
@@ -83,47 +80,29 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         container.delegate('.event', 'dblclick', me.handleOpenEventManager);
 
         //Add right click menu
-        rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId) + ' .event',
-            //Here are the right click menu options
-            items:{
-                addEvent:{
-                    name:'Add New Event',
-                    icon:'edit',
-                    callback:function(){
-                        eventManager.addEvent(
-                            me.render
-                        );
+        rcmEdit.pluginContextMenu(
+            {
+                selector:rcm.getPluginContainerSelector(instanceId) + ' .event',
+                //Here are the right click menu options
+                items:{
+                    eventManager:{
+                        name:'Open Event Manager (Add/Remove/Edit Events)',
+                        icon:'edit',
+                        callback:function(){
+                            eventManager.showManager(
+                                me.render
+                            );
+                        }
+                    },
+                    'sep1':'-',
+                    edit:{
+                        name:'Properties for this Event List Display',
+                        icon:'edit',
+                        callback:me.showEditDialog
                     }
-                },
-                deleteEvent:{
-                    name:'Delete this Event',
-                    icon:'delete',
-                    callback:function(){
-                        eventManager.deleteEvent(
-                            $(this).attr('data-eventId'),
-                            me.render
-                        );
-                    }
-                },
-                editEvent:{
-                    name:'Edit this Event',
-                    icon:'edit',
-                    callback:function(){
-                        eventManager.editEvent(
-                            $(this).attr('data-eventId'),
-                            me.render
-                        )
-                    }
-                },
-                'sep1':'-',
-                edit:{
-                    name:'Properties for this Event List Display',
-                    icon:'edit',
-                    callback:me.showEditDialog
                 }
             }
-        });
+        );
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
@@ -224,5 +203,8 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
                 rcmSocialButtonsReload();
             }
         );
-    }
+    };
+
+    //Re-render the list if events change in the event manager
+    $('body').bind('rcmEventManagerEventsChanged',me.render);
 };

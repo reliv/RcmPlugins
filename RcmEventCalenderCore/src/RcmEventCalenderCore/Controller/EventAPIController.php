@@ -25,11 +25,11 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function getList(){
-        $events = $this->calender->getEvents();
+        $categoryId=$this->params()->fromQuery('categoryId', null);
+        $events = $this->calender->getEvents($categoryId);
         $eventList=array();
         foreach($events as $event){
             $eventList[] = $event->jsonSerialize();
-
         }
         return new JsonModel($eventList);
     }

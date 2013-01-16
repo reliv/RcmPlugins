@@ -103,6 +103,7 @@ class Module
                         $serviceMgr->get('rcmUserManager'),
                         $serviceMgr->get('rcmPluginManager'),
                         $serviceMgr->get('em'),
+                        $serviceMgr->get('viewRenderer'),
                         $serviceMgr->get('config')
                     );
                     return $controller;
