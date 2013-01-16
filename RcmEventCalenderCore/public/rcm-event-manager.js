@@ -41,7 +41,7 @@ var RcmEventManager = function (defaultCategoryId) {
         var form = $('<form id="eventManager"></form>').addClass('simple');
         categorySelectContainer = $('<div></div>');
         form.append(categorySelectContainer);
-        eventList = $('<div></div>');
+        eventList = $('<table id="eventManagerList" style="cursor:pointer;"></table>');
         form.append(eventList);
         form.dialog({
             title:'Event Manager',
@@ -68,25 +68,30 @@ var RcmEventManager = function (defaultCategoryId) {
             currentCategoryId = $(this).val();
             me.renderEventList();
         });
-    }
+    };
 
     this.renderEventList = function(){
-        eventList.html('Loading...');
+        eventList.html('<tr><td>Loading...</td></tr>');
         me.getEvents(
             currentCategoryId,
             function(events){
-                eventList.empty();
+
+                if(events.length){
+                    eventList.html('<tr><th>Event Title</th><th>Start Date</th></tr>');
+                }else{
+                    eventList.html('<tr><td>No events found in this category.</td></tr>')
+                }
+
+                var tdOpen = '<td style="border:1px solid gray;padding:3px 5px">';
                 $.each(events,function(){
-                    eventList.append(
-                        '<div' +
-                            ' style="cursor:pointer;"' +
-                            ' class="rcmEventManagerListEvent" ' +
-                            ' data-eventId="' + this.eventId + '">'
-                            + this.title +
-                            '</div>');
+                    var tr=$('<tr data-eventId="' + this.eventId + '"></tr>');
+                    tr.append(tdOpen + this.title + '</td>');
+                    tr.append(tdOpen + this.startDate + '</td>');
+                    tr.disableSelection();
+                    eventList.append(tr);
                 });
 
-                $('.rcmEventManagerListEvent').dblclick(function(){
+                $('#eventManagerList tr').dblclick(function(){
                     me.editEvent(
                         $(this).attr('data-eventId')
                     );
@@ -94,16 +99,11 @@ var RcmEventManager = function (defaultCategoryId) {
 
                 rcmEdit.pluginContextMenu(
                     {
-                        selector:'.rcmEventManagerListEvent',
+                        selector:'#eventManagerList tr',
                         //Here are the right click menu options
                         items:{
-                            addEvent:{
-                                name:'Add New Event',
-                                icon:'edit',
-                                callback:me.addEvent
-                            },
                             deleteEvent:{
-                                name:'Delete this Event',
+                                name:'Delete Event',
                                 icon:'delete',
                                 callback:function(){
                                     me.deleteEvent(
@@ -112,7 +112,7 @@ var RcmEventManager = function (defaultCategoryId) {
                                 }
                             },
                             editEvent:{
-                                name:'Edit this Event',
+                                name:'Edit Event',
                                 icon:'edit',
                                 callback:function(){
                                     me.editEvent(

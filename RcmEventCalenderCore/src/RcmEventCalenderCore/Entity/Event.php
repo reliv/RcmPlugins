@@ -72,6 +72,7 @@ class Event
     {
         return array(
             'eventId' => $this->eventId,
+            'categoryId' => $this->category->getCategoryId(),
             'title'=> $this->title,
             'text' => $this->text,
             'mapAddress' => $this->mapAddress,
