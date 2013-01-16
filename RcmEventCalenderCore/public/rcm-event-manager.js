@@ -1,6 +1,6 @@
 /**
  *
- * @param {Integer} defaultCategoryId
+ * @param {Integer} [defaultCategoryId]
  * @param {Function} [eventsChangedCallback] called each time events change
  * @constructor
  */
@@ -21,6 +21,10 @@ var RcmEventManager = function (defaultCategoryId) {
 
     var currentCategoryId;
 
+    var eventList;
+
+    var categorySelectContainer;
+
     var warning = '<p style="color:gray">Note: This window ' +
         'is part of the event manager. Changes to events happen in real time ' +
         'and cannot be rolled back.</p>'
@@ -35,8 +39,10 @@ var RcmEventManager = function (defaultCategoryId) {
 
     this.showManager = function(){
         var form = $('<form id="eventManager"></form>').addClass('simple');
-        form.addSelect('categoryId', 'Event Category', categories, event.categoryId);
-        form.append('<div id="eventManagerList">Loading...</div>');
+        categorySelectContainer = $('<div></div>');
+        form.append(categorySelectContainer);
+        eventList = $('<div></div>');
+        form.append(eventList);
         form.dialog({
             title:'Event Manager',
             modal:true,
@@ -50,24 +56,28 @@ var RcmEventManager = function (defaultCategoryId) {
                 }
             }
         });
-        for (var firstCategoryId in categories) {
-            currentCategoryId = firstCategoryId;
-            break;
-        }
+
+        me.renderCategorySelect();
+
         me.renderEventList();
     };
 
+    this.renderCategorySelect = function(){
+        categorySelectContainer.addSelect('categoryId', 'Event Category', categories, event.categoryId);
+        categorySelectContainer.find('select').change(function(){
+            currentCategoryId = $(this).val();
+            me.renderEventList();
+        });
+    }
+
     this.renderEventList = function(){
+        eventList.html('Loading...');
         me.getEvents(
             currentCategoryId,
             function(events){
-
-                console.log(events);
-
-                var list = $('#eventManagerList');
-                list.html('');
+                eventList.empty();
                 $.each(events,function(){
-                    list.append(
+                    eventList.append(
                         '<div' +
                             ' style="cursor:pointer;"' +
                             ' class="rcmEventManagerListEvent" ' +
@@ -329,8 +339,21 @@ var RcmEventManager = function (defaultCategoryId) {
                 $.each(result, function(){
                     categories[this.categoryId]=this.name;
                 });
+
+                me.setCurrentCategoryToDefault();
             }
         );
+    };
+
+    this.setCurrentCategoryToDefault = function(){
+        if(typeof(defaultCategoryId)!='undefined'){
+            currentCategoryId = defaultCategoryId;
+        }else{
+            for (var firstCategoryId in categories) {
+                currentCategoryId = firstCategoryId;
+                break;
+            }
+        }
     };
 
     this.requestCategories();

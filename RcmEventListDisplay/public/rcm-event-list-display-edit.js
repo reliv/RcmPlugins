@@ -151,7 +151,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         //Create and show our edit dialog
         var form = $('<form></form>').addClass('simple');
         form.addSelect(
-            'category',
+            'categoryId',
             'Event Category',
             eventManager.getCategories(),
             data.categoryId
