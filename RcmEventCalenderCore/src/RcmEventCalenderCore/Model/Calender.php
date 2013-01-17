@@ -3,6 +3,7 @@
 namespace RcmEventCalenderCore\Model;
 
 use \RcmEventCalenderCore\Entity\Event,
+    \RcmEventCalenderCore\Entity\Category,
     \RcmEventCalenderCore\Exception\InvalidArgumentException;
 
 class Calender
@@ -88,7 +89,7 @@ class Calender
         $event->setEndDateFromString($endDate);
 
         $this->entityMgr->persist($event);
-        $this->entityMgr->flush($event);
+        $this->entityMgr->flush();
 
         return $event->getEventId();
     }
@@ -118,7 +119,7 @@ class Calender
         $event->setEndDateFromString($endDate);
         $event->setMapAddress($mapAddress);
 
-        $this->entityMgr->flush($event);
+        $this->entityMgr->flush();
     }
 
     function deleteEvent($eventId){
@@ -126,7 +127,29 @@ class Calender
         $this->entityMgr->flush();
     }
 
-    function getAllCategories(){
+    function getCategories(){
         return $this->categoryRepo->findAll();
+    }
+
+    function getCategory($categoryId){
+        return $this->categoryRepo->findOneByCategoryId($categoryId);
+    }
+
+    function createCategory($name){
+
+        $category = new Category();
+        $category->setName($name);
+
+        $this->entityMgr->persist($category);
+        $this->entityMgr->flush();
+
+        return $category->getCategoryId();
+    }
+
+    function deleteCategory($categoryId){
+        $this->entityMgr->remove(
+            $this->categoryRepo->findOneByCategoryId($categoryId)
+        );
+        $this->entityMgr->flush();
     }
 }
