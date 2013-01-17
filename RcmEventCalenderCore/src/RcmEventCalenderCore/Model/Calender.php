@@ -30,7 +30,8 @@ class Calender
     }
 
     /**
-     * @param integer $categoryId
+     * @param null $categoryId
+     * @param bool $includeExpired
      *
      * @return array
      */
@@ -65,10 +66,26 @@ class Calender
         return $query->getResult();
     }
 
+    /**
+     * @param $eventId
+     *
+     * @return mixed
+     */
     function getEvent($eventId){
         return $this->eventRepo->findOneByEventId($eventId);
     }
 
+    /**
+     * @param $categoryId
+     * @param $title
+     * @param $text
+     * @param $startDate
+     * @param $endDate
+     * @param $mapAddress
+     *
+     * @return int
+     * @throws \RcmEventCalenderCore\Exception\InvalidArgumentException
+     */
     function createEvent(
         $categoryId, $title, $text, $startDate, $endDate, $mapAddress
     ) {
@@ -94,6 +111,17 @@ class Calender
         return $event->getEventId();
     }
 
+    /**
+     * @param $eventId
+     * @param $categoryId
+     * @param $title
+     * @param $text
+     * @param $startDate
+     * @param $endDate
+     * @param $mapAddress
+     *
+     * @throws \RcmEventCalenderCore\Exception\InvalidArgumentException
+     */
     function updateEvent(
         $eventId, $categoryId, $title, $text, $startDate, $endDate, $mapAddress
     ) {
@@ -122,19 +150,35 @@ class Calender
         $this->entityMgr->flush();
     }
 
+    /**
+     * @param $eventId
+     */
     function deleteEvent($eventId){
         $this->entityMgr->remove($this->eventRepo->findOneByEventId($eventId));
         $this->entityMgr->flush();
     }
 
+    /**
+     * @return array
+     */
     function getCategories(){
         return $this->categoryRepo->findAll();
     }
 
+    /**
+     * @param $categoryId
+     *
+     * @return mixed
+     */
     function getCategory($categoryId){
         return $this->categoryRepo->findOneByCategoryId($categoryId);
     }
 
+    /**
+     * @param $name
+     *
+     * @return int
+     */
     function createCategory($name){
 
         $category = new Category();
@@ -146,6 +190,9 @@ class Calender
         return $category->getCategoryId();
     }
 
+    /**
+     * @param $categoryId
+     */
     function deleteCategory($categoryId){
         $this->entityMgr->remove(
             $this->categoryRepo->findOneByCategoryId($categoryId)
