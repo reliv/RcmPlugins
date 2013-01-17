@@ -53,7 +53,7 @@ class PluginController
      */
     function renderDefaultInstance()
     {
-        return $this->buildView($this->getDefaultJsonContent());
+        return $this->buildView($this->newInstanceConfigRepo->getInstanceConfig());
     }
 
     function buildView($data)

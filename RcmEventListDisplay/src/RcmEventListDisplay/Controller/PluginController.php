@@ -91,7 +91,7 @@ class PluginController
 
     function renderDefaultInstance(){
         return $this->renderInstanceFromData(
-            $this->getDefaultJsonContent()
+            $this->newInstanceConfigRepo->getInstanceConfig()
         );
     }
 }

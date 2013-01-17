@@ -63,11 +63,6 @@ class PluginController
         return $view;
     }
 
-    function getDefaultJsonContent(){
-        $r = parent::getDefaultJsonContent();
-        return $r;
-    }
-
     function ensureHttps(){
         if(!$this->isHttps()){
             $redirectUrl =

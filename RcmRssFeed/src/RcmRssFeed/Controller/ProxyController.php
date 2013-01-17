@@ -33,7 +33,7 @@ class ProxyController
         );
 
         if ($instanceId < 0) {
-            $data= $this->getDefaultJsonContent();
+            $data= $this->newInstanceConfigRepo->getInstanceConfig();
         } else {
             $data = $this->configRepo->getInstanceConfig($instanceId);
 

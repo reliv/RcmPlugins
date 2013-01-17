@@ -62,11 +62,17 @@ class SimpleConfigStorageController
      */
     protected $newInstanceConfigRepo;
 
+    /**
+     * @var \Doctrine\ORM\EntityManager entity manager
+     */
+    protected $entityMgr;
+
     function __construct(
         \Doctrine\ORM\EntityManager $entityMgr,
         $template = null,
         $newInstanceConfigPath = null
     ) {
+        $this->entityMgr = $entityMgr;
         $this->configRepo = new JsonDoctrineRepo($entityMgr);
         $this->template = $template;
 
