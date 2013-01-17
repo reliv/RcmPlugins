@@ -18,7 +18,7 @@
 
 namespace RcmHtmlArea;
 
-use \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
+use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -59,7 +59,7 @@ class Module
         return array(
             'factories' => array(
                 'RcmHtmlArea'=>function($serviceMgr){
-                    $controller = new JsonDataPluginController(
+                    $controller = new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
                         'rcm-html-area/plugin',
                         __DIR__ . '/config/default.content.json'

@@ -34,7 +34,7 @@ namespace RcmEventListDisplay\Controller;
  *
  */
 class PluginController
-    extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
+    extends \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController
     implements \Rcm\Plugin\PluginInterface
 {
     /**
@@ -62,7 +62,7 @@ class PluginController
     function renderInstance($instanceId)
     {
         return $this->renderInstanceFromData(
-            $this->readJsonDataFromDb($instanceId)
+            $this->configRepo->getInstanceConfig($instanceId)
         );
     }
 

@@ -20,7 +20,7 @@
 namespace RcmRotatingImage\Controller;
 
 use \Zend\View\Model\ViewModel,
-    \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
+    \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
 
 /**
  * Plugin Controller
@@ -36,7 +36,7 @@ use \Zend\View\Model\ViewModel,
  * @link      http://ci.reliv.com/confluence
  *
  */
-class PluginController extends JsonDataPluginController
+class PluginController extends SimpleConfigStorageController
 {
 
     /**
@@ -48,7 +48,7 @@ class PluginController extends JsonDataPluginController
      */
     function renderInstance($instanceId)
     {
-        $data=$this->readJsonDataFromDb($instanceId);
+        $data=$this->configRepo->getInstanceConfig($instanceId);
         $images=$data->images;
         $image = $images[array_rand($images, 1)];
         $view = new ViewModel(

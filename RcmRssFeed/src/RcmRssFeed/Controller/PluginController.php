@@ -34,13 +34,13 @@ namespace RcmRssFeed\Controller;
  *
  */
 class PluginController
-    extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
+    extends \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController
     implements \Rcm\Plugin\PluginInterface
 {
     public function renderInstance($instanceId)
     {
         return $this->buildView(
-            $this->readJsonDataFromDb($instanceId)
+            $this->configRepo->getInstanceConfig($instanceId)
         );
     }
 

@@ -36,7 +36,7 @@ use \Zend\View\Model\ViewModel;
  *
  */
 class PluginController
-    extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
+    extends \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController
     implements \Rcm\Plugin\PluginInterface
 {
     /**

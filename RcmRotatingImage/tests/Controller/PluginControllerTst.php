@@ -29,7 +29,7 @@ class PluginControllerTest extends \Rcm\Base\BaseTest
     }
 
     /**
-     * @covers RcmJsonDataPluginToolkit\Controller\BasePluginController::readEntities
+     * @covers RcmSimpleConfigStorage\Controller\BasePluginController::readEntities
      * @covers RcmRotatingImage\Controller\PluginController
      */
     public function testPluginAction()
@@ -53,9 +53,9 @@ class PluginControllerTest extends \Rcm\Base\BaseTest
     }
 
     /**
-     * @covers RcmJsonDataPluginToolkit\Controller\BasePluginController::readEntities
+     * @covers RcmSimpleConfigStorage\Controller\BasePluginController::readEntities
      * @covers            RcmRotatingImage\Controller\PluginController
-     * @expectedException RcmJsonDataPluginToolkit\Exception\PluginDataNotFoundException
+     * @expectedException RcmSimpleConfigStorage\Exception\PluginDataNotFoundException
      */
     public function testPluginActionWithNoInstance()
     {
@@ -90,7 +90,7 @@ class PluginControllerTest extends \Rcm\Base\BaseTest
     /**
      * @covers Rcm\Plugin\PluginInterface::deleteAction
      * @covers RcmRotatingImage\Controller\PluginController::deleteAction
-     * @covers RcmJsonDataPluginToolkit\Controller\BasePluginController::deleteEntities
+     * @covers RcmSimpleConfigStorage\Controller\BasePluginController::deleteEntities
      */
     function testDeleteAction(){
         $entities = array(new \RcmRotatingImage\Entity\Image());

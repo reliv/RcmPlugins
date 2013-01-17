@@ -16,6 +16,7 @@ class Calender
     protected $eventRepo;
 
     protected $categoryRepo;
+
     /**
      * @param \Doctrine\ORM\EntityManager $entityMgr
      */

@@ -18,7 +18,7 @@
 
 namespace RcmNavigation;
 
-use \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
+use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -59,7 +59,7 @@ class Module
         return array(
             'factories' => array(
                 'RcmNavigation'=>function($serviceMgr){
-                    $controller = new JsonDataPluginController(
+                    $controller = new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
                         'rcm-navigation/plugin',
                         __DIR__ . '/config/default.content.json'

@@ -18,7 +18,7 @@
 
 namespace RcmCallToActionBox;
 
-use \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
+use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -60,7 +60,7 @@ class Module
             'factories' => array(
                 'RcmCallToActionBox'=>function($serviceMgr)
                 {
-                    $controller = new JsonDataPluginController(
+                    $controller = new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
                         'rcm-call-to-action-box/plugin',
                         __DIR__ . '/config/default.content.json'

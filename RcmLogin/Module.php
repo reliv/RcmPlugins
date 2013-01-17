@@ -20,7 +20,7 @@ namespace RcmLogin;
 
 use \Zend\ModuleManager\ModuleManager;
 
-use \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController;
+use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
 
 /**
  * ZF2 Module Config.  Required by ZF2

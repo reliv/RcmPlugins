@@ -9,7 +9,7 @@
 namespace RcmRssFeed\Controller;
 
 class ProxyController
-    extends \RcmJsonDataPluginToolkit\Controller\JsonDataPluginController
+    extends \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController
 {
 
     protected $userMgr;
@@ -35,7 +35,7 @@ class ProxyController
         if ($instanceId < 0) {
             $data= $this->getDefaultJsonContent();
         } else {
-            $data = $this->readJsonDataFromDb($instanceId);
+            $data = $this->configRepo->getInstanceConfig($instanceId);
 
         }
 
