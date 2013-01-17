@@ -8,7 +8,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmJsonDataPluginToolkit
+ * @package   RcmSimpleConfigStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -16,7 +16,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 
-namespace RcmJsonDataPluginToolkit;
+namespace RcmSimpleConfigStorage;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -25,7 +25,7 @@ namespace RcmJsonDataPluginToolkit;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @package   RcmJsonDataPluginToolkits\RcmJsonDataPluginToolkit
+ * @package   RcmSimpleConfigStorages\RcmSimpleConfigStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License

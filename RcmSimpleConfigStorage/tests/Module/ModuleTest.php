@@ -1,5 +1,5 @@
 <?php
-namespace RcmJsonDataPluginToolkit\Module;
+namespace RcmSimpleConfigStorage\Module;
 
 class ModuleTest extends \Rcm\Base\BaseTest
 {
@@ -14,7 +14,7 @@ class ModuleTest extends \Rcm\Base\BaseTest
      */
     protected function setUp()
     {
-        $this->unit = new \RcmJsonDataPluginToolkit\Module();
+        $this->unit = new \RcmSimpleConfigStorage\Module();
         $GLOBALS['em'] = $this->getEmMock();
     }
 
@@ -28,7 +28,7 @@ class ModuleTest extends \Rcm\Base\BaseTest
     }
 
     /**
-     * @covers RcmJsonDataPluginToolkit\Module
+     * @covers RcmSimpleConfigStorage\Module
      */
     public function testgetServiceConfig()
     {

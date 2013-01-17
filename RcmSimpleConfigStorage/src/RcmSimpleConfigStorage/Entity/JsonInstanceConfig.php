@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Content Database Entity
+ * Content database Entity
  *
  * This is a Doctrine 2 entity for generic Content
  *
@@ -10,19 +10,19 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmJsonDataPluginToolkits\RcmJsonDataPluginToolkit
+ * @package   RcmSimpleConfigStorages\RcmSimpleConfigStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmJsonDataPluginToolkit\Entity;
+namespace RcmSimpleConfigStorage\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Content Database Entity
+ * Content Configbase Entity
  *
  * This is a Doctrine 2 entity for generic Content
  *
@@ -31,7 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmJsonDataPluginToolkit\Entity
+ * @package   RcmSimpleConfigStorage\Entity
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -41,7 +41,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="rcm_plugin_json_content")
  */
-class JsonContent
+class JsonInstanceConfig
 {
     /**
      * @var integer Plugin instanceId for this content
@@ -51,25 +51,11 @@ class JsonContent
     protected $instanceId;
 
     /**
-     * @var string data that will be stored in the DB as JSON
+     * @var string config that will be stored in the DB as JSON
      *
      * @ORM\Column(type="text")
      */
-    protected $data;
-
-    /**
-     * Sets properties
-     *
-     * @param integer $instanceId instance id
-     * @param array|object $data data that will be stored in the DB as JSON
-     *
-     * @return null
-     */
-    function __construct($instanceId=null, $data)
-    {
-        $this->setInstanceId($instanceId);
-        $this->setData($data);
-    }
+    protected $config;
 
     /**
      * Gets the $instanceId property
@@ -83,36 +69,15 @@ class JsonContent
     }
 
     /**
-     * Gets the data that will be stored in the DB as JSON
+     * Gets the config that will be stored in the DB as JSON
      *
-     * @return object
+     * @return array
      *
      */
-    public function getData()
-    {
-        return json_decode($this->data);
-    }
 
-    public function getDataAsArray(){
-        return json_decode($this->data,true);
-    }
-
-    /**
-     * Gets the data that will be stored in the DB as JSON without decoding it
-     * 
-     * @return string
-     */
-    public function getDataAsJson(){
-        return $this->data;
-    }
-
-    /**
-     * Sets the data that will be stored in the DB from a JSON string
-     *
-     * @param string $json to store
-     */
-    function setDataFromJson($json){
-        $this->data=$json;
+    public function getConfig(){
+        //TODO RETURN ARRAY INSTEAD OF OBJECT
+        return json_decode($this->config);
     }
 
     /**
@@ -129,15 +94,15 @@ class JsonContent
     }
 
     /**
-     * Sets the data that will be stored in the DB as JSON
+     * Sets the config that will be stored in the DB as JSON
      *
-     * @param string $data new value
+     * @param string $config new value
      *
      * @return null
      *
      */
-    public function setData($data)
+    public function setConfig($config)
     {
-        $this->data = json_encode($data);
+        $this->config = json_encode($config);
     }
 }
