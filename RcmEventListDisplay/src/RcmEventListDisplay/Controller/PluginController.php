@@ -69,10 +69,7 @@ class PluginController
     function previewAdminAjaxAction(){
 
         $post = $this->getEvent()->getRequest()->getPost();
-        $post=json_decode(json_encode($post));//converts array to object
-        return $this->renderInstanceFromConfig(
-            $post
-        );
+        return $this->renderInstanceFromConfig($post);
     }
 
     function renderInstanceFromConfig($instanceConfig){
