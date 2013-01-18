@@ -33,23 +33,23 @@ $this->headLink()->appendStylesheet(
 <div class="rcmLogin">
     <form method="post" action="/login/auth/eng" id="loginForm">
         <h1 data-textEdit="loginHeader">
-            <?php echo $this->data->loginHeader; ?>
+            <?php echo $this->ic['loginHeader']; ?>
         </h1>
 
         <div data-textEdit="loginErrorInvalidCopy" class="loginError"
              align="center" <?php if (empty($this->rcmLoginError)): ?>style="display: none;"  <?php endif; ?> >
-            <?php echo $this->data->loginErrorInvalidCopy; ?>
+            <?php echo $this->ic['loginErrorInvalidCopy']; ?>
         </div>
         <p>
                 <span data-textEdit="userNameCopy">
-                    <?php echo $this->data->userNameCopy; ?>
+                    <?php echo $this->ic['userNameCopy']; ?>
                 </span><br>
             <input type="text" value="" name="userName">
         </p>
 
         <p>
                 <span data-textEdit="loginPasswordCopy">
-                    <?php echo $this->data->loginPasswordCopy; ?>
+                    <?php echo $this->ic['loginPasswordCopy']; ?>
                 </span> <br>
             <input type="password" value="" name="loginPass">
         </p>
@@ -57,12 +57,12 @@ $this->headLink()->appendStylesheet(
         <div>
             <a href="#" id="loginSubmit" class="submitButton"
                data-textEdit="loginSubmitCopy">
-                <?php echo $this->data->loginSubmitCopy; ?>
+                <?php echo $this->ic['loginSubmitCopy']; ?>
             </a>
         </div>
         <p>
             <a href="#" data-textEdit="loginForgotPasswordCopy">
-                <?php echo $this->data->loginForgotPasswordCopy; ?>
+                <?php echo $this->ic['loginForgotPasswordCopy']; ?>
             </a>
         </p>
 
@@ -73,7 +73,7 @@ $this->headLink()->appendStylesheet(
         <p>&nbsp;</p>
 
         <div data-richedit="bottomLoginText">
-            <?php echo $this->data->bottomLoginText; ?>
+            <?php echo $this->ic['bottomLoginText']; ?>
         </div>
     </form>
     <div style="clear:both;"></div>

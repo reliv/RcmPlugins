@@ -21,26 +21,26 @@ $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-call-to-action-box/style.css'
 );
 ?>
-<a href="<?php echo $this->data->href?>">
+<a href="<?php echo $this->ic['href']?>">
 <div>
 
 
     <h1 data-textEdit="top">
-            <?php echo $this->data->top; ?>
+            <?php echo $this->ic['top']; ?>
     </h1>
 
     <h2 data-textEdit="middle">
-           <?php echo $this->data->middle; ?>
+           <?php echo $this->ic['middle']; ?>
     </h2>
 
     <p data-textEdit="bottom">
-        <?php echo $this->data->bottom?>
+        <?php echo $this->ic['bottom']?>
     </p>
 
-    <img alt="<?php echo $this->data->top?>"
+    <img alt="<?php echo $this->ic['top']?>"
          class="bg"
          src="<?php echo
-             $this->getContentBasePath() . $this->data->imageSrc?>"
+             $this->getContentBasePath() . $this->ic['imageSrc']?>"
         >
 
 </div>

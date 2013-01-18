@@ -19,7 +19,7 @@
  */
 namespace RcmSimpleConfigStorage\Controller;
 use \RcmSimpleConfigStorage\StorageEngine\PhpFileNewInstanceRepo,
-    \RcmSimpleConfigStorage\StorageEngine\JsonDoctrineRepo;
+    \RcmSimpleConfigStorage\StorageEngine\DoctrineSerializedRepo;
 /**
  * Plugin Controller
  *
@@ -52,11 +52,12 @@ class SimpleConfigStorageController
     /**
      * Stores configs for active instances
      * Now there is only one type of repo but this may become swap-able later
-     * @var \RcmSimpleConfigStorage\StorageEngine\JsonDoctrineRepo
+     * @var \RcmSimpleConfigStorage\StorageEngine\DoctrineSerializedRepo
      */
     protected $configRepo;
 
     /**
+     * Stores default configs for new instances
      * Stores default configs for new instances
      * @var \RcmSimpleConfigStorage\StorageEngine\PhpFileNewInstanceRepo
      */
@@ -73,7 +74,7 @@ class SimpleConfigStorageController
         $newInstanceConfigPath = null
     ) {
         $this->entityMgr = $entityMgr;
-        $this->configRepo = new JsonDoctrineRepo($entityMgr);
+        $this->configRepo = new DoctrineSerializedRepo($entityMgr);
         $this->template = $template;
 
         if(!$newInstanceConfigPath){
@@ -88,7 +89,7 @@ class SimpleConfigStorageController
         $this->newInstanceConfigPath = $newInstanceConfigPath;
 
 //        if(file_exists($newInstanceConfigPath)){
-//            $json = json_decode(json_encode($this->newInstanceConfigRepo->getInstanceConfig()),true);
+//            $json = json_decode(json_encode($this->getNewInstanceConfig()),true);
 //            $php = "<?php\nreturn ".var_export($json, true).';';
 //            $newName = dirname($this->newInstanceConfigPath). '/newInstanceConfig.php';
 //            file_put_contents($newName, $php);
@@ -106,7 +107,7 @@ class SimpleConfigStorageController
      */
     function renderInstance($instanceId){
         $view = new \Zend\View\Model\ViewModel(
-            array('data' => $this->configRepo->getInstanceConfig($instanceId))
+            array('ic' => $this->getInstanceConfig($instanceId))
         );
         $view->setTemplate($this->template);
         return $view;
@@ -121,7 +122,7 @@ class SimpleConfigStorageController
      */
     function renderDefaultInstance(){
         $view = new \Zend\View\Model\ViewModel(
-            array('data' => $this->newInstanceConfigRepo->getInstanceConfig())
+            array('ic' => $this->getNewInstanceConfig())
         );
         $view->setTemplate($this->template);
         return $view;
@@ -159,27 +160,29 @@ class SimpleConfigStorageController
      *
      * @return null
      */
-    function dataAdminAjaxAction($instanceId)
+    function instanceConfigAdminAjaxAction($instanceId)
     {
-        exit(json_encode($this->configRepo->getInstanceConfig($instanceId)));
+        exit(json_encode($this->getInstanceConfig($instanceId)));
     }
 
     function getInstanceConfig($instanceId){
         if ($instanceId < 0) {
-            return new \RcmSimpleConfigStorage\Entity\JsonInstanceConfig(
-                null, $this->newInstanceConfigRepo->getInstanceConfig()
-            );
+            return $this->getNewInstanceConfig();
         } else {
-            return $this->configRepo->readConfig($instanceId);
+            return $this->configRepo->getInstanceConfig($instanceId);
         }
     }
 
-    function dataAndDefaultDataAdminAjaxAction($instanceId){
+    function getNewInstanceConfig(){
+        return $this->newInstanceConfigRepo->getInstanceConfig();
+    }
+
+    function instanceConfigAndNewInstanceConfigAdminAjaxAction($instanceId){
         exit(
             json_encode(
                 array(
-                    'data'=>$this->configRepo->getInstanceConfig($instanceId),
-                    'defaultData'=>$this->newInstanceConfigRepo->getInstanceConfig()
+                    'instanceConfig'=>$this->getInstanceConfig($instanceId),
+                    'newInstanceConfig'=>$this->getNewInstanceConfig()
                 )
             )
         );

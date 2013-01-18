@@ -24,14 +24,14 @@ $this->headLink()->appendStylesheet(
 ?>
 <div class="containerbox">
     <div data-textEdit="top" class="top">
-        <?php echo $this->data->top?>
+        <?php echo $this->ic['top']?>
     </div>
     <div data-richEdit="html" class="bottom">
-        <?php echo $this->data->html?>
+        <?php echo $this->ic['html']?>
     </div>
     <div class="linkStyle">
-        <a data-textEdit="text" href="<?php echo $this->data->href?>" class="urlContainer">
-            <i><?php echo $this->data->text?></i>
+        <a data-textEdit="text" href="<?php echo $this->ic['href']?>" class="urlContainer">
+            <i><?php echo $this->ic['text']?></i>
         </a>
     </div>
 </div>

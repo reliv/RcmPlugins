@@ -61,8 +61,8 @@ class PluginController
      */
     function renderInstance($instanceId)
     {
-        return $this->renderInstanceFromData(
-            $this->configRepo->getInstanceConfig($instanceId)
+        return $this->renderInstanceFromConfig(
+            $this->getInstanceConfig($instanceId)
         );
     }
 
@@ -70,18 +70,18 @@ class PluginController
 
         $post = $this->getEvent()->getRequest()->getPost();
         $post=json_decode(json_encode($post));//converts array to object
-        return $this->renderInstanceFromData(
+        return $this->renderInstanceFromConfig(
             $post
         );
     }
 
-    function renderInstanceFromData($data){
+    function renderInstanceFromConfig($instanceConfig){
 
-        $events = $this->calender->getEvents($data->categoryId);
+        $events = $this->calender->getEvents($instanceConfig['categoryId']);
 
         $view = new \Zend\View\Model\ViewModel(
             array(
-                'data' => $data,
+                'ic' => $instanceConfig,
                 'events' => $events
             )
         );
@@ -90,8 +90,8 @@ class PluginController
     }
 
     function renderDefaultInstance(){
-        return $this->renderInstanceFromData(
-            $this->newInstanceConfigRepo->getInstanceConfig()
+        return $this->renderInstanceFromConfig(
+            $this->getNewInstanceConfig()
         );
     }
 }

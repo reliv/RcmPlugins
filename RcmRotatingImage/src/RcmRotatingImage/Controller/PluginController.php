@@ -48,13 +48,13 @@ class PluginController extends SimpleConfigStorageController
      */
     function renderInstance($instanceId)
     {
-        $data=$this->configRepo->getInstanceConfig($instanceId);
-        $images=$data->images;
+        $instanceConfig=$this->getInstanceConfig($instanceId);
+        $images=$instanceConfig['images'];
         $image = $images[array_rand($images, 1)];
         $view = new ViewModel(
             array(
                 'image' => $image,
-                'data' => $data
+                'ic' => $instanceConfig
             )
         );
         $view->setTemplate($this->template);

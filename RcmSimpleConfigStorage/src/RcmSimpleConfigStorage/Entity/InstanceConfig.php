@@ -39,9 +39,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @link      http://ci.reliv.com/confluence
  *
  * @ORM\Entity
- * @ORM\Table(name="rcm_plugin_json_content")
+ * @ORM\Table(name="rcm_simple_instance_configs")
  */
-class JsonInstanceConfig
+class InstanceConfig
 {
     /**
      * @var integer Plugin instanceId for this content
@@ -76,8 +76,7 @@ class JsonInstanceConfig
      */
 
     public function getConfig(){
-        //TODO RETURN ARRAY INSTEAD OF OBJECT
-        return json_decode($this->config);
+        return unserialize($this->config);
     }
 
     /**
@@ -103,6 +102,6 @@ class JsonInstanceConfig
      */
     public function setConfig($config)
     {
-        $this->config = json_encode($config);
+        $this->config = serialize($config);
     }
 }

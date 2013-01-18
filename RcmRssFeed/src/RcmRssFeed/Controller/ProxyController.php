@@ -33,13 +33,13 @@ class ProxyController
         );
 
         if ($instanceId < 0) {
-            $data= $this->newInstanceConfigRepo->getInstanceConfig();
+            $instanceConfig= $this->getNewInstanceConfig();
         } else {
-            $data = $this->configRepo->getInstanceConfig($instanceId);
+            $instanceConfig = $this->getInstanceConfig($instanceId);
 
         }
 
-        $feedUrl = $data->rssFeedUrl;
+        $feedUrl = $instanceConfig['rssFeedUrl'];
 
         if (!empty($overrideFeedUrl) && $overrideFeedUrl != 'null') {
             $permissions = $this->userMgr->getLoggedInAdminPermissions();
@@ -53,15 +53,15 @@ class ProxyController
         }
 
         if (empty($limit)) {
-            $limit = $data->rssFeedLimit;
+            $limit = $instanceConfig['rssFeedLimit'];
         }
 
         $rssReader = new \Zend\Feed\Reader\Reader();
-        $data = $rssReader->import($feedUrl);
+        $feedData = $rssReader->import($feedUrl);
 
         $feedCount = 0;
 
-        foreach ($data as $entry) {
+        foreach ($feedData as $entry) {
 
             if ($feedCount == $limit) {
                 break;

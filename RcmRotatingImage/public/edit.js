@@ -34,7 +34,8 @@ var RcmRotatingImageEdit = function(instanceId, container){
     me.initEdit = function(){
 
         //Pull all images and their data from app server
-        $.getJSON('/rcm-plugin-admin-proxy/rcm-rotating-image/' + instanceId + '/data',
+        $.getJSON('/rcm-plugin-admin-proxy/rcm-rotating-image/' + instanceId +
+            '/instanceConfig',
             function success(returnedData){
                 data = returnedData;
                 me.completeInitEdit();

@@ -61,7 +61,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      * Called by content management system to make this plugin user-editable
      */
     me.initEdit = function () {
-        ajaxEditHelper.getDataAndDefaultDataFromServer(me.completeEditInit);
+        ajaxEditHelper.getInstanceConfigAndNewInstanceConfigFromServer(me.completeEditInit);
     };
 
     /**

@@ -1,8 +1,8 @@
 <?php
 namespace RcmSimpleConfigStorage\StorageEngine;
 use RcmSimpleConfigStorage\Exception\PluginDataNotFoundException,
-    \RcmSimpleConfigStorage\Entity\JsonInstanceConfig;
-class JsonDoctrineRepo{
+    \RcmSimpleConfigStorage\Entity\InstanceConfig;
+class DoctrineSerializedRepo{
 
     /**
      * @var \Doctrine\ORM\EntityManager entity manager
@@ -14,7 +14,7 @@ class JsonDoctrineRepo{
     function __construct(\Doctrine\ORM\EntityManager $entityMgr){
         $this->entityMgr = $entityMgr;
         $this->jsonContentRepo = $this->entityMgr
-            ->getRepository('RcmSimpleConfigStorage\Entity\JsonInstanceConfig');
+            ->getRepository('RcmSimpleConfigStorage\Entity\InstanceConfig');
     }
 
     function getInstanceConfig($instanceId){
@@ -22,7 +22,7 @@ class JsonDoctrineRepo{
     }
 
     function createInstanceConfig($instanceId, $config){
-        $entity= new JsonInstanceConfig();
+        $entity= new InstanceConfig();
         $entity->setInstanceId($instanceId);
         $entity->setConfig($config);
         $this->entityMgr->persist($entity);
@@ -39,7 +39,7 @@ class JsonDoctrineRepo{
      * Returns the JSON content for a given plugin instance Id
      * @param $instanceId
      *
-     * @return \RcmSimpleConfigStorage\Entity\JsonInstanceConfig|null
+     * @return \RcmSimpleConfigStorage\Entity\InstanceConfig|null
      * @throws \RcmSimpleConfigStorage\Exception\PluginDataNotFoundException
      */
     function readEntityFromDb($instanceId)

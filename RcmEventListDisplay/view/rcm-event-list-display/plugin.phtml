@@ -33,7 +33,7 @@ $eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
      data-eventCategoryId="<?php echo $data->category?>"
         >
     <a class="rcmShareThisKey"
-       data-rcmShareThisKey="<?php echo $this->data->shareThisKey?>"></a>
+       data-rcmShareThisKey="<?php echo $this->ic['shareThisKey']?>"></a>
 </div>
 
 <?php if(count($this->events)):?>
@@ -61,7 +61,7 @@ $eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
                    ?>"
                    target="_blank"
                     >
-                    <?php echo $this->data->translate->directions?>
+                    <?php echo $this->ic['translate']['directions']?>
                 </a>
             </div>
         </div>
@@ -70,6 +70,6 @@ $eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 
 <?php else:?>
     <div class="noEvent">
-        <?php echo $this->data->translate->noEvents?>
+        <?php echo $this->ic['translate']['noEvents']?>
     </div>
 <?php endif?>

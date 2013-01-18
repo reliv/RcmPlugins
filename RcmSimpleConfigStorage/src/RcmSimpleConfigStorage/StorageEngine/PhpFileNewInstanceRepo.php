@@ -9,7 +9,6 @@ class PhpFileNewInstanceRepo
     }
 
     function getInstanceConfig(){
-        //TODO RETURN ARRAY INSTEAD OF OBJECT
-        return json_decode(json_encode(include($this->newInstanceConfigPath)));
+        return include $this->newInstanceConfigPath;
     }
 }

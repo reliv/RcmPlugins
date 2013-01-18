@@ -56,12 +56,12 @@ class PluginController
             return $view;
     }
 
-    public function getErrorsAction($instanceId)
-    {
-        $view = new ViewModel(array('data' => json_encode($instanceId)));
-        $view->setTemplate('reliv-common/literal');
-        return $view;
-    }
+//    public function getErrorsAction($instanceId)
+//    {
+//        $view = new ViewModel(array('data' => json_encode($instanceId)));
+//        $view->setTemplate('reliv-common/literal');
+//        return $view;
+//    }
 
     function ensureHttps(){
         if(!$this->isHttps()){

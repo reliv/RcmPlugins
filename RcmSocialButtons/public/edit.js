@@ -53,7 +53,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
 
         $.getJSON(
             '/rcm-plugin-admin-proxy/rcm-social-buttons/' + instanceId
-                + '/data',
+                + '/instanceConfig',
             function success(returnedData) {
                 data = returnedData;
                 if (me.haveDataAndAvailableButtons()) {

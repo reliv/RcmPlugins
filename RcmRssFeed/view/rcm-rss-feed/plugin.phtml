@@ -23,12 +23,12 @@ $(function(){
 </script>
 
 <div class="rcmRssFeedReaderMainContainer"
-    data-rcmRssFeedUrl="<?php echo $this->data->rssFeedUrl; ?>"
-    data-rcmRssFeedLimit="<?php echo $this->data->rssFeedLimit; ?>"
+    data-rcmRssFeedUrl="<?php echo $this->ic['rssFeedUrl']; ?>"
+    data-rcmRssFeedLimit="<?php echo $this->ic['rssFeedLimit']; ?>"
     data-rcmRssFeedProxy="<?php echo $this->rssProxy; ?>"
 >
 
-    <h2 data-textEdit="headline"><?php echo $this->data->headline; ?></h2>
+    <h2 data-textEdit="headline"><?php echo $this->ic['headline']; ?></h2>
 
     <span class="rss-feed-<?php echo $this->rcmPluginInstanceId; ?>">Loading...</span>
 </div>

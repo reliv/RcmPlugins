@@ -1,7 +1,5 @@
 function rssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
 
-
-
     var me = this;
 
     me.instanceId = instanceId;
