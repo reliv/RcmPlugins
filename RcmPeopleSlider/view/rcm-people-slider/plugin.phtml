@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * RcmPeopleSlider content template
+ *
+ * Used for rendering simple content
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   Plugins\Image
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
+ */
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-people-slider/style.css'
+);
+$this->headScript()->appendFile(
+    $this->basePath()
+        . '/modules/rcm/vendor/aperture-slider/aperture-slider.js',
+    'text/javascript'
+);
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-people-slider/rcm-people-slider.js',
+    'text/javascript'
+);
+
+$person = $this->ic['people'][0];
+?>
+<script type="text/javascript">
+    $(function () {
+        new RcmPeopleSlider(
+            <?php echo $this->rcmPluginInstanceId?>,
+            <?php echo json_encode($this->ic)?>
+        );
+    });
+</script>
+<div>
+
+    <div class="mainPerson">
+        <div class="longDesc"><?php echo $person['longDesc']?></div>
+        <img class="largeImage" src="<?php echo $person['largeImage']?>">
+    </div>
+
+    <div class="peopleAperture">
+        <div class="people">
+            <?php foreach($this->ic['people'] as $personId => $person):?>
+                <a class="person" data-personId="<?php echo $personId?>">
+                    <img class="smallImage" src="<?php echo $person['smallImage']?>">
+                    <div class="shortDesc"><?php echo $person['shortDesc']?></div>
+                </a>
+            <?php endforeach?>
+        </div>
+    </div>
+
+
+</div>
+

@@ -1,0 +1,13 @@
+.RcmPeopleSlider .person{
+    padding:5px;
+}
+.RcmPeopleSlider .person, .RcmPeopleSlider .person:hover{
+    color:black;
+}
+.RcmPeopleSlider .person:hover{
+    background-color: #00A4E4;
+}
+.RcmPeopleSlider .mainPerson, .RcmPeopleSlider .peopleAperture{
+    border: 1px solid #CCC;
+    border-radius: 15px 0 15px 0;
+}
