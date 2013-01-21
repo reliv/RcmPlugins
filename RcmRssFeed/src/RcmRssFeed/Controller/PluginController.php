@@ -40,6 +40,7 @@ class PluginController
     public function renderInstance($instanceId)
     {
         return $this->buildView(
+            $instanceId,
             $this->getInstanceConfig($instanceId)
         );
     }
@@ -53,12 +54,16 @@ class PluginController
      */
     function renderDefaultInstance($instanceId)
     {
-        return $this->buildView($this->getNewInstanceConfig());
+        return $this->buildView(
+            $instanceId,
+            $this->getNewInstanceConfig()
+        );
     }
 
-    function buildView($instanceConfig)
+    function buildView($instanceId, $instanceConfig)
     {
         $view = new \Zend\View\Model\ViewModel(array(
+            'instanceId' => $instanceId,
             'ic' => $instanceConfig,
             'rssProxy' => '/rcm-rss-proxy'
         ));

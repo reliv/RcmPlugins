@@ -19,7 +19,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      */
     var container = rcm.getPluginContainer(instanceId);
 
-    var framesPerView = 2;
+    var framesPerView = 4;
 
     /**
      * This object helps us manage the online app as a multi-part form
@@ -28,10 +28,10 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     var apertureSlider = new ApertureSlider(
         container.find('.peopleAperture'),
         {
-            width : 160 * framesPerView,
+            frameWidth : 150,
             minHeight : 100,
             frameSeparation : 0,
-            framesPerView : 2,
+            framesPerView : framesPerView,
             hideOffScreenFrames : false
         }
     );
@@ -49,13 +49,15 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
                 var personId = personEle.attr('data-personId');
                 var person = instanceConfig.people[personId];
                 personEle.append(
-                    '<div class="details" style="display:none;">' +
-                        '<div class="longDesc">' +
-                        person.longDesc +
-                        '</div>' +
-                        '<img class="largeImage" ' +
-                            'src="' + person.largeImage + '">' +
-                    '</div>'
+                    '<table class="details" style="display:none;">' +
+                        '<tr>' +
+                            '<td class="longDesc">' +person.longDesc +'</td>' +
+                            '<td>' +
+                                '<img class="largeImage" ' +
+                                'src="' + person.largeImage + '">' +
+                            '</td>' +
+                        '</tr>' +
+                    '</table>'
                 )
             }
         );
@@ -64,7 +66,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     };
 
     me.handlePersonClick = function(){
-        container.find('.mainPerson').html($(this).find('.details').html());
+        container.find('.mainPerson table').html($(this).find('.details').html());
         apertureSlider.goForward();
     };
 

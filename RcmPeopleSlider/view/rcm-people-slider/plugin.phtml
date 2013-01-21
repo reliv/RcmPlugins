@@ -43,21 +43,38 @@ $person = $this->ic['people'][0];
 <div>
 
     <div class="mainPerson">
-        <div class="longDesc"><?php echo $person['longDesc']?></div>
-        <img class="largeImage" src="<?php echo $person['largeImage']?>">
+        <table>
+            <tr>
+                <td class="longDesc">
+                    <?php echo $person['longDesc']?>
+                </td>
+                <td>
+                    <img class="largeImage" src="<?php echo $person['largeImage']?>">
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div class="peopleAperture">
-        <div class="people">
-            <?php foreach($this->ic['people'] as $personId => $person):?>
-                <a class="person" data-personId="<?php echo $personId?>">
-                    <img class="smallImage" src="<?php echo $person['smallImage']?>">
-                    <div class="shortDesc"><?php echo $person['shortDesc']?></div>
-                </a>
-            <?php endforeach?>
+    <br>
+
+    <div class="peopleBorder">
+
+        <div class="leftArrow">&nbsp;</div>
+
+        <div class="peopleAperture">
+            <div class="people">
+                <?php foreach($this->ic['people'] as $personId => $person):?>
+                    <a class="person" data-personId="<?php echo $personId?>">
+                        <img class="smallImage" src="<?php echo $person['smallImage']?>">
+                        <div class="shortDesc"><?php echo $person['shortDesc']?></div>
+                    </a>
+                <?php endforeach?>
+            </div>
         </div>
-    </div>
 
+        <div class="rightArrow">&nbsp;</div>
+
+    </div>
 
 </div>
 
