@@ -1,43 +1,66 @@
-.RcmPeopleSlider .person{
-    padding:5px;
+.RcmPeopleSlider .smallImage {
+    margin: 0 5px;
 }
-.RcmPeopleSlider .person, .RcmPeopleSlider .person:hover{
-    color:black;
+
+.RcmPeopleSlider .person, .RcmPeopleSlider .person:hover {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    padding:5px 0;
 }
-.RcmPeopleSlider .person:hover{
+
+.RcmPeopleSlider .person:hover, .RcmPeopleSlider .arrow:hover {
     background-color: #00A4E4;
+    cursor: pointer;
 }
-.RcmPeopleSlider .mainPerson, .RcmPeopleSlider .peopleBorder{
+
+.RcmPeopleSlider .mainPerson, .RcmPeopleSlider .peopleBorder {
     border: 1px solid #CCC;
     border-radius: 15px 0 15px 0;
-    padding:5px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
-.RcmPeopleSlider .largeImage, .RcmPeopleSlider .longDesc{
-    float:right;
+.RcmPeopleSlider .mainPerson {
+    padding: 10px;
 }
 
-.RcmPeopleSlider .peopleAperture{
-    float: left;
-}
-
-.RcmPeopleSlider .leftArrow {
-    height: 100%;
-    width: 20px;
-    padding-left: 5px;
-    float: left;
-    background: url('/modules/rcm-people-slider/left-arrow.gif');
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.RcmPeopleSlider .rightArrow {
-    height: 100%;
+.RcmPeopleSlider .largeImage, .RcmPeopleSlider .longDesc {
     float: right;
+}
+
+.RcmPeopleSlider .largeImage {
+    margin-left: 10px;
+}
+
+.RcmPeopleSlider .peopleAperture {
+    float: left;
+}
+
+.RcmPeopleSlider .person.selected {
+    background-color: #DCDCDC;
+}
+
+.RcmPeopleSlider .arrow {
+    background: center no-repeat;
+    height: 150px;
     width: 20px;
-    padding-left: 5px;
-    background-image: url('/modules/rcm-people-slider/right-arrow.gif');
-    background-position: center;
-    background-repeat: no-repeat;
+}
+
+.RcmPeopleSlider .left {
+    float: left;
+    background-image: url('/modules/rcm-people-slider/images/left-arrow.gif');
+}
+
+.RcmPeopleSlider .right {
+    float: right;
+    background-image: url('/modules/rcm-people-slider/images/right-arrow.gif');
+}
+
+.RcmPeopleSlider .left:hover {
+    background-image: url('/modules/rcm-people-slider/images/left-arrow-hover.gif');
+}
+
+.RcmPeopleSlider .right:hover {
+    background-image: url('/modules/rcm-people-slider/images/right-arrow-hover.gif');
 }

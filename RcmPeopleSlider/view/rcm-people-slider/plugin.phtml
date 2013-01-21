@@ -29,8 +29,8 @@ $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-people-slider/rcm-people-slider.js',
     'text/javascript'
 );
-
-$person = $this->ic['people'][0];
+$selectedPersonId = 0;
+$person = $this->ic['people'][$selectedPersonId];
 ?>
 <script type="text/javascript">
     $(function () {
@@ -59,12 +59,20 @@ $person = $this->ic['people'][0];
 
     <div class="peopleBorder">
 
-        <div class="leftArrow">&nbsp;</div>
+        <div class="left arrow">&nbsp;</div>
 
         <div class="peopleAperture">
             <div class="people">
                 <?php foreach($this->ic['people'] as $personId => $person):?>
-                    <a class="person" data-personId="<?php echo $personId?>">
+                    <?php
+                        $classAppend=null;
+                        if($personId==$selectedPersonId){
+                            $classAppend = ' selected';
+                        }
+                    ?>
+                    <a
+                        class="person<?php echo $classAppend ?>"
+                        data-personId="<?php echo $personId?>">
                         <img class="smallImage" src="<?php echo $person['smallImage']?>">
                         <div class="shortDesc"><?php echo $person['shortDesc']?></div>
                     </a>
@@ -72,7 +80,7 @@ $person = $this->ic['people'][0];
             </div>
         </div>
 
-        <div class="rightArrow">&nbsp;</div>
+        <div class="right arrow">&nbsp;</div>
 
     </div>
 
