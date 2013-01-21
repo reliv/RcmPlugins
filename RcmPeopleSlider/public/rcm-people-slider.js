@@ -41,7 +41,11 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      */
     me.init = function () {
 
-        //Transfer data into DOM for later use and easy saving
+        /**
+         * Transfer data into DOM for later use and easy saving. We do this in
+         * JS instead of PHP because we want search engines to see each person
+         * as a separate linked page.
+         */
         $.each(
             container.find('.person'),
             function () {
