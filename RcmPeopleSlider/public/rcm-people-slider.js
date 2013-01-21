@@ -51,12 +51,13 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
                 personEle.append(
                     '<table class="details" style="display:none;">' +
                         '<tr>' +
-                        '<td class="longDesc">' +
-                        person.longDesc +
-                        '</td>' +
+                            '<td class="longDesc">' +
+                            person.longDesc +
+                            '</td>' +
                         '<td>' +
-                        '<img class="largeImage" ' +
-                        'src="' + person.largeImage + '">' +
+                        '<img ' +
+                            'class="largeImage" ' +
+                            'src="' + person.largeImage + '">' +
                         '</td>' +
                         '</tr>' +
                         '</table>'

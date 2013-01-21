@@ -29,14 +29,23 @@ $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-people-slider/rcm-people-slider.js',
     'text/javascript'
 );
+
+//Figure out which person we are viewing. This non-js support is only for SEO.
 $selectedPersonId = 0;
-$person = $this->ic['people'][$selectedPersonId];
+if (!empty($_GET['id']) && $_GET['id'] < count($this->ic['people'])) {
+    $selectedPersonId = $_GET['id'];
+}
+
+$selectedPerson = $this->ic['people'][$selectedPersonId];
+
+$uriParts=explode('?', $_SERVER['REQUEST_URI']);
+$currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . $uriParts[0];
 ?>
 <script type="text/javascript">
     $(function () {
         new RcmPeopleSlider(
-            <?php echo $this->instanceId?>,
-            <?php echo json_encode($this->ic)?>
+        <?php echo $this->instanceId?>,
+        <?php echo json_encode($this->ic)?>
         );
     });
 </script>
@@ -46,10 +55,11 @@ $person = $this->ic['people'][$selectedPersonId];
         <table>
             <tr>
                 <td class="longDesc">
-                    <?php echo $person['longDesc']?>
+                    <?php echo $selectedPerson['longDesc']?>
                 </td>
                 <td>
-                    <img class="largeImage" src="<?php echo $person['largeImage']?>">
+                    <img class="largeImage"
+                         src="<?php echo $selectedPerson['largeImage']?>">
                 </td>
             </tr>
         </table>
@@ -63,19 +73,21 @@ $person = $this->ic['people'][$selectedPersonId];
 
         <div class="peopleAperture">
             <div class="people">
-                <?php foreach($this->ic['people'] as $personId => $person):?>
-                    <?php
-                        $classAppend=null;
-                        if($personId==$selectedPersonId){
-                            $classAppend = ' selected';
-                        }
-                    ?>
-                    <a
-                        class="person<?php echo $classAppend ?>"
-                        data-personId="<?php echo $personId?>">
-                        <img class="smallImage" src="<?php echo $person['smallImage']?>">
-                        <div class="shortDesc"><?php echo $person['shortDesc']?></div>
-                    </a>
+                <?php foreach ($this->ic['people'] as $personId => $person): ?>
+                <?php
+                $classAppend = null;
+                if ($personId == $selectedPersonId) {
+                    $classAppend = ' selected';
+                }
+                ?>
+                <a href="<?php echo "$currentUrl?id=$personId" //for SEO ?>"
+                   class="person<?php echo $classAppend ?>"
+                   data-personId="<?php echo $personId?>">
+                   <img class="smallImage"
+                         src="<?php echo $person['smallImage']?>">
+
+                    <div class="shortDesc"><?php echo $person['shortDesc']?></div>
+                </a>
                 <?php endforeach?>
             </div>
         </div>
