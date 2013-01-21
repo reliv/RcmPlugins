@@ -10,13 +10,11 @@ $this->headScript()->appendFile(
 
 <script type="text/javascript">
 $(function(){
-    $(".rss-feed-<?php echo $this->rcmPluginInstanceId; ?>");
-
 
     new rssReader(
         '<?php echo $this->rssProxy; ?>',
-        <?php echo $this->rcmPluginInstanceId; ?>,
-        $(".rss-feed-<?php echo $this->rcmPluginInstanceId; ?>"),
+        <?php echo $this->instanceId; ?>,
+        $(".rss-feed-<?php echo $this->instanceId; ?>"),
         null
     );
 });
@@ -30,5 +28,5 @@ $(function(){
 
     <h2 data-textEdit="headline"><?php echo $this->ic['headline']; ?></h2>
 
-    <span class="rss-feed-<?php echo $this->rcmPluginInstanceId; ?>">Loading...</span>
+    <span class="rss-feed-<?php echo $this->instanceId; ?>">Loading...</span>
 </div>

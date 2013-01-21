@@ -86,7 +86,7 @@ class PluginController
         return $view;
     }
 
-    function renderDefaultInstance(){
+    function renderDefaultInstance($instanceId){
         return $this->renderInstanceFromConfig(
             $this->getNewInstanceConfig()
         );

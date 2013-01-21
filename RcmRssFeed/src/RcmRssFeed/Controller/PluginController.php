@@ -51,7 +51,7 @@ class PluginController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    function renderDefaultInstance()
+    function renderDefaultInstance($instanceId)
     {
         return $this->buildView($this->getNewInstanceConfig());
     }

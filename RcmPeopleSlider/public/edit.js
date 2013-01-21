@@ -80,7 +80,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         var people = [];
 
         $.each(
-            container.find('div.person'),
+            container.find('.person'),
             function(){
                 var personDiv = $(this);
                 people.push(

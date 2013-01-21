@@ -44,7 +44,7 @@ class SimpleConfigStorageController
     protected $template;
 
     /**
-     * @var string Tells function renderDefaultInstance() where the default data
+     * @var string Tells function renderDefaultInstance($instanceId) where the default data
      * for a new instance of this plugin is
      */
     protected $newInstanceConfigPath;
@@ -107,7 +107,10 @@ class SimpleConfigStorageController
      */
     function renderInstance($instanceId){
         $view = new \Zend\View\Model\ViewModel(
-            array('ic' => $this->getInstanceConfig($instanceId))
+            array(
+                'instanceId' => $instanceId,
+                'ic' => $this->getInstanceConfig($instanceId)
+            )
         );
         $view->setTemplate($this->template);
         return $view;
@@ -120,9 +123,12 @@ class SimpleConfigStorageController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    function renderDefaultInstance(){
+    function renderDefaultInstance($instanceId){
         $view = new \Zend\View\Model\ViewModel(
-            array('ic' => $this->getNewInstanceConfig())
+            array(
+                'instanceId' => $instanceId,
+                'ic' => $this->getNewInstanceConfig()
+            )
         );
         $view->setTemplate($this->template);
         return $view;
