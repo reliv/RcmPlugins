@@ -23,6 +23,7 @@
 
 .RcmPeopleSlider .mainPerson {
     padding: 10px;
+    height: 350px;
 }
 
 .RcmPeopleSlider .largeImage, .RcmPeopleSlider .longDesc {
