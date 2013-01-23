@@ -24,19 +24,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
      */
     var me = this;
 
-    /**
-     * jQuery object for the two links
-     *
-     * @type {Object}
-     */
-    var aTags = container.find('a');
-
-    /**
-     * Background image jQuery object
-     *
-     * @type {Object}
-     */
-    var imgTag = container.find('img');
+    var peopleDetailsDiv = container.find('.peopleDetails');
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -44,11 +32,6 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
      * @return {Null}
      */
     me.initEdit = function(){
-
-        //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(event){
-            me.showEditDialog();
-        });
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
@@ -58,16 +41,36 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
                 edit:{
                     name:'Edit Properties',
                     icon:'edit',
-                    callback:function () {
-                        me.showEditDialog();
-                    }
+                    callback:function () {}
                 }
 
             }
         });
 
+        me.loadAllDelayedImages();
 
-    }
+        me.getSaveData();
+    };
+
+    me.makePersonEditable = function(personId){
+        var dataSelector = '[data-personId=' + personId + ']';
+        var personEle = container.find('.person' + dataSelector);
+        var personDetailsEle = container.find('.personDetails' + dataSelector);
+    };
+
+    /**
+     * Delaying the loading of these is good for viewing but when we are
+     * editing, we just want to load them all
+     */
+    me.loadAllDelayedImages = function(){
+        $.each(
+            container.find('.peopleDetails .largeImage'),
+            function(){
+                var largeImage = $(this);
+                largeImage.attr('src', largeImage.attr('data-delayedSrc'));
+            }
+        );
+    };
 
     /**
      * Called by content management system to get this plugins data for saving
@@ -83,12 +86,20 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             container.find('.person'),
             function(){
                 var personDiv = $(this);
+                var personId = personDiv.attr('data-personId');
+                var personDetailsTable = peopleDetailsDiv.find(
+                    'table[data-personId=' + personId + ']'
+                );
                 people.push(
                     {
-                        'smallImage':personDiv.find('.smallImage').attr('src'),
-                        'largeImage':personDiv.find('.largeImage').attr('src'),
-                        'shortDesc':personDiv.find('.shortDesc').html(),
-                        'longDesc':personDiv.find('.longDesc').html()
+                        'smallImage' :
+                            personDiv.find('.smallImage').attr('src'),
+                        'largeImage' :
+                            personDetailsTable.find('.largeImage').attr('src'),
+                        'shortDesc' :
+                            personDiv.find('.shortDesc').html(),
+                        'longDesc' :
+                            personDetailsTable.find('.longDesc').html()
                     }
                 );
             }
