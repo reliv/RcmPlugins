@@ -21,6 +21,8 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
 
     var framesPerView = 4;
 
+    var peopleDetailsDiv = container.find('.peopleDetails');
+
     /**
      * This object helps us manage the online app as a multi-part form
      * @type {ApertureSlider}
@@ -41,31 +43,42 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      */
     me.init = function () {
 
+        var selectedPersonId = peopleDetailsDiv.attr('data-selectedPersonId');
+
+        peopleDetailsDiv.empty();
+
         /**
          * Transfer data into DOM for later use and easy saving. We do this in
          * JS instead of PHP because we want search engines to see each person
          * as a separate linked page.
          */
         $.each(
-            container.find('.person'),
-            function () {
-                var personEle = $(this);
-                var personId = personEle.attr('data-personId');
-                var person = instanceConfig.people[personId];
-                personEle.append(
-                    '<table class="details" style="display:none;">' +
+            instanceConfig.people,
+            function (personId, person) {
+                var dataPersonId = ' data-personId="' + personId + '"';
+                var personDetailsTable = $(
+                    '<table class="personDetails"'
+                        + dataPersonId + ' style="display:none;"' + '>' +
                         '<tr>' +
                             '<td class="longDesc">' +
                             person.longDesc +
                             '</td>' +
                         '<td>' +
+                        //We don't put anything in src so images only load later
                         '<img ' +
                             'class="largeImage" ' +
-                            'src="' + person.largeImage + '">' +
+                            'data-delayedSrc="' + person.largeImage + '">' +
                         '</td>' +
                         '</tr>' +
                         '</table>'
-                )
+                );
+
+                if(personId==selectedPersonId){
+                    personDetailsTable.removeAttr('style');
+                    me.loadDelayedImage(personDetailsTable);
+                }
+
+                peopleDetailsDiv.append(personDetailsTable);
             }
         );
 
@@ -75,12 +88,24 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     };
 
     me.handlePersonClick = function () {
+
+        event.preventDefault();
+
         var thisPersonDiv = $(this);
+        var personId = thisPersonDiv.attr('data-personId');
 
         container.find('.person').removeClass('selected');
         thisPersonDiv.addClass('selected');
 
-        container.find('.mainPerson table').html(
+        peopleDetailsDiv.children().hide();
+        var personDetailsTable
+            = container.find('.personDetails[data-personId=' + personId + ']');
+
+        me.loadDelayedImage(personDetailsTable);
+
+        personDetailsTable.show();
+
+        container.find('.personDetails').html(
             thisPersonDiv.find('.details').html()
         );
 
@@ -93,6 +118,15 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         }
 
         apertureSlider.goToFrame(frame);
+    };
+
+    /**
+     * Load the large image once we know it will be used
+     * @param personDetailsTable
+     */
+    me.loadDelayedImage = function(personDetailsTable){
+        var largeImage = personDetailsTable.find('.largeImage');
+        largeImage.attr('src', largeImage.attr('data-delayedSrc'));
     };
 
     me.init();

@@ -27,7 +27,7 @@ return array(
             'display' => 'People Slider',
             'tooltip' => 'People Slider',
             'icon' => '',
-            'editJs'=>'/modules/rcm-people-slider/edit.js',
+            'editJs'=>'/modules/rcm-people-slider/rcm-people-slider-edit.js',
         ),
     ),
 

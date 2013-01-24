@@ -39,7 +39,7 @@ if (!empty($_GET['id']) && $_GET['id'] < count($this->ic['people'])) {
 $selectedPerson = $this->ic['people'][$selectedPersonId];
 
 $uriParts=explode('?', $_SERVER['REQUEST_URI']);
-$currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . $uriParts[0];
+$currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
 ?>
 <script type="text/javascript">
     $(function () {
@@ -51,8 +51,10 @@ $currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . $uriParts[0];
 </script>
 <div>
 
-    <div class="mainPerson">
-        <table>
+    <div class="peopleDetails"
+         data-selectedPersonId="<?php echo $selectedPersonId?>">
+        <?php //person output here for non-js support for SEO reasons only ?>
+        <table class="personDetails">
             <tr>
                 <td class="longDesc">
                     <?php echo $selectedPerson['longDesc']?>

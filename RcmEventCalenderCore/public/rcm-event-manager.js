@@ -352,38 +352,40 @@ var RcmEventManager = function () {
      * @param {Function} okCallback
      */
     me.showEventPropertiesDialog = function(formTitle, event, okCallback){
-        var form = $('<form></form>').addClass('simple');
-        form.addSelect('categoryId', 'Event Category', categories, event.categoryId);
-        form.addInput('title', 'Title', event.title);
-        form.addRichEdit('text', 'Text', event.text);
-        form.addDate('startDate', 'Start Date', event.startDate);
-        form.addDate('endDate', 'End Date', event.endDate);
-        form.addInput('mapAddress', 'Map Address', event.mapAddress);
-        form.append(warning);
-        form.dialog({
-            title:formTitle,
-            modal:true,
-            width:620,
-            buttons:{
-                Cancel:function () {
-                    $(this).dialog("close");
-                },
-                Ok:function () {
+        var form = $('<form></form>')
+            .addClass('simple')
+            .addSelect('categoryId', 'Event Category', categories, event.categoryId)
+            .addInput('title', 'Title', event.title)
+            .addRichEdit('text', 'Text', event.text)
+            .addDate('startDate', 'Start Date', event.startDate)
+            .addDate('endDate', 'End Date', event.endDate)
+            .addInput('mapAddress', 'Map Address', event.mapAddress)
+            .append(warning)
+            .dialog({
+                title:formTitle,
+                modal:true,
+                width:620,
+                buttons:{
+                    Cancel:function () {
+                        $(this).dialog("close");
+                    },
+                    Ok:function () {
 
-                    //Get user-entered data from form
-                    event.categoryId= form.find('[name=categoryId]').val();
-                    event.title= form.find('[name=title]').val();
-                    event.startDate = form.find('[name=startDate]').val();
-                    event.endDate = form.find('[name=endDate]').val();
-                    event.mapAddress= form.find('[name=mapAddress]').val();
+                        //Get user-entered data from form
+                        event.categoryId= form.find('[name=categoryId]').val();
+                        event.title= form.find('[name=title]').val();
+                        event.startDate = form.find('[name=startDate]').val();
+                        event.endDate = form.find('[name=endDate]').val();
+                        event.mapAddress= form.find('[name=mapAddress]').val();
 
-                    var editorId = form.find('.text').attr('id');
-                    event.text = CKEDITOR.instances[editorId].getData();
+                        var editorId = form.find('.text').attr('id');
+                        event.text = CKEDITOR.instances[editorId].getData();
 
-                    okCallback(event,$(this));
+                        okCallback(event,$(this));
+                    }
                 }
             }
-        });
+        );
     };
 
     /**

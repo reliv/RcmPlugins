@@ -15,13 +15,13 @@
     cursor: pointer;
 }
 
-.RcmPeopleSlider .mainPerson, .RcmPeopleSlider .peopleBorder {
+.RcmPeopleSlider .peopleDetails, .RcmPeopleSlider .peopleBorder {
     border: 1px solid #CCC;
     border-radius: 15px 0 15px 0;
     overflow: hidden;
 }
 
-.RcmPeopleSlider .mainPerson {
+.RcmPeopleSlider .peopleDetails {
     padding: 10px;
     height: 350px;
 }
