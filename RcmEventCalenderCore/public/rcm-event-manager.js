@@ -213,6 +213,7 @@ var RcmEventManager = function () {
                     type: 'POST',
                     data: event,
                     success: function() {
+                        console.log(1);
                         me.renderEventList();
                         okButton.dialog('close');
                     },
@@ -228,8 +229,9 @@ var RcmEventManager = function () {
             + today.getDate() + '/' + today.getFullYear();
     };
 
-    me.handleAjaxError = function(){
-        $().confirm(
+    me.handleAjaxError = function(e){
+        console.log(e);
+        $.confirm(
             'There was a problem. Please make sure you entered valid values ' +
                 'and try again.'
         )
@@ -246,7 +248,7 @@ var RcmEventManager = function () {
                 var message = 'Delete this category <b>AND ALL EVENTS UNDER' +
                     ' IT?</b><br><br>' + category.name +
                     '<br><br>' + warning;
-                $().confirm(
+                $.confirm(
                     message,
                     function(){
                         $.ajax({
@@ -273,7 +275,7 @@ var RcmEventManager = function () {
             function(event){
                 var message = 'Delete this event?<br><br>' + event.title +
                     '<br><br>' + warning;
-                $().confirm(
+                $.confirm(
                     message,
                     function(){
                         $.ajax({
@@ -302,18 +304,29 @@ var RcmEventManager = function () {
                     'Edit Event',
                     event,
                     function(event, okButton){
-                        $.ajax({
-                            url: eventsUrl + '/' + eventId,
-                            type: 'PUT',
-                            data: event,
-                            success: function() {
-                                me.renderEventList();
-                                okButton.dialog('close');
-                            },
-                            error:me.handleAjaxError
-                        });
+                        me.putEventAjax(eventId, event, okButton);
                     }
                 );
+            }
+        );
+    };
+
+    me.putEventAjax = function(eventId, event, okButton){
+        $.ajax(
+            {
+                url: eventsUrl + '/' + eventId,
+                type: 'PUT',
+                data: event,
+                complete: function(xhr) {
+                    console.log(xhr.readyState);
+                    console.log(xhr.status);
+                    if (xhr.readyState == 4 && xhr.status == 204) {
+                        me.renderEventList();
+                        okButton.dialog('close');
+                    } else {
+                        me.handleAjaxError(xhr);
+                    }
+                }
             }
         );
     };
@@ -354,12 +367,12 @@ var RcmEventManager = function () {
     me.showEventPropertiesDialog = function(formTitle, event, okCallback){
 
         var inputs = {
-            categoryId:$().dialogIn('select', 'Event Category', categories, event.categoryId),
-            title:$().dialogIn('text', 'Title', event.title),
-            text:$().dialogIn('richEdit', 'Text', event.text),
-            startDate:$().dialogIn('date', 'Start Date', event.startDate),
-            endDate:$().dialogIn('date' , 'End Date', event.endDate),
-            mapAddress:$().dialogIn('text' , 'Map Address', event.mapAddress)
+            categoryId:$.dialogIn('select', 'Event Category', categories, event.categoryId),
+            title:$.dialogIn('text', 'Title', event.title),
+            text:$.dialogIn('richEdit', 'Text', event.text),
+            startDate:$.dialogIn('date', 'Start Date', event.startDate),
+            endDate:$.dialogIn('date' , 'End Date', event.endDate),
+            mapAddress:$.dialogIn('text' , 'Map Address', event.mapAddress)
         };
 
         var form = $('<form></form>')
@@ -398,26 +411,31 @@ var RcmEventManager = function () {
      * @param {Function} okCallback
      */
     me.showCategoryPropertiesDialog = function(formTitle, category, okCallback){
-        var form = $('<form></form>').addClass('simple');
-        form.addInput('name', 'Name', category.name);
-        form.append(warning);
-        form.dialog({
-            title:formTitle,
-            modal:true,
-            width:620,
-            buttons:{
-                Cancel:function () {
-                    $(this).dialog("close");
-                },
-                Ok:function () {
 
-                    //Get user-entered data from form
-                    category.name= form.find('[name=name]').val();
+        var nameInput = $.dialogIn('text', 'Name', category.name);
 
-                    okCallback(category,$(this));
+        var form = $('<form></form>')
+            .addClass('simple')
+            .append(nameInput)
+            .append(warning)
+            .dialog({
+                title:formTitle,
+                modal:true,
+                width:620,
+                buttons:{
+                    Cancel:function () {
+                        $(this).dialog("close");
+                    },
+                    Ok:function () {
+
+                        //Get user-entered data from form
+                        category.name= nameInput.val();
+
+                        okCallback(category,$(this));
+                    }
                 }
             }
-        });
+        );
     };
 
     /**
