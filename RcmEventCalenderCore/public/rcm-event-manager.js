@@ -352,14 +352,19 @@ var RcmEventManager = function () {
      * @param {Function} okCallback
      */
     me.showEventPropertiesDialog = function(formTitle, event, okCallback){
+
+        var inputs = {
+            categoryId:$().dialogIn('select', 'Event Category', categories, event.categoryId),
+            title:$().dialogIn('text', 'Title', event.title),
+            text:$().dialogIn('richEdit', 'text', 'Text', event.text),
+            startDate:$().dialogIn('date', 'Start Date', event.startDate),
+            endDate:$().dialogIn('date' , 'End Date', event.endDate),
+            mapAddress:$().dialogIn('text' , 'Map Address', event.mapAddress)
+        };
+
         var form = $('<form></form>')
             .addClass('simple')
-            .addSelect('categoryId', 'Event Category', categories, event.categoryId)
-            .addInput('title', 'Title', event.title)
-            .addRichEdit('text', 'Text', event.text)
-            .addDate('startDate', 'Start Date', event.startDate)
-            .addDate('endDate', 'End Date', event.endDate)
-            .addInput('mapAddress', 'Map Address', event.mapAddress)
+            .appendMulti(inputs)
             .append(warning)
             .dialog({
                 title:formTitle,
@@ -372,14 +377,12 @@ var RcmEventManager = function () {
                     Ok:function () {
 
                         //Get user-entered data from form
-                        event.categoryId= form.find('[name=categoryId]').val();
-                        event.title= form.find('[name=title]').val();
-                        event.startDate = form.find('[name=startDate]').val();
-                        event.endDate = form.find('[name=endDate]').val();
-                        event.mapAddress= form.find('[name=mapAddress]').val();
-
-                        var editorId = form.find('.text').attr('id');
-                        event.text = CKEDITOR.instances[editorId].getData();
+                        event.categoryId = inputs.categoryId.val();
+                        event.title = inputs.title.val();
+                        event.startDate  = inputs.startDate.val();
+                        event.endDate  = inputs.endDate.val();
+                        event.mapAddress = inputs.mapAddress.val();
+                        event.text  = inputs.text.val();
 
                         okCallback(event,$(this));
                     }

@@ -86,7 +86,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
     me.getAssets = function(){
         var data = me.getSaveData();
         return [data.imageSrc, data.href];
-    }
+    };
 
     /**
      * Displays a dialog box to edit href and image src
@@ -95,11 +95,12 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      */
     me.showEditDialog = function () {
 
-        //Create and show our edit dialog
+        var srcInput = $().dialogIn('image', 'Image', imgTag.attr('src'));
+        var hrefInput = $().dialogIn('text', 'Link Url', aTags.attr('href'));
+
         var form = $('<form></form>')
             .addClass('simple')
-            .addImage('imageSrc', 'Image', imgTag.attr('src'))
-            .addInput('href', 'Link Url', aTags.attr('href'))
+            .append(srcInput, hrefInput)
             .dialog({
                 title:'Properties',
                 modal:true,
@@ -111,13 +112,13 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
                     Ok:function () {
 
                         //Get user-entered data from form
-                        aTags.attr('href', form.find('[name=href]').val());
-                        imgTag.attr('src', form.find('[name=imageSrc]').val());
+                        imgTag.attr('src', srcInput.val());
+                        aTags.attr('href', hrefInput.val());
 
-                        $(this).dialog("close");
+                        $(this).dialog('close');
                     }
                 }
-            });
-
-    }
-}
+            }
+        );
+    };
+};
