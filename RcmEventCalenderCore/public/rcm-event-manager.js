@@ -356,7 +356,7 @@ var RcmEventManager = function () {
         var inputs = {
             categoryId:$().dialogIn('select', 'Event Category', categories, event.categoryId),
             title:$().dialogIn('text', 'Title', event.title),
-            text:$().dialogIn('richEdit', 'text', 'Text', event.text),
+            text:$().dialogIn('richEdit', 'Text', event.text),
             startDate:$().dialogIn('date', 'Start Date', event.startDate),
             endDate:$().dialogIn('date' , 'End Date', event.endDate),
             mapAddress:$().dialogIn('text' , 'Map Address', event.mapAddress)
