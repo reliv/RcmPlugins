@@ -254,10 +254,13 @@ var RcmEventManager = function () {
                         $.ajax({
                             url: categoriesUrl + '/' + categoryId,
                             type: 'DELETE',
-                            success: function() {
-                                me.renderCategorySelect(me.renderEventList);
-                            },
-                            error:me.handleAjaxError
+                            complete: function(xhr) {
+                                if (xhr.readyState == 4 && xhr.status == 204) {
+                                    me.renderCategorySelect(me.renderEventList);
+                                } else {
+                                    me.handleAjaxError(xhr);
+                                }
+                            }
                         });
                     }
                 );
@@ -281,10 +284,13 @@ var RcmEventManager = function () {
                         $.ajax({
                             url: eventsUrl + '/' + eventId,
                             type: 'DELETE',
-                            success: function() {
-                                me.renderEventList();
-                            },
-                            error:me.handleAjaxError
+                            complete: function(xhr) {
+                                if (xhr.readyState == 4 && xhr.status == 204) {
+                                    me.renderEventList();
+                                } else {
+                                    me.handleAjaxError(xhr);
+                                }
+                            }
                         });
                     }
                 );
