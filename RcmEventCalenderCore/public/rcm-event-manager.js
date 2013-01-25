@@ -254,13 +254,10 @@ var RcmEventManager = function () {
                         $.ajax({
                             url: categoriesUrl + '/' + categoryId,
                             type: 'DELETE',
-                            complete: function(xhr) {
-                                if (xhr.readyState == 4 && xhr.status == 204) {
-                                    me.renderCategorySelect(me.renderEventList);
-                                } else {
-                                    me.handleAjaxError(xhr);
-                                }
-                            }
+                            success: function() {
+                                me.renderCategorySelect(me.renderEventList);
+                            },
+                            error:me.handleAjaxError
                         });
                     }
                 );
@@ -284,13 +281,10 @@ var RcmEventManager = function () {
                         $.ajax({
                             url: eventsUrl + '/' + eventId,
                             type: 'DELETE',
-                            complete: function(xhr) {
-                                if (xhr.readyState == 4 && xhr.status == 204) {
-                                    me.renderEventList();
-                                } else {
-                                    me.handleAjaxError(xhr);
-                                }
-                            }
+                            success: function() {
+                                me.renderEventList();
+                            },
+                            error:me.handleAjaxError
                         });
                     }
                 );
@@ -323,16 +317,11 @@ var RcmEventManager = function () {
                 url: eventsUrl + '/' + eventId,
                 type: 'PUT',
                 data: event,
-                complete: function(xhr) {
-                    console.log(xhr.readyState);
-                    console.log(xhr.status);
-                    if (xhr.readyState == 4 && xhr.status == 204) {
-                        me.renderEventList();
-                        okButton.dialog('close');
-                    } else {
-                        me.handleAjaxError(xhr);
-                    }
-                }
+                success: function() {
+                    me.renderEventList();
+                    okButton.dialog('close');
+                },
+                error:me.handleAjaxError
             }
         );
     };

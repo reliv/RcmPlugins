@@ -100,8 +100,7 @@ class CategoryAPIController extends AbstractRestfulController
             return null;
         }
         $this->calender->deleteCategory($id);
-        $this->getResponse()->setStatusCode(204);//204 = OK, No Content Returned
-        return new JsonModel();
+        return new JsonModel(array());
     }
 
     function checkRequired($data){

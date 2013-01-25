@@ -125,8 +125,7 @@ class EventAPIController extends AbstractRestfulController
             //Return the message so troubleshooters tell which field is invalid
             return new JsonModel(array('message'=>$e->getMessage()));
         }
-        $this->getResponse()->setStatusCode(204);//204 = OK, No Content Returned
-        return new JsonModel();
+        return new JsonModel(array());
     }
 
     /**
@@ -142,8 +141,7 @@ class EventAPIController extends AbstractRestfulController
             return null;
         }
         $this->calender->deleteEvent($id);
-        $this->getResponse()->setStatusCode(204);//204 = OK, No Content Returned
-        return new JsonModel();
+        return new JsonModel(array());
     }
 
     function checkRequired($data){
