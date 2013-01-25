@@ -76,7 +76,7 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                         }
                     },
                     createNew:{
-                        name:'Create New Image Set',
+                        name:'Add New Image',
                         icon:'edit',
                         callback:function () {
                             var newImg=$(me.newImageTemplate);
@@ -86,7 +86,7 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                     },
 
                     deleteImage:{
-                        name:'Delete image set',
+                        name:'Delete Image',
                         icon:'delete',
                         callback:function () {
 
