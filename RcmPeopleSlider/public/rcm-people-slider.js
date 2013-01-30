@@ -28,8 +28,10 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     /**
      * This object helps us manage the online app as a multi-part form
      * @type {ApertureSlider}
+     *
+     * This is a public property so the editor change the frame count
      */
-    var apertureSlider = new ApertureSlider(
+    me.apertureSlider = new ApertureSlider(
         container.find('.peopleAperture'),
         {
             frameWidth:160,
@@ -63,41 +65,66 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         $.each(
             instanceConfig.people,
             function (personId, person) {
-                var dataPersonId = ' data-personId="' + personId + '"';
-                var detailsEle = $(
-                    '<table class="personDetails"'
-                        + dataPersonId + ' style="display:none;"' + '>' +
-                        '<tr>' +
-                            '<td><div class="longDesc">' +
-                            person.longDesc +
-                            '</div></td>' +
-                        '<td>' +
-                        //We don't put anything in src so images only load later
-                        '<img ' +
-                            'class="largeImage" ' +
-                            'data-delayedSrc="' + person.largeImage + '">' +
-                        '</td>' +
-                        '</tr>' +
-                        '</table>'
-                );
-
+                var detailsEle = me.buildPersonDetails(personId, person)
+                peopleDetailsDiv.append(detailsEle);
                 if(personId==selectedPersonId){
-                    detailsEle.removeAttr('style');
+                    detailsEle.show();
                     me.loadDelayedImage(detailsEle.find('.largeImage'));
                 }
-
-                peopleDetailsDiv.append(detailsEle);
             }
         );
 
         container.find('.person').click(me.handlePersonClick);
-        container.find('.left').click(apertureSlider.pageBack);
-        container.find('.right').click(apertureSlider.pageForward);
+        container.find('.left').click(me.apertureSlider.pageBack);
+        container.find('.right').click(me.apertureSlider.pageForward);
+    };
+
+    me.buildPersonDetails = function(personId, person){
+        var dataPersonId = ' data-personId="' + personId + '"';
+        return $(
+            '<table class="personDetails"'
+                + dataPersonId + ' style="display:none;"' + '>' +
+                '<tr>' +
+                '<td><div class="longDesc">' +
+                person.longDesc +
+                '</div></td>' +
+                '<td>' +
+                //We don't put anything in src so images only load later
+                '<img ' +
+                'class="largeImage" ' +
+                'data-delayedSrc="' + person.largeImage + '">' +
+                '</td>' +
+                '</tr>' +
+                '</table>'
+        );
+    };
+
+    /**
+     * Used by editor JS to build new person previews
+     * @param personId
+     * @param person
+     * @return {*|jQuery|HTMLElement}
+     */
+    me.buildPersonPreview = function(personId, person){
+        return $(
+            '<a href="?id=' + personId + '" ' +
+                'class="person" ' +
+                'data-personId="' + personId + '">' +
+                '<img class="smallImage" src="' + person.smallImage + '">' +
+                '<div class="shortDesc">' +
+                person.shortDesc +
+                '</div>' +
+                '</a>');
     };
 
     me.handlePersonClick = function () {
         event.preventDefault();
         selectedPersonId = $(this).attr('data-personId');
+        me.render();
+    };
+
+    me.selectPerson = function(personId){
+        selectedPersonId = personId;
         me.render();
     };
 
@@ -125,7 +152,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
             frame = frame - 1;
         }
 
-        apertureSlider.goToFrame(frame);
+        me.apertureSlider.goToFrame(frame);
     };
 
     /**

@@ -264,6 +264,6 @@ var RcmRotatingImageEdit = function(instanceId, container){
      * @return {Object}
      */
     me.getBlankImage = function(){
-        return {src:'/modules/rcm/vendor/ckeditor/skins/kama/images/noimage.png',href:'',alt:''};
+        return {src:rcmEdit.getBlankImgUrl(),href:'',alt:''};
     }
 }

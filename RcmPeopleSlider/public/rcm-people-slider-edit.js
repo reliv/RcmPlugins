@@ -30,6 +30,15 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
      */
     var peopleSlider = window.RcmPeopleSliders[instanceId];
 
+    var personTemplate = {
+        largeImage: rcmEdit.getBlankImgUrl(),
+        smallImage: rcmEdit.getBlankImgUrl(),
+        shortDesc: 'Short Description',
+        longDesc: 'Long description'
+    };
+
+    var newPersonId = 10000;
+
     /**
      * Called by content management system to make this plugin user-editable
      *
@@ -37,25 +46,28 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
      */
     me.initEdit = function(){
 
+        var contSel = rcm.getPluginContainerSelector(instanceId);
+
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId),
+            selector: contSel + ' .person, ' + contSel + ' .personDetails',
             //Here are the right click menu options
             items:{
                 edit:{
-                    name:'Edit Properties',
+                    name:'Create Person',
                     icon:'edit',
-                    callback:function () {}
+                    callback:me.createPerson
+                },
+                edit:{
+                    name:'Delete Person',
+                    icon:'delete',
+                    callback:me.deletePerson
                 }
 
             }
         });
 
         me.makePeopleEditable();
-
-        //for testing only
-        console.log(me.getSaveData());
-
     };
 
     me.makePeopleEditable = function(){
@@ -70,11 +82,14 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
     me.makePersonEditable = function(personId){
         var personEles = peopleSlider.getPersonElements(personId);
         if(!personEles.shortDesc.attr('contenteditable')){
+
+            //Make the shortDesc editable
             personEles.shortDesc.attr('contenteditable', true);
             personEles.shortDesc.css('cursor', 'text');
 
             // We load all images when in the editor to make saving easier
             peopleSlider.loadDelayedImage(personEles.largeImage);
+
             // This fails when the plugin is brand new because we can't start ck
             // editors on elements that are not in the dom
             try{
@@ -83,6 +98,37 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
 
             }
         }
+    };
+
+    me.createPerson = function(){
+        newPersonId+=1;
+
+        container.find('.previews').append(
+            peopleSlider.buildPersonPreview(newPersonId, personTemplate)
+        );
+
+        container.find('.peopleDetails').append(
+            peopleSlider.buildPersonDetails(newPersonId, personTemplate)
+        );
+
+        peopleSlider.selectPerson(newPersonId);
+
+        //Makes the slide recalculate the frame count
+        peopleSlider.apertureSlider.init();
+    };
+
+    me.deletePerson = function(){
+        var personEles = peopleSlider.getPersonElements(
+            $(this).attr('data-personId')
+        );
+        personEles.details.remove();
+        personEles.preview.remove();
+
+        //Select first person in case we deleted the selected person
+        peopleSlider.selectPerson($('.person').attr('data-personId'));
+
+        //Makes the slide recalculate the frame count
+        peopleSlider.apertureSlider.init();
     };
 
     /**
@@ -117,4 +163,4 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         }
     }
 
-}
+};
