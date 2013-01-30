@@ -24,7 +24,11 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
      */
     var me = this;
 
-    var peopleDetailsDiv = container.find('.peopleDetails');
+    /**
+     * The the object used by non-admins to view this plugin
+     * @type {RcmPeopleSlider}
+     */
+    var peopleSlider = window.RcmPeopleSliders[instanceId];
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -47,29 +51,38 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             }
         });
 
-        me.loadAllDelayedImages();
+        me.makePeopleEditable();
 
-        me.getSaveData();
+        //for testing only
+        console.log(me.getSaveData());
+
+    };
+
+    me.makePeopleEditable = function(){
+        $.each(
+            container.find('.person'),
+            function(){
+                me.makePersonEditable($(this).attr('data-personId'));
+            }
+        );
     };
 
     me.makePersonEditable = function(personId){
-        var dataSelector = '[data-personId=' + personId + ']';
-        var personEle = container.find('.person' + dataSelector);
-        var personDetailsEle = container.find('.personDetails' + dataSelector);
-    };
+        var personEles = peopleSlider.getPersonElements(personId);
+        if(!personEles.shortDesc.attr('contenteditable')){
+            personEles.shortDesc.attr('contenteditable', true);
+            personEles.shortDesc.css('cursor', 'text');
 
-    /**
-     * Delaying the loading of these is good for viewing but when we are
-     * editing, we just want to load them all
-     */
-    me.loadAllDelayedImages = function(){
-        $.each(
-            container.find('.peopleDetails .largeImage'),
-            function(){
-                var largeImage = $(this);
-                largeImage.attr('src', largeImage.attr('data-delayedSrc'));
+            // We load all images when in the editor to make saving easier
+            peopleSlider.loadDelayedImage(personEles.largeImage);
+            // This fails when the plugin is brand new because we can't start ck
+            // editors on elements that are not in the dom
+            try{
+                rcmEditor.convertToHtml5Editor(personEles.longDesc);
+            }catch(e){
+
             }
-        );
+        }
     };
 
     /**
@@ -85,21 +98,15 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         $.each(
             container.find('.person'),
             function(){
-                var personDiv = $(this);
-                var personId = personDiv.attr('data-personId');
-                var personDetailsTable = peopleDetailsDiv.find(
-                    'table[data-personId=' + personId + ']'
+                var personEles = peopleSlider.getPersonElements(
+                    $(this).attr('data-personId')
                 );
                 people.push(
                     {
-                        'smallImage' :
-                            personDiv.find('.smallImage').attr('src'),
-                        'largeImage' :
-                            personDetailsTable.find('.largeImage').attr('src'),
-                        'shortDesc' :
-                            personDiv.find('.shortDesc').html(),
-                        'longDesc' :
-                            personDetailsTable.find('.longDesc').html()
+                        'smallImage' :personEles.smallImage.attr('src'),
+                        'largeImage' : personEles.largeImage.attr('src'),
+                        'shortDesc' : personEles.shortDesc.html(),
+                        'longDesc' : personEles.longDesc.html()
                     }
                 );
             }

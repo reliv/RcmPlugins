@@ -23,6 +23,8 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
 
     var peopleDetailsDiv = container.find('.peopleDetails');
 
+    var selectedPersonId = 0;
+
     /**
      * This object helps us manage the online app as a multi-part form
      * @type {ApertureSlider}
@@ -43,6 +45,12 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      */
     me.init = function () {
 
+        //Register this object so the editor can use it
+        if(typeof(window.RcmPeopleSliders)!='array'){
+            window.RcmPeopleSliders = [];
+        }
+        window.RcmPeopleSliders[instanceId] = me;
+
         var selectedPersonId = peopleDetailsDiv.attr('data-selectedPersonId');
 
         peopleDetailsDiv.empty();
@@ -56,13 +64,13 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
             instanceConfig.people,
             function (personId, person) {
                 var dataPersonId = ' data-personId="' + personId + '"';
-                var personDetailsTable = $(
+                var detailsEle = $(
                     '<table class="personDetails"'
                         + dataPersonId + ' style="display:none;"' + '>' +
                         '<tr>' +
-                            '<td class="longDesc">' +
+                            '<td><div class="longDesc">' +
                             person.longDesc +
-                            '</td>' +
+                            '</div></td>' +
                         '<td>' +
                         //We don't put anything in src so images only load later
                         '<img ' +
@@ -74,11 +82,11 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
                 );
 
                 if(personId==selectedPersonId){
-                    personDetailsTable.removeAttr('style');
-                    me.loadDelayedImage(personDetailsTable);
+                    detailsEle.removeAttr('style');
+                    me.loadDelayedImage(detailsEle.find('.largeImage'));
                 }
 
-                peopleDetailsDiv.append(personDetailsTable);
+                peopleDetailsDiv.append(detailsEle);
             }
         );
 
@@ -88,29 +96,29 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     };
 
     me.handlePersonClick = function () {
-
         event.preventDefault();
+        selectedPersonId = $(this).attr('data-personId');
+        me.render();
+    };
 
-        var thisPersonDiv = $(this);
-        var personId = thisPersonDiv.attr('data-personId');
+    me.render = function(){
+        var personEles = me.getPersonElements(selectedPersonId);
 
         container.find('.person').removeClass('selected');
-        thisPersonDiv.addClass('selected');
+        personEles.preview.addClass('selected');
 
         peopleDetailsDiv.children().hide();
-        var personDetailsTable
-            = container.find('.personDetails[data-personId=' + personId + ']');
 
-        me.loadDelayedImage(personDetailsTable);
+        me.loadDelayedImage(personEles.largeImage);
 
-        personDetailsTable.show();
+        personEles.details.show();
 
         container.find('.personDetails').html(
-            thisPersonDiv.find('.details').html()
+            personEles.preview.find('.details').html()
         );
 
         //PersonId's start with zero but frames start with 1
-        var frame = parseInt(thisPersonDiv.attr('data-personId')) + 1;
+        var frame = parseInt(personEles.preview.attr('data-personId')) + 1;
 
         //Put the selected frame more in the center
         if (frame > 1) {
@@ -121,12 +129,30 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     };
 
     /**
-     * Load the large image once we know it will be used
-     * @param personDetailsTable
+     * Gets all the elements for a person. Is also used in editor JS file.
+     * @param {Integer} personId
+     * @return {Object}
      */
-    me.loadDelayedImage = function(personDetailsTable){
-        var largeImage = personDetailsTable.find('.largeImage');
-        largeImage.attr('src', largeImage.attr('data-delayedSrc'));
+    me.getPersonElements = function(personId){
+        var dataSelector = '[data-personId=' + personId + ']';
+        var details = container.find('.personDetails' + dataSelector);
+        var preview = container.find('.person' + dataSelector);
+        return {
+            details: details,
+            preview: preview,
+            shortDesc: preview.find('.shortDesc'),
+            longDesc: details.find('.longDesc'),
+            smallImage: preview.find('.smallImage'),
+            largeImage : details.find('.largeImage')
+        }
+    };
+
+    /**
+     * Load the large image once we know it will be used
+     * @param detailsEle
+     */
+    me.loadDelayedImage = function(imageElement){
+        imageElement.attr('src', imageElement.attr('data-delayedSrc'));
     };
 
     me.init();

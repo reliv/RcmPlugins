@@ -30,6 +30,11 @@
     float: right;
 }
 
+.RcmPeopleSlider .longDesc{
+    width: 445px;
+    height: 330px;
+}
+
 .RcmPeopleSlider .largeImage {
     margin-left: 10px;
 }
