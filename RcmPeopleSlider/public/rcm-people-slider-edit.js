@@ -39,6 +39,8 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
 
     var newPersonId = 10000;
 
+    var sortable = false;
+
     /**
      * Called by content management system to make this plugin user-editable
      *
@@ -53,17 +55,37 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             selector: contSel + ' .person, ' + contSel + ' .personDetails',
             //Here are the right click menu options
             items:{
-                edit:{
+                sort:{
+                    name:'Toggle Sort Mode (Allows drag and drop sorting but ' +
+                        'disables text editing)',
+                    icon:'edit',
+                    callback:function(){
+                        if(sortable){
+                            sortable=false;
+                            container.find('.previews').sortable('destroy');
+                        }else{
+                            sortable=true;
+                            container.find('.previews').sortable();
+                        }
+                    }
+                },
+                line1:'-',
+                create:{
                     name:'Create Person',
                     icon:'edit',
                     callback:me.createPerson
                 },
                 edit:{
+                    name:'Edit Person Images',
+                    icon:'edit',
+                    callback:me.editPersonImages
+                },
+                line2:'-',
+                delete:{
                     name:'Delete Person',
                     icon:'delete',
                     callback:me.deletePerson
                 }
-
             }
         });
 
@@ -90,6 +112,10 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             // We load all images when in the editor to make saving easier
             peopleSlider.loadDelayedImage(personEles.largeImage);
 
+            //Allow double click to edit images
+            personEles.smallImage.dblclick(me.editPersonImages);
+            personEles.largeImage.dblclick(me.editPersonImages);
+
             // This fails when the plugin is brand new because we can't start ck
             // editors on elements that are not in the dom
             try{
@@ -111,10 +137,14 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             peopleSlider.buildPersonDetails(newPersonId, personTemplate)
         );
 
-        peopleSlider.selectPerson(newPersonId);
-
         //Makes the slide recalculate the frame count
         peopleSlider.apertureSlider.init();
+
+        peopleSlider.selectPerson(newPersonId);
+
+        peopleSlider.attachClickEvents();
+
+        me.makePersonEditable(newPersonId);
     };
 
     me.deletePerson = function(){
@@ -129,6 +159,56 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
 
         //Makes the slide recalculate the frame count
         peopleSlider.apertureSlider.init();
+    };
+
+    me.editPersonImages = function(){
+        var clickedEle = $(this);
+        var personId = clickedEle.attr('data-personId');
+
+        //Used for double clicking on images
+        if(typeof(personId)=='undefined'){
+            personId = clickedEle
+                .closest('[data-personId]').attr('data-personId');
+        }
+
+        var personEles = peopleSlider.getPersonElements(personId);
+
+        var smallImage = $.dialogIn(
+            'image',
+            'Small Preview Image (150px by 100px)',
+            personEles.smallImage.attr('src')
+        );
+        var largeImage = $.dialogIn(
+            'image',
+            'Large Details Image (200px wide)',
+            personEles.largeImage.attr('src')
+        );
+
+        var form = $('<form></form>')
+            .addClass('simple')
+            .append(smallImage, largeImage)
+            .dialog({
+                title:'Properties',
+                modal:true,
+                width:620,
+                buttons:{
+                    Cancel:function () {
+                        $(this).dialog("close");
+                    },
+                    Ok:function () {
+
+                        //Get user-entered data from form
+                        personEles.smallImage.attr('src', smallImage.val());
+                        personEles.largeImage.attr('src', largeImage.val());
+                        personEles.largeImage.attr(
+                            'delayed-src', largeImage.val()
+                        );
+
+                        $(this).dialog('close');
+                    }
+                }
+            }
+        );
     };
 
     /**

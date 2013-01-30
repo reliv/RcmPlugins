@@ -74,7 +74,10 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
             }
         );
 
-        container.find('.person').click(me.handlePersonClick);
+        me.attachClickEvents();
+    };
+
+    me.attachClickEvents = function(){container.find('.person').click(me.handlePersonClick);
         container.find('.left').click(me.apertureSlider.pageBack);
         container.find('.right').click(me.apertureSlider.pageForward);
     };

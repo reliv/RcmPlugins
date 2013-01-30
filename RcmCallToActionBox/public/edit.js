@@ -67,7 +67,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
         });
 
 
-    }
+    };
 
     /**
      * Called by content management system to get this plugins data for saving
@@ -81,7 +81,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
             'href': aTags.attr('href'),
             'imageSrc': imgTag.attr('src')
         }
-    }
+    };
 
     me.getAssets = function(){
         var data = me.getSaveData();
@@ -95,8 +95,8 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      */
     me.showEditDialog = function () {
 
-        var srcInput = $().dialogIn('image', 'Image', imgTag.attr('src'));
-        var hrefInput = $().dialogIn('text', 'Link Url', aTags.attr('href'));
+        var srcInput = $.dialogIn('image', 'Image', imgTag.attr('src'));
+        var hrefInput = $.dialogIn('text', 'Link Url', aTags.attr('href'));
 
         var form = $('<form></form>')
             .addClass('simple')
