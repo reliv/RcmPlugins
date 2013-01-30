@@ -66,8 +66,10 @@
     left: auto;
 }
 
-
-
+/* Disable hover on locked plugins */
+.rcmPluginLocked.RcmNavigation li:hover .popup, .rcmPluginLocked.RcmNavigation li.sfhover .popup {
+    left: -999em;
+}
 
 .RcmNavigation .column, #rcmContainer_1 .column{
     width: 250px;
