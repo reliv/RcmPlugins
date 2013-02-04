@@ -46,11 +46,13 @@ class Event
     protected $text;
 
     /**
+     * @var \DateTime
      * @ORM\Column(type="datetime")
      */
     protected $startDate;
 
     /**
+     * @var \DateTime
      * @ORM\Column(type="datetime")
      */
     protected $endDate;
@@ -81,14 +83,20 @@ class Event
         );
     }
 
-    function getDaysText($dateFormat="F d"){
+    /**
+     * @param string $dateFormat see syntax for php's strftime() function
+     *
+     * @return string
+     */
+    function getDaysText($dateFormat="%B %d"){
+        //strftime must be used for non-english support
         if(
             $this->startDate==$this->endDate
         ) {
-            return $this->startDate->format($dateFormat);
+            return strftime($dateFormat, $this->startDate->getTimestamp());
         }else{
-            return $this->startDate->format($dateFormat)
-                . ' - ' . $this->endDate->format($dateFormat);
+            return strftime($dateFormat, $this->startDate->getTimestamp())
+                . ' - ' . strftime($dateFormat, $this->endDate->getTimestamp());
         }
     }
 
