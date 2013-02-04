@@ -31,8 +31,8 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
     var peopleSlider = window.RcmPeopleSliders[instanceId];
 
     var personTemplate = {
-        largeImage: rcmEdit.getBlankImgUrl(),
-        smallImage: rcmEdit.getBlankImgUrl(),
+        largeImage: '/modules/rcm/images/no-image.png',
+        smallImage: '/modules/rcm/images/no-image.png',
         shortDesc: 'Short Description',
         longDesc: 'Long description'
     };

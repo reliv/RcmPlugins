@@ -264,6 +264,6 @@ var RcmRotatingImageEdit = function(instanceId, container){
      * @return {Object}
      */
     me.getBlankImage = function(){
-        return {src:rcmEdit.getBlankImgUrl(),href:'',alt:''};
+        return {src:'/modules/rcm/images/no-image.png',href:'',alt:''};
     }
 }
