@@ -2,22 +2,11 @@
 
 namespace RcmEventCalenderCore\Controller;
 
-use \Zend\Mvc\Controller\AbstractRestfulController,
+use
 \Zend\View\Model\JsonModel;
 
-class CategoryAPIController extends AbstractRestfulController
+class CategoryAPIController extends AbstractAPIController
 {
-
-    /**
-     * @var \RcmEventCalenderCore\Model\Calender $calender
-     */
-    protected $calender;
-
-    function __construct(
-        \RcmEventCalenderCore\Model\Calender $calender
-    ) {
-        $this->calender = $calender;
-    }
 
     /**
      * Return list of resources
@@ -25,6 +14,9 @@ class CategoryAPIController extends AbstractRestfulController
      * @return mixed
      */
     function getList(){
+
+        $this->exitIfNotAdmin();
+
         $categories = $this->calender->getCategories();
         $categoryList = array();
         foreach($categories as $category){
@@ -40,6 +32,9 @@ class CategoryAPIController extends AbstractRestfulController
      * @return mixed
      */
     function get($id){
+
+        $this->exitIfNotAdmin();
+
         $category = $this->calender->getCategory($id);
         if(!$category){
             $this->getResponse()->setStatusCode(404);
@@ -55,6 +50,9 @@ class CategoryAPIController extends AbstractRestfulController
      * @return mixed
      */
     function create($data){
+
+        $this->exitIfNotAdmin();
+
         //Ensure they posted all required fields to avoid undefined index errors
         $requiredErrorView = $this->checkRequired($data);
         if($requiredErrorView){
@@ -82,6 +80,9 @@ class CategoryAPIController extends AbstractRestfulController
      * @return mixed
      */
     function update($id, $data){
+
+        $this->exitIfNotAdmin();
+
         //This can be implemented later to allow category renaming
         $this->getResponse()->setStatusCode(403);//Forbidden
         return new JsonModel();
@@ -94,6 +95,9 @@ class CategoryAPIController extends AbstractRestfulController
      * @return mixed
      */
     function delete($id){
+
+        $this->exitIfNotAdmin();
+
         $event = $this->calender->getCategory($id);
         if(!$event){
             $this->getResponse()->setStatusCode(404);
@@ -108,14 +112,10 @@ class CategoryAPIController extends AbstractRestfulController
             $this->getResponse()->setStatusCode(400);//Bad Request
             return new JsonModel(
                 array(
-                    'message'=> "Field name is required"
+                    'message'=> "Name is required"
                 )
             );
         }
         return null;
-    }
-
-    function getCategoriesUrl(){
-        return $this->url()->fromRoute('rcm-event-calender-core-category');
     }
 }

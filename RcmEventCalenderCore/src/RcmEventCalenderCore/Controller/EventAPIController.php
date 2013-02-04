@@ -2,22 +2,11 @@
 
 namespace RcmEventCalenderCore\Controller;
 
-use \Zend\Mvc\Controller\AbstractRestfulController,
+use
 \Zend\View\Model\JsonModel;
 
-class EventAPIController extends AbstractRestfulController
+class EventAPIController extends AbstractAPIController
 {
-
-    /**
-     * @var \RcmEventCalenderCore\Model\Calender $calender
-     */
-    protected $calender;
-
-    function __construct(
-        \RcmEventCalenderCore\Model\Calender $calender
-    ) {
-        $this->calender = $calender;
-    }
 
     /**
      * Return list of resources
@@ -25,6 +14,9 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function getList(){
+
+        $this->exitIfNotAdmin();
+
         $categoryId=$this->params()->fromQuery('categoryId', null);
         $events = $this->calender->getEvents($categoryId);
         $eventList=array();
@@ -41,6 +33,9 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function get($id){
+
+        $this->exitIfNotAdmin();
+
         $event = $this->calender->getEvent($id);
         if(!$event){
             $this->getResponse()->setStatusCode(404);
@@ -56,6 +51,8 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function create($data){
+
+        $this->exitIfNotAdmin();
 
         //Ensure they posted all required fields to avoid undefined index errors
         $requiredErrorView = $this->checkRequired($data);
@@ -91,6 +88,8 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function update($id, $data){
+
+        $this->exitIfNotAdmin();
 
         //Forbid new Id's
         $event = $this->calender->getEvent($id);
@@ -135,6 +134,9 @@ class EventAPIController extends AbstractRestfulController
      * @return mixed
      */
     function delete($id){
+
+        $this->exitIfNotAdmin();
+
         $event = $this->calender->getEvent($id);
         if(!$event){
             $this->getResponse()->setStatusCode(404);
@@ -166,9 +168,5 @@ class EventAPIController extends AbstractRestfulController
             }
         }
         return null;
-    }
-
-    function getEventsUrl(){
-        return $this->url()->fromRoute('rcm-event-calender-core-event');
     }
 }

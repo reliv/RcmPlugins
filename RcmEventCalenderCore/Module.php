@@ -97,13 +97,15 @@ class Module
                 'EventAPIController' => function ($controllerMgr) {
                     $serviceMgr=$controllerMgr->getServiceLocator();
                     return new EventAPIController(
-                        $serviceMgr->get('CalenderModel')
+                        $serviceMgr->get('CalenderModel'),
+                        $serviceMgr->get('rcmUserManager')
                     );
                 },
                 'CategoryAPIController' => function ($controllerMgr) {
                     $serviceMgr=$controllerMgr->getServiceLocator();
                     return new CategoryAPIController(
-                        $serviceMgr->get('CalenderModel')
+                        $serviceMgr->get('CalenderModel'),
+                        $serviceMgr->get('rcmUserManager')
                     );
                 }
             )
