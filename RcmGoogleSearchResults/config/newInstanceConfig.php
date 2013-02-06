@@ -1,4 +1,4 @@
 <?php
 return array (
-    'resultPlaceHolder' => 'Loading search results...'
+    'resultPlaceHolder' => 'No search results.'
 );
