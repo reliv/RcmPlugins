@@ -97,6 +97,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
                 me.makePersonEditable($(this).attr('data-personId'));
             }
         );
+        peopleSlider.attachClickEvents();
     };
 
     me.makePersonEditable = function(personId){
@@ -117,7 +118,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             // This fails when the plugin is brand new because we can't start ck
             // editors on elements that are not in the dom
             try{
-                rcmEditor.convertToHtml5Editor(personEles.longDesc);
+                window['rcmEditor'].convertToHtml5Editor(personEles.longDesc);
             }catch(e){
 
             }
