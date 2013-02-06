@@ -4,14 +4,14 @@ $this->headLink()->appendStylesheet(
 );
 
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-rss-feed/rssReader.js'
+    $this->basePath() . '/modules/rcm-rss-feed/RssReader.js'
 );
 ?>
 
 <script type="text/javascript">
 $(function(){
 
-    new rssReader(
+    new RssReader(
         '<?php echo $this->rssProxy; ?>',
         <?php echo $this->instanceId; ?>,
         $(".rss-feed-<?php echo $this->instanceId; ?>"),

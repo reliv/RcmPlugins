@@ -20,28 +20,25 @@ var RcmLoginEdit = function(instanceId, container){
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RandomImage}
+     * @type {RcmLoginEdit}
      */
     var me = this;
 
     /**
      * Called by RelivContentManger to make the random image editable
-     *
-     * @return {Null}
      */
     me.initEdit = function(){
 
-        $('[data-textEdit="loginErrorInvalidCopy"]').show();
+        container.find('[data-textEdit="loginErrorInvalidCopy"]').show();
 
-    }
+    };
 
     /**
      * Called by RelivContentManger to get the state of this plugin to pass to
      * the server
-     *
-     * @return void
+     * @return {Object}
      */
     me.getSaveData = function(){
-
-    }
-}
+        return {};
+    };
+};

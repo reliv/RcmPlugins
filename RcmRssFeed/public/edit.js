@@ -20,7 +20,7 @@ var RcmRssFeedEdit = function (instanceId, container) {
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmCallToActionBox}
+     * @type {RcmRssFeedEdit}
      */
     var me = this;
     me.instanceId = instanceId;
@@ -36,7 +36,7 @@ var RcmRssFeedEdit = function (instanceId, container) {
     me.initEdit = function(){
 
         //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(event){
+        container.delegate('div', 'dblclick', function(){
             me.showEditDialog();
         });
 
@@ -57,7 +57,7 @@ var RcmRssFeedEdit = function (instanceId, container) {
         });
 
 
-    }
+    };
 
     /**
      * Called by content management system to get this plugins data for saving
@@ -71,12 +71,10 @@ var RcmRssFeedEdit = function (instanceId, container) {
             'rssFeedUrl': me.feedUrl,
             'rssFeedLimit': me.feedLimit
         }
-    }
+    };
 
     /**
      * Displays a dialog box to edit href and image src
-     *
-     * @return {Null}
      */
     me.showEditDialog = function () {
 
@@ -101,7 +99,7 @@ var RcmRssFeedEdit = function (instanceId, container) {
                         me.feedUrl = domForm.rcmFeedUrl.value;
                         me.feedLimit = domForm.rcmFeedLimit.value;
 
-                        new rssReader(
+                        new RssReader(
                             me.feedProxy,
                             me.instanceId,
                             $(".rss-feed-"+me.instanceId),
@@ -114,5 +112,5 @@ var RcmRssFeedEdit = function (instanceId, container) {
                 }
             });
 
-    }
-}
+    };
+};

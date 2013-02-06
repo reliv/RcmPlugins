@@ -20,7 +20,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmPortalAnnouncementBox}
+     * @type {RcmPortalAnnouncementBoxEdit}
      */
     var me = this;
 
@@ -39,15 +39,13 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
 
     /**
      * Called by content management system to make this plugin user-editable
-     *
-     * @return {Null}
      */
     me.initEdit = function(){
 
        // container.find('.urlContainer').attr('class','dottedeUrlContainer');
 
         //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(event){
+        container.delegate('div', 'dblclick', function(){
             me.showEditDialog();
         });
 
@@ -67,7 +65,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
             }
         });
 
-    }
+    };
 
     /**
      * Called by content management system to get this plugins data for saving
@@ -80,17 +78,15 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
         return {
             'href': aTags.attr('href')
         }
-    }
+    };
 
     me.getAssets = function(){
         var saveData = me.getSaveData();
         return [saveData.href];
-    }
+    };
 
     /**
      * Displays a dialog box to edit href and image src
-     *
-     * @return {Null}
      */
     me.showEditDialog = function () {
 
@@ -116,5 +112,5 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
                 }
             });
 
-    }
-}
+    };
+};

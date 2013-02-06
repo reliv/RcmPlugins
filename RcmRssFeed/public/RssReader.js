@@ -1,4 +1,4 @@
-function rssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
+function RssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
 
     var me = this;
 
@@ -20,7 +20,7 @@ function rssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
             var newLine = $("<p>").html('<a href="'+value.feedlink+'">'+value.feedtitle+'</a>').addClass("rcmRssFeedLine");
             $(me.displayContainer).append(newLine);
         });
-    }).error(function(e){
+    }).error(function(){
         var newLine = $("<p>").html('There was a problem retrieving the RSS feed');
         $(me.displayContainer).html(newLine);
     });
