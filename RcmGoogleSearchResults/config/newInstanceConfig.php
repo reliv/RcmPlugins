@@ -1,2 +1,4 @@
 <?php
-return array ();
+return array (
+    'resultPlaceHolder' => 'Loading search results...'
+);

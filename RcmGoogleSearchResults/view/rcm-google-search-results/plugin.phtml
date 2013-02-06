@@ -34,9 +34,8 @@ $cx = isset($_GET['cx'])?$_GET['cx']:null;
     </script>
     <gcse:search></gcse:search>
 <?php else:?>
-    <!--Should only show during editing and during errors-->
-    Loading search results...
+    <?php //Should only show during editing and during cx-missing errors?>
+    <div data-textEdit="resultPlaceHolder">
+        <?php echo $this->ic['resultPlaceHolder']?>
+    </div>
 <?php endif?>
-
-<?php //This hack is here because RCM core fails when plugins save no data?>
-<div style="display:none;" data-textEdit="uselessPlaceholder"></div>
