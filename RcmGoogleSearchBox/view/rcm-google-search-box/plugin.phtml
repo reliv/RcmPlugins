@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * RcmGoogleSearchBox content template
+ *
+ * Renders this plugins view
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   Plugins\Image
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
+ */
+$q=isset($_GET['q'])?$_GET['q']:null;
+?>
+<form action="<?php echo $this->ic['resultPage']?>">
+    <input type="hidden" name="cx" value="<?php echo $this->ic['googleKey']?>">
+    <input type="hidden" name="ie" value="UTF-8">
+    <input value="<?php echo $q?>" type="text" name="q" size="40" style="background-color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial;">
+<!--    <button data-textEdit="searchButton">-->
+<!--        --><?php //echo $this->ic['searchButton']?>
+<!--    </button>-->
+    <button>Search</button>
+</form>
+

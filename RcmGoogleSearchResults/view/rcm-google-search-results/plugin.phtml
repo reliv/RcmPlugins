@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * RcmGoogleSearchResults content template
+ *
+ * Renders this plugins view
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   Plugins\Image
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
+ */
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-google-search-results/style.css'
+);
+$cx = isset($_GET['cx'])?$_GET['cx']:null;
+?>
+<?php if($cx):?>
+    <script>
+        (function() {
+            var cx = '<?php echo $cx?>';
+            var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+            gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+        })();
+    </script>
+    <gcse:search></gcse:search>
+<?php else:?>
+    <!--Should only show during editing and during errors-->
+    Loading search results...
+<?php endif?>
+
+<?php //This hack is here because RCM core fails when plugins save no data?>
+<div style="display:none;" data-textEdit="uselessPlaceholder"></div>

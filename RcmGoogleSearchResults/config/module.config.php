@@ -11,7 +11,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmEventListDisplay
+ * @package   RcmPlugins\RcmGoogleSearchResults
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -22,12 +22,11 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmEventListDisplay'=>array(
-            'type' => 'Events',
-            'display' => 'Event List Display',
-            'tooltip' => 'Displays the list of events in a given event category',
+        'RcmGoogleSearchResults'=>array(
+            'type' => 'Search',
+            'display' => 'Google Search Results',
+            'tooltip' => 'Google Search Results',
             'icon' => '',
-            'editJs'=>'/modules/rcm-event-list-display/rcm-event-list-display-edit.js',
         ),
     ),
 
