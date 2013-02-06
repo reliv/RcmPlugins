@@ -20,7 +20,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmPeopleSlider}
+     * @type {RcmPeopleSliderEdit}
      */
     var me = this;
 
@@ -28,7 +28,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
      * The the object used by non-admins to view this plugin
      * @type {RcmPeopleSlider}
      */
-    var peopleSlider = window.RcmPeopleSliders[instanceId];
+    var peopleSlider = window['RcmPeopleSliders'][instanceId];
 
     var personTemplate = {
         largeImage: '/modules/rcm/images/no-image.png',
@@ -43,8 +43,6 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
 
     /**
      * Called by content management system to make this plugin user-editable
-     *
-     * @return {Null}
      */
     me.initEdit = function(){
 

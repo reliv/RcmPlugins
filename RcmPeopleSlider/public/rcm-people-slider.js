@@ -51,7 +51,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         if(typeof(window.RcmPeopleSliders)!='array'){
             window.RcmPeopleSliders = [];
         }
-        window.RcmPeopleSliders[instanceId] = me;
+        window['RcmPeopleSliders'][instanceId] = me;
 
         var selectedPersonId = peopleDetailsDiv.attr('data-selectedPersonId');
 
@@ -65,7 +65,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         $.each(
             instanceConfig.people,
             function (personId, person) {
-                var detailsEle = me.buildPersonDetails(personId, person)
+                var detailsEle = me.buildPersonDetails(personId, person);
                 peopleDetailsDiv.append(detailsEle);
                 if(personId==selectedPersonId){
                     detailsEle.show();
@@ -179,7 +179,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
 
     /**
      * Load the large image once we know it will be used
-     * @param detailsEle
+     * @param {Object} imageElement
      */
     me.loadDelayedImage = function(imageElement){
         imageElement.attr('src', imageElement.attr('data-delayedSrc'));
