@@ -20,7 +20,7 @@ var RcmRotatingImageEdit = function(instanceId, container){
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmRotatingImage}
+     * @type {RcmRotatingImageEdit}
      */
     var me = this;
 
@@ -28,8 +28,6 @@ var RcmRotatingImageEdit = function(instanceId, container){
 
     /**
      * Called by RelivContentManger to make the random image editable
-     *
-     * @return {Null}
      */
     me.initEdit = function(){
 
@@ -41,7 +39,7 @@ var RcmRotatingImageEdit = function(instanceId, container){
                 me.completeInitEdit();
             }
         );
-    }
+    };
 
     /**
      * Called by RelivContentManger to get the state of this plugin to pass to
@@ -51,7 +49,7 @@ var RcmRotatingImageEdit = function(instanceId, container){
      */
     me.getSaveData = function(){
         return {'images':data.images};
-    }
+    };
 
     me.getAssets = function(){
         var assets = [];
@@ -60,12 +58,10 @@ var RcmRotatingImageEdit = function(instanceId, container){
             assets.push(this.src);
         });
         return assets;
-    }
+    };
 
     /**
      * Updates the DOM according to our current data
-     *
-     * @return {Null}
      */
     me.update = function(){
 
@@ -87,13 +83,11 @@ var RcmRotatingImageEdit = function(instanceId, container){
 
         //Render # of # display
         me.numberDisplay.html('Image #' + (me.current+1) + ' of ' + data.images.length);
-    }
+    };
 
     /**
      * Finishes making the plugin editable. Is called when the AJAX request for
      * all images gets back to the browser
-     *
-     * @return {Null}
      */
     me.completeInitEdit = function(){
 
@@ -138,7 +132,7 @@ var RcmRotatingImageEdit = function(instanceId, container){
             },
 
             events:{
-                hide:function (opt) {
+                hide:function () {
                     //Keep nav open for 200ms after the right click menu closes
                     //to ensure the nav stays open if the mouse is still over it
                     setTimeout(function () {
@@ -201,14 +195,12 @@ var RcmRotatingImageEdit = function(instanceId, container){
         //Run update to render our first image
         me.current = 0;
         me.update();
-    }
+    };
 
     /**
      * Pops up a dialog to edit a single image and its properties
      *
      * @param {Boolean} deleteOnClose used for the cancel button on new images
-     *
-     * @return {Null}
      */
     me.showEditDialog = function (deleteOnClose) {
 
@@ -217,7 +209,7 @@ var RcmRotatingImageEdit = function(instanceId, container){
         //If user clicked the edit button but we have no images
         if(!data.images.length){
             $().alert('No images to edit.');
-            return null;
+            return;
         }
 
         //Show the dialog
@@ -255,7 +247,7 @@ var RcmRotatingImageEdit = function(instanceId, container){
                 }
             }
         });
-    }
+    };
 
     /**
      * Returns data for a blank image so we can create new ones and deal with
@@ -265,5 +257,5 @@ var RcmRotatingImageEdit = function(instanceId, container){
      */
     me.getBlankImage = function(){
         return {src:'/modules/rcm/images/no-image.png',href:'',alt:''};
-    }
-}
+    };
+};
