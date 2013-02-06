@@ -20,7 +20,7 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmImageWithThumbnails}
+     * @type {RcmImageWithThumbnailsEdit}
      */
     var me = this;
 
@@ -38,11 +38,9 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
     me.emptyMainImageTemplate = '<div class="mainImage"><img src="/modules/reliv-application/content/images/rcm-image-with-thumbnails/placeholder.jpg" border="0"/></div>';
     /**
      * Called by content management system to make this plugin user-editable
-     *
-     * @return {Null}
      */
     me.initEdit = function(){
-        container.delegate('a.image', 'dblclick', function(event){
+        container.delegate('a.image', 'dblclick', function(){
             me.showEditDialog($(this));
         });
 
@@ -149,10 +147,6 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                                         var mainImageVal = container.find('.imgClass').attr('src');
                                         var mainRelVal = aTag.attr('rel');
 
-                                        console.log(mainRelVal);
-                                        console.log(mainImageVal);
-                                        console.log(initialImg);
-
                                         aTag.remove();
 
                                         var initialImg = container.find('a.image').attr('rel');
@@ -172,13 +166,11 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
         });
 
-    }
+    };
 
     /**
      * Called by content management system to get this plugins data for saving
      * on the server
-     *
-     * @return {Object}
      */
     me.getSaveData = function () {
 
@@ -201,23 +193,21 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
        return imageArray;
 
-    }
+    };
 
     me.getAssets = function(){
         return me.getSaveData();
-    }
+    };
 
     /**
      * Displays a dialog box to edit href and image src
-     *
-     * @return {Null}
      */
     me.showEditDialog = function (aTag, deleteOnClose) {
         //console.log(aTag);
 
 
         var mainVal = aTag.attr('rel');
-        var thumbVal = aTag.find('.thumb').attr('src')
+        var thumbVal = aTag.find('.thumb').attr('src');
 
         var okClicked = false;
 
@@ -253,14 +243,14 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                         aTag.find('.thumb').attr('src', newThumbVal);
                         var button = this;
                         var continueOkClick = function () {
-                        okClicked = true;
-                        $(button).dialog("close");
-                        }
+                            okClicked = true;
+                            $(button).dialog("close");
+                        };
                         //$(this).dialog("close");
                         continueOkClick();
                     }
                 }
             });
 
-    }
-}
+    };
+};
