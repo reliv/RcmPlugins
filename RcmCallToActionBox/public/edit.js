@@ -20,7 +20,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmCallToActionBox}
+     * @type {RcmCallToActionBoxEdit}
      */
     var me = this;
 
@@ -40,13 +40,11 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
 
     /**
      * Called by content management system to make this plugin user-editable
-     *
-     * @return {Null}
      */
     me.initEdit = function(){
 
         //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(event){
+        container.delegate('div', 'dblclick', function(){
             me.showEditDialog();
         });
 
@@ -90,8 +88,6 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
 
     /**
      * Displays a dialog box to edit href and image src
-     *
-     * @return {Null}
      */
     me.showEditDialog = function () {
 
