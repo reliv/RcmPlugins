@@ -1,0 +1,49 @@
+.rcmContainer .RcmPortalAnnouncementBox {
+    position: relative;
+    width: 220px;
+    height: 207px;
+    border: 1px solid #CCC;
+    border-radius: 10px 10px 0px 0px;
+    padding: 0px;
+}
+
+.RcmPortalAnnouncementBox div .bg {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.RcmPortalAnnouncementBox a {
+    text-decoration: none;
+}
+
+.RcmPortalAnnouncementBox div .top {
+    background: #f8971d;
+    color: white;
+    font-weight: bold;
+    height: 30px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 10px 10px 0px 0px;
+}
+.RcmPortalAnnouncementBox div .bottom {
+    position: relative;
+    margin: 0 5px 0 5px;
+    padding: 5px;
+    border: hidden;
+    text-align: left;
+}
+
+div .linkStyle {
+    height: 7px;
+    width:44px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 10px;
+    margin: 5px;
+    border:none;
+
+}
