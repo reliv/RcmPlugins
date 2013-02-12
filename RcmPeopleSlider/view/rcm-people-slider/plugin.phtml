@@ -56,8 +56,10 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
         <?php //person output here for non-js support for SEO reasons only ?>
         <table class="personDetails">
             <tr>
-                <td class="longDesc">
-                    <?php echo $selectedPerson['longDesc']?>
+                <td>
+                    <div class="longDesc">
+                        <?php echo $selectedPerson['longDesc']?>
+                    </div>
                 </td>
                 <td>
                     <img class="largeImage"

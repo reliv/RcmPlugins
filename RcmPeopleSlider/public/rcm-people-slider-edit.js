@@ -45,8 +45,11 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
      * Called by content management system to make this plugin user-editable
      */
     me.initEdit = function(){
-
         var contSel = rcm.getPluginContainerSelector(instanceId);
+
+        // Due to a bug in core, the view object has a container that is not it
+        // the dom. This fixes that.
+        peopleSlider.init(container);
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
@@ -98,6 +101,9 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             }
         );
         peopleSlider.attachClickEvents();
+
+        //Work around for ckEditor Issues with hidden edit-ables
+        setTimeout(peopleSlider.showHideSelectedPerson, 100);
     };
 
     me.makePersonEditable = function(personId){
@@ -115,13 +121,10 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             personEles.smallImage.dblclick(me.editPersonImages);
             personEles.largeImage.dblclick(me.editPersonImages);
 
-            // This fails when the plugin is brand new because we can't start ck
-            // editors on elements that are not in the dom
-            try{
-                window['rcmEditor'].convertToHtml5Editor(personEles.longDesc);
-            }catch(e){
+            //CkEditor has issues attaching to hidden elements
+            personEles.details.show();
 
-            }
+            window['rcmEditor'].convertToHtml5Editor(personEles.longDesc);
         }
     };
 

@@ -17,11 +17,11 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      * Plugin container div jQuery object
      * @type {Object}
      */
-    var container = rcm.getPluginContainer(instanceId);
+    var container;
 
     var framesPerView = 4;
 
-    var peopleDetailsDiv = container.find('.peopleDetails');
+    var peopleDetailsDiv;
 
     var selectedPersonId = 0;
 
@@ -31,21 +31,29 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      *
      * This is a public property so the editor change the frame count
      */
-    me.apertureSlider = new ApertureSlider(
-        container.find('.peopleAperture'),
-        {
-            frameWidth:160,
-            minHeight:140,
-            frameSeparation:0,
-            framesPerView:framesPerView,
-            hideOffScreenFrames:false
-        }
-    );
+    me.apertureSlider = null;
 
     /**
      * Runs immediately after this class is instantiated
      */
-    me.init = function () {
+    me.init = function (containerObj) {
+
+        //Allow container to be passed in so the edit object can work around
+        // a bug in core
+        container=containerObj;
+
+        peopleDetailsDiv = container.find('.peopleDetails');
+
+        me.apertureSlider = new ApertureSlider(
+            container.find('.peopleAperture'),
+            {
+                frameWidth:160,
+                minHeight:140,
+                frameSeparation:0,
+                framesPerView:framesPerView,
+                hideOffScreenFrames:false
+            }
+        );
 
         //Register this object so the editor can use it
         if(typeof(window.RcmPeopleSliders)!='array'){
@@ -75,6 +83,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         );
 
         me.attachClickEvents();
+
     };
 
     me.attachClickEvents = function(){container.find('.person').click(me.handlePersonClick);
@@ -120,7 +129,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
                 '</a>');
     };
 
-    me.handlePersonClick = function () {
+    me.handlePersonClick = function (event) {
         event.preventDefault();
         selectedPersonId = $(this).attr('data-personId');
         me.render();
@@ -132,16 +141,15 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     };
 
     me.render = function(){
+        me.showHideSelectedPerson();
+
         var personEles = me.getPersonElements(selectedPersonId);
 
         container.find('.person').removeClass('selected');
         personEles.preview.addClass('selected');
 
-        peopleDetailsDiv.children().hide();
-
         me.loadDelayedImage(personEles.largeImage);
 
-        personEles.details.show();
 
         container.find('.personDetails').html(
             personEles.preview.find('.details').html()
@@ -156,6 +164,13 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         }
 
         me.apertureSlider.goToFrame(frame);
+    };
+
+    me.showHideSelectedPerson = function(){
+        var personEles = me.getPersonElements(selectedPersonId);
+
+        peopleDetailsDiv.children().hide();
+        personEles.details.show();
     };
 
     /**
@@ -185,6 +200,6 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         imageElement.attr('src', imageElement.attr('data-delayedSrc'));
     };
 
-    me.init();
+    me.init(rcm.getPluginContainer(instanceId));
 
 };
