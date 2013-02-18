@@ -29,7 +29,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
      *
      * @type {Object}
      */
-    var aTags = container.find('a');
+    var aTag = container.find('a');
 
     /**
      * Background image jQuery object
@@ -45,7 +45,8 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
        // container.find('.urlContainer').attr('class','dottedeUrlContainer');
 
         //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(){
+        container.delegate('div', 'dblclick', function(event){
+            event.stopPropagation();
             me.showEditDialog();
         });
 
@@ -64,7 +65,6 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
 
             }
         });
-
     };
 
     /**
@@ -76,7 +76,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
     me.getSaveData = function () {
 
         return {
-            'href': aTags.attr('href')
+            'href': aTag.attr('href')
         }
     };
 
@@ -90,10 +90,16 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
      */
     me.showEditDialog = function () {
 
+        var href = $.dialogIn(
+            'text',
+            'Link Url',
+            aTag.attr('href')
+        );
+
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .addInput('href', 'Link Url', aTags.attr('href'))
+            .append(href)
             .dialog({
                 title:'Properties',
                 modal:true,
@@ -105,7 +111,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
                     Ok:function () {
 
                         //Get user-entered data from form
-                        aTags.attr('href', form.find('[name=href]').val());
+                        aTag.attr('href', href.val());
 
                         $(this).dialog("close");
                     }
