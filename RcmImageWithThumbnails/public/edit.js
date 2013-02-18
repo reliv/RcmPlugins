@@ -203,19 +203,25 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      */
     me.showEditDialog = function (aTag, deleteOnClose) {
-        //console.log(aTag);
-
-
-        var mainVal = aTag.attr('rel');
-        var thumbVal = aTag.find('.thumb').attr('src');
 
         var okClicked = false;
+
+        var main = $.dialogIn(
+            'image',
+            'Main Image',
+            aTag.attr('rel')
+        );
+
+        var thumb = $.dialogIn(
+            'image',
+            'Thumb Image',
+            aTag.find('.thumb').attr('src')
+        );
 
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .addImage('main', 'Image', mainVal)
-            .addImage('thumb', 'Image', thumbVal)
+            .append(main,thumb)
 
             .dialog({
                 title:'Properties',
@@ -235,10 +241,8 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                     },
                     Ok:function () {
                         //Get user-entered data from form
-
-                        var newMainVal = form.find('[name=main]').val();
-                        var newThumbVal = form.find('[name=thumb]').val();
-
+                        var newMainVal = main.val();
+                        var newThumbVal = thumb.val();
                         aTag.attr('rel', newMainVal);
                         aTag.find('.thumb').attr('src', newThumbVal);
                         var button = this;
