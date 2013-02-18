@@ -125,22 +125,40 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
     me.showContinueEditDialog = function(categories){
         //Create and show our edit dialog
         var form = $('<form></form>').addClass('simple');
-        form.addSelect(
-            'categoryId',
+        var categoryId = $.dialogIn(
+            'select',
             'Event Category',
             categories,
             data.categoryId
         );
-        form.addInput(
-            'shareThisKey',
+
+        var shareThisKey = $.dialogIn(
+            'text',
             '"ShareThis" Published Key',
             data.shareThisKey
         );
-        form.append('<p style="font-weight:bold;">Translations:</p>');
-        $.each(defaultData.translate, function(key, value){
-            form.addInput(key, value, data.translate[key] );
-        });
 
+        var directions = $.dialogIn(
+            'text',
+            'Directions',
+            data.translate['directions']
+        );
+
+        var noEvents = $.dialogIn(
+            'text',
+            'No Events To Display',
+            data.translate['noEvents']
+        );
+
+        form.append();
+
+        form.append(
+                categoryId,
+                shareThisKey,
+                '<p style="font-weight:bold;">Translations:</p>',
+                directions
+                ,noEvents
+        );
         form.dialog({
                 title:'Properties',
                 modal:true,
@@ -152,13 +170,10 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
                     Ok:function () {
 
                         //Get user-entered data from form
-                        data.categoryId= form.find('[name=categoryId]').val();
-                        data.shareThisKey= form.find('[name=shareThisKey]').val();
-
-                        $.each(defaultData.translate, function(key){
-                            data.translate[key] = form.find('[name="'+key+'"]')
-                                .val();
-                        });
+                        data.categoryId= categoryId.val();
+                        data.shareThisKey= shareThisKey.val();
+                        data.translate['directions'] = directions.val();
+                        data.translate['noEvents'] = noEvents.val();
 
                         me.render();
 
