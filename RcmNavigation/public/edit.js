@@ -47,8 +47,8 @@ var RcmNavigationEdit = function (instanceId, container) {
     /**
      * Called by content management system to make this plugin user-editable
      */
-    me.initEdit = function(){
-        container.delegate('li', 'dblclick', function(event){
+    me.initEdit = function () {
+        container.delegate('li', 'dblclick', function (event) {
             event.stopPropagation();
             me.showEditDialog($(this));
         });
@@ -87,7 +87,7 @@ var RcmNavigationEdit = function (instanceId, container) {
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:containerSelector+' li',
+            selector:containerSelector + ' li',
 
             //Make nav stay popped up when right click menu opens
             build:function (target) {
@@ -112,7 +112,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                     name:'Create New Link',
                     icon:'edit',
                     callback:function () {
-                        var newLi=$(newLinkTemplate);
+                        var newLi = $(newLinkTemplate);
                         $(this).after(newLi);
                         me.showEditDialog(newLi, true);
                     }
@@ -120,9 +120,9 @@ var RcmNavigationEdit = function (instanceId, container) {
                 separator1:"-",
                 arrangeMode:{
                     name:'Links are Movable via Drag and Drop'
-                        +(arrangeMode?' (on)':''),
+                        + (arrangeMode ? ' (on)' : ''),
                     disabled:arrangeMode,
-                    callback:function(){
+                    callback:function () {
                         me.removeEditElements();
                         arrangeMode = true;
                         me.addEditElements();
@@ -130,9 +130,9 @@ var RcmNavigationEdit = function (instanceId, container) {
                 },
                 editMode:{
                     name:'Links are Editable'
-                        +(!arrangeMode?' (on)':''),
+                        + (!arrangeMode ? ' (on)' : ''),
                     disabled:!arrangeMode,
-                    callback:function(){
+                    callback:function () {
                         me.removeEditElements();
                         arrangeMode = false;
                         me.addEditElements();
@@ -151,7 +151,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                             function () {
                                 li.remove();
                                 //Don't let them delete the last link
-                                if(ul.children('li').length==0){
+                                if (ul.children('li').length == 0) {
                                     ul.append(newLinkTemplate);
                                 }
                             }
@@ -232,26 +232,31 @@ var RcmNavigationEdit = function (instanceId, container) {
 
         var okClicked = false;
 
+        var text = $.dialogIn('text', 'Text', a.html());
+        var href = $.dialogIn('text', 'Link Url', a.attr('href'));
+        var cssClass = $.dialogIn(
+            'select',
+            'Display Style',
+            {'':'Normal', 'heading':'Heading', 'bold':'Bold'},
+            cssClass,
+            true
+        );
+        var subMenu = $.dialogIn(
+            'select',
+            'SubMenu',
+            {
+                'none':'None',
+                'oneCol':'Single column',
+                'twoCol':'Double column'
+            },
+            subMenu
+
+        );
+
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .addInput('text', 'Text', a.html())
-            .addInput('href', 'Link Url', a.attr('href'))
-            .addSelect(
-                'cssClass', 'Display Style',
-                {'':'Normal', 'heading':'Heading', 'bold':'Bold'},
-                cssClass,
-                true
-            )
-            .addSelect(
-                'subMenu', 'SubMenu',
-                {
-                    'none':'None',
-                    'oneCol':'Single column',
-                    'twoCol':'Double column'
-                },
-                subMenu
-            )
+            .append(text, href, cssClass, subMenu)
             .dialog({
                 title:'Properties',
                 modal:true,
@@ -271,10 +276,10 @@ var RcmNavigationEdit = function (instanceId, container) {
                     Ok:function () {
 
                         //Get user-entered data from form
-                        a.html(form.find('[name=text]').val());
-                        a.attr('href', form.find('[name=href]').val());
-                        li.attr('class', form.find('[name=cssClass]').val());
-                        var newSubMenu = form.find('[name=subMenu]').val();
+                        a.html(text.val());
+                        a.attr(href.val());
+                        li.attr('class', cssClass.val());
+                        var newSubMenu = subMenu.val();
 
                         //Put this in a closure so modifySubMenu can call it
                         var button = this;
