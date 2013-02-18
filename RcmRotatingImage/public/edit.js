@@ -15,7 +15,7 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-var RcmRotatingImageEdit = function(instanceId, container){
+var RcmRotatingImageEdit = function (instanceId, container) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -29,12 +29,12 @@ var RcmRotatingImageEdit = function(instanceId, container){
     /**
      * Called by RelivContentManger to make the random image editable
      */
-    me.initEdit = function(){
+    me.initEdit = function () {
 
         //Pull all images and their data from app server
         $.getJSON('/rcm-plugin-admin-proxy/rcm-rotating-image/' + instanceId +
             '/instanceConfig',
-            function success(returnedData){
+            function success(returnedData) {
                 data = returnedData;
                 me.completeInitEdit();
             }
@@ -47,13 +47,13 @@ var RcmRotatingImageEdit = function(instanceId, container){
      *
      * @return {Object}
      */
-    me.getSaveData = function(){
+    me.getSaveData = function () {
         return {'images':data.images};
     };
 
-    me.getAssets = function(){
+    me.getAssets = function () {
         var assets = [];
-        $.each(data.images,function(){
+        $.each(data.images, function () {
             assets.push(this.href);
             assets.push(this.src);
         });
@@ -63,16 +63,16 @@ var RcmRotatingImageEdit = function(instanceId, container){
     /**
      * Updates the DOM according to our current data
      */
-    me.update = function(){
+    me.update = function () {
 
         //Ensure we didn't go out of bounds
-        if(me.current < 0){
-            me.current = data.images.length-1;
-        }else if(me.current >= data.images.length){
+        if (me.current < 0) {
+            me.current = data.images.length - 1;
+        } else if (me.current >= data.images.length) {
             me.current = 0;
         }
 
-        var image =  data.images[me.current];
+        var image = data.images[me.current];
 
         //Render image
         var a = container.find('a');
@@ -82,14 +82,14 @@ var RcmRotatingImageEdit = function(instanceId, container){
         a.attr('href', image.href);
 
         //Render # of # display
-        me.numberDisplay.html('Image #' + (me.current+1) + ' of ' + data.images.length);
+        me.numberDisplay.html('Image #' + (me.current + 1) + ' of ' + data.images.length);
     };
 
     /**
      * Finishes making the plugin editable. Is called when the AJAX request for
      * all images gets back to the browser
      */
-    me.completeInitEdit = function(){
+    me.completeInitEdit = function () {
 
 
         //The div that holds our edit buttons
@@ -102,28 +102,28 @@ var RcmRotatingImageEdit = function(instanceId, container){
 
         //Arrows
         tools.append($('<img title="Last image" src="/modules/rcm/images/icons/left.png">')
-            .click(function(){
+            .click(function () {
                 --me.current;
                 me.update();
             }
         ));
 
         tools.append($('<img title="Next image" src="/modules/rcm/images/icons/right.png" class="right">')
-            .click(function(){
+            .click(function () {
                 ++me.current;
                 me.update();
             }
         ));
 
         //Edit by clicking main image
-        container.find('a img').dblclick(function(){
+        container.find('a img').dblclick(function () {
                 me.showEditDialog();
             }
         );
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId) +' a',
+            selector:rcm.getPluginContainerSelector(instanceId) + ' a',
 
             //Make nav stay popped up when right click menu opens
             build:function (target) {
@@ -142,7 +142,6 @@ var RcmRotatingImageEdit = function(instanceId, container){
             },
 
 
-
             //Here are the right click menu options
             items:{
                 createNew:{
@@ -150,7 +149,7 @@ var RcmRotatingImageEdit = function(instanceId, container){
                     icon:'edit',
                     callback:function () {
                         data.images.push(me.getBlankImage());
-                        me.current = data.images.length-1;
+                        me.current = data.images.length - 1;
                         me.update();
                         me.showEditDialog(true);
                     }
@@ -160,18 +159,18 @@ var RcmRotatingImageEdit = function(instanceId, container){
                     name:'Remove Image',
                     icon:'delete',
                     callback:function () {
-                        if (!data.images.length){
+                        if (!data.images.length) {
                             $().alert('No images to remove.');
                         } else {
                             $().confirm(
                                 'Remove image #' + (me.current + 1) + '?',
-                                function() {
-                                    data.images.splice(me.current,1);
-                                    if(data.images.length==0){
+                                function () {
+                                    data.images.splice(me.current, 1);
+                                    if (data.images.length == 0) {
                                         data.images.push(
                                             me.getBlankImage()
                                         );
-                                    }else{
+                                    } else {
                                         --me.current;
                                     }
                                     me.update();
@@ -207,46 +206,54 @@ var RcmRotatingImageEdit = function(instanceId, container){
         var okClicked = false;
 
         //If user clicked the edit button but we have no images
-        if(!data.images.length){
+        if (!data.images.length) {
             $().alert('No images to edit.');
             return;
         }
 
+        var src = $.dialogIn(
+            'image', 'Image', data.images[me.current].src
+        );
+        var alt = $.dialogIn(
+            'text','Alt Text', data.images[me.current].alt
+        );
+        var href = $.dialogIn(
+            'text', 'Link Url', data.images[me.current].href
+        );
+
         //Show the dialog
         var form = $('<form>')
-        .addClass('simple')
-        .addImage('src', 'Image', data.images[me.current].src)
-        .addInput('alt', 'Alt Text', data.images[me.current].alt)
-        .addInput('href', 'Link Url', data.images[me.current].href)
-        .dialog({
-            title:'Properties',
-            modal:true,
-            width:620,
-            close: function() {
-                if (deleteOnClose && !okClicked) {
-                    //Delete image
-                    data.images.pop();
-                }
-                me.update();
-            },
-            buttons:{
-                Cancel:function () {
-
-                    $(this).dialog("close");
+            .addClass('simple')
+            .append(src, alt, href)
+            .dialog({
+                title:'Properties',
+                modal:true,
+                width:620,
+                close:function () {
+                    if (deleteOnClose && !okClicked) {
+                        //Delete image
+                        data.images.pop();
+                    }
+                    me.update();
                 },
-                Ok:function () {
+                buttons:{
+                    Cancel:function () {
 
-                    //Get user-entered data from form
-                    data.images[me.current].alt = form.find('[name=alt]').val();
-                    data.images[me.current].href = form.find('[name=href]').val();
-                    data.images[me.current].src = form.find('[name=src]').val();
+                        $(this).dialog("close");
+                    },
+                    Ok:function () {
 
-                    //Close the dialog
-                    okClicked = true;
-                    $(this).dialog("close");
+                        //Get user-entered data from form
+                        data.images[me.current].alt = alt.val();
+                        data.images[me.current].href = href.val();
+                        data.images[me.current].src = src.val();
+
+                        //Close the dialog
+                        okClicked = true;
+                        $(this).dialog("close");
+                    }
                 }
-            }
-        });
+            });
     };
 
     /**
@@ -255,7 +262,7 @@ var RcmRotatingImageEdit = function(instanceId, container){
      *
      * @return {Object}
      */
-    me.getBlankImage = function(){
-        return {src:'/modules/rcm/images/no-image.png',href:'',alt:''};
+    me.getBlankImage = function () {
+        return {src:'/modules/rcm/images/no-image.png', href:'', alt:''};
     };
 };
