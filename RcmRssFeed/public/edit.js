@@ -78,10 +78,16 @@ var RcmRssFeedEdit = function (instanceId, container) {
      */
     me.showEditDialog = function () {
 
+        var feedUrl = $.dialogIn(
+            'text','RSS Feed Url', me.feedUrl
+        );
+        var feedLimit = $.dialogIn(
+            'text', 'Entries to Display', me.feedLimit
+        );
+
         //Create and show our edit dialog
         var form = $('<form>')
-            .addInput('rcmFeedUrl', 'RSS Feed Url', me.feedUrl)
-            .addInput('rcmFeedLimit', 'Entries to Display', me.feedLimit)
+            .append(feedUrl,feedLimit)
             .dialog({
                 title:'Properties',
                 modal:true,
@@ -96,8 +102,8 @@ var RcmRssFeedEdit = function (instanceId, container) {
                         var domForm = form.get(0);
 
                         //Get user-entered data from form
-                        me.feedUrl = domForm.rcmFeedUrl.value;
-                        me.feedLimit = domForm.rcmFeedLimit.value;
+                        me.feedUrl = feedUrl.val();
+                        me.feedLimit = feedLimit.val();
 
                         new RssReader(
                             me.feedProxy,
