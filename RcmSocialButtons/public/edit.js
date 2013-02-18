@@ -43,7 +43,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         $.getJSON(
             '/rcm-plugin-admin-proxy/rcm-social-buttons/' + instanceId
                 + '/available-buttons',
-            function(returnedData) {
+            function (returnedData) {
                 availableButtons = returnedData;
                 if (me.haveDataAndAvailableButtons()) {
                     me.completeInitEdit();
@@ -63,10 +63,10 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         );
     };
 
-    me.haveDataAndAvailableButtons = function(){
-        return (data!=null && availableButtons!=null);
+    me.haveDataAndAvailableButtons = function () {
+        return (data != null && availableButtons != null);
     };
-    
+
     /**
      * Completes the edit init after we get our data via ajax
      */
@@ -122,11 +122,8 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
      */
     me.showEditDialog = function () {
 
-        //Create and show our edit dialog
-        var form = $('<form></form>');
-        form.addClass('simple');
-        form.addSelect(
-            'style',
+        var style = $.dialogIn(
+            'select',
             'Button Style',
             {
                 '':'Small buttons',
@@ -136,18 +133,26 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
             },
             data.style
         );
+        var shareThisKey = $.dialogIn(
+            'text',
+            '"ShareThis" Publisher Key:',
+            data.shareThisKey
+        );
+
+        var availableButtonInputs = [];
         var checkBoxDiv = $('<div></div>');
         checkBoxDiv.append('<label>Buttons</label><br>');
         me.iterateAvailableButtons(function (name, desc) {
-            checkBoxDiv.addCheckBox(
-                name,
-                desc,
-                me.buttonEnabled(name)
+            availableButtonInputs[name] = $.dialogIn(
+                'checkBox', desc, me.buttonEnabled(name)
             );
+            checkBoxDiv.append(availableButtonInputs[name]);
         });
         checkBoxDiv.find('p').attr('style', 'margin:0,padding:0 0 0 10px');
-        form.append(checkBoxDiv);
-        form.addInput('href', '"ShareThis" Publisher Key:', data.shareThisKey);
+
+        //Create and show our edit dialog
+        var form = $('<form></form>').addClass('simple');
+        form.append(style,checkBoxDiv,shareThisKey);
         form.dialog({
             title:'Properties',
             modal:true,
@@ -159,16 +164,15 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
                 Ok:function () {
 
                     //get style from form
-                    data.style = form.find('[name=style]').val();
+                    data.style = style.val();
 
                     //get buttons from form
                     data.buttons = [];
                     me.iterateAvailableButtons(function (name) {
-                        if (form.find('[name="' + name + '"]').prop("checked")) {
+                        if (availableButtonInputs[name].prop("checked")) {
                             data.buttons.push(name);
                         }
-                    data.shareThisKey = form.find('[name=href]').val();
-
+                        data.shareThisKey = shareThisKey.val();
                     });
 
                     me.render();
