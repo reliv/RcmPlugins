@@ -23,7 +23,7 @@ return array(
 
     'rcmPlugin' => array(
         'RcmEventListDisplay'=>array(
-            'type' => 'Events',
+            'type' => 'Common',
             'display' => 'Event List Display',
             'tooltip' => 'Displays the list of events in a given event category',
             'icon' => '',

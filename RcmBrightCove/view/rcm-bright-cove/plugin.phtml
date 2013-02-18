@@ -1,0 +1,11 @@
+
+<script type="text/javascript" src="/modules/rcm-bright-cove/js/brightcove.js"></script>
+<script type="text/javascript">
+    $(function(){
+        RcmBrightCove.addPlayer($("#player_<?php echo $this->instanceId; ?>"), <?php echo $this->ic['playerId']; ?>);
+    });
+</script>
+
+<!-- Start of Brightcove Player -->
+
+<div id="player_<?php echo $this->instanceId; ?>" data-playerId="<?php echo $this->ic['playerId']; ?>" style="height: 100%; width: 100%;"></div>

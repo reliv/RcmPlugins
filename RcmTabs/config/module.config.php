@@ -23,7 +23,7 @@ return array(
 
     'rcmPlugin' => array(
         'RcmTabs'=>array(
-            'type' => 'Containers',
+            'type' => 'Content Templates',
             'display' => 'Tabbed Container',
             'tooltip' => 'A tabbed plugin controller.',
             'icon' => '',

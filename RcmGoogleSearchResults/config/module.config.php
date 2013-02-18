@@ -23,7 +23,7 @@ return array(
 
     'rcmPlugin' => array(
         'RcmGoogleSearchResults'=>array(
-            'type' => 'Search',
+            'type' => 'Common',
             'display' => 'Google Search Results',
             'tooltip' => 'Google Search Results',
             'icon' => '',

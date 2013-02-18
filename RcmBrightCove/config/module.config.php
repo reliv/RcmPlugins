@@ -11,7 +11,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmGoogleSearchBox
+ * @package   RcmPlugins\RcmHtmlArea
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -22,12 +22,12 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmGoogleSearchBox'=>array(
-            'type' => 'Common',
-            'display' => 'Google Search Box',
-            'tooltip' => 'Google Search Box',
+        'RcmBrightCove'=>array(
+            'type' => 'Social Media',
+            'display' => 'Brightcove Video',
+            'tooltip' => 'Add a Brightcove Video to the page',
             'icon' => '',
-            'editJs'=>'/modules/rcm-google-search-box/edit.js',
+            'editJs'=>'/modules/rcm-bright-cove/js/edit.js',
         ),
     ),
 
