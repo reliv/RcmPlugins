@@ -195,6 +195,19 @@ class SimpleConfigStorageController
     }
 
     /**
+     * Shortcut to redirect to https
+     */
+    function ensureHttps(){
+        function ensureHttpsAndGetIp(){
+            if(!$this->isHttps()){
+                $this->redirect(
+                    'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']
+                );
+            }
+        }
+    }
+
+    /**
      * Shortcut method to get post
      *
      * @return \Zend\Stdlib\Parameters
