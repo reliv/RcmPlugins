@@ -42,31 +42,46 @@ class LoginController extends BaseController
     public function loginAuthAction()
     {
         /** @var \Zend\Stdlib\Parameters $posted  */
-        $username = $this->getRequest()->getPost()->get('userName');
-        $password = $this->getRequest()->getPost()->get('loginPass');
+        $username = $this->getRequest()->getPost()->get('username');
+        $password = $this->getRequest()->getPost()->get('password');
 
         if (empty($username) || empty($password)) {
-            return $this->redirectInvalid();
+            $this->sendInvalid('missingNeeded');
         }
 
         /** @var \Rcm\Model\UserManagement\DoctrineUserManager $userManager  */
         $userManager = $this->getServiceLocator()->get('rcmUserManager');
 
-        //try {
-            if (!$userManager->loginUser($username, $password)) {
-                return $this->redirectInvalid();
-            }
+        try {
+            $user = $userManager->loginUser($username, $password);
+        } catch (\Exception $e) {
+            $this->sendInvalid('systemFailure');
+        }
 
-            return $this->redirect()->toRoute(
-                'contentManager',
-                array(
-                    'page' => 'index',
-                    'language' => $this->siteInfo->getLanguage()->getLanguage()
-                )
-            )->setStatusCode(301);
-        //} catch (\Exception $e) {
-        return     $this->redirectApiFailure();
-        //}
+        if (!$user) {
+            $this->sendInvalid('invalid');
+        }
+
+        $return = array(
+            'dataOk' => true,
+            'user' => $user->toArray()
+        );
+
+        echo json_encode($return);
+        exit;
+    }
+
+    /**
+     * @param string $invalidType Possible - invalid, missingNeeded, systemFailure
+     */
+    private function sendInvalid($invalidType) {
+        $return = array(
+            'dataOk' => false,
+            'error' => $invalidType
+        );
+
+        echo json_encode($return);
+        exit;
     }
 
     private function redirectInvalid()

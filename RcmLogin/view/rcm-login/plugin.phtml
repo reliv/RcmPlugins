@@ -20,18 +20,27 @@
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-login/style.css'
 );
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-login/login-common.js',
+    'text/javascript'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-login/login.js',
+    'text/javascript'
+);
+
 ?>
 <script type="text/javascript">
-    $(function () {
-        $("#loginSubmit").bind('click', function () {
-            $("#loginForm").submit();
-        });
-    });
+    var loginMgr = new RcmLoginMgr('/login/auth');
+    var loginJs = new RcmLoginBoxJs(loginMgr);
+    loginJs.init();
 </script>
 
 
 <div class="rcmLogin">
-    <form method="post" action="/login/auth/eng" id="loginForm">
+    <form method="post" action="" id="loginForm">
         <h1 data-textEdit="loginHeader">
             <?php echo $this->ic['loginHeader']; ?>
         </h1>
@@ -44,14 +53,14 @@ $this->headLink()->appendStylesheet(
                 <span data-textEdit="userNameCopy">
                     <?php echo $this->ic['userNameCopy']; ?>
                 </span><br>
-            <input type="text" value="" name="userName">
+            <input type="text" value="" name="userName" id="rcmLoginBoxUserName">
         </p>
 
         <p>
                 <span data-textEdit="loginPasswordCopy">
                     <?php echo $this->ic['loginPasswordCopy']; ?>
                 </span> <br>
-            <input type="password" value="" name="loginPass">
+            <input type="password" value="" name="loginPass" id="rcmLoginBoxPassword">
         </p>
 
         <div>
