@@ -34,7 +34,7 @@ $this->headScript()->appendFile(
 ?>
 <script type="text/javascript">
     var loginMgr = new RcmLoginMgr('/login/auth');
-    var loginJs = new RcmLoginBoxJs(loginMgr);
+    var loginJs = new RcmLoginBoxJs(loginMgr, '<?php echo $this->sessionId; ?>');
     loginJs.init();
 </script>
 

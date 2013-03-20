@@ -1,8 +1,9 @@
-var RcmLoginBoxJs = function(loginMgr) {
+var RcmLoginBoxJs = function(loginMgr, sessionId) {
 
     var me = this;
 
     me.loginMgr = loginMgr;
+    me.sessionId = sessionId;
 
     me.init = function() {
 
@@ -32,7 +33,7 @@ var RcmLoginBoxJs = function(loginMgr) {
     };
 
     me.rcmLoginBoxSuccessFunction = function(data) {
-        window.location.replace('/');
+        window.location.replace('https://portal.local.reliv.com?sess_id='+me.sessionId);
     };
 
     me.rcmLoginBoxInvalidLoginCallback = function(data) {

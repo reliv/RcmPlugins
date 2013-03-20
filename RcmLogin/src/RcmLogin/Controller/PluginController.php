@@ -44,6 +44,18 @@ class PluginController
      */
     protected $template = 'rcm-login/plugin';
 
+    protected $sessionMgr;
+
+    function __construct(
+        \Doctrine\ORM\EntityManager $entityMgr,
+        $template = null,
+        $newInstanceConfigPath = null,
+        \Zend\Session\SessionManager $sessionMgr
+    ) {
+        parent::__construct($entityMgr, $template, $newInstanceConfigPath);
+        $this->sessionMgr = $sessionMgr;
+    }
+
     public function renderInstance($instanceId)
     {
         $this->ensureHttps();
@@ -52,8 +64,12 @@ class PluginController
 
         $error = $this->params()->fromQuery('rcmLoginError', null);
 
+        $sessionId = $this->sessionMgr->getId();
+
         $view->setVariable('rcmLoginError', $error);
-            return $view;
+        $view->setVariable('sessionId', $sessionId);
+
+        return $view;
     }
 
 //    public function getErrorsAction($instanceId)
