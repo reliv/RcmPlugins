@@ -12,8 +12,8 @@ var RcmLoginBoxJs = function(loginMgr) {
         me.loginMgr.setSystemFailureCallback(me.rcmLoginBoxSystemFailureCallback);
 
         $(function(){
-            $("#loginSubmit").bind('click', function(event){
-                me.clickBind()
+            $("#rcmLoginBoxLoginForm").submit(function(event){
+                me.submitBind();
                 event.preventDefault();
             });
 
@@ -27,7 +27,7 @@ var RcmLoginBoxJs = function(loginMgr) {
         });
     };
 
-    me.clickBind = function() {
+    me.submitBind = function() {
         me.loginMgr.doLogin($("#rcmLoginBoxUserName").val(), $("#rcmLoginBoxPassword").val());
     };
 
