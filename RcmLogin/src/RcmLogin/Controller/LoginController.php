@@ -21,6 +21,7 @@ namespace RcmLogin\Controller;
 
 use \Rcm\Controller\BaseController;
 
+
 /**
  * Login Controller for the login Plugin
  *
@@ -39,6 +40,19 @@ use \Rcm\Controller\BaseController;
  */
 class LoginController extends BaseController
 {
+    protected $userMgr;
+
+    public function __construct(
+        \Rcm\Model\UserManagement\UserManagerInterface $userMgr,
+        \Rcm\Model\PluginManager $pluginManager,
+        \Doctrine\ORM\EntityManager $entityMgr,
+        \Zend\View\Renderer\PhpRenderer $viewRenderer,
+        $config
+    ) {
+        parent::__construct($userMgr, $pluginManager, $entityMgr, $viewRenderer, $config);
+        $this->userMgr = $userMgr;
+    }
+
     public function loginAuthAction()
     {
         /** @var \Zend\Stdlib\Parameters $posted  */
@@ -50,7 +64,7 @@ class LoginController extends BaseController
         }
 
         /** @var \Rcm\Model\UserManagement\DoctrineUserManager $userManager  */
-        $userManager = $this->getServiceLocator()->get('rcmUserManager');
+        $userManager = $this->userMgr;
 
         try {
             $user = $userManager->loginUser($username, $password);
@@ -58,7 +72,7 @@ class LoginController extends BaseController
             $this->sendInvalid('systemFailure');
         }
 
-        if (!$user) {
+        if (empty($user)) {
             $this->sendInvalid('invalid');
         }
 
@@ -82,30 +96,5 @@ class LoginController extends BaseController
 
         echo json_encode($return);
         exit;
-    }
-
-    private function redirectInvalid()
-    {
-        $url = $this->url()->fromRoute('contentManager', array(
-                'page' => 'login',
-                'language' => $this->siteInfo->getLanguage()->getLanguage(),
-            )
-        );
-
-        $url .= '?rcmLoginError=invalid';
-
-        return $this->redirect()->toUrl($url)->setStatusCode(301);
-    }
-
-    private function redirectApiFailure() {
-        $url = $this->url()->fromRoute('contentManager', array(
-                'page' => 'login',
-                'language' => $this->siteInfo->getLanguage()->getLanguage(),
-            )
-        );
-
-        $url .= '?rcmLogapiFailure=invalid';
-
-        return $this->redirect()->toUrl($url)->setStatusCode(301);
     }
 }

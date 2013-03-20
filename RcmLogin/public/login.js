@@ -47,7 +47,9 @@ var RcmLoginBoxJs = function(loginMgr, sessionId) {
             if (urlParms.redirect) {
                 redirectUrl = urlParms.redirect
             }
-        } else {
+        }
+
+        if (redirectUrl == '') {
             redirectUrl ='https://portal.local.reliv.com';
         }
 
