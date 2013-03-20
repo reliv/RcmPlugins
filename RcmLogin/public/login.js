@@ -18,6 +18,11 @@ var RcmLoginBoxJs = function(loginMgr, sessionId) {
                 event.preventDefault();
             });
 
+            $("#rcmLoginBoxLoginSubmit").click(function(event){
+                me.submitBind();
+                event.preventDefault();
+            });
+
             if (typeof(rcm) === 'object') {
                 var urlParms = rcm.getUrlParams();
 
