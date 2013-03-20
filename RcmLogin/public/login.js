@@ -38,7 +38,22 @@ var RcmLoginBoxJs = function(loginMgr, sessionId) {
     };
 
     me.rcmLoginBoxSuccessFunction = function(data) {
-        window.location.replace('https://portal.local.reliv.com?sess_id='+me.sessionId);
+
+        var redirectUrl = '';
+
+        if (typeof(rcm) === 'object') {
+            var urlParms = rcm.getUrlParams();
+
+            if (urlParms.redirect) {
+                redirectUrl = urlParms.redirect
+            }
+        } else {
+            redirectUrl ='https://portal.local.reliv.com';
+        }
+
+        var redirectWithSession = rcm.updateURLParameter(redirectUrl,'sess_id', me.sessionId);
+
+        window.location.replace(redirectWithSession);
     };
 
     me.rcmLoginBoxInvalidLoginCallback = function(data) {
