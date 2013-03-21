@@ -5,12 +5,14 @@ var RcmLoginBoxJs = function(loginMgr, sessionId) {
     me.loginMgr = loginMgr;
     me.sessionId = sessionId;
 
+
     me.init = function() {
 
         me.loginMgr.setSuccessCallback(me.rcmLoginBoxSuccessFunction);
         me.loginMgr.setMissingCallback(me.rcmLoginBoxMissingItemsCallback);
         me.loginMgr.setInvalidCallback(me.rcmLoginBoxInvalidLoginCallback);
         me.loginMgr.setSystemFailureCallback(me.rcmLoginBoxSystemFailureCallback);
+        me.loginMgr.setNoAuthFailureCallback(me.rcmLoginBoxSystemFailureCallback);
 
         $(function(){
             $("#rcmLoginBoxLoginForm").submit(function(event){
@@ -59,15 +61,19 @@ var RcmLoginBoxJs = function(loginMgr, sessionId) {
     };
 
     me.rcmLoginBoxInvalidLoginCallback = function(data) {
-        console.log('invalid called');
+        $("#rcmLoginBoxInvalidError").show();
     };
 
     me.rcmLoginBoxMissingItemsCallback = function(data) {
-        console.log('missing called');
+        $("#rcmLoginBoxMissingError").show();
     };
 
     me.rcmLoginBoxSystemFailureCallback = function(data) {
-        console.log('system failure called');
-    }
+        $("#rcmLoginBoxSystemError").show();
+    };
+
+    me.rcmLoginBoxNotAuthCallback = function(data) {
+        $("#rcmLoginBoxSystemError").show();
+    };
 };
 

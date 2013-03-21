@@ -12,6 +12,8 @@ var RcmLoginMgr = function(loginUrl) {
 
     me.systemFailureCallBack = null;
 
+    me.noAuthCallback = null;
+
     me.doLogin = function(username, password) {
 
         var data = {
@@ -52,6 +54,9 @@ var RcmLoginMgr = function(loginUrl) {
             case 'invalid':
                 me.doInvalid(data);
                 break;
+            case 'noAuth':
+                me.doNoAuth(data);
+                break;
             default:
                 me.doSystemFailure(data);
         }
@@ -69,9 +74,9 @@ var RcmLoginMgr = function(loginUrl) {
         }
     };
 
-    me.doInvalid = function (data) {
-        if (typeof(me.invalidCallback) === 'function') {
-            me.invalidCallback.call(this, data);
+    me.doNoAuth = function (data) {
+        if (typeof(me.noAuthCallback) === 'function') {
+            me.noAuthCallback.call(this, data);
         }
     };
 
@@ -95,5 +100,9 @@ var RcmLoginMgr = function(loginUrl) {
 
     me.setSystemFailureCallback = function(systemFailureCallback) {
         me.systemFailureCallBack = systemFailureCallback;
-    }
+    };
+
+    me.setNoAuthFailureCallback = function(noAuthCallback) {
+        me.noAuthCallback = noAuthCallback;
+    };
 };

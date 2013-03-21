@@ -1,20 +1,4 @@
 /* Login Page */
-.loginLeftColumn {
-    width: 230px;
-    padding-bottom: 20px;
-    padding-left: 30px;
-    padding-right: 10px;
-    float: left;
-    border-radius: 15px 0 15px 0;
-    border: 1px solid #dddddd;
-    behavior: url('/modules/rcm/vendor/pie/PIE.htc');
-}
-
-.loginRightColumn {
-    width: 369px;
-    height: 417px;
-    float: right;
-}
 
 /* Submit Buttons  */
 .submitButton {
@@ -42,10 +26,23 @@
     behavior: url('/modules/rcm/vendor/pie/PIE.htc');
 }
 
-.RcmLogin form div:first-child {
-    padding: 0;
+/*.RcmLogin form div:first-child {*/
+    /*padding: 0;*/
+/*}*/
+
+/*.RcmLogin form div {*/
+    /*padding: 12px 0;*/
+/*}*/
+
+
+.rcmLogin p {
+    line-height: normal;
 }
 
-.RcmLogin form div {
-    padding: 12px 0;
+.error {
+    font-weight: bold;
+    color: #FF0000;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    display: none;
 }

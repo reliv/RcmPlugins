@@ -40,39 +40,46 @@ $this->headScript()->appendFile(
 
 
 <div class="rcmLogin">
+
+
     <form method="post" action="" id="rcmLoginBoxLoginForm">
         <h1 data-textEdit="loginHeader">
             <?php echo $this->ic['loginHeader']; ?>
         </h1>
+
+        <div class="error" id="rcmLoginBoxInvalidError"><?php echo $this->ic['loginErrorInvalidCopy']; ?></div>
+        <div class="error" id="rcmLoginBoxMissingError"><?php echo $this->ic['loginErrorMissingCopy']; ?></div>
+        <div class="error" id="rcmLoginBoxSystemError"><?php echo $this->ic['loginErrorSystemCopy']; ?></div>
+        <div class="error" id="rcmLoginBoxNoAuthError"><?php echo $this->ic['loginErrorAuthCopy']; ?></div>
 
         <div data-textEdit="loginErrorInvalidCopy" class="loginError"
              align="center" <?php if (empty($this->rcmLoginError)): ?>style="display: none;"  <?php endif; ?> >
             <?php echo $this->ic['loginErrorInvalidCopy']; ?>
         </div>
         <p>
-                <span data-textEdit="userNameCopy">
+                <div data-textEdit="userNameCopy">
                     <?php echo $this->ic['userNameCopy']; ?>
-                </span><br>
+                </div>
             <input type="text" value="" name="userName" id="rcmLoginBoxUserName">
         </p>
 
         <p>
-                <span data-textEdit="loginPasswordCopy">
-                    <?php echo $this->ic['loginPasswordCopy']; ?>
-                </span> <br>
+            <div data-textEdit="loginPasswordCopy">
+                <?php echo $this->ic['loginPasswordCopy']; ?>
+            </div>
             <input type="password" value="" name="loginPass" id="rcmLoginBoxPassword">
         </p>
-
+        <br />
         <div>
-            <a href="#" id="rcmLoginBoxLoginSubmit" class="submitButton"
-               data-textEdit="loginSubmitCopy">
-                <?php echo $this->ic['loginSubmitCopy']; ?>
+            <a href="#" id="rcmLoginBoxLoginSubmit" class="submitButton">
+                <div data-textEdit="loginSubmitCopy">
+                    <?php echo $this->ic['loginSubmitCopy']; ?>
+                </div>
             </a>
         </div>
-        <p>
-            <a href="#" data-textEdit="loginForgotPasswordCopy">
-                <?php echo $this->ic['loginForgotPasswordCopy']; ?>
-            </a>
+        <p>&nbsp;</p>
+        <p data-textEdit="loginForgotPasswordCopy">
+            <?php echo $this->ic['loginForgotPasswordCopy']; ?>
         </p>
 
         <div style="position: absolute; left: -999999px;">
