@@ -195,16 +195,30 @@ class SimpleConfigStorageController
     }
 
     /**
-     * Shortcut to redirect to https
+     * Redirects to https version of current url is not already https
      */
     function ensureHttps(){
-        function ensureHttpsAndGetIp(){
-            if(!$this->isHttps()){
-                $this->redirect(
-                    'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']
-                );
-            }
+        if(!$this->isHttps()){
+            $this->redirectHttps();
         }
+    }
+
+    /**
+     * Redirect to the current page but on https
+     */
+    function redirectHttps(){
+        $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        header('Location: '.$url);
+        exit();
+    }
+
+    /**
+     * returns if https or not
+     * @return bool
+     */
+    function isHttps()
+    {
+        return (isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : null) == 'on';
     }
 
     /**
