@@ -60,7 +60,7 @@ $this->headScript()->appendFile(
                 <div data-textEdit="userNameCopy">
                     <?php echo $this->ic['userNameCopy']; ?>
                 </div>
-            <input type="text" value="" name="userName" id="rcmLoginBoxUserName">
+            <input autofocus type="text" value="" name="userName" id="rcmLoginBoxUserName">
         </p>
 
         <p>
@@ -71,16 +71,18 @@ $this->headScript()->appendFile(
         </p>
         <br />
         <div>
-            <a href="#" id="rcmLoginBoxLoginSubmit" class="submitButton">
-                <div data-textEdit="loginSubmitCopy">
+            <a href="#" id="rcmLoginBoxLoginSubmit" >
+                <button data-textEdit="loginSubmitCopy" class="rcmCartButton">
                     <?php echo $this->ic['loginSubmitCopy']; ?>
-                </div>
+                </button>
             </a>
-            <a href="#" id="rcmLoginBoxProcessingMsgContainer" class="submitButton" style="min-width: 100px; display: none;">
-                <img src="/modules/rcm/images/busy-spinner-16x16.gif" width="16" height="16" style="float: left;" />
-                <div data-textEdit="loginSubmitCopy" id="rcmLoginBoxProcessingMessage">
-                    <?php echo $this->ic['loginProcessingCopy']; ?>
-                </div>
+            <a href="#" id="rcmLoginBoxProcessingMsgContainer" style="min-width: 100px; display: none;">
+                <button class="rcmCartButton" id="rcmLoginBoxProcessingMessage">
+                    <span data-textEdit="loginSubmitCopy">
+                        <?php echo $this->ic['loginProcessingCopy']; ?>
+                        </span>
+                    <img src="/modules/rcm/images/busy-spinner-16x16.gif" width="16" height="16" />
+                </button>
             </a>
         </div>
         <p>&nbsp;</p>
