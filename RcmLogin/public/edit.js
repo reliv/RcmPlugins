@@ -25,6 +25,7 @@ var RcmLoginEdit = function(instanceId, container){
     me.missingError = $("#rcmLoginBoxMissingError").html();
     me.systemFailureError = $("#rcmLoginBoxSystemError").html();
     me.notAuthError = $("#rcmLoginBoxNoAuthError").html();
+    me.processingMsg = $("#rcmLoginBoxProcessingMessage").html();
 
 
     /**
@@ -54,7 +55,8 @@ var RcmLoginEdit = function(instanceId, container){
             loginErrorInvalidCopy: me.invalidErrorMsg,
             loginErrorMissingCopy: me.missingError,
             loginErrorSystemCopy: me.systemFailureError,
-            loginErrorAuthCopy : me.notAuthError
+            loginErrorAuthCopy : me.notAuthError,
+            loginProcessingCopy : me.processingMsg
         };
     };
 
@@ -77,6 +79,10 @@ var RcmLoginEdit = function(instanceId, container){
 
     me.showEditDialog = function() {
 
+        var processing = $.dialogIn(
+            'text', 'Please Wait', me.notAuthError
+        );
+
         var invalidError = $.dialogIn(
             'text', 'Invalid Error Message', me.invalidErrorMsg
         );
@@ -94,7 +100,7 @@ var RcmLoginEdit = function(instanceId, container){
         );
 
         var form = $('<form>')
-            .append(invalidError, missingError, systemFailureError, notAuthError)
+            .append(processing, invalidError, missingError, systemFailureError, notAuthError)
             .dialog({
                 title:'Properties',
                 modal:true,
@@ -109,7 +115,9 @@ var RcmLoginEdit = function(instanceId, container){
                         me.missingError = missingError.val();
                         me.systemFailureError = systemFailureError.val();
                         me.notAuthError = notAuthError.val();
+                        me.processingMsg = processing.val();
 
+                        $("#rcmLoginBoxProcessingMessage").html(me.processingMsg);
                         $("#rcmLoginBoxInvalidError").html(me.invalidErrorMsg);
                         $("#rcmLoginBoxMissingError").html(me.missingError);
                         $("#rcmLoginBoxSystemError").html(me.systemFailureError);

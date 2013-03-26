@@ -76,6 +76,12 @@ $this->headScript()->appendFile(
                     <?php echo $this->ic['loginSubmitCopy']; ?>
                 </div>
             </a>
+            <a href="#" id="rcmLoginBoxProcessingMsgContainer" class="submitButton" style="min-width: 100px; display: none;">
+                <img src="/modules/rcm/images/busy-spinner-16x16.gif" width="16" height="16" style="float: left;" />
+                <div data-textEdit="loginSubmitCopy" id="rcmLoginBoxProcessingMessage">
+                    <?php echo $this->ic['loginProcessingCopy']; ?>
+                </div>
+            </a>
         </div>
         <p>&nbsp;</p>
         <p data-textEdit="loginForgotPasswordCopy">

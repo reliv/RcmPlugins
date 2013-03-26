@@ -74,6 +74,12 @@ var RcmLoginMgr = function(loginUrl) {
         }
     };
 
+    me.doInvalid = function (data) {
+        if (typeof(me.invalidCallback) === 'function') {
+            me.invalidCallback.call(this, data);
+        }
+    };
+
     me.doNoAuth = function (data) {
         if (typeof(me.noAuthCallback) === 'function') {
             me.noAuthCallback.call(this, data);

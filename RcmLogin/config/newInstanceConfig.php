@@ -4,6 +4,7 @@ return array (
     'userNameCopy' => 'Username:',
     'loginPasswordCopy' => 'Password',
     'loginSubmitCopy' => 'Login',
+    'loginProcessingCopy' => 'Please wait...',
     'loginForgotPasswordCopy' => '<a href="#">Forgot your password?</a>',
     'loginErrorInvalidCopy' => 'Incorrect Username or Password',
     'loginErrorMissingCopy' => 'Missing Username or Password.',

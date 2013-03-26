@@ -36,8 +36,19 @@ var RcmLoginBoxJs = function(loginMgr, sessionId) {
     };
 
     me.submitBind = function() {
+        me.hideSubmitButton();
         me.loginMgr.doLogin($("#rcmLoginBoxUserName").val(), $("#rcmLoginBoxPassword").val());
     };
+
+    me.hideSubmitButton = function() {
+        $("#rcmLoginBoxLoginSubmit").hide();
+        $("#rcmLoginBoxProcessingMsgContainer").show();
+    };
+
+    me.showSubmitButton = function() {
+        $("#rcmLoginBoxLoginSubmit").show();
+        $("#rcmLoginBoxProcessingMsgContainer").hide();
+    }
 
     me.rcmLoginBoxSuccessFunction = function(data) {
 
@@ -62,18 +73,22 @@ var RcmLoginBoxJs = function(loginMgr, sessionId) {
 
     me.rcmLoginBoxInvalidLoginCallback = function(data) {
         $("#rcmLoginBoxInvalidError").show();
+        me.showSubmitButton();
     };
 
     me.rcmLoginBoxMissingItemsCallback = function(data) {
         $("#rcmLoginBoxMissingError").show();
+        me.showSubmitButton();
     };
 
     me.rcmLoginBoxSystemFailureCallback = function(data) {
         $("#rcmLoginBoxSystemError").show();
+        me.showSubmitButton();
     };
 
     me.rcmLoginBoxNotAuthCallback = function(data) {
         $("#rcmLoginBoxSystemError").show();
+        me.showSubmitButton();
     };
 };
 
