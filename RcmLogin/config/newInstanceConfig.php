@@ -11,7 +11,7 @@ return array (
     'loginErrorSystemCopy' => 'There was an internal problem loggin you in.  Please try back later.',
     'loginErrorAuthCopy' => 'You are not authorized to view the requested page.',
     'bottomLoginText' => '<strong>Don’t have an account yet?</strong> </br>
-<a href="#">Request a customer account.</a> </br>
-<a href="#">Request a distributor account.</a>
+<a href="/new-customer">Request a customer account.</a> </br>
+<a href="/new-distributor">Request a distributor account.</a>
 ',
 );
