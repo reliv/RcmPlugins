@@ -230,4 +230,21 @@ class SimpleConfigStorageController
     {
         return $this->getEvent()->getRequest()->getPost();
     }
+
+    /**
+     * Deletes all keys in this session container. Is two-foreach process due to
+     * weirdness with zf2 sessions
+     *
+     * @return null
+     */
+    function destroySession()
+    {
+        $keysToKill = array();
+        foreach ($this->session->getIterator() as $key => $val) {
+            $keysToKill[] = $key;
+        }
+        foreach ($keysToKill as $key) {
+            $this->session->offsetUnset($key);
+        }
+    }
 }
