@@ -14,3 +14,9 @@
     margin-top: 15px;
     text-align: right;
 }
+.RcmLoginLink .error{
+    display:none;
+}
+.RcmLoginLink a{
+    cursor: pointer;
+}

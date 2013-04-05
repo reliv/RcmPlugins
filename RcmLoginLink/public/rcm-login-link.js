@@ -17,27 +17,80 @@ var RcmLoginLink = function (instanceId) {
      */
     var container = rcm.getPluginContainer(instanceId);
 
-    var logInLink = container.find('.logInLink');
+    var loginLink = container.find('.loginLink');
     var logOutLink = container.find('.logOutLink');
+    var loginButton = container.find('button.login');
+    var processingButton = container.find('button.processing');
+    var usernameInput = container.find('input.username');
+    var passwordInput = container.find('input.password');
+    var popup = container.find('.popup');
 
     me.init = function(){
-        logInLink.click(me.logInLinkClick);
+        loginLink.click(me.loginLinkClick);
+        loginButton.click(me.loginButtonClick);
+        container.find('.loginForm').submit(function(e){
+            e.preventDefault();
+            me.loginButtonClick();
+        });
     };
 
     me.showShowCorrectLink=function(isLoggedIn){
         if(isLoggedIn){
-            logInLink.hide();
+            loginLink.hide();
             logOutLink.show();
         }else{
             logOutLink.hide();
-            logInLink.show();
+            loginLink.show();
         }
     };
 
-    me.logInLinkClick=function(){
-        container.find('.popup').slideToggle('fast',function(){
-            container.find('.usernameInput').focus();
+    me.loginLinkClick=function(){
+        popup.slideToggle('fast',function(){
+            usernameInput.focus();
         });
+    };
+
+    me.loginButtonClick=function(){
+        loginButton.hide();
+        processingButton.show();
+        window['rcmLoginMgr'].doLogin(
+            usernameInput.val(),
+            passwordInput.val(),
+            me.loginSuccessCallback,
+            me.loginFailCallback
+        );
+    };
+
+    me.loginSuccessCallback = function(){
+        me.showShowCorrectLink(true);
+        me.hideProcessing();
+        popup.slideUp('fast');
+    };
+
+    me.loginFailCallback = function(error){
+        switch(error) {
+            case 'invalid':
+                me.hideErrors();
+                container.find(".error.invalid").show();
+                break;
+            case 'missing':
+                me.hideErrors();
+                container.find(".error.missing").show();
+                break;
+            default://error probably == systemFailure
+                me.hideErrors();
+                container.find(".error.systemFailure").show();
+        }
+        me.hideProcessing();
+    };
+
+    me.hideProcessing = function(){
+        processingButton.hide();
+        loginButton.show();
+    };
+
+    me.hideErrors = function() {
+        container.find('.error').hide();
     };
 
     me.init();

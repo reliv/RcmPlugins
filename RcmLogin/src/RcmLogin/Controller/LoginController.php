@@ -78,7 +78,6 @@ class LoginController extends BaseController
 
         $return = array(
             'dataOk' => true,
-            'user' => $user->toArray()
         );
 
         echo json_encode($return);

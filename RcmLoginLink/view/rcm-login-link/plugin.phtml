@@ -36,29 +36,27 @@ echo $this->rcmJsLoginManager();
         );
     });
 </script>
-<a style="<?php echo $this->isLoggedIn?'display:none;':''?>" class="logInLink">login</a>
+<a style="<?php echo $this->isLoggedIn?'display:none;':''?>" class="loginLink">login</a>
 <a style="<?php echo $this->isLoggedIn?'':'display:none;'?>" class="logOutLink" href="/?logout=1">logout</a>
 <div style="display:none;" class="popup">
+    <form class="loginForm">
+        <div class="error invalid">Incorrect Username or Password</div>
+        <div class="error missing">Missing Username or Password.</div>
+        <div class="error system">There was an internal problem logging you in. Please try back later.</div>
 
-<!--    <div class="error" id="rcmLoginBoxInvalidError">Incorrect Username or Password</div>-->
-<!--    <div cloass="error" id="rcmLoginBoxMissingError">Missing Username or Password.</div>-->
-<!--    <div class="error" id="rcmLoginBoxSystemError">There was an internal problem loggin you in.  Please try back later.</div>-->
-<!--    <div class="error" id="rcmLoginBoxNoAuthError">You are not authorized to view the requested page.</div>-->
-<!---->
-<!--    <div data-textEdit="loginErrorInvalid" class="loginError" align="center" style="display: none;">-->
-<!--        Incorrect Username or Password        </div>-->
 
-    <label for="rcmLoginLinkUserName"><div data-textEdit="username">Username or RCN:</div></label>
-    <input class="usernameInput" type="text" value="" name="username" id="rcmLoginLinkUserName">
-    <br>
-<label for="rcmLoginLinkPassword"><div data-textEdit="password">Password:</div></label>
-    <input type="password" value="" name="password" id="rcmLoginLinkPassword">
+        <label for="rcmLoginLinkUserName"><div data-textEdit="usernameLabel">Username or RCN:</div></label>
+        <input class="username" type="text" value="" name="username" id="rcmLoginLinkUserName">
+        <br>
+    <label for="rcmLoginLinkPassword"><div data-textEdit="passwordLabel">Password:</div></label>
+        <input  class="password" type="password" value="" name="password" id="rcmLoginLinkPassword">
 
-    <div class="buttons">
-        <button><div data-textEdit="loginButton">Login</div></button>
-        <button style="display:none;" class="processingButton"><div data-textEdit="processingButton">
-                <span>Please wait...</span>
-            <img src="/modules/rcm/images/busy-spinner-16x16.gif" width="16" height="16"></div>
-        </button>
-    </div>
+        <div class="buttons">
+            <button class="login"><div data-textEdit="loginButton">Login</div></button>
+            <button class="processing disabled" style="display:none;" class="processingButton"><div data-textEdit="processingButton">
+                    <span>Please wait...</span>
+                <img src="/modules/rcm/images/busy-spinner-16x16.gif" width="16" height="16"></div>
+            </button>
+        </div>
+    </form>
 </div>
