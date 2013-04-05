@@ -26,4 +26,8 @@ var RcmLoginLinkEdit = function (instanceId, container) {
         loginLink.click(rcmLoginLink.loginLinkClick);
         rcmLoginLink.showShowCorrectLink(false);
     };
+
+    me.getSaveData = function () {
+        return {};
+    };
 };
