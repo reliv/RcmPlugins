@@ -7,11 +7,6 @@ return array (
     'passwordLabel'=>'Password:',
     'loginButton'=>'Login',
     'processingButton'=>'<span>Please wait...</span><img src="/modules/rcm/images/busy-spinner-16x16.gif" width="16" height="16">',
-    ''=>'',
-    ''=>'',
-    ''=>'',
-    ''=>'',
-    ''=>'',
-    ''=>'',
-    ''=>''
+    'loginLink'=>'login',
+    'logoutLink'=>'logout'
 );

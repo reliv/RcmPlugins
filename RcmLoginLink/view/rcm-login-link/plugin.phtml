@@ -37,9 +37,16 @@ echo $this->rcmJsLoginManager();
     });
 </script>
 <a style="<?php echo $this->isLoggedIn ? 'display:none;' : ''?>"
-   class="loginLink">login</a>
+   class="loginLink">
+    <div data-textEdit="loginLink">
+        <?php echo $this->ic['loginLink'] ?>
+    </div>
+</a>
 <a style="<?php echo $this->isLoggedIn ? '' : 'display:none;'?>"
-   class="logOutLink" href="/?logout=1">logout</a>
+   class="logOutLink" href="/?logout=1">
+    <div data-textEdit="logoutLink"><?php echo $this->ic['logoutLink'] ?>
+    </div>
+</a>
 <div style="display:none;" class="popup">
     <form class="loginForm">
         <div class="error invalid"
@@ -50,29 +57,25 @@ echo $this->rcmJsLoginManager();
              data-textEdit="errorSystem"><?php echo $this->ic['errorSystem']?></div>
 
 
-        <label for="rcmLoginLinkUserName">
-            <div data-textEdit="usernameLabel"><?php echo $this->ic['usernameLabel']?></div>
+        <label for="rcmLoginLinkUserName" data-textEdit="usernameLabel">
+            <?php echo $this->ic['usernameLabel']?>
         </label>
-        <input class="username" type="text" value="" name="username"
+        <input class="username" type="text" name="username"
                id="rcmLoginLinkUserName">
         <br>
-        <label for="rcmLoginLinkPassword">
-            <div data-textEdit="passwordLabel"><?php echo $this->ic['passwordLabel']?></div>
+        <label for="rcmLoginLinkPassword" div data-textEdit="passwordLabel">
+            <?php echo $this->ic['passwordLabel']?>
         </label>
-        <input class="password" type="password" value="" name="password"
+        <input class="password" type="password" name="password"
                id="rcmLoginLinkPassword">
 
         <div class="buttons">
-            <button class="login">
-                <div data-textEdit="loginButton">
-                    <?php echo $this->ic['loginButton']?>
-                </div>
+            <button class="login" data-textEdit="loginButton">
+                <?php echo $this->ic['loginButton']?>
             </button>
             <button class="processing disabled" style="display:none;"
-                    class="processingButton">
-                <div data-textEdit="processingButton">
-                    <?php echo $this->ic['processingButton']?>
-                </div>
+                    data-textEdit="processingButton">
+                <?php echo $this->ic['processingButton']?>
             </button>
         </div>
     </form>

@@ -25,7 +25,15 @@ var RcmLoginLink = function (instanceId) {
     var passwordInput = container.find('input.password');
     var popup = container.find('.popup');
 
+    var editMode=false;
+
     me.init = function(){
+        //Allow edit script to grab this object
+        if(typeof window['RcmLoginLink'] == 'undefined'){
+            window['RcmLoginLink']=[];
+        }
+        window['RcmLoginLink'][instanceId]=me;
+
         loginLink.click(me.loginLinkClick);
         loginButton.click(me.loginButtonClick);
         container.find('.loginForm').submit(function(){me.loginButtonClick});
@@ -41,21 +49,31 @@ var RcmLoginLink = function (instanceId) {
         }
     };
 
+    /**
+     *
+     * @param {Boolean} mode
+     */
+    me.setEditMode = function(mode){
+        editMode = mode;
+    };
+
     me.loginLinkClick=function(){
         popup.slideToggle('fast',function(){
             usernameInput.focus();
         });
     };
 
-    me.loginButtonClick=function(e){
-        loginButton.hide();
-        processingButton.show();
-        window['rcmLoginMgr'].doLogin(
-            usernameInput.val(),
-            passwordInput.val(),
-            me.loginSuccessCallback,
-            me.loginFailCallback
-        );
+    me.loginButtonClick=function(){
+        if(!editMode){
+            loginButton.hide();
+            processingButton.show();
+            window['rcmLoginMgr'].doLogin(
+                usernameInput.val(),
+                passwordInput.val(),
+                me.loginSuccessCallback,
+                me.loginFailCallback
+            );
+        }
         return false;//Prevent form submission
     };
 

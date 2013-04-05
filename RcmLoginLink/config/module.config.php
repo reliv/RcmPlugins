@@ -27,9 +27,7 @@ return array(
             'display' => 'Login Link',
             'tooltip' => 'Login Link',
             'icon' => '',
-            'editJs'=>'/modules/rcm-distributor-app/distributor-app-edit.js',
-            'editCss'=>'/modules/rcm-distributor-app/edit.css',
-
+            'editJs'=>'/modules/rcm-login-link/rcm-login-link-edit.js',
         ),
     ),
 
