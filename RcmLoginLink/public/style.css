@@ -1,0 +1,16 @@
+.RcmLoginLink{
+    position:relative;
+}
+.RcmLoginLink .popup{
+    position:absolute;
+    left:0;
+    top:30px;
+    z-index:950;
+    border: 3px solid #8DC63F;
+    background-color: white;
+    padding:10px;
+}
+.RcmLoginLink .buttons{
+    margin-top: 15px;
+    text-align: right;
+}
