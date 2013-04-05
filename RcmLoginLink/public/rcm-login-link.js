@@ -79,6 +79,7 @@ var RcmLoginLink = function (instanceId) {
                 me.hideErrors();
                 container.find(".error.systemFailure").show();
         }
+        passwordInput.val(null);
         me.hideProcessing();
     };
 

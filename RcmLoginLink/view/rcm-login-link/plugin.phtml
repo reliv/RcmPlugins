@@ -36,26 +36,43 @@ echo $this->rcmJsLoginManager();
         );
     });
 </script>
-<a style="<?php echo $this->isLoggedIn?'display:none;':''?>" class="loginLink">login</a>
-<a style="<?php echo $this->isLoggedIn?'':'display:none;'?>" class="logOutLink" href="/?logout=1">logout</a>
+<a style="<?php echo $this->isLoggedIn ? 'display:none;' : ''?>"
+   class="loginLink">login</a>
+<a style="<?php echo $this->isLoggedIn ? '' : 'display:none;'?>"
+   class="logOutLink" href="/?logout=1">logout</a>
 <div style="display:none;" class="popup">
     <form class="loginForm">
-        <div class="error invalid">Incorrect Username or Password</div>
-        <div class="error missing">Missing Username or Password.</div>
-        <div class="error system">There was an internal problem logging you in. Please try back later.</div>
+        <div class="error invalid"
+             data-textEdit="errorInvalid"><?php echo $this->ic['errorInvalid']?></div>
+        <div class="error missing"
+             data-textEdit="errorMissing"><?php echo $this->ic['errorMissing']?></div>
+        <div class="error system"
+             data-textEdit="errorSystem"><?php echo $this->ic['errorSystem']?></div>
 
 
-        <label for="rcmLoginLinkUserName"><div data-textEdit="usernameLabel">Username or RCN:</div></label>
-        <input class="username" type="text" value="" name="username" id="rcmLoginLinkUserName">
+        <label for="rcmLoginLinkUserName">
+            <div data-textEdit="usernameLabel"><?php echo $this->ic['usernameLabel']?></div>
+        </label>
+        <input class="username" type="text" value="" name="username"
+               id="rcmLoginLinkUserName">
         <br>
-    <label for="rcmLoginLinkPassword"><div data-textEdit="passwordLabel">Password:</div></label>
-        <input  class="password" type="password" value="" name="password" id="rcmLoginLinkPassword">
+        <label for="rcmLoginLinkPassword">
+            <div data-textEdit="passwordLabel"><?php echo $this->ic['passwordLabel']?></div>
+        </label>
+        <input class="password" type="password" value="" name="password"
+               id="rcmLoginLinkPassword">
 
         <div class="buttons">
-            <button class="login"><div data-textEdit="loginButton">Login</div></button>
-            <button class="processing disabled" style="display:none;" class="processingButton"><div data-textEdit="processingButton">
-                    <span>Please wait...</span>
-                <img src="/modules/rcm/images/busy-spinner-16x16.gif" width="16" height="16"></div>
+            <button class="login">
+                <div data-textEdit="loginButton">
+                    <?php echo $this->ic['loginButton']?>
+                </div>
+            </button>
+            <button class="processing disabled" style="display:none;"
+                    class="processingButton">
+                <div data-textEdit="processingButton">
+                    <?php echo $this->ic['processingButton']?>
+                </div>
             </button>
         </div>
     </form>
