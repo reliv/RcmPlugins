@@ -28,10 +28,7 @@ var RcmLoginLink = function (instanceId) {
     me.init = function(){
         loginLink.click(me.loginLinkClick);
         loginButton.click(me.loginButtonClick);
-        container.find('.loginForm').submit(function(e){
-            e.preventDefault();
-            me.loginButtonClick();
-        });
+        container.find('.loginForm').submit(function(){me.loginButtonClick});
     };
 
     me.showShowCorrectLink=function(isLoggedIn){
@@ -50,7 +47,7 @@ var RcmLoginLink = function (instanceId) {
         });
     };
 
-    me.loginButtonClick=function(){
+    me.loginButtonClick=function(e){
         loginButton.hide();
         processingButton.show();
         window['rcmLoginMgr'].doLogin(
@@ -59,6 +56,7 @@ var RcmLoginLink = function (instanceId) {
             me.loginSuccessCallback,
             me.loginFailCallback
         );
+        return false;//Prevent form submission
     };
 
     me.loginSuccessCallback = function(){

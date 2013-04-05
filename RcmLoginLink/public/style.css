@@ -16,6 +16,7 @@
 }
 .RcmLoginLink .error{
     display:none;
+    color:#f15d22;
 }
 .RcmLoginLink a{
     cursor: pointer;
