@@ -26,11 +26,11 @@
     border-bottom-right-radius: 15px;
 }
 
-.RcmCallToActionBox div h1 {
+.RcmCallToActionBox div h1 a {
     padding-bottom: 6px;
     text-decoration: none;
     line-height: 16px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     z-index: 1;
     position: relative;
     font-weight: bold;
@@ -38,13 +38,8 @@
     color: #00A3E6;
 }
 
-.RcmCallToActionBox div h1 a {
-
-}
-
-.RcmCallToActionBox div h2 {
+.RcmCallToActionBox div h2 a{
     line-height: 18px;
-    margin-bottom: 5;
     z-index: 1;
     position: relative;
     color: #8DC63F;
@@ -52,9 +47,6 @@
     font-size: 13px;
 }
 
-.RcmCallToActionBox div h2 a {
-
-}
 
 .RcmCallToActionBox div p{
     margin: 0px;
