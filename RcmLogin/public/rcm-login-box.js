@@ -1,4 +1,4 @@
-var RcmLoginBox = function(instanceId, sessionId) {
+var RcmLoginBox = function(instanceId, errors) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -13,7 +13,8 @@ var RcmLoginBox = function(instanceId, sessionId) {
     var container = rcm.getPluginContainer(instanceId);
 
     var loginButton;
-    me.sessionId = sessionId;
+
+    var errorDiv = container.find('div.error');
 
     me.init = function() {
 
@@ -43,42 +44,10 @@ var RcmLoginBox = function(instanceId, sessionId) {
         });
     };
 
-    me.loginSuccessCallback = function(redirectUrl){
-
-        if (typeof(rcm) === 'object') {
-            var urlParams = rcm.getUrlParams();
-
-            if (urlParams.redirect) {
-                redirectUrl = urlParams.redirect
-            }
-        }
-
-        if (redirectUrl == '') {
-            redirectUrl ='https://portal.local.reliv.com';
-        }
-
-        var redirectWithSession = rcm.updateURLParameter(redirectUrl,'sess_id', me.sessionId);
-
-        window.location.replace(redirectWithSession);
-    };
-
     me.handleLoginFail = function(error){
-        switch(error) {
-            case 'invalid':
-                me.hideErrors();
-                $("#rcmLoginBoxInvalidError").show();
-                me.hideProcessing();
-                break;
-            case 'missing':
-                me.hideErrors();
-                $("#rcmLoginBoxMissingError").show();
-                me.hideProcessing();
-                break;
-            default://error probably == systemFailure
-                me.hideErrors();
-                $("#rcmLoginBoxSystemError").show();
-                me.hideProcessing();
-        }
+        errorDiv.html(errors[error]);
+        errorDiv.show();
+        me.hideProcessing();
     };
 
     me.login = function() {
@@ -88,12 +57,6 @@ var RcmLoginBox = function(instanceId, sessionId) {
             container.find('input.password').val(),
             me.handleLoginFail
         );
-    };
-
-    me.hideErrors = function() {
-        $("#rcmLoginBoxInvalidError").hide();
-        $("#rcmLoginBoxMissingError").hide();
-        $("#rcmLoginBoxSystemError").hide();
     };
 
     me.showProcessing = function(){

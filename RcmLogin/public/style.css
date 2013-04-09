@@ -41,8 +41,8 @@
 
 .error {
     font-weight: bold;
-    color: #FF0000;
+    color: #F15D22;
     padding-bottom: 15px;
     padding-top: 10px;
-    display: none;
+    display:none;
 }

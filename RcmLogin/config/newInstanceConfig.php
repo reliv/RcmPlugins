@@ -1,17 +1,19 @@
 <?php
-return array (
+return array(
     'loginHeader' => 'Login',
     'userNameCopy' => 'Username:',
-    'loginPasswordCopy' => 'Password',
+    'loginPasswordCopy' => 'Password:',
     'loginSubmitCopy' => 'Login',
     'loginProcessingCopy' => 'Please wait...',
     'loginForgotPasswordCopy' => '<a href="#">Forgot your password?</a>',
-    'loginErrorInvalidCopy' => 'Incorrect Username or Password',
-    'loginErrorMissingCopy' => 'Missing Username or Password.',
-    'loginErrorSystemCopy' => 'There was an internal problem loggin you in.  Please try back later.',
-    'loginErrorAuthCopy' => 'You are not authorized to view the requested page.',
-    'bottomLoginText' => '<strong>Don’t have an account yet?</strong> </br>
-<a href="/new-customer">Request a customer account.</a> </br>
-<a href="/new-distributor">Request a distributor account.</a>
-',
+    'bottomLoginText' => '
+        <strong>Don’t have an account yet?</strong> </br>
+        <a href="/new-customer">Request a customer account.</a> </br>
+        <a href="/new-distributor">Request a distributor account.</a>
+    ',
+    'errors' => array(
+        'invalid' => 'Incorrect Username or Password',
+        'missing' => 'Missing Username or Password.',
+        'systemFailure' => 'There was an internal problem logging you in.  Please try back later.'
+    )
 );

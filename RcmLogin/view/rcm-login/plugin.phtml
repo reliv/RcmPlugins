@@ -28,14 +28,13 @@ $this->headScript()->appendFile(
 echo $this->rcmJsLoginManager();
 ?>
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         new RcmLoginBox(
-            <?php echo $this->instanceId?>,
-            '<?php echo $this->sessionId; ?>'
+        <?php echo $this->instanceId?>,
+        <?php echo json_encode($this->ic['errors'])?>
         );
     });
 </script>
-
 
 <div class="rcmLogin">
 
@@ -45,43 +44,36 @@ echo $this->rcmJsLoginManager();
             <?php echo $this->ic['loginHeader']; ?>
         </h1>
 
-        <div class="error" id="rcmLoginBoxInvalidError"><?php echo $this->ic['loginErrorInvalidCopy']; ?></div>
-        <div class="error" id="rcmLoginBoxMissingError"><?php echo $this->ic['loginErrorMissingCopy']; ?></div>
-        <div class="error" id="rcmLoginBoxSystemError"><?php echo $this->ic['loginErrorSystemCopy']; ?></div>
-        <div class="error" id="rcmLoginBoxNoAuthError"><?php echo $this->ic['loginErrorAuthCopy']; ?></div>
-
-        <div data-textEdit="loginErrorInvalidCopy" class="loginError"
-             align="center" <?php if (empty($this->rcmLoginError)): ?>style="display: none;"  <?php endif; ?> >
-            <?php echo $this->ic['loginErrorInvalidCopy']; ?>
-        </div>
+        <div class="error"></div>
         <p>
-                <div data-textEdit="userNameCopy">
-                    <?php echo $this->ic['userNameCopy']; ?>
-                </div>
-            <input autofocus type="text" value="" name="userName" class="username">
+            <label data-textEdit="userNameCopy" for="rcmLoginUsername">
+                <?php echo $this->ic['userNameCopy']; ?>
+            </label>
+            <br>
+            <input autofocus type="text" name="userName" class="username"
+                   id="rcmLoginUsername">
         </p>
 
         <p>
-            <div data-textEdit="loginPasswordCopy">
+            <label data-textEdit="loginPasswordCopy" for="rcmLoginPassword">
                 <?php echo $this->ic['loginPasswordCopy']; ?>
-            </div>
-            <input type="password" value="" name="loginPass" class="password">
+            </label>
+            <br>
+            <input type="password" name="loginPass" class="password"
+                   id="rcmLoginPassword">
         </p>
-        <br />
+        <br>
+
         <div>
             <button class="login" data-textEdit="loginSubmitCopy">
                 <?php echo $this->ic['loginSubmitCopy']; ?>
             </button>
         </div>
         <p>&nbsp;</p>
+
         <p data-textEdit="loginForgotPasswordCopy">
             <?php echo $this->ic['loginForgotPasswordCopy']; ?>
         </p>
-
-        <div style="position: absolute; left: -999999px;">
-            <input type="submit" value="" name="submitButton"/>
-        </div>
-        <p>&nbsp;</p>
 
         <div data-richedit="bottomLoginText">
             <?php echo $this->ic['bottomLoginText']; ?>
