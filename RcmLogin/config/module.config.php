@@ -28,6 +28,7 @@ return array(
             'tooltip' => 'Adds login area to page',
             'icon' => '',
             'editJs'=>'/modules/rcm-login/edit.js',
+            'postLoginRedirectUrl'=>'/processLogin'
         ),
     ),
 

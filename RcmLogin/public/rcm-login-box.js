@@ -1,34 +1,49 @@
-var RcmLoginBox = function(sessionId) {
+var RcmLoginBox = function(instanceId, sessionId) {
 
+    /**
+     * Always refers to this object unlike the 'this' JS variable;
+     * @type {RcmLoginLink}
+     */
     var me = this;
 
+    /**
+     * Plugin container div jQuery object
+     * @type {jQuery}
+     */
+    var container = rcm.getPluginContainer(instanceId);
+
+    var loginButton;
     me.sessionId = sessionId;
 
     me.init = function() {
 
+        loginButton = container.find('button.login');
+
         $(function(){
-            $("#rcmLoginBoxLoginForm").submit(function(event){
-                me.submitBind();
+            container.find('form').submit(function(event){
+                me.login();
                 event.preventDefault();
             });
 
-            $("#rcmLoginBoxLoginSubmit").click(function(event){
-                me.submitBind();
+            loginButton.click(function(event){
+                me.login();
                 event.preventDefault();
             });
 
             if (typeof(rcm) === 'object') {
                 var urlParams = rcm.getUrlParams();
 
-                if (urlParams.rcmLoginError) {
-                    window['rcmLoginMgr'].processError(urlParams.rcmLoginError);
+                if (urlParams['rcmLoginError']) {
+                    window['rcmLoginMgr'].processError(
+                        urlParams['rcmLoginError'],
+                        me.handleLoginFail
+                    );
                 }
             }
         });
     };
 
-    me.loginSuccessCallback = function(){
-        var redirectUrl = '';
+    me.loginSuccessCallback = function(redirectUrl){
 
         if (typeof(rcm) === 'object') {
             var urlParams = rcm.getUrlParams();
@@ -47,49 +62,54 @@ var RcmLoginBox = function(sessionId) {
         window.location.replace(redirectWithSession);
     };
 
-    me.loginFailCallback = function(error){
+    me.handleLoginFail = function(error){
         switch(error) {
             case 'invalid':
                 me.hideErrors();
                 $("#rcmLoginBoxInvalidError").show();
-                me.showSubmitButton();
+                me.hideProcessing();
                 break;
             case 'missing':
                 me.hideErrors();
                 $("#rcmLoginBoxMissingError").show();
-                me.showSubmitButton();
+                me.hideProcessing();
                 break;
             default://error probably == systemFailure
                 me.hideErrors();
                 $("#rcmLoginBoxSystemError").show();
-                me.showSubmitButton();
+                me.hideProcessing();
         }
     };
 
-    me.submitBind = function() {
-        me.hideSubmitButton();
+    me.login = function() {
+        me.showProcessing();
         window['rcmLoginMgr'].doLogin(
-            $("#rcmLoginBoxUserName").val(),
-            $("#rcmLoginBoxPassword").val(),
-            me.loginSuccessCallback,
-            me.loginFailCallback
+            container.find('input.username').val(),
+            container.find('input.password').val(),
+            me.handleLoginFail
         );
-    };
-
-    me.hideSubmitButton = function() {
-        $("#rcmLoginBoxLoginSubmit").hide();
-        $("#rcmLoginBoxProcessingMsgContainer").show();
-    };
-
-    me.showSubmitButton = function() {
-        $("#rcmLoginBoxLoginSubmit").show();
-        $("#rcmLoginBoxProcessingMsgContainer").hide();
     };
 
     me.hideErrors = function() {
         $("#rcmLoginBoxInvalidError").hide();
         $("#rcmLoginBoxMissingError").hide();
         $("#rcmLoginBoxSystemError").hide();
+    };
+
+    me.showProcessing = function(){
+        loginButton.append(
+            '<img class="processingSpinner" ' +
+                'src="/modules/rcm/images/busy-spinner-16x16.gif" ' +
+                'width="16" ' +
+                'height="16">'
+        );
+        loginButton.addClass('disabled');
+
+    };
+
+    me.hideProcessing = function(){
+        container.find('.processingSpinner').remove();
+        loginButton.removeClass('disabled');
     };
 
     me.init();

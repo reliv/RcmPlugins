@@ -20,7 +20,6 @@ var RcmLoginLink = function (instanceId) {
     var loginLink = container.find('.loginLink');
     var logOutLink = container.find('.logOutLink');
     var loginButton = container.find('button.login');
-    var processingButton = container.find('button.processing');
     var usernameInput = container.find('input.username');
     var passwordInput = container.find('input.password');
     var popup = container.find('.popup');
@@ -65,45 +64,33 @@ var RcmLoginLink = function (instanceId) {
 
     me.loginButtonClick=function(){
         if(!editMode){
-            loginButton.hide();
-            processingButton.show();
+            me.showProcessing();
             window['rcmLoginMgr'].doLogin(
                 usernameInput.val(),
                 passwordInput.val(),
-                me.loginSuccessCallback,
                 me.loginFailCallback
             );
         }
         return false;//Prevent form submission
     };
 
-    me.loginSuccessCallback = function(){
-        me.showShowCorrectLink(true);
-        me.hideProcessing();
-        popup.slideUp('fast');
+    me.loginFailCallback = function(error){
+        window.location = "/login?rcmLoginError="+error;
     };
 
-    me.loginFailCallback = function(error){
-        switch(error) {
-            case 'invalid':
-                me.hideErrors();
-                container.find(".error.invalid").show();
-                break;
-            case 'missing':
-                me.hideErrors();
-                container.find(".error.missing").show();
-                break;
-            default://error probably == systemFailure
-                me.hideErrors();
-                container.find(".error.systemFailure").show();
-        }
-        passwordInput.val(null);
-        me.hideProcessing();
+    me.showProcessing = function(){
+        loginButton.append(
+          '<img class="processingSpinner" ' +
+              'src="/modules/rcm/images/busy-spinner-16x16.gif" ' +
+              'width="16" ' +
+              'height="16">'
+        );
+        loginButton.addClass('disabled');
     };
 
     me.hideProcessing = function(){
-        processingButton.hide();
-        loginButton.show();
+        container.find('.processingSpinner').remove();
+        loginButton.removeClass('disabled');
     };
 
     me.hideErrors = function() {

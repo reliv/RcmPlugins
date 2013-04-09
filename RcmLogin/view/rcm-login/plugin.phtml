@@ -28,14 +28,19 @@ $this->headScript()->appendFile(
 echo $this->rcmJsLoginManager();
 ?>
 <script type="text/javascript">
-    new RcmLoginBox('<?php echo $this->sessionId; ?>');
+    $(function(){
+        new RcmLoginBox(
+            <?php echo $this->instanceId?>,
+            '<?php echo $this->sessionId; ?>'
+        );
+    });
 </script>
 
 
 <div class="rcmLogin">
 
 
-    <form method="post" action="" id="rcmLoginBoxLoginForm">
+    <form method="post" action="">
         <h1 data-textEdit="loginHeader">
             <?php echo $this->ic['loginHeader']; ?>
         </h1>
@@ -53,30 +58,20 @@ echo $this->rcmJsLoginManager();
                 <div data-textEdit="userNameCopy">
                     <?php echo $this->ic['userNameCopy']; ?>
                 </div>
-            <input autofocus type="text" value="" name="userName" id="rcmLoginBoxUserName">
+            <input autofocus type="text" value="" name="userName" class="username">
         </p>
 
         <p>
             <div data-textEdit="loginPasswordCopy">
                 <?php echo $this->ic['loginPasswordCopy']; ?>
             </div>
-            <input type="password" value="" name="loginPass" id="rcmLoginBoxPassword">
+            <input type="password" value="" name="loginPass" class="password">
         </p>
         <br />
         <div>
-            <a href="#" id="rcmLoginBoxLoginSubmit" >
-                <button data-textEdit="loginSubmitCopy">
-                    <?php echo $this->ic['loginSubmitCopy']; ?>
-                </button>
-            </a>
-            <a href="#" id="rcmLoginBoxProcessingMsgContainer" style="min-width: 100px; display: none;">
-                <button id="rcmLoginBoxProcessingMessage">
-                    <span data-textEdit="loginSubmitCopy">
-                        <?php echo $this->ic['loginProcessingCopy']; ?>
-                        </span>
-                    <img src="/modules/rcm/images/busy-spinner-16x16.gif" width="16" height="16" />
-                </button>
-            </a>
+            <button class="login" data-textEdit="loginSubmitCopy">
+                <?php echo $this->ic['loginSubmitCopy']; ?>
+            </button>
         </div>
         <p>&nbsp;</p>
         <p data-textEdit="loginForgotPasswordCopy">

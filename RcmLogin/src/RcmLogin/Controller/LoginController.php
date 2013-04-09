@@ -60,7 +60,7 @@ class LoginController extends BaseController
         $password = $this->getRequest()->getPost()->get('password');
 
         if (empty($username) || empty($password)) {
-            $this->sendInvalid('missingNeeded');
+            $this->sendInvalid('missing');
         }
 
         /** @var \Rcm\Model\UserManagement\DoctrineUserManager $userManager  */
@@ -78,6 +78,8 @@ class LoginController extends BaseController
 
         $return = array(
             'dataOk' => true,
+            'redirectUrl' =>$this->config['rcmPlugin']['RcmLogin']
+                ['postLoginRedirectUrl']
         );
 
         echo json_encode($return);
@@ -85,7 +87,7 @@ class LoginController extends BaseController
     }
 
     /**
-     * @param string $invalidType Possible - invalid, missingNeeded, systemFailure
+     * @param string $invalidType Possible - invalid, missing, systemFailure
      */
     private function sendInvalid($invalidType) {
         $return = array(

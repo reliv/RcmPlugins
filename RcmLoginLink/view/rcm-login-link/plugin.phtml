@@ -49,13 +49,6 @@ echo $this->rcmJsLoginManager();
 </a>
 <div style="display:none;" class="popup">
     <form class="loginForm">
-        <div class="error invalid"
-             data-textEdit="errorInvalid"><?php echo $this->ic['errorInvalid']?></div>
-        <div class="error missing"
-             data-textEdit="errorMissing"><?php echo $this->ic['errorMissing']?></div>
-        <div class="error system"
-             data-textEdit="errorSystem"><?php echo $this->ic['errorSystem']?></div>
-
 
         <label for="rcmLoginLinkUserName" data-textEdit="usernameLabel">
             <?php echo $this->ic['usernameLabel']?>
@@ -72,10 +65,6 @@ echo $this->rcmJsLoginManager();
         <div class="buttons">
             <button class="login" data-textEdit="loginButton">
                 <?php echo $this->ic['loginButton']?>
-            </button>
-            <button class="processing disabled" style="display:none;"
-                    data-textEdit="processingButton">
-                <?php echo $this->ic['processingButton']?>
             </button>
         </div>
     </form>
