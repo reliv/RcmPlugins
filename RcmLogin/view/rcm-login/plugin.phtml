@@ -36,50 +36,47 @@ echo $this->rcmJsLoginManager();
     });
 </script>
 
-<div class="rcmLogin">
 
 
-    <form>
-        <h1 data-textEdit="loginHeader">
-            <?php echo $this->ic['loginHeader']; ?>
-        </h1>
+<h1 data-textEdit="loginHeader">
+    <?php echo $this->ic['loginHeader']; ?>
+</h1>
 
-        <div class="error"></div>
+<div class="error"></div>
 
 
-        <label data-textEdit="userNameCopy" for="rcmLoginUsername">
-            <?php echo $this->ic['userNameCopy']; ?>
-        </label>
-        <br>
-        <input autofocus type="text" name="userName"
-               class="username"
-               id="rcmLoginUsername">
-        <br>
-        <label data-textEdit="loginPasswordCopy"
-               for="rcmLoginPassword">
-            <?php echo $this->ic['loginPasswordCopy']; ?>
-        </label>
-        <br>
-        <input type="password" name="loginPass" class="password"
-               id="rcmLoginPassword">
+<label data-textEdit="userNameCopy" for="rcmLoginUsername">
+    <?php echo $this->ic['userNameCopy']; ?>
+</label>
+<br>
+<form>
+    <input autofocus type="text" name="userName"
+           class="username"
+           id="rcmLoginUsername">
+    <br>
+    <label data-textEdit="loginPasswordCopy"
+           for="rcmLoginPassword">
+        <?php echo $this->ic['loginPasswordCopy']; ?>
+    </label>
+    <br>
+    <input type="password" name="loginPass" class="password"
+           id="rcmLoginPassword">
 
-        <br>
-        <br>
+    <br>
+    <br>
 
-        <button class="login" data-textEdit="loginSubmitCopy">
-            <?php echo $this->ic['loginSubmitCopy']; ?>
-        </button>
+    <button class="login" data-textEdit="loginSubmitCopy">
+        <?php echo $this->ic['loginSubmitCopy']; ?>
+    </button>
+</form>
+<br>
+<br>
 
-        <br>
-        <br>
+<p data-textEdit="loginForgotPasswordCopy">
+    <?php echo $this->ic['loginForgotPasswordCopy']; ?>
+</p>
 
-        <p data-textEdit="loginForgotPasswordCopy">
-            <?php echo $this->ic['loginForgotPasswordCopy']; ?>
-        </p>
-
-        <div data-richedit="bottomLoginText">
-            <?php echo $this->ic['bottomLoginText']; ?>
-        </div>
-    </form>
-    <div style="clear:both;"></div>
+<div data-richedit="bottomLoginText">
+    <?php echo $this->ic['bottomLoginText']; ?>
 </div>
+
