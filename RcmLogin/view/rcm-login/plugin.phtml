@@ -46,42 +46,33 @@ echo $this->rcmJsLoginManager();
 
         <div class="error"></div>
 
-        <table>
-            <tr>
-                <td>
 
-                    <label data-textEdit="userNameCopy" for="rcmLoginUsername">
-                        <?php echo $this->ic['userNameCopy']; ?>
-                    </label>
-                    <br>
-                    <input autofocus type="text" name="userName"
-                           class="username"
-                           id="rcmLoginUsername">
-                    <br>
-                    <label data-textEdit="loginPasswordCopy"
-                           for="rcmLoginPassword">
-                        <?php echo $this->ic['loginPasswordCopy']; ?>
-                    </label>
-                    <br>
-                    <input type="password" name="loginPass" class="password"
-                           id="rcmLoginPassword">
+        <label data-textEdit="userNameCopy" for="rcmLoginUsername">
+            <?php echo $this->ic['userNameCopy']; ?>
+        </label>
+        <br>
+        <input autofocus type="text" name="userName"
+               class="username"
+               id="rcmLoginUsername">
+        <br>
+        <label data-textEdit="loginPasswordCopy"
+               for="rcmLoginPassword">
+            <?php echo $this->ic['loginPasswordCopy']; ?>
+        </label>
+        <br>
+        <input type="password" name="loginPass" class="password"
+               id="rcmLoginPassword">
 
-                    <br>
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td class="buttonTd">
-                    <button class="login" data-textEdit="loginSubmitCopy">
-                        <?php echo $this->ic['loginSubmitCopy']; ?>
-                    </button>
+        <br>
+        <br>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-        </table>
-<br>
+        <button class="login" data-textEdit="loginSubmitCopy">
+            <?php echo $this->ic['loginSubmitCopy']; ?>
+        </button>
+
+
+        <br>
+
         <p data-textEdit="loginForgotPasswordCopy">
             <?php echo $this->ic['loginForgotPasswordCopy']; ?>
         </p>
