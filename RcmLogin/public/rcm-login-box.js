@@ -51,6 +51,7 @@ var RcmLoginBox = function(instanceId, errors) {
     };
 
     me.login = function() {
+        errorDiv.hide();
         me.showProcessing();
         window['rcmLoginMgr'].doLogin(
             container.find('input.username').val(),
