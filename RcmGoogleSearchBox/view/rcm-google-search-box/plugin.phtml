@@ -22,15 +22,9 @@ $q=isset($_GET['q'])?$_GET['q']:null;
 <form action="<?php echo $this->ic['resultPage']?>">
     <input type="hidden" name="cx" value="<?php echo $this->ic['googleKey']?>">
     <input type="hidden" name="ie" value="UTF-8">
-    <input value="<?php echo $q?>" type="text" name="q" size="40" style="background-color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial;">
+    <input value="<?php echo $q?>" type="text" name="q" size="40">
 
-<!--Commented out cause ckEditor was broken while developing.-->
-<!--This can be used once ckeditor is fixed-->
-<!--<button data-textEdit="searchButton">-->
-<!-- --><?php //echo $this->ic['searchButton']?>
-<!--</button>-->
     <button class="plain search">Search</button>
-
 
 </form>
 
