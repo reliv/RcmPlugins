@@ -32,8 +32,8 @@ var RcmLoginLink = function (instanceId) {
         window['RcmLoginLink'][instanceId]=me;
 
         loginLink.click(me.loginLinkClick);
-        loginButton.click(me.loginButtonClick);
-        container.find('.loginForm').submit(function(){me.loginButtonClick});
+        loginButton.click(me.login);
+        container.find('.loginForm').submit(function(){me.login});
     };
 
     me.showShowCorrectLink=function(isLoggedIn){
@@ -52,13 +52,15 @@ var RcmLoginLink = function (instanceId) {
         });
     };
 
-    me.loginButtonClick=function(){
+    me.login=function(){
+        if(!loginButton.hasClass('disabled')){
             me.showProcessing();
             window['rcmLoginMgr'].doLogin(
                 usernameInput.val(),
                 passwordInput.val(),
                 me.loginFailCallback
             );
+        }
         return false;//Prevent form submission
     };
 

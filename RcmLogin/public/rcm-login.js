@@ -27,15 +27,9 @@ var RcmLogin = function(instanceId, errors) {
         loginButton = container.find('button.login');
 
         $(function(){
-            container.find('form').submit(function(event){
-                me.login();
-                event.preventDefault();
-            });
+            container.find('form').submit(me.login);
 
-            loginButton.click(function(event){
-                me.login();
-                event.preventDefault();
-            });
+            loginButton.click(me.login);
 
             if (typeof(rcm) === 'object') {
                 var urlParams = rcm.getUrlParams();
@@ -70,6 +64,7 @@ var RcmLogin = function(instanceId, errors) {
                 me.handleLoginFail
             );
         }
+        return false;//Prevent form submission
     };
 
     me.showProcessing = function(){
