@@ -5,7 +5,7 @@ return array(
     'loginPasswordCopy' => 'Password:',
     'loginSubmitCopy' => 'Login',
     'bottomLoginText' => '
-        <a href="/reset-password">Forgot your password?</a><br>
+        <!--<a href="/reset-password">Forgot your password?</a><br>-->
         <strong>Don’t have an account yet?</strong> </br>
         <a href="/new-customer">Request a customer account.</a> </br>
         <a href="/new-distributor">Request a distributor account.</a>
