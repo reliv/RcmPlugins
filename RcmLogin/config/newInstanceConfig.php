@@ -13,6 +13,6 @@ return array(
     'errors' => array(
         'invalid' => 'Incorrect Username or Password',
         'missing' => 'Missing Username or Password.',
-        'systemFailure' => 'There was an internal problem logging you in.  Please try back later.'
+        'systemFailure' => 'There was an error logging you in. Please try again.'
     )
 );
