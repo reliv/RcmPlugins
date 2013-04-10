@@ -26,22 +26,20 @@ var RcmLogin = function(instanceId, errors) {
 
         loginButton = container.find('button.login');
 
-        $(function(){
-            container.find('form').submit(me.login);
+        container.find('form').submit(me.login);
 
-            loginButton.click(me.login);
+        loginButton.click(me.login);
 
-            if (typeof(rcm) === 'object') {
-                var urlParams = rcm.getUrlParams();
+        if (typeof(rcm) === 'object') {
+            var urlParams = rcm.getUrlParams();
 
-                if (urlParams['rcmLoginError']) {
-                    window['rcmLoginMgr'].processError(
-                        urlParams['rcmLoginError'],
-                        me.handleLoginFail
-                    );
-                }
+            if (urlParams['rcmLoginError']) {
+                window['rcmLoginMgr'].processError(
+                    urlParams['rcmLoginError'],
+                    me.handleLoginFail
+                );
             }
-        });
+        }
     };
 
     me.getErrors = function(){
