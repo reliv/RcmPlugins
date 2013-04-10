@@ -61,13 +61,15 @@ var RcmLogin = function(instanceId, errors) {
     };
 
     me.login = function() {
-        errorDiv.hide();
-        me.showProcessing();
-        window['rcmLoginMgr'].doLogin(
-            container.find('input.username').val(),
-            container.find('input.password').val(),
-            me.handleLoginFail
-        );
+        if(!loginButton.hasClass('disabled')){
+            errorDiv.hide();
+            me.showProcessing();
+            window['rcmLoginMgr'].doLogin(
+                container.find('input.username').val(),
+                container.find('input.password').val(),
+                me.handleLoginFail
+            );
+        }
     };
 
     me.showProcessing = function(){
