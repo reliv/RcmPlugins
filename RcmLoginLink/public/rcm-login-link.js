@@ -24,8 +24,6 @@ var RcmLoginLink = function (instanceId) {
     var passwordInput = container.find('input.password');
     var popup = container.find('.popup');
 
-    var editMode=false;
-
     me.init = function(){
         //Allow edit script to grab this object
         if(typeof window['RcmLoginLink'] == 'undefined'){
@@ -48,14 +46,6 @@ var RcmLoginLink = function (instanceId) {
         }
     };
 
-    /**
-     *
-     * @param {Boolean} mode
-     */
-    me.setEditMode = function(mode){
-        editMode = mode;
-    };
-
     me.loginLinkClick=function(){
         popup.slideToggle('fast',function(){
             usernameInput.focus();
@@ -63,14 +53,12 @@ var RcmLoginLink = function (instanceId) {
     };
 
     me.loginButtonClick=function(){
-        if(!editMode){
             me.showProcessing();
             window['rcmLoginMgr'].doLogin(
                 usernameInput.val(),
                 passwordInput.val(),
                 me.loginFailCallback
             );
-        }
         return false;//Prevent form submission
     };
 

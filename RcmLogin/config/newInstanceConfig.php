@@ -4,9 +4,8 @@ return array(
     'userNameCopy' => 'Username:',
     'loginPasswordCopy' => 'Password:',
     'loginSubmitCopy' => 'Login',
-    'loginProcessingCopy' => 'Please wait...',
-    'loginForgotPasswordCopy' => '<a href="#">Forgot your password?</a>',
     'bottomLoginText' => '
+        <a href="#">Forgot your password?</a><br>
         <strong>Don’t have an account yet?</strong> </br>
         <a href="/new-customer">Request a customer account.</a> </br>
         <a href="/new-distributor">Request a distributor account.</a>

@@ -1,4 +1,4 @@
-var RcmLoginBox = function(instanceId, errors) {
+var RcmLogin = function(instanceId, errors) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -17,6 +17,12 @@ var RcmLoginBox = function(instanceId, errors) {
     var errorDiv = container.find('div.error');
 
     me.init = function() {
+
+        //Allow edit script to grab this object
+        if(typeof window['RcmLogin'] == 'undefined'){
+            window['RcmLogin']=[];
+        }
+        window['RcmLogin'][instanceId]=me;
 
         loginButton = container.find('button.login');
 
@@ -42,6 +48,10 @@ var RcmLoginBox = function(instanceId, errors) {
                 }
             }
         });
+    };
+
+    me.getErrors = function(){
+        return errors;
     };
 
     me.handleLoginFail = function(error){

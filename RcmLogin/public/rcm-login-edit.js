@@ -27,22 +27,30 @@ var RcmLoginEdit = function(instanceId, container){
     me.notAuthError = $("#rcmLoginBoxNoAuthError").html();
     me.processingMsg = $("#rcmLoginBoxProcessingMessage").html();
 
+    /**
+     *
+     * @type {RcmLogin}
+     */
+    var rcmLogin = window['RcmLogin'][instanceId];
+
+    var errors = rcmLogin.getErrors();
 
     /**
      * Called by RelivContentManger to make the random image editable
      */
     me.initEdit = function(){
+        //Allow labels to be clicked
+        container.find('label').attr('for',null);
+
+        //Disable buttons
+        container.find('button').unbind();
+        container.find('button').click(function(){return false;});
+
         me.addContextMenu();
-        $(rcm.getPluginContainerSelector(instanceId)).not('[contenteditable="true"]').dblclick(function(e){
+        container.not('[contenteditable="true"]').dblclick(function(e){
             me.showEditDialog();
             e.preventDefault();
         });
-
-        //Hide error messages.. just in case
-        $("#rcmLoginBoxInvalidError").hide();
-        $("#rcmLoginBoxMissingError").hide();
-        $("#rcmLoginBoxSystemError").hide();
-        $("#rcmLoginBoxNoAuthError").hide();
     };
 
     /**
@@ -52,11 +60,7 @@ var RcmLoginEdit = function(instanceId, container){
      */
     me.getSaveData = function(){
         return {
-            loginErrorInvalidCopy: me.invalidErrorMsg,
-            loginErrorMissingCopy: me.missingError,
-            loginErrorSystemCopy: me.systemFailureError,
-            loginErrorAuthCopy : me.notAuthError,
-            loginProcessingCopy : me.processingMsg
+            errors:errors
         };
     };
 
@@ -79,52 +83,36 @@ var RcmLoginEdit = function(instanceId, container){
 
     me.showEditDialog = function() {
 
-        var processing = $.dialogIn(
-            'text', 'Please Wait', me.notAuthError
-        );
-
         var invalidError = $.dialogIn(
-            'text', 'Invalid Error Message', me.invalidErrorMsg
+            'text', 'Invalid Error Message', errors['invalid']
         );
 
         var missingError = $.dialogIn(
-            'text', 'Missing Items Error Message', me.missingError
+            'text', 'Missing Items Error Message', errors['missing']
         );
 
         var systemFailureError = $.dialogIn(
-            'text', 'System Failure Error Message', me.systemFailureError
+            'text', 'System Failure Error Message', errors['systemFailure']
         );
 
-        var notAuthError = $.dialogIn(
-            'text', 'System Failure Error Message', me.notAuthError
-        );
-
-        var form = $('<form>')
-            .append(processing, invalidError, missingError, systemFailureError, notAuthError)
+        var form = $('<form></form>')
+            .append(invalidError, missingError, systemFailureError)
+            .addClass('simple')
+            .width(640)
             .dialog({
                 title:'Properties',
-                modal:true,
                 width:620,
+                modal:true,
                 buttons:{
                     Cancel:function () {
 
                         $(this).dialog("close");
                     },
                     Ok:function () {
-                        me.invalidErrorMsg = invalidError.val();
-                        me.missingError = missingError.val();
-                        me.systemFailureError = systemFailureError.val();
-                        me.notAuthError = notAuthError.val();
-                        me.processingMsg = processing.val();
+                        errors['invalid'] = invalidError.val();
+                        errors['missing'] = missingError.val();
+                        errors['systemFailure'] = systemFailureError.val();
 
-                        $("#rcmLoginBoxProcessingMessage").html(me.processingMsg);
-                        $("#rcmLoginBoxInvalidError").html(me.invalidErrorMsg);
-                        $("#rcmLoginBoxMissingError").html(me.missingError);
-                        $("#rcmLoginBoxSystemError").html(me.systemFailureError);
-                        $("#rcmLoginBoxNoAuthError").html(me.notAuthError);
-
-                        //Close the dialog
-                        okClicked = true;
                         $(this).dialog("close");
                     }
                 }

@@ -27,7 +27,7 @@ return array(
             'display' => 'Feature Box w/ Bg Image',
             'tooltip' => 'Editable box with three text areas and a background image',
             'icon' => '',
-            'editJs'=>'/modules/rcm-call-to-action-box/edit.js',
+            'editJs'=>'/modules/rcm-call-to-action-box/call-to-action-box-edit.js',
         ),
     ),
 
