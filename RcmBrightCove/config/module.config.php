@@ -28,6 +28,7 @@ return array(
             'tooltip' => 'Add a Brightcove Video to the page',
             'icon' => '',
             'editJs'=>'/modules/rcm-bright-cove/js/edit.js',
+            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
         ),
     ),
 

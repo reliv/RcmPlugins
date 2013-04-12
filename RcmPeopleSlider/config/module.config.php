@@ -28,6 +28,7 @@ return array(
             'tooltip' => 'People Slider',
             'icon' => '',
             'editJs'=>'/modules/rcm-people-slider/rcm-people-slider-edit.js',
+            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
         ),
     ),
 

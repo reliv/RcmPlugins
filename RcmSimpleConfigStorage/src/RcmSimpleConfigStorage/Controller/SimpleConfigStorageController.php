@@ -18,7 +18,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 namespace RcmSimpleConfigStorage\Controller;
-use \RcmSimpleConfigStorage\StorageEngine\PhpFileNewInstanceRepo,
+use \RcmSimpleConfigStorage\StorageEngine\NewInstanceRepo,
     \RcmSimpleConfigStorage\StorageEngine\DoctrineSerializedRepo;
 /**
  * Plugin Controller
@@ -56,12 +56,13 @@ class SimpleConfigStorageController
      */
     protected $configRepo;
 
-    /**
-     * Stores default configs for new instances
-     * Stores default configs for new instances
-     * @var \RcmSimpleConfigStorage\StorageEngine\PhpFileNewInstanceRepo
-     */
-    protected $newInstanceConfigRepo;
+    protected $newInstanceConfig;
+
+    protected $pluginName;
+
+    protected $pluginNameLowerCaseDash;
+
+    protected $pluginDirectory;
 
     /**
      * @var \Doctrine\ORM\EntityManager entity manager
@@ -70,31 +71,31 @@ class SimpleConfigStorageController
 
     function __construct(
         \Doctrine\ORM\EntityManager $entityMgr,
-        $template = null,
-        $newInstanceConfigPath = null
+        $config,
+        $pluginDirectory = null
     ) {
         $this->entityMgr = $entityMgr;
         $this->configRepo = new DoctrineSerializedRepo($entityMgr);
-        $this->template = $template;
 
-        if(!$newInstanceConfigPath){
+        if($pluginDirectory){
+            $this->pluginDirectory=$pluginDirectory;
+        }else{
+            //Allow auto path detection for controllers that extend this class
             $reflection = new \ReflectionClass(get_class($this));
-            $newInstanceConfigPath= dirname($reflection->getFileName())
-                . '/../../../config/default.content.json';
+            $this->pluginDirectory =
+                realpath(dirname($reflection->getFileName()) . '/../../../');
         }
 
-        $newName= dirname($newInstanceConfigPath). '/newInstanceConfig.php';
-        $this->newInstanceConfigRepo = new PhpFileNewInstanceRepo($newName);
+        $this->pluginName=basename($this->pluginDirectory);
+        $this->pluginNameLowerCaseDash=$this->camelToHyphens($this->pluginName);
+        $this->template = $this->pluginNameLowerCaseDash.'/plugin';
 
-        $this->newInstanceConfigPath = $newInstanceConfigPath;
+        $this->newInstanceConfig=$config['rcmPlugin'][$this->pluginName]
+        ['newInstanceConfig'];
+    }
 
-//        if(file_exists($newInstanceConfigPath)){
-//            $json = json_decode(json_encode($this->getNewInstanceConfig()),true);
-//            $php = "<?php\nreturn ".var_export($json, true).';';
-//            $newName = dirname($this->newInstanceConfigPath). '/newInstanceConfig.php';
-//            file_put_contents($newName, $php);
-//            unlink($newInstanceConfigPath);
-//        }
+    function getDefaultInstanceConfig($config, $pluginBasePath){
+
     }
 
     /**
@@ -173,14 +174,10 @@ class SimpleConfigStorageController
 
     function getInstanceConfig($instanceId){
         if ($instanceId < 0) {
-            return $this->getNewInstanceConfig();
+            return $this->$this->newInstanceConfig;
         } else {
             return $this->configRepo->getInstanceConfig($instanceId);
         }
-    }
-
-    function getNewInstanceConfig(){
-        return $this->newInstanceConfigRepo->getInstanceConfig();
     }
 
     function instanceConfigAndNewInstanceConfigAdminAjaxAction($instanceId){
@@ -188,7 +185,7 @@ class SimpleConfigStorageController
             json_encode(
                 array(
                     'instanceConfig'=>$this->getInstanceConfig($instanceId),
-                    'newInstanceConfig'=>$this->getNewInstanceConfig()
+                    'newInstanceConfig'=>$this->newInstanceConfig
                 )
             )
         );
@@ -246,5 +243,17 @@ class SimpleConfigStorageController
         foreach ($keysToKill as $key) {
             $this->session->offsetUnset($key);
         }
+    }
+
+    /*
+ * Converts camelCase to lower-case-hyphens
+ *
+ * @param string $value the value to convert
+ *
+ * @return string
+ */
+    function camelToHyphens($value)
+    {
+        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
     }
 }

@@ -61,8 +61,8 @@ class Module
                 'RcmNavigation'=>function($serviceMgr){
                     $controller = new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
-                        'rcm-navigation/plugin',
-                        __DIR__ . '/config/default.content.json'
+                        $serviceMgr->get('config'),
+                        __DIR__
                     );
                     return $controller;
                 }

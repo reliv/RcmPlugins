@@ -82,8 +82,8 @@ class Module
                 'RcmBrightCove' => function($serviceMgr) {
                     $controller = new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
-                        'rcm-bright-cove/plugin',
-                        __DIR__ . '/config/default.content.json'
+                        $serviceMgr->get('config'),
+                        __DIR__
                     );
                     return $controller;
                 }

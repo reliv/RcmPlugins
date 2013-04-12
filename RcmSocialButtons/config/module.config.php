@@ -29,6 +29,7 @@ return array(
             'tooltip' => 'Facebook, Twitter, and many more social sharing buttons powered by "Share This"',
             'icon' => '',
             'editJs'=>'/modules/rcm-social-buttons/edit.js',
+            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php',
 
             //Plugin Specific
             'availableButtons' => array(

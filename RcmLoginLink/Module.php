@@ -81,8 +81,7 @@ class Module
                 {
                     $controller = new \RcmLoginLink\Controller\PluginController(
                         $serviceMgr->get('em'),
-                        'rcm-login-link/plugin',
-                        __DIR__ . '/config/default.content.json',
+                        $serviceMgr->get('config'),
                         $serviceMgr->get('rcmUserManager')
                     );
                     return $controller;

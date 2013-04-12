@@ -28,6 +28,7 @@ return array(
             'tooltip' => 'Rss Reader and Display',
             'icon' => '',
             'editJs'=>'/modules/rcm-rss-feed/edit.js',
+            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
         ),
     ),
 

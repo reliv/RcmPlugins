@@ -28,6 +28,7 @@ return array(
             'tooltip' => 'Login Link',
             'icon' => '',
             'editJs'=>'/modules/rcm-login-link/rcm-login-link-edit.js',
+            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
         ),
     ),
 

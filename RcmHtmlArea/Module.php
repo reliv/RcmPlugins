@@ -61,8 +61,8 @@ class Module
                 'RcmHtmlArea'=>function($serviceMgr){
                     $controller = new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
-                        'rcm-html-area/plugin',
-                        __DIR__ . '/config/default.content.json'
+                        $serviceMgr->get('config'),
+                        __DIR__
                     );
                     return $controller;
                 }

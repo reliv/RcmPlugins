@@ -62,8 +62,8 @@ class Module
                 {
                     $controller = new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
-                        'rcm-google-search-box/plugin',
-                        __DIR__ . '/config/default.content.json'
+                        $serviceMgr->get('config'),
+                        __DIR__
                     );
                     return $controller;
                 }

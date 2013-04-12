@@ -28,6 +28,7 @@ return array(
             'tooltip' => 'Displays the list of events in a given event category',
             'icon' => '',
             'editJs'=>'/modules/rcm-event-list-display/rcm-event-list-display-edit.js',
+            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
         ),
     ),
 

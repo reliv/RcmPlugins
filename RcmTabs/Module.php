@@ -61,8 +61,8 @@ class Module
                 'RcmTabs'=>function($serviceMgr){
                     $controller = new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
-                        'rcm-tabs/plugin',
-                        __DIR__ . '/config/default.content.json'
+                        $serviceMgr->get('config'),
+                        __DIR__
                     );
                     return $controller;
                 }

@@ -28,6 +28,7 @@ return array(
             'tooltip' => 'Google Search Box',
             'icon' => '',
             'editJs'=>'/modules/rcm-google-search-box/edit.js',
+            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
         ),
     ),
 

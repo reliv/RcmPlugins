@@ -28,6 +28,7 @@ return array(
             'tooltip' => 'Editable box with three text areas and a background image',
             'icon' => '',
             'editJs'=>'/modules/rcm-call-to-action-box/call-to-action-box-edit.js',
+            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
         ),
     ),
 

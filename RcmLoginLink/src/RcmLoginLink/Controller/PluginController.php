@@ -41,11 +41,10 @@ class PluginController
 
     function __construct(
         \Doctrine\ORM\EntityManager $entityMgr,
-        $template = null,
-        $newInstanceConfigPath = null,
+        $config,
         \Rcm\Model\UserManagement\UserManagerInterface $userMgr
     ) {
-        parent::__construct($entityMgr, $template, $newInstanceConfigPath);
+        parent::__construct($entityMgr, $config);
         $this->loggedInUser=$userMgr->getLoggedInUser();
     }
 

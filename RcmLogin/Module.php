@@ -85,8 +85,7 @@ class Module
                 {
                     $controller = new \RcmLogin\Controller\PluginController(
                         $serviceMgr->get('em'),
-                        'rcm-login/plugin',
-                        __DIR__ . '/config/default.content.json',
+                        $serviceMgr->get('config'),
                         $serviceMgr->get('rcmSesssionManager')
                     );
                     return $controller;
