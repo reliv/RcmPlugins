@@ -1,6 +1,7 @@
 <?php
 return array (
   'categoryId' => '1',
+   //Override this with your own in global.php
   'shareThisKey' => 'c980sss5aeb6640f',
   'translate' => 
   array (
