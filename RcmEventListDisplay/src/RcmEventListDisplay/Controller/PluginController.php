@@ -44,11 +44,10 @@ class PluginController
 
     function __construct(
         \Doctrine\ORM\EntityManager $entityMgr,
-        $template = null,
-        $defaultJsonContentFilePath = null,
+        $config,
         \RcmEventCalenderCore\Model\Calender $calender
     ) {
-        parent::__construct($entityMgr,$template,$defaultJsonContentFilePath);
+        parent::__construct($entityMgr,$config);
         $this->calender = $calender;
     }
 

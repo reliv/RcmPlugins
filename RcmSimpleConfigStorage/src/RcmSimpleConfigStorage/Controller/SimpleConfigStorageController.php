@@ -44,12 +44,6 @@ class SimpleConfigStorageController
     protected $template;
 
     /**
-     * @var string Tells function renderDefaultInstance($instanceId) where the default data
-     * for a new instance of this plugin is
-     */
-    protected $newInstanceConfigPath;
-
-    /**
      * Stores configs for active instances
      * Now there is only one type of repo but this may become swap-able later
      * @var \RcmSimpleConfigStorage\StorageEngine\DoctrineSerializedRepo
@@ -77,24 +71,20 @@ class SimpleConfigStorageController
         $this->entityMgr = $entityMgr;
         $this->configRepo = new DoctrineSerializedRepo($entityMgr);
 
-        if($pluginDirectory){
-            $this->pluginDirectory=$pluginDirectory;
-        }else{
+        if(!$pluginDirectory){
             //Allow auto path detection for controllers that extend this class
             $reflection = new \ReflectionClass(get_class($this));
-            $this->pluginDirectory =
+            $pluginDirectory =
                 realpath(dirname($reflection->getFileName()) . '/../../../');
         }
 
-        $this->pluginName=basename($this->pluginDirectory);
+        $this->pluginDirectory=$pluginDirectory;
+        $this->pluginName=basename($pluginDirectory);
         $this->pluginNameLowerCaseDash=$this->camelToHyphens($this->pluginName);
         $this->template = $this->pluginNameLowerCaseDash.'/plugin';
 
         $this->newInstanceConfig=$config['rcmPlugin'][$this->pluginName]
         ['newInstanceConfig'];
-    }
-
-    function getDefaultInstanceConfig($config, $pluginBasePath){
 
     }
 
@@ -115,6 +105,10 @@ class SimpleConfigStorageController
         );
         $view->setTemplate($this->template);
         return $view;
+    }
+
+    public function getNewInstanceConfig(){
+        return $this->newInstanceConfig;
     }
 
     /**
@@ -174,7 +168,7 @@ class SimpleConfigStorageController
 
     function getInstanceConfig($instanceId){
         if ($instanceId < 0) {
-            return $this->$this->newInstanceConfig;
+            return $this->getNewInstanceConfig();
         } else {
             return $this->configRepo->getInstanceConfig($instanceId);
         }
@@ -185,7 +179,7 @@ class SimpleConfigStorageController
             json_encode(
                 array(
                     'instanceConfig'=>$this->getInstanceConfig($instanceId),
-                    'newInstanceConfig'=>$this->newInstanceConfig
+                    'newInstanceConfig'=>$this->getNewInstanceConfig()
                 )
             )
         );

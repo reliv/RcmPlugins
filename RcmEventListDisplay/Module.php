@@ -81,9 +81,8 @@ class Module
                 'RcmEventListDisplay'=>function($serviceMgr)
                 {
                     $controller = new PluginController(
-                            $serviceMgr->get('em'),
-                            'rcm-event-list-display/plugin',
-                            __DIR__ . '/config/default.content.json',
+                        $serviceMgr->get('em'),
+                        $serviceMgr->get('config'),
                             $serviceMgr->get('CalenderModel')
                     );
                     return $controller;

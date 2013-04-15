@@ -83,8 +83,7 @@ class Module
                     $controller
                         = new \RcmSocialButtons\Controller\PluginController(
                             $serviceMgr->get('em'),
-                            'rcm-social-buttons/plugin',
-                            __DIR__ . '/config/default.content.json'
+                            $serviceMgr->get('config')
                         );
                     return $controller;
                 }
