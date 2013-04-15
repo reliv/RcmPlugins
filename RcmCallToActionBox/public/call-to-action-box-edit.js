@@ -92,7 +92,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
     me.showEditDialog = function () {
 
         var srcInput = $.dialogIn('image', 'Image', imgTag.attr('src'));
-        var hrefInput = $.dialogIn('text', 'Link Url', aTags.attr('href'));
+        var hrefInput = $.dialogIn('url', 'Link Url', aTags.attr('href'));
 
         var form = $('<form></form>')
             .addClass('simple')
