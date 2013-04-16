@@ -117,30 +117,13 @@ var RcmRotatingImageEdit = function (instanceId, container) {
 
         //Edit by clicking main image
         container.find('a img').dblclick(function () {
-                me.showEditDialog();
+                me.showEditDialog(false);
             }
         );
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
             selector:rcm.getPluginContainerSelector(instanceId) + ' a',
-
-            //Make nav stay popped up when right click menu opens
-            build:function (target) {
-                me.popupToKeepUp = $(target).closest('div.popup');
-                me.popupToKeepUp.attr('style', 'left:auto')
-            },
-
-            events:{
-                hide:function () {
-                    //Keep nav open for 200ms after the right click menu closes
-                    //to ensure the nav stays open if the mouse is still over it
-                    setTimeout(function () {
-                        me.popupToKeepUp.removeAttr('style')
-                    }, 200);
-                }
-            },
-
 
             //Here are the right click menu options
             items:{
@@ -218,7 +201,7 @@ var RcmRotatingImageEdit = function (instanceId, container) {
             'text','Alt Text', data.images[me.current].alt
         );
         var href = $.dialogIn(
-            'text', 'Link Url', data.images[me.current].href
+            'url', 'Link Url', data.images[me.current].href
         );
 
         //Show the dialog
