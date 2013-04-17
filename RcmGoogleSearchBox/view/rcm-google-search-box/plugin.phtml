@@ -17,12 +17,24 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-$q=isset($_GET['q'])?$_GET['q']:null;
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-google-search-box/rcm-google-search-box.js',
+    'text/javascript'
+);
+$qq=isset($_GET['qq'])?$_GET['qq']:null;
 ?>
+<script type="text/javascript">
+    $(function () {
+        new RcmGoogleSearchBox(
+            <?php echo $this->instanceId?>
+        );
+    });
+</script>
 <form action="<?php echo $this->ic['resultPage']?>">
     <input type="hidden" name="cx" value="<?php echo $this->ic['googleKey']?>">
     <input type="hidden" name="ie" value="UTF-8">
-    <input value="<?php echo $q?>" type="text" name="q" size="40">
+    <input type="hidden" name="q">
+    <input value="<?php echo $qq ?>" type="text" name="qq" size="40">
 
     <button class="plain search">Search</button>
 

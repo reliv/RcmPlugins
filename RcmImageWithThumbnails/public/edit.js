@@ -34,8 +34,8 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
     var containerSelector = rcm.getPluginContainerSelector(instanceId);
 
     me.newImageTemplate = '<a href="#" rel="" class="image"><img src="" class="thumb" border="0" /></a>';
-    me.emptyImageTemplate = '<a href="#" rel="/modules/reliv-application/content/images/rcm-image-with-thumbnails/placeholder.jpg" class="image"><img src="/modules/reliv-application/content/images/rcm-image-with-thumbnails/thumb_placeholder.jpg" class="thumb" border="0" /></a>';
-    me.emptyMainImageTemplate = '<div class="mainImage"><img src="/modules/reliv-application/content/images/rcm-image-with-thumbnails/placeholder.jpg" border="0"/></div>';
+    me.emptyImageTemplate = '<a href="#" rel="/modules/reliv-application/content/images/rcm-thumbnail-slider/placeholder.jpg" class="image"><img src="/modules/reliv-application/content/images/rcm-thumbnail-slider/thumb_placeholder.jpg" class="thumb" border="0" /></a>';
+    me.emptyMainImageTemplate = '<div class="mainImage"><img src="/modules/reliv-application/content/images/rcm-thumbnail-slider/placeholder.jpg" border="0"/></div>';
     /**
      * Called by content management system to make this plugin user-editable
      */
@@ -85,21 +85,12 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
                     deleteImage:{
                         name:'Delete Image',
-                        icon:'delete',
+                        icon:'delete',                          // alert($(aTags).length);
                         callback:function () {
 
                             var aTags = container.find('a');
                             var aTag;
 
-
-                           /* var selectedIndex = container.find('.mainImage').attr('data-selected');
-
-                            if($(this).hasClass('mainImage')){
-                                aTag = $(aTags.get(selectedIndex));
-                            }else{
-                                aTag = $(this);
-                            }
-                            */
                             if($(this).hasClass('image')) {
 
                                 aTag=$(this);
@@ -110,8 +101,6 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                                 aTag = container.find('a[rel = "'+($(this).attr('src'))+'"]');
 
                             }
-
-                          // alert($(aTags).length);
 
                             if(aTags.length==1){
 
