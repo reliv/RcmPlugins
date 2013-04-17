@@ -16,9 +16,10 @@ class ProxyController
 
     function __construct(
         \Doctrine\ORM\EntityManager $entityMgr,
+        $config,
         \Rcm\Model\UserManagement\UserManagerInterface $userMgr
     ) {
-        parent::__construct($entityMgr);
+        parent::__construct($entityMgr,$config);
         $this->userMgr = $userMgr;
     }
 

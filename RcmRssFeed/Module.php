@@ -99,6 +99,7 @@ class Module
                     $serviceMgr = $controllerMgr->getServiceLocator();
                     $controller = new \RcmRssFeed\Controller\ProxyController(
                         $serviceMgr->get('em'),
+                        $serviceMgr->get('config'),
                         $serviceMgr->get('rcmUserManager')
                     );
                     return $controller;
