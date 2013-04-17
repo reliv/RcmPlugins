@@ -21,12 +21,14 @@ class DoctrineSerializedRepo{
         return $this->readEntityFromDb($instanceId)->getConfig();
     }
 
-    function createInstanceConfig($instanceId, $config){
+    function createInstanceConfig($instanceId, $config, $skipDbFlush=false){
         $entity= new InstanceConfig();
         $entity->setInstanceId($instanceId);
         $entity->setConfig($config);
         $this->entityMgr->persist($entity);
-        $this->entityMgr->flush();
+        if(!$skipDbFlush){
+            $this->entityMgr->flush();
+        }
     }
 
     function deleteInstanceConfig($instanceId){
