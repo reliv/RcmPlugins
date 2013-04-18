@@ -34,7 +34,7 @@ $qq=isset($_GET['qq'])?$_GET['qq']:null;
     <input type="hidden" name="cx" value="<?php echo $this->ic['googleKey']?>">
     <input type="hidden" name="ie" value="UTF-8">
     <input type="hidden" name="q">
-    <input value="<?php echo $qq ?>" type="text" name="qq" size="40">
+    <input value="<?php echo $this->escapeHtml($qq) ?>" type="text" name="qq" size="40">
 
     <button class="plain search">Search</button>
 
