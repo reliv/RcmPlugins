@@ -7,7 +7,7 @@ return array(
     'bottomLoginText' => '
         <!--<a href="/reset-password">Forgot your password?</a><br>-->
         <strong>Don’t have an account yet?</strong> </br>
-        <a href="/new-customer">Request a customer account.</a> </br>
+        <a href="/customer-application">Request a customer account.</a> </br>
         <a href="/new-distributor">Request a distributor account.</a>
     ',
     'errors' => array(

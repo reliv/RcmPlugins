@@ -89,6 +89,14 @@ class SimpleConfigStorageController
     }
 
     /**
+     * Allows core to properly pass the request to this plugin controller
+     * @param $request
+     */
+    function setRequest($request){
+        $this->request = $request;
+    }
+
+    /**
      * Reads a plugin instance from persistent storage returns a view model for
      * it
      *
