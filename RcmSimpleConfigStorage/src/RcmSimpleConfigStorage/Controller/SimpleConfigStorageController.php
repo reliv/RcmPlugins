@@ -104,11 +104,14 @@ class SimpleConfigStorageController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    function renderInstance($instanceId){
+    function renderInstance($instanceId, $extraViewVariables = array()){
         $view = new \Zend\View\Model\ViewModel(
-            array(
-                'instanceId' => $instanceId,
-                'ic' => $this->getInstanceConfig($instanceId)
+            array_merge(
+                array(
+                    'instanceId' => $instanceId,
+                    'ic' => $this->getInstanceConfig($instanceId)
+                ),
+                $extraViewVariables
             )
         );
         $view->setTemplate($this->template);
@@ -126,11 +129,14 @@ class SimpleConfigStorageController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    function renderDefaultInstance($instanceId){
+    function renderDefaultInstance($instanceId, $extraViewVariables = array()){
         $view = new \Zend\View\Model\ViewModel(
-            array(
-                'instanceId' => $instanceId,
-                'ic' => $this->getNewInstanceConfig()
+            array_merge(
+                array(
+                    'instanceId' => $instanceId,
+                    'ic' => $this->getNewInstanceConfig($instanceId)
+                ),
+                $extraViewVariables
             )
         );
         $view->setTemplate($this->template);
