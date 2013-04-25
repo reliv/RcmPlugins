@@ -58,7 +58,8 @@ class ProxyController
         }
 
         $rssReader = new \Zend\Feed\Reader\Reader();
-        $feedData = $rssReader->import($feedUrl);
+        //$feedData = $rssReader->import($feedUrl);
+        $feedData=array();
 
         $feedCount = 0;
 
