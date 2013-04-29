@@ -44,9 +44,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
     me.initEdit = function(){
 
         //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(){
-            me.showEditDialog();
-        });
+        container.dblclick(me.showEditDialog);
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
@@ -63,8 +61,6 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
 
             }
         });
-
-
     };
 
     /**
