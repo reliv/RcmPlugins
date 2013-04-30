@@ -253,6 +253,20 @@ class SimpleConfigStorageController
         }
     }
 
+    public function postIsForThisPlugin($pluginName){
+        $request=$this->getRequest();
+        if($request->isPost()){
+            $post=$request->getPost();
+            if(
+                isset($post['rcmPluginName'])
+                &&$post['rcmPluginName']==$pluginName
+            ){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*
  * Converts camelCase to lower-case-hyphens
  *
