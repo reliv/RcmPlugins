@@ -34,8 +34,8 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
     var containerSelector = rcm.getPluginContainerSelector(instanceId);
 
     me.newImageTemplate = '<a href="#" rel="" class="image"><img src="" class="thumb" border="0" /></a>';
-    me.emptyImageTemplate = '<a href="#" rel="/modules/reliv-application/content/images/rcm-thumbnail-slider/placeholder.jpg" class="image"><img src="/modules/reliv-application/content/images/rcm-thumbnail-slider/thumb_placeholder.jpg" class="thumb" border="0" /></a>';
-    me.emptyMainImageTemplate = '<div class="mainImage"><img src="/modules/reliv-application/content/images/rcm-thumbnail-slider/placeholder.jpg" border="0"/></div>';
+    me.emptyImageTemplate = '<a href="#" rel="//content.reliv.com/migrate/content/images/rcm-thumbnail-slider/placeholder.jpg" class="image"><img src="//content.reliv.com/migrate/content/images/rcm-thumbnail-slider/thumb_placeholder.jpg" class="thumb" border="0" /></a>';
+    me.emptyMainImageTemplate = '<div class="mainImage"><img src="//content.reliv.com/migrate/content/images/rcm-thumbnail-slider/placeholder.jpg" border="0"/></div>';
     /**
      * Called by content management system to make this plugin user-editable
      */
