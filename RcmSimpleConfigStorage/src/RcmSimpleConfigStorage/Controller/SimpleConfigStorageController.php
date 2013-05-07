@@ -63,6 +63,12 @@ class SimpleConfigStorageController
      */
     protected $entityMgr;
 
+    /**
+     * Caches instance configs to speed up multiple calls to getInstanceConfig()
+     * @var array
+     */
+    private $instanceConfigs=array();
+
     function __construct(
         \Doctrine\ORM\EntityManager $entityMgr,
         $config,
@@ -184,7 +190,11 @@ class SimpleConfigStorageController
         if ($instanceId < 0) {
             return $this->getNewInstanceConfig();
         } else {
-            return $this->configRepo->getInstanceConfig($instanceId);
+            if(!isset($this->instanceConfigs[$instanceId])){
+                $this->instanceConfigs[$instanceId]
+                    = $this->configRepo->getInstanceConfig($instanceId);
+            }
+            return $this->instanceConfigs[$instanceId];
         }
     }
 
