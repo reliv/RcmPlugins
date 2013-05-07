@@ -21,3 +21,13 @@
 .RcmLoginLink a{
     cursor: pointer;
 }
+.RcmLoginLink form{
+    width:200px;
+}
+.RcmLoginLink input{
+    display:block;
+    width:195px;
+}
+.RcmLoginLink .more{
+    margin:30px 0 10px 0;
+}
