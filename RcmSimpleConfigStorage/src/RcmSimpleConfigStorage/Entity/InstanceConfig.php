@@ -76,7 +76,7 @@ class InstanceConfig
      */
 
     public function getConfig(){
-        return unserialize($this->config);
+        return json_decode($this->config);
     }
 
     /**
@@ -102,6 +102,6 @@ class InstanceConfig
      */
     public function setConfig($config)
     {
-        $this->config = serialize($config);
+        $this->config = json_encode($config);
     }
 }
