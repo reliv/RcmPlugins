@@ -76,7 +76,7 @@ class InstanceConfig
      */
 
     public function getConfig(){
-        return json_decode($this->config);
+        return json_decode($this->config, true);
     }
 
     /**
