@@ -117,27 +117,28 @@ var RcmNavigationEdit = function (instanceId, container) {
                         me.showEditDialog(newLi, true);
                     }
                 },
-                separator1:"-",
-                arrangeMode:{
-                    name:'Links are Movable via Drag and Drop'
-                        + (arrangeMode ? ' (on)' : ''),
-                    disabled:arrangeMode,
-                    callback:function () {
-                        me.removeEditElements();
-                        arrangeMode = true;
-                        me.addEditElements();
-                    }
-                },
-                editMode:{
-                    name:'Links are Editable'
-                        + (!arrangeMode ? ' (on)' : ''),
-                    disabled:!arrangeMode,
-                    callback:function () {
-                        me.removeEditElements();
-                        arrangeMode = false;
-                        me.addEditElements();
-                    }
-                },
+//Disabled direct edits because copying and pasting links breaks the html
+//                separator1:"-",
+//                arrangeMode:{
+//                    name:'Links are Movable via Drag and Drop'
+//                        + (arrangeMode ? ' (on)' : ''),
+//                    disabled:arrangeMode,
+//                    callback:function () {
+//                        me.removeEditElements();
+//                        arrangeMode = true;
+//                        me.addEditElements();
+//                    }
+//                },
+//                editMode:{
+//                    name:'Links are Editable'
+//                        + (!arrangeMode ? ' (on)' : ''),
+//                    disabled:!arrangeMode,
+//                    callback:function () {
+//                        me.removeEditElements();
+//                        arrangeMode = false;
+//                        me.addEditElements();
+//                    }
+//                },
                 separator2:"-",
                 deleteLink:{
                     name:'Delete Link',
@@ -170,7 +171,8 @@ var RcmNavigationEdit = function (instanceId, container) {
             }
         });
 
-        if (arrangeMode) {
+//Disabled direct edits because copying and pasting links breaks the html
+//        if (arrangeMode) {
             //Make links arrangeable
             container.find('ul').sortable(
                 {
@@ -180,10 +182,10 @@ var RcmNavigationEdit = function (instanceId, container) {
                     connectWith:containerSelector + ' ul'
                 }
             );
-        } else {
-            //Make links directly editable
-            container.find('li a').attr('contenteditable', 'true');
-        }
+//        } else {
+//            //Make links directly editable
+//            container.find('li a').attr('contenteditable', 'true');
+//        }
     };
 
     /**
@@ -234,14 +236,13 @@ var RcmNavigationEdit = function (instanceId, container) {
 
         var text = $.dialogIn('text', 'Text', a.html());
         var href = $.dialogIn('text', 'Link Url', a.attr('href'));
-        var cssClass = $.dialogIn(
+        var cssClassInput = $.dialogIn(
             'select',
             'Display Style',
             {'':'Normal', 'heading':'Heading', 'bold':'Bold'},
-            cssClass,
-            true
+            cssClass
         );
-        var subMenu = $.dialogIn(
+        var subMenuInput = $.dialogIn(
             'select',
             'SubMenu',
             {
@@ -250,13 +251,12 @@ var RcmNavigationEdit = function (instanceId, container) {
                 'twoCol':'Double column'
             },
             subMenu
-
         );
 
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .append(text, href, cssClass, subMenu)
+            .append(text, href, cssClassInput, subMenuInput)
             .dialog({
                 title:'Properties',
                 modal:true,
@@ -277,9 +277,8 @@ var RcmNavigationEdit = function (instanceId, container) {
 
                         //Get user-entered data from form
                         a.html(text.val());
-                        a.attr(href.val());
-                        li.attr('class', cssClass.val());
-                        var newSubMenu = subMenu.val();
+                        a.attr('href',href.val());
+                        li.attr('class', cssClassInput.val());
 
                         //Put this in a closure so modifySubMenu can call it
                         var button = this;
@@ -291,8 +290,8 @@ var RcmNavigationEdit = function (instanceId, container) {
 
                         //Modify the subMenu if needed
 
-                        if (subMenu != newSubMenu) {
-                            me.modifySubMenu(li, subMenu, newSubMenu,
+                        if (subMenu != subMenuInput.val()) {
+                            me.modifySubMenu(li, subMenu, subMenuInput.val(),
                                 continueOkClick);
                         } else {
                             continueOkClick();
@@ -312,6 +311,9 @@ var RcmNavigationEdit = function (instanceId, container) {
      * @param {Function} successCallBack call this if all is well
      */
     me.modifySubMenu = function (li, subMenu, newSubMenu, successCallBack) {
+
+        console.log(subMenu);
+        console.log(newSubMenu);
 
         //Save our column-one contents in case we switch column counts
         var colOneContents = newLinkTemplate;
