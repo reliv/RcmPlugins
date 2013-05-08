@@ -118,7 +118,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                     }
                 },
 //Disabled direct edits because copying and pasting links breaks the html
-//                separator1:"-",
+////                separator1:"-",
 //                arrangeMode:{
 //                    name:'Links are Movable via Drag and Drop'
 //                        + (arrangeMode ? ' (on)' : ''),
