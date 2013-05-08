@@ -235,7 +235,7 @@ var RcmNavigationEdit = function (instanceId, container) {
         var okClicked = false;
 
         var text = $.dialogIn('text', 'Text', a.html());
-        var href = $.dialogIn('text', 'Link Url', a.attr('href'));
+        var href = $.dialogIn('url', 'Link Url', a.attr('href'));
         var cssClassInput = $.dialogIn(
             'select',
             'Display Style',
