@@ -24,7 +24,7 @@ return array(
     'rcmPlugin' => array(
         'RcmPeopleSlider'=>array(
             'type' => 'Images & Slide Shows',
-            'display' => 'Testimonials',
+            'display' => 'People Slider',
             'tooltip' => 'People Slider',
             'icon' => '',
             'editJs'=>'/modules/rcm-people-slider/rcm-people-slider-edit.js',
