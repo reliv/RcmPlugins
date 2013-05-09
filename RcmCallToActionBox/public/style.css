@@ -7,11 +7,12 @@
     padding: 10px;
 }
 
-.RcmCallToActionBox div .bg {
+.RcmCallToActionBox img.bg {
     position: absolute;
     bottom: 0;
     right: 0;
     border-bottom-right-radius: 15px;
+    z-index:-1;
 }
 
 .RcmCallToActionBox div h1 a {
