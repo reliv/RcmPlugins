@@ -26,15 +26,19 @@ $this->headLink()->appendStylesheet(
 
 
     <h1>
-        <a data-textEdit="top" href="<?php echo $this->ic['href']?>">
-            <?php echo $this->ic['top']; ?>
+        <a href="<?php echo $this->ic['href']?>">
+            <span data-textEdit="top">
+                <?php echo $this->ic['top']; ?>
+            </span>
         </a>
     </h1>
 
 
     <h2>
-        <a data-textEdit="middle" href="<?php echo $this->ic['href']?>">
+        <a href="<?php echo $this->ic['href']?>">
+            <span data-textEdit="middle">
            <?php echo $this->ic['middle']; ?>
+            </span>
         </a>
     </h2>
 
