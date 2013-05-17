@@ -159,6 +159,13 @@ var RcmTabsEdit = function (instanceId, container) {
         me.tabCount = newId;
     };
 
+    /**
+     * @todo - Add instance id to ID tags!
+     *
+     * @param newId
+     * @param type
+     */
+
     me.addTabTitle = function(newId, type) {
         var newLi = $('<li data-containerId="'+newId+'" data-containerType="'+type+'"></li>');
         var newA = $('<a href="#tab_'+newId+'"></a>');
