@@ -24,36 +24,46 @@ var RcmLoginLink = function (instanceId) {
     var passwordInput = container.find('input.password');
     var popup = container.find('.popup');
 
-    me.init = function(){
+    me.init = function () {
         //Allow edit script to grab this object
-        if(typeof window['RcmLoginLink'] == 'undefined'){
-            window['RcmLoginLink']=[];
+        if (typeof window['RcmLoginLink'] == 'undefined') {
+            window['RcmLoginLink'] = [];
         }
-        window['RcmLoginLink'][instanceId]=me;
+        window['RcmLoginLink'][instanceId] = me;
 
         loginLink.click(me.loginLinkClick);
         loginButton.click(me.login);
-        container.find('.loginForm').submit(function(){me.login});
+        container.find('.loginForm').submit(function () {
+            me.login
+        });
     };
 
-    me.showShowCorrectLink=function(isLoggedIn){
-        if(isLoggedIn){
+    me.showShowCorrectLink = function (isLoggedIn) {
+        if (isLoggedIn) {
             loginLink.hide();
             logOutLink.show();
-        }else{
+        } else {
             logOutLink.hide();
             loginLink.show();
         }
     };
 
-    me.loginLinkClick=function(){
-        popup.slideToggle('fast',function(){
+    me.loginLinkClick = function () {
+        me.removeExitOverlay();
+        popup.slideToggle('fast', function () {
             usernameInput.focus();
+            if (popup.is(":visible")) {
+                me.addExitOverlay();
+                //Required for edit mode
+                if (typeof window['rcmEdit'] != 'undefined') {
+                    window['rcmEdit'].refreshEditors(container);
+                }
+            }
         });
     };
 
-    me.login=function(){
-        if(!loginButton.hasClass('disabled')){
+    me.login = function () {
+        if (!loginButton.hasClass('disabled')) {
             me.showProcessing();
             window['rcmLoginMgr'].doLogin(
                 usernameInput.val(),
@@ -64,27 +74,40 @@ var RcmLoginLink = function (instanceId) {
         return false;//Prevent form submission
     };
 
-    me.loginFailCallback = function(error){
-        window.location = "/login?rcmLoginError="+error;
+    me.loginFailCallback = function (error) {
+        window.location = "/login?rcmLoginError=" + error;
     };
 
-    me.showProcessing = function(){
+    me.showProcessing = function () {
         loginButton.append(
-          '<img class="processingSpinner" ' +
-              'src="/modules/rcm/images/busy-spinner-16x16.gif" ' +
-              'width="16" ' +
-              'height="16">'
+            '<img class="processingSpinner" ' +
+                'src="/modules/rcm/images/busy-spinner-16x16.gif" ' +
+                'width="16" ' +
+                'height="16">'
         );
         loginButton.addClass('disabled');
     };
 
-    me.hideProcessing = function(){
+    me.hideProcessing = function () {
         container.find('.processingSpinner').remove();
         loginButton.removeClass('disabled');
     };
 
-    me.hideErrors = function() {
+    me.hideErrors = function () {
         container.find('.error').hide();
+    };
+
+    me.removeExitOverlay = function(){
+        $('.rcm-menu-exit-overlay').remove();
+    };
+
+    me.addExitOverlay = function () {
+        $('<div class="rcm-menu-exit-overlay" style="position:fixed; z-index:1; top:0; left:0; opacity: 0; filter: alpha(opacity=0); background-color: #000;"></div>')
+            .css({height: $(window).height(), width: $(window).width(), display: 'block'})
+            .appendTo($('body'))
+            .mousedown( function () {
+                me.loginLinkClick();
+            });
     };
 
     me.init();
