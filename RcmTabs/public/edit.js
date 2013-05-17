@@ -157,7 +157,7 @@ var RcmTabsEdit = function (instanceId, container) {
         }
 
         me.refreshTabs();
-        rcmEdit.refreshEditors(container);
+        rcmEdit.refreshEditors(container.parents('[data-rcmplugininstanceid="'+me.instanceId+'"]'));
         me.disablePropigationFromTitles();
 
         me.tabCount = newId;
