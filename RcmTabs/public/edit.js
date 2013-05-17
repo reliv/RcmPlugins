@@ -28,6 +28,10 @@ var RcmTabsEdit = function (instanceId, container) {
 
     me.tabCount = 0;
 
+    me.instanceId = instanceId;
+
+    me.tabTitleContainer = $(container).find('.rcmTabsUI_'+me.instanceId);
+
     /**
      * Called by content management system to make this plugin user-editable
      */
@@ -36,13 +40,13 @@ var RcmTabsEdit = function (instanceId, container) {
         me.refreshTabs();
         me.disablePropigationFromTitles();
 
-        var tabs = container.find('li');
+        var tabs = container.find(me.tabTitleContainer).find('li');
 
-        me.tabCount = container.find('li').length;
+        me.tabCount = container.find(me.tabTitleContainer).find('li').length;
 
-        var selector = rcm.getPluginContainerSelector(instanceId);
+        var selector = rcm.getPluginContainerSelector(me.instanceId);
 
-        me.addRightClick(selector+' li', true);
+        me.addRightClick(selector+' .rcmTabsUI_'+me.instanceId+' li', true);
         me.addRightClick(selector);
 
     };
@@ -100,7 +104,7 @@ var RcmTabsEdit = function (instanceId, container) {
 
         me.tabContainers = [];
 
-        $("#RcmRealPage .rcmTabs_"+instanceId).find('li').each(function(){
+        $("#RcmRealPage .rcmTabs_"+instanceId).find(me.tabTitleContainer).find('li').each(function(){
             me.tabContainers.push({
                 'id' : $(this).attr('data-containerId'),
                 'type' : $(this).attr('data-containerType')
@@ -168,17 +172,17 @@ var RcmTabsEdit = function (instanceId, container) {
 
     me.addTabTitle = function(newId, type) {
         var newLi = $('<li data-containerId="'+newId+'" data-containerType="'+type+'"></li>');
-        var newA = $('<a href="#tab_'+newId+'"></a>');
+        var newA = $('<a href="#tab_'+me.instanceId+'_'+newId+'"></a>');
         var newDiv = $('<div data-richedit="tab_title_'+newId+'">New Tab</div>');
 
         $(newA).append(newDiv);
         $(newLi).append(newA);
 
-        $(container).find("ul").append(newLi);
+        $(container).find(me.tabTitleContainer).append(newLi);
     };
 
     me.addHtmlTab = function(newId) {
-        var newDiv = $('<div id="tab_'+newId+'"></div>');
+        var newDiv = $('<div id="tab_'+instanceId+'_'+newId+'"></div>');
         var newHtmlContainer = $('<div data-richedit="tab_content_'+newId+'"></div>');
         var newDummyData = '<h1>Lorem ipsum</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque justosapien, convallis vehicula sollicitudin tristique, rhoncus vel enim.Maecenas mollis dignissim urna, et mollis augue tempus nec. Proin a orcinulla. Pellentesque laoreet orci vitae nisl viverra imperdiet. Nam eueuismod orci. Etiam adipiscing condimentum quam a venenatis. Fusce faucibuslacus non velit varius egestas. Nam molestie mattis sem quis cursus. Duissit amet nunc turpis. Mauris elit urna, dapibus id hendrerit eleifend,placerat at magna. Etiam ornare eleifend elit, vel blandit tellussagittis pretium. Vivamus ut dignissim purus.</p>';
 
@@ -189,7 +193,7 @@ var RcmTabsEdit = function (instanceId, container) {
     };
 
     me.disablePropigationFromTitles = function() {
-        $("#RcmRealPage .rcmTabs_"+instanceId).find("li").find("a").find("div").keydown(function(event){
+        $("#RcmRealPage .rcmTabs_"+instanceId).find(me.tabTitleContainer).find("li").find("a").find("div").keydown(function(event){
             event.stopPropagation();
         })
     }
