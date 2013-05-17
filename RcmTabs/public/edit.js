@@ -153,7 +153,7 @@ var RcmTabsEdit = function (instanceId, container) {
         }
 
         me.refreshTabs();
-        me.refreshEditors();
+        rcmEdit.refreshEditors(container);
         me.disablePropigationFromTitles();
 
         me.tabCount = newId;
@@ -185,21 +185,6 @@ var RcmTabsEdit = function (instanceId, container) {
         $("#RcmRealPage .rcmTabs_"+instanceId).find("li").find("a").find("div").keydown(function(event){
             event.stopPropagation();
         })
-    }
-
-    me.refreshEditors = function() {
-        var pluginContainer = $('#RcmRealPage div[data-rcmplugininstanceid="'+instanceId+'"]');
-        rcmEdit.rcmPlugins.removeEdits(pluginContainer);
-        rcmEdit.rcmPlugins.removeTextEdits(pluginContainer);
-        $(pluginContainer).find("[data-richedit]").find("div").each(function(){
-            var currentHtml = $(this).html();
-            $(this).parent().html(currentHtml);
-        })
-
-        rcmEdit.rcmPlugins.initPluginRichEdits(pluginContainer);
-        rcmEdit.rcmPlugins.initHtml5Edits(pluginContainer);
-
-
     }
 
     me.refreshTabs = function(sortable) {
