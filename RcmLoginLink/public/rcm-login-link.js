@@ -31,7 +31,7 @@ var RcmLoginLink = function (instanceId) {
         }
         window['RcmLoginLink'][instanceId] = me;
 
-        loginLink.click(me.loginLinkClick);
+        loginLink.click(me.popupToggle);
         loginButton.click(me.login);
         container.find('.loginForm').submit(function () {
             me.login
@@ -48,7 +48,7 @@ var RcmLoginLink = function (instanceId) {
         }
     };
 
-    me.loginLinkClick = function () {
+    me.popupToggle = function () {
         me.removeExitOverlay();
         popup.slideToggle('fast', function () {
             usernameInput.focus();
@@ -106,7 +106,7 @@ var RcmLoginLink = function (instanceId) {
             .css({height: $(window).height(), width: $(window).width(), display: 'block'})
             .appendTo($('body'))
             .mousedown( function () {
-                me.loginLinkClick();
+                me.popupToggle();
             });
     };
 
