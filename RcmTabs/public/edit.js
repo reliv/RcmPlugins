@@ -20,7 +20,7 @@ var RcmTabsEdit = function (instanceId, container) {
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmPortalAnnouncementBoxEdit}
+     * @type {RcmTabsEdit}
      */
     var me = this;
 
@@ -143,7 +143,7 @@ var RcmTabsEdit = function (instanceId, container) {
     };
 
     me.addTab = function() {
-        var newId = me.tabCount + 1;
+        var newId = me.tabCount + 2;
         var tabType = $("#tabType").val();
 
         me.addTabTitle(newId, tabType);
