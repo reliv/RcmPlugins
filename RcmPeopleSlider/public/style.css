@@ -31,8 +31,11 @@
 }
 
 .RcmPeopleSlider .longDesc{
-    width: 445px;
+    /*width: 445px;*/
     height: 330px;
+    margin-left: 5px;
+    margin-right: 16px;
+    margin-top: 2px;
 }
 
 .RcmPeopleSlider .largeImage {
