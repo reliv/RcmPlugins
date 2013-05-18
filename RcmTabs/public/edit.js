@@ -50,7 +50,7 @@ var RcmTabsEdit = function (instanceId, container) {
         me.addRightClick(selector);
 
     };
-
+//
     me.addRightClick = function(selector, addDelete) {
         var items = {
             add:{
