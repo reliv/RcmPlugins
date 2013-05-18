@@ -57,7 +57,7 @@ var RcmTabsEdit = function (instanceId, container) {
                 name:'Add New Tab',
                 icon:'edit',
                 callback:function () {
-                    me.showAddDialog();
+                    me.addTab();
                 }
             },
             sort: {
@@ -148,7 +148,9 @@ var RcmTabsEdit = function (instanceId, container) {
 
     me.addTab = function() {
         var newId = me.tabCount + 2;
-        var tabType = $("#tabType").val();
+//        var tabType = $("#tabType").val();
+
+        var tabType = 'html';
 
         me.addTabTitle(newId, tabType);
 
