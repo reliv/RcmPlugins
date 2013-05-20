@@ -312,8 +312,8 @@ var RcmNavigationEdit = function (instanceId, container) {
      */
     me.modifySubMenu = function (li, subMenu, newSubMenu, successCallBack) {
 
-        console.log(subMenu);
-        console.log(newSubMenu);
+        // console.log(subMenu);
+        // console.log(newSubMenu);
 
         //Save our column-one contents in case we switch column counts
         var colOneContents = newLinkTemplate;
