@@ -41,7 +41,7 @@ return array(
 
     'router' => array(
         'routes' => array (
-            //   THIS SHOULD BE USED TO FORCE HTTPS BUT THERE SEEMS TO BE A BUG IN ZF2 SCHEME ROUTING
+//   THIS SHOULD BE USED TO FORCE SSL BUT THERE SEEMS TO BE A BUG IN ZF2 SCHEME ROUTING
 //            'contentManagerLogin' => array(
 //                'type' => 'Scheme',
 //                'options' => array(
