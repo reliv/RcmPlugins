@@ -41,10 +41,23 @@ return array(
 
     'router' => array(
         'routes' => array (
+            //   THIS SHOUDL BE USED TO FORCE HTTPS BUT THERE SEEMS TO BE A BUG IN ZF2 SCHEME ROUTING
+//            'contentManagerLogin' => array(
+//                'type' => 'Scheme',
+//                'options' => array(
+//                    'route' => '/login/auth',
+//                    'scheme' => 'https',
+//                    'defaults' => array(
+//                        'controller' => 'rcmLoginController',
+//                        'action' => 'loginAuth',
+//                    ),
+//                ),
+//            ),
+//          TODO SWITCH TO THE ABOVE CONFIG
             'contentManagerLogin' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route'    => '/login/auth[/:language]',
+                    'route'    => '/login/auth',
                     'defaults' => array(
                         'controller' => 'rcmLoginController',
                         'action'     => 'loginAuth',
