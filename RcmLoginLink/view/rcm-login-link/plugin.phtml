@@ -42,12 +42,12 @@ echo $this->rcmJsLoginManager();
         <?php echo $this->ic['loginLink'] ?>
     </span>
 </a>
-<!--<a style="--><?php //echo $this->isLoggedIn ? '' : 'display:none;'?><!--"-->
-<!--   class="logOutLink" href="/?logout=1">-->
-<!--    <span data-textEdit="logoutLink">-->
-<!--        --><?php //echo $this->ic['logoutLink'] ?>
-<!--    </span>-->
-<!--</a>-->
+<a style="<?php echo $this->isLoggedIn ? '' : 'display:none;'?>"
+   class="logOutLink" href="/?logout=1">
+    <span data-textEdit="logoutLink">
+        <?php echo $this->ic['logoutLink'] ?>
+    </span>
+</a>
 <!--<div style="display:none;" class="popup">-->
 <!--    <form class="loginForm">-->
 <!---->
