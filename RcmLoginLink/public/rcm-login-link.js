@@ -30,12 +30,12 @@ var RcmLoginLink = function (instanceId) {
             window['RcmLoginLink'] = [];
         }
         window['RcmLoginLink'][instanceId] = me;
-
-        loginLink.click(me.popupToggle);
-        loginButton.click(me.login);
-        container.find('.loginForm').submit(function () {
-            me.login
-        });
+// Temp disabled to allow editing to not break
+//        loginLink.click(me.popupToggle);
+//        loginButton.click(me.login);
+//        container.find('.loginForm').submit(function () {
+//            me.login
+//        });
     };
 
     me.showShowCorrectLink = function (isLoggedIn) {

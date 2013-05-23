@@ -29,13 +29,13 @@ $this->headScript()->appendFile(
 
 echo $this->rcmJsLoginManager();
 ?>
-<!--<script type="text/javascript">-->
-<!--    $(function () {-->
-<!--        new RcmLoginLink(-->
-<!--        --><?php //echo $this->instanceId?>
-<!--        );-->
-<!--    });-->
-<!--</script>-->
+<script type="text/javascript">
+    $(function () {
+        new RcmLoginLink(
+        <?php echo $this->instanceId?>
+        );
+    });
+</script>
 <a href="/login" style="<?php echo $this->isLoggedIn ? 'display:none;' : ''?>"
    class="loginLink">
     <span data-textEdit="loginLink">
