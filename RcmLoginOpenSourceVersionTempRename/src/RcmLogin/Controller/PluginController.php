@@ -17,7 +17,7 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmLogin\Controller;
+namespace RcmLoginOpenSourceVersionTempRename\Controller;
 
 use \Zend\View\Model\ViewModel;
 
