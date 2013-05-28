@@ -17,7 +17,7 @@
      * @version   GIT: <git_id>
      * @link      http://ci.reliv.com/confluence
      */
-namespace RcmLoginOpenSourceVersionTempRename\Controller;
+namespace RcmLogin\Controller;
 
 use \Rcm\Controller\BaseController;
 
@@ -78,7 +78,7 @@ class LoginController extends BaseController
 
         $return = array(
             'dataOk' => true,
-            'redirectUrl' =>$this->config['rcmPlugin']['RcmLoginOpenSourceVersionTempRename']
+            'redirectUrl' =>$this->config['rcmPlugin']['RcmLogin']
                 ['postLoginRedirectUrl']
         );
 

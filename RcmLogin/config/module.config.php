@@ -22,7 +22,7 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmLoginOpenSourceVersionTempRename'=>array(
+        'RcmLogin'=>array(
             'type' => 'Common',
             'display' => 'Login Area',
             'tooltip' => 'Adds login area to page',

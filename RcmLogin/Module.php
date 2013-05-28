@@ -16,7 +16,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 
-namespace RcmLoginOpenSourceVersionTempRename;
+namespace RcmLogin;
 
 use \Zend\ModuleManager\ModuleManager;
 
@@ -80,10 +80,10 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmLoginOpenSourceVersionTempRename' =>
+                'RcmLogin' =>
                 function($serviceMgr)
                 {
-                    $controller = new \RcmLoginOpenSourceVersionTempRename\Controller\PluginController(
+                    $controller = new \RcmLogin\Controller\PluginController(
                         $serviceMgr->get('em'),
                         $serviceMgr->get('config'),
                         $serviceMgr->get('rcmSesssionManager')
@@ -99,7 +99,7 @@ class Module
             'factories' => array(
                 'rcmLoginController' => function($controllerMgr) {
                     $serviceMgr=$controllerMgr->getServiceLocator();
-                    $controller = new \RcmLoginOpenSourceVersionTempRename\Controller\LoginController(
+                    $controller = new \RcmLogin\Controller\LoginController(
                         $serviceMgr->get('rcmUserManager'),
                         $serviceMgr->get('rcmPluginManager'),
                         $serviceMgr->get('em'),
@@ -125,7 +125,7 @@ class Module
     {
         $sharedEvents = $moduleManager->getEventManager()->getSharedManager();
         $sharedEvents->attach(
-            'RcmLoginOpenSourceVersionTempRename',
+            'RcmLogin',
             'dispatch',
             array($this, 'baseControllerInit'),
             12

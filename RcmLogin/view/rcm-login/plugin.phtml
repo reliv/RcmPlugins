@@ -29,7 +29,7 @@ echo $this->rcmJsLoginManager();
 ?>
 <script type="text/javascript">
     $(function () {
-        new RcmLoginOpenSourceVersionTempRename(
+        new RcmLogin(
         <?php echo $this->instanceId?>,
         <?php echo json_encode($this->ic['errors'])?>
         );

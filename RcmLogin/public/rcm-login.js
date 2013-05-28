@@ -1,8 +1,8 @@
-var RcmLoginOpenSourceVersionTempRename = function(instanceId, errors) {
+var RcmLogin = function(instanceId, errors) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
-     * @type {RcmLoginOpenSourceVersionTempRenameLink}
+     * @type {RcmLoginLink}
      */
     var me = this;
 
@@ -19,10 +19,10 @@ var RcmLoginOpenSourceVersionTempRename = function(instanceId, errors) {
     me.init = function() {
 
         //Allow edit script to grab this object
-        if(typeof window['RcmLoginOpenSourceVersionTempRename'] == 'undefined'){
-            window['RcmLoginOpenSourceVersionTempRename']=[];
+        if(typeof window['RcmLogin'] == 'undefined'){
+            window['RcmLogin']=[];
         }
-        window['RcmLoginOpenSourceVersionTempRename'][instanceId]=me;
+        window['RcmLogin'][instanceId]=me;
 
         loginButton = container.find('button.login');
 

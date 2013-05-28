@@ -15,7 +15,7 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-var RcmLoginOpenSourceVersionTempRenameEdit = function(instanceId, container){
+var RcmLoginEdit = function(instanceId, container){
 
     var me = this;
 
@@ -29,9 +29,9 @@ var RcmLoginOpenSourceVersionTempRenameEdit = function(instanceId, container){
 
     /**
      *
-     * @type {RcmLoginOpenSourceVersionTempRename}
+     * @type {RcmLogin}
      */
-    var rcmLogin = window['RcmLoginOpenSourceVersionTempRename'][instanceId];
+    var rcmLogin = window['RcmLogin'][instanceId];
 
     var errors = rcmLogin.getErrors();
 
