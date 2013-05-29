@@ -1,6 +1,6 @@
 <?php
 return array (
-    'googleKey'=>'012151797509834957533:za-qx2oocbk',
+    'googleKey'=>'000756681373664777195:za-qx2oocbk',
     'resultPage' => '/search',
     'searchButton'=>'Search'
 );
