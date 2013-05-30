@@ -192,10 +192,49 @@ class SimpleConfigStorageController
         } else {
             if(!isset($this->instanceConfigs[$instanceId])){
                 $this->instanceConfigs[$instanceId]
-                    = $this->configRepo->getInstanceConfig($instanceId);
+                    = $this->getMergedInstanceConfig($instanceId);
             }
             return $this->instanceConfigs[$instanceId];
         }
+    }
+
+    /**
+     * merges the instance config with the new instance config so that default
+     * values are used when the db instance config doesn't yet have them after
+     * new functionality is added
+     * @param $instanceId
+     * @return array
+     */
+    function getMergedInstanceConfig($instanceId){
+        return self::mergeConfigArrays(
+            $this->getNewInstanceConfig(),
+            $this->configRepo->getInstanceConfig($instanceId)
+        );
+    }
+
+    static function mergeConfigArrays($default,$changes){
+        foreach($changes as $key => $value){
+            /*
+             * Numeric keys should not be copied because of the "more in default
+             * that on production" issue
+             */
+            if(!is_numeric($key)){
+                if(is_array($value)){
+                    if(isset($value['0'])){
+                        //Numbered arrays ignore defualt values
+                        $default[$key]=$changes[$key];
+                    }else{
+                        $default[$key]=self::mergeConfigArrays(
+                            $default[$key],
+                            $changes[$key]
+                        );
+                    }
+                }else{
+                    $default[$key]=$changes[$key];
+                }
+            }
+        }
+        return $default;
     }
 
     function instanceConfigAndNewInstanceConfigAdminAjaxAction($instanceId){
