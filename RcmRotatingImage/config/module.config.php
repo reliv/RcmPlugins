@@ -29,7 +29,7 @@ return array(
             'icon' => '',
             'editJs'=>'/modules/rcm-rotating-image/edit.js',
             'editCss'=>'/modules/rcm-rotating-image/edit.css',
-            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
+            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

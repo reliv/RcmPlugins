@@ -28,7 +28,7 @@ return array(
             'tooltip' => 'Image with Thumbnails',
             'icon' => '',
             'editJs'=>'/modules/rcm-image-with-thumbnails/edit.js',
-            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
+            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

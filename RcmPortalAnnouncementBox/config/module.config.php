@@ -28,7 +28,7 @@ return array(
             'tooltip' => 'Editable box with three text areas',
             'icon' => '',
             'editJs'=>'/modules/rcm-portal-announcement-box/edit.js',
-            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
+            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

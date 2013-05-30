@@ -28,7 +28,7 @@ return array(
             'tooltip' => 'A tabbed plugin controller.',
             'icon' => '',
             'editJs'=>'/modules/rcm-tabs/edit.js',
-            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
+            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

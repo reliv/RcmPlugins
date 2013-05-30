@@ -27,7 +27,7 @@ return array(
             'display' => 'Google Search Results',
             'tooltip' => 'Google Search Results',
             'icon' => '',
-            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
+            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

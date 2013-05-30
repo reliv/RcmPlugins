@@ -29,7 +29,7 @@ return array(
             'tooltip' => 'Navigation menu that can display sub-menus when users mouse-over the main menu.',
             'icon' => '',
             'editJs'=>'/modules/rcm-navigation/edit.js',
-            'newInstanceConfig'=>include __DIR__ . '/newInstanceConfig.php'
+            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

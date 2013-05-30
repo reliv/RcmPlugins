@@ -34,7 +34,7 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
      */
     function testGetDefaultJsonContent(){
 
-        $this->unit->newInstanceConfigRepo->getInstanceConfig();
+        $this->unit->defaultInstanceConfigRepo->getInstanceConfig();
 
         $this->markTestIncomplete();
     }

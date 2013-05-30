@@ -50,7 +50,7 @@ class SimpleConfigStorageController
      */
     protected $configRepo;
 
-    protected $newInstanceConfig;
+    protected $defaultInstanceConfig;
 
     protected $pluginName;
 
@@ -89,8 +89,8 @@ class SimpleConfigStorageController
         $this->pluginNameLowerCaseDash=$this->camelToHyphens($this->pluginName);
         $this->template = $this->pluginNameLowerCaseDash.'/plugin';
 
-        $this->newInstanceConfig=$config['rcmPlugin'][$this->pluginName]
-        ['newInstanceConfig'];
+        $this->defaultInstanceConfig=$config['rcmPlugin'][$this->pluginName]
+        ['defaultInstanceConfig'];
 
     }
 
@@ -125,7 +125,7 @@ class SimpleConfigStorageController
     }
 
     public function getNewInstanceConfig(){
-        return $this->newInstanceConfig;
+        return $this->defaultInstanceConfig;
     }
 
     /**
@@ -242,7 +242,7 @@ class SimpleConfigStorageController
             json_encode(
                 array(
                     'instanceConfig'=>$this->getInstanceConfig($instanceId),
-                    'newInstanceConfig'=>$this->getNewInstanceConfig()
+                    'defaultInstanceConfig'=>$this->getNewInstanceConfig()
                 )
             )
         );
