@@ -214,24 +214,22 @@ class SimpleConfigStorageController
 
     static function mergeConfigArrays($default,$changes){
         foreach($changes as $key => $value){
-            /*
-             * Numeric keys should not be copied because of the "more in default
-             * that on production" issue
-             */
-            if(!is_numeric($key)){
-                if(is_array($value)){
-                    if(isset($value['0'])){
-                        //Numbered arrays ignore default values
-                        $default[$key]=$changes[$key];
-                    }else{
-                        $default[$key]=self::mergeConfigArrays(
-                            $default[$key],
-                            $changes[$key]
-                        );
-                    }
-                }else{
+            if(is_array($value)){
+                if(isset($value['0'])){
+                    /*
+                     * Numeric arrays ignore default values because o
+                     * of the "more in default
+                     * that on production" issue
+                     */
                     $default[$key]=$changes[$key];
+                }else{
+                    $default[$key]=self::mergeConfigArrays(
+                        $default[$key],
+                        $changes[$key]
+                    );
                 }
+            }else{
+                $default[$key]=$changes[$key];
             }
         }
         return $default;
