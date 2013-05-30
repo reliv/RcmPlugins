@@ -221,7 +221,7 @@ class SimpleConfigStorageController
             if(!is_numeric($key)){
                 if(is_array($value)){
                     if(isset($value['0'])){
-                        //Numbered arrays ignore defualt values
+                        //Numbered arrays ignore default values
                         $default[$key]=$changes[$key];
                     }else{
                         $default[$key]=self::mergeConfigArrays(
