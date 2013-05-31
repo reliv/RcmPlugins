@@ -222,10 +222,14 @@ class SimpleConfigStorageController
                      */
                     $default[$key]=$changes[$key];
                 }else{
-                    $default[$key]=self::mergeConfigArrays(
-                        $default[$key],
-                        $changes[$key]
-                    );
+                    if(isset($default[$key])){
+                        $default[$key]=self::mergeConfigArrays(
+                            $default[$key],
+                            $changes[$key]
+                        );
+                    }else{
+                        $default[$key]=$changes[$key];
+                    }
                 }
             }else{
                 $default[$key]=$changes[$key];
