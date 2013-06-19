@@ -51,7 +51,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      */
     var defaultData;
 
-    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, 'rcm-event-list-display');
+    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, 'rcm-event-list-display');
 
     var eventManager = new RcmEventManager(
         container.find('dataContainer').attr('data-eventCategoryId')
