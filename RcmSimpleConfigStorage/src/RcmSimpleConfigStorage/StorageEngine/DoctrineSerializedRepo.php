@@ -48,9 +48,10 @@ class DoctrineSerializedRepo{
     {
         $entity = $this->jsonContentRepo->findOneByInstanceId($instanceId);
         if (!$entity) {
-            throw new PluginDataNotFoundException(
-                'Plugin Config not found in DB instance #'.$instanceId
-            );
+            $entity = new \RcmSimpleConfigStorage\Entity\InstanceConfig();
+//            throw new PluginDataNotFoundException(
+//                'Plugin Config not found in DB instance #'.$instanceId
+//            );
         }
         return $entity;
     }
