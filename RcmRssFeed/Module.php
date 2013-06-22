@@ -87,8 +87,29 @@ class Module
                         $serviceMgr->get('config')
                     );
                     return $controller;
-                }
-            )
+                },
+                'rcmRssCache' => function($serviceMgr) {
+                    $config = $serviceMgr->get('config');
+
+                    $extraOptions = array(
+                        'namespace' => 'rcmRssCache',
+                        'ttl' => '300'
+                    );
+
+                    $cache = \Zend\Cache\StorageFactory::factory(
+                        array(
+                            'adapter' => array(
+                                'name' => $config['rcmCache']['adapter'],
+                                'options' => $config['rcmCache']['options'] + $extraOptions,
+                            ),
+                            'plugins' => $config['rcmCache']['plugins'],
+                        )
+                    );
+
+                    return $cache;
+                },
+            ),
+
         );
     }
 
@@ -100,7 +121,8 @@ class Module
                     $controller = new \RcmRssFeed\Controller\ProxyController(
                         $serviceMgr->get('em'),
                         $serviceMgr->get('config'),
-                        $serviceMgr->get('rcmUserManager')
+                        $serviceMgr->get('rcmUserManager'),
+                        $serviceMgr->get('rcmRssCache')
                     );
                     return $controller;
                 }

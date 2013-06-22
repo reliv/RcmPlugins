@@ -13,14 +13,17 @@ class ProxyController
 {
 
     protected $userMgr;
+    protected $cacheMgr;
 
     function __construct(
         \Doctrine\ORM\EntityManager $entityMgr,
         $config,
-        \Rcm\Model\UserManagement\UserManagerInterface $userMgr
+        \Rcm\Model\UserManagement\UserManagerInterface $userMgr,
+        \Zend\Cache\Storage\StorageInterface $cacheMgr
     ) {
         parent::__construct($entityMgr,$config);
         $this->userMgr = $userMgr;
+        $this->cacheMgr = $cacheMgr;
     }
 
     public function rssProxyAction()
@@ -41,6 +44,10 @@ class ProxyController
         }
 
         $feedUrl = $instanceConfig['rssFeedUrl'];
+
+        if ($this->cacheMgr->hasItem($feedUrl)) {
+            $viewRssData = $this->cacheMgr->getItem($feedUrl);
+        }
 
         if (!empty($overrideFeedUrl) && $overrideFeedUrl != 'null') {
             $permissions = $this->userMgr->getLoggedInAdminPermissions();
@@ -63,6 +70,8 @@ class ProxyController
 
         $feedCount = 0;
 
+        $viewRssData = array();
+
         foreach ($feedData as $entry) {
 
             if ($feedCount == $limit) {
@@ -80,6 +89,13 @@ class ProxyController
             $feedCount++;
         }
 
+        $this->cacheMgr->addItem($feedUrl, $viewRssData);
+
+        $this->sendJson($viewRssData);
+
+    }
+
+    private function sendJson($viewRssData) {
         $expires = 60 * 5; //Five Minutes
         header("Pragma: public");
         header("Cache-Control: maxage=" . $expires);
