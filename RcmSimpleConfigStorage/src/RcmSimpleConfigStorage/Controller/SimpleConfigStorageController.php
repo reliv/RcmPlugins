@@ -18,6 +18,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 namespace RcmSimpleConfigStorage\Controller;
+use Doctrine\ORM\EntityManager;
 use \RcmSimpleConfigStorage\StorageEngine\NewInstanceRepo,
     \RcmSimpleConfigStorage\StorageEngine\DoctrineSerializedRepo;
 /**
@@ -70,7 +71,7 @@ class SimpleConfigStorageController
     private $instanceConfigs=array();
 
     function __construct(
-        \Doctrine\ORM\EntityManager $entityMgr,
+        EntityManager $entityMgr,
         $config,
         $pluginDirectory = null
     ) {
