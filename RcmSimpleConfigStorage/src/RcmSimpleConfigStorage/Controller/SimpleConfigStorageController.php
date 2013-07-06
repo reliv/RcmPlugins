@@ -59,6 +59,8 @@ class SimpleConfigStorageController
 
     protected $pluginDirectory;
 
+    protected $config;
+
     /**
      * @var \Doctrine\ORM\EntityManager entity manager
      */
@@ -93,6 +95,8 @@ class SimpleConfigStorageController
         $this->defaultInstanceConfig=$config['rcmPlugin'][$this->pluginName]
         ['defaultInstanceConfig'];
 
+        $this->config = $config;
+
     }
 
     /**
@@ -116,7 +120,8 @@ class SimpleConfigStorageController
             array_merge(
                 array(
                     'instanceId' => $instanceId,
-                    'ic' => $this->getInstanceConfig($instanceId)
+                    'ic' => $this->getInstanceConfig($instanceId),
+                    'config' => $this->config,
                 ),
                 $extraViewVariables
             )
