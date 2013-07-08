@@ -70,8 +70,8 @@ class ProxyController
         $rssReader = new Reader();
 
         //Tried to add a timeout like this but it didnt work
-//        $httpClient=new Client(null,array('timeout'=>30));
-//        $rssReader->setHttpClient($httpClient);
+        $httpClient=new Client($feedUrl,array('timeout'=>5));
+        $rssReader->setHttpClient($httpClient);
 
         $feedData = $rssReader->import($feedUrl);
 
