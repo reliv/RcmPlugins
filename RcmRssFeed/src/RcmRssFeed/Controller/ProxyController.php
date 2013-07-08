@@ -7,9 +7,12 @@
  * To change this template use File | Settings | File Templates.
  */
 namespace RcmRssFeed\Controller;
+use RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
+use \Zend\Feed\Reader\Reader;
+use Zend\Http\Client;
 
 class ProxyController
-    extends \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController
+    extends SimpleConfigStorageController
 {
 
     protected $userMgr;
@@ -64,9 +67,13 @@ class ProxyController
             $limit = $instanceConfig['rssFeedLimit'];
         }
 
-        $rssReader = new \Zend\Feed\Reader\Reader();
+        $rssReader = new Reader();
+
+        //Tried to add a timeout like this but it didnt work
+//        $httpClient=new Client(null,array('timeout'=>30));
+//        $rssReader->setHttpClient($httpClient);
+
         $feedData = $rssReader->import($feedUrl);
-//        $feedData=array();
 
         $feedCount = 0;
 
