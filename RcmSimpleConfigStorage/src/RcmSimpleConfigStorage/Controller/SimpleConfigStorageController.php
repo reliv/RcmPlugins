@@ -146,7 +146,8 @@ class SimpleConfigStorageController
             array_merge(
                 array(
                     'instanceId' => $instanceId,
-                    'ic' => $this->getNewInstanceConfig($instanceId)
+                    'ic' => $this->getNewInstanceConfig($instanceId),
+                    'config' => $this->config
                 ),
                 $extraViewVariables
             )
