@@ -21,6 +21,8 @@ namespace RcmSimpleConfigStorage\Controller;
 use Doctrine\ORM\EntityManager;
 use \RcmSimpleConfigStorage\StorageEngine\NewInstanceRepo,
     \RcmSimpleConfigStorage\StorageEngine\DoctrineSerializedRepo;
+use Zend\View\Model\ViewModel;
+
 /**
  * Plugin Controller
  *
@@ -116,7 +118,7 @@ class SimpleConfigStorageController
      * @return \Zend\View\Model\ViewModel
      */
     function renderInstance($instanceId, $extraViewVariables = array()){
-        $view = new \Zend\View\Model\ViewModel(
+        $view = new ViewModel(
             array_merge(
                 array(
                     'instanceId' => $instanceId,
