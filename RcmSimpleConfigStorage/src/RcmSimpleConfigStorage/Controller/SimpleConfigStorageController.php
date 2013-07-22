@@ -180,7 +180,7 @@ class SimpleConfigStorageController
     function deleteInstance($instanceId){
         $this->configRepo->deleteInstanceConfig($instanceId);
     }
-    
+
     /**
      * Get entity content as JSON. This is called by the editor javascript of
      * some plugins. Urls look like
