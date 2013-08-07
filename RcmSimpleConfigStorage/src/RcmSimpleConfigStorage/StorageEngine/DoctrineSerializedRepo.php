@@ -18,7 +18,13 @@ class DoctrineSerializedRepo{
     }
 
     function getInstanceConfig($instanceId){
-        return $this->readEntityFromDb($instanceId)->getConfig();
+        $instanceConfig = $this->readEntityFromDb($instanceId)->getConfig();
+        if(!is_array($instanceConfig)){
+            throw new \Exception(
+                "Invalid instance config in DB for instance $instanceId"
+            );
+        }
+        return $instanceConfig;
     }
 
     function createInstanceConfig($instanceId, $config, $skipDbFlush=false){
