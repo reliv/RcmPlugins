@@ -15,25 +15,27 @@
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-var RcmOldLoginEdit = function(instanceId, container){
+var RcmLoginEdit = function(instanceId, container){
 
     var me = this;
 
     me.container = container;
 
-    me.invalidErrorMsg = $("#RcmOldLoginBoxInvalidError").html();
-    me.missingError = $("#RcmOldLoginBoxMissingError").html();
-    me.systemFailureError = $("#RcmOldLoginBoxSystemError").html();
-    me.notAuthError = $("#RcmOldLoginBoxNoAuthError").html();
-    me.processingMsg = $("#RcmOldLoginBoxProcessingMessage").html();
+    me.invalidErrorMsg = $("#rcmLoginBoxInvalidError").html();
+    me.missingError = $("#rcmLoginBoxMissingError").html();
+    me.systemFailureError = $("#rcmLoginBoxSystemError").html();
+    me.notAuthError = $("#rcmLoginBoxNoAuthError").html();
+    me.processingMsg = $("#rcmLoginBoxProcessingMessage").html();
 
     /**
      *
-     * @type {RcmOldLogin}
+     * @type {RcmLogin}
      */
-    var RcmOldLogin = window['RcmOldLogin'][instanceId];
 
-    var errors = RcmOldLogin.getErrors();
+
+    var errors;
+
+    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, 'rcm-login');
 
     /**
      * Called by RelivContentManger to make the random image editable
@@ -51,6 +53,16 @@ var RcmOldLoginEdit = function(instanceId, container){
             me.showEditDialog();
             e.preventDefault();
         });
+
+        $(container).find('button.login').submit(function(){
+            return false;
+        });
+
+        ajaxEditHelper.getInstanceConfigAndNewInstanceConfigFromServer(
+            function(returnedData){
+                errors = returnedData['errors'];
+            }
+        );
     };
 
     /**

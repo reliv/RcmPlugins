@@ -1,0 +1,56 @@
+<?php
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-login/rcm-login.js',
+    'text/javascript'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm/js/zend-form-helper.js', 'text/javascript'
+);
+?>
+    <script type="text/javascript">
+        $(function () {
+            new RcmLogin(
+                <?= $this->instanceId?>,
+                '<?= $ic['translate']['buttonProcessing']?>'
+            );
+        });
+    </script>
+
+    <h1 data-textEdit="loginHeader">
+        <?= $this->ic['loginHeader']; ?>
+    </h1>
+
+    <div class="error">
+        <?= isset($error) ? $error : '' ?>
+    </div>
+
+<form class="loginForm" method="post">
+    <label data-textEdit="userNameCopy" for="rcmLoginUsername">
+        <?= $this->ic['userNameCopy']; ?>
+    </label>
+    <br>
+    <input type="hidden" name="rcmPluginName" value="RcmLogin">
+    <input autofocus type="text" name="username" value="<?=$username ?>">
+    <br>
+    <label data-textEdit="loginPasswordCopy"
+           for="rcmLoginPassword">
+        <?= $this->ic['loginPasswordCopy']; ?>
+    </label>
+    <br>
+    <input type="password" name="password">
+
+    <br>
+    <br>
+
+    <button class="login" data-textEdit="loginSubmitCopy" type="submit">
+        <?= $this->ic['loginSubmitCopy']; ?>
+    </button>
+</form>
+<br>
+<br>
+
+<div data-richedit="bottomLoginText">
+    <?= $this->ic['bottomLoginText']; ?>
+</div>

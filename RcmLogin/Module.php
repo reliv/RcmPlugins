@@ -16,7 +16,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 
-namespace RcmOldLogin;
+namespace RcmLogin;
 
 use \Zend\ModuleManager\ModuleManager;
 
@@ -80,31 +80,14 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmOldLogin' =>
+                'RcmLogin' =>
                 function($serviceMgr)
                 {
-                    $controller = new \RcmOldLogin\Controller\PluginController(
+                    $controller = new \RcmLogin\Controller\PluginController(
                         $serviceMgr->get('em'),
                         $serviceMgr->get('config'),
-                        $serviceMgr->get('rcmSesssionManager')
-                    );
-                    return $controller;
-                },
-            )
-        );
-    }
-
-    function getControllerConfig(){
-        return array(
-            'factories' => array(
-                'RcmOldLoginController' => function($controllerMgr) {
-                    $serviceMgr=$controllerMgr->getServiceLocator();
-                    $controller = new \RcmOldLogin\Controller\LoginController(
                         $serviceMgr->get('rcmUserManager'),
-                        $serviceMgr->get('rcmPluginManager'),
-                        $serviceMgr->get('em'),
-                        $serviceMgr->get('viewRenderer'),
-                        $serviceMgr->get('config')
+                        $serviceMgr->get('rcmSite')
                     );
                     return $controller;
                 },
@@ -125,7 +108,7 @@ class Module
     {
         $sharedEvents = $moduleManager->getEventManager()->getSharedManager();
         $sharedEvents->attach(
-            'RcmOldLogin',
+            'RcmLogin',
             'dispatch',
             array($this, 'baseControllerInit'),
             12
