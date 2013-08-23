@@ -28,7 +28,7 @@ return array(
             'tooltip' => 'Adds login area to page',
             'icon' => '',
             'editJs'=>'/modules/rcm-login/rcm-login-edit.js',
-            'postLoginRedirectUrl'=>'/redirect-user-home',
+            'postLoginRedirectUrl'=>'/login-home',
             'defaultInstanceConfig'=> include __DIR__ .
                 '/defaultInstanceConfig.php',
         ),
