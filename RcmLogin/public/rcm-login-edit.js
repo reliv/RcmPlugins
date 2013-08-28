@@ -1,133 +1,114 @@
 /**
- * Reliv Content Manager Login
+ * RcmLogin
  *
- * JS for editing Login Plugin
+ * JS for editing RcmLogin
  *
  * PHP version 5.3
  *
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\RandomImage
+ * @package   RcmPlugins\RcmLogin
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-var RcmLoginEdit = function(instanceId, container){
+
+/**
+ * Synchronously grab dependency object file(s)
+ */
+$.ajax({
+    async: false,
+    url: '/modules/rcm/js/admin/ajax-plugin-edit-helper.js',
+    dataType: 'script'
+});
+
+/**
+ *
+ * @param {int} instanceId
+ * @param {jQuery} container
+ * @constructor
+ */
+var RcmLoginEdit = function (instanceId, container) {
 
     var me = this;
 
-    me.container = container;
-
-    me.invalidErrorMsg = $("#rcmLoginBoxInvalidError").html();
-    me.missingError = $("#rcmLoginBoxMissingError").html();
-    me.systemFailureError = $("#rcmLoginBoxSystemError").html();
-    me.notAuthError = $("#rcmLoginBoxNoAuthError").html();
-    me.processingMsg = $("#rcmLoginBoxProcessingMessage").html();
+    /**
+     * Settings from db
+     * @type {Object}
+     */
+    var data;
 
     /**
+     * Default settings from config json file
+     * @type {Object}
+     */
+    var defaultData;
+
+    var ajaxEditHelper = new AjaxPluginEditHelper(
+        instanceId, container, 'rcm-login'
+    );
+
+    /**
+     * Called by content management system to make this plugin user-editable
+     */
+    this.initEdit = function () {
+        ajaxEditHelper.disableEvents();
+        ajaxEditHelper.ajaxGetInstanceConfigs(me.completeEditInit);
+    };
+
+    /**
+     * Completes edit init process after we get data from server
      *
-     * @type {RcmLogin}
+     * @param {Object} returnedData
+     * @param {Object} returnedDefaultData
      */
-
-
-    var errors;
-
-    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, 'rcm-login');
-
-    /**
-     * Called by RelivContentManger to make the random image editable
-     */
-    me.initEdit = function(){
-        //Allow labels to be clicked
-        container.find('label').attr('for',null);
-
-        //Disable buttons
-        container.find('button').unbind();
-        container.find('button').click(function(){return false;});
-
-        me.addContextMenu();
-        container.not('[contenteditable="true"]').dblclick(function(e){
-            me.showEditDialog();
-            e.preventDefault();
-        });
-
-        $(container).find('button.login').submit(function(){
-            return false;
-        });
-
-        ajaxEditHelper.getInstanceConfigAndNewInstanceConfigFromServer(
-            function(returnedData){
-                errors = returnedData['errors'];
-            }
-        );
+    this.completeEditInit = function (returnedData, returnedDefaultData) {
+        data = returnedData;
+        defaultData = returnedDefaultData;
+        ajaxEditHelper.attachPropertiesDialog(me.showEditDialog);
     };
 
-    /**
-     * Called by RelivContentManger to get the state of this plugin to pass to
-     * the server
-     * @return {Object}
-     */
-    me.getSaveData = function(){
-        return {
-            errors:errors
-        };
-    };
+    this.showEditDialog = function () {
 
-    me.addContextMenu = function() {
-
-        rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId),
-
-            items:{
-                edit:{
-                    name:'Edit Properties',
-                    icon:'edit',
-                    callback:function () {
-                        me.showEditDialog();
-                    }
-                }
-            }
-        });
-    };
-
-    me.showEditDialog = function() {
-
-        var invalidError = $.dialogIn(
-            'text', 'Invalid Error Message', errors['invalid']
+        var errorInputs = ajaxEditHelper.buildInputGroup(
+            data['translate'],
+            defaultData['translate']
         );
 
-        var missingError = $.dialogIn(
-            'text', 'Missing Items Error Message', errors['missing']
-        );
-
-        var systemFailureError = $.dialogIn(
-            'text', 'System Failure Error Message', errors['systemFailure']
-        );
-
-        var form = $('<form></form>')
-            .append(invalidError, missingError, systemFailureError)
+        $('<form></form>')
             .addClass('simple')
-            .width(640)
+            .appendMulti(errorInputs)
             .dialog({
-                title:'Properties',
-                width:620,
-                modal:true,
-                buttons:{
-                    Cancel:function () {
-
+                title: 'Properties',
+                modal: true,
+                width: 620,
+                zIndex: 2000000,
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
-                        errors['invalid'] = invalidError.val();
-                        errors['missing'] = missingError.val();
-                        errors['systemFailure'] = systemFailureError.val();
+                    Ok: function () {
+
+                        ajaxEditHelper.captureInputGroup(
+                            'translate', errorInputs, data
+                        );
 
                         $(this).dialog("close");
                     }
                 }
             });
-    }
+    };
+
+    /**
+     * Called by content management system to get this plugins data for saving
+     * on the server
+     *
+     * @return {Object}
+     */
+    this.getSaveData = function () {
+        return data;
+    };
 };
