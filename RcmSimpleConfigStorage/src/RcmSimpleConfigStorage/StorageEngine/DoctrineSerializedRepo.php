@@ -20,7 +20,10 @@ class DoctrineSerializedRepo{
     function getInstanceConfig($instanceId){
         $instanceConfig = $this->readEntityFromDb($instanceId)->getConfig();
         if(!is_array($instanceConfig)){
-            trigger_error("Invalid instance config in DB for instance $instanceId", E_USER_NOTICE);
+//            trigger_error(
+//                "Invalid instance config in DB for instance $instanceId",
+//                E_USER_WARNING
+//            );
             return array();
         }
         return $instanceConfig;
