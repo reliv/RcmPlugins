@@ -231,7 +231,7 @@ class SimpleConfigStorageController
             return $default;
         }
 
-        foreach($changes as $key => $value){
+        foreach($changes as $key => $value) {
             if(is_array($value)){
                 if(isset($value['0'])){
                     /*
@@ -239,17 +239,17 @@ class SimpleConfigStorageController
                      * "more in default that on production" issue
                      */
                     $default[$key]=$changes[$key];
-                }else{
-                    if(isset($default[$key])){
+                } else {
+                    if(isset($default[$key])) {
                         $default[$key]=self::mergeConfigArrays(
                             $default[$key],
                             $changes[$key]
                         );
-                    }else{
+                    } else {
                         $default[$key]=$changes[$key];
                     }
                 }
-            }else{
+            } else {
                 $default[$key]=$changes[$key];
             }
         }

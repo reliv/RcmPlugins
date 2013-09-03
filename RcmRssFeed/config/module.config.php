@@ -28,7 +28,8 @@ return array(
             'tooltip' => 'Rss Reader and Display',
             'icon' => '',
             'editJs'=>'/modules/rcm-rss-feed/edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php',
+            'cacheable' => true,
         ),
     ),
 
