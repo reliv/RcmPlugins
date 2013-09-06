@@ -49,8 +49,9 @@ class PluginController extends SimpleConfigStorageController
     function renderInstance($instanceId)
     {
         $instanceConfig=$this->getInstanceConfig($instanceId);
-        $images=$instanceConfig['images'];
-        $image = $images[array_rand($images, 1)];
+
+        $image = $this->getRandomImage($instanceConfig);
+
         $view = new ViewModel(
             array(
                 'image' => $image,
@@ -59,5 +60,13 @@ class PluginController extends SimpleConfigStorageController
         );
         $view->setTemplate($this->template);
         return $view;
+    }
+
+    public function getRandomImage($instanceConfig)
+    {
+        $images = $instanceConfig['images'];
+        $image = $images[array_rand($images, 1)];
+
+        return $image;
     }
 }

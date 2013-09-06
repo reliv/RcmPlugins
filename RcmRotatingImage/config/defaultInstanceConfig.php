@@ -9,7 +9,7 @@ return array(
         array(
             "src" => "//content.reliv.com/migrate/content/images/rotating-image/glucaffect.jpg",
             "alt" => "Glucaffect",
-            "href" => "/"
+            "href" =>" /"
         )
     ),
     "learnMore" => "<h2>Learn More <span class=\"arrowLogo\">&nbsp;</span></h2>"
