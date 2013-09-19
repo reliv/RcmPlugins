@@ -94,7 +94,7 @@ var RcmBrightCoveEdit = function (instanceId, container) {
             'sort_order' : 'ASC',
             'get_item_count' : 'true'
         }, function(data) {
-            console.log(data);
+
         });
     };
 };

@@ -213,7 +213,6 @@ var RcmEventManager = function () {
                     type: 'POST',
                     data: event,
                     success: function() {
-                        console.log(1);
                         me.renderEventList();
                         okButton.dialog('close');
                     },
@@ -230,7 +229,6 @@ var RcmEventManager = function () {
     };
 
     me.handleAjaxError = function(e){
-        console.log(e);
         $.confirm(
             'There was a problem. Please make sure you entered valid values ' +
                 'and try again.'
