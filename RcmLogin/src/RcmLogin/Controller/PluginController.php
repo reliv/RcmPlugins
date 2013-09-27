@@ -57,8 +57,7 @@ class PluginController
         $config,
         UserManagerInterface $userMgr,
         Site $site
-    )
-    {
+    ) {
         parent::__construct($entityMgr, $config);
         $this->userMgr = $userMgr;
         $this->site = $site;
@@ -107,13 +106,13 @@ class PluginController
 
             $redirectUrl = $this->config['Rcm']['successfulLoginUrl'];
 
+            /**
+             * We let the successful login page handel redirects in case it
+             * wants to override them
+             */
             if (isset($_GET['redirect'])) {
-                //Prevents attackers from creating off-site redirects
-                $redirectUrl = str_replace(
-                    array('http://', 'https://', '//'),
-                    null,
-                    filter_var($_GET['redirect'], FILTER_SANITIZE_URL)
-                );
+                $redirectUrl .= '?redirect='
+                    . filter_var($_GET['redirect'], FILTER_SANITIZE_URL);
             }
 
             header('Location: ' . $redirectUrl);
