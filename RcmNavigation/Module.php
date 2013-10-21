@@ -59,12 +59,11 @@ class Module
         return array(
             'factories' => array(
                 'RcmNavigation'=>function($serviceMgr){
-                    $controller = new SimpleConfigStorageController(
+                    return new SimpleConfigStorageController(
                         $serviceMgr->get('em'),
                         $serviceMgr->get('config'),
                         __DIR__
                     );
-                    return $controller;
                 }
             )
         );
