@@ -7,12 +7,12 @@
  * To change this template use File | Settings | File Templates.
  */
 namespace RcmRssFeed\Controller;
-use RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
+use RcmSimpleConfigStorage\Controller\BasePluginController;
 use \Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 
 class ProxyController
-    extends SimpleConfigStorageController
+    extends BasePluginController
 {
 
     protected $userMgr;

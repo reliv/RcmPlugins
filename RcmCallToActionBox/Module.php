@@ -18,7 +18,7 @@
 
 namespace RcmCallToActionBox;
 
-use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
+use \RcmSimpleConfigStorage\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -60,7 +60,7 @@ class Module
             'factories' => array(
                 'RcmCallToActionBox'=>function($serviceMgr)
                 {
-                    $controller = new SimpleConfigStorageController(
+                    $controller = new BasePluginController(
                         $serviceMgr->get('em'),
                         $serviceMgr->get('config'),
                         __DIR__
