@@ -1,0 +1,85 @@
+<?php
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-brightcove-player/jquery-model/jquery.brightcove.js',
+    'text/javascript'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-brightcove-player/rcm-brightcove-player.js',
+    'text/javascript'
+);
+
+//$this->headLink()->appendStylesheet(
+//    $this->basePath() . '/modules/rcm-brightcove-player/style.css'
+//);
+
+?>
+
+<!--<div ng-app ng-controller="RcmBrightcovePlayerCtrl" class="ng-cloak">-->
+<!---->
+<!---->
+<!--    <div class="popCart" ng-show="items">-->
+<!---->
+<!--        <a ng-repeat="item in items" class="item" href="/p/{{item.detailPage}}">-->
+<!--            <img ng-src="{{item.sku.images[0].thumbSrc}}" class="itemImg">-->
+<!---->
+<!--            <div class="itemDesc">-->
+<!--                <div class="itemName">{{item.name}}</div>-->
+<!--                <div class="itemQty">-->
+<!--                    <div data-textEdit="qty">-->
+<!--                        <?//= $ic['qty'] ?> -->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        &nbsp;{{item.qty}}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </a>-->
+<!---->
+<!--        <a class="button" data-textEdit="cartButton" href="/checkout">-->
+<!--            <?php //echo $ic['cartButton'] ?> -->
+<!--        </a>-->
+<!---->
+<!--    </div>-->
+<!---->
+<!--</div>-->
+<!--
+<div ng-controller="BrightcoveCtrl">
+  <div ng-show="items">
+    <ul class="playlist">
+        <li ng-repeat="playlist in playlists | filter:query">
+            {{playlist}}
+        </li>
+    </ul>
+  </div>
+</div>
+-->
+
+<!--<div ng-controller="PhoneListCtrl">-->
+<!---->
+<!--<div class="container-fluid">-->
+<!--    <div class="row-fluid">-->
+<!--        <div class="span2">-->
+<!--            <!--Sidebar content-->
+<!---->
+<!--            Search: <input ng-model="query">-->
+<!---->
+<!--        </div>-->
+<!--        <div class="span10">-->
+<!--            <!--Body content-->
+<!---->
+<!--            <ul class="phones">-->
+<!--                <li ng-repeat="phone in phones | filter:query">-->
+<!--                    {{phone.name}}-->
+<!--                    <p>{{phone.snippet}}</p>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!---->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!---->
+<!--</div>-->
+
+
