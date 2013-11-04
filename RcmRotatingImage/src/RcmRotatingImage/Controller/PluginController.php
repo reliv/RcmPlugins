@@ -20,7 +20,7 @@
 namespace RcmRotatingImage\Controller;
 
 use \Zend\View\Model\ViewModel,
-    \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
+    \RcmSimpleConfigStorage\Controller\BasePluginController;
 
 /**
  * Plugin Controller
@@ -36,7 +36,7 @@ use \Zend\View\Model\ViewModel,
  * @link      http://ci.reliv.com/confluence
  *
  */
-class PluginController extends SimpleConfigStorageController
+class PluginController extends BasePluginController
 {
 
     /**

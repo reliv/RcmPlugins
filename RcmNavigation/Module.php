@@ -18,7 +18,7 @@
 
 namespace RcmNavigation;
 
-use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
+use \RcmSimpleConfigStorage\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -59,7 +59,7 @@ class Module
         return array(
             'factories' => array(
                 'RcmNavigation'=>function($serviceMgr){
-                    return new SimpleConfigStorageController(
+                    return new BasePluginController(
                         $serviceMgr->get('em'),
                         $serviceMgr->get('config'),
                         __DIR__

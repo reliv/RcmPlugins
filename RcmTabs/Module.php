@@ -18,7 +18,7 @@
 
 namespace RcmTabs;
 
-use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
+use \RcmSimpleConfigStorage\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -59,7 +59,7 @@ class Module
         return array(
             'factories' => array(
                 'RcmTabs'=>function($serviceMgr){
-                    $controller = new SimpleConfigStorageController(
+                    $controller = new BasePluginController(
                         $serviceMgr->get('em'),
                         $serviceMgr->get('config'),
                         __DIR__

@@ -34,7 +34,7 @@ namespace RcmRssFeed\Controller;
  *
  */
 class PluginController
-    extends \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController
+    extends \RcmSimpleConfigStorage\Controller\BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
     public function renderInstance($instanceId)

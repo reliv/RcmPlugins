@@ -20,7 +20,7 @@ namespace RcmLogin;
 
 use \Zend\ModuleManager\ModuleManager;
 
-use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
+use \RcmSimpleConfigStorage\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2

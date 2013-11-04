@@ -37,7 +37,7 @@ use Zend\View\Model\ViewModel;
  * @link      http://ci.reliv.com/confluence
  *
  */
-class SimpleConfigStorageController
+class BasePluginController
     extends \Zend\Mvc\Controller\AbstractActionController
     implements \Rcm\Plugin\PluginInterface
 {
