@@ -90,11 +90,6 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
-    function testDeleteInstance()
-    {
-        $this->basePluginController->deleteInstance(self::INSTANCE_ID);
-    }
-
     function testGetInstanceConfig()
     {
         $instanceConfig = $this
@@ -160,13 +155,11 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
-    /*
- * Converts camelCase to lower-case-hyphens
- *
- * @param string $value the value to convert
- *
- * @return string
- */
+    function testDeleteInstance()
+    {
+        $this->basePluginController->deleteInstance(self::INSTANCE_ID);
+    }
+
     function testCamelToHyphens()
     {
         $this->assertEquals(
