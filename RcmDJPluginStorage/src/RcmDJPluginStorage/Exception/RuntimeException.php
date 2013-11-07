@@ -6,7 +6,7 @@
  * Time: 4:07 PM
  * To change this template use File | Settings | File Templates.
  */
-namespace RcmSimpleConfigStorage\Exception;
+namespace RcmDJPluginStorage\Exception;
 class RuntimeException extends \RuntimeException
 {
 

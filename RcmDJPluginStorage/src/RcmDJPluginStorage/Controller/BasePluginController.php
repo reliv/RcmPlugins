@@ -10,17 +10,20 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmSimpleConfigStorages\RcmSimpleConfigStorage
+ * @package   RcmDJPluginStorages\RcmDJPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmSimpleConfigStorage\Controller;
+namespace RcmDJPluginStorage\Controller;
+
 use Doctrine\ORM\EntityManager;
-use \RcmSimpleConfigStorage\StorageEngine\NewInstanceRepo,
-    \RcmSimpleConfigStorage\StorageEngine\DoctrineSerializedRepo;
+use \RcmDJPluginStorage\StorageEngine\NewInstanceRepo,
+    \RcmDJPluginStorage\StorageEngine\DoctrineSerializedRepo,
+    \Zend\Http\PhpEnvironment\Request,
+    \RcmDJPluginStorage\Entity\InstanceConfig;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -29,7 +32,7 @@ use Zend\View\Model\ViewModel;
  * This is the main controller for this plugin
  *
  * @category  Reliv
- * @package   RcmSimpleConfigStorages\RcmSimpleConfigStorage
+ * @package   RcmDJPluginStorages\RcmDJPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -42,16 +45,9 @@ class BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
     /**
-     * @var string Tells function renderInstance() which template to use.
+     * @var string Tells public function renderInstance() which template to use.
      */
     protected $template;
-
-    /**
-     * Stores configs for active instances
-     * Now there is only one type of repo but this may become swap-able later
-     * @var \RcmSimpleConfigStorage\StorageEngine\DoctrineSerializedRepo
-     */
-    protected $configRepo;
 
     protected $defaultInstanceConfig;
 
@@ -69,32 +65,36 @@ class BasePluginController
     protected $entityMgr;
 
     /**
-     * Caches instance configs to speed up multiple calls to getInstanceConfig()
+     * Caches instance configs to speed up multiple calls to getDbInstanceConfig()
      * @var array
      */
-    private $instanceConfigs=array();
+    private $instanceConfigs = array();
 
-    function __construct(
+
+    protected $jsonContentRepo;
+
+    public function __construct(
         EntityManager $entityMgr,
         $config,
         $pluginDirectory = null
     ) {
         $this->entityMgr = $entityMgr;
-        $this->configRepo = new DoctrineSerializedRepo($entityMgr);
+        $this->jsonContentRepo = $this->entityMgr
+            ->getRepository('RcmDJPluginStorage\Entity\InstanceConfig');
 
-        if(!$pluginDirectory){
+        if (!$pluginDirectory) {
             //Allow auto path detection for controllers that extend this class
             $reflection = new \ReflectionClass(get_class($this));
             $pluginDirectory =
                 realpath(dirname($reflection->getFileName()) . '/../../../');
         }
 
-        $this->pluginDirectory=$pluginDirectory;
-        $this->pluginName=basename($pluginDirectory);
-        $this->pluginNameLowerCaseDash=$this->camelToHyphens($this->pluginName);
-        $this->template = $this->pluginNameLowerCaseDash.'/plugin';
+        $this->pluginDirectory = $pluginDirectory;
+        $this->pluginName = basename($pluginDirectory);
+        $this->pluginNameLowerCaseDash = $this->camelToHyphens($this->pluginName);
+        $this->template = $this->pluginNameLowerCaseDash . '/plugin';
 
-        $this->defaultInstanceConfig=$config['rcmPlugin'][$this->pluginName]
+        $this->defaultInstanceConfig = $config['rcmPlugin'][$this->pluginName]
         ['defaultInstanceConfig'];
 
         $this->config = $config;
@@ -105,7 +105,8 @@ class BasePluginController
      * Allows core to properly pass the request to this plugin controller
      * @param $request
      */
-    function setRequest($request){
+    public function setRequest(Request $request)
+    {
         $this->request = $request;
     }
 
@@ -117,7 +118,8 @@ class BasePluginController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    function renderInstance($instanceId, $extraViewVariables = array()){
+    public function renderInstance($instanceId, $extraViewVariables = array())
+    {
         $view = new ViewModel(
             array_merge(
                 array(
@@ -132,10 +134,6 @@ class BasePluginController
         return $view;
     }
 
-    public function getNewInstanceConfig(){
-        return $this->defaultInstanceConfig;
-    }
-
     /**
      * Returns a view model filled with content for a brand new instance. This
      * usually comes out of a config file rather than writable persistent
@@ -143,12 +141,13 @@ class BasePluginController
      *
      * @return \Zend\View\Model\ViewModel
      */
-    function renderDefaultInstance($instanceId, $extraViewVariables = array()){
+    public function renderDefaultInstance($instanceId, $extraViewVariables = array())
+    {
         $view = new \Zend\View\Model\ViewModel(
             array_merge(
                 array(
                     'instanceId' => $instanceId,
-                    'ic' => $this->getNewInstanceConfig($instanceId),
+                    'ic' => $this->getDefaultInstanceConfig($instanceId),
                     'config' => $this->config
                 ),
                 $extraViewVariables
@@ -162,12 +161,17 @@ class BasePluginController
      * Saves a plugin instance to persistent storage
      *
      * @param string $instanceId plugin instance id
-     * @param array  $configData       posted data to be saved
+     * @param array $configData posted data to be saved
      *
      * @return null
      */
-    function saveInstance($instanceId, $configData){
-        $this->configRepo->createInstanceConfig($instanceId, $configData);
+    public function saveInstance($instanceId, $configData)
+    {
+        $entity = new InstanceConfig();
+        $entity->setInstanceId($instanceId);
+        $entity->setConfig($configData);
+        $this->entityMgr->persist($entity);
+        $this->entityMgr->flush($entity);
     }
 
     /**
@@ -177,8 +181,16 @@ class BasePluginController
      *
      * @return null
      */
-    function deleteInstance($instanceId){
-        $this->configRepo->deleteInstanceConfig($instanceId);
+    public function deleteInstance($instanceId)
+    {
+        $entity = $this->readEntityFromDb($instanceId);
+        $this->entityMgr->remove($entity);
+        $this->entityMgr->flush();
+    }
+
+    public function getDefaultInstanceConfig()
+    {
+        return $this->defaultInstanceConfig;
     }
 
     /**
@@ -186,42 +198,53 @@ class BasePluginController
      * some plugins. Urls look like
      * '/rcm-plugin-admin-proxy/rcm-plugin-name/223/admin-data'
      *
+     *
      * @param integer $instanceId instance id
      *
      * @return null
      */
-    function instanceConfigAdminAjaxAction($instanceId)
+    public function instanceConfigAdminAjaxAction($instanceId)
     {
         exit(json_encode($this->getInstanceConfig($instanceId)));
-    }
-
-    function getInstanceConfig($instanceId){
-        if ($instanceId < 0) {
-            return $this->getNewInstanceConfig();
-        } else {
-            if(!isset($this->instanceConfigs[$instanceId])){
-                $this->instanceConfigs[$instanceId]
-                    = $this->getMergedInstanceConfig($instanceId);
-            }
-            return $this->instanceConfigs[$instanceId];
-        }
     }
 
     /**
      * merges the instance config with the new instance config so that default
      * values are used when the db instance config doesn't yet have them after
-     * new functionality is added
+     * new public functionality is added
      * @param $instanceId
      * @return array
      */
-    function getMergedInstanceConfig($instanceId){
-        return self::mergeConfigArrays(
-            $this->getNewInstanceConfig(),
-            $this->configRepo->getInstanceConfig($instanceId)
-        );
+    public function getInstanceConfig($instanceId)
+    {
+        //Instance configs less than 0 are default instanc configs
+        if ($instanceId < 0) {
+            return $this->getDefaultInstanceConfig();
+        } else {
+            //Check to see if we already have a cached instance config
+            if (!isset($this->instanceConfigs[$instanceId])) {
+
+                //Grab from the db or use blank if not there
+                $instanceConfig = $this->readEntityFromDb($instanceId)->getConfig();
+                if (!is_array($instanceConfig)) {
+                    $instanceConfig = array();
+                }
+
+                //Merge the default and db instance configs. Db overwrites.
+                $instanceConfig = self::mergeConfigArrays(
+                    $this->getDefaultInstanceConfig(),
+                    $instanceConfig
+                );
+
+                //Cache merged instance configs in this object
+                $this->instanceConfigs[$instanceId] = $instanceConfig;
+            }
+            return $this->instanceConfigs[$instanceId];
+        }
     }
 
-    static function mergeConfigArrays($default,$changes){
+    static public function mergeConfigArrays($default, $changes)
+    {
 
         if (empty($default)) {
             return $changes;
@@ -231,47 +254,49 @@ class BasePluginController
             return $default;
         }
 
-        foreach($changes as $key => $value) {
-            if(is_array($value)){
-                if(isset($value['0'])){
+        foreach ($changes as $key => $value) {
+            if (is_array($value)) {
+                if (isset($value['0'])) {
                     /*
                      * Numeric arrays ignore default values because of the
                      * "more in default that on production" issue
                      */
-                    $default[$key]=$changes[$key];
+                    $default[$key] = $changes[$key];
                 } else {
-                    if(isset($default[$key])) {
-                        $default[$key]=self::mergeConfigArrays(
+                    if (isset($default[$key])) {
+                        $default[$key] = self::mergeConfigArrays(
                             $default[$key],
                             $changes[$key]
                         );
                     } else {
-                        $default[$key]=$changes[$key];
+                        $default[$key] = $changes[$key];
                     }
                 }
             } else {
-                $default[$key]=$changes[$key];
+                $default[$key] = $changes[$key];
             }
         }
         return $default;
     }
 
-    function instanceConfigAndNewInstanceConfigAdminAjaxAction($instanceId){
+    public function instanceConfigAndNewInstanceConfigAdminAjaxAction($instanceId)
+    {
         exit(
-            json_encode(
-                array(
-                    'instanceConfig'=>$this->getInstanceConfig($instanceId),
-                    'defaultInstanceConfig'=>$this->getNewInstanceConfig()
-                )
+        json_encode(
+            array(
+                'instanceConfig' => $this->getInstanceConfig($instanceId),
+                'defaultInstanceConfig' => $this->getDefaultInstanceConfig()
             )
+        )
         );
     }
 
     /**
      * Redirects to https version of current url is not already https
      */
-    function ensureHttps(){
-        if(!$this->isHttps()){
+    public function ensureHttps()
+    {
+        if (!$this->isHttps()) {
             $this->redirectHttps();
         }
     }
@@ -279,9 +304,10 @@ class BasePluginController
     /**
      * Redirect to the current page but on https
      */
-    function redirectHttps(){
+    public function redirectHttps()
+    {
         $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-        header('Location: '.$url);
+        header('Location: ' . $url);
         exit();
     }
 
@@ -289,51 +315,35 @@ class BasePluginController
      * returns if https or not
      * @return bool
      */
-    function isHttps()
+    public function isHttps()
     {
         return (isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : null) == 'on';
     }
 
-    /**
-     * Shortcut method to get post
-     *
-     * @return \Zend\Stdlib\Parameters
-     */
-    function getPost()
+    public function postIsForThisPlugin($pluginName)
     {
-        return $this->getEvent()->getRequest()->getPost();
+        return $this->getRequest()->getPost('rcmPluginName') == $pluginName;
     }
 
     /**
-     * Deletes all keys in this session container. Is two-foreach process due to
-     * weirdness with zf2 sessions
+     * Returns the JSON content for a given plugin instance Id
+     * @param $instanceId
      *
-     * @return null
+     * @return \RcmDJPluginStorage\Entity\InstanceConfig|null
+     * @throws \RcmDJPluginStorage\Exception\PluginDataNotFoundException
      */
-    function destroySession()
+    public function readEntityFromDb($instanceId)
     {
-        $keysToKill = array();
-        foreach ($this->session->getIterator() as $key => $val) {
-            $keysToKill[] = $key;
+        $entity = $this->jsonContentRepo->findOneByInstanceId($instanceId);
+        if (!$entity) {
+            $entity = new InstanceConfig();
+//            throw new PluginDataNotFoundException(
+//                'Plugin Config not found in DB instance #'.$instanceId
+//            );
         }
-        foreach ($keysToKill as $key) {
-            $this->session->offsetUnset($key);
-        }
+        return $entity;
     }
 
-    public function postIsForThisPlugin($pluginName){
-        $request=$this->getRequest();
-        if($request->isPost()){
-            $post=$request->getPost();
-            if(
-                isset($post['rcmPluginName'])
-                &&$post['rcmPluginName']==$pluginName
-            ){
-                return true;
-            }
-        }
-        return false;
-    }
 
     /*
  * Converts camelCase to lower-case-hyphens
@@ -342,7 +352,7 @@ class BasePluginController
  *
  * @return string
  */
-    function camelToHyphens($value)
+    public function camelToHyphens($value)
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
     }

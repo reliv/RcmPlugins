@@ -2,6 +2,6 @@
 
 return array(
     'modules' =>  array(
-        'RcmSimpleConfigStorage',
+        'RcmDJPluginStorage',
     ),
 );

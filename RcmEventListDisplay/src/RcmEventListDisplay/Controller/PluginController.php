@@ -34,7 +34,7 @@ namespace RcmEventListDisplay\Controller;
  *
  */
 class PluginController
-    extends \RcmSimpleConfigStorage\Controller\BasePluginController
+    extends \RcmDJPluginStorage\Controller\BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
     /**
@@ -87,7 +87,7 @@ class PluginController
 
     function renderDefaultInstance($instanceId){
         return $this->renderInstanceFromConfig(
-            $this->getNewInstanceConfig()
+            $this->getDefaultInstanceConfig()
         );
     }
 }

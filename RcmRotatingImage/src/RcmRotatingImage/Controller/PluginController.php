@@ -20,7 +20,7 @@
 namespace RcmRotatingImage\Controller;
 
 use \Zend\View\Model\ViewModel,
-    \RcmSimpleConfigStorage\Controller\BasePluginController;
+    \RcmDJPluginStorage\Controller\BasePluginController;
 
 /**
  * Plugin Controller

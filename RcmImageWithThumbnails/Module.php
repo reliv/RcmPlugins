@@ -18,7 +18,7 @@
 
 namespace RcmImageWithThumbnails;
 
-use \RcmSimpleConfigStorage\Controller\BasePluginController;
+use \RcmDJPluginStorage\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2

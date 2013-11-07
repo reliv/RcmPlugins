@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 namespace RcmRssFeed\Controller;
-use RcmSimpleConfigStorage\Controller\BasePluginController;
+use RcmDJPluginStorage\Controller\BasePluginController;
 use \Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 
@@ -40,7 +40,7 @@ class ProxyController
         );
 
         if ($instanceId < 0) {
-            $instanceConfig= $this->getNewInstanceConfig();
+            $instanceConfig= $this->getDefaultInstanceConfig();
         } else {
             $instanceConfig = $this->getInstanceConfig($instanceId);
 

@@ -11,7 +11,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmSimpleConfigStorages\RcmSimpleConfigStorage
+ * @package   RcmDJPluginStorages\RcmDJPluginStorage
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -29,16 +29,16 @@ return array(
 
     'doctrine' => array(
         'driver' => array(
-            'RcmSimpleConfigStorage' => array(
+            'RcmDJPluginStorage' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__.'/../src/RcmSimpleConfigStorage/Entity'
+                    __DIR__.'/../src/RcmDJPluginStorage/Entity'
                 )
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'RcmSimpleConfigStorage' => 'RcmSimpleConfigStorage'
+                    'RcmDJPluginStorage' => 'RcmDJPluginStorage'
                 )
             )
         )

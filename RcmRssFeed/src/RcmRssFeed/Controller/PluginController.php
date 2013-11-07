@@ -34,7 +34,7 @@ namespace RcmRssFeed\Controller;
  *
  */
 class PluginController
-    extends \RcmSimpleConfigStorage\Controller\BasePluginController
+    extends \RcmDJPluginStorage\Controller\BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
     public function renderInstance($instanceId)
@@ -56,7 +56,7 @@ class PluginController
     {
         return $this->buildView(
             $instanceId,
-            $this->getNewInstanceConfig()
+            $this->getDefaultInstanceConfig()
         );
     }
 

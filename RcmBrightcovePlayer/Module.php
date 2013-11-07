@@ -18,7 +18,7 @@
 
 namespace RcmBrightcovePlayer;
 
-use \RcmSimpleConfigStorage\Controller\SimpleConfigStorageController;
+use \RcmDJPluginStorage\Controller\SimpleConfigStorageController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
