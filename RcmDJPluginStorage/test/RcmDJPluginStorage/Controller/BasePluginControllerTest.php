@@ -12,7 +12,7 @@ class BasePluginControllerTest extends PluginTestCase
     /** @var  \RcmDJPluginStorage\Controller\BasePluginController */
     protected $basePluginController;
 
-    const DEFAULT_HTML = '<hself::INSTANCE_ID>hello</hself::INSTANCE_ID>';
+    const DEFAULT_HTML = '<h1>hello</h1>';
     const PERSON_NAME = 'bob';
     const INSTANCE_ID = 7890;
 
@@ -54,10 +54,9 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
-
-    function renderDefaultInstance()
+    function testRenderDefaultInstance()
     {
-        $viewModel = $this->basePluginController->renderInstance(
+        $viewModel = $this->basePluginController->renderDefaultInstance(
             self::INSTANCE_ID,
             array('personName' => self::PERSON_NAME)
         );
@@ -65,10 +64,6 @@ class BasePluginControllerTest extends PluginTestCase
         $this->assertEquals(
             $viewModel->getVariable('personName'),
             self::PERSON_NAME
-        );
-        $this->assertEquals(
-            $viewModel->getVariable('html'),
-            self::DEFAULT_HTML
         );
     }
 

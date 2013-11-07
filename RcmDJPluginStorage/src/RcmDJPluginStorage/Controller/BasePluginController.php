@@ -219,12 +219,15 @@ class BasePluginController
     {
         //Instance configs less than 0 are default instanc configs
         if ($instanceId < 0) {
+
             return $this->getDefaultInstanceConfig();
+
         } else {
+
             //Check to see if we already have a cached instance config
             if (!isset($this->instanceConfigs[$instanceId])) {
 
-                //Grab from the db or use blank if not there
+                //Grab from the db or use blank array if not there
                 $instanceConfig = $this->readEntityFromDb($instanceId)->getConfig();
                 if (!is_array($instanceConfig)) {
                     $instanceConfig = array();
@@ -240,6 +243,7 @@ class BasePluginController
                 $this->instanceConfigs[$instanceId] = $instanceConfig;
             }
             return $this->instanceConfigs[$instanceId];
+
         }
     }
 
