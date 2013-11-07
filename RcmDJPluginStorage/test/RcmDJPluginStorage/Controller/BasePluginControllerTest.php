@@ -99,6 +99,7 @@ class BasePluginControllerTest extends PluginTestCase
     {
         $instanceConfig = $this
             ->basePluginController->getInstanceConfig(self::INSTANCE_ID);
+        $this->assertEquals($instanceConfig['html'], self::DEFAULT_HTML);
 
         $defaultInstanceConfig = $this->basePluginController
             ->getInstanceConfig(-1);
@@ -133,10 +134,10 @@ class BasePluginControllerTest extends PluginTestCase
 
     function testisHttps()
     {
-        $_SERVER['HTTPS']='on';
+        $_SERVER['HTTPS'] = 'on';
         $this->assertTrue($this->basePluginController->isHttps());
 
-        $_SERVER['HTTPS']='off';
+        $_SERVER['HTTPS'] = 'off';
         $this->assertFalse($this->basePluginController->isHttps());
 
         unset($_SERVER['HTTPS']);
@@ -145,14 +146,14 @@ class BasePluginControllerTest extends PluginTestCase
 
     public function testPostIsForThisPlugin()
     {
-        $pluginName='RcmJDPluginStorage';
-        $_POST['rcmPluginName']=$pluginName;
+        $pluginName = 'RcmJDPluginStorage';
+        $_POST['rcmPluginName'] = $pluginName;
         $this->basePluginController->setRequest(new Request());
         $this->assertTrue(
             $this->basePluginController->postIsForThisPlugin($pluginName)
         );
 
-        $_POST['rcmPluginName']='someOtherPlugin';
+        $_POST['rcmPluginName'] = 'someOtherPlugin';
         $this->basePluginController->setRequest(new Request());
         $this->assertFalse(
             $this->basePluginController->postIsForThisPlugin($pluginName)
