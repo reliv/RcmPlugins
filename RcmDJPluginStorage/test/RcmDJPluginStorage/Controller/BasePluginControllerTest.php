@@ -34,7 +34,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
 
-    function testSetRequest()
+    function testSetGetRequest()
     {
         $request = new Request();
         $this->basePluginController->setRequest(new Request());
