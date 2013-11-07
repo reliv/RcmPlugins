@@ -33,7 +33,6 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
-
     function testSetGetRequest()
     {
         $request = new Request();
