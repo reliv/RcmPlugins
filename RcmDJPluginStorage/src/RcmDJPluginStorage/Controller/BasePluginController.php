@@ -341,9 +341,6 @@ class BasePluginController
         $entity = $this->jsonContentRepo->findOneByInstanceId($instanceId);
         if (!$entity) {
             $entity = new InstanceConfig();
-//            throw new PluginDataNotFoundException(
-//                'Plugin Config not found in DB instance #'.$instanceId
-//            );
         }
         return $entity;
     }

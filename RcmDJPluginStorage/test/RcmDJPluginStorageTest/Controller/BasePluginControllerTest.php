@@ -1,6 +1,6 @@
 <?php
 
-namespace RcmDJPluginStorage\Module\Controller;
+namespace RcmDJPluginStorageTest\Controller;
 
 use RcmDJPluginStorage\Controller\BasePluginController;
 use RcmTest\Base\PluginTestCase,
@@ -33,6 +33,9 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testSetGetRequest()
     {
         $request = new Request();
@@ -40,6 +43,9 @@ class BasePluginControllerTest extends PluginTestCase
         $this->assertEquals($request, $this->basePluginController->getRequest());
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testRenderInstance()
     {
         $viewModel = $this->basePluginController->renderInstance(
@@ -53,6 +59,9 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testRenderDefaultInstance()
     {
         $viewModel = $this->basePluginController->renderDefaultInstance(
@@ -66,13 +75,18 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
-
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testGetNewInstanceConfig()
     {
         $instanceConfig = $this->basePluginController->getDefaultInstanceConfig();
         $this->assertEquals($instanceConfig['html'], self::DEFAULT_HTML);
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testSaveInstance()
     {
         $newHtml = '<b>hi</b>';
@@ -82,6 +96,9 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testGetInstanceConfig()
     {
         $instanceConfig = $this
@@ -93,6 +110,9 @@ class BasePluginControllerTest extends PluginTestCase
         $this->assertEquals($defaultInstanceConfig['html'], self::DEFAULT_HTML);
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testMergeConfigArrays()
     {
         $merged = $this->basePluginController->mergeConfigArrays(
@@ -119,6 +139,9 @@ class BasePluginControllerTest extends PluginTestCase
 
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testisHttps()
     {
         $_SERVER['HTTPS'] = 'on';
@@ -131,6 +154,9 @@ class BasePluginControllerTest extends PluginTestCase
         $this->assertFalse($this->basePluginController->isHttps());
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     public function testPostIsForThisPlugin()
     {
         $pluginName = 'RcmJDPluginStorage';
@@ -147,16 +173,26 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testDeleteInstance()
     {
         $this->basePluginController->deleteInstance(self::INSTANCE_ID);
     }
 
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
     function testCamelToHyphens()
     {
         $this->assertEquals(
-            'rods-fun-house',
-            $this->basePluginController->camelToHyphens('RodsFunHouse')
+            'camel-case',
+            $this->basePluginController->camelToHyphens('CamelCase')
+        );
+        $this->assertEquals(
+            'studly-caps',
+            $this->basePluginController->camelToHyphens('StudlyCaps')
         );
     }
 }
