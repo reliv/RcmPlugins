@@ -13,7 +13,7 @@ $this->headScript()->appendFile(
 //$this->headLink()->appendStylesheet(
 //    $this->basePath() . '/modules/rcm-brightcove-player/style.css'
 //);
-
+// ng-switch-when="{{solution.title}}
 ?>
 
 <div style="display:none;">
@@ -23,25 +23,37 @@ $this->headScript()->appendFile(
             <div>
                 <div ng-show="true">
                     <select
-                        ng-options="ng-options="item as item.name for item in items">
-<!--                        <option value="single">Single Embed</option>-->
-<!--                        <option value="multiple">Muliple video player</option>-->
-                        <option>--</option>
+                        ng-model="selectedItem"
+                        ng-init="selectedItem = selectedItem || items[0]"
+                        ng-options="item as item.name for item in items">
                     </select>
                 </div>
-<!--                <span ng-if="true" ng-hide="false">-->
-                <div ng-hide="true">
-                    Choose video:<br>
-                    <select  data-ng-options="video.name for video in videos" data-ng-model="selectedVideos">
+                <div ng-show="selectedItem.id == 0"}>
+                    <br>Choose video:<br>
+                    <select
+                        ng-options="video.name for video in videos"
+                        ng-model="selectedVideos">
                     </select>
+                    {{selectedVideos.name}}
+                    <br>
+                    {{selectedVideos.id}}
+                    <br>
+                    <img src="{{selectedVideos.thumbnailURL}}" />
+                    <br>
                 </div>
-<!--                </span>-->
-                <div><br></div>
-                <div ng-hide="true">
-                    Choose Playlist:<br>
-                    <select class="multiselect" multiple="multiple" data-ng-options="playlist.name for playlist in playlists" data-ng-model="selectedPlaylists" multiselect-dropdown>
+
+                <div ng-show="selectedItem.id == 1">
+                    <br>Choose Playlist:<br>
+                    <select
+                         ng-options="playlist.name for playlist in playlists"
+                         ng-model="selectedPlaylists"
+                         multiselect-dropdown>
                     </select>
+                    <br>
+                    {{selectedPlaylists.name}}
                 </div>
+                <br>
+                <button ng-click="update(video)">save</button>
                 <div><br></div>
             </div>
         </div>

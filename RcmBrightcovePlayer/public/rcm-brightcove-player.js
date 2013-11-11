@@ -31,8 +31,8 @@ brightcovePlayer.controller('BrightcoveCtrl', function BrightcoveCtrl($scope) {
         $scope.$apply();
     });
     $scope.items = [
-        { id: 1, name: 'single embed' },
-        { id: 2, name: 'multiple video player' },
+        { id: 0, name: 'single embed' },
+        { id: 1, name: 'multiple video player' },
     ];
 
 //    video_id = 2764326442001;
