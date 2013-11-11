@@ -121,7 +121,7 @@ class Module
                     $controller = new \RcmRssFeed\Controller\ProxyController(
                         $serviceMgr->get('em'),
                         $serviceMgr->get('config'),
-                        $serviceMgr->get('rcmUserManager'),
+                        $serviceMgr->get('rcmUserMgr'),
                         $serviceMgr->get('rcmRssCache')
                     );
                     return $controller;
