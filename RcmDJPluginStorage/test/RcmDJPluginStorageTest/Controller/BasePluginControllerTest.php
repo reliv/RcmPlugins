@@ -117,11 +117,13 @@ class BasePluginControllerTest extends PluginTestCase
     {
         $merged = $this->basePluginController->mergeConfigArrays(
             array(
+                'keyedArray' => array('a' => 1, 'c' => 3),
                 'nonKeyedArray' => array('a', 'b', 'c'),
                 'overwrite' => 'original',
                 'nonOverWritten' => 'original'
             ),
             array(
+                'keyedArray' => array('b' => 2),
                 'nonKeyedArray' => array('d'),
                 'overwrite' => 'new',
                 'inChangesOnly' => 'new'
@@ -130,6 +132,7 @@ class BasePluginControllerTest extends PluginTestCase
         $this->assertEquals(
             $merged,
             array(
+                'keyedArray' => array('a' => 1, 'b' => 2, 'c' => 3),
                 'nonKeyedArray' => array('d'),
                 'overwrite' => 'new',
                 'inChangesOnly' => 'new',
@@ -137,6 +140,17 @@ class BasePluginControllerTest extends PluginTestCase
             )
         );
 
+        $merged = $this->basePluginController->mergeConfigArrays(
+            array('one' => 1),
+            null
+        );
+        $this->assertEquals($merged, array('one' => 1));
+
+        $merged = $this->basePluginController->mergeConfigArrays(
+            null,
+            array('one' => 1)
+        );
+        $this->assertEquals($merged, array('one' => 1));
     }
 
     /**
