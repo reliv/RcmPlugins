@@ -17,7 +17,7 @@ angular.element(document).ready(function () {
 var brightcovePlayer = angular.module('brightcovePlayer', []);
 
 brightcovePlayer.controller('BrightcoveCtrl', function BrightcoveCtrl($scope) {
-    $scope.choices = true;
+
     $.brightcove.find_all_videos().done(function (data) {
         //Do something with the API
         $scope.videos = data.items;
@@ -34,18 +34,5 @@ brightcovePlayer.controller('BrightcoveCtrl', function BrightcoveCtrl($scope) {
         { id: 0, name: 'single embed' },
         { id: 1, name: 'multiple video player' },
     ];
-
-//    video_id = 2764326442001;
-//    $.brightcove.find_video_by_id(video_id).done(function (data) {
-//        //Do something with the API
-//        console.log(data);
-//        $scope.video = data.items;
-//        $scope.$apply();
-//       // console.log($scope.video);
-//    });
 });
-$(function(){
-$('#brightcoveform').dialog({ width: '600px', position: 'center'});
 
-
-});
