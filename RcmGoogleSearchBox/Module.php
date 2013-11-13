@@ -18,7 +18,7 @@
 
 namespace RcmGoogleSearchBox;
 
-use \RcmDJPluginStorage\Controller\BasePluginController;
+use \RcmDjPluginStorage\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2

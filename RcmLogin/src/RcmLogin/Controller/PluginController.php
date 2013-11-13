@@ -23,7 +23,7 @@ namespace RcmLogin\Controller;
 use Doctrine\ORM\EntityManager;
 use Rcm\Model\UserManagement\UserManagerInterface;
 use Rcm\Plugin\PluginInterface;
-use RcmDJPluginStorage\Controller\BasePluginController;
+use RcmDjPluginStorage\Controller\BasePluginController;
 use Rcm\Entity\Site;
 
 /**

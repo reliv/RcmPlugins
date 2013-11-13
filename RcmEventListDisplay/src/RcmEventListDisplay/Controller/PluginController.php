@@ -34,7 +34,7 @@ namespace RcmEventListDisplay\Controller;
  *
  */
 class PluginController
-    extends \RcmDJPluginStorage\Controller\BasePluginController
+    extends \RcmDjPluginStorage\Controller\BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
     /**

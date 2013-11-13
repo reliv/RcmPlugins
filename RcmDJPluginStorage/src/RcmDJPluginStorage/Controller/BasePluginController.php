@@ -10,17 +10,17 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmDJPluginStorages\RcmDJPluginStorage
+ * @package   RcmDjPluginStorages\RcmDjPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmDJPluginStorage\Controller;
+namespace RcmDjPluginStorage\Controller;
 
 use Doctrine\ORM\EntityManager;
-use \RcmDJPluginStorage\Entity\InstanceConfig;
+use \RcmDjPluginStorage\Entity\InstanceConfig;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use \Zend\Mvc\Controller\AbstractActionController;
@@ -33,7 +33,7 @@ use \Zend\Http\PhpEnvironment\Request;
  * This is the main controller for this plugin
  *
  * @category  Reliv
- * @package   RcmDJPluginStorages\RcmDJPluginStorage
+ * @package   RcmDjPluginStorages\RcmDjPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -80,7 +80,7 @@ class BasePluginController extends AbstractActionController
     ) {
         $this->entityMgr = $entityMgr;
         $this->jsonContentRepo = $this->entityMgr
-            ->getRepository('RcmDJPluginStorage\Entity\InstanceConfig');
+            ->getRepository('RcmDjPluginStorage\Entity\InstanceConfig');
 
         if (!$pluginDirectory) {
             //Allow auto path detection for controllers that extend this class
@@ -297,8 +297,8 @@ class BasePluginController extends AbstractActionController
      * Returns the JSON content for a given plugin instance Id
      * @param $instanceId
      *
-     * @return \RcmDJPluginStorage\Entity\InstanceConfig|null
-     * @throws \RcmDJPluginStorage\Exception\PluginDataNotFoundException
+     * @return \RcmDjPluginStorage\Entity\InstanceConfig|null
+     * @throws \RcmDjPluginStorage\Exception\PluginDataNotFoundException
      */
     public function readEntityFromDb($instanceId)
     {
