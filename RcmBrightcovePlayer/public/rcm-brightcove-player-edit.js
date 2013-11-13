@@ -101,8 +101,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
                     $(this).dialog("close");
                 },
                 "OK": function(){
-                   console.log(form.find('[name=video]').val());
-                    //instanceConfig['videoId']=6546546;
+                    instanceConfig['videoId'] = form.find('[name=video]').attr('data-value');
                     $(this).dialog("close");
                 }
             }

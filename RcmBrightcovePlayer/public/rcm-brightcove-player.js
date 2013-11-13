@@ -35,4 +35,6 @@ brightcovePlayer.controller('BrightcoveCtrl', function BrightcoveCtrl($scope) {
         { id: 1, name: 'multiple video player' },
     ];
 });
-
+$(function () {
+$('#brightcoveObject').html('<object id="myExperience2110662112001" class="BrightcoveExperience"><param name="bgcolor" value="#FFFFFF" /><param name="width" value="400" /><param name="height" value="225" /><param name="playerID" value="2660464886001" /><param name="playerKey" value="AQ~~,AAABWA8lTok~,NLWj-wltGTwPRfYtwg9pVEh-A2jBVrQE" /><param name="isVid" value="true" /><param name="isUI" value="true" /> <param name="dynamicStreaming" value="true" /><param name="@videoPlayer" value="2110662112001" /></object>');
+});
