@@ -23,7 +23,7 @@ namespace RcmLogin\Controller;
 use Doctrine\ORM\EntityManager;
 use Rcm\Model\UserManagement\UserManagerInterface;
 use Rcm\Plugin\PluginInterface;
-use RcmDJPluginStorage\Controller\BasePluginController;
+use RcmDjPluginStorage\Controller\BasePluginController;
 use Rcm\Entity\Site;
 
 /**
@@ -66,7 +66,6 @@ class PluginController
     public function renderInstance($instanceId)
     {
         $instanceConfig = $this->getInstanceConfig($instanceId);
-        $this->ensureHttps();
         $this->request = $this->getEvent()->getRequest();
 
         $postSuccess = false;
@@ -142,20 +141,5 @@ class PluginController
                 'username' => null,
             )
         );
-    }
-
-    function ensureHttps()
-    {
-        if (!$this->isHttps()) {
-            $redirectUrl =
-                'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-            header('Location: ' . $redirectUrl);
-            exit();
-        }
-    }
-
-    function isHttps()
-    {
-        return (isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : null) == 'on';
     }
 }

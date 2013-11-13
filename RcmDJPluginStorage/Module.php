@@ -8,7 +8,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmDJPluginStorage
+ * @package   RcmDjPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -16,7 +16,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 
-namespace RcmDJPluginStorage;
+namespace RcmDjPluginStorage;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -25,7 +25,7 @@ namespace RcmDJPluginStorage;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @package   RcmDJPluginStorages\RcmDJPluginStorage
+ * @package   RcmDjPluginStorages\RcmDjPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -65,18 +65,5 @@ class Module
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
-    }
-
-    /**
-     * getServiceConfiguration is used by the ZF2 service manager in order
-     * to create new objects.
-     *
-     * @return object Returns an object.
-     */
-    public function getServiceConfig()
-    {
-        return array(
-
-        );
     }
 }

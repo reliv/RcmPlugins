@@ -4,7 +4,7 @@ namespace RcmRotatingImage\Tests\Src\Controller;
 
 use \Rcm\Tests\Base\DoctrineTestCase;
 use \RcmRotatingImage\Tests\Bootstrap;
-use RcmDJPluginStorage\Entity\InstanceConfig;
+use RcmDjPluginStorage\Entity\InstanceConfig;
 
 class PluginControllerTest extends DoctrineTestCase
 {

@@ -22,15 +22,16 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmLogin'=>array(
+        'RcmLogin' => array(
             'type' => 'Common',
             'display' => 'Login Area',
             'tooltip' => 'Adds login area to page',
             'icon' => '',
-            'editJs'=>'/modules/rcm-login/rcm-login-edit.js',
-            'postLoginRedirectUrl'=>'/login-home',
-            'defaultInstanceConfig'=> include __DIR__ .
-                '/defaultInstanceConfig.php',
+            'requireHttps' => true,
+            'editJs' => '/modules/rcm-login/rcm-login-edit.js',
+            'postLoginRedirectUrl' => '/login-home',
+            'defaultInstanceConfig' => include __DIR__ .
+                    '/defaultInstanceConfig.php',
         ),
     ),
 
