@@ -17,11 +17,13 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \RcmDjPluginStorage\Module
+     * No covers tag so this tests both class map file and module file
      */
     public function testGetAutoloaderConfig()
     {
-        $this->assertTrue(is_array($this->module->getAutoloaderConfig()));
+        $autoLoadConfig = $this->module->getAutoloaderConfig();
+        $mapPath = array_pop($autoLoadConfig['Zend\Loader\ClassMapAutoloader']);
+        $this->assertTrue(is_array(include($mapPath)));
     }
 
     /**
