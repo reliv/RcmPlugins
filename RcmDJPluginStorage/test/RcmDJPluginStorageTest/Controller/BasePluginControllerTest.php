@@ -119,12 +119,14 @@ class BasePluginControllerTest extends PluginTestCase
             array(
                 'keyedArray' => array('a' => 1, 'c' => 3),
                 'nonKeyedArray' => array('a', 'b', 'c'),
+                'keyedArrayInDefaultOnly' => array('x'=>'y'),
                 'overwrite' => 'original',
                 'nonOverWritten' => 'original'
             ),
             array(
                 'keyedArray' => array('b' => 2),
                 'nonKeyedArray' => array('d'),
+                'keyedArrayInChangesOnly' => array('z'=>'x'),
                 'overwrite' => 'new',
                 'inChangesOnly' => 'new'
             )
@@ -134,6 +136,8 @@ class BasePluginControllerTest extends PluginTestCase
             array(
                 'keyedArray' => array('a' => 1, 'b' => 2, 'c' => 3),
                 'nonKeyedArray' => array('d'),
+                'keyedArrayInDefaultOnly' => array('x'=>'y'),
+                'keyedArrayInChangesOnly' => array('z'=>'x'),
                 'overwrite' => 'new',
                 'inChangesOnly' => 'new',
                 'nonOverWritten' => 'original'
@@ -151,21 +155,6 @@ class BasePluginControllerTest extends PluginTestCase
             array('one' => 1)
         );
         $this->assertEquals($merged, array('one' => 1));
-    }
-
-    /**
-     * @covers\RcmDJPluginStorage\Controller\BasePluginController
-     */
-    function testisHttps()
-    {
-        $_SERVER['HTTPS'] = 'on';
-        $this->assertTrue($this->basePluginController->isHttps());
-
-        $_SERVER['HTTPS'] = 'off';
-        $this->assertFalse($this->basePluginController->isHttps());
-
-        unset($_SERVER['HTTPS']);
-        $this->assertFalse($this->basePluginController->isHttps());
     }
 
     /**
@@ -207,6 +196,19 @@ class BasePluginControllerTest extends PluginTestCase
         $this->assertEquals(
             'studly-caps',
             $this->basePluginController->camelToHyphens('StudlyCaps')
+        );
+    }
+
+    /**
+     * @covers\RcmDJPluginStorage\Controller\BasePluginController
+     */
+    public function testInstanceConfigAdminAjaxAction(){
+        $jsonModel=$this->basePluginController
+            ->instanceConfigAdminAjaxAction(self::INSTANCE_ID);
+        $instanceConfig=$jsonModel->getVariable('defaultInstanceConfig');
+        $this->assertEquals(
+            $instanceConfig['html'],
+            self::DEFAULT_HTML
         );
     }
 }

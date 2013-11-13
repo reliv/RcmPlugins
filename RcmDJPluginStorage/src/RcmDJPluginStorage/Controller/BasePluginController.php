@@ -20,11 +20,12 @@
 namespace RcmDJPluginStorage\Controller;
 
 use Doctrine\ORM\EntityManager;
-use \RcmDJPluginStorage\StorageEngine\NewInstanceRepo,
-    \RcmDJPluginStorage\StorageEngine\DoctrineSerializedRepo,
-    \Zend\Http\PhpEnvironment\Request,
-    \RcmDJPluginStorage\Entity\InstanceConfig;
+use \RcmDJPluginStorage\Entity\InstanceConfig;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
+use \Zend\Mvc\Controller\AbstractActionController;
+use \Rcm\Plugin\PluginInterface;
+use \Zend\Http\PhpEnvironment\Request;
 
 /**
  * Plugin Controller
@@ -40,9 +41,8 @@ use Zend\View\Model\ViewModel;
  * @link      http://ci.reliv.com/confluence
  *
  */
-class BasePluginController
-    extends \Zend\Mvc\Controller\AbstractActionController
-    implements \Rcm\Plugin\PluginInterface
+class BasePluginController extends AbstractActionController
+    implements PluginInterface
 {
     /**
      * @var string Tells public function renderInstance() which template to use.
@@ -99,15 +99,6 @@ class BasePluginController
 
         $this->config = $config;
 
-    }
-
-    /**
-     * Allows core to properly pass the request to this plugin controller
-     * @param $request
-     */
-    public function setRequest(Request $request)
-    {
-        $this->request = $request;
     }
 
     /**
@@ -188,15 +179,19 @@ class BasePluginController
         $this->entityMgr->flush();
     }
 
-    public function getDefaultInstanceConfig()
+    /**
+     * Allows core to properly pass the request to this plugin controller
+     * @param $request
+     */
+    public function setRequest(Request $request)
     {
-        return $this->defaultInstanceConfig;
+        $this->request = $request;
     }
 
     /**
      * Get entity content as JSON. This is called by the editor javascript of
      * some plugins. Urls look like
-     * '/rcm-plugin-admin-proxy/rcm-plugin-name/223/admin-data'
+     * '/rcm-plugin-admin-proxy/rcm-plugin-name/11824/instance-config'
      *
      *
      * @param integer $instanceId instance id
@@ -205,7 +200,17 @@ class BasePluginController
      */
     public function instanceConfigAdminAjaxAction($instanceId)
     {
-        exit(json_encode($this->getInstanceConfig($instanceId)));
+        return new JsonModel(
+            array(
+                'instanceConfig' => $this->getInstanceConfig($instanceId),
+                'defaultInstanceConfig' => $this->getDefaultInstanceConfig()
+            )
+        );
+    }
+
+    public function getDefaultInstanceConfig()
+    {
+        return $this->defaultInstanceConfig;
     }
 
     /**
@@ -281,47 +286,6 @@ class BasePluginController
             }
         }
         return $default;
-    }
-
-    public function instanceConfigAndNewInstanceConfigAdminAjaxAction($instanceId)
-    {
-        exit(
-        json_encode(
-            array(
-                'instanceConfig' => $this->getInstanceConfig($instanceId),
-                'defaultInstanceConfig' => $this->getDefaultInstanceConfig()
-            )
-        )
-        );
-    }
-
-    /**
-     * Redirects to https version of current url is not already https
-     */
-    public function ensureHttps()
-    {
-        if (!$this->isHttps()) {
-            $this->redirectHttps();
-        }
-    }
-
-    /**
-     * Redirect to the current page but on https
-     */
-    public function redirectHttps()
-    {
-        $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-        header('Location: ' . $url);
-        exit();
-    }
-
-    /**
-     * returns if https or not
-     * @return bool
-     */
-    public function isHttps()
-    {
-        return (isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : null) == 'on';
     }
 
     public function postIsForThisPlugin($pluginName)
