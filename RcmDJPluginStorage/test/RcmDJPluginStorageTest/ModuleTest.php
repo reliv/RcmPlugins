@@ -1,14 +1,14 @@
 <?php
 
 
-namespace RcmDJPluginStorageTest;
+namespace RcmDjPluginStorageTest;
 
 
-use RcmDJPluginStorage\Module;
+use RcmDjPluginStorage\Module;
 
 class ModuleTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \RcmDJPluginStorage\Module */
+    /** @var  \RcmDjPluginStorage\Module */
     protected $module;
 
     public function setUp()
@@ -17,7 +17,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \RcmDJPluginStorage\Module
+     * @covers \RcmDjPluginStorage\Module
      */
     public function testGetAutoloaderConfig()
     {
@@ -25,7 +25,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * No covers tag here in order to test the config file and the module file
+     * No covers tag here in order to test both config file and module file
      */
     public function testGetConfig()
     {
