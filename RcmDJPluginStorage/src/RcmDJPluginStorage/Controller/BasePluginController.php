@@ -1,9 +1,12 @@
 <?php
 
 /**
- * Plugin Controller
+ * Doctrine Json BasePluginController
  *
- * This is the main controller for this plugin
+ * Extend or directly-use this plugin controller for any Rcm plugin.
+ * This controller does the following for you:
+ * 1) Save plugin instance configs in Json format using the Doctrine DB Conn
+ * 2) Injects instance configs into the view model for plugins under name "$ic"
  *
  * PHP version 5.3
  *
@@ -20,12 +23,12 @@
 namespace RcmDjPluginStorage\Controller;
 
 use Doctrine\ORM\EntityManager;
-use \RcmDjPluginStorage\Entity\InstanceConfig;
+use RcmDjPluginStorage\Entity\InstanceConfig;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-use \Zend\Mvc\Controller\AbstractActionController;
-use \Rcm\Plugin\PluginInterface;
-use \Zend\Http\PhpEnvironment\Request;
+use Zend\Mvc\Controller\AbstractActionController;
+use Rcm\Plugin\PluginInterface;
+use Zend\Http\PhpEnvironment\Request;
 
 /**
  * Plugin Controller
@@ -105,9 +108,9 @@ class BasePluginController extends AbstractActionController
      * Reads a plugin instance from persistent storage returns a view model for
      * it
      *
-     * @param int $instanceId plugin instance id
-     *
-     * @return \Zend\View\Model\ViewModel
+     * @param int $instanceId
+     * @param array $extraViewVariables
+     * @return ViewModel
      */
     public function renderInstance($instanceId, $extraViewVariables = array())
     {
@@ -130,11 +133,13 @@ class BasePluginController extends AbstractActionController
      * usually comes out of a config file rather than writable persistent
      * storage like a database.
      *
-     * @return \Zend\View\Model\ViewModel
+     * @param int $instanceId
+     * @param array $extraViewVariables
+     * @return mixed|ViewModel
      */
     public function renderDefaultInstance($instanceId, $extraViewVariables = array())
     {
-        $view = new \Zend\View\Model\ViewModel(
+        $view = new ViewModel(
             array_merge(
                 array(
                     'instanceId' => $instanceId,
@@ -298,7 +303,6 @@ class BasePluginController extends AbstractActionController
      * @param $instanceId
      *
      * @return \RcmDjPluginStorage\Entity\InstanceConfig|null
-     * @throws \RcmDjPluginStorage\Exception\PluginDataNotFoundException
      */
     public function readEntityFromDb($instanceId)
     {
