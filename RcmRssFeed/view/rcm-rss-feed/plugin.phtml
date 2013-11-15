@@ -12,21 +12,21 @@ $this->headScript()->appendFile(
 $(function(){
 
     new RssReader(
-        '<?php echo $this->rssProxy; ?>',
-        <?php echo $this->instanceId; ?>,
-        $(".rss-feed-<?php echo $this->instanceId; ?>"),
+        '<?=  $this->rssProxy; ?>',
+        <?=  $this->instanceId; ?>,
+        $(".rss-feed-<?=  $this->instanceId; ?>"),
         null
     );
 });
 </script>
 
 <div class="rcmRssFeedReaderMainContainer"
-    data-rcmRssFeedUrl="<?php echo $this->ic['rssFeedUrl']; ?>"
-    data-rcmRssFeedLimit="<?php echo $this->ic['rssFeedLimit']; ?>"
-    data-rcmRssFeedProxy="<?php echo $this->rssProxy; ?>"
+    data-rcmRssFeedUrl="<?=  $this->ic['rssFeedUrl']; ?>"
+    data-rcmRssFeedLimit="<?=  $this->ic['rssFeedLimit']; ?>"
+    data-rcmRssFeedProxy="<?=  $this->rssProxy; ?>"
 >
 
-    <h2 data-textEdit="headline"><?php echo $this->ic['headline']; ?></h2>
+    <h2 data-textEdit="headline"><?=  $this->ic['headline']; ?></h2>
 
-    <span class="rss-feed-<?php echo $this->instanceId; ?>"></span>
+    <span class="rss-feed-<?=  $this->instanceId; ?>"></span>
 </div>

@@ -44,26 +44,26 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
 <script type="text/javascript">
     $(function () {
         new RcmPeopleSlider(
-        <?php echo $this->instanceId?>,
-        <?php echo json_encode($this->ic)?>
+        <?=  $this->instanceId?>,
+        <?=  json_encode($this->ic)?>
         );
     });
 </script>
 <div>
 
     <div class="peopleDetails"
-         data-selectedPersonId="<?php echo $selectedPersonId?>">
+         data-selectedPersonId="<?=  $selectedPersonId?>">
         <?php //person output here for non-js support for SEO reasons only ?>
         <table class="personDetails">
             <tr>
                 <td>
                     <div class="longDesc">
-                        <?php echo $selectedPerson['longDesc']?>
+                        <?=  $selectedPerson['longDesc']?>
                     </div>
                 </td>
                 <td>
                     <img class="largeImage"
-                         src="<?php echo $selectedPerson['largeImage']?>">
+                         src="<?=  $selectedPerson['largeImage']?>">
                 </td>
             </tr>
         </table>
@@ -84,13 +84,13 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
                     $classAppend = ' selected';
                 }
                 ?>
-                <a href="<?php echo "$currentUrl?id=$personId" //for SEO ?>"
-                   class="person<?php echo $classAppend ?>"
-                   data-personId="<?php echo $personId?>">
+                <a href="<?=  "$currentUrl?id=$personId" //for SEO ?>"
+                   class="person<?=  $classAppend ?>"
+                   data-personId="<?=  $personId?>">
                    <img class="smallImage"
-                         src="<?php echo $person['smallImage']?>">
+                         src="<?=  $person['smallImage']?>">
 
-                    <div class="shortDesc"><?php echo $person['shortDesc']?></div>
+                    <div class="shortDesc"><?=  $person['shortDesc']?></div>
                 </a>
                 <?php endforeach?>
             </div>

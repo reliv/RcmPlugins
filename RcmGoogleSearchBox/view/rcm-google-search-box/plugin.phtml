@@ -26,15 +26,15 @@ $qq=isset($_GET['qq'])?$_GET['qq']:null;
 <script type="text/javascript">
     $(function () {
         new RcmGoogleSearchBox(
-            <?php echo $this->instanceId?>
+            <?=  $this->instanceId?>
         );
     });
 </script>
-<form action="<?php echo $this->ic['resultPage']?>">
-    <input type="hidden" name="cx" value="<?php echo $this->ic['googleKey']?>">
+<form action="<?=  $this->ic['resultPage']?>">
+    <input type="hidden" name="cx" value="<?=  $this->ic['googleKey']?>">
     <input type="hidden" name="ie" value="UTF-8">
     <input type="hidden" name="q">
-    <input value="<?php echo $this->escapeHtml($qq) ?>" type="text" name="qq" size="40">
+    <input value="<?=  $this->escapeHtml($qq) ?>" type="text" name="qq" size="40">
 
     <button class="plain search">Search</button>
 

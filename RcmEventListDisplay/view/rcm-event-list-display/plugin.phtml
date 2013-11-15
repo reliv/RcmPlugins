@@ -30,29 +30,29 @@ $eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 
 <div class="dataContainer"
      style="display:none;"
-     data-eventCategoryId="<?php echo $data->category?>"
+     data-eventCategoryId="<?=  $data->category?>"
         >
     <a class="rcmShareThisKey"
-       data-rcmShareThisKey="<?php echo $this->ic['shareThisKey']?>"></a>
+       data-rcmShareThisKey="<?=  $this->ic['shareThisKey']?>"></a>
 </div>
 
 <?php if(count($this->events)):?>
 
     <?php foreach($this->events as $event):?>
         <div class="event"
-             data-eventCategoryId="<?php echo $event->getCategory()->getCategoryId()?>"
-             data-eventId="<?php echo $event->getEventId()?>"
+             data-eventCategoryId="<?=  $event->getCategory()->getCategoryId()?>"
+             data-eventId="<?=  $event->getEventId()?>"
             >
-            <a name="event<?php echo $event->getEventId()?>"></a>
-            <h3><?php echo $event->getTitle()?></h3>
+            <a name="event<?=  $event->getEventId()?>"></a>
+            <h3><?=  $event->getTitle()?></h3>
             <div class="days">
-                <?php echo $event->getDaysText()?>
+                <?=  $event->getDaysText()?>
             </div>
-            <?php echo $event->getText()?>
+            <?=  $event->getText()?>
             <div class="eventFoot">
                 <span class="st_sharethis"
-                     st_title="<?php echo $event->getText()?>"
-                     st_url="<?php echo $eventUrl . $event->getEventId()?>"
+                     st_title="<?=  $event->getText()?>"
+                     st_url="<?=  $eventUrl . $event->getEventId()?>"
                      displayText='Share'>
                 </span>
                 -&nbsp;&nbsp;
@@ -61,7 +61,7 @@ $eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
                    ?>"
                    target="_blank"
                     >
-                    <?php echo $this->ic['translate']['directions']?>
+                    <?=  $this->ic['translate']['directions']?>
                 </a>
             </div>
         </div>
@@ -70,6 +70,6 @@ $eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 
 <?php else:?>
     <div class="noEvent">
-        <?php echo $this->ic['translate']['noEvents']?>
+        <?=  $this->ic['translate']['noEvents']?>
     </div>
 <?php endif?>

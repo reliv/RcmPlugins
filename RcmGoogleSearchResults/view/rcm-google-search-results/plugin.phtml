@@ -25,7 +25,7 @@ $cx = isset($_GET['cx'])?$_GET['cx']:null;
 <?php if($cx):?>
     <script>
         (function() {
-            var cx = '<?php echo $cx?>';
+            var cx = '<?=  $cx?>';
             var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
             gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
                     '//www.google.com/cse/cse.js?cx=' + cx;
@@ -36,6 +36,6 @@ $cx = isset($_GET['cx'])?$_GET['cx']:null;
 <?php else:?>
     <?php //Should only show during editing and during cx-missing errors?>
     <div data-textEdit="resultPlaceHolder">
-        <?php echo $this->ic['resultPlaceHolder']?>
+        <?=  $this->ic['resultPlaceHolder']?>
     </div>
 <?php endif?>

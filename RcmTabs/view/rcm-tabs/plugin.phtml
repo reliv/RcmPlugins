@@ -41,15 +41,15 @@ foreach ($this->ic['containers'] as $container) {
  *  @link      http://ci.reliv.com/confluence
  */
 ?>
-<div class="rcmTabs_<?php echo $this->instanceId; ?>">
-    <ul class="rcmTabsUI_<?php echo $this->instanceId; ?>"><?php echo $lis; ?></ul>
-    <?php echo $divs ?>
+<div class="rcmTabs_<?=  $this->instanceId; ?>">
+    <ul class="rcmTabsUI_<?=  $this->instanceId; ?>"><?=  $lis; ?></ul>
+    <?=  $divs ?>
 
 </div>
 
 
 <script type="text/javascript">
     $(function(){
-        $(".rcmTabs_<?php echo $this->instanceId; ?>").tabs();
+        $(".rcmTabs_<?=  $this->instanceId; ?>").tabs();
     })
 </script>
