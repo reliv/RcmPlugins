@@ -18,7 +18,7 @@
 
 namespace RcmTabs;
 
-use \RcmDjPluginStorage\Controller\BasePluginController;
+use \RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2

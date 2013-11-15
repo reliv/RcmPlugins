@@ -1,14 +1,14 @@
 <?php
 
 
-namespace RcmDjPluginStorageTest\Entity;
+namespace RcmDoctrineJsonPluginStorageTest\Entity;
 
 
-use RcmDjPluginStorage\Entity\InstanceConfig;
+use RcmDoctrineJsonPluginStorage\Entity\InstanceConfig;
 
 class InstanceConfigTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \RcmDjPluginStorage\Entity\InstanceConfig */
+    /** @var  \RcmDoctrineJsonPluginStorage\Entity\InstanceConfig */
     protected $instanceConfig;
 
     public function setUp()
@@ -17,7 +17,7 @@ class InstanceConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \RcmDjPluginStorage\Entity\InstanceConfig
+     * @covers \RcmDoctrineJsonPluginStorage\Entity\InstanceConfig
      */
     public function testSetGetInstanceId()
     {
@@ -29,7 +29,7 @@ class InstanceConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \RcmDjPluginStorage\Entity\InstanceConfig
+     * @covers \RcmDoctrineJsonPluginStorage\Entity\InstanceConfig
      */
     public function testSetGetInstanceConfig()
     {

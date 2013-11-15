@@ -11,7 +11,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmDjPluginStorages\RcmDjPluginStorage
+ * @package   RcmDoctrineJsonPluginStorages\RcmDoctrineJsonPluginStorage
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -29,16 +29,16 @@ return array(
 
     'doctrine' => array(
         'driver' => array(
-            'RcmDjPluginStorage' => array(
+            'RcmDoctrineJsonPluginStorage' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__.'/../src/RcmDjPluginStorage/Entity'
+                    __DIR__.'/../src/RcmDoctrineJsonPluginStorage/Entity'
                 )
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'RcmDjPluginStorage' => 'RcmDjPluginStorage'
+                    'RcmDoctrineJsonPluginStorage' => 'RcmDoctrineJsonPluginStorage'
                 )
             )
         )

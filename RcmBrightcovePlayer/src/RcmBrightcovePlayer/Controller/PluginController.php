@@ -9,7 +9,7 @@
 namespace RcmBrightcovePlayer\Controller;
 
 
-use RcmDjPluginStorage\Controller\SimpleConfigStorageController;
+use RcmDoctrineJsonPluginStorage\Controller\SimpleConfigStorageController;
 
 class PluginController extends SimpleConfigStorageController
 {

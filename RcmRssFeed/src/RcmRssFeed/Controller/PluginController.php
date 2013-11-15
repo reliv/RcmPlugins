@@ -34,7 +34,7 @@ namespace RcmRssFeed\Controller;
  *
  */
 class PluginController
-    extends \RcmDjPluginStorage\Controller\BasePluginController
+    extends \RcmDoctrineJsonPluginStorage\Controller\BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
     public function renderInstance($instanceId)

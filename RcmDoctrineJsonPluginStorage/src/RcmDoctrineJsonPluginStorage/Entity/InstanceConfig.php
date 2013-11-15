@@ -10,14 +10,14 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmDjPluginStorages\RcmDjPluginStorage
+ * @package   RcmDoctrineJsonPluginStorages\RcmDoctrineJsonPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmDjPluginStorage\Entity;
+namespace RcmDoctrineJsonPluginStorage\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,7 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmDjPluginStorage\Entity
+ * @package   RcmDoctrineJsonPluginStorage\Entity
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License

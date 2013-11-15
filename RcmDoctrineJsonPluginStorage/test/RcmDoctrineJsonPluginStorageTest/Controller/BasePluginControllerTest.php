@@ -1,15 +1,15 @@
 <?php
 
-namespace RcmDjPluginStorageTest\Controller;
+namespace RcmDoctrineJsonPluginStorageTest\Controller;
 
-use RcmDjPluginStorage\Controller\BasePluginController;
+use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
 use RcmTest\Base\PluginTestCase,
     \Zend\Http\PhpEnvironment\Request;
 
 class BasePluginControllerTest extends PluginTestCase
 {
 
-    /** @var  \RcmDjPluginStorage\Controller\BasePluginController */
+    /** @var  \RcmDoctrineJsonPluginStorage\Controller\BasePluginController */
     protected $basePluginController;
 
     const DEFAULT_HTML = '<h1>hello</h1>';
@@ -23,7 +23,7 @@ class BasePluginControllerTest extends PluginTestCase
             $this->entityManager,
             array(
                 'rcmPlugin' => array(
-                    'RcmDjPluginStorage' => array(
+                    'RcmDoctrineJsonPluginStorage' => array(
                         'defaultInstanceConfig' => array(
                             'html' => self::DEFAULT_HTML
                         )
@@ -34,7 +34,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testSetGetRequest()
     {
@@ -44,7 +44,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testRenderInstance()
     {
@@ -60,7 +60,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testRenderDefaultInstance()
     {
@@ -76,7 +76,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testGetNewInstanceConfig()
     {
@@ -85,7 +85,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testSaveInstance()
     {
@@ -97,7 +97,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testGetInstanceConfig()
     {
@@ -111,7 +111,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testMergeConfigArrays()
     {
@@ -158,7 +158,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     public function testPostIsForThisPlugin()
     {
@@ -177,7 +177,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testDeleteInstance()
     {
@@ -185,7 +185,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     function testCamelToHyphens()
     {
@@ -200,7 +200,7 @@ class BasePluginControllerTest extends PluginTestCase
     }
 
     /**
-     * @covers\RcmDjPluginStorage\Controller\BasePluginController
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
      */
     public function testInstanceConfigAdminAjaxAction(){
         $jsonModel=$this->basePluginController

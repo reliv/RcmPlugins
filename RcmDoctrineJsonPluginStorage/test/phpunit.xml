@@ -2,7 +2,7 @@
 
 <phpunit bootstrap="Bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="RcmDjPluginStorage">
+        <testsuite name="RcmDoctrineJsonPluginStorage">
             <directory>./</directory>
         </testsuite>
     </testsuites>

@@ -13,17 +13,17 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmDjPluginStorages\RcmDjPluginStorage
+ * @package   RcmDoctrineJsonPluginStorages\RcmDoctrineJsonPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  * @link      http://ci.reliv.com/confluence
  */
-namespace RcmDjPluginStorage\Controller;
+namespace RcmDoctrineJsonPluginStorage\Controller;
 
 use Doctrine\ORM\EntityManager;
-use RcmDjPluginStorage\Entity\InstanceConfig;
+use RcmDoctrineJsonPluginStorage\Entity\InstanceConfig;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -36,7 +36,7 @@ use Zend\Http\PhpEnvironment\Request;
  * This is the main controller for this plugin
  *
  * @category  Reliv
- * @package   RcmDjPluginStorages\RcmDjPluginStorage
+ * @package   RcmDoctrineJsonPluginStorages\RcmDoctrineJsonPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -83,7 +83,7 @@ class BasePluginController extends AbstractActionController
     ) {
         $this->entityMgr = $entityMgr;
         $this->jsonContentRepo = $this->entityMgr
-            ->getRepository('RcmDjPluginStorage\Entity\InstanceConfig');
+            ->getRepository('RcmDoctrineJsonPluginStorage\Entity\InstanceConfig');
 
         if (!$pluginDirectory) {
             //Allow auto path detection for controllers that extend this class
@@ -302,7 +302,7 @@ class BasePluginController extends AbstractActionController
      * Returns the JSON content for a given plugin instance Id
      * @param $instanceId
      *
-     * @return \RcmDjPluginStorage\Entity\InstanceConfig|null
+     * @return \RcmDoctrineJsonPluginStorage\Entity\InstanceConfig|null
      */
     public function readEntityFromDb($instanceId)
     {

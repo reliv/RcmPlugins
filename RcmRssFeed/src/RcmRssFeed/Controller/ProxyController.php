@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 namespace RcmRssFeed\Controller;
-use RcmDjPluginStorage\Controller\BasePluginController;
+use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
 use \Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 

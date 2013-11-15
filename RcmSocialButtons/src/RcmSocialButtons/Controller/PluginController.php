@@ -34,7 +34,7 @@ namespace RcmSocialButtons\Controller;
  *
  */
 class PluginController
-    extends \RcmDjPluginStorage\Controller\BasePluginController
+    extends \RcmDoctrineJsonPluginStorage\Controller\BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
     function availableButtonsAdminAjaxAction(){

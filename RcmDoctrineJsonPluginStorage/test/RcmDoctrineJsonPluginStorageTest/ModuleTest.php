@@ -1,14 +1,14 @@
 <?php
 
 
-namespace RcmDjPluginStorageTest;
+namespace RcmDoctrineJsonPluginStorageTest;
 
 
-use RcmDjPluginStorage\Module;
+use RcmDoctrineJsonPluginStorage\Module;
 
 class ModuleTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \RcmDjPluginStorage\Module */
+    /** @var  \RcmDoctrineJsonPluginStorage\Module */
     protected $module;
 
     public function setUp()
