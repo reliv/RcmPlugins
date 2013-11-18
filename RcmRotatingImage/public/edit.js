@@ -38,10 +38,8 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      * Called by RelivContentManger to make the random image editable
      */
     me.initEdit = function () {
-        console.log(1);
         ajaxEditHelper.ajaxGetInstanceConfigs(
             function (returnedInstanceConfig) {
-                console.log(2);
                 instanceConfig = returnedInstanceConfig;
                 me.completeInitEdit();
             }
@@ -62,8 +60,6 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      * Updates the DOM according to our current instanceConfig
      */
     me.render = function () {
-
-        console.log(instanceConfig.images);
 
         //Ensure we didn't go out of bounds
         if (me.current < 0) {
