@@ -1,4 +1,13 @@
 /**
+ * Synchronously grab dependency object file(s)
+ */
+$.ajax({
+    async: false,
+    url: '/modules/rcm/js/admin/ajax-plugin-edit-helper.js',
+    instanceConfigType: 'script'
+});
+
+/**
  * Random Image
  *
  * JS for editing Random Image
@@ -17,25 +26,23 @@
  */
 var RcmRotatingImageEdit = function (instanceId, container) {
 
-    /**
-     * Always refers to this object unlike the 'this' JS variable;
-     *
-     * @type {RcmRotatingImageEdit}
-     */
     var me = this;
 
-    var data;
+    var instanceConfig;
+
+    var ajaxEditHelper = new AjaxPluginEditHelper(
+        instanceId, container, 'rcm-rotating-image'
+    );
 
     /**
      * Called by RelivContentManger to make the random image editable
      */
     me.initEdit = function () {
-
-        //Pull all images and their data from app server
-        $.getJSON('/rcm-plugin-admin-proxy/rcm-rotating-image/' + instanceId +
-            '/instanceConfig',
-            function success(returnedData) {
-                data = returnedData;
+        console.log(1);
+        ajaxEditHelper.ajaxGetInstanceConfigs(
+            function (returnedInstanceConfig) {
+                console.log(2);
+                instanceConfig = returnedInstanceConfig;
                 me.completeInitEdit();
             }
         );
@@ -48,31 +55,24 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      * @return {Object}
      */
     me.getSaveData = function () {
-        return {'images':data.images};
-    };
-
-    me.getAssets = function () {
-        var assets = [];
-        $.each(data.images, function () {
-            assets.push(this.href);
-            assets.push(this.src);
-        });
-        return assets;
+        return instanceConfig;
     };
 
     /**
-     * Updates the DOM according to our current data
+     * Updates the DOM according to our current instanceConfig
      */
-    me.update = function () {
+    me.render = function () {
+
+        console.log(instanceConfig.images);
 
         //Ensure we didn't go out of bounds
         if (me.current < 0) {
-            me.current = data.images.length - 1;
-        } else if (me.current >= data.images.length) {
+            me.current = instanceConfig.images.length - 1;
+        } else if (me.current >= instanceConfig.images.length) {
             me.current = 0;
         }
 
-        var image = data.images[me.current];
+        var image = instanceConfig.images[me.current];
 
         //Render image
         var a = container.find('a');
@@ -82,7 +82,7 @@ var RcmRotatingImageEdit = function (instanceId, container) {
         a.attr('href', image.href);
 
         //Render # of # display
-        me.numberDisplay.html('Image #' + (me.current + 1) + ' of ' + data.images.length);
+        me.numberDisplay.html('Image #' + (me.current + 1) + ' of ' + instanceConfig.images.length);
     };
 
     /**
@@ -104,14 +104,14 @@ var RcmRotatingImageEdit = function (instanceId, container) {
         tools.append($('<img title="Last image" src="/modules/rcm/images/icons/left.png">')
             .click(function () {
                 --me.current;
-                me.update();
+                me.render();
             }
         ));
 
         tools.append($('<img title="Next image" src="/modules/rcm/images/icons/right.png" class="right">')
             .click(function () {
                 ++me.current;
-                me.update();
+                me.render();
             }
         ));
 
@@ -123,50 +123,50 @@ var RcmRotatingImageEdit = function (instanceId, container) {
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId) + ' a',
+            selector: rcm.getPluginContainerSelector(instanceId) + ' a',
 
             //Here are the right click menu options
-            items:{
-                createNew:{
-                    name:'Add New Image',
-                    icon:'edit',
-                    callback:function () {
-                        data.images.push(me.getBlankImage());
-                        me.current = data.images.length - 1;
-                        me.update();
+            items: {
+                createNew: {
+                    name: 'Add New Image',
+                    icon: 'edit',
+                    callback: function () {
+                        instanceConfig.images.push(me.getBlankImage());
+                        me.current = instanceConfig.images.length - 1;
+                        me.render();
                         me.showEditDialog(true);
                     }
                 },
-                separator1:"-",
-                deleteMe:{
-                    name:'Remove Image',
-                    icon:'delete',
-                    callback:function () {
-                        if (!data.images.length) {
+                separator1: "-",
+                deleteMe: {
+                    name: 'Remove Image',
+                    icon: 'delete',
+                    callback: function () {
+                        if (!instanceConfig.images.length) {
                             $().alert('No images to remove.');
                         } else {
                             $().confirm(
                                 'Remove image #' + (me.current + 1) + '?',
                                 function () {
-                                    data.images.splice(me.current, 1);
-                                    if (data.images.length == 0) {
-                                        data.images.push(
+                                    instanceConfig.images.splice(me.current, 1);
+                                    if (instanceConfig.images.length == 0) {
+                                        instanceConfig.images.push(
                                             me.getBlankImage()
                                         );
                                     } else {
                                         --me.current;
                                     }
-                                    me.update();
+                                    me.render();
                                 }
                             );
                         }
                     }
                 },
-                separator3:"-",
-                edit:{
-                    name:'Edit Image Properties',
-                    icon:'edit',
-                    callback:function () {
+                separator3: "-",
+                edit: {
+                    name: 'Edit Image Properties',
+                    icon: 'edit',
+                    callback: function () {
                         me.showEditDialog();
                     }
                 }
@@ -174,9 +174,9 @@ var RcmRotatingImageEdit = function (instanceId, container) {
             }
         });
 
-        //Run update to render our first image
+        //Run render to render our first image
         me.current = 0;
-        me.update();
+        me.render();
     };
 
     /**
@@ -189,19 +189,19 @@ var RcmRotatingImageEdit = function (instanceId, container) {
         var okClicked = false;
 
         //If user clicked the edit button but we have no images
-        if (!data.images.length) {
+        if (!instanceConfig.images.length) {
             $().alert('No images to edit.');
             return;
         }
 
         var src = $.dialogIn(
-            'image', 'Image', data.images[me.current].src
+            'image', 'Image', instanceConfig.images[me.current].src
         );
         var alt = $.dialogIn(
-            'text','Alt Text', data.images[me.current].alt
+            'text', 'Alt Text', instanceConfig.images[me.current].alt
         );
         var href = $.dialogIn(
-            'url', 'Link Url', data.images[me.current].href
+            'url', 'Link Url', instanceConfig.images[me.current].href
         );
 
         //Show the dialog
@@ -209,27 +209,27 @@ var RcmRotatingImageEdit = function (instanceId, container) {
             .addClass('simple')
             .append(src, alt, href)
             .dialog({
-                title:'Properties',
-                modal:true,
-                width:620,
-                close:function () {
+                title: 'Properties',
+                modal: true,
+                width: 620,
+                close: function () {
                     if (deleteOnClose && !okClicked) {
                         //Delete image
-                        data.images.pop();
+                        instanceConfig.images.pop();
                     }
-                    me.update();
+                    me.render();
                 },
-                buttons:{
-                    Cancel:function () {
+                buttons: {
+                    Cancel: function () {
 
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
 
-                        //Get user-entered data from form
-                        data.images[me.current].alt = alt.val();
-                        data.images[me.current].href = href.val();
-                        data.images[me.current].src = src.val();
+                        //Get user-entered instanceConfig from form
+                        instanceConfig.images[me.current].alt = alt.val();
+                        instanceConfig.images[me.current].href = href.val();
+                        instanceConfig.images[me.current].src = src.val();
 
                         //Close the dialog
                         okClicked = true;
@@ -240,12 +240,23 @@ var RcmRotatingImageEdit = function (instanceId, container) {
     };
 
     /**
-     * Returns data for a blank image so we can create new ones and deal with
+     * Returns instanceConfig for a blank image so we can create new ones and deal with
      * times when we have none
      *
      * @return {Object}
      */
     me.getBlankImage = function () {
-        return {src:'/modules/rcm/images/no-image.png', href:'', alt:''};
+        return {src: '/modules/rcm/images/no-image.png', href: '', alt: ''};
     };
+
+
+
+//    me.getAssets = function () {
+//        var assets = [];
+//        $.each(instanceConfig.images, function () {
+//            assets.push(this.href);
+//            assets.push(this.src);
+//        });
+//        return assets;
+//    };
 };
