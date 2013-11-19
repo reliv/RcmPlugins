@@ -17,6 +17,7 @@
  */
 
 namespace RcmRotatingImage;
+use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -81,10 +82,12 @@ class Module
                 function($serviceMgr)
                 {
                     $service
-                        = new \RcmRotatingImage\Controller\PluginController(
-                            $serviceMgr->get('em'),
-                            $serviceMgr->get('config')
-                        );
+                        = new BasePluginController(
+                        $serviceMgr->get('em'),
+                        $serviceMgr->get('config'),
+                        __DIR__
+                    );
+                    
                     return $service;
                 }
             )
