@@ -1,15 +1,13 @@
 <?php
 
-namespace RcmRotatingImage\Tests;
+require __DIR__ . '/../../../Rcm/test/RcmTest/Base/RcmBootstrap.php';
 
-require __DIR__.'/../../../Rcm/tests/Base/RcmBootstrap.php';
-
-
-use \Rcm\Tests\Base\RcmBootstrap;
+use \RcmTest\Base\RcmBootstrap;
 
 class Bootstrap extends RcmBootstrap
 {
 
 }
+
 /** Array is zend special application config */
 Bootstrap::init(include 'application.test.config.php');
