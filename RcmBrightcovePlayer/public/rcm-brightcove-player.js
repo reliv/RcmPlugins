@@ -17,13 +17,48 @@ angular.element(document).ready(function () {
 var brightcovePlayer = angular.module('brightcovePlayer', []);
 
 brightcovePlayer.controller('BrightcoveCtrl', function BrightcoveCtrl($scope) {
+    var items = [];
 
-    $.brightcove.find_all_videos().done(function (data) {
-        //Do something with the API
-        $scope.videos = data.items;
-        $scope.selectedVideos = $scope.videos[0];
-        $scope.$apply();
-    });
+    function processSearchVideoResponse(data) {
+
+        items =  items.concat(data.items);
+
+        console.log(items);
+
+        var nextPage = (data['page_number'] + 1);
+//        console.log(data['page_number'], 'page_number');
+        var newNum = (nextPage * data['page_size']);
+
+        //if there are more pages call request page
+        if (newNum < data['total_count']) {
+//            console.log(data['page_number'], 'page_number');
+            requestPage(nextPage);
+        } else {
+            //Do something with the API
+            //  $scope.videos = data.items;
+            $scope.videos = items;
+            $scope.selectedVideos = $scope.videos[0];
+            $scope.$apply();
+        }
+    }
+
+
+    function requestPage(page) {
+        var data = $.ajax({
+            url: 'http://api.brightcove.com/services/library?command=search_videos&video_fields=id,name&page_size=100&sort_by=publish_date:desc&page_number=' + page + '&get_item_count=true&token=FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
+            dataType: 'jsonp',
+            success: processSearchVideoResponse
+        });
+    }
+
+    //  console.log('im here');
+
+    //1 ms
+
+    requestPage(0);
+
+    //2ms
+
     $.brightcove.find_all_playlists(false).done(function (data) {
         //Do something with the API
         $scope.playlists = data.items;
@@ -34,7 +69,5 @@ brightcovePlayer.controller('BrightcoveCtrl', function BrightcoveCtrl($scope) {
         { id: 0, name: 'single embed' },
         { id: 1, name: 'multiple video player' },
     ];
-});
-$(function () {
-$('#brightcoveObject').html('<object id="myExperience2110662112001" class="BrightcoveExperience"><param name="bgcolor" value="#FFFFFF" /><param name="width" value="400" /><param name="height" value="225" /><param name="playerID" value="2660464886001" /><param name="playerKey" value="AQ~~,AAABWA8lTok~,NLWj-wltGTwPRfYtwg9pVEh-A2jBVrQE" /><param name="isVid" value="true" /><param name="isUI" value="true" /> <param name="dynamicStreaming" value="true" /><param name="@videoPlayer" value="2110662112001" /></object>');
+    $scope.expression = "<h1>this is a test</h1>";
 });
