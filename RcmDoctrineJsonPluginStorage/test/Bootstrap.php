@@ -1,5 +1,7 @@
 <?php
 
+namespace RcmDoctrineJsonPluginStorageTest;
+
 require __DIR__ . '/../../../Rcm/test/RcmTest/Base/RcmBootstrap.php';
 
 use \RcmTest\Base\RcmBootstrap;
