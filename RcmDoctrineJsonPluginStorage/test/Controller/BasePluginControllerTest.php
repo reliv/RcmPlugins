@@ -2,11 +2,13 @@
 
 namespace RcmDoctrineJsonPluginStorageTest\Controller;
 
+require_once __DIR__ . '/../../../../Rcm/test/Base/PluginTestCaseWithDoctrine.php';
+
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
-use RcmTest\Base\PluginTestCase,
+use RcmTest\Base\PluginTestCaseWithDoctrine,
     \Zend\Http\PhpEnvironment\Request;
 
-class BasePluginControllerTest extends PluginTestCase
+class BasePluginControllerTest extends PluginTestCaseWithDoctrine
 {
 
     /** @var  \RcmDoctrineJsonPluginStorage\Controller\BasePluginController */
@@ -18,6 +20,8 @@ class BasePluginControllerTest extends PluginTestCase
 
     public function setUp()
     {
+        $this->addModule('RcmDoctrineJsonPluginStorage');
+
         parent::setUp();
         $this->basePluginController = new BasePluginController(
             $this->entityManager,
