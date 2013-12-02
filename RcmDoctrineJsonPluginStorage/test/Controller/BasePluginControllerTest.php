@@ -21,6 +21,7 @@ class BasePluginControllerTest extends PluginTestCaseWithDoctrine
     public function setUp()
     {
         $this->addModule('RcmDoctrineJsonPluginStorage');
+        
 
         parent::setUp();
         $this->basePluginController = new BasePluginController(

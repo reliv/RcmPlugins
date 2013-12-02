@@ -3,6 +3,7 @@
 
 namespace RcmDoctrineJsonPluginStorageTest\Entity;
 
+require_once __DIR__.'/../../src/RcmDoctrineJsonPluginStorage/Entity/InstanceConfig.php';
 
 use RcmDoctrineJsonPluginStorage\Entity\InstanceConfig;
 
