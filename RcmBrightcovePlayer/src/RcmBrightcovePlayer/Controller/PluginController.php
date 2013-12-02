@@ -8,7 +8,6 @@
 
 namespace RcmBrightcovePlayer\Controller;
 
-
 use RcmDoctrineJsonPluginStorage\Controller\SimpleConfigStorageController;
 
 class PluginController extends SimpleConfigStorageController
@@ -26,9 +25,11 @@ class PluginController extends SimpleConfigStorageController
 
     function renderInstance($instanceId)
     {
+
         return parent::renderInstance(
             $instanceId,
             array(
+
             )
         );
     }
@@ -36,7 +37,9 @@ class PluginController extends SimpleConfigStorageController
     function renderDefaultInstance($instanceId){
         return parent::renderDefaultInstance(
             $instanceId,
-            array()
+            array(
+
+            )
         );
     }
 

@@ -17,57 +17,33 @@ angular.element(document).ready(function () {
 var brightcovePlayer = angular.module('brightcovePlayer', []);
 
 brightcovePlayer.controller('BrightcoveCtrl', function BrightcoveCtrl($scope) {
-    var items = [];
 
-    function processSearchVideoResponse(data) {
-
-        items =  items.concat(data.items);
-
-        console.log(items);
-
-        var nextPage = (data['page_number'] + 1);
-//        console.log(data['page_number'], 'page_number');
-        var newNum = (nextPage * data['page_size']);
-
-        //if there are more pages call request page
-        if (newNum < data['total_count']) {
-//            console.log(data['page_number'], 'page_number');
-            requestPage(nextPage);
-        } else {
-            //Do something with the API
-            //  $scope.videos = data.items;
+     singleEmbedDropdownList(function(items) {
             $scope.videos = items;
             $scope.selectedVideos = $scope.videos[0];
             $scope.$apply();
-        }
-    }
+     });
 
-
-    function requestPage(page) {
-        var data = $.ajax({
-            url: 'http://api.brightcove.com/services/library?command=search_videos&video_fields=id,name&page_size=100&sort_by=publish_date:desc&page_number=' + page + '&get_item_count=true&token=FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
-            dataType: 'jsonp',
-            success: processSearchVideoResponse
-        });
-    }
-
-    //  console.log('im here');
-
-    //1 ms
-
-    requestPage(0);
-
-    //2ms
-
-    $.brightcove.find_all_playlists(false).done(function (data) {
-        //Do something with the API
+    function collectData(data) {
+        console.log(data.items)
         $scope.playlists = data.items;
         $scope.selectedPlaylists = $scope.playlists[0];
         $scope.$apply();
-    });
+    }
+
+    function requestPlaylist() {
+        var data = $.ajax({
+            type: 'POST',
+            url: 'http://api.brightcove.com/services/library?command=find_all_playlists&video_fields=id,name,thumbnailURL&page_size=100&page_number=0&get_item_count=true&token=FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
+            dataType: 'jsonp',
+            success: collectData
+        });
+    }
+    requestPlaylist();
+
     $scope.items = [
         { id: 0, name: 'single embed' },
-        { id: 1, name: 'multiple video player' },
+        { id: 1, name: 'multiple video player' }
     ];
     $scope.expression = "<h1>this is a test</h1>";
 });

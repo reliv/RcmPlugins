@@ -91,7 +91,9 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      */
     this.showEditDialog = function () {
+
         $( ".hide-vid").hide();
+
         var form=container.find('form');
 
         form.dialog({
@@ -103,6 +105,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
                 },
                 "OK": function(){
                     instanceConfig['videoId'] = form.find('[name=video]').attr('data-value');
+                    console.log(instanceConfig['videoId']);
                     $(this).dialog("close");
                 }
             }

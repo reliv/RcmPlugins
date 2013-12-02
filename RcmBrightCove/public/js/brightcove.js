@@ -46,6 +46,9 @@ var RcmBrightCove = {
         $(newObject).append('<param name="dynamicStreaming" value="true" />');
         $(newObject).append('<param name="wmode" value="transparent" />');
         $(newObject).append('<param name="templateLoadHandler" value="RcmBrightCove.onPlayerReady" />');
+        $(newObject).append('<param name="includeAPI" value="true" />');
+        $(newObject).append('<param name="templateLoadHandler" value="BCLS.onTemplateLoad" />');
+        $(newObject).append('<param name="templateReadyHandler" value="BCLS.onTemplateReady" />');
         $(container).html('');
         $(container).append(newDiv);
         $(container).append(newObject);
