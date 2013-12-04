@@ -22,9 +22,7 @@
  */
 namespace RcmDoctrineJsonPluginStorage\Controller;
 
-
-use RcmDoctrineJsonPluginStorage\Storage\PluginStorage;
-use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
+use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -53,8 +51,6 @@ class BasePluginController extends AbstractActionController
      */
     protected $template;
 
-    protected $defaultInstanceConfig;
-
     protected $pluginName;
 
     protected $pluginNameLowerCaseDash;
@@ -63,17 +59,10 @@ class BasePluginController extends AbstractActionController
 
     protected $config;
 
-
-    /**
-     * Caches instance configs to speed up multiple calls to getDbInstanceConfig()
-     * @var array
-     */
-    private $instanceConfigs = array();
-
     protected $pluginStorage;
 
     public function __construct(
-        PluginStorageInterface $pluginStorage,
+        PluginStorageMgr $pluginStorage,
         $config,
         $pluginDirectory = null
     )
@@ -178,9 +167,18 @@ class BasePluginController extends AbstractActionController
         );
     }
 
+    function getInstanceConfig($instanceId)
+    {
+        return $this->pluginStorage->getInstanceConfig(
+            $instanceId,
+            $this->pluginName
+        );
+    }
+
     public function getDefaultInstanceConfig()
     {
-        return $this->defaultInstanceConfig;
+        return $this->pluginStorage
+            ->getDefaultInstanceConfig($this->pluginName);
     }
 
     /**
@@ -206,82 +204,6 @@ class BasePluginController extends AbstractActionController
     public function deleteInstance($instanceId)
     {
         $this->pluginStorage->deleteInstance($instanceId);
-    }
-
-    /**
-     * merges the instance config with the new instance config so that default
-     * values are used when the db instance config doesn't yet have them after
-     * new public functionality is added
-     * @param $instanceId
-     * @return array
-     */
-    public function getInstanceConfig($instanceId)
-    {
-        //Instance configs less than 0 are default instanc configs
-        if ($instanceId < 0) {
-
-            return $this->getDefaultInstanceConfig();
-
-        } else {
-
-            //Check to see if we already have a cached instance config
-            if (!isset($this->instanceConfigs[$instanceId])) {
-
-                //Grab from the db or use blank array if not there
-                $instanceConfig = $this->pluginStorage
-                    ->readInstance($instanceId)->getConfig();
-                if (!is_array($instanceConfig)) {
-                    $instanceConfig = array();
-                }
-
-                //Merge the default and db instance configs. Db overwrites.
-                $instanceConfig = self::mergeConfigArrays(
-                    $this->getDefaultInstanceConfig(),
-                    $instanceConfig
-                );
-
-                //Cache merged instance configs in this object
-                $this->instanceConfigs[$instanceId] = $instanceConfig;
-            }
-            return $this->instanceConfigs[$instanceId];
-
-        }
-    }
-
-    static public function mergeConfigArrays($default, $changes)
-    {
-
-        if (empty($default)) {
-            return $changes;
-        }
-
-        if (empty($changes)) {
-            return $default;
-        }
-
-        foreach ($changes as $key => $value) {
-            if (is_array($value)) {
-                if (isset($value['0'])) {
-                    /*
-                     * Numeric arrays ignore default values because of the
-                     * "more in default that on production" issue
-                     */
-                    $default[$key] = $changes[$key];
-                } else {
-                    if (isset($default[$key])) {
-                        $default[$key] = self::mergeConfigArrays(
-                            $default[$key],
-                            $changes[$key]
-                        );
-                    } else {
-                        $default[$key] = $changes[$key];
-                    }
-                }
-            } else {
-                $default[$key] = $changes[$key];
-            }
-        }
-        return $default;
     }
 
     public function postIsForThisPlugin($pluginName)

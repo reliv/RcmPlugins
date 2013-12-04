@@ -20,7 +20,7 @@
 namespace RcmEventListDisplay\Controller;
 
 use Doctrine\ORM\EntityManager;
-use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
+use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
 
 /**
  * Online App Plugin Controller
@@ -46,7 +46,7 @@ class PluginController
     protected $calender;
 
     function __construct(
-        PluginStorageInterface $pluginStorage,
+        PluginStorageMgr $pluginStorage,
         $config,
         EntityManager $entityMgr,
         \RcmEventCalenderCore\Model\Calender $calender

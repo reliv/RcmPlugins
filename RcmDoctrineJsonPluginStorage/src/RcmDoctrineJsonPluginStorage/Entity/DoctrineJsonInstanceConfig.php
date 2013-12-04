@@ -41,7 +41,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="rcm_simple_instance_configs")
  */
-class InstanceConfig
+class DoctrineJsonInstanceConfig
 {
     /**
      * @var integer Plugin instanceId for this content

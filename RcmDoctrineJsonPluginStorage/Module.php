@@ -18,6 +18,9 @@
 
 namespace RcmDoctrineJsonPluginStorage;
 
+use RcmDoctrineJsonPluginStorage\Model\InstanceConfigMerger;
+use RcmDoctrineJsonPluginStorage\Repo\DoctrineJsonRepo;
+use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
 use RcmDoctrineJsonPluginStorage\Storage\DoctrineJsonPluginStorage;
 
 /**
@@ -80,7 +83,11 @@ class Module
         return array(
             'factories' => array(
                 'rcmPluginStorage' => function ($serviceMgr) {
-                        return new DoctrineJsonPluginStorage($serviceMgr->get('em'));
+                        return new PluginStorageMgr(
+                            new DoctrineJsonRepo($serviceMgr->get('em')),
+                            $serviceMgr->get('config'),
+                            new InstanceConfigMerger()
+                        );
                     }
             )
         );

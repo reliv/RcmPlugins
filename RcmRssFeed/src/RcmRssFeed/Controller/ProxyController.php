@@ -7,8 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 namespace RcmRssFeed\Controller;
+
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
-use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
+use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
 use \Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 
@@ -20,12 +21,13 @@ class ProxyController
     protected $cacheMgr;
 
     function __construct(
-        PluginStorageInterface $pluginStorage,
+        PluginStorageMgr $pluginStorage,
         $config,
         \Rcm\Model\UserManagement\UserManagerInterface $userMgr,
         \Zend\Cache\Storage\StorageInterface $cacheMgr
-    ) {
-        parent::__construct($entityMgr,$config);
+    )
+    {
+        parent::__construct($pluginStorage, $config);
         $this->userMgr = $userMgr;
         $this->cacheMgr = $cacheMgr;
     }
@@ -41,7 +43,7 @@ class ProxyController
         );
 
         if ($instanceId < 0) {
-            $instanceConfig= $this->getDefaultInstanceConfig();
+            $instanceConfig = $this->getDefaultInstanceConfig();
         } else {
             $instanceConfig = $this->getInstanceConfig($instanceId);
 
@@ -59,7 +61,7 @@ class ProxyController
              * Only admins can override the url. This prevents people from using
              * our proxy to DDOS other sites.
              */
-            if(is_a($permissions,'\Rcm\Entity\AdminPermissions')){
+            if (is_a($permissions, '\Rcm\Entity\AdminPermissions')) {
                 $feedUrl = $overrideFeedUrl;
             }
         }
@@ -71,7 +73,7 @@ class ProxyController
         $rssReader = new Reader();
 
         //Tried to add a timeout like this but it didnt work
-        $httpClient=new Client($feedUrl,array('timeout'=>5));
+        $httpClient = new Client($feedUrl, array('timeout' => 5));
         $rssReader->setHttpClient($httpClient);
 
         $feedData = $rssReader->import($feedUrl);
@@ -103,11 +105,12 @@ class ProxyController
 
     }
 
-    private function sendJson($viewRssData) {
+    private function sendJson($viewRssData)
+    {
         $expires = 60 * 5; //Five Minutes
         header("Pragma: public");
         header("Cache-Control: maxage=" . $expires);
-        header('Content-type: application/json');//required for ie8
+        header('Content-type: application/json'); //required for ie8
         header(
             'Expires: ' . gmdate('D, d M Y H:i:s', time() + $expires) . ' GMT'
         );

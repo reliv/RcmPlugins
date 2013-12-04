@@ -2,12 +2,14 @@
 
 namespace RcmDoctrineJsonPluginStorageTest\Controller;
 
-require_once __DIR__ . '/../../../../Rcm/test/Base/PluginTestCase.php';
+require_once __DIR__ . '/../../../../../Rcm/test/Base/PluginTestCase.php';
+require_once __DIR__ . '/../../../src/RcmDoctrineJsonPluginStorage/Service/PluginStorageMgr.php';
 require_once __DIR__ . '/../Mock/PluginStorageMock.php';
 
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
 use RcmDoctrineJsonPluginStorageTest\Mock\PluginStorageMock;
 use RcmTest\Base\PluginTestCase;
+use Zend\Http\PhpEnvironment\Request;
 
 class BasePluginControllerTest extends PluginTestCase
 {
@@ -42,15 +44,15 @@ class BasePluginControllerTest extends PluginTestCase
         );
     }
 
-//    /**
-//     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
-//     */
-//    function testSetGetRequest()
-//    {
-//        $request = new Request();
-//        $this->basePluginController->setRequest(new Request());
-//        $this->assertEquals($request, $this->basePluginController->getRequest());
-//    }
+    /**
+     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
+     */
+    function testSetGetRequest()
+    {
+        $request = new Request();
+        $this->basePluginController->setRequest(new Request());
+        $this->assertEquals($request, $this->basePluginController->getRequest());
+    }
 //
 //    /**
 //     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
@@ -208,17 +210,17 @@ class BasePluginControllerTest extends PluginTestCase
 //        );
 //    }
 //
-    /**
-     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
-     */
-    public function testInstanceConfigAdminAjaxAction()
-    {
-        $jsonModel = $this->basePluginController
-            ->instanceConfigAdminAjaxAction(self::INSTANCE_ID);
-        $instanceConfig = $jsonModel->getVariable('defaultInstanceConfig');
-        $this->assertEquals(
-            $instanceConfig['html'],
-            self::DEFAULT_HTML
-        );
-    }
+//    /**
+//     * @covers\RcmDoctrineJsonPluginStorage\Controller\BasePluginController
+//     */
+//    public function testInstanceConfigAdminAjaxAction()
+//    {
+//        $jsonModel = $this->basePluginController
+//            ->instanceConfigAdminAjaxAction(self::INSTANCE_ID);
+//        $instanceConfig = $jsonModel->getVariable('defaultInstanceConfig');
+//        $this->assertEquals(
+//            $instanceConfig['html'],
+//            self::DEFAULT_HTML
+//        );
+//    }
 }

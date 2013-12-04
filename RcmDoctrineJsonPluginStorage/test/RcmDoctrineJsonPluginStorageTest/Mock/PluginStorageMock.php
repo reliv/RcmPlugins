@@ -8,10 +8,9 @@
 
 namespace RcmDoctrineJsonPluginStorageTest\Mock;
 
+use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
 
-use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
-
-class PluginStorageMock implements PluginStorageInterface
+class PluginStorageMock implements PluginStorageMgr
 {
 
     protected $instanceConfigs = array();

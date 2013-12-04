@@ -3,7 +3,7 @@
 
 namespace RcmDoctrineJsonPluginStorageTest;
 
-require_once __DIR__.'/../Module.php';
+require_once __DIR__ . '/../../Module.php';
 
 use RcmDoctrineJsonPluginStorage\Module;
 

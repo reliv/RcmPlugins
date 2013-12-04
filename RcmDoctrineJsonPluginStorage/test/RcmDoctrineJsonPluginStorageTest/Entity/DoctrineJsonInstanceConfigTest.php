@@ -3,22 +3,22 @@
 
 namespace RcmDoctrineJsonPluginStorageTest\Entity;
 
-require_once __DIR__.'/../../src/RcmDoctrineJsonPluginStorage/Entity/InstanceConfig.php';
+require_once __DIR__.'/../../../src/RcmDoctrineJsonPluginStorage/Entity/DoctrineJsonInstanceConfig.php';
 
-use RcmDoctrineJsonPluginStorage\Entity\InstanceConfig;
+use RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig;
 
 class InstanceConfigTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \RcmDoctrineJsonPluginStorage\Entity\InstanceConfig */
+    /** @var  \RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig */
     protected $instanceConfig;
 
     public function setUp()
     {
-        $this->instanceConfig = new InstanceConfig();
+        $this->instanceConfig = new DoctrineJsonInstanceConfig();
     }
 
     /**
-     * @covers \RcmDoctrineJsonPluginStorage\Entity\InstanceConfig
+     * @covers \RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig
      */
     public function testSetGetInstanceId()
     {
@@ -30,7 +30,7 @@ class InstanceConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \RcmDoctrineJsonPluginStorage\Entity\InstanceConfig
+     * @covers \RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig
      */
     public function testSetGetInstanceConfig()
     {
@@ -40,5 +40,4 @@ class InstanceConfigTest extends \PHPUnit_Framework_TestCase
             $this->instanceConfig->getInstanceId(), $instanceConfig
         );
     }
-
 } 

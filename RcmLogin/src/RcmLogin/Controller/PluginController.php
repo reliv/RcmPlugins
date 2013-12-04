@@ -25,7 +25,7 @@ use Rcm\Model\UserManagement\UserManagerInterface;
 use Rcm\Plugin\PluginInterface;
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
 use Rcm\Entity\Site;
-use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
+use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
 
 /**
  * Plugin Controller
@@ -54,7 +54,7 @@ class PluginController
     protected $site;
 
     function __construct(
-        PluginStorageInterface $pluginStorage,
+        PluginStorageMgr $pluginStorage,
         $config,
         UserManagerInterface $userMgr,
         Site $site
