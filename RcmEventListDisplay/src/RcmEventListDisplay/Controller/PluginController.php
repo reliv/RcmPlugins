@@ -18,6 +18,8 @@
  * @link      http://ci.reliv.com/confluence
  */
 namespace RcmEventListDisplay\Controller;
+
+use Doctrine\ORM\EntityManager;
 use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
 
 /**
@@ -44,11 +46,13 @@ class PluginController
     protected $calender;
 
     function __construct(
-        PluginStorageInterface $entityMgr,
+        PluginStorageInterface $pluginStorage,
         $config,
+        EntityManager $entityMgr,
         \RcmEventCalenderCore\Model\Calender $calender
-    ) {
-        parent::__construct($entityMgr,$config);
+    )
+    {
+        parent::__construct($pluginStorage, $config);
         $this->calender = $calender;
     }
 
@@ -66,13 +70,15 @@ class PluginController
         );
     }
 
-    function previewAdminAjaxAction(){
+    function previewAdminAjaxAction()
+    {
 
         $post = $this->getEvent()->getRequest()->getPost();
         return $this->renderInstanceFromConfig($post);
     }
 
-    function renderInstanceFromConfig($instanceConfig){
+    function renderInstanceFromConfig($instanceConfig)
+    {
 
         $events = $this->calender->getEvents($instanceConfig['categoryId']);
 
@@ -86,7 +92,8 @@ class PluginController
         return $view;
     }
 
-    function renderDefaultInstance($instanceId){
+    function renderDefaultInstance($instanceId)
+    {
         return $this->renderInstanceFromConfig(
             $this->getDefaultInstanceConfig()
         );

@@ -54,12 +54,12 @@ class PluginController
     protected $site;
 
     function __construct(
-        PluginStorageInterface $entityMgr,
+        PluginStorageInterface $pluginStorage,
         $config,
         UserManagerInterface $userMgr,
         Site $site
     ) {
-        parent::__construct($entityMgr, $config);
+        parent::__construct($pluginStorage, $config);
         $this->userMgr = $userMgr;
         $this->site = $site;
     }
