@@ -82,7 +82,7 @@ class Module
                 {
                     $controller
                         = new \RcmSocialButtons\Controller\PluginController(
-                            $serviceMgr->get('em'),
+                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config')
                         );
                     return $controller;

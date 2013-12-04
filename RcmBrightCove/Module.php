@@ -81,7 +81,7 @@ class Module
             'factories' => array(
                 'RcmBrightCove' => function($serviceMgr) {
                     $controller = new BasePluginController(
-                        $serviceMgr->get('em'),
+                        $serviceMgr->get('rcmPluginStorage'),
                         $serviceMgr->get('config'),
                         __DIR__
                     );

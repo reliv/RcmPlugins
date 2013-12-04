@@ -8,6 +8,7 @@
  */
 namespace RcmRssFeed\Controller;
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
+use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
 use \Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 
@@ -19,7 +20,7 @@ class ProxyController
     protected $cacheMgr;
 
     function __construct(
-        \Doctrine\ORM\EntityManager $entityMgr,
+        PluginStorageInterface $entityMgr,
         $config,
         \Rcm\Model\UserManagement\UserManagerInterface $userMgr,
         \Zend\Cache\Storage\StorageInterface $cacheMgr

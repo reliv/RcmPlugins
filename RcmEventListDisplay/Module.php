@@ -81,7 +81,7 @@ class Module
                 'RcmEventListDisplay'=>function($serviceMgr)
                 {
                     $controller = new PluginController(
-                        $serviceMgr->get('em'),
+                        $serviceMgr->get('rcmPluginStorage'),
                         $serviceMgr->get('config'),
                             $serviceMgr->get('CalenderModel')
                     );

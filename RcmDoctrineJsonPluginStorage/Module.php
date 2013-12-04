@@ -18,6 +18,8 @@
 
 namespace RcmDoctrineJsonPluginStorage;
 
+use RcmDoctrineJsonPluginStorage\Storage\DoctrineJsonPluginStorage;
+
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -65,5 +67,22 @@ class Module
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    /**
+     * getServiceConfiguration is used by the ZF2 service manager in order
+     * to create new objects.
+     *
+     * @return object Returns an object.
+     */
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'rcmPluginStorage' => function ($serviceMgr) {
+                        return new DoctrineJsonPluginStorage($serviceMgr->get('em'));
+                    }
+            )
+        );
     }
 }

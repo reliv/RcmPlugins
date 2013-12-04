@@ -84,7 +84,7 @@ class Module
                 function($serviceMgr)
                 {
                     $controller = new \RcmLogin\Controller\PluginController(
-                        $serviceMgr->get('em'),
+                        $serviceMgr->get('rcmPluginStorage'),
                         $serviceMgr->get('config'),
                         $serviceMgr->get('rcmUserMgr'),
                         $serviceMgr->get('rcmSite')

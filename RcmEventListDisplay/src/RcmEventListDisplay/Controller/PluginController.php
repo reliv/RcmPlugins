@@ -18,6 +18,7 @@
  * @link      http://ci.reliv.com/confluence
  */
 namespace RcmEventListDisplay\Controller;
+use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
 
 /**
  * Online App Plugin Controller
@@ -43,7 +44,7 @@ class PluginController
     protected $calender;
 
     function __construct(
-        \Doctrine\ORM\EntityManager $entityMgr,
+        PluginStorageInterface $entityMgr,
         $config,
         \RcmEventCalenderCore\Model\Calender $calender
     ) {

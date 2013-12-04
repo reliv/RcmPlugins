@@ -22,8 +22,9 @@
  */
 namespace RcmDoctrineJsonPluginStorage\Controller;
 
-use Doctrine\ORM\EntityManager;
-use RcmDoctrineJsonPluginStorage\Entity\InstanceConfig;
+
+use RcmDoctrineJsonPluginStorage\Storage\PluginStorage;
+use RcmDoctrineJsonPluginStorage\Storage\PluginStorageInterface;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -62,10 +63,6 @@ class BasePluginController extends AbstractActionController
 
     protected $config;
 
-    /**
-     * @var \Doctrine\ORM\EntityManager entity manager
-     */
-    protected $entityMgr;
 
     /**
      * Caches instance configs to speed up multiple calls to getDbInstanceConfig()
@@ -73,17 +70,15 @@ class BasePluginController extends AbstractActionController
      */
     private $instanceConfigs = array();
 
-
-    protected $jsonContentRepo;
+    protected $pluginStorage;
 
     public function __construct(
-        EntityManager $entityMgr,
+        PluginStorageInterface $pluginStorage,
         $config,
         $pluginDirectory = null
-    ) {
-        $this->entityMgr = $entityMgr;
-        $this->jsonContentRepo = $this->entityMgr
-            ->getRepository('RcmDoctrineJsonPluginStorage\Entity\InstanceConfig');
+    )
+    {
+        $this->pluginStorage = $pluginStorage;
 
         if (!$pluginDirectory) {
             //Allow auto path detection for controllers that extend this class
@@ -153,36 +148,6 @@ class BasePluginController extends AbstractActionController
         return $view;
     }
 
-    /**
-     * Saves a plugin instance to persistent storage
-     *
-     * @param string $instanceId plugin instance id
-     * @param array $configData posted data to be saved
-     *
-     * @return null
-     */
-    public function saveInstance($instanceId, $configData)
-    {
-        $entity = new InstanceConfig();
-        $entity->setInstanceId($instanceId);
-        $entity->setConfig($configData);
-        $this->entityMgr->persist($entity);
-        $this->entityMgr->flush($entity);
-    }
-
-    /**
-     * Deletes a plugin instance from persistent storage
-     *
-     * @param string $instanceId plugin instance id
-     *
-     * @return null
-     */
-    public function deleteInstance($instanceId)
-    {
-        $entity = $this->readEntityFromDb($instanceId);
-        $this->entityMgr->remove($entity);
-        $this->entityMgr->flush();
-    }
 
     /**
      * Allows core to properly pass the request to this plugin controller
@@ -219,6 +184,31 @@ class BasePluginController extends AbstractActionController
     }
 
     /**
+     * Saves a plugin instance to persistent storage
+     *
+     * @param string $instanceId plugin instance id
+     * @param array $configData posted data to be saved
+     *
+     * @return null
+     */
+    public function saveInstance($instanceId, $configData)
+    {
+        $this->pluginStorage->saveInstance($instanceId, $configData);
+    }
+
+    /**
+     * Deletes a plugin instance from persistent storage
+     *
+     * @param string $instanceId plugin instance id
+     *
+     * @return null
+     */
+    public function deleteInstance($instanceId)
+    {
+        $this->pluginStorage->deleteInstance($instanceId);
+    }
+
+    /**
      * merges the instance config with the new instance config so that default
      * values are used when the db instance config doesn't yet have them after
      * new public functionality is added
@@ -238,7 +228,8 @@ class BasePluginController extends AbstractActionController
             if (!isset($this->instanceConfigs[$instanceId])) {
 
                 //Grab from the db or use blank array if not there
-                $instanceConfig = $this->readEntityFromDb($instanceId)->getConfig();
+                $instanceConfig = $this->pluginStorage
+                    ->readInstance($instanceId)->getConfig();
                 if (!is_array($instanceConfig)) {
                     $instanceConfig = array();
                 }
@@ -296,21 +287,6 @@ class BasePluginController extends AbstractActionController
     public function postIsForThisPlugin($pluginName)
     {
         return $this->getRequest()->getPost('rcmPluginName') == $pluginName;
-    }
-
-    /**
-     * Returns the JSON content for a given plugin instance Id
-     * @param $instanceId
-     *
-     * @return \RcmDoctrineJsonPluginStorage\Entity\InstanceConfig|null
-     */
-    public function readEntityFromDb($instanceId)
-    {
-        $entity = $this->jsonContentRepo->findOneByInstanceId($instanceId);
-        if (!$entity) {
-            $entity = new InstanceConfig();
-        }
-        return $entity;
     }
 
 
