@@ -212,13 +212,13 @@ class BasePluginController extends AbstractActionController
     }
 
 
-    /*
- * Converts camelCase to lower-case-hyphens
- *
- * @param string $value the value to convert
- *
- * @return string
- */
+    /**
+     * Converts camelCase to lower-case-hyphens
+     *
+     * @param string $value the value to convert
+     *
+     * @return string
+     */
     public function camelToHyphens($value)
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
