@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../../../../Rcm/test/Base/PluginTestCase.php';
 require_once __DIR__ . '/../Mock/PluginStorageMgrMock.php';
 
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
+use RcmDoctrineJsonPluginStorageTest\Mock\PluginStorageMgrMock;
 use RcmDoctrineJsonPluginStorageTest\Mock\PluginStorageMock;
 use RcmTest\Base\PluginTestCase;
 use Zend\Http\PhpEnvironment\Request;
@@ -27,7 +28,7 @@ class BasePluginControllerTest extends PluginTestCase
         $this->addModule('RcmDoctrineJsonPluginStorage');
         parent::setUp();
 
-        $pluginStorageMgrMock = new PluginStorageMock();
+        $pluginStorageMgrMock = new PluginStorageMgrMock();
 
         $this->basePluginController = new BasePluginController(
             $pluginStorageMgrMock,
