@@ -21,13 +21,13 @@ class ProxyController
     protected $cacheMgr;
 
     function __construct(
-        PluginStorageMgr $pluginStorage,
+        PluginStorageMgr $pluginStorageMgr,
         $config,
         \Rcm\Model\UserManagement\UserManagerInterface $userMgr,
         \Zend\Cache\Storage\StorageInterface $cacheMgr
     )
     {
-        parent::__construct($pluginStorage, $config);
+        parent::__construct($pluginStorageMgr, $config);
         $this->userMgr = $userMgr;
         $this->cacheMgr = $cacheMgr;
     }

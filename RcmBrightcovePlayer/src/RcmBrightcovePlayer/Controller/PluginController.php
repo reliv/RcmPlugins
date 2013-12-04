@@ -20,7 +20,7 @@ class PluginController extends SimpleConfigStorageController
         $config
     )
     {
-        parent::__construct($pluginStorage, $config);
+        parent::__construct($pluginStorageMgr, $config);
     }
 
     function renderInstance($instanceId)

@@ -46,13 +46,13 @@ class PluginController
     protected $calender;
 
     function __construct(
-        PluginStorageMgr $pluginStorage,
+        PluginStorageMgr $pluginStorageMgr,
         $config,
         EntityManager $entityMgr,
         \RcmEventCalenderCore\Model\Calender $calender
     )
     {
-        parent::__construct($pluginStorage, $config);
+        parent::__construct($pluginStorageMgr, $config);
         $this->calender = $calender;
     }
 

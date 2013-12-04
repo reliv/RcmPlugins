@@ -4,7 +4,7 @@ namespace RcmDoctrineJsonPluginStorage\Service;
 use RcmDoctrineJsonPluginStorage\Model\InstanceConfigMerger;
 use RcmDoctrineJsonPluginStorage\Repo\PluginStorageRepoInterface;
 
-class PluginStorageMgr 
+class PluginStorageMgr
 {
     protected $pluginConfigs;
 
@@ -67,10 +67,11 @@ class PluginStorageMgr
                 }
 
                 //Merge the default and db instance configs. Db overwrites.
-                $instanceConfig = $this->instanceConfigMerger->mergeConfigArrays(
-                    $this->getDefaultInstanceConfig($pluginName),
-                    $instanceConfig
-                );
+                $instanceConfig = $this->instanceConfigMerger
+                    ->mergeConfigArrays(
+                        $this->getDefaultInstanceConfig($pluginName),
+                        $instanceConfig
+                    );
 
                 //Cache merged instance configs in this object
                 $this->instanceConfigs[$instanceId] = $instanceConfig;

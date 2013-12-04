@@ -54,12 +54,12 @@ class PluginController
     protected $site;
 
     function __construct(
-        PluginStorageMgr $pluginStorage,
+        PluginStorageMgr $pluginStorageMgr,
         $config,
         UserManagerInterface $userMgr,
         Site $site
     ) {
-        parent::__construct($pluginStorage, $config);
+        parent::__construct($pluginStorageMgr, $config);
         $this->userMgr = $userMgr;
         $this->site = $site;
     }

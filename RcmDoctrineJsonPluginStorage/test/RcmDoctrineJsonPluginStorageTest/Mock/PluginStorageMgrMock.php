@@ -8,9 +8,7 @@
 
 namespace RcmDoctrineJsonPluginStorageTest\Mock;
 
-use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
-
-class PluginStorageMock implements PluginStorageMgr
+class PluginStorageMgrMock
 {
 
     protected $instanceConfigs = array();
@@ -29,4 +27,15 @@ class PluginStorageMock implements PluginStorageMgr
     {
         unset($this->instanceConfigs[$instanceId]);
     }
+
+    public function getDefaultInstanceConfig()
+    {
+        return $this->instanceConfigs[0];
+    }
+
+    public function getInstanceConfig($instanceId, $pluginName)
+    {
+        return $this->instanceConfigs[$instanceId];
+    }
+
 } 

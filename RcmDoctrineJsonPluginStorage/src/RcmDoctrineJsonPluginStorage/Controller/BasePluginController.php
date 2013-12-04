@@ -59,15 +59,15 @@ class BasePluginController extends AbstractActionController
 
     protected $config;
 
-    protected $pluginStorage;
+    protected $pluginStorageMgr;
 
     public function __construct(
-        PluginStorageMgr $pluginStorage,
+        PluginStorageMgr $pluginStorageMgr,
         $config,
         $pluginDirectory = null
     )
     {
-        $this->pluginStorage = $pluginStorage;
+        $this->pluginStorageMgr = $pluginStorageMgr;
 
         if (!$pluginDirectory) {
             //Allow auto path detection for controllers that extend this class
@@ -169,7 +169,7 @@ class BasePluginController extends AbstractActionController
 
     function getInstanceConfig($instanceId)
     {
-        return $this->pluginStorage->getInstanceConfig(
+        return $this->pluginStorageMgr->getInstanceConfig(
             $instanceId,
             $this->pluginName
         );
@@ -177,7 +177,7 @@ class BasePluginController extends AbstractActionController
 
     public function getDefaultInstanceConfig()
     {
-        return $this->pluginStorage
+        return $this->pluginStorageMgr
             ->getDefaultInstanceConfig($this->pluginName);
     }
 
@@ -191,7 +191,7 @@ class BasePluginController extends AbstractActionController
      */
     public function saveInstance($instanceId, $configData)
     {
-        $this->pluginStorage->saveInstance($instanceId, $configData);
+        $this->pluginStorageMgr->saveInstance($instanceId, $configData);
     }
 
     /**
@@ -203,7 +203,7 @@ class BasePluginController extends AbstractActionController
      */
     public function deleteInstance($instanceId)
     {
-        $this->pluginStorage->deleteInstance($instanceId);
+        $this->pluginStorageMgr->deleteInstance($instanceId);
     }
 
     public function postIsForThisPlugin($pluginName)

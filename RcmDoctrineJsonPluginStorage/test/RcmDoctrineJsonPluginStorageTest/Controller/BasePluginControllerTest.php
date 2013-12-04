@@ -3,8 +3,7 @@
 namespace RcmDoctrineJsonPluginStorageTest\Controller;
 
 require_once __DIR__ . '/../../../../../Rcm/test/Base/PluginTestCase.php';
-require_once __DIR__ . '/../../../src/RcmDoctrineJsonPluginStorage/Service/PluginStorageMgr.php';
-require_once __DIR__ . '/../Mock/PluginStorageMock.php';
+require_once __DIR__ . '/../Mock/PluginStorageMgrMock.php';
 
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
 use RcmDoctrineJsonPluginStorageTest\Mock\PluginStorageMock;
@@ -21,17 +20,17 @@ class BasePluginControllerTest extends PluginTestCase
     const PERSON_NAME = 'bob';
     const INSTANCE_ID = 7890;
 
-    protected $pluginStorageMock;
+    protected $pluginStorageMgrMock;
 
     public function setUp()
     {
         $this->addModule('RcmDoctrineJsonPluginStorage');
         parent::setUp();
 
-        $pluginStorageMock = new PluginStorageMock();
+        $pluginStorageMgrMock = new PluginStorageMock();
 
         $this->basePluginController = new BasePluginController(
-            $pluginStorageMock,
+            $pluginStorageMgrMock,
             array(
                 'rcmPlugin' => array(
                     'RcmDoctrineJsonPluginStorage' => array(
