@@ -112,3 +112,67 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
         });
     };
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ *  The following code is needed for every use of angular JS (with modification using variables specific to plug-in).
+ *  Because of the following declaration, the directive 'ng-app' is NOT needed in the view
+ */
+
+angular.element(document).ready(function () {
+    $.each($('[ng-controller=PlayerEditCtrl]'), function (key, element) {
+        angular.bootstrap(element, ['playerEditModule']);
+    });
+});
+
+/**
+ * Angular JS controller for this plugin
+ * @param $scope
+ * @constructor
+ */
+var playerEditModule = angular.module('playerEditModule', []);
+
+playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
+
+    singleEmbedDropdownList(function(items) {
+//            console.log(items,'LOTS AND LOTS OF ITEMS');
+        $scope.videos = items;
+        $scope.selectedVideos = $scope.videos[0];
+        $scope.$apply();
+    });
+
+
+//    $.brightcove.find_all_playlists(false).done(function (data) {
+//        //Do something with the API
+//        $scope.playlists = data.items;
+//        $scope.selectedPlaylists = $scope.playlists[0];
+//        $scope.$apply();
+//    });
+
+
+
+    requestPlaylist(function(data){
+        $scope.playlists = data.items;
+        $scope.selectedPlaylists = $scope.playlists[0];
+        $scope.$apply();
+
+    });
+
+    $scope.items = [
+        { id: 0, name: 'single embed' },
+        { id: 1, name: 'multiple video player' }
+    ];
+    $scope.expression = "<h1>this is a test</h1>";
+});
+
