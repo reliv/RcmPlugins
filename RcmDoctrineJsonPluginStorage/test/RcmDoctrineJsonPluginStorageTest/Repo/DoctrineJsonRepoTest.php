@@ -3,13 +3,13 @@
 
 namespace RcmDoctrineJsonPluginStorageTest\Entity;
 
-require_once __DIR__ . '/../../../../../Rcm/test/Base/PluginTestCaseWithDoctrine.php';
+require_once __DIR__ . '/../../../../../Rcm/test/Base/DoctrineTestCase.php';
 
 use RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig;
 use RcmDoctrineJsonPluginStorage\Repo\DoctrineJsonRepo;
-use RcmTest\Base\PluginTestCaseWithDoctrine;
+use RcmTest\Base\DoctrineTestCase;
 
-class DoctrineJsonRepoTest extends PluginTestCaseWithDoctrine
+class DoctrineJsonRepoTest extends DoctrineTestCase
 {
     /**
      * @var \RcmDoctrineJsonPluginStorage\Repo\DoctrineJsonRepo
