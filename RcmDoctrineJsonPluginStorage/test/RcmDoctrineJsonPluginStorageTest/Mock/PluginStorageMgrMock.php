@@ -3,35 +3,35 @@ namespace RcmDoctrineJsonPluginStorage\Service;
 
 class PluginStorageMgrMock implements PluginStorageMgrInterface
 {
-    public $testConfig = array();
+    public $testInstanceConfig = array();
 
     public $lastSavedConfig;
     public $lastSavedInstanceId;
     public $lastDeletedInstanceId;
 
+    function __construct($testInstanceConfig){
+
+        $this->testInstanceConfig = $testInstanceConfig;
+    }
+    
     public function getDefaultInstanceConfig($pluginName)
     {
-        return $this->testConfig;
+        return $this->testInstanceConfig;
     }
 
     public function getInstanceConfig($instanceId, $pluginName)
     {
-        return $this->testConfig;
+        return $this->testInstanceConfig;
     }
 
-    public function saveInstance($instanceId, $testConfigData)
+    public function saveInstance($instanceId, $testInstanceConfigData)
     {
         $this->lastSavedInstanceId = $instanceId;
-        $this->lastSavedConfig = $testConfigData;
+        $this->lastSavedConfig = $testInstanceConfigData;
     }
 
     public function deleteInstance($instanceId)
     {
         $this->lastDeletedInstanceId = $instanceId;
-    }
-
-    public function setTestConfig($testConfig)
-    {
-        $this->testConfig = $testConfig;
     }
 }

@@ -29,8 +29,7 @@ class BasePluginControllerTest extends BaseTestCase
         $this->addModule('RcmDoctrineJsonPluginStorage');
         parent::setUp();
 
-        $this->pluginStorageMgrMock = new PluginStorageMgrMock();
-        $this->pluginStorageMgrMock->setTestConfig(
+        $this->pluginStorageMgrMock = new PluginStorageMgrMock(
             array('html' => self::DEFAULT_HTML)
         );
 
