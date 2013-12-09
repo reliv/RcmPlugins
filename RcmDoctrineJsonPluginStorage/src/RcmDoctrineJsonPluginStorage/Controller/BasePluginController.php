@@ -22,7 +22,7 @@
  */
 namespace RcmDoctrineJsonPluginStorage\Controller;
 
-use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
+use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgrInterface;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -62,7 +62,7 @@ class BasePluginController extends AbstractActionController
     protected $pluginStorageMgr;
 
     public function __construct(
-        PluginStorageMgr $pluginStorageMgr,
+        PluginStorageMgrInterface $pluginStorageMgr,
         $config,
         $pluginDirectory = null
     )

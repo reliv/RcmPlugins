@@ -1,19 +1,21 @@
 <?php
 
-
 namespace RcmDoctrineJsonPluginStorageTest\Entity;
 
-require_once __DIR__.'/../../../src/RcmDoctrineJsonPluginStorage/Entity/DoctrineJsonInstanceConfig.php';
+require_once __DIR__ . '/../../../../../Rcm/test/Base/BaseTestCase.php';
 
 use RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig;
+use RcmTest\Base\BaseTestCase;
 
-class InstanceConfigTest extends \PHPUnit_Framework_TestCase
+class InstanceConfigTest extends BaseTestCase
 {
     /** @var  \RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig */
     protected $instanceConfig;
 
     public function setUp()
     {
+        $this->addModule('RcmDoctrineJsonPluginStorage');
+        parent::setUp();
         $this->instanceConfig = new DoctrineJsonInstanceConfig();
     }
 

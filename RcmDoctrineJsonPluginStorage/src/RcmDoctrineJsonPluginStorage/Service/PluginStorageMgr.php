@@ -4,7 +4,7 @@ namespace RcmDoctrineJsonPluginStorage\Service;
 use RcmDoctrineJsonPluginStorage\Model\InstanceConfigMerger;
 use RcmDoctrineJsonPluginStorage\Repo\PluginStorageRepoInterface;
 
-class PluginStorageMgr
+class PluginStorageMgr implements PluginStorageMgrInterface
 {
     protected $pluginConfigs;
 
@@ -77,7 +77,6 @@ class PluginStorageMgr
                 $this->instanceConfigs[$instanceId] = $instanceConfig;
             }
             return $this->instanceConfigs[$instanceId];
-
         }
     }
 
