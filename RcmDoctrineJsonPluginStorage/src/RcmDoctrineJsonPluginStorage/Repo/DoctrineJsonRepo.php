@@ -57,8 +57,9 @@ class DoctrineJsonRepo implements PluginStorageRepoInterface
         }
     }
 
-    /*
-     *
+    /**
+     * @param $instanceId
+     * @return mixed
      */
     public function selectEntity($instanceId)
     {
