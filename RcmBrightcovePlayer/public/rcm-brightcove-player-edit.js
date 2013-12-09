@@ -103,8 +103,11 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
                 Cancel: function() {
                     $(this).dialog("close");
                 },
-                "OK": function(){
-                    instanceConfig['videoId'] = form.find('[name=video]').attr('data-value');
+                "OK": function() {
+                    instanceConfig['videoId'] = form.find('[name=playlist]').attr('video-ids');
+                    instanceConfig['playlistId'] = form.find('[name=playlist]').attr('data-value');
+
+                    console.log(instanceConfig['playlistId'], '**** PLAYLIST ID ****');
                     console.log(instanceConfig['videoId']);
                     $(this).dialog("close");
                 }
@@ -146,33 +149,24 @@ var playerEditModule = angular.module('playerEditModule', []);
 playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
 
     singleEmbedDropdownList(function(items) {
-//            console.log(items,'LOTS AND LOTS OF ITEMS');
         $scope.videos = items;
         $scope.selectedVideos = $scope.videos[0];
         $scope.$apply();
     });
 
-
-//    $.brightcove.find_all_playlists(false).done(function (data) {
-//        //Do something with the API
-//        $scope.playlists = data.items;
-//        $scope.selectedPlaylists = $scope.playlists[0];
-//        $scope.$apply();
-//    });
-
-
-
-    requestPlaylist(function(data){
+    requestPlaylist(function(data) {
         $scope.playlists = data.items;
         $scope.selectedPlaylists = $scope.playlists[0];
         $scope.$apply();
 
     });
 
+
+
     $scope.items = [
         { id: 0, name: 'single embed' },
         { id: 1, name: 'multiple video player' }
     ];
-    $scope.expression = "<h1>this is a test</h1>";
+//    $scope.expression = "<h1>this is a test</h1>";
 });
 

@@ -1,32 +1,3 @@
-<style>
-    body {
-        background-color: #eef;
-    }
-
-    #tabs {
-        width: 683px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 10px;
-    }
-
-    #video {
-        width: 672px;
-        height: 378px;
-        margin: 5px;
-    }
-
-    .videoArea {
-        display: block;
-        float: left;
-        width: 190px;
-        height: 80px;
-    }
-
-    .videoAreaWrap {
-        overflow: hidden;
-    }
-</style>
 <?php
 
 
@@ -50,65 +21,66 @@ $this->headScript()->appendFile(
 // ng-switch-when="{{solution.title}}
 ?>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 
-    var bgPlayerApi<?php echo $this->instanceId; ?> = new brightcovePlayerApi(2553077147001);
+    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi("selectedPlaylists.id.0");
 
-</script>
-<!--    <div ng-show="selectedItem.id == 0">-->
-<!--        --><?php //require('single_player.phtml'); ?>
-<!--    </div>-->
-<!--    <div ng-show="selectedItem.id == 1">-->
-        <?php require('multi-player.phtml'); ?>
-<!--    </div>-->
+</script> -->
+<div ng-show="selectedItem.id == 0">
+    <?php require('single_player.phtml'); ?>
+</div>
+<div ng-show="selectedItem.id == 1">
+    <?php require('multi-player.phtml'); ?>
+</div>
 
-<!--    <div ng-controller="PlayerEditCtrl">-->
-<!--    <form style="display:none" title="Brightcove Player Editor" novalidate>-->
-<!---->
-<!--        <div>-->
-<!--            <div>-->
-<!--                <div ng-show="true">-->
-<!--                    <select-->
-<!--                        ng-model="selectedItem"-->
-<!--                        ng-init="selectedItem = selectedItem || items[0]"-->
-<!--                        ng-options="item as item.name for item in items">-->
-<!--                    </select>-->
-<!---->
-<!---->
-<!--                </div>-->
-<!--                <div ng-show="selectedItem.id == 0">-->
-<!---->
-<!--                <br>Choose video:<br>-->
-<!--                <select-->
-<!--                    name="video"-->
-<!--                    data-value="{{selectedVideos.id}}"-->
-<!--                    ng-model="selectedVideos"-->
-<!--                    ng-options="video.name for video in videos">-->
-<!--                </select>-->
-<!--                <!--                    {{selectedVideos.name}} -->
-<!--                <br>-->
-<!--                <!--                    {{selectedVideos.id}}  -->
-<!--                <br>-->
-<!--                <img src="{{selectedVideos.thumbnailURL}}"/>-->
-<!--                <br>-->
-<!--            </div>-->
-<!--            <div ng-show="selectedItem.id == 1">-->
-<!--                <br>Choose Playlist:<br>-->
-<!--                <select-->
-<!--                    name="playlist"-->
-<!--                    data-value="{{selectedPlaylists.id}}"-->
-<!--                    ng-options="playlist.name for playlist in playlists"-->
-<!--                    ng-model="selectedPlaylists"-->
-<!--                    >-->
-<!--                </select>-->
-<!--                <br>-->
-<!--                {{selectedPlaylists}}-->
-<!--            </div>-->
-<!--            <br>-->
-<!---->
-<!--            <div><br></div>-->
-<!--        </div>-->
-<!--</div>-->
-<!--</form>-->
-<!--</div>-->
+<div ng-controller="PlayerEditCtrl">
+    <form style="display:none" title="Brightcove Player Editor" novalidate>
+
+        <div>
+            <div>
+                <div ng-show="true">
+                    <select
+                        ng-model="selectedItem"
+                        ng-init="selectedItem = selectedItem || items[0]"
+                        ng-options="item as item.name for item in items">
+                    </select>
+
+
+                </div>
+                <div ng-show="selectedItem.id == 0">
+
+                    <br>Choose video:<br>
+                    <select
+                        name="video"
+                        data-value="{{selectedVideos.id}}"
+                        ng-model="selectedVideos"
+                        ng-options="video.name for video in videos">
+                    </select>
+                    <!--                    {{selectedVideos.name}} -->
+                    <br>
+                    <!--                    {{selectedVideos.id}}  -->
+                    <br>
+                    <img src="{{selectedVideos.thumbnailURL}}"/>
+                    <br>
+                </div>
+                <div ng-show="selectedItem.id == 1">
+                    <br>Choose Playlist:<br>
+                    <select
+                        name="playlist"
+                        data-value="{{selectedPlaylists.id}}"
+                        video-ids="{{selectedPlaylists.videoIds.0}}"
+                        ng-options="playlist.name for playlist in playlists"
+                        ng-model="selectedPlaylists"
+                        >
+                    </select>
+                    <br>
+                    {{selectedPlaylists.id}}
+                </div>
+                <br>
+
+                <div><br></div>
+            </div>
+        </div>
+    </form>
+</div>
 

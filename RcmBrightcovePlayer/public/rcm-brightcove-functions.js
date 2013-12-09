@@ -30,7 +30,16 @@ function singleEmbedDropdownList(callback) {
     requestPage(0);
 
 
-};
+}
 
-
+function requestPlaylist(callback) {
+    console.log('=============================================== INSIDE requestPlaylist() =================================================');
+    var data = $.ajax({
+        type: 'POST',
+        url: 'http://api.brightcove.com/services/library?command=find_all_playlists&video_fields=id,name,thumbnailURL&page_size=100&page_number=0&get_item_count=true&token=FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
+        dataType: 'jsonp',
+        success: callback
+    });
+    console.log('%c^*^*^*^*^*^*^*^*^*^*^*^*  PLAYLIST data.items RETURNED ^*^*^*^*^*^*^*^*^*^*^*^*^*^*', "background: blue; color:white; font-size: large");
+}
 
