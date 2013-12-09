@@ -3,7 +3,6 @@
 namespace RcmDoctrineJsonPluginStorageTest\Controller;
 
 require_once __DIR__ . '/../../../../../Rcm/test/Base/BaseTestCase.php';
-require_once __DIR__ . '/../../../src/RcmDoctrineJsonPluginStorage/Service/PluginStorageMgrInterface.php';
 require_once __DIR__ . '/../Mock/PluginStorageMgrMock.php';
 
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
