@@ -1,43 +1,37 @@
-USE GETMOCK INSTEAD SO WE DON'T NEED AN INTERFACE HERE;
-
 <?php
-///**
-// * Created by PhpStorm.
-// * User: rmcnew
-// * Date: 12/4/13
-// * Time: 2:14 PM
-// */
-//
-//namespace RcmDoctrineJsonPluginStorageTest\Mock;
-//
-//class PluginStorageMgrMock
-//{
-//
-//    protected $instanceConfigs = array();
-//
-//    public function readInstance($instanceId)
-//    {
-//        return $this->instanceConfigs[$instanceId];
-//    }
-//
-//    public function saveInstance($instanceId, $configData)
-//    {
-//        $this->instanceConfigs[$instanceId] = $configData;
-//    }
-//
-//    public function deleteInstance($instanceId)
-//    {
-//        unset($this->instanceConfigs[$instanceId]);
-//    }
-//
-//    public function getDefaultInstanceConfig()
-//    {
-//        return $this->instanceConfigs[0];
-//    }
-//
-//    public function getInstanceConfig($instanceId, $pluginName)
-//    {
-//        return $this->instanceConfigs[$instanceId];
-//    }
-//
-//}
+namespace RcmDoctrineJsonPluginStorage\Service;
+
+class PluginStorageMgrMock implements PluginStorageMgrInterface
+{
+    public $testConfig = array();
+
+    public $lastSavedConfig;
+    public $lastSavedInstanceId;
+    public $lastDeletedInstanceId;
+
+    public function getDefaultInstanceConfig($pluginName)
+    {
+        return $this->testConfig;
+    }
+
+    public function getInstanceConfig($instanceId, $pluginName)
+    {
+        return $this->testConfig;
+    }
+
+    public function saveInstance($instanceId, $testConfigData)
+    {
+        $this->lastSavedInstanceId = $instanceId;
+        $this->lastSavedConfig = $testConfigData;
+    }
+
+    public function deleteInstance($instanceId)
+    {
+        $this->lastDeletedInstanceId = $instanceId;
+    }
+
+    public function setTestConfig($testConfig)
+    {
+        $this->testConfig = $testConfig;
+    }
+}
