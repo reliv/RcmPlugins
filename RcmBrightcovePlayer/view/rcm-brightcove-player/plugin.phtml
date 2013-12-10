@@ -21,11 +21,11 @@ $this->headScript()->appendFile(
 // ng-switch-when="{{solution.title}}
 ?>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 
     var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi("selectedPlaylists.id.0");
 
-</script> -->
+</script>
 <div ng-show="selectedItem.id == 0">
     <?php require('single_player.phtml'); ?>
 </div>

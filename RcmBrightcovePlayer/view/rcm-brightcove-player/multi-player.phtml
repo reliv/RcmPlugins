@@ -43,7 +43,7 @@
 
 </script>
 <div class="hide-vid">
-<div ng-controller="playerTabsCtrl">
+<div ng-controller="playerTabsCtrl" ng-init="init(<?= json_encode($ic['playlistIds']); ?>)" >
     <script type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
     <div id="player">
         <!-- Start of Brightcove Player -->
@@ -77,7 +77,12 @@
         <ul>
             <li ng-repeat="(key,playlist) in playlists"><a href="#tabs-{{key}}">{{playlist.id}}</a></li>
         </ul>
-        <div class="videoAreaWrap" id="tabs-{{key}}" ng-repeat="(key,playlist) in playlists">
+
+        <div
+            class="videoAreaWrap"
+            id="tabs-{{key}}"
+            ng-repeat="(key,playlist) in playlists"
+            >
             <a href="javascript:void(0)"
                onclick="bgPlayerApi<?php echo $this->instanceId; ?>.loadVideoById({{video.id}})" class="videoArea"
                ng-repeat="video in playlist.videos">

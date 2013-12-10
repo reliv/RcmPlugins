@@ -7,6 +7,10 @@ angular.element(document).ready(function () {
 var app = angular.module('playerTabs', [])
     .controller('playerTabsCtrl', function ($scope) {
 
+        $scope.init = function(data) {
+            console.log(data, "++++++++++++++++++++++++++++++++++  INIT +++++++++++++++++++++++++++++++++");
+            findPlaylistsById(data);
+        };
 
         function renderTabs(data) {
             console.log(data.items);
@@ -28,19 +32,6 @@ var app = angular.module('playerTabs', [])
             });
 
         }
-
-        // this is where the fix will be
-
-//        console.log(instanceConfig['playlistId']);
-//        var playlists = $('form').find('[name=playlist]').attr('data-value');
-//
-//            console.log(playlists, 'lllllllllllllllllllllllllllllllllllllllllllllllllllll');
-           playlist_ids = '1787088394001';
-
-            findPlaylistsById(playlist_ids);
-
-
-
 
     })
 

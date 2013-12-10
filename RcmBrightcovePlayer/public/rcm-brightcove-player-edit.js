@@ -105,9 +105,10 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
                 },
                 "OK": function() {
                     instanceConfig['videoId'] = form.find('[name=playlist]').attr('video-ids');
-                    instanceConfig['playlistId'] = form.find('[name=playlist]').attr('data-value');
 
-                    console.log(instanceConfig['playlistId'], '**** PLAYLIST ID ****');
+                    instanceConfig['playlistIds'] =[parseInt(form.find('[name=playlist]').attr('data-value'))];
+
+                    console.log(instanceConfig['playlistIds'], '**** PLAYLIST ID ****');
                     console.log(instanceConfig['videoId']);
                     $(this).dialog("close");
                 }
@@ -115,16 +116,6 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
         });
     };
 };
-
-
-
-
-
-
-
-
-
-
 
 
 
