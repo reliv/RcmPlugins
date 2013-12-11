@@ -135,8 +135,8 @@ angular.element(document).ready(function () {
  * @param $scope
  * @constructor
  */
-var playerEditModule = angular.module('playerEditModule', []);
 
+var playerEditModule = angular.module('playerEditModule', ['ui.multiselect']);
 playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
 
     singleEmbedDropdownList(function(items) {
@@ -152,12 +152,19 @@ playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
 
     });
 
-
-
     $scope.items = [
         { id: 0, name: 'single embed' },
         { id: 1, name: 'multiple video player' }
     ];
+
+    $scope.cars = [
+        {id: 1, name: 'Audi'},
+        {id: 2, name: 'BMW'},
+        {id: 1, name: 'Honda'}
+    ];
+
+    $scope.selectedCar = [];
+
 //    $scope.expression = "<h1>this is a test</h1>";
 });
 

@@ -15,17 +15,21 @@ $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-brightcove-player/player.js',
     'text/javascript'
 );
-//$this->headLink()->appendStylesheet(
-//    $this->basePath() . '/modules/rcm-brightcove-player/style.css'
-//);
+
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-brightcove-player/style.css'
+);
+$this->headLink()->appendStylesheet(
+    '//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'
+)
 // ng-switch-when="{{solution.title}}
 ?>
-
-<script type="text/javascript">
+<script src="/modules/rcm-brightcove-player/multiselect.js"></script>
+<!-- <script type="text/javascript">
 
     var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi("selectedPlaylists.id.0");
 
-</script>
+</script> -->
 <div ng-show="selectedItem.id == 0">
     <?php require('single_player.phtml'); ?>
 </div>
@@ -36,7 +40,6 @@ $this->headScript()->appendFile(
 <div ng-controller="PlayerEditCtrl">
     <form style="display:none" title="Brightcove Player Editor" novalidate>
 
-        <div>
             <div>
                 <div ng-show="true">
                     <select
@@ -66,21 +69,31 @@ $this->headScript()->appendFile(
                 <div ng-show="selectedItem.id == 1">
                     <br>Choose Playlist:<br>
                     <select
-                        name="playlist"
+                        class="input-lg"
                         data-value="{{selectedPlaylists.id}}"
-                        video-ids="{{selectedPlaylists.videoIds.0}}"
-                        ng-options="playlist.name for playlist in playlists"
+                        multiple="true"
                         ng-model="selectedPlaylists"
-                        >
+                        ng-options="playlist.name for playlist in playlists"
+                        change="selected()">
                     </select>
+                    <div class="well well-sm">
+                        {{selectedPlaylists.id}}
+                    </div>
+
+<!--                    <select-->
+<!--                        name="playlist"-->
+<!--                        data-value="{{selectedPlaylists.id}}"-->
+<!--                        video-ids="{{selectedPlaylists.videoIds.0}}"-->
+<!--                        ng-options="playlist.name for playlist in playlists"-->
+<!--                        ng-model="selectedPlaylists"-->
+<!--                        >-->
+<!--                    </select>-->
                     <br>
-                    {{selectedPlaylists.id}}
+<!--                    {{selectedPlaylists.id}}-->
                 </div>
                 <br>
-
-                <div><br></div>
             </div>
-        </div>
+
     </form>
 </div>
 
