@@ -1,0 +1,9 @@
+multiselect .dropdown-menu{
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+multiselect .dropdown-menu > li > a {
+    padding: 3px 10px;
+    cursor:pointer;
+}
