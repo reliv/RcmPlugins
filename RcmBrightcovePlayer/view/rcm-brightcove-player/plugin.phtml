@@ -37,7 +37,7 @@ $this->headLink()->appendStylesheet(
     <?php require('multi-player.phtml'); ?>
 </div>
 
-<div ng-controller="PlayerEditCtrl">
+<div ng-controller="PlayerEditCtrl" style="height:700px;">
     <form style="display:none" title="Brightcove Player Editor" novalidate>
 
             <div>
@@ -68,16 +68,19 @@ $this->headLink()->appendStylesheet(
                 </div>
                 <div ng-show="selectedItem.id == 1">
                     <br>Choose Playlist:<br>
-                    <select
+                    <multiselect
                         class="input-lg"
-                        data-value="{{selectedPlaylists.id}}"
                         multiple="true"
                         ng-model="selectedPlaylists"
-                        ng-options="playlist.name for playlist in playlists"
-                        change="selected()">
-                    </select>
+                        options="playlist.name for playlist in playlists"
+                        change="selected()"
+                        data-value="{{selectedPlaylists.id}}"
+                        >
+                    </multiselect>
                     <div class="well well-sm">
-                        {{selectedPlaylists.id}}
+
+                        {{selectedPlaylists}}
+
                     </div>
 
 <!--                    <select-->

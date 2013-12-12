@@ -225,7 +225,7 @@ angular.module('ui.multiselect', [])
       restrict: 'E',
       scope: false,
       replace: true,
-      templateUrl: '../view/rcm-brightcove-player/multiselect.tmpl.html',
+      templateUrl: '/modules/rcm-brightcove-player/multiselect.tmpl.html',
       link: function (scope, element, attrs) {
 
         scope.isVisible = false;

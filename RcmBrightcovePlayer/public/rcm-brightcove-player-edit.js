@@ -147,7 +147,8 @@ playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
 
     requestPlaylist(function(data) {
         $scope.playlists = data.items;
-        $scope.selectedPlaylists = $scope.playlists[0];
+      //  $scope.selectedPlaylists = $scope.playlists;
+        $scope.selectedPlaylists = [];
         $scope.$apply();
 
     });
@@ -157,13 +158,13 @@ playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
         { id: 1, name: 'multiple video player' }
     ];
 
-    $scope.cars = [
-        {id: 1, name: 'Audi'},
-        {id: 2, name: 'BMW'},
-        {id: 1, name: 'Honda'}
-    ];
+//    $scope.cars = [
+//        {id: 1, name: 'Audi'},
+//        {id: 2, name: 'BMW'},
+//        {id: 1, name: 'Honda'}
+//    ];
 
-    $scope.selectedCar = [];
+//    $scope.selectedCar = [];
 
 //    $scope.expression = "<h1>this is a test</h1>";
 });
