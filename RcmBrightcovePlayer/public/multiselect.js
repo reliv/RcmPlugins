@@ -32,7 +32,7 @@ angular.module('ui.multiselect', [])
         restrict: 'E',
         require: 'ngModel',
         link: function (originalScope, element, attrs, modelCtrl) {
-            console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+
           var exp = attrs.options,
             parsedResult = optionParser.parse(exp),
             isMultiple = attrs.multiple ? true : false,
@@ -41,7 +41,7 @@ angular.module('ui.multiselect', [])
             changeHandler = attrs.change || angular.noop;
 
           scope.items = [];
-          scope.header = 'Select';
+          scope.header = 'Select playlist(s)';
           scope.multiple = isMultiple;
           scope.disabled = false;
 
@@ -116,7 +116,7 @@ angular.module('ui.multiselect', [])
           element.append($compile(popUpEl)(scope));
 
           function getHeaderText() {
-            if (is_empty(modelCtrl.$modelValue)) return scope.header = 'Select';
+            if (is_empty(modelCtrl.$modelValue)) return scope.header = 'Select playlist(s)                     ';
             
             if (isMultiple) {
               scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';

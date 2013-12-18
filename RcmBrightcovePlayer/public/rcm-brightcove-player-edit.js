@@ -43,7 +43,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
      */
     var defaultInstanceConfig;
 
-    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, 'rcm-profile-form');
+    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, 'rcm-brightcove-player');
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -92,31 +92,62 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
      */
     this.showEditDialog = function () {
 
-        $( ".hide-vid").hide();
+        $(".hide-vid").hide();
 
-        var form=container.find('form');
+        var form = container.find('form');
+
+        $(function() {
+            $( "#sortable1, #sortable2" ).sortable({
+                connectWith: ".connectedSortable"
+            }).disableSelection();
+        });
 
         form.dialog({
             width: '600px',
             position: 'center',
-            buttons:{
-                Cancel: function() {
+            buttons: {
+                Cancel: function () {
                     $(this).dialog("close");
                 },
-                "OK": function() {
-                    instanceConfig['videoId'] = form.find('[name=playlist]').attr('video-ids');
+                "OK": function () {
 
-                    instanceConfig['playlistIds'] =[parseInt(form.find('[name=playlist]').attr('data-value'))];
+                 var selection = form.find("[name=selection]").attr("data-selection");
 
-                    console.log(instanceConfig['playlistIds'], '**** PLAYLIST ID ****');
-                    console.log(instanceConfig['videoId']);
+                 instanceConfig['type'] = selection;
+
+                 if (selection == 'single-embed') {
+
+                    getVideoId = form.find(".singleVideo").html();
+                    instanceConfig['videoId'] = getVideoId;
+
+//                    processVideoIdResponse(getVideoId);
+
+
+                 } else {
+
+                        instanceConfig['playlistIds'] = [];
+
+                        var lis = form.find('ul.playlist-list li');
+
+                        var first = lis.attr('data-first-video');
+
+                        instanceConfig['videoId'] = parseInt(first);
+
+                        $.each(lis, function () {
+                            var playlistId = $(this).attr('data-id');
+                            console.log(playlistId, 'PLAYLISTID');
+                            instanceConfig['playlistIds'].push(parseInt(playlistId));
+                        });
+                    }
+//
+//                    console.log(instanceConfig['playlistIds'], '**** PLAYLIST ID ****');
+//                    console.log(instanceConfig['videoId']);
                     $(this).dialog("close");
                 }
             }
         });
     };
 };
-
 
 
 /**
@@ -136,36 +167,43 @@ angular.element(document).ready(function () {
  * @constructor
  */
 
-var playerEditModule = angular.module('playerEditModule', ['ui.multiselect']);
+var playerEditModule = angular.module('playerEditModule', []);
 playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
 
-    singleEmbedDropdownList(function(items) {
+    singleEmbedDropdownList(function (items) {
         $scope.videos = items;
         $scope.selectedVideos = $scope.videos[0];
         $scope.$apply();
     });
 
-    requestPlaylist(function(data) {
-        $scope.playlists = data.items;
-      //  $scope.selectedPlaylists = $scope.playlists;
-        $scope.selectedPlaylists = [];
-        $scope.$apply();
 
-    });
+    $scope.init = function (instanceConfig) {
+
+        requestPlaylist(function (data) {
+            var allOfPlaylists = data.items;
+            var selectedIds = instanceConfig['playlistIds'];
+            $scope.unselectedPlaylist = [];
+            $scope.selectedPlaylist = [];
+            $.each(allOfPlaylists, function () {
+
+                var pos = $.inArray(this.id, selectedIds);
+                if (pos == -1) {
+                    $scope.unselectedPlaylist.push(this);
+                } else {
+                    $scope.selectedPlaylist.push(this);
+                }
+            });
+
+
+            $scope.$apply();
+
+        });
+    };
 
     $scope.items = [
-        { id: 0, name: 'single embed' },
-        { id: 1, name: 'multiple video player' }
+        { id: 'single-embed', name: 'single embed' },
+        { id: 'multi-embed', name: 'multiple video player' }
     ];
 
-//    $scope.cars = [
-//        {id: 1, name: 'Audi'},
-//        {id: 2, name: 'BMW'},
-//        {id: 1, name: 'Honda'}
-//    ];
 
-//    $scope.selectedCar = [];
-
-//    $scope.expression = "<h1>this is a test</h1>";
 });
-

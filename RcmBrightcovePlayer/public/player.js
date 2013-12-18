@@ -25,6 +25,8 @@ var brightcovePlayerApi = function(startVideo) {
 
     me.loadVideoById =function (videoId) {
         me.modVP.loadVideoByID(videoId);
+        getDownloadURL(videoId);
+
     };
 
     me.onMediaBegin = function (evt) {

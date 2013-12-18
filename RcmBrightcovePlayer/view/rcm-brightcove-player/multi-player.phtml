@@ -19,8 +19,23 @@
     .videoArea {
         display: block;
         float: left;
-        width: 190px;
-        height: 80px;
+        width: 200px;
+        height: 150px;
+    }
+
+    .title p {
+        text-overflow: ellipsis;
+        width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .description p {
+        text-overflow: ellipsis;
+        width: 150px;
+        height: 35px;
+        white-space: inherit;
+        overflow: hidden;
     }
 
     .videoAreaWrap {
@@ -39,43 +54,49 @@
 </script>
 <script type="text/javascript">
 
-    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi("<?= $ic['videoId'] ?>");
+    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi(<?= json_encode($ic['videoId']); ?>);
 
 </script>
+<div id="downloadLink" style="float: right;"></div><br>
+<br><br>
 <div class="hide-vid">
+
     <div ng-controller="playerTabsCtrl" ng-init="init(<?= json_encode($ic['playlistIds']); ?>)">
         <script type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
-        <div id="player">
-            <!-- Start of Brightcove Player -->
-            <script language="JavaScript" type="text/javascript"
-                    src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
-            <object id="myExperience" class="BrightcoveExperience">
-                <param name="bgcolor" value="#FFFFFF"/>
-                <param name="width" value="672"/>
-                <param name="height" value="378"/>
-                <param name="play" value="false"/>
-                <param name="mute" value="true"/>
-                <param name="playerID" value="2660464878001"/>
-                <param name="playerKey" value="AQ~~,AAABWA8lTok~,NLWj-wltGTxQtoAwLzwEdE62BFMU_8At"/>
-                <param name="isVid" value="true"/>
-                <param name="isUI" value="true"/>
-                <param name="wmode" value="opaque"/>
-                <param name="dynamicStreaming" value="true"/>
-                <param name="autoStart" value="false"/>
-                <!--            <param name="@videoList" value="1479118156001"/>-->
-                <param name="includeAPI" value="true"/>
-                <param name="templateLoadHandler" value="myTemplateLoaded<?php echo $this->instanceId; ?>"/>
-                <param name="templateReadyHandler" value="onTemplateReady<?php echo $this->instanceId; ?>"/>
-
-            </object>
-            <script type="text/javascript">brightcove.createExperiences();</script>
-            <!-- End of Brightcove Player -->
-        </div>
-
+        <div id="downloadLink"></div>
         <div data-hbo-tabs id="rcm-brightcove-player-tabs">
+            <div id="player" align="center">
+                <!-- Start of Brightcove Player -->
+    <!--                <script language="JavaScript" type="text/javascript"-->
+    <!--                        src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>-->
+                <object id="myExperience" class="BrightcoveExperience">
+                    <param name="bgcolor" value="#FFFFFF"/>
+                    <param name="width" value="672"/>
+                    <param name="height" value="378"/>
+                    <param name="playerID" value="2660464878001"/>
+                    <param name="playerKey" value="AQ~~,AAABWA8lTok~,NLWj-wltGTxQtoAwLzwEdE62BFMU_8At"/>
+                    <param name="isVid" value="true"/>
+                    <param name="isUI" value="true"/>
+                    <param name="wmode" value="opaque"/>
+                    <param name="dynamicStreaming" value="false"/>
+                    <param name="autoStart" value="false"/>
+                    <param name="play" value="false"/>
+                    <param name="autoplay" value="false"/>
+                    <param name="mute" value="true"/>
+                    <!--  <param name="@videoList" value="1479118156001"/>-->
+                    <param name="includeAPI" value="true"/>
+                    <param name="templateLoadHandler" value="myTemplateLoaded<?php echo $this->instanceId; ?>"/>
+                    <param name="templateReadyHandler" value="onTemplateReady<?php echo $this->instanceId; ?>"/>
+
+                </object>
+                <script type="text/javascript">brightcove.createExperiences();</script>
+                <!-- End of Brightcove Player -->
+            </div>
+
+
 
             <ul>
-                <li ng-repeat="(key,playlist) in playlists"><a href="#tabs-{{key}}">{{playlist.id}}</a></li>
+                <li ng-repeat="(key,playlist) in playlists"><a href="#tabs-{{key}}">{{playlist.name}}</a></li>
             </ul>
 
             <div
@@ -86,8 +107,30 @@
                 <a href="javascript:void(0)"
                    onclick="bgPlayerApi<?php echo $this->instanceId; ?>.loadVideoById({{video.id}})" class="videoArea"
                    ng-repeat="video in playlist.videos">
-                    <img src="{{video.thumbnailURL}}" width="135px" height="70px"/>
+                    <table>
+                        <tr>
+                            <td style="text-align: left;">
+                                <img src="{{video.thumbnailURL}}" width="135px" height="70px"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="title"><p
+                                        style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">
+                                        {{video.name}}</p></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="description"><p style="text-decoration: none;font-size: 10px;">
+                                        {{video.shortDescription}}</p></span>
+                            </td>
+                        </tr>
+                    </table>
+
+
                 </a>
+                {{video.name}}
             </div>
         </div>
     </div>
