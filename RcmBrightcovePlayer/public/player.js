@@ -13,20 +13,29 @@ var brightcovePlayerApi = function(startVideo) {
     me.myTemplateLoaded = function(experienceID) {
         me.player = brightcove.api.getExperience(experienceID);
         me.modVP = me.player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
-        console.log("%c^*^*^*^^*^*^*^*^*^*^*^  MY TEMPLATE LOADED ^*^*^*^*^*^*^*^*^*^*^", "background: red; color:white; font-size: large");
+        if(me.startVideo){
+            me.cueVideoById(me.startVideo);
+        }
     };
 
     me.onTemplateReady = function (evt) {
-        me.loadVideoById(me.startVideo);
         me.modVP.addEventListener(brightcove.api.events.MediaEvent.BEGIN, me.onMediaBegin);
         me.modVP.addEventListener(brightcove.api.events.MediaEvent.COMPLETE, me.onMediaComplete);
-        console.log("%c^*^*^*^^*^*^*^*^*^*^*^  ON TEMPLATE LOADED ^*^*^*^*^*^*^*^*^*^*^", "background: red; color:white; font-size: large");
+
     };
 
     me.loadVideoById =function (videoId) {
         me.modVP.loadVideoByID(videoId);
         getDownloadURL(videoId);
+    };
 
+    me.cueVideoById =function (videoId) {
+        if(me.modVP){
+            me.modVP.cueVideoByID(videoId);
+        }else{
+            me.startVideo = videoId;
+        }
+        getDownloadURL(videoId);
     };
 
     me.onMediaBegin = function (evt) {

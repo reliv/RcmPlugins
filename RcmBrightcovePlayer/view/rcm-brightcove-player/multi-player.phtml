@@ -53,22 +53,20 @@
     }
 </script>
 <script type="text/javascript">
-
-    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi(<?= json_encode($ic['videoId']); ?>);
-
+    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi(null);
 </script>
 <div id="downloadLink" style="float: right;"></div><br>
 <br><br>
 <div class="hide-vid">
 
-    <div ng-controller="playerTabsCtrl" ng-init="init(<?= json_encode($ic['playlistIds']); ?>)">
+    <div ng-controller="playerTabsCtrl" ng-init="init(<?= json_encode($ic['playlistIds']); ?>,<?php echo $this->instanceId; ?>)">
         <script type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
         <div id="downloadLink"></div>
         <div data-hbo-tabs id="rcm-brightcove-player-tabs">
             <div id="player" align="center">
                 <!-- Start of Brightcove Player -->
-    <!--                <script language="JavaScript" type="text/javascript"-->
-    <!--                        src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>-->
+                <!--                <script language="JavaScript" type="text/javascript"-->
+                <!--                        src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>-->
                 <object id="myExperience" class="BrightcoveExperience">
                     <param name="bgcolor" value="#FFFFFF"/>
                     <param name="width" value="672"/>
@@ -78,11 +76,11 @@
                     <param name="isVid" value="true"/>
                     <param name="isUI" value="true"/>
                     <param name="wmode" value="opaque"/>
-                    <param name="dynamicStreaming" value="false"/>
-                    <param name="autoStart" value="false"/>
-                    <param name="play" value="false"/>
-                    <param name="autoplay" value="false"/>
-                    <param name="mute" value="true"/>
+                    <param name="dynamicStreaming" value="true"/>
+<!--                                        <param name="autoStart" value="false"/>-->
+<!--                                        <param name="play" value="false"/>-->
+<!--                                        <param name="autoplay" value="false"/>-->
+<!--                                        <param name="mute" value="true"/>-->
                     <!--  <param name="@videoList" value="1479118156001"/>-->
                     <param name="includeAPI" value="true"/>
                     <param name="templateLoadHandler" value="myTemplateLoaded<?php echo $this->instanceId; ?>"/>
@@ -92,7 +90,6 @@
                 <script type="text/javascript">brightcove.createExperiences();</script>
                 <!-- End of Brightcove Player -->
             </div>
-
 
 
             <ul>
@@ -115,8 +112,8 @@
                         </tr>
                         <tr>
                             <td>
-                                <span class="title"><p
-                                        style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">
+                                <span class="title">
+                                    <p style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">
                                         {{video.name}}</p></span>
                             </td>
                         </tr>
@@ -127,10 +124,7 @@
                             </td>
                         </tr>
                     </table>
-
-
                 </a>
-                {{video.name}}
             </div>
         </div>
     </div>

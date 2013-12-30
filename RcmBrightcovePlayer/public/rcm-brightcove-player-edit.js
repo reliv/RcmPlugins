@@ -96,14 +96,30 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
 
         var form = container.find('form');
 
-        $(function() {
-            $( "#sortable1, #sortable2" ).sortable({
-                connectWith: ".connectedSortable"
-            }).disableSelection();
+
+        $(function () {
+            $("ul.droptrue").sortable({
+                connectWith: "ul"
+            });
+
+            $("ul.droptrue").sortable({
+                connectWith: "ul",
+                dropOnEmpty: true
+            });
+
+            $("#sortable1, #sortable2").disableSelection();
         });
 
+
+//        $(function() {
+//            $( "#sortable1, #sortable2" ).sortable({
+//                connectWith: ".connectedSortable",
+//                dropOnEmpty: true
+//            }).disableSelection();
+//        });
+
         form.dialog({
-            width: '600px',
+            width: '660px',
             position: 'center',
             buttons: {
                 Cancel: function () {
@@ -111,37 +127,33 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
                 },
                 "OK": function () {
 
-                 var selection = form.find("[name=selection]").attr("data-selection");
+                    var selection = form.find("[name=selection]").attr("data-selection");
 
-                 instanceConfig['type'] = selection;
+                    instanceConfig['type'] = selection;
 
-                 if (selection == 'single-embed') {
+                    if (selection == 'single-embed') {
 
-                    getVideoId = form.find(".singleVideo").html();
-                    instanceConfig['videoId'] = getVideoId;
+                        getVideoId = form.find(".singleVideo").html();
+                        instanceConfig['videoId'] = getVideoId;
 
 //                    processVideoIdResponse(getVideoId);
 
 
-                 } else {
+                    } else {
 
                         instanceConfig['playlistIds'] = [];
 
                         var lis = form.find('ul.playlist-list li');
 
-                        var first = lis.attr('data-first-video');
-
-                        instanceConfig['videoId'] = parseInt(first);
+//                        var first = lis.attr('data-first-video');
+//
+//                        instanceConfig['videoId'] = parseInt(first);
 
                         $.each(lis, function () {
                             var playlistId = $(this).attr('data-id');
-                            console.log(playlistId, 'PLAYLISTID');
                             instanceConfig['playlistIds'].push(parseInt(playlistId));
                         });
                     }
-//
-//                    console.log(instanceConfig['playlistIds'], '**** PLAYLIST ID ****');
-//                    console.log(instanceConfig['videoId']);
                     $(this).dialog("close");
                 }
             }
@@ -170,16 +182,22 @@ angular.element(document).ready(function () {
 var playerEditModule = angular.module('playerEditModule', []);
 playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
 
-    singleEmbedDropdownList(function (items) {
-        $scope.videos = items;
-        $scope.selectedVideos = $scope.videos[0];
-        $scope.$apply();
-    });
-
 
     $scope.init = function (instanceConfig) {
 
-        requestPlaylist(function (data) {
+
+        function fillDropdownList(items) {
+
+            $scope.videos = items;
+            $scope.selectedVideos = $scope.videos[0];
+            $scope.$apply();
+        }
+
+        singleEmbedDropdownList(fillDropdownList);
+
+        function processMultiselectResponse(data) {
+
+
             var allOfPlaylists = data.items;
             var selectedIds = instanceConfig['playlistIds'];
             $scope.unselectedPlaylist = [];
@@ -194,15 +212,16 @@ playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
                 }
             });
 
-
             $scope.$apply();
 
-        });
+        }
+
+        requestPlaylist(processMultiselectResponse);
     };
 
     $scope.items = [
         { id: 'single-embed', name: 'single embed' },
-        { id: 'multi-embed', name: 'multiple video player' }
+        { id: 'multi-embed', name: 'tabbed video player' }
     ];
 
 

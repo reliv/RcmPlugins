@@ -6,14 +6,18 @@ angular.element(document).ready(function () {
 
 var app = angular.module('playerTabs', [])
     .controller('playerTabsCtrl', function ($scope) {
+        var instanceId;
 
-        $scope.init = function(data) {
-            findPlaylistsById(data);
+        $scope.init = function(playlistIds, passedInstanceId) {
+            instanceId = passedInstanceId;
+            findPlaylistsById(playlistIds);
         };
 
         function renderTabs(data) {
             $scope.playlists = data.items;
-            $scope.selectedPlaylists = $scope.playlists[0];
+            var firstVideo = $scope.playlists[0].videos[0];
+            window['bgPlayerApi'+instanceId].cueVideoById(firstVideo.id);
+
             $scope.$apply();
 
             $('#rcm-brightcove-player-tabs').tabs();

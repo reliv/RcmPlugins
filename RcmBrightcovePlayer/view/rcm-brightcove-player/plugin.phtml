@@ -25,7 +25,10 @@ $this->headLink()->appendStylesheet(
 
 ?>
 <script src="/modules/rcm-brightcove-player/multiselect.js"></script>
-
+<script>
+    var bgReadToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['readToken']; ?>';
+    var bgUrlToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['urlToken']; ?>';
+</script>
 <?php
 
 if (($ic['type']) == 'single-embed') {
@@ -35,9 +38,9 @@ if (($ic['type']) == 'single-embed') {
 }
 ?>
 <div style="display:none">
-    <div ng-controller="PlayerEditCtrl" style="height:700px;"
-         ng-init="init(<?php echo str_replace('"', "'", json_encode($ic)); ?>)">
-        <form style="display:none" title="Brightcove Player Editor" novalidate>
+    <div ng-controller="PlayerEditCtrl"
+         ng-init="init(<?php echo str_replace('"', "'", json_encode($ic)); ?> )">
+        <form style="display:none" title="Brightcove Player Editor" novalidate class="RcmBrightcovePlayer">
 
             <div>
                 <div ng-show="true">
@@ -68,74 +71,53 @@ if (($ic['type']) == 'single-embed') {
                     <br>
                 </div>
                 <div class="selection" ng-show="selectedItem.id == 'multi-embed'">
-                    <br>Choose Playlist:<br>
-                    <!--                <multiselect-->
-                    <!---->
-                    <!--                    class="input-lg"-->
-                    <!--                    multiple="true"-->
-                    <!--                    ng-model="selectedPlaylists"-->
-                    <!--                    options="playlist.name for playlist in playlists"-->
-                    <!---->
-                    <!--                    change="selected()"-->
-                    <!---->
-                    <!--                    >-->
-                    <!--                </multiselect>-->
+                    <br><br>
+
                     <div>
-                        <!--                    <ul class="playlist-list">-->
-                        <!--                        <li ng-repeat="playlist in selectedPlaylists" data-first-video="{{playlist.videoIds.0}}"-->
-                        <!--                            data-id="{{playlist.id}}">{{playlist.name}}-->
-                        <!--                        </li>-->
-                        <!---->
-                        <!--                    </ul>-->
 
-                            <ul id="sortable1"
-                                class="connectedSortable"
+                        <ul id="sortable1"
+                            class="droptrue connectedSortable"
+                            >
+                            <span style="padding: 5px;"><strong>Unselected Playlists</strong></span>
+                            <li
+                                style="height:20px;"
+                                class="ui-state-default"
+                                ng-repeat="playlist in unselectedPlaylist"
+                                data-first-video="{{playlist.videoIds.0}}"
+                                data-id="{{playlist.id}}"
                                 >
-                                <li
-                                    class="ui-state-default"
-                                    ng-repeat="playlist in unselectedPlaylist"
-                                    data-first-video="{{playlist.videoIds.0}}"
-                                    data-id="{{playlist.id}}"
-                                    >
-                                    {{playlist.name}}
+                                {{playlist.name}}
 
-                                </li>
-                            </ul>
-                            <ul
-                                id="sortable2"
-                                class="connectedSortable playlist-list">
-                                <li
-                                    class="ui-state-highlight"
-                                    ng-repeat="playlist in selectedPlaylist"
-                                    data-first-video="{{playlist.videoIds.0}}"
-                                    data-id="{{playlist.id}}"
+                            </li>
+                        </ul>
 
-                                    >
-                                    {{playlist.name}}
-                                </li>
+                        <ul
+                            id="sortable2"
 
-                            </ul>
+                            class="droptrue playlist-list">
+                            <span style="padding: 5px;"><strong>Selected Playlists</strong></span>
+                            <li
+                                class="ui-state-highlight"
+                                ng-repeat="playlist in selectedPlaylist"
+                                data-first-video="{{playlist.videoIds.0}}"
+                                data-id="{{playlist.id}}"
+                                style="min-height: 15px"
+                                >
+                                {{playlist.name}}
+                            </li>
 
+                        </ul>
+
+                        <!--                        <br style="clear:both">-->
                     </div>
-
-                    <!--                                    <select-->
-                    <!--                                        name=" playlist -->
-
-                    <!--                        data-value="{{selectedPlaylists.id}}"-->
-                    <!--                        video-ids="{{selectedPlaylists.videoIds.0}}"-->
-                    <!--                        ng-options="playlist.name for playlist in playlists"-->
-                    <!--                        ng-model="selectedPlaylists"-->
-                    <!--                        >-->
-                    <!--                    </select>-->
-                    <br>
-                    <!--                    {{selectedPlaylists.id}}-->
                 </div>
-                <br>
             </div>
-            <div style="clear:both;"></div>
-        </form>
+            <br>
     </div>
+    <div style="clear:both;"></div>
+    </form>
 </div>
+
 
 
 
