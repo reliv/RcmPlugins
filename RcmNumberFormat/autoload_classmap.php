@@ -3,4 +3,6 @@
 return array(
   'RcmNumberFormat\Module'                            => __DIR__ . '/Module.php',
   'RcmNumberFormat\Controller\NumberFormatController' => __DIR__ . '/src/RcmNumberFormat/Controller/NumberFormatController.php',
+  'RcmNumberFormat\Model\CurrencyFormatter'           => __DIR__ . '/src/RcmNumberFormat/Model/CurrencyFormatter.php',
+  'RcmNumberFormat\View\Helper\CurrencyFormat'        => __DIR__ . '/src/RcmNumberFormat/View/Helper/CurrencyFormat.php',
 );
