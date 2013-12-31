@@ -1,6 +1,5 @@
 <?php
 
-
 $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-brightcove-player/rcm-brightcove-player.js',
     'text/javascript'
@@ -19,81 +18,102 @@ $this->headScript()->appendFile(
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-brightcove-player/style.css'
 );
-$this->headLink()->appendStylesheet(
-    '//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'
-)
-// ng-switch-when="{{solution.title}}
+
+
 ?>
 <script src="/modules/rcm-brightcove-player/multiselect.js"></script>
-<!-- <script type="text/javascript">
+<script>
+    var bgReadToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['readToken']; ?>';
+    var bgUrlToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['urlToken']; ?>';
+</script>
+<?php
 
-    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi("selectedPlaylists.id.0");
-
-</script> -->
-<div ng-show="selectedItem.id == 0">
-    <?php require('single_player.phtml'); ?>
-</div>
-<div ng-show="selectedItem.id == 1">
-    <?php require('multi-player.phtml'); ?>
-</div>
-
-<div ng-controller="PlayerEditCtrl">
-    <form style="display:none" title="Brightcove Player Editor" novalidate>
+if (($ic['type']) == 'single-embed') {
+    require('single_player.phtml');
+} elseif (($ic['type']) == 'multi-embed') {
+    require('multi-player.phtml');
+}
+?>
+<div style="display:none">
+    <div ng-controller="PlayerEditCtrl"
+         ng-init="init(<?php echo str_replace('"', "'", json_encode($ic)); ?> )">
+        <form style="display:none" title="Brightcove Player Editor" novalidate class="RcmBrightcovePlayer">
 
             <div>
                 <div ng-show="true">
                     <select
+                        name="selection"
                         ng-model="selectedItem"
                         ng-init="selectedItem = selectedItem || items[0]"
+                        data-selection="{{selectedItem.id}}"
                         ng-options="item as item.name for item in items">
                     </select>
 
 
                 </div>
-                <div ng-show="selectedItem.id == 0">
+                <div class="selection" ng-show="selectedItem.id == 'single-embed'">
 
                     <br>Choose video:<br>
                     <select
                         name="video"
-                        data-value="{{selectedVideos.id}}"
                         ng-model="selectedVideos"
                         ng-options="video.name for video in videos">
                     </select>
-                    <!--                    {{selectedVideos.name}} -->
+
                     <br>
-                    <!--                    {{selectedVideos.id}}  -->
+
+                    <div class="singleVideo" style="display:none;">{{selectedVideos.id}}</div>
                     <br>
                     <img src="{{selectedVideos.thumbnailURL}}"/>
                     <br>
                 </div>
-                <div ng-show="selectedItem.id == 1">
-                    <br>Choose Playlist:<br>
-                    <select
-                        class="input-lg"
-                        data-value="{{selectedPlaylists.id}}"
-                        multiple="true"
-                        ng-model="selectedPlaylists"
-                        ng-options="playlist.name for playlist in playlists"
-                        change="selected()">
-                    </select>
-                    <div class="well well-sm">
-                        {{selectedPlaylists.id}}
+                <div class="selection" ng-show="selectedItem.id == 'multi-embed'">
+                    <br><br>
+
+                    <div>
+
+                        <ul id="sortable1"
+                            class="droptrue connectedSortable"
+                            >
+                            <span style="padding: 5px;"><strong>Unselected Playlists</strong></span>
+                            <li
+                                style="height:20px;"
+                                class="ui-state-default"
+                                ng-repeat="playlist in unselectedPlaylist"
+                                data-first-video="{{playlist.videoIds.0}}"
+                                data-id="{{playlist.id}}"
+                                >
+                                {{playlist.name}}
+
+                            </li>
+                        </ul>
+
+                        <ul
+                            id="sortable2"
+
+                            class="droptrue playlist-list">
+                            <span style="padding: 5px;"><strong>Selected Playlists</strong></span>
+                            <li
+                                class="ui-state-highlight"
+                                ng-repeat="playlist in selectedPlaylist"
+                                data-first-video="{{playlist.videoIds.0}}"
+                                data-id="{{playlist.id}}"
+                                style="min-height: 15px"
+                                >
+                                {{playlist.name}}
+                            </li>
+
+                        </ul>
                     </div>
-
-<!--                    <select-->
-<!--                        name="playlist"-->
-<!--                        data-value="{{selectedPlaylists.id}}"-->
-<!--                        video-ids="{{selectedPlaylists.videoIds.0}}"-->
-<!--                        ng-options="playlist.name for playlist in playlists"-->
-<!--                        ng-model="selectedPlaylists"-->
-<!--                        >-->
-<!--                    </select>-->
-                    <br>
-<!--                    {{selectedPlaylists.id}}-->
                 </div>
-                <br>
             </div>
-
+            <br>
+    </div>
+    <div style="clear:both;"></div>
     </form>
 </div>
+
+
+
+
 
