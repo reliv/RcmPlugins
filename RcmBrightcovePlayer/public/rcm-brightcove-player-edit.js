@@ -162,16 +162,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
 };
 
 
-/**
- *  The following code is needed for every use of angular JS (with modification using variables specific to plug-in).
- *  Because of the following declaration, the directive 'ng-app' is NOT needed in the view
- */
-
-angular.element(document).ready(function () {
-    $.each($('[ng-controller=PlayerEditCtrl]'), function (key, element) {
-        angular.bootstrap(element, ['playerEditModule']);
-    });
-});
+rcm.angularBootstrap('playerEditModule', 'PlayerEditCtrl');
 
 /**
  * Angular JS controller for this plugin

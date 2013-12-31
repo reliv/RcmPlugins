@@ -1,8 +1,4 @@
-angular.element(document).ready(function () {
-    $.each($('[ng-controller=playerTabsCtrl]'), function (key, element) {
-        angular.bootstrap(element, ['playerTabs']);
-    });
-});
+rcm.angularBootstrap('playerTabs', 'playerTabsCtrl');
 
 var app = angular.module('playerTabs', [])
     .controller('playerTabsCtrl', function ($scope) {
