@@ -69,7 +69,7 @@ class NumberFormatController extends AbstractActionController
     public function getRequestNumber()
     {
         return filter_var(
-            $this->getEvent()->getRouteMatch()->getParam('number'),
+            $this->params()->fromRoute('number'),
             FILTER_SANITIZE_NUMBER_FLOAT
         );
     }
