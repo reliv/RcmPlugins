@@ -34,7 +34,7 @@ class NumberFormatControllerTest extends BaseTestCase
         $event = new MvcEvent();
         $event->setRouteMatch(
             new RouteMatch(
-                array('number', self::NUMBER)
+                array('number'=> self::NUMBER)
             )
         );
         $this->unit->setEvent($event);
@@ -45,12 +45,11 @@ class NumberFormatControllerTest extends BaseTestCase
      */
     public function testNumberAction()
     {
-//causes Fatal error: Uncaught exception 'Exception' with message 'Serialization of 'Closure' is not allowed' we must find a way to debug these
-//        $response = $this->unit->numberAction()->getVariables();
-//        $this->assertEquals(
-//            $response['result'],
-//            number_format(self::NUMBER, 2)
-//        );
+        $response = $this->unit->numberAction()->getVariables();
+        $this->assertEquals(
+            $response['result'],
+            number_format(self::NUMBER, 2)
+        );
     }
 
     /**
@@ -58,11 +57,10 @@ class NumberFormatControllerTest extends BaseTestCase
      */
     public function testCurrencyAction()
     {
-//causes Fatal error: Uncaught exception 'Exception' with message 'Serialization of 'Closure' is not allowed' we must find a way to debug these
-//        $response = $this->unit->numberAction()->getVariables();
-//        $this->assertEquals(
-//            $response['result'],
-//            $this->formatter->formatCurrency(self::NUMBER)
-//        );
+        $response = $this->unit->currencyAction()->getVariables();
+        $this->assertEquals(
+            $this->formatter->formatCurrency(self::NUMBER),
+            $response['result']
+        );
     }
 }

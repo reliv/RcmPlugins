@@ -2,6 +2,7 @@
 
 namespace RcmNumberFormat\Controller;
 
+use Aws\CloudFront\Exception\Exception;
 use RcmNumberFormat\Model\CurrencyFormatter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -70,7 +71,7 @@ class NumberFormatController extends AbstractActionController
     {
         return filter_var(
             $this->params()->fromRoute('number'),
-            FILTER_SANITIZE_NUMBER_FLOAT
+            FILTER_VALIDATE_FLOAT
         );
     }
 }
