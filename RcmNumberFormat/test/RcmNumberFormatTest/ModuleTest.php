@@ -28,7 +28,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * No covers tag here in order to test both config file and module file
+     * No covers tag so this tests both class map file and module file
      */
     public function testGetConfig()
     {
