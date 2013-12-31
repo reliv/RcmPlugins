@@ -12,7 +12,7 @@
  *
  * @category  Reliv
  * @package   RcmPlugins\RcmNumberFormat
- * @author    Rod Mcnew <rmcnew@relivinc.com>
+ * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2013 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
