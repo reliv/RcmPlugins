@@ -9,7 +9,7 @@
  *
  * @category  Reliv
  * @package   RcmPlugins\RcmCallToActionBox
- * @author    Rod McNew <rmcnew@relivinc.com>
+ * @author    Brian Janish <bjanish@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>

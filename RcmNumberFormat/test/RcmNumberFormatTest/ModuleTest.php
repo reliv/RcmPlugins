@@ -1,7 +1,7 @@
 <?php
 
 
-namespace RcmDoctrineJsonPluginStorageTest;
+namespace RcmNumberFormatTest;
 
 require_once __DIR__ . '/../../Module.php';
 

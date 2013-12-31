@@ -9,7 +9,7 @@
  *
  * @category  Reliv
  * @package   RcmHtmlArea
- * @author    Rod McNew <rmcnew@relivinc.com>
+ * @author    Brian Janish <bjanish@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
@@ -28,7 +28,7 @@ use \RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
  *
  * @category  Reliv
  * @package   RcmPlugins\RcmHtmlArea
- * @author    Rod McNew <rmcnew@relivinc.com>
+ * @author    Brian Janish <bjanish@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: 1.0
