@@ -208,7 +208,11 @@ playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
         }
 
         requestPlaylist(processMultiselectResponse);
+
+
     };
+
+
 
     $scope.items = [
         { id: 'single-embed', name: 'single embed' },
