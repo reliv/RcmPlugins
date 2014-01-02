@@ -30,5 +30,10 @@ var app = angular.module('playerTabs', [])
 
         }
 
+        $scope.videoClick = function() {
+            var apiObjectName='bgPlayerApi' + instanceId;
+            window[apiObjectName].loadVideoById(this.video.id);
+        };
+
     })
 
