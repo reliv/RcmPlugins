@@ -61,13 +61,13 @@
 
     <div ng-controller="playerTabsCtrl"
          ng-init="init(<?= json_encode($ic['playlistIds']); ?>,<?php echo $this->instanceId; ?>)">
-        <script type="text/javascript" src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js/vendor/brightcove/BrightcoveExperiences.js"></script>
+        <script type="text/javascript" src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"></script>
         <div id="downloadLink"></div>
         <div data-hbo-tabs id="rcm-brightcove-player-tabs">
             <div id="player" align="center">
                 <!-- Start of Brightcove Player -->
                 <!--                <script language="JavaScript" type="text/javascript"-->
-                <!--                        src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js/vendor/brightcove/BrightcoveExperiences.js"></script>-->
+                <!--                        src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"></script>-->
                 <object id="myExperience" class="BrightcoveExperience">
                     <param name="bgcolor" value="#FFFFFF"/>
                     <param name="width" value="672"/>
