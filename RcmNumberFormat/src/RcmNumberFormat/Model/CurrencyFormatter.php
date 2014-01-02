@@ -1,6 +1,7 @@
 <?php
 
 namespace RcmNumberFormat\Model;
+
 use Zend\I18n\View\Helper\NumberFormat;
 
 /**
@@ -22,14 +23,14 @@ class CurrencyFormatter
 {
     protected $currencySymbol;
 
-    protected $zendNumberFormatter;
+    protected $numberFormatter;
 
     /**
      * @param $currencySymbol string currency symbol or code
      */
     public function __construct($currencySymbol)
     {
-        $this-> $zendNumberFormatter=new NumberFormat();
+        $this->numberFormatter = new NumberFormat();
         $this->currencySymbol = $currencySymbol;
     }
 
@@ -40,6 +41,6 @@ class CurrencyFormatter
      */
     public function formatCurrency($number)
     {
-        return $this->currencySymbol . $this->zendNumberFormatter->__invoke($number);
+        return $this->currencySymbol . $this->numberFormatter->__invoke($number);
     }
 } 
