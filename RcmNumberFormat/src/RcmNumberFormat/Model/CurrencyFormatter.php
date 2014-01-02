@@ -41,6 +41,7 @@ class CurrencyFormatter
      */
     public function formatCurrency($number)
     {
+
         return $this->currencySymbol . $this->numberFormatter->__invoke($number);
     }
 } 
