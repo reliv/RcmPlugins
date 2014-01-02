@@ -19,6 +19,8 @@ use Zend\I18n\View\Helper\NumberFormat;
  * @version   GIT: <git_id>
  */
 
+var_dump(\Locale::getDefault());
+
 class CurrencyFormatter
 {
     protected $currencySymbol;
