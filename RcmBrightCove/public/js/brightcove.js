@@ -60,7 +60,7 @@ var RcmBrightCove = {
         $.ajaxSetup({
             cache: true
         });
-        $.getScript("http://admin.brightcove.com/js/BrightcoveExperiences.js", function(){
+        $.getScript("/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js/vendor/brightcove/BrightcoveExperiences.js", function(){
             $.getScript("http://admin.brightcove.com/js/APIModules_all.js", function(){
                 RcmBrightCove.scriptLoadedCallback();
             });
