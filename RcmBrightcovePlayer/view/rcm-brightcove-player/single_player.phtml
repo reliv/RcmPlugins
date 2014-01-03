@@ -1,8 +1,14 @@
 <script type="text/javascript">
 
-     getDownloadURL(<?= json_encode($ic['videoId']); ?>);
+     getDownloadURL(
+         <?= json_encode($ic['videoId']); ?>,
+         function(url){
+
+             $('#RcmBrightcovePlayerDownloadLink<?= $instanceId ?>').attr('href', url);
+         }
+     );
 </script>
-<div id="downloadLink" style="float: right;"></div><br>
+<div style="float: right;"><a id="RcmBrightcovePlayerDownloadLink<?= $instanceId ?>" data-textEdit="download"><?=  $this->ic['download']; ?></a></div><br>
 <div class="hide-vid" style="border:0">
     <!-- Start of Brightcove Player -->
 
@@ -12,7 +18,6 @@
     By use of this code snippet, I agree to the Brightcove Publisher T and C
     found at https://accounts.brightcove.com/en/terms-and-conditions/.
     -->
-<!--    <div id="downloadLink" style="float: right;"></div>-->
     <br>
     <script language="JavaScript" type="text/javascript"
             src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
