@@ -27,8 +27,6 @@ function singleEmbedDropdownList(callback) {
     }
 
     requestPage(0);
-
-
 }
 
 function requestPlaylist(callback) {
@@ -41,35 +39,28 @@ function requestPlaylist(callback) {
 
 }
 
-function processVideoIdResponse(data) {
-
-    renditions = data.renditions;
-
-    biggestFrameWidth = 0;
-    biggestUrl = '';
-
-
-    $.each(renditions, function() {
-        if (this.frameWidth > biggestFrameWidth) {
-            biggestFrameWidth = this.frameWidth;
-            biggestUrl = this.url;
-        }
-    });
-
-    var str = "";
-    str += "<a href='" + biggestUrl + "'><p class='hide-vid'>Download the Video</p></a>";
-    $(function(){
-        $('#downloadLink').html(str);
-    });
-
-}
-
-function getDownloadURL(video_id) {
+function getDownloadURL(video_id, callback) {
     var data = $.ajax({
         type: 'POST',
         url: 'http://api.brightcove.com/services/library?command=find_video_by_id&video_id=' + video_id + '&video_fields=FLVURL,renditions&token=' + bgUrlToken + '&media_delivery=HTTP',
         dataType: 'jsonp',
-        success: processVideoIdResponse
+        success: function (data) {
+            renditions = data.renditions;
+
+            biggestFrameWidth = 0;
+            biggestUrl = '';
+
+
+            $.each(renditions, function () {
+                if (this.frameWidth > biggestFrameWidth) {
+                    biggestFrameWidth = this.frameWidth;
+                    biggestUrl = this.url;
+                }
+            });
+
+            callback(biggestUrl);
+
+        }
     });
 
 }
