@@ -1,44 +1,3 @@
-<style>
-
-    #tabs {
-        width: 683px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 10px;
-    }
-
-    #video {
-        width: 672px;
-        height: 378px;
-        margin: 5px;
-    }
-
-    .videoArea {
-        display: block;
-        float: left;
-        width: 200px;
-        height: 150px;
-    }
-
-    .title p {
-        text-overflow: ellipsis;
-        width: 150px;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    .description p {
-        text-overflow: ellipsis;
-        width: 150px;
-        height: 35px;
-        white-space: inherit;
-        overflow: hidden;
-    }
-
-    .videoAreaWrap {
-        overflow: hidden;
-    }
-</style>
 <script type="text/javascript">
 
     function myTemplateLoaded<?php echo $this->instanceId; ?>(evt) {
@@ -50,15 +9,19 @@
     }
 </script>
 <script type="text/javascript">
-    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi(null);
+    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi(<?= $this->instanceId; ?>);
 </script>
-<div id="downloadLink" style="float: right;"></div><br>
-<br><br>
 <div class="hide-vid">
+    <div style="float: right;"><a id="RcmBrightcovePlayerDownloadLink<?= $instanceId ?>"
+                                  data-textEdit="download"><?= $this->ic['download']; ?></a></div>
+    <br>
+    <br>
+
 
     <div ng-controller="playerTabsCtrl"
          ng-init="init(<?= json_encode($ic['playlistIds']); ?>,<?php echo $this->instanceId; ?>)">
-        <script type="text/javascript" src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"></script>
+        <script type="text/javascript"
+                src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"></script>
         <div id="downloadLink"></div>
         <div data-hbo-tabs id="rcm-brightcove-player-tabs">
             <div id="player" align="center">
@@ -98,7 +61,7 @@
                     <a href="javascript:void(0);"
                        ng-click="videoClick()"
                        class="videoArea"
-                       >
+                        >
                         <table>
                             <tr>
                                 <td style="text-align: left;">

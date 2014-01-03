@@ -2,13 +2,13 @@
  * Created by bjanish on 12/4/13.
  */
 
-var brightcovePlayerApi = function(startVideo) {
+var brightcovePlayerApi = function(instanceId) {
 
     var me = this;
     me.player=null;
     me.modVP=null;
     me.nextVideo = 0;
-    me.startVideo = startVideo;
+    me.startVideo = '';
 
     me.myTemplateLoaded = function(experienceID) {
         me.player = brightcove.api.getExperience(experienceID);
@@ -24,19 +24,23 @@ var brightcovePlayerApi = function(startVideo) {
 
     };
 
-    me.loadVideoById =function (videoId) {
+    me.loadVideoById = function (videoId) {
         me.modVP.loadVideoByID(videoId);
-        getDownloadURL(videoId);
+        getDownloadURL(videoId, me.setDownloadUrl);
     };
 
-    me.cueVideoById =function (videoId) {
+    me.cueVideoById = function (videoId) {
         if(me.modVP){
             me.modVP.cueVideoByID(videoId);
-        }else{
+        } else {
             me.startVideo = videoId;
         }
-        getDownloadURL(videoId);
+        getDownloadURL(videoId, me.setDownloadUrl);
     };
+
+    me.setDownloadUrl = function(url){
+        $('#RcmBrightcovePlayerDownloadLink' + instanceId).attr('href', url);
+    }
 
     me.onMediaBegin = function (evt) {
         document.getElementById("mediaInfo").innerHTML = evt.media.displayName;

@@ -27,8 +27,6 @@ function singleEmbedDropdownList(callback) {
     }
 
     requestPage(0);
-
-
 }
 
 function requestPlaylist(callback) {

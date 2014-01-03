@@ -1,15 +1,17 @@
 <script type="text/javascript">
 
-     getDownloadURL(
-         <?= json_encode($ic['videoId']); ?>,
-         function(url){
-
-             $('#RcmBrightcovePlayerDownloadLink<?= $instanceId ?>').attr('href', url);
-         }
-     );
+    getDownloadURL(
+        <?= json_encode($ic['videoId']); ?>,
+        function (url) {
+            $('#RcmBrightcovePlayerDownloadLink<?= $instanceId ?>').attr('href', url);
+        }
+    );
 </script>
-<div style="float: right;"><a id="RcmBrightcovePlayerDownloadLink<?= $instanceId ?>" data-textEdit="download"><?=  $this->ic['download']; ?></a></div><br>
 <div class="hide-vid" style="border:0">
+    <div style="float: right;"><a id="RcmBrightcovePlayerDownloadLink<?= $instanceId ?>"
+                                  data-textEdit="download"><?= $this->ic['download']; ?></a></div>
+    <br>
+
     <!-- Start of Brightcove Player -->
 
     <div style="display:none"></div>
