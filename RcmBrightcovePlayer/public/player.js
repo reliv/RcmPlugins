@@ -14,7 +14,7 @@ var brightcovePlayerApi = function(instanceId) {
         me.player = brightcove.api.getExperience(experienceID);
         me.modVP = me.player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
         if(me.startVideo){
-            me.cueVideoById(me.startVideo);
+            setTimeout(function(){ me.cueVideoById(me.startVideo)}, 1000);
         }
     };
 
@@ -31,7 +31,7 @@ var brightcovePlayerApi = function(instanceId) {
 
     me.cueVideoById = function (videoId) {
         if(me.modVP){
-            me.modVP.cueVideoByID(videoId);
+            setTimeout(function(){ me.modVP.cueVideoByID(videoId)}, 1000);
         } else {
             me.startVideo = videoId;
         }
