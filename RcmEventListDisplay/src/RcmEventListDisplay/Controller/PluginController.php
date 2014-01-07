@@ -15,7 +15,6 @@
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
  */
 namespace RcmEventListDisplay\Controller;
 
@@ -33,7 +32,6 @@ use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: 1.0
- * @link      http://ci.reliv.com/confluence
  *
  */
 class PluginController

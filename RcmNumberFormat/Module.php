@@ -13,7 +13,6 @@
  * @copyright 2013 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
  */
 
 namespace RcmNumberFormat;

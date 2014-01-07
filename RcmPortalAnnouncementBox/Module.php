@@ -13,7 +13,6 @@
  * @copyright 2012 Reliv International
  * @license   http://www.nolicense.com None
  * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
  */
 
 namespace RcmPortalAnnouncementBox;
@@ -32,7 +31,6 @@ use \RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
  * @copyright 2012 Reliv International
  * @license   http://www.nolicense.com None
  * @version   Release: 1.0
- * @link      http://ci.reliv.com/confluence
  */
 class Module
 {
