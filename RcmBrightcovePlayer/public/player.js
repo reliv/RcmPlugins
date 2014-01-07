@@ -8,20 +8,21 @@ var brightcovePlayerApi = function(instanceId) {
     me.player=null;
     me.modVP=null;
     me.nextVideo = 0;
-    me.startVideo = '';
+    var templateReady = false;
+    var loadVideoIdWhenReady = 0;
 
     me.myTemplateLoaded = function(experienceID) {
         me.player = brightcove.api.getExperience(experienceID);
         me.modVP = me.player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
-        if(me.startVideo){
-            me.cueVideoById(me.startVideo);
-        }
     };
 
     me.onTemplateReady = function (evt) {
+        templateReady = true;
         me.modVP.addEventListener(brightcove.api.events.MediaEvent.BEGIN, me.onMediaBegin);
         me.modVP.addEventListener(brightcove.api.events.MediaEvent.COMPLETE, me.onMediaComplete);
-
+        if(loadVideoIdWhenReady){
+            me.cueVideoById(loadVideoIdWhenReady);
+        }
     };
 
     me.loadVideoById = function (videoId) {
@@ -30,10 +31,12 @@ var brightcovePlayerApi = function(instanceId) {
     };
 
     me.cueVideoById = function (videoId) {
-        if(me.modVP){
+        if(templateReady){
+            // onTemplateReady has already been called so we can just cue the video
             me.modVP.cueVideoByID(videoId);
         } else {
-            me.startVideo = videoId;
+            // onTemplateReady hasn't been called yet so we set this property to be used when it does get called 
+            loadVideoIdWhenReady = videoId;
         }
         getDownloadURL(videoId, me.setDownloadUrl);
     };
@@ -55,5 +58,3 @@ var brightcovePlayerApi = function(instanceId) {
     };
 
 };
-
-
