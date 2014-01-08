@@ -36,6 +36,16 @@ class CurrencyFormatter
      */
     public function formatCurrency($number)
     {
-        return $this->currencySymbol . number_format($number, 2);
+        return $this->currencySymbol . self::numberFormatLocale($number,2);
+    }
+
+    public static function numberFormatLocale($number, $decimals){
+        $locale = localeconv();
+        return number_format(
+            $number,
+            $decimals,
+            $locale['decimal_point'],
+            $locale['thousands_sep']
+        );
     }
 } 
