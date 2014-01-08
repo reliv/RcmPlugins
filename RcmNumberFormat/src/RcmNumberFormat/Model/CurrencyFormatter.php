@@ -17,35 +17,29 @@ namespace RcmNumberFormat\Model;
  * @version   GIT: <git_id>
  */
 
-class CurrencyFormatter
+class CurrencyFormatter extends \NumberFormatter
 {
     protected $currencySymbol;
 
-    /**
-     * @param $currencySymbol string currency symbol or code
-     */
-    public function __construct($currencySymbol)
+    protected $numberFormatter;
+
+
+    public function __construct(
+        $currencySymbol, \NumberFormatter $numberFormatter
+    )
     {
         $this->currencySymbol = $currencySymbol;
+        $this->numberFormatter = $numberFormatter;
     }
 
     /**
-     * returns formatted currency with the currency symbol
-     * @param $number float number to format
+     * Returns formatted number with currency symbol
+     * @param number $number
+     * @param null $strictStandardsJunk
      * @return string
      */
-    public function formatCurrency($number)
+    public function format($number, $strictStandardsJunk = null)
     {
-        return $this->currencySymbol . self::numberFormatLocale($number,2);
-    }
-
-    public static function numberFormatLocale($number, $decimals){
-        $locale = localeconv();
-        return number_format(
-            $number,
-            $decimals,
-            $locale['decimal_point'],
-            $locale['thousands_sep']
-        );
+        return $this->currencySymbol . $this->numberFormatter->format($number);
     }
 } 

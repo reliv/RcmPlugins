@@ -59,7 +59,7 @@ class NumberFormatControllerTest extends BaseTestCase
     {
         $response = $this->unit->currencyAction()->getVariables();
         $this->assertEquals(
-            $this->formatter->formatCurrency(self::NUMBER),
+            $this->formatter->format(self::NUMBER),
             $response['result']
         );
     }

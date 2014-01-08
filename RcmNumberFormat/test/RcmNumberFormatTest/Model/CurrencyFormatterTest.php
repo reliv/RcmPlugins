@@ -31,7 +31,7 @@ class CurrencyFormatterTest extends BaseTestCase
     {
         $amount = 1000999.88;
         $this->assertEquals(
-            $this->unit->formatCurrency($amount),
+            $this->unit->format($amount),
             self::CURRENCY_SYMBOL . number_format($amount, 2)
         );
     }

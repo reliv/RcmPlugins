@@ -41,7 +41,7 @@ class CurrencyFormatTest extends BaseTestCase
     {
         $this->assertEquals(
             $this->unit->__invoke(self::NUMBER),
-            $this->formatter->formatCurrency(self::NUMBER)
+            $this->formatter->format(self::NUMBER)
         );
     }
 }

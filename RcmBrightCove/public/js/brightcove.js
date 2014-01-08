@@ -69,8 +69,6 @@ var RcmBrightCove = {
 
     scriptLoadedCallback : function() {
         brightcove.createExperiences();
-//        RcmBrightCove.player = brightcove.getExperience(me.playerId);
-//        console.log(RcmBrightCove.playerId);
     },
 
     rcmRegisteredCallbacks : {}
