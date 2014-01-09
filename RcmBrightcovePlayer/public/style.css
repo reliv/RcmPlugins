@@ -1,3 +1,44 @@
-.RcmBrightcovePlayer #sortable1, .RcmBrightcovePlayer #sortable2 { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 20px; background: #D8D4D4;; padding: 5px; width: 222px; min-height: 20px;}
+.RcmBrightcovePlayer #sortable1, .RcmBrightcovePlayer #sortable2 { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 20px; background: #D8D4D4; padding: 5px; width: 222px; min-height: 20px;}
 .RcmBrightcovePlayer #sortable1 li, .RcmBrightcovePlayer #sortable2 li { margin: 5px; padding: 5px; font-size: 12px; width: 200px; }
 .RcmBrightcovePlayer #sortable1 {height: 300px; width: 235px; overflow-y: scroll;}
+
+
+
+.RcmBrightcovePlayer #tabs {
+    width: 683px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.RcmBrightcovePlayer #video {
+    width: 672px;
+    height: 378px;
+    margin: 5px;
+}
+
+.RcmBrightcovePlayer .videoArea {
+    display: block;
+    float: left;
+    width: 200px;
+    height: 150px;
+}
+
+.RcmBrightcovePlayer .title p {
+    text-overflow: ellipsis;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.RcmBrightcovePlayer .description p {
+    text-overflow: ellipsis;
+    width: 150px;
+    height: 35px;
+    white-space: inherit;
+    overflow: hidden;
+}
+
+.RcmBrightcovePlayer .videoAreaWrap {
+    overflow: hidden;
+}
