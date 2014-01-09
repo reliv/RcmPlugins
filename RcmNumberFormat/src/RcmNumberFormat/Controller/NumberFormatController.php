@@ -56,7 +56,7 @@ class NumberFormatController extends AbstractActionController
     {
         return new JsonModel(
             array(
-                'result' => $this->currencyFormatter->formatCurrency(
+                'result' => $this->currencyFormatter->format(
                         $this->getRequestNumber()
                     )
             )

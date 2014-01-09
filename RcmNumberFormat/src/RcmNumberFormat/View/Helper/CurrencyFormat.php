@@ -55,6 +55,6 @@ class CurrencyFormat extends AbstractHelper
      */
     public function __invoke($number)
     {
-        return $this->currencyFormatter->formatCurrency($number);
+        return $this->currencyFormatter->format($number);
     }
 }
