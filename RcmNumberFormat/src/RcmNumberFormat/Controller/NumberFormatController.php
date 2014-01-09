@@ -2,8 +2,6 @@
 
 namespace RcmNumberFormat\Controller;
 
-use Aws\CloudFront\Exception\Exception;
-use RcmNumberFormat\Model\CurrencyFormatter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
@@ -24,28 +22,17 @@ use Zend\View\Model\JsonModel;
 
 class NumberFormatController extends AbstractActionController
 {
-
-    protected $currencyFormatter;
-
-    /**
-     * @param CurrencyFormatter $currencyFormatter
-     */
-    public function __construct(CurrencyFormatter $currencyFormatter)
-    {
-        $this->currencyFormatter = $currencyFormatter;
-    }
-
     /**
      * Returns formatted number view model
      * @return JsonModel
      */
     public function numberAction()
     {
-        return new JsonModel(
-            array(
-                'result' => (string)number_format($this->getRequestNumber(), 2)
-            )
-        );
+        $value = $this->getRequestValue();
+        if ($value!==null) {
+            return $this->getView(sprintf('%.2f', $this->getRequestValue()));
+        }
+        return $this->getNonNumericView();
     }
 
     /**
@@ -54,24 +41,46 @@ class NumberFormatController extends AbstractActionController
      */
     public function currencyAction()
     {
+        $value = $this->getRequestValue();
+        if ($value!==null) {
+            return $this->getView(
+                money_format('%.2n', $this->getRequestValue())
+            );
+        }
+        return $this->getNonNumericView();
+    }
+
+    public function getView($formattedResult)
+    {
         return new JsonModel(
             array(
-                'result' => $this->currencyFormatter->format(
-                        $this->getRequestNumber()
-                    )
+                'result' => $formattedResult
+            )
+        );
+    }
+
+    public function getNonNumericView()
+    {
+        $this->getResponse()->setStatusCode(400);//Bad Request
+        return new JsonModel(
+            array(
+                'error' => 'Value to format is not numeric.'
             )
         );
     }
 
     /**
      * returns the formatted request value
-     * @return string
+     *
+     * We cannot user FILTER_VALIDATE_FLOAT here because it stops working for
+     * value 1.99 in germany where the filter_var would expect 1,99
+     * @return float
      */
-    public function getRequestNumber()
+    public function getRequestValue()
     {
-        return filter_var(
-            $this->params()->fromRoute('number'),
-            FILTER_VALIDATE_FLOAT
-        );
+        if (is_numeric($this->params()->fromRoute('value'))) {
+            return $this->params()->fromRoute('value');
+        }
+        return null;
     }
 }
