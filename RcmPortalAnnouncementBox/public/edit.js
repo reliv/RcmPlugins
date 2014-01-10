@@ -13,7 +13,6 @@
  * @copyright 2012 Reliv International
  * @license   http://www.nolicense.com None
  * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
  */
 var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
 

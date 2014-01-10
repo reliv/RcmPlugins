@@ -13,7 +13,6 @@
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
  */
 var RcmGoogleSearchBoxEdit = function (instanceId, container) {
 
