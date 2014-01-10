@@ -3,7 +3,6 @@
 namespace RcmNumberFormatTest\Controller;
 
 use RcmNumberFormat\Controller\NumberFormatController;
-use RcmNumberFormat\Model\CurrencyFormatter;
 use RcmTest\Base\BaseTestCase;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
@@ -17,50 +16,67 @@ class NumberFormatControllerTest extends BaseTestCase
      */
     protected $unit;
 
-    /**
-     * @var CurrencyFormatter
-     */
-    protected $formatter;
-
-    const CURRENCY_SYMBOL = 'EUR';
-    const NUMBER = 1000999.88;
+    const VALUE = 1.99;
 
     public function setUp()
     {
         $this->addModule('RcmNumberFormat');
         parent::setUp();
-        $this->formatter = new CurrencyFormatter(self::CURRENCY_SYMBOL);
-        $this->unit = new NumberFormatController($this->formatter);
+        $this->unit = new NumberFormatController();
+        $this->setRouteValues(array('value'=> self::VALUE));
+    }
+
+    public function setRouteValues(array $routeValues){
         $event = new MvcEvent();
-        $event->setRouteMatch(
-            new RouteMatch(
-                array('number'=> self::NUMBER)
-            )
-        );
+        $event->setRouteMatch(new RouteMatch($routeValues));
         $this->unit->setEvent($event);
     }
 
     /**
      * @covers \RcmNumberFormat\Model\NumberFormatController
      */
-    public function testNumberAction()
+    public function testNumberActionUs()
     {
-        $response = $this->unit->numberAction()->getVariables();
+        setlocale(LC_ALL, 'en_US.UTF-8');
         $this->assertEquals(
-            $response['result'],
-            number_format(self::NUMBER, 2)
+            $this->unit->numberAction()->getVariables()['result'],
+            '1.99'
         );
     }
 
     /**
      * @covers \RcmNumberFormat\Model\NumberFormatController
      */
-    public function testCurrencyAction()
+    public function testNumberActionDe()
     {
-        $response = $this->unit->currencyAction()->getVariables();
+        setlocale(LC_ALL, 'de_DE.UTF-8');
         $this->assertEquals(
-            $this->formatter->format(self::NUMBER),
-            $response['result']
+            $this->unit->numberAction()->getVariables()['result'],
+            '1,99'
+        );
+    }
+
+    /**
+     * @covers \RcmNumberFormat\Model\NumberFormatController
+     */
+    public function testCurrencyActionUs()
+    {
+        setlocale(LC_ALL, 'en_US.UTF-8');
+        $this->assertEquals(
+            $this->unit->currencyAction()->getVariables()['result'],
+            '$1.99'
+        );
+    }
+
+    /**
+     * @covers \RcmNumberFormat\Model\NumberFormatController
+     */
+    public function testCurrencyActionUsDe()
+    {
+        setlocale(LC_ALL, 'de_DE.UTF-8');
+        $this->assertEquals(
+            $this->unit->currencyAction()->getVariables()['result'],
+            'Eu1,99'
         );
     }
 }

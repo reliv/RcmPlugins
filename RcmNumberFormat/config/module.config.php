@@ -24,7 +24,7 @@ return array(
             'rcm-number-format-http-api-currency' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/rcm-number-format-http-api/currency/:number',
+                    'route' => '/rcm-number-format-http-api/currency/:value',
                     'defaults' => array(
                         'controller' => 'rcmNumberFormatController',
                         'action' => 'currency',
@@ -34,7 +34,7 @@ return array(
             'rcm-number-format-http-api-number' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/rcm-number-format-http-api/number/:number',
+                    'route' => '/rcm-number-format-http-api/number/:value',
                     'defaults' => array(
                         'controller' => 'rcmNumberFormatController',
                         'action' => 'number',

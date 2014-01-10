@@ -17,10 +17,7 @@
 
 namespace RcmNumberFormat;
 
-use RcmNumberFormat\Model\CurrencyFormatter;
 use RcmNumberFormat\Controller\NumberFormatController;
-use RcmNumberFormat\View\Helper\CurrencyFormat;
-use Locale;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -49,66 +46,10 @@ class Module
                 'rcmNumberFormatController' => function ($controllerMgr) {
                         $serviceMgr = $controllerMgr->getServiceLocator();
                         $controller = new NumberFormatController(
+                            $serviceMgr->get('rcmNumberFormatter'),
                             $serviceMgr->get('rcmCurrencyFormatter')
                         );
                         return $controller;
-                    }
-            )
-        );
-    }
-
-    /**
-     * Returns ZF2 service config
-     * @return array
-     */
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                'rcmNumberFormatterTwoDigit' => function () {
-                        $service = new \NumberFormatter(
-                            Locale::getDefault(),
-                            \NumberFormatter::DECIMAL
-                        );
-                        $service->setAttribute(
-                            \NumberFormatter::MIN_FRACTION_DIGITS, 2
-                        );
-                        $service->setAttribute(
-                            \NumberFormatter::MAX_FRACTION_DIGITS, 2
-                        );
-                        return $service;
-                    },
-                'rcmNumberFormatter' => function () {
-                        $service = new \NumberFormatter(
-                            Locale::getDefault(),
-                            \NumberFormatter::DECIMAL
-                        );
-                        return $service;
-                    },
-                'rcmCurrencyFormatter' => function ($serviceMgr) {
-                        return new CurrencyFormatter(
-                            $serviceMgr->get('rcmSite')->getCurrencySymbol(),
-                            $serviceMgr->get('rcmNumberFormatterTwoDigit')
-                        );
-                    }
-            )
-        );
-    }
-
-    /**
-     * Returns ZF2 view helper config
-     * @return array
-     */
-    function getViewHelperConfig()
-    {
-        return array(
-            'factories' => array(
-                // the array key here is the name you will call the view helper by in your view scripts
-                'rcmCurrencyFormat' => function ($viewServiceMgr) {
-                        $serviceMgr = $viewServiceMgr->getServiceLocator();
-                        return new CurrencyFormat(
-                            $serviceMgr->get('rcmCurrencyFormatter')
-                        );
                     }
             )
         );
