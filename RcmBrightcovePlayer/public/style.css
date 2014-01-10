@@ -29,6 +29,7 @@
     width: 150px;
     white-space: nowrap;
     overflow: hidden;
+    text-decoration: none;
 }
 
 .RcmBrightcovePlayer .description p {
@@ -37,6 +38,7 @@
     height: 35px;
     white-space: inherit;
     overflow: hidden;
+    text-decoration: none;
 }
 
 .RcmBrightcovePlayer .videoAreaWrap {
