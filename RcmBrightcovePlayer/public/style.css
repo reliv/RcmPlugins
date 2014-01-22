@@ -40,7 +40,9 @@
     overflow: hidden;
     text-decoration: none;
 }
-
+.RcmBrightcovePlayer a {
+    text-decoration: none;
+}
 .RcmBrightcovePlayer .videoAreaWrap {
     overflow: hidden;
 }
