@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM,
  * @ORM\Entity
  * @ORM\Table(name="rcm_event_calender_category")
  */
-
 class Category
 {
     /**
@@ -37,19 +36,21 @@ class Category
      */
     protected $name;
 
-    function __construct(){
+    function __construct()
+    {
         $this->events = new ArrayCollection();
     }
 
     /**
      * PHP calls this during json_encode()
+     *
      * @return array
      */
     public function jsonSerialize()
     {
         return array(
             'categoryId' => $this->categoryId,
-            'name'=> $this->name,
+            'name' => $this->name,
         );
     }
 

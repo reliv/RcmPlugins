@@ -9,24 +9,24 @@ $this->headScript()->appendFile(
 ?>
 
 <script type="text/javascript">
-$(function(){
+    $(function () {
 
-    new RssReader(
-        '<?=  $this->rssProxy; ?>',
-        <?=  $this->instanceId; ?>,
-        $(".rss-feed-<?=  $this->instanceId; ?>"),
-        null
-    );
-});
+        new RssReader(
+            '<?=  $this->rssProxy; ?>',
+            <?=  $this->instanceId; ?>,
+            $(".rss-feed-<?=  $this->instanceId; ?>"),
+            null
+        );
+    });
 </script>
 
 <div class="rcmRssFeedReaderMainContainer"
-    data-rcmRssFeedUrl="<?=  $this->ic['rssFeedUrl']; ?>"
-    data-rcmRssFeedLimit="<?=  $this->ic['rssFeedLimit']; ?>"
-    data-rcmRssFeedProxy="<?=  $this->rssProxy; ?>"
->
+     data-rcmRssFeedUrl="<?= $this->ic['rssFeedUrl']; ?>"
+     data-rcmRssFeedLimit="<?= $this->ic['rssFeedLimit']; ?>"
+     data-rcmRssFeedProxy="<?= $this->rssProxy; ?>"
+    >
 
-    <h2 data-textEdit="headline"><?=  $this->ic['headline']; ?></h2>
+    <h2 data-textEdit="headline"><?= $this->ic['headline']; ?></h2>
 
-    <span class="rss-feed-<?=  $this->instanceId; ?>"></span>
+    <span class="rss-feed-<?= $this->instanceId; ?>"></span>
 </div>

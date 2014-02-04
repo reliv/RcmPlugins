@@ -78,52 +78,55 @@ class Module
         return array(
             'factories' => array(
                 'RcmRssFeed' =>
-                function($serviceMgr)
-                {
-                    $controller = new \RcmRssFeed\Controller\PluginController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config')
-                    );
-                    return $controller;
-                },
-                'rcmRssCache' => function($serviceMgr) {
-                    $config = $serviceMgr->get('config');
+                    function ($serviceMgr) {
+                        $controller
+                            = new \RcmRssFeed\Controller\PluginController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config')
+                        );
+                        return $controller;
+                    },
+                'rcmRssCache' => function ($serviceMgr) {
+                        $config = $serviceMgr->get('config');
 
-                    $extraOptions = array(
-                        'namespace' => 'rcmRssCache',
-                        'ttl' => '300'
-                    );
+                        $extraOptions = array(
+                            'namespace' => 'rcmRssCache',
+                            'ttl' => '300'
+                        );
 
-                    $cache = \Zend\Cache\StorageFactory::factory(
-                        array(
-                            'adapter' => array(
-                                'name' => $config['rcmCache']['adapter'],
-                                'options' => $config['rcmCache']['options'] + $extraOptions,
-                            ),
-                            'plugins' => $config['rcmCache']['plugins'],
-                        )
-                    );
+                        $cache = \Zend\Cache\StorageFactory::factory(
+                            array(
+                                'adapter' => array(
+                                    'name' => $config['rcmCache']['adapter'],
+                                    'options' => $config['rcmCache']['options']
+                                        + $extraOptions,
+                                ),
+                                'plugins' => $config['rcmCache']['plugins'],
+                            )
+                        );
 
-                    return $cache;
-                },
+                        return $cache;
+                    },
             ),
 
         );
     }
 
-    function getControllerConfig(){
+    function getControllerConfig()
+    {
         return array(
             'factories' => array(
-                'rcmRssFeedProxyController' => function($controllerMgr){
-                    $serviceMgr = $controllerMgr->getServiceLocator();
-                    $controller = new \RcmRssFeed\Controller\ProxyController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        $serviceMgr->get('rcmUserMgr'),
-                        $serviceMgr->get('rcmRssCache')
-                    );
-                    return $controller;
-                }
+                'rcmRssFeedProxyController' => function ($controllerMgr) {
+                        $serviceMgr = $controllerMgr->getServiceLocator();
+                        $controller
+                            = new \RcmRssFeed\Controller\ProxyController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            $serviceMgr->get('rcmUserMgr'),
+                            $serviceMgr->get('rcmRssCache')
+                        );
+                        return $controller;
+                    }
             )
         );
     }

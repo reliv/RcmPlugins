@@ -22,13 +22,14 @@ return array(
 
 
     'rcmPlugin' => array(
-        'RcmNavigation'=>array(
+        'RcmNavigation' => array(
             'type' => 'Common',
             'display' => 'Navigation Menu',
             'tooltip' => 'Navigation menu that can display sub-menus when users mouse-over the main menu.',
             'icon' => '',
-            'editJs'=>'/modules/rcm-navigation/edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-navigation/edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

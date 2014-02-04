@@ -78,13 +78,13 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId) + ' .rcmSocialButtonsWrapper',
+            selector: rcm.getPluginContainerSelector(instanceId) + ' .rcmSocialButtonsWrapper',
             //Here are the right click menu options
-            items:{
-                edit:{
-                    name:'Edit Properties',
-                    icon:'edit',
-                    callback:function () {
+            items: {
+                edit: {
+                    name: 'Edit Properties',
+                    icon: 'edit',
+                    callback: function () {
                         me.showEditDialog();
                     }
                 }
@@ -125,10 +125,10 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
             'select',
             'Button Style',
             {
-                '':'Small buttons',
-                '_large':'Large buttons',
-                '_hcount':'Buttons with horizontal counters',
-                '_vcount':'Buttons with vertical counters'
+                '': 'Small buttons',
+                '_large': 'Large buttons',
+                '_hcount': 'Buttons with horizontal counters',
+                '_vcount': 'Buttons with vertical counters'
             },
             data.style
         );
@@ -151,16 +151,16 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
 
         //Create and show our edit dialog
         var form = $('<form></form>').addClass('simple');
-        form.append(style,checkBoxDiv,shareThisKey);
+        form.append(style, checkBoxDiv, shareThisKey);
         form.dialog({
-            title:'Properties',
-            modal:true,
-            width:620,
-            buttons:{
-                Cancel:function () {
+            title: 'Properties',
+            modal: true,
+            width: 620,
+            buttons: {
+                Cancel: function () {
                     $(this).dialog("close");
                 },
-                Ok:function () {
+                Ok: function () {
 
                     //get style from form
                     data.style = style.val();

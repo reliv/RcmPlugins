@@ -43,7 +43,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
     /**
      * Called by content management system to make this plugin user-editable
      */
-    me.initEdit = function(){
+    me.initEdit = function () {
         var contSel = rcm.getPluginContainerSelector(instanceId);
 
         // Due to a bug in core, the view object has a container that is not it
@@ -54,37 +54,37 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         rcmEdit.pluginContextMenu({
             selector: contSel + ' .person, ' + contSel + ' .personDetails',
             //Here are the right click menu options
-            items:{
-                sort:{
-                    name:'Toggle Sort Mode (Allows drag and drop sorting but ' +
+            items: {
+                sort: {
+                    name: 'Toggle Sort Mode (Allows drag and drop sorting but ' +
                         'disables text editing)',
-                    icon:'edit',
-                    callback:function(){
-                        if(sortable){
-                            sortable=false;
+                    icon: 'edit',
+                    callback: function () {
+                        if (sortable) {
+                            sortable = false;
                             container.find('.previews').sortable('destroy');
-                        }else{
-                            sortable=true;
+                        } else {
+                            sortable = true;
                             container.find('.previews').sortable();
                         }
                     }
                 },
-                line1:'-',
-                create:{
-                    name:'Create Person',
-                    icon:'edit',
-                    callback:me.createPerson
+                line1: '-',
+                create: {
+                    name: 'Create Person',
+                    icon: 'edit',
+                    callback: me.createPerson
                 },
-                edit:{
-                    name:'Edit Person Images',
-                    icon:'edit',
-                    callback:me.editPersonImages
+                edit: {
+                    name: 'Edit Person Images',
+                    icon: 'edit',
+                    callback: me.editPersonImages
                 },
-                line2:'-',
-                delete:{
-                    name:'Delete Person',
-                    icon:'delete',
-                    callback:me.deletePerson
+                line2: '-',
+                delete: {
+                    name: 'Delete Person',
+                    icon: 'delete',
+                    callback: me.deletePerson
                 }
             }
         });
@@ -92,10 +92,10 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         me.makePeopleEditable();
     };
 
-    me.makePeopleEditable = function(){
+    me.makePeopleEditable = function () {
         $.each(
             container.find('.person'),
-            function(){
+            function () {
                 me.makePersonEditable($(this).attr('data-personId'));
             }
         );
@@ -105,9 +105,9 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         setTimeout(peopleSlider.showHideSelectedPerson, 100);
     };
 
-    me.makePersonEditable = function(personId){
+    me.makePersonEditable = function (personId) {
         var personEles = peopleSlider.getPersonElements(personId);
-        if(!personEles.shortDesc.attr('contenteditable')){
+        if (!personEles.shortDesc.attr('contenteditable')) {
 
             //Make the shortDesc editable
             personEles.shortDesc.attr('contenteditable', true);
@@ -127,8 +127,8 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         }
     };
 
-    me.createPerson = function(){
-        newPersonId+=1;
+    me.createPerson = function () {
+        newPersonId += 1;
 
         container.find('.previews').append(
             peopleSlider.buildPersonPreview(newPersonId, personTemplate)
@@ -148,7 +148,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         me.makePersonEditable(newPersonId);
     };
 
-    me.deletePerson = function(){
+    me.deletePerson = function () {
         var personEles = peopleSlider.getPersonElements(
             $(this).attr('data-personId')
         );
@@ -162,12 +162,12 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         peopleSlider.apertureSlider.init();
     };
 
-    me.editPersonImages = function(){
+    me.editPersonImages = function () {
         var clickedEle = $(this);
         var personId = clickedEle.attr('data-personId');
 
         //Used for double clicking on images
-        if(typeof(personId)=='undefined'){
+        if (typeof(personId) == 'undefined') {
             personId = clickedEle
                 .closest('[data-personId]').attr('data-personId');
         }
@@ -189,14 +189,14 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             .addClass('simple')
             .append(smallImage, largeImage)
             .dialog({
-                title:'Properties',
-                modal:true,
-                width:620,
-                buttons:{
-                    Cancel:function () {
+                title: 'Properties',
+                modal: true,
+                width: 620,
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
 
                         //Get user-entered data from form
                         personEles.smallImage.attr('src', smallImage.val());
@@ -224,23 +224,23 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
 
         $.each(
             container.find('.person'),
-            function(){
+            function () {
                 var personEles = peopleSlider.getPersonElements(
                     $(this).attr('data-personId')
                 );
                 people.push(
                     {
-                        'smallImage' :personEles.smallImage.attr('src'),
-                        'largeImage' : personEles.largeImage.attr('src'),
-                        'shortDesc' : personEles.shortDesc.html(),
-                        'longDesc' : personEles.longDesc.html()
+                        'smallImage': personEles.smallImage.attr('src'),
+                        'largeImage': personEles.largeImage.attr('src'),
+                        'shortDesc': personEles.shortDesc.html(),
+                        'longDesc': personEles.longDesc.html()
                     }
                 );
             }
         );
 
         return {
-            people:people
+            people: people
         }
     }
 

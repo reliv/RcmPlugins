@@ -30,27 +30,27 @@ var RcmGoogleSearchBoxEdit = function (instanceId, container) {
     /**
      * Called by content management system to make this plugin user-editable
      */
-    me.initEdit = function(){
+    me.initEdit = function () {
 
         //Disable button click
-        container.find('button').click(function(){
+        container.find('button').click(function () {
             event.preventDefault();
         });
 
         //Double clicking will show properties dialog
-        container.delegate('input, button', 'dblclick', function(){
+        container.delegate('input, button', 'dblclick', function () {
             me.showEditDialog();
         });
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId),
+            selector: rcm.getPluginContainerSelector(instanceId),
             //Here are the right click menu options
-            items:{
-                edit:{
-                    name:'Edit ' + propName,
-                    icon:'edit',
-                    callback:function () {
+            items: {
+                edit: {
+                    name: 'Edit ' + propName,
+                    icon: 'edit',
+                    callback: function () {
                         me.showEditDialog();
                     }
                 }
@@ -69,8 +69,8 @@ var RcmGoogleSearchBoxEdit = function (instanceId, container) {
      */
     me.getSaveData = function () {
         return {
-            resultPage:searchForm.attr('action'),
-            googleKey:container.find('input[name=cx]').val()
+            resultPage: searchForm.attr('action'),
+            googleKey: container.find('input[name=cx]').val()
         }
     };
 
@@ -88,14 +88,14 @@ var RcmGoogleSearchBoxEdit = function (instanceId, container) {
             .addClass('simple')
             .append(resultPage, googleKey)
             .dialog({
-                title:propName,
-                modal:true,
-                width:620,
-                buttons:{
-                    Cancel:function () {
+                title: propName,
+                modal: true,
+                width: 620,
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
 
                         //Get user-entered data from form
                         searchForm.attr('action', resultPage.val());

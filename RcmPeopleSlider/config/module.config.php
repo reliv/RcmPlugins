@@ -21,13 +21,14 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmPeopleSlider'=>array(
+        'RcmPeopleSlider' => array(
             'type' => 'Images & Slide Shows',
             'display' => 'People Slider',
             'tooltip' => 'People Slider',
             'icon' => '',
-            'editJs'=>'/modules/rcm-people-slider/rcm-people-slider-edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-people-slider/rcm-people-slider-edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

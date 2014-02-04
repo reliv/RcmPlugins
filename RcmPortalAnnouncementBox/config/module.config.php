@@ -21,13 +21,14 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmPortalAnnouncementBox'=>array(
+        'RcmPortalAnnouncementBox' => array(
             'type' => 'Content Templates',
             'display' => 'Feature Box',
             'tooltip' => 'Editable box with three text areas',
             'icon' => '',
-            'editJs'=>'/modules/rcm-portal-announcement-box/edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-portal-announcement-box/edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

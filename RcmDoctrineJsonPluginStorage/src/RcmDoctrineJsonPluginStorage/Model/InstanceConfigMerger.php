@@ -9,7 +9,8 @@
 namespace RcmDoctrineJsonPluginStorage\Model;
 
 
-class InstanceConfigMerger {
+class InstanceConfigMerger
+{
     public function mergeConfigArrays($default, $changes)
     {
 

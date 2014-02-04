@@ -21,13 +21,14 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmEventListDisplay'=>array(
+        'RcmEventListDisplay' => array(
             'type' => 'Common',
             'display' => 'Event List Display',
             'tooltip' => 'Displays the list of events in a given event category',
             'icon' => '',
-            'editJs'=>'/modules/rcm-event-list-display/rcm-event-list-display-edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-event-list-display/rcm-event-list-display-edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

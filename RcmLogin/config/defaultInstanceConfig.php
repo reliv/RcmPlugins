@@ -10,6 +10,6 @@ return array(
         'missing' => 'Missing Username or Password.',
         'systemFailure' => 'There was an error logging you in. Please try
         again.',
-        'buttonProcessing'=>'processing...',
+        'buttonProcessing' => 'processing...',
     ),
 );

@@ -28,18 +28,15 @@ class PluginController extends SimpleConfigStorageController
 
         return parent::renderInstance(
             $instanceId,
-            array(
-
-            )
+            array()
         );
     }
 
-    function renderDefaultInstance($instanceId){
+    function renderDefaultInstance($instanceId)
+    {
         return parent::renderDefaultInstance(
             $instanceId,
-            array(
-
-            )
+            array()
         );
     }
 

@@ -53,7 +53,9 @@ class BasePluginControllerTest extends BaseTestCase
     {
         $request = new Request();
         $this->basePluginController->setRequest(new Request());
-        $this->assertEquals($request, $this->basePluginController->getRequest());
+        $this->assertEquals(
+            $request, $this->basePluginController->getRequest()
+        );
     }
 
     /**

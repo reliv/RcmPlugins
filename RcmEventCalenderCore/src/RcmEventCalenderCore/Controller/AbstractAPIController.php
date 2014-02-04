@@ -17,7 +17,8 @@ abstract class AbstractAPIController extends AbstractRestfulController
     function __construct(
         \RcmEventCalenderCore\Model\Calender $calender,
         \Rcm\Model\UserManagement\UserManagerInterface $userMgr
-    ) {
+    )
+    {
         $this->calender = $calender;
         $this->adminLoggedIn = is_a(
             $userMgr->getLoggedInAdminPermissions(),
@@ -25,20 +26,23 @@ abstract class AbstractAPIController extends AbstractRestfulController
         );
     }
 
-    function exitIfNotAdmin(){
-        if(!$this->adminLoggedIn){
+    function exitIfNotAdmin()
+    {
+        if (!$this->adminLoggedIn) {
             header('HTTP/1.0 401 Unauthorized');
             //Always return valid JSON to make jQuery work easier
             header('Content-type: application/json');
-            die(json_encode(array('message'=>'Must be admin.')));
+            die(json_encode(array('message' => 'Must be admin.')));
         }
     }
 
-    function getCategoriesUrl(){
+    function getCategoriesUrl()
+    {
         return $this->url()->fromRoute('rcm-event-calender-core-category');
     }
 
-    function getEventsUrl(){
+    function getEventsUrl()
+    {
         return $this->url()->fromRoute('rcm-event-calender-core-event');
     }
 }

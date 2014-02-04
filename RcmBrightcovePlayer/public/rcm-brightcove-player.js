@@ -4,7 +4,7 @@ var app = angular.module('playerTabs', [])
     .controller('playerTabsCtrl', function ($scope) {
         var instanceId;
 
-        $scope.init = function(playlistIds, passedInstanceId) {
+        $scope.init = function (playlistIds, passedInstanceId) {
             instanceId = passedInstanceId;
             findPlaylistsById(playlistIds);
         };
@@ -12,7 +12,7 @@ var app = angular.module('playerTabs', [])
         function renderTabs(data) {
             $scope.playlists = data.items;
             var firstVideo = $scope.playlists[0].videos[0];
-            window['bgPlayerApi'+instanceId].cueVideoById(firstVideo.id);
+            window['bgPlayerApi' + instanceId].cueVideoById(firstVideo.id);
 
             $scope.$apply();
 
@@ -30,8 +30,8 @@ var app = angular.module('playerTabs', [])
 
         }
 
-        $scope.videoClick = function() {
-            var apiObjectName='bgPlayerApi' + instanceId;
+        $scope.videoClick = function () {
+            var apiObjectName = 'bgPlayerApi' + instanceId;
             window[apiObjectName].loadVideoById(this.video.id);
         };
 
