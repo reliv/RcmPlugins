@@ -10,7 +10,7 @@ var RcmLogin = function (instanceId, buttonProcessing) {
      */
     var formHelper = new ZendFormHelper(container);
 
-    container.find('form').submit(function(){
+    container.find('form').submit(function () {
         formHelper.showProcessing(buttonProcessing);
     });
 };

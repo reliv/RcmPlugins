@@ -21,14 +21,15 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmSocialButtons'=>array(
+        'RcmSocialButtons' => array(
 
             'type' => 'Social Media',
             'display' => 'Share-it Social Buttons',
             'tooltip' => 'Facebook, Twitter, and many more social sharing buttons powered by "Share This"',
             'icon' => '',
-            'editJs'=>'/modules/rcm-social-buttons/edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php',
+            'editJs' => '/modules/rcm-social-buttons/edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php',
 
             //Plugin Specific
             'availableButtons' => array(

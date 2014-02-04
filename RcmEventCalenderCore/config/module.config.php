@@ -21,9 +21,9 @@
 return array(
 
     'router' => array(
-        'routes' => array (
+        'routes' => array(
             'rcm-event-calender-core-event' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
                     'route' => '/rcm-event-calender/events[/:id]',
                     'defaults' => array(
@@ -32,7 +32,7 @@ return array(
                 ),
             ),
             'rcm-event-calender-core-category' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
                     'route' => '/rcm-event-calender/categories[/:id]',
                     'defaults' => array(

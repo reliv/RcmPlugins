@@ -24,7 +24,7 @@
  * IN THE SOFTWARE.
  */
 
-(function($){
+(function ($) {
     "use strict"
 
     var _private = {};
@@ -32,47 +32,47 @@
     _private.token = 'FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..';
 
     _private.bc_api_map = [
-        { "command" : "find_all_videos", "required" : null },
-        { "command" : "find_video_by_id", "required" : "video_id" },
-        { "command" : "find_video_by_id_unfiltered", "required" : "video_id" },
-        { "command" : "find_videos_by_ids", "required" : "video_ids" },
-        { "command" : "find_videos_by_ids_unfiltered", "required" : "video_ids" },
-        { "command" : "find_video_by_reference_id", "required" : "reference_id" },
-        { "command" : "find_video_by_reference_id_unfiltered", "required" : "reference_id" },
-        { "command" : "find_videos_by_reference_ids", "required" : "reference_ids" },
-        { "command" : "find_videos_by_reference_ids_unfiltered", "required" : "reference_ids" },
-        { "command" : "find_videos_by_campaign_id", "required" : "campaign_id" },
-        { "command" : "find_videos_by_tags", "required" : "or_tags" },
-        { "command" : "find_videos_by_text", "required" : "text" },
-        { "command" : "find_videos_by_user_id", "required" : "user_id" },
-        { "command" : "find_modified_videos", "required" : "from_date" },
-        { "command" : "find_related_videos", "required" : "video_id" },
-        { "command" : "find_all_playlists", "required" : false },
-        { "command" : "find_playlist_by_id", "required" : "playlist_id" },
-        { "command" : "find_playlists_by_ids", "required" : "playlist_ids" },
-        { "command" : "find_playlist_by_reference_id", "required" : "reference_id" },
-        { "command" : "find_playlists_by_reference_ids", "required" : "reference_ids" },
-        { "command" : "find_playlists_for_player_id", "required" : "player_id" },
-        { "command" : "search_videos", "required" : "all" }
+        { "command": "find_all_videos", "required": null },
+        { "command": "find_video_by_id", "required": "video_id" },
+        { "command": "find_video_by_id_unfiltered", "required": "video_id" },
+        { "command": "find_videos_by_ids", "required": "video_ids" },
+        { "command": "find_videos_by_ids_unfiltered", "required": "video_ids" },
+        { "command": "find_video_by_reference_id", "required": "reference_id" },
+        { "command": "find_video_by_reference_id_unfiltered", "required": "reference_id" },
+        { "command": "find_videos_by_reference_ids", "required": "reference_ids" },
+        { "command": "find_videos_by_reference_ids_unfiltered", "required": "reference_ids" },
+        { "command": "find_videos_by_campaign_id", "required": "campaign_id" },
+        { "command": "find_videos_by_tags", "required": "or_tags" },
+        { "command": "find_videos_by_text", "required": "text" },
+        { "command": "find_videos_by_user_id", "required": "user_id" },
+        { "command": "find_modified_videos", "required": "from_date" },
+        { "command": "find_related_videos", "required": "video_id" },
+        { "command": "find_all_playlists", "required": false },
+        { "command": "find_playlist_by_id", "required": "playlist_id" },
+        { "command": "find_playlists_by_ids", "required": "playlist_ids" },
+        { "command": "find_playlist_by_reference_id", "required": "reference_id" },
+        { "command": "find_playlists_by_reference_ids", "required": "reference_ids" },
+        { "command": "find_playlists_for_player_id", "required": "player_id" },
+        { "command": "search_videos", "required": "all" }
     ];
     //<div id="test-bc" data-brightcove-command="find_video_by_reference_id" data-brightcove-arg-name="reference_id" data-brightcove-arg-value="hcnrej2i"></div>
 
 
     _public.execute = function execute(params) {
-        if(!params || !$.isPlainObject(params) || (params && !params.command)) {
-            return $.Deferred().reject({error:'Missing Arguments!', code:100});
+        if (!params || !$.isPlainObject(params) || (params && !params.command)) {
+            return $.Deferred().reject({error: 'Missing Arguments!', code: 100});
         }
 
         params.token = _private.token;
 
-        if(!params.media_delivery) {
+        if (!params.media_delivery) {
             params.media_delivery = 'http';
         }
 
         return $.ajax({
-            url:'http://api.brightcove.com/services/library',
-            dataType:'jsonp',
-            data:params
+            url: 'http://api.brightcove.com/services/library',
+            dataType: 'jsonp',
+            data: params
         });
     };
 
@@ -80,18 +80,18 @@
         _private.token = token;
     };
 
-    $.each(_private.bc_api_map, function(idx, cmd) {
-        _public[cmd.command] = (function(c) {
-            return function() {
+    $.each(_private.bc_api_map, function (idx, cmd) {
+        _public[cmd.command] = (function (c) {
+            return function () {
                 var params = {
-                    command:c.command
+                    command: c.command
                 };
-                if(c.def) {
-                    if(arguments.length == 2) {
+                if (c.def) {
+                    if (arguments.length == 2) {
                         $.extend(true, params, arguments[1]);
                     }
                     params[c.required] = arguments[0];
-                } else if(arguments.length == 1) {
+                } else if (arguments.length == 1) {
                     $.extend(true, params, arguments[0]);
                 }
 
@@ -100,35 +100,35 @@
         }(cmd));
     });
 
-    $.fn.brightcove = function(config) {
+    $.fn.brightcove = function (config) {
         var els = this;
 
-        config = $.extend(true, {params:els.attr('data-brightcove-params') || {} }, config);
+        config = $.extend(true, {params: els.attr('data-brightcove-params') || {} }, config);
 
         config.params.command = config.params.command || els.attr('data-brightcove-command') || 'find_all_videos';
 
-        if(this.attr('data-brightcove-arg-name')) {
+        if (this.attr('data-brightcove-arg-name')) {
             config.params[els.attr('data-brightcove-arg-name')] = els.attr('data-brightcove-arg-value');
         }
         brightcove
         var deferred = $.Deferred();
 
         _public.execute(config.params)
-            .done(function(data) {
-                if(!data) {
-                    deferred.reject(els, {error:'Failed to load Video', code:0});
+            .done(function (data) {
+                if (!data) {
+                    deferred.reject(els, {error: 'Failed to load Video', code: 0});
                 } else {
                     deferred.resolve(els, data, _private.player_id);
                 }
             })
-            .fail(function() {
-                deferred.reject(els, {error:'Failed to load Video', code:0});
+            .fail(function () {
+                deferred.reject(els, {error: 'Failed to load Video', code: 0});
             });
 
         return deferred;
     };
 
-    $(function(){
+    $(function () {
         _private.token = $('body').attr('data-brightcove-token') || '';
         _private.player_id = $('body').attr('data-brightcove-player-id') || '';
     });

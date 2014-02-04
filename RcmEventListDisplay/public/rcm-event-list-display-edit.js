@@ -69,7 +69,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      * @param {Object} returnedData
      * @param {Object} returnedDefaultData
      */
-    me.completeEditInit = function(returnedData, returnedDefaultData){
+    me.completeEditInit = function (returnedData, returnedDefaultData) {
         data = returnedData;
         defaultData = returnedDefaultData;
 
@@ -79,26 +79,26 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         //Add right click menu
         rcmEdit.pluginContextMenu(
             {
-                selector:rcm.getPluginContainerSelector(instanceId),
+                selector: rcm.getPluginContainerSelector(instanceId),
                 //Here are the right click menu options
-                items:{
-                    eventManager:{
-                        name:'Open Event Manager (Add/Remove/Edit Events)',
-                        icon:'edit',
-                        callback:eventManager.showManager
+                items: {
+                    eventManager: {
+                        name: 'Open Event Manager (Add/Remove/Edit Events)',
+                        icon: 'edit',
+                        callback: eventManager.showManager
                     },
-                    'sep1':'-',
-                    edit:{
-                        name:'Properties for this Event List Display',
-                        icon:'edit',
-                        callback:me.showEditDialog
+                    'sep1': '-',
+                    edit: {
+                        name: 'Properties for this Event List Display',
+                        icon: 'edit',
+                        callback: me.showEditDialog
                     }
                 }
             }
         );
     };
 
-    me.handleOpenEventManager = function(){
+    me.handleOpenEventManager = function () {
         var eventId = $(this).attr('data-eventId');
         alert(eventId);
     };
@@ -113,7 +113,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         return data;
     };
 
-    me.showEditDialog = function(){
+    me.showEditDialog = function () {
         eventManager.getCategories(me.showContinueEditDialog);
     };
 
@@ -121,7 +121,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      *
      */
-    me.showContinueEditDialog = function(categories){
+    me.showContinueEditDialog = function (categories) {
         //Create and show our edit dialog
         var form = $('<form></form>').addClass('simple');
         var categoryId = $.dialogIn(
@@ -152,48 +152,48 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         form.append();
 
         form.append(
-                categoryId,
-                shareThisKey,
-                '<p style="font-weight:bold;">Translations:</p>',
-                directions
-                ,noEvents
+            categoryId,
+            shareThisKey,
+            '<p style="font-weight:bold;">Translations:</p>',
+            directions
+            , noEvents
         );
         form.dialog({
-                title:'Properties',
-                modal:true,
-                width:620,
-                buttons:{
-                    Cancel:function () {
-                        $(this).dialog("close");
-                    },
-                    Ok:function () {
+            title: 'Properties',
+            modal: true,
+            width: 620,
+            buttons: {
+                Cancel: function () {
+                    $(this).dialog("close");
+                },
+                Ok: function () {
 
-                        //Get user-entered data from form
-                        data.categoryId= categoryId.val();
-                        data.shareThisKey= shareThisKey.val();
-                        data.translate['directions'] = directions.val();
-                        data.translate['noEvents'] = noEvents.val();
+                    //Get user-entered data from form
+                    data.categoryId = categoryId.val();
+                    data.shareThisKey = shareThisKey.val();
+                    data.translate['directions'] = directions.val();
+                    data.translate['noEvents'] = noEvents.val();
 
-                        me.render();
+                    me.render();
 
-                        $(this).dialog("close");
-                    }
+                    $(this).dialog("close");
                 }
-            });
+            }
+        });
 
     };
 
-    me.render = function(){
+    me.render = function () {
         container.load(
             '/rcm-plugin-admin-proxy/rcm-event-list-display/'
                 + instanceId + '/preview'
-            ,data
-            ,function(){
+            , data
+            , function () {
                 rcmSocialButtonsReload();
             }
         );
     };
 
     //Re-render the list if events change in the event manager
-    $('body').bind('rcmEventManagerRender',me.render);
+    $('body').bind('rcmEventManagerRender', me.render);
 };

@@ -3,7 +3,7 @@ namespace RcmDoctrineJsonPluginStorage\Repo;
 
 class PluginStorageRepoMock implements PluginStorageRepoInterface
 {
-    public $testConfigData=array();
+    public $testConfigData = array();
 
     public $lastInsertedId;
     public $lastInsertedConfigData;
@@ -16,12 +16,12 @@ class PluginStorageRepoMock implements PluginStorageRepoInterface
 
     public function insert($instanceId, $configData)
     {
-        $this->lastInsertedId=$instanceId;
-        $this->lastInsertedConfigData=$configData;
+        $this->lastInsertedId = $instanceId;
+        $this->lastInsertedConfigData = $configData;
     }
 
     public function delete($instanceId)
     {
-        $this->lastDeletedId=$instanceId;
+        $this->lastDeletedId = $instanceId;
     }
 }

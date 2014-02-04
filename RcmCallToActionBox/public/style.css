@@ -12,7 +12,7 @@
     bottom: 0;
     right: 0;
     border-bottom-right-radius: 15px;
-    z-index:-1;
+    z-index: -1;
 }
 
 .RcmCallToActionBox div h1 a {
@@ -27,7 +27,7 @@
     color: #00A3E6;
 }
 
-.RcmCallToActionBox div h2 a{
+.RcmCallToActionBox div h2 a {
     line-height: 18px;
     z-index: 1;
     position: relative;
@@ -36,8 +36,7 @@
     font-size: 13px;
 }
 
-
-.RcmCallToActionBox div p{
+.RcmCallToActionBox div p {
     margin: 0;
     z-index: 1;
     position: relative;

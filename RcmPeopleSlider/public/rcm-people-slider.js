@@ -40,23 +40,23 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
 
         //Allow container to be passed in so the edit object can work around
         // a bug in core
-        container=containerObj;
+        container = containerObj;
 
         peopleDetailsDiv = container.find('.peopleDetails');
 
         me.apertureSlider = new ApertureSlider(
             container.find('.peopleAperture'),
             {
-                frameWidth:160,
-                minHeight:140,
-                frameSeparation:0,
-                framesPerView:framesPerView,
-                hideOffScreenFrames:false
+                frameWidth: 160,
+                minHeight: 140,
+                frameSeparation: 0,
+                framesPerView: framesPerView,
+                hideOffScreenFrames: false
             }
         );
 
         //Register this object so the editor can use it
-        if(typeof(window.RcmPeopleSliders)!='array'){
+        if (typeof(window.RcmPeopleSliders) != 'array') {
             window.RcmPeopleSliders = [];
         }
         window['RcmPeopleSliders'][instanceId] = me;
@@ -75,7 +75,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
             function (personId, person) {
                 var detailsEle = me.buildPersonDetails(personId, person);
                 peopleDetailsDiv.append(detailsEle);
-                if(personId==selectedPersonId){
+                if (personId == selectedPersonId) {
                     detailsEle.show();
                     me.loadDelayedImage(detailsEle.find('.largeImage'));
                 }
@@ -86,12 +86,13 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
 
     };
 
-    me.attachClickEvents = function(){container.find('.person').click(me.handlePersonClick);
+    me.attachClickEvents = function () {
+        container.find('.person').click(me.handlePersonClick);
         container.find('.left').click(me.apertureSlider.pageBack);
         container.find('.right').click(me.apertureSlider.pageForward);
     };
 
-    me.buildPersonDetails = function(personId, person){
+    me.buildPersonDetails = function (personId, person) {
         var dataPersonId = ' data-personId="' + personId + '"';
         return $(
             '<table class="personDetails"'
@@ -117,7 +118,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      * @param person
      * @return {*|jQuery|HTMLElement}
      */
-    me.buildPersonPreview = function(personId, person){
+    me.buildPersonPreview = function (personId, person) {
         return $(
             '<a href="?id=' + personId + '" ' +
                 'class="person" ' +
@@ -135,12 +136,12 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         me.render();
     };
 
-    me.selectPerson = function(personId){
+    me.selectPerson = function (personId) {
         selectedPersonId = personId;
         me.render();
     };
 
-    me.render = function(){
+    me.render = function () {
         me.showHideSelectedPerson();
 
         var personEles = me.getPersonElements(selectedPersonId);
@@ -166,7 +167,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         me.apertureSlider.goToFrame(frame);
     };
 
-    me.showHideSelectedPerson = function(){
+    me.showHideSelectedPerson = function () {
         var personEles = me.getPersonElements(selectedPersonId);
 
         peopleDetailsDiv.children().hide();
@@ -178,7 +179,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      * @param {Integer} personId
      * @return {Object}
      */
-    me.getPersonElements = function(personId){
+    me.getPersonElements = function (personId) {
         var dataSelector = '[data-personId=' + personId + ']';
         var details = container.find('.personDetails' + dataSelector);
         var preview = container.find('.person' + dataSelector);
@@ -188,7 +189,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
             shortDesc: preview.find('.shortDesc'),
             longDesc: details.find('.longDesc'),
             smallImage: preview.find('.smallImage'),
-            largeImage : details.find('.largeImage')
+            largeImage: details.find('.largeImage')
         }
     };
 
@@ -196,7 +197,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      * Load the large image once we know it will be used
      * @param {Object} imageElement
      */
-    me.loadDelayedImage = function(imageElement){
+    me.loadDelayedImage = function (imageElement) {
         imageElement.attr('src', imageElement.attr('data-delayedSrc'));
     };
 

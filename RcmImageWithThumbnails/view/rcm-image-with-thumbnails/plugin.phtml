@@ -12,19 +12,24 @@ $this->headScript()->appendFile(
 
 ?>
 
-<div class="mainImage"><img src="<?=  $this->ic[0]['main']?>" class="imgClass" border="0"/></div>
+<div class="mainImage"><img src="<?= $this->ic[0]['main'] ?>" class="imgClass"
+                            border="0"/></div>
 
 <ul class="imgThumbs">
-<?php $i=0; ?>
-<?php foreach($this->ic as $value) :?>
+    <?php $i = 0; ?>
+    <?php foreach ($this->ic as $value) : ?>
 
-    <li>
-        <a href="#" rel="<?=  $value['main']; ?>" class="image">
-            <img src="<?=  $value['thumb']; ?>" class="thumb <?php if ($i==0) echo "selected"; ?>"  border="0" />
-        </a>
-    </li>
-<?php $i++; ?>
-<?php endforeach; ?>
+        <li>
+            <a href="#" rel="<?= $value['main']; ?>" class="image">
+                <img src="<?= $value['thumb']; ?>"
+                     class="thumb <?php if ($i == 0) {
+                         echo "selected";
+                     } ?>"
+                     border="0"/>
+            </a>
+        </li>
+        <?php $i++; ?>
+    <?php endforeach; ?>
 
 </ul>
 

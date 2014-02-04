@@ -9,22 +9,22 @@ $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm/js/zend-form-helper.js', 'text/javascript'
 );
 ?>
-    <script type="text/javascript">
-        $(function () {
-            new RcmLogin(
-                <?= $this->instanceId?>,
-                '<?= $ic['translate']['buttonProcessing']?>'
-            );
-        });
-    </script>
+<script type="text/javascript">
+    $(function () {
+        new RcmLogin(
+            <?= $this->instanceId?>,
+            '<?= $ic['translate']['buttonProcessing']?>'
+        );
+    });
+</script>
 
-    <h1 data-textEdit="loginHeader">
-        <?= $this->ic['loginHeader']; ?>
-    </h1>
+<h1 data-textEdit="loginHeader">
+    <?= $this->ic['loginHeader']; ?>
+</h1>
 
-    <div class="error">
-        <?= isset($error) ? $error : '' ?>
-    </div>
+<div class="error">
+    <?= isset($error) ? $error : '' ?>
+</div>
 
 <form class="loginForm" method="post">
     <label data-textEdit="userNameCopy" for="rcmLoginUsername">
@@ -32,7 +32,7 @@ $this->headScript()->appendFile(
     </label>
     <br>
     <input type="hidden" name="rcmPluginName" value="RcmLogin">
-    <input autofocus type="text" name="username" value="<?=$username ?>">
+    <input autofocus type="text" name="username" value="<?= $username ?>">
     <br>
     <label data-textEdit="loginPasswordCopy"
            for="rcmLoginPassword">

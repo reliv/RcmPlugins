@@ -37,6 +37,7 @@ class Module
 
     /**
      * Returns ZF2 controller config for this module
+     *
      * @return array
      */
     function getControllerConfig()
@@ -59,6 +60,7 @@ class Module
 
     /**
      * Returns ZF2 auto-loader config
+     *
      * @return array
      */
     public function getAutoloaderConfig()
@@ -77,6 +79,7 @@ class Module
 
     /**
      * Returns ZF2 config for this module
+     *
      * @return mixed
      */
     public function getConfig()

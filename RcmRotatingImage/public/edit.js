@@ -245,7 +245,6 @@ var RcmRotatingImageEdit = function (instanceId, container) {
     };
 
 
-
 //    me.getAssets = function () {
 //        var assets = [];
 //        $.each(instanceConfig.images, function () {

@@ -21,13 +21,14 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmImageWithThumbnails'=>array(
+        'RcmImageWithThumbnails' => array(
             'type' => 'Images & Slide Shows',
             'display' => 'Image Gallery',
             'tooltip' => 'Image with Thumbnails',
             'icon' => '',
-            'editJs'=>'/modules/rcm-image-with-thumbnails/edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-image-with-thumbnails/edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

@@ -4,19 +4,17 @@ namespace RcmEventCalenderCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
     Doctrine\Common\Collections\ArrayCollection,
-    \RcmEventCalenderCore\Exception\InvalidArgumentException
-;
+    \RcmEventCalenderCore\Exception\InvalidArgumentException;
 
 /**
  *
  * @ORM\Entity
  * @ORM\Table(name="rcm_event_calender_event")
  */
-
 class Event
 {
     const DATE_FORMAT = 'm/d/Y';
-    
+
     /**
      * @var int Auto-Incremented Primary Key
      *
@@ -62,12 +60,14 @@ class Event
      */
     protected $mapAddress;
 
-    function __construct(){
+    function __construct()
+    {
         $this->days = new ArrayCollection();
     }
 
     /**
      * PHP calls this during json_encode()
+     *
      * @return array
      */
     public function jsonSerialize()
@@ -75,7 +75,7 @@ class Event
         return array(
             'eventId' => $this->eventId,
             'categoryId' => $this->category->getCategoryId(),
-            'title'=> $this->title,
+            'title' => $this->title,
             'text' => $this->text,
             'mapAddress' => $this->mapAddress,
             'startDate' => $this->startDate->format(self::DATE_FORMAT),
@@ -88,15 +88,16 @@ class Event
      *
      * @return string
      */
-    function getDaysText($dateFormat="%B %d"){
+    function getDaysText($dateFormat = "%B %d")
+    {
         //strftime must be used for non-english support
-        if(
-            $this->startDate==$this->endDate
+        if (
+            $this->startDate == $this->endDate
         ) {
             return strftime($dateFormat, $this->startDate->getTimestamp());
-        }else{
+        } else {
             return strftime($dateFormat, $this->startDate->getTimestamp())
-                . ' - ' . strftime($dateFormat, $this->endDate->getTimestamp());
+            . ' - ' . strftime($dateFormat, $this->endDate->getTimestamp());
         }
     }
 
@@ -156,7 +157,7 @@ class Event
 
     public function setMapAddress($mapAddress)
     {
-        if(!$mapAddress){
+        if (!$mapAddress) {
             throw new InvalidArgumentException('Invalid mapAddress');
         }
         $this->mapAddress = $mapAddress;
@@ -169,7 +170,7 @@ class Event
 
     public function setText($text)
     {
-        if(!$text){
+        if (!$text) {
             throw new InvalidArgumentException('Invalid text');
         }
         $this->text = $text;
@@ -182,7 +183,7 @@ class Event
 
     public function setTitle($title)
     {
-        if(!$title){
+        if (!$title) {
             throw new InvalidArgumentException('Invalid title');
         }
         $this->title = $title;
@@ -198,17 +199,19 @@ class Event
         $this->startDate = $startDate;
     }
 
-    public function setStartDateFromString($date){
+    public function setStartDateFromString($date)
+    {
         $dateTime = \DateTime::CreateFromFormat(self::DATE_FORMAT, $date);
-        if(!$dateTime){
+        if (!$dateTime) {
             throw new InvalidArgumentException('Invalid startDate');
         }
         $this->setStartDate($dateTime);
     }
 
-    public function setEndDateFromString($date){
+    public function setEndDateFromString($date)
+    {
         $dateTime = \DateTime::CreateFromFormat(self::DATE_FORMAT, $date);
-        if(!$dateTime){
+        if (!$dateTime) {
             throw new InvalidArgumentException('Invalid endDate');
         }
         $this->setEndDate($dateTime);
@@ -219,14 +222,16 @@ class Event
         return $this->startDate;
     }
 
-    function getStartDateAsString(){
-        if(is_a($this->startDate,'\DateTime')){
+    function getStartDateAsString()
+    {
+        if (is_a($this->startDate, '\DateTime')) {
             return $this->startDate->format(self::DATE_FORMAT);
         }
     }
 
-    function getEndDateAsString(){
-        if(is_a($this->endDate,'\DateTime')){
+    function getEndDateAsString()
+    {
+        if (is_a($this->endDate, '\DateTime')) {
             return $this->endDate->format(self::DATE_FORMAT);
         }
     }

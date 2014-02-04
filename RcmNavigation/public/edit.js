@@ -67,7 +67,7 @@ var RcmNavigationEdit = function (instanceId, container) {
 
         //Save our html to the hidden input box
         return {
-            'html':container.children('ul').html()
+            'html': container.children('ul').html()
         };
     };
 
@@ -86,16 +86,16 @@ var RcmNavigationEdit = function (instanceId, container) {
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:containerSelector + ' li',
+            selector: containerSelector + ' li',
 
             //Make nav stay popped up when right click menu opens
-            build:function (target) {
+            build: function (target) {
                 me.popupToKeepUp = $(target).closest('div.popup');
                 me.popupToKeepUp.attr('style', 'left:auto')
             },
 
-            events:{
-                hide:function () {
+            events: {
+                hide: function () {
                     //Keep nav open for 200ms after the right click menu closes
                     //to ensure the nav stays open if the mouse is still over it
                     setTimeout(function () {
@@ -106,11 +106,11 @@ var RcmNavigationEdit = function (instanceId, container) {
 
 
             //Here are the right click menu options
-            items:{
-                createNew:{
-                    name:'Create New Link',
-                    icon:'edit',
-                    callback:function () {
+            items: {
+                createNew: {
+                    name: 'Create New Link',
+                    icon: 'edit',
+                    callback: function () {
                         var newLi = $(newLinkTemplate);
                         $(this).after(newLi);
                         me.showEditDialog(newLi, true);
@@ -138,11 +138,11 @@ var RcmNavigationEdit = function (instanceId, container) {
 //                        me.addEditElements();
 //                    }
 //                },
-                separator2:"-",
-                deleteLink:{
-                    name:'Delete Link',
-                    icon:'delete',
-                    callback:function () {
+                separator2: "-",
+                deleteLink: {
+                    name: 'Delete Link',
+                    icon: 'delete',
+                    callback: function () {
                         var li = $(this);
                         var a = $(this).children('a');
                         var ul = li.parent();
@@ -158,11 +158,11 @@ var RcmNavigationEdit = function (instanceId, container) {
                         );
                     }
                 },
-                separator3:"-",
-                edit:{
-                    name:'Edit Link Properties',
-                    icon:'edit',
-                    callback:function () {
+                separator3: "-",
+                edit: {
+                    name: 'Edit Link Properties',
+                    icon: 'edit',
+                    callback: function () {
                         me.showEditDialog(this, false);
                     }
                 }
@@ -172,15 +172,15 @@ var RcmNavigationEdit = function (instanceId, container) {
 
 //Disabled direct edits because copying and pasting links breaks the html
 //        if (arrangeMode) {
-            //Make links arrangeable
-            container.find('ul').sortable(
-                {
-                    update:function () {
-                        me.refresh()
-                    },
-                    connectWith:containerSelector + ' ul'
-                }
-            );
+        //Make links arrangeable
+        container.find('ul').sortable(
+            {
+                update: function () {
+                    me.refresh()
+                },
+                connectWith: containerSelector + ' ul'
+            }
+        );
 //        } else {
 //            //Make links directly editable
 //            container.find('li a').attr('contenteditable', 'true');
@@ -238,16 +238,16 @@ var RcmNavigationEdit = function (instanceId, container) {
         var cssClassInput = $.dialogIn(
             'select',
             'Display Style',
-            {'':'Normal', 'heading':'Heading', 'bold':'Bold'},
+            {'': 'Normal', 'heading': 'Heading', 'bold': 'Bold'},
             cssClass
         );
         var subMenuInput = $.dialogIn(
             'select',
             'SubMenu',
             {
-                'none':'None',
-                'oneCol':'Single column',
-                'twoCol':'Double column'
+                'none': 'None',
+                'oneCol': 'Single column',
+                'twoCol': 'Double column'
             },
             subMenu
         );
@@ -257,10 +257,10 @@ var RcmNavigationEdit = function (instanceId, container) {
             .addClass('simple')
             .append(text, href, cssClassInput, subMenuInput)
             .dialog({
-                title:'Properties',
-                modal:true,
-                width:620,
-                close:function () {
+                title: 'Properties',
+                modal: true,
+                width: 620,
+                close: function () {
                     if (deleteOnClose && !okClicked) {
                         // Remove the new li that was created if the user clicks
                         // cancel
@@ -268,15 +268,15 @@ var RcmNavigationEdit = function (instanceId, container) {
                         me.refresh();
                     }
                 },
-                buttons:{
-                    Cancel:function () {
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
 
                         //Get user-entered data from form
                         a.html(text.val());
-                        a.attr('href',href.val());
+                        a.attr('href', href.val());
                         li.attr('class', cssClassInput.val());
 
                         //Put this in a closure so modifySubMenu can call it

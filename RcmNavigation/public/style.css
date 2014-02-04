@@ -10,13 +10,13 @@
     display: block;
     font-weight: bold;
     text-decoration: none;
-    margin:0;
-    padding:0;
-    color:black;
+    margin: 0;
+    padding: 0;
+    color: black;
 }
 
-.RcmNavigation li{
-    padding-right:20px;
+.RcmNavigation li {
+    padding-right: 20px;
     padding-top: 10px;
     float: left;
 }
@@ -25,21 +25,21 @@
     background: transparent;
 }
 
-.RcmNavigation li ul li{
+.RcmNavigation li ul li {
     padding: 5px;
-    float:none;
+    float: none;
 }
 
-.RcmNavigation li ul li a{
+.RcmNavigation li ul li a {
     font-weight: normal;
     color: #000000;
 }
 
-.RcmNavigation li ul li.heading, .RcmNavigation li ul li.bold{
+.RcmNavigation li ul li.heading, .RcmNavigation li ul li.bold {
     font-weight: bold;
 }
 
-.RcmNavigation li ul li.heading{
+.RcmNavigation li ul li.heading {
     background-color: #666;
     padding: 5px;
 }
@@ -71,7 +71,7 @@
     left: -999em;
 }
 
-.RcmNavigation .column, #rcmContainer_1 .column{
+.RcmNavigation .column, #rcmContainer_1 .column {
     width: 250px;
     padding: 0 0 10px 0;
     float: left;
@@ -81,6 +81,6 @@
     width: 502px;
 }
 
-.RcmNavigation .columnCount_2 .column_1, #rcmContainer_1 .columnCount_2 .column_1{
+.RcmNavigation .columnCount_2 .column_1, #rcmContainer_1 .columnCount_2 .column_1 {
     border-right: 1px solid black;
 }

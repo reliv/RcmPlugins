@@ -21,13 +21,14 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmCallToActionBox'=>array(
+        'RcmCallToActionBox' => array(
             'type' => 'Content Templates',
             'display' => 'Feature Box w/ Bg Image',
             'tooltip' => 'Editable box with three text areas and a background image',
             'icon' => '',
-            'editJs'=>'/modules/rcm-call-to-action-box/call-to-action-box-edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-call-to-action-box/call-to-action-box-edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

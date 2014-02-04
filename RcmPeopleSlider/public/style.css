@@ -7,7 +7,7 @@
     text-decoration: none;
     text-align: center;
     font-weight: bold;
-    padding:5px 0;
+    padding: 5px 0;
 }
 
 .RcmPeopleSlider .person:hover, .RcmPeopleSlider .arrow:hover {
@@ -30,7 +30,7 @@
     float: right;
 }
 
-.RcmPeopleSlider .longDesc{
+.RcmPeopleSlider .longDesc {
     /*width: 445px;*/
     height: 330px;
     margin-left: 5px;

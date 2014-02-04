@@ -18,6 +18,7 @@ class DoctrineJsonRepo implements PluginStorageRepoInterface
 
     /**
      * @param $instanceId
+     *
      * @return array
      */
     public function select($instanceId)
@@ -59,12 +60,15 @@ class DoctrineJsonRepo implements PluginStorageRepoInterface
 
     /**
      * @param $instanceId
+     *
      * @return mixed
      */
     public function selectEntity($instanceId)
     {
         $instanceConfig = $this->entityMgr
-            ->getRepository('RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig')
+            ->getRepository(
+                'RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig'
+            )
             ->findOneByInstanceId($instanceId);
         return $instanceConfig;
     }

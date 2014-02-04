@@ -27,48 +27,51 @@ $eventUrl = '//' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 
 ?>
 
-<div class="dataContainer"
-     style="display:none;"
-     data-eventCategoryId="<?=  $data->category?>"
+    <div class="dataContainer"
+         style="display:none;"
+         data-eventCategoryId="<?= $data->category ?>"
         >
-    <a class="rcmShareThisKey"
-       data-rcmShareThisKey="<?=  $this->ic['shareThisKey']?>"></a>
-</div>
+        <a class="rcmShareThisKey"
+           data-rcmShareThisKey="<?= $this->ic['shareThisKey'] ?>"></a>
+    </div>
 
-<?php if(count($this->events)):?>
+<?php if (count($this->events)): ?>
 
-    <?php foreach($this->events as $event):?>
+    <?php foreach ($this->events as $event): ?>
         <div class="event"
-             data-eventCategoryId="<?=  $event->getCategory()->getCategoryId()?>"
-             data-eventId="<?=  $event->getEventId()?>"
+             data-eventCategoryId="<?=
+             $event->getCategory()->getCategoryId() ?>"
+             data-eventId="<?= $event->getEventId() ?>"
             >
-            <a name="event<?=  $event->getEventId()?>"></a>
-            <h3><?=  $event->getTitle()?></h3>
+            <a name="event<?= $event->getEventId() ?>"></a>
+
+            <h3><?= $event->getTitle() ?></h3>
+
             <div class="days">
-                <?=  $event->getDaysText()?>
+                <?= $event->getDaysText() ?>
             </div>
-            <?=  $event->getText()?>
+            <?= $event->getText() ?>
             <div class="eventFoot">
                 <span class="st_sharethis"
-                     st_title="<?=  $event->getText()?>"
-                     st_url="<?=  $eventUrl . $event->getEventId()?>"
-                     displayText='Share'>
+                      st_title="<?= $event->getText() ?>"
+                      st_url="<?= $eventUrl . $event->getEventId() ?>"
+                      displayText='Share'>
                 </span>
                 -&nbsp;&nbsp;
                 <a href="https://maps.google.com/maps?saddr=&daddr=<?php
-                    echo urlencode($event->getMapAddress())
-                   ?>"
+                echo urlencode($event->getMapAddress())
+                ?>"
                    target="_blank"
                     >
-                    <?=  $this->ic['translate']['directions']?>
+                    <?= $this->ic['translate']['directions'] ?>
                 </a>
             </div>
         </div>
         <br>
-    <?php endforeach?>
+    <?php endforeach ?>
 
-<?php else:?>
+<?php else: ?>
     <div class="noEvent">
-        <?=  $this->ic['translate']['noEvents']?>
+        <?= $this->ic['translate']['noEvents'] ?>
     </div>
-<?php endif?>
+<?php endif ?>

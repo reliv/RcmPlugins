@@ -40,20 +40,20 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
     /**
      * Called by content management system to make this plugin user-editable
      */
-    me.initEdit = function(){
+    me.initEdit = function () {
 
         //Double clicking will show properties dialog
         container.dblclick(me.showEditDialog);
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:rcm.getPluginContainerSelector(instanceId),
+            selector: rcm.getPluginContainerSelector(instanceId),
             //Here are the right click menu options
-            items:{
-                edit:{
-                    name:'Edit Properties',
-                    icon:'edit',
-                    callback:function () {
+            items: {
+                edit: {
+                    name: 'Edit Properties',
+                    icon: 'edit',
+                    callback: function () {
                         me.showEditDialog();
                     }
                 }
@@ -76,7 +76,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
         }
     };
 
-    me.getAssets = function(){
+    me.getAssets = function () {
         var data = me.getSaveData();
         return [data.imageSrc, data.href];
     };
@@ -93,14 +93,14 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
             .addClass('simple')
             .append(srcInput, hrefInput)
             .dialog({
-                title:'Properties',
-                modal:true,
-                width:620,
-                buttons:{
-                    Cancel:function () {
+                title: 'Properties',
+                modal: true,
+                width: 620,
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
 
                         //Get user-entered data from form
                         imgTag.attr('src', srcInput.val());

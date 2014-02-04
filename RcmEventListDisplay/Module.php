@@ -18,6 +18,7 @@
 namespace RcmEventListDisplay;
 
 use \RcmEventListDisplay\Controller\PluginController;
+
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -76,16 +77,15 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmEventListDisplay'=>function($serviceMgr)
-                {
-                    $controller = new PluginController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        $serviceMgr->get('em'),
+                'RcmEventListDisplay' => function ($serviceMgr) {
+                        $controller = new PluginController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            $serviceMgr->get('em'),
                             $serviceMgr->get('CalenderModel')
-                    );
-                    return $controller;
-                }
+                        );
+                        return $controller;
+                    }
             )
         );
     }

@@ -56,7 +56,8 @@ class PluginController
         $config,
         UserManagerInterface $userMgr,
         Site $site
-    ) {
+    )
+    {
         parent::__construct($pluginStorageMgr, $config);
         $this->userMgr = $userMgr;
         $this->site = $site;
@@ -72,10 +73,12 @@ class PluginController
         $username = null;
 
         if ($this->postIsForThisPlugin('RcmLogin')) {
-            $username = trim(filter_var(
-                $this->getRequest()->getPost('username')
-                , FILTER_SANITIZE_STRING
-            ));
+            $username = trim(
+                filter_var(
+                    $this->getRequest()->getPost('username')
+                    , FILTER_SANITIZE_STRING
+                )
+            );
             $password = filter_var(
                 $this->getRequest()->getPost('password')
                 , FILTER_SANITIZE_STRING
@@ -118,7 +121,8 @@ class PluginController
 
         } else {
 
-            $view = parent::renderInstance($instanceId,
+            $view = parent::renderInstance(
+                $instanceId,
                 array(
                     'error' => $error,
                     'username' => $username,

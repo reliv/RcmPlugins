@@ -21,14 +21,15 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmRotatingImage'=>array(
+        'RcmRotatingImage' => array(
             'type' => 'Images & Slide Shows',
             'display' => 'Rotating Image',
             'tooltip' => 'Displays a different randomly selected image from a list each time a visitor comes to the site.',
             'icon' => '',
-            'editJs'=>'/modules/rcm-rotating-image/edit.js',
-            'editCss'=>'/modules/rcm-rotating-image/edit.css',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-rotating-image/edit.js',
+            'editCss' => '/modules/rcm-rotating-image/edit.css',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

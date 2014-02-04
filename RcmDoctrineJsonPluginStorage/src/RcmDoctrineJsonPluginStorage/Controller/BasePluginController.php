@@ -70,13 +70,16 @@ class BasePluginController extends AbstractActionController
         if (!$pluginDirectory) {
             //Allow auto path detection for controllers that extend this class
             $reflection = new \ReflectionClass(get_class($this));
-            $pluginDirectory =
-                realpath(dirname($reflection->getFileName()) . '/../../../');
+            $pluginDirectory = realpath(
+                dirname($reflection->getFileName()) . '/../../../'
+            );
         }
 
         $this->pluginDirectory = $pluginDirectory;
         $this->pluginName = basename($pluginDirectory);
-        $this->pluginNameLowerCaseDash = $this->camelToHyphens($this->pluginName);
+        $this->pluginNameLowerCaseDash = $this->camelToHyphens(
+            $this->pluginName
+        );
         $this->template = $this->pluginNameLowerCaseDash . '/plugin';
 
         $this->defaultInstanceConfig = $config['rcmPlugin'][$this->pluginName]
@@ -90,8 +93,9 @@ class BasePluginController extends AbstractActionController
      * Reads a plugin instance from persistent storage returns a view model for
      * it
      *
-     * @param int $instanceId
+     * @param int   $instanceId
      * @param array $extraViewVariables
+     *
      * @return ViewModel
      */
     public function renderInstance($instanceId, $extraViewVariables = array())
@@ -115,11 +119,14 @@ class BasePluginController extends AbstractActionController
      * usually comes out of a config file rather than writable persistent
      * storage like a database.
      *
-     * @param int $instanceId
+     * @param int   $instanceId
      * @param array $extraViewVariables
+     *
      * @return mixed|ViewModel
      */
-    public function renderDefaultInstance($instanceId, $extraViewVariables = array())
+    public function renderDefaultInstance(
+        $instanceId, $extraViewVariables = array()
+    )
     {
         $view = new ViewModel(
             array_merge(
@@ -138,6 +145,7 @@ class BasePluginController extends AbstractActionController
 
     /**
      * Allows core to properly pass the request to this plugin controller
+     *
      * @param $request
      */
     public function setRequest(Request $request)
@@ -183,7 +191,7 @@ class BasePluginController extends AbstractActionController
      * Saves a plugin instance to persistent storage
      *
      * @param string $instanceId plugin instance id
-     * @param array $configData posted data to be saved
+     * @param array  $configData posted data to be saved
      *
      * @return null
      */

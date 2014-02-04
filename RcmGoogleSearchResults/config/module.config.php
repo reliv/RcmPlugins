@@ -21,12 +21,13 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmGoogleSearchResults'=>array(
+        'RcmGoogleSearchResults' => array(
             'type' => 'Common',
             'display' => 'Google Search Results',
             'tooltip' => 'Google Search Results',
             'icon' => '',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

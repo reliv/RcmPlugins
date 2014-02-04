@@ -26,7 +26,7 @@ var RcmEventManager = function () {
     var warning = '<p style="color:gray">Note: Changes to events happen ' +
         'immediately and cannot be rolled back.</p>';
 
-    me.showManager = function(){
+    me.showManager = function () {
         var form = $('<div id="eventManager"></div>').addClass('simple');
         categorySelectContainer =
             $('<div id="eventManagerCategory">Loading...</div>');
@@ -38,14 +38,14 @@ var RcmEventManager = function () {
         form.append('<br>');
         form.append(warning);
         form.dialog({
-            title:'Event Manager',
-            modal:true,
-            width:620,
-            buttons:{
-                Cancel:function () {
+            title: 'Event Manager',
+            modal: true,
+            width: 620,
+            buttons: {
+                Cancel: function () {
                     $(this).dialog("close");
                 },
-                Ok:function () {
+                Ok: function () {
                     $(this).dialog("close");
                 }
             }
@@ -58,8 +58,8 @@ var RcmEventManager = function () {
      *
      * @param {Function} [callback]
      */
-    me.renderCategorySelect = function(callback){
-        me.getCategories(function(){
+    me.renderCategorySelect = function (callback) {
+        me.getCategories(function () {
             categorySelectContainer.empty();
             categorySelectContainer.addSelect(
                 'categoryId',
@@ -67,12 +67,12 @@ var RcmEventManager = function () {
                 categories,
                 currentCategoryId
             );
-            categorySelectContainer.find('select').change(function(){
+            categorySelectContainer.find('select').change(function () {
                 me.changeSelectedCategory($(this).val());
             });
             categorySelectContainer.find('p').append(me.buildEditButtons());
 
-            if(typeof(callback)=='function'){
+            if (typeof(callback) == 'function') {
                 callback();
             }
         });
@@ -82,17 +82,17 @@ var RcmEventManager = function () {
      *
      * @param {Integer} categoryId
      */
-    me.changeSelectedCategory = function(categoryId){
+    me.changeSelectedCategory = function (categoryId) {
         currentCategoryId = categoryId;
         me.renderEventList();
     };
 
-    me.buildEditButtons = function(){
+    me.buildEditButtons = function () {
         var buttonCont = $('<span></span>');
 
         var deleteCategoryButton = $('<button>Delete Category</button>');
         deleteCategoryButton.click(
-            function(){
+            function () {
                 me.deleteCategory(currentCategoryId);
             }
         );
@@ -100,7 +100,7 @@ var RcmEventManager = function () {
 
         var createCategoryButton = $('<button>Create Category</button>');
         createCategoryButton.click(
-            function(){
+            function () {
                 me.createCategory();
             }
         );
@@ -108,7 +108,7 @@ var RcmEventManager = function () {
 
         var createEventButton = $('<button>Create Event</button>');
         createEventButton.click(
-            function(){
+            function () {
                 me.createEvent();
             }
         );
@@ -118,49 +118,49 @@ var RcmEventManager = function () {
         return buttonCont;
     };
 
-    me.renderEventList = function(){
+    me.renderEventList = function () {
         eventList.html('<tr><td>Loading...</td></tr>');
         me.getEvents(
             currentCategoryId,
-            function(events){
+            function (events) {
 
-                if(events.length){
+                if (events.length) {
                     eventList.html('<tr><th>Event Title</th><th>Start Date</th></tr>');
-                }else{
+                } else {
                     eventList.html('<tr><td>No events found in this category.</td></tr>')
                 }
 
                 var tdOpen = '<td style="border:1px solid gray;padding:3px 5px">';
-                $.each(events,function(){
-                    var tr=$('<tr data-eventId="' + this.eventId + '"></tr>');
+                $.each(events, function () {
+                    var tr = $('<tr data-eventId="' + this.eventId + '"></tr>');
                     tr.append(tdOpen + this.title + '</td>');
                     tr.append(tdOpen + this.startDate + '</td>');
                     tr.disableSelection();
                     eventList.append(tr);
                 });
 
-                eventList.find('tr').dblclick(function(){
+                eventList.find('tr').dblclick(function () {
                     me.editEvent($(this).attr('data-eventId'));
                 });
 
                 rcmEdit.pluginContextMenu(
                     {
-                        selector:'#eventManagerList tr',
+                        selector: '#eventManagerList tr',
                         //Here are the right click menu options
-                        items:{
-                            deleteEvent:{
-                                name:'Delete Event',
-                                icon:'delete',
-                                callback:function(){
+                        items: {
+                            deleteEvent: {
+                                name: 'Delete Event',
+                                icon: 'delete',
+                                callback: function () {
                                     me.deleteEvent(
                                         $(this).attr('data-eventId')
                                     );
                                 }
                             },
-                            editEvent:{
-                                name:'Edit Event',
-                                icon:'edit',
-                                callback:function(){
+                            editEvent: {
+                                name: 'Edit Event',
+                                icon: 'edit',
+                                callback: function () {
                                     me.editEvent(
                                         $(this).attr('data-eventId')
                                     );
@@ -175,20 +175,20 @@ var RcmEventManager = function () {
         );
     };
 
-    me.createCategory = function(){
+    me.createCategory = function () {
         me.showCategoryPropertiesDialog(
             'Create Category',
-            {name:''},
-            function(category, okButton){
+            {name: ''},
+            function (category, okButton) {
                 $.ajax({
                     url: categoriesUrl,
                     type: 'POST',
                     data: category,
-                    success: function() {
+                    success: function () {
                         me.renderCategorySelect();
                         okButton.dialog('close');
                     },
-                    error:me.handleAjaxError
+                    error: me.handleAjaxError
                 });
             }
         );
@@ -196,39 +196,39 @@ var RcmEventManager = function () {
 
     /**
      */
-    me.createEvent = function(){
+    me.createEvent = function () {
         me.showEventPropertiesDialog(
             'Create Event',
             {
-                categoryId:currentCategoryId,
-                title:'',
-                text:'',
-                startDate:me.getToday(),
-                endDate:me.getToday(),
-                mapAddress:''
+                categoryId: currentCategoryId,
+                title: '',
+                text: '',
+                startDate: me.getToday(),
+                endDate: me.getToday(),
+                mapAddress: ''
             },
-            function(event, okButton){
+            function (event, okButton) {
                 $.ajax({
                     url: eventsUrl,
                     type: 'POST',
                     data: event,
-                    success: function() {
+                    success: function () {
                         me.renderEventList();
                         okButton.dialog('close');
                     },
-                    error:me.handleAjaxError
+                    error: me.handleAjaxError
                 });
             }
         );
     };
 
-    me.getToday = function(){
+    me.getToday = function () {
         var today = new Date();
-        return (today.getMonth()+1) + '/'
+        return (today.getMonth() + 1) + '/'
             + today.getDate() + '/' + today.getFullYear();
     };
 
-    me.handleAjaxError = function(e){
+    me.handleAjaxError = function (e) {
         $.confirm(
             'There was a problem. Please make sure you entered valid values ' +
                 'and try again.'
@@ -239,23 +239,23 @@ var RcmEventManager = function () {
      *
      * @param {Integer} categoryId
      */
-    me.deleteCategory = function(categoryId){
+    me.deleteCategory = function (categoryId) {
         me.getCategory(
             categoryId,
-            function(category){
+            function (category) {
                 var message = 'Delete this category <b>AND ALL EVENTS UNDER' +
                     ' IT?</b><br><br>' + category.name +
                     '<br><br>' + warning;
                 $.confirm(
                     message,
-                    function(){
+                    function () {
                         $.ajax({
                             url: categoriesUrl + '/' + categoryId,
                             type: 'DELETE',
-                            success: function() {
+                            success: function () {
                                 me.renderCategorySelect(me.renderEventList);
                             },
-                            error:me.handleAjaxError
+                            error: me.handleAjaxError
                         });
                     }
                 );
@@ -267,22 +267,22 @@ var RcmEventManager = function () {
      *
      * @param {Integer} eventId
      */
-    me.deleteEvent = function(eventId){
+    me.deleteEvent = function (eventId) {
         me.getEvent(
             eventId,
-            function(event){
+            function (event) {
                 var message = 'Delete this event?<br><br>' + event.title +
                     '<br><br>' + warning;
                 $.confirm(
                     message,
-                    function(){
+                    function () {
                         $.ajax({
                             url: eventsUrl + '/' + eventId,
                             type: 'DELETE',
-                            success: function() {
+                            success: function () {
                                 me.renderEventList();
                             },
-                            error:me.handleAjaxError
+                            error: me.handleAjaxError
                         });
                     }
                 );
@@ -294,14 +294,14 @@ var RcmEventManager = function () {
      *
      * @param {Integer} eventId
      */
-    me.editEvent = function(eventId){
+    me.editEvent = function (eventId) {
         me.getEvent(
             eventId,
-            function(event){
+            function (event) {
                 me.showEventPropertiesDialog(
                     'Edit Event',
                     event,
-                    function(event, okButton){
+                    function (event, okButton) {
                         me.putEventAjax(eventId, event, okButton);
                     }
                 );
@@ -309,43 +309,43 @@ var RcmEventManager = function () {
         );
     };
 
-    me.putEventAjax = function(eventId, event, okButton){
+    me.putEventAjax = function (eventId, event, okButton) {
         $.ajax(
             {
                 url: eventsUrl + '/' + eventId,
                 type: 'PUT',
                 data: event,
-                success: function() {
+                success: function () {
                     me.renderEventList();
                     okButton.dialog('close');
                 },
-                error:me.handleAjaxError
+                error: me.handleAjaxError
             }
         );
     };
 
-    me.getEvent = function(eventId, callback){
+    me.getEvent = function (eventId, callback) {
         $.getJSON(
             eventsUrl + '/' + eventId,
-                function(response) {
+            function (response) {
                 callback(response)
             }
         ).error(me.handleAjaxError);
     };
 
-    me.getCategory = function(categoryId, callback){
+    me.getCategory = function (categoryId, callback) {
         $.getJSON(
             categoriesUrl + '/' + categoryId,
-                function(response) {
+            function (response) {
                 callback(response)
             }
         ).error(me.handleAjaxError);
     };
 
-    me.getEvents = function(categoryId, callback){
+    me.getEvents = function (categoryId, callback) {
         $.getJSON(
             eventsUrl + '?categoryId=' + categoryId,
-            function(response) {
+            function (response) {
                 callback(response)
             }
         ).error(me.handleAjaxError);
@@ -357,15 +357,15 @@ var RcmEventManager = function () {
      * @param {Object} [event]
      * @param {Function} okCallback
      */
-    me.showEventPropertiesDialog = function(formTitle, event, okCallback){
+    me.showEventPropertiesDialog = function (formTitle, event, okCallback) {
 
         var inputs = {
-            categoryId:$.dialogIn('select', 'Event Category', categories, event.categoryId),
-            title:$.dialogIn('text', 'Title', event.title),
-            text:$.dialogIn('richEdit', 'Text', event.text),
-            startDate:$.dialogIn('date', 'Start Date', event.startDate),
-            endDate:$.dialogIn('date' , 'End Date', event.endDate),
-            mapAddress:$.dialogIn('text' , 'Map Address', event.mapAddress)
+            categoryId: $.dialogIn('select', 'Event Category', categories, event.categoryId),
+            title: $.dialogIn('text', 'Title', event.title),
+            text: $.dialogIn('richEdit', 'Text', event.text),
+            startDate: $.dialogIn('date', 'Start Date', event.startDate),
+            endDate: $.dialogIn('date', 'End Date', event.endDate),
+            mapAddress: $.dialogIn('text', 'Map Address', event.mapAddress)
         };
 
         var form = $('<form></form>')
@@ -373,24 +373,24 @@ var RcmEventManager = function () {
             .appendMulti(inputs)
             .append(warning)
             .dialog({
-                title:formTitle,
-                modal:true,
-                width:620,
-                buttons:{
-                    Cancel:function () {
+                title: formTitle,
+                modal: true,
+                width: 620,
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
 
                         //Get user-entered data from form
                         event.categoryId = inputs.categoryId.val();
                         event.title = inputs.title.val();
-                        event.startDate  = inputs.startDate.val();
-                        event.endDate  = inputs.endDate.val();
+                        event.startDate = inputs.startDate.val();
+                        event.endDate = inputs.endDate.val();
                         event.mapAddress = inputs.mapAddress.val();
-                        event.text  = inputs.text.val();
+                        event.text = inputs.text.val();
 
-                        okCallback(event,$(this));
+                        okCallback(event, $(this));
                     }
                 }
             }
@@ -403,7 +403,7 @@ var RcmEventManager = function () {
      * @param {Object} [category]
      * @param {Function} okCallback
      */
-    me.showCategoryPropertiesDialog = function(formTitle, category, okCallback){
+    me.showCategoryPropertiesDialog = function (formTitle, category, okCallback) {
 
         var nameInput = $.dialogIn('text', 'Name', category.name);
 
@@ -412,19 +412,19 @@ var RcmEventManager = function () {
             .append(nameInput)
             .append(warning)
             .dialog({
-                title:formTitle,
-                modal:true,
-                width:620,
-                buttons:{
-                    Cancel:function () {
+                title: formTitle,
+                modal: true,
+                width: 620,
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
 
                         //Get user-entered data from form
-                        category.name= nameInput.val();
+                        category.name = nameInput.val();
 
-                        okCallback(category,$(this));
+                        okCallback(category, $(this));
                     }
                 }
             }
@@ -435,29 +435,29 @@ var RcmEventManager = function () {
      * updates category array from server
      * @param {Function} [callback]
      */
-    me.getCategories = function(callback){
+    me.getCategories = function (callback) {
         $.getJSON(
             '/rcm-event-calender/categories',
-            function(result) {
-                categories=[];
-                $.each(result, function(){
-                    categories[this.categoryId]=this.name;
+            function (result) {
+                categories = [];
+                $.each(result, function () {
+                    categories[this.categoryId] = this.name;
                 });
 
                 me.setCurrentCategoryToDefault();
 
-                if(typeof(callback)=='function'){
+                if (typeof(callback) == 'function') {
                     callback(categories);
                 }
             }
         );
     };
 
-    me.setCurrentCategoryToDefault = function(){
+    me.setCurrentCategoryToDefault = function () {
         //Use for-loop to get first key
         for (var firstCategoryId in categories) {
             currentCategoryId = firstCategoryId;
-            if(1==1){//Prevent IDE whining
+            if (1 == 1) {//Prevent IDE whining
                 break;
             }
         }

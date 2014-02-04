@@ -1,14 +1,14 @@
-.RcmRotatingImage .tools{
-    position:absolute;
-    right:10px;
-    top:5px;
+.RcmRotatingImage .tools {
+    position: absolute;
+    right: 10px;
+    top: 5px;
 }
 
-.RcmRotatingImage .tools img{
+.RcmRotatingImage .tools img {
     cursor: pointer;
-    margin-left:10px;
+    margin-left: 10px;
 }
 
-.RcmRotatingImage .tools img.right{
-    margin-left:0;
+.RcmRotatingImage .tools img.right {
+    margin-left: 0;
 }

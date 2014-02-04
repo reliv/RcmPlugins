@@ -76,15 +76,14 @@ class Module
         return array(
             'factories' => array(
                 'RcmSocialButtons' =>
-                function($serviceMgr)
-                {
-                    $controller
-                        = new \RcmSocialButtons\Controller\PluginController(
+                    function ($serviceMgr) {
+                        $controller
+                            = new \RcmSocialButtons\Controller\PluginController(
                             $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config')
                         );
-                    return $controller;
-                }
+                        return $controller;
+                    }
             )
         );
     }

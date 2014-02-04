@@ -212,7 +212,6 @@ playerEditModule.controller('PlayerEditCtrl', function PlayerEditCtrl($scope) {
     };
 
 
-
     $scope.items = [
         { id: 'single-embed', name: 'single embed' },
         { id: 'multi-embed', name: 'tabbed video player' }

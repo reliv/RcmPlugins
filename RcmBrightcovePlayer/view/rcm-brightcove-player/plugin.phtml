@@ -1,12 +1,14 @@
 <?php
 
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-brightcove-player/rcm-brightcove-player.js',
+    $this->basePath()
+    . '/modules/rcm-brightcove-player/rcm-brightcove-player.js',
     'text/javascript'
 );
 
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-brightcove-player/rcm-brightcove-functions.js',
+    $this->basePath()
+    . '/modules/rcm-brightcove-player/rcm-brightcove-functions.js',
     'text/javascript'
 );
 
@@ -35,8 +37,11 @@ if (($ic['type']) == 'single-embed') {
 ?>
 <div style="display:none">
     <div ng-controller="PlayerEditCtrl"
-         ng-init="init(<?php echo str_replace('"', "'", json_encode($ic)); ?> )">
-        <form style="display:none" title="Brightcove Player Editor" novalidate class="RcmBrightcovePlayer">
+         ng-init="init(<?php echo str_replace(
+             '"', "'", json_encode($ic)
+         ); ?> )">
+        <form style="display:none" title="Brightcove Player Editor" novalidate
+              class="RcmBrightcovePlayer">
 
             <div>
                 <div ng-show="true">
@@ -50,7 +55,8 @@ if (($ic['type']) == 'single-embed') {
 
 
                 </div>
-                <div class="selection" ng-show="selectedItem.id == 'single-embed'">
+                <div class="selection"
+                     ng-show="selectedItem.id == 'single-embed'">
 
                     <br>Choose video:<br>
                     <select
@@ -61,12 +67,15 @@ if (($ic['type']) == 'single-embed') {
 
                     <br>
 
-                    <div class="singleVideo" style="display:none;">{{selectedVideos.id}}</div>
+                    <div class="singleVideo" style="display:none;">
+                        {{selectedVideos.id}}
+                    </div>
                     <br>
                     <img src="{{selectedVideos.thumbnailURL}}"/>
                     <br>
                 </div>
-                <div class="selection" ng-show="selectedItem.id == 'multi-embed'">
+                <div class="selection"
+                     ng-show="selectedItem.id == 'multi-embed'">
                     <br><br>
 
                     <div>
@@ -74,7 +83,8 @@ if (($ic['type']) == 'single-embed') {
                         <ul id="sortable1"
                             class="droptrue connectedSortable"
                             >
-                            <span style="padding: 5px;"><strong>Unselected Playlists</strong></span>
+                            <span style="padding: 5px;"><strong>Unselected
+                                    Playlists</strong></span>
                             <li
                                 style="height:20px;"
                                 class="ui-state-default"
@@ -91,7 +101,8 @@ if (($ic['type']) == 'single-embed') {
                             id="sortable2"
 
                             class="droptrue playlist-list">
-                            <span style="padding: 5px;"><strong>Selected Playlists</strong></span>
+                            <span style="padding: 5px;"><strong>Selected
+                                    Playlists</strong></span>
                             <li
                                 class="ui-state-highlight"
                                 ng-repeat="playlist in selectedPlaylist"

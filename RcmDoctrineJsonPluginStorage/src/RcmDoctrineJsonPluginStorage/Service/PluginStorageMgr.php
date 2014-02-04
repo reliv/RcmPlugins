@@ -15,6 +15,7 @@ class PluginStorageMgr implements PluginStorageMgrInterface
 
     /**
      * Caches instance configs to speed up multiple calls to getDbInstanceConfig()
+     *
      * @var array
      */
     private $instanceConfigs = array();
@@ -44,8 +45,10 @@ class PluginStorageMgr implements PluginStorageMgrInterface
      * merges the instance config with the new instance config so that default
      * values are used when the db instance config doesn't yet have them after
      * new public functionality is added
+     *
      * @param $instanceId
      * @param $pluginName
+     *
      * @return array
      */
     public function getInstanceConfig($instanceId, $pluginName)

@@ -16,6 +16,7 @@
  */
 
 namespace RcmRotatingImage;
+
 use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
 
 /**
@@ -77,17 +78,16 @@ class Module
         return array(
             'factories' => array(
                 'RcmRotatingImage' =>
-                function($serviceMgr)
-                {
-                    $service
-                        = new BasePluginController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        __DIR__
-                    );
-                    
-                    return $service;
-                }
+                    function ($serviceMgr) {
+                        $service
+                            = new BasePluginController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            __DIR__
+                        );
+
+                        return $service;
+                    }
             )
         );
     }
