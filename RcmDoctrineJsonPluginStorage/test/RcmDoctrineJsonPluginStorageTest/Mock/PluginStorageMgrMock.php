@@ -1,7 +1,8 @@
 <?php
 namespace RcmDoctrineJsonPluginStorage\Service;
 
-require_once __DIR__ . '/../../../src/RcmDoctrineJsonPluginStorage/Service/PluginStorageMgrInterface.php';
+require_once __DIR__
+    . '/../../../src/RcmDoctrineJsonPluginStorage/Service/PluginStorageMgrInterface.php';
 
 class PluginStorageMgrMock implements PluginStorageMgrInterface
 {
@@ -11,10 +12,11 @@ class PluginStorageMgrMock implements PluginStorageMgrInterface
     public $lastSavedInstanceId;
     public $lastDeletedInstanceId;
 
-    function __construct($testInstanceConfig){
+    function __construct($testInstanceConfig)
+    {
         $this->testInstanceConfig = $testInstanceConfig;
     }
-    
+
     public function getDefaultInstanceConfig($pluginName)
     {
         return $this->testInstanceConfig;

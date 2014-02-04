@@ -56,15 +56,14 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmGoogleSearchResults'=>function($serviceMgr)
-                {
-                    $controller = new BasePluginController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        __DIR__
-                    );
-                    return $controller;
-                }
+                'RcmGoogleSearchResults' => function ($serviceMgr) {
+                        $controller = new BasePluginController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            __DIR__
+                        );
+                        return $controller;
+                    }
             )
         );
     }

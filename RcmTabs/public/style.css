@@ -28,6 +28,7 @@
     line-height: 30px;
     border-radius: 10px 10px 0px 0px;
 }
+
 .RcmPortalAnnouncementBox div .bottom {
     position: relative;
     margin: 0 5px 0 5px;
@@ -38,12 +39,12 @@
 
 div .linkStyle {
     height: 7px;
-    width:44px;
+    width: 44px;
     position: absolute;
     bottom: 5px;
     right: 5px;
     padding: 10px;
     margin: 5px;
-    border:none;
+    border: none;
 
 }

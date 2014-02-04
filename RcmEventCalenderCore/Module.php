@@ -20,6 +20,7 @@ namespace RcmEventCalenderCore;
 use RcmEventCalenderCore\Model\Calender,
     RcmEventCalenderCore\Controller\EventAPIController,
     RcmEventCalenderCore\Controller\CategoryAPIController;
+
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -78,34 +79,34 @@ class Module
     {
         return array(
             'factories' => array(
-                'CalenderModel'=>function($serviceMgr)
-                {
-                    $service = new Calender(
-                        $serviceMgr->get('em')
-                    );
-                    return $service;
-                }
+                'CalenderModel' => function ($serviceMgr) {
+                        $service = new Calender(
+                            $serviceMgr->get('em')
+                        );
+                        return $service;
+                    }
             )
         );
     }
 
-    function getControllerConfig(){
+    function getControllerConfig()
+    {
         return array(
             'factories' => array(
                 'EventAPIController' => function ($controllerMgr) {
-                    $serviceMgr=$controllerMgr->getServiceLocator();
-                    return new EventAPIController(
-                        $serviceMgr->get('CalenderModel'),
-                        $serviceMgr->get('rcmUserMgr')
-                    );
-                },
+                        $serviceMgr = $controllerMgr->getServiceLocator();
+                        return new EventAPIController(
+                            $serviceMgr->get('CalenderModel'),
+                            $serviceMgr->get('rcmUserMgr')
+                        );
+                    },
                 'CategoryAPIController' => function ($controllerMgr) {
-                    $serviceMgr=$controllerMgr->getServiceLocator();
-                    return new CategoryAPIController(
-                        $serviceMgr->get('CalenderModel'),
-                        $serviceMgr->get('rcmUserMgr')
-                    );
-                }
+                        $serviceMgr = $controllerMgr->getServiceLocator();
+                        return new CategoryAPIController(
+                            $serviceMgr->get('CalenderModel'),
+                            $serviceMgr->get('rcmUserMgr')
+                        );
+                    }
             )
         );
     }

@@ -17,10 +17,11 @@
  * @version   GIT: <git_id>
  */
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-google-search-box/rcm-google-search-box.js',
+    $this->basePath()
+    . '/modules/rcm-google-search-box/rcm-google-search-box.js',
     'text/javascript'
 );
-$qq=isset($_GET['qq'])?$_GET['qq']:null;
+$qq = isset($_GET['qq']) ? $_GET['qq'] : null;
 ?>
 <script type="text/javascript">
     $(function () {
@@ -29,11 +30,12 @@ $qq=isset($_GET['qq'])?$_GET['qq']:null;
         );
     });
 </script>
-<form action="<?=  $this->ic['resultPage']?>">
-    <input type="hidden" name="cx" value="<?=  $this->ic['googleKey']?>">
+<form action="<?= $this->ic['resultPage'] ?>">
+    <input type="hidden" name="cx" value="<?= $this->ic['googleKey'] ?>">
     <input type="hidden" name="ie" value="UTF-8">
     <input type="hidden" name="q">
-    <input value="<?=  $this->escapeHtml($qq) ?>" type="text" name="qq" size="40">
+    <input value="<?= $this->escapeHtml($qq) ?>" type="text" name="qq"
+           size="40">
 
     <button class="plain search">Search</button>
 

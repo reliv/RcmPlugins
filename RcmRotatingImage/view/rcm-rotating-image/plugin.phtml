@@ -24,13 +24,15 @@ $this->headScript()->appendFile(
 <div>
     <a>
         <div class="images">
-            <?php foreach($this->ic['images'] as $image){
-                echo '<img style="display: none;" data-src="'.$image['src'].'" data-href="'.$image['href'].'" alt="'.$image['href'].'">';
+            <?php foreach ($this->ic['images'] as $image) {
+                echo '<img style="display: none;" data-src="' . $image['src']
+                    . '" data-href="' . $image['href'] . '" alt="'
+                    . $image['href'] . '">';
             }?>
         </div>
 
         <div data-richEdit="learnMore" class="learnMore">
-            <?=  $this->ic['learnMore'] ?>
+            <?= $this->ic['learnMore'] ?>
         </div>
     </a>
 </div>

@@ -46,6 +46,7 @@ class Module
     {
         return include __DIR__ . '/config/module.config.php';
     }
+
     /**
      * getServiceConfiguration is used by the ZF2 service manager in order
      * to create new objects.
@@ -56,13 +57,13 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmNavigation'=>function($serviceMgr){
-                    return new BasePluginController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        __DIR__
-                    );
-                }
+                'RcmNavigation' => function ($serviceMgr) {
+                        return new BasePluginController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            __DIR__
+                        );
+                    }
             )
         );
     }

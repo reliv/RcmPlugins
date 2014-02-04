@@ -12,7 +12,7 @@ var RcmGoogleSearchBox = function (instanceId) {
     var container = rcm.getPluginContainer(instanceId);
 
     container.find("form").submit(
-        function() {
+        function () {
             var qq = container.find('input[name=qq]').val();
 
             // Get domain of site we're searching

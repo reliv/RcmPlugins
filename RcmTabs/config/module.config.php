@@ -21,13 +21,14 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmTabs'=>array(
+        'RcmTabs' => array(
             'type' => 'Content Templates',
             'display' => 'Tabbed Container',
             'tooltip' => 'A tabbed plugin controller.',
             'icon' => '',
-            'editJs'=>'/modules/rcm-tabs/edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-tabs/edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

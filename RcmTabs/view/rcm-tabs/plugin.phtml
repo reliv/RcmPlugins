@@ -4,16 +4,20 @@ $lis = '';
 $divs = '';
 
 foreach ($this->ic['containers'] as $container) {
-    $lis .= '<li data-containerId="'.$container['id'].'" data-containerType="'.$container['type'].'"><a href="#tab_'.$this->instanceId.'_'.$container['id'].'">';
-    $lis .= '<div data-richedit="tab_title_'.$container['id'].'">';
-    $lis .= $this->ic['tab_title_'.$container['id']];
+    $lis
+        .= '<li data-containerId="' . $container['id'] . '" data-containerType="'
+        . $container['type'] . '"><a href="#tab_' . $this->instanceId . '_'
+        . $container['id'] . '">';
+    $lis .= '<div data-richedit="tab_title_' . $container['id'] . '">';
+    $lis .= $this->ic['tab_title_' . $container['id']];
     $lis .= "</div>";
     $lis .= '</a></li>';
-    $divs .= '<div id="tab_'.$this->instanceId.'_'.$container['id'].'">';
+    $divs
+        .= '<div id="tab_' . $this->instanceId . '_' . $container['id'] . '">';
 
     if ($container['type'] == 'html') {
-        $divs .= '<div data-richedit="tab_content_'.$container['id'].'">';
-        $divs .= $this->ic['tab_content_'.$container['id']];
+        $divs .= '<div data-richedit="tab_content_' . $container['id'] . '">';
+        $divs .= $this->ic['tab_content_' . $container['id']];
         $divs .= "</div>";
     }
 
@@ -32,24 +36,24 @@ foreach ($this->ic['containers'] as $container) {
  *
  * LICENSE: No License yet
  *
- *  @category  Reliv
- *  @package   Plugins\Image
- *  @author    Rod McNew <rmcnew@relivinc.com>
- *  @copyright 2012 Reliv International
- *  @license   License.txt New BSD License
- *  @version   GIT: <git_id>
- *  @link      http://ci.reliv.com/confluence
+ * @category  Reliv
+ * @package   Plugins\Image
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://ci.reliv.com/confluence
  */
 ?>
-<div class="rcmTabs_<?=  $this->instanceId; ?>">
-    <ul class="rcmTabsUI_<?=  $this->instanceId; ?>"><?=  $lis; ?></ul>
-    <?=  $divs ?>
+<div class="rcmTabs_<?= $this->instanceId; ?>">
+    <ul class="rcmTabsUI_<?= $this->instanceId; ?>"><?= $lis; ?></ul>
+    <?= $divs ?>
 
 </div>
 
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $(".rcmTabs_<?=  $this->instanceId; ?>").tabs();
     })
 </script>

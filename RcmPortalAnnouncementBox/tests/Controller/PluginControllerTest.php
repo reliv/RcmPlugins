@@ -2,7 +2,6 @@
 namespace RcmPortalAnnouncementBox\Controller;
 
 
-
 class PluginControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -13,6 +12,7 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
+     *
      * @covers Rcm\Plugin\PluginInterface
      */
     protected function setUp()
@@ -32,7 +32,8 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
      * @covers Rcm\Plugin\PluginInterface::saveInstance
      * @covers RcmPortalAnnouncementBox\Controller\PluginController::saveInstance
      */
-    function testGetDefaultJsonContent(){
+    function testGetDefaultJsonContent()
+    {
 
         $this->unit->defaultInstanceConfigRepo->getInstanceConfig();
 

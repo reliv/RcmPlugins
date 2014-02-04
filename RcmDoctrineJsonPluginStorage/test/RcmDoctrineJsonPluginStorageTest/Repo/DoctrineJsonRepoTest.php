@@ -23,8 +23,10 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
         $this->addModule('RcmDoctrineJsonPluginStorage');
         parent::setup();
         $this->repo = new DoctrineJsonRepo($this->entityManager);
-        $this->doctrineRepo=$this->entityManager
-            ->getRepository('\RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig');
+        $this->doctrineRepo = $this->entityManager
+            ->getRepository(
+                '\RcmDoctrineJsonPluginStorage\Entity\DoctrineJsonInstanceConfig'
+            );
     }
 
     /**
@@ -35,7 +37,7 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
         $id = 1;
         $configData = array('numbers' => array(1, 1, 1));
 
-        $entity=new DoctrineJsonInstanceConfig();
+        $entity = new DoctrineJsonInstanceConfig();
         $entity->setInstanceId($id);
         $entity->setConfig($configData);
         $this->entityManager->persist($entity);
@@ -55,7 +57,7 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
         $this->repo->insert($id, $configData);
 
 
-        $entity=$this->doctrineRepo->findOneBy(array('instanceId'=>$id));
+        $entity = $this->doctrineRepo->findOneBy(array('instanceId' => $id));
 
         $this->assertEquals(
             $configData,
@@ -71,7 +73,7 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
         $id = 3;
         $configData = array('numbers' => array(3, 3, 3));
 
-        $entity=new DoctrineJsonInstanceConfig();
+        $entity = new DoctrineJsonInstanceConfig();
         $entity->setInstanceId($id);
         $entity->setConfig($configData);
         $this->entityManager->persist($entity);
@@ -79,7 +81,7 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
 
         $this->repo->delete($id);
 
-        $entity=$this->doctrineRepo->findOneBy(array('instanceId'=>$id));
+        $entity = $this->doctrineRepo->findOneBy(array('instanceId' => $id));
 
         $this->assertEquals(
             $entity,

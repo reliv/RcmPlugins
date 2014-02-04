@@ -21,13 +21,14 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmRssFeed'=>array(
+        'RcmRssFeed' => array(
             'type' => 'Social Media',
             'display' => 'Rss Feed Reader',
             'tooltip' => 'Rss Reader and Display',
             'icon' => '',
-            'editJs'=>'/modules/rcm-rss-feed/edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php',
+            'editJs' => '/modules/rcm-rss-feed/edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php',
             'cacheable' => true,
         ),
     ),
@@ -39,14 +40,14 @@ return array(
     ),
 
     'router' => array(
-        'routes' => array (
+        'routes' => array(
             'rcm-rss-proxy' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route'    => '/rcm-rss-proxy',
+                    'route' => '/rcm-rss-proxy',
                     'defaults' => array(
                         'controller' => 'rcmRssFeedProxyController',
-                        'action'     => 'rssProxy',
+                        'action' => 'rssProxy',
                     ),
                 ),
             ),

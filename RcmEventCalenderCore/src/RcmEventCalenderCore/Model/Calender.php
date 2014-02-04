@@ -20,13 +20,14 @@ class Calender
     /**
      * @param \Doctrine\ORM\EntityManager $entityMgr
      */
-    function __construct(\Doctrine\ORM\EntityManager $entityMgr){
+    function __construct(\Doctrine\ORM\EntityManager $entityMgr)
+    {
         $this->entityMgr = $entityMgr;
 
         $this->eventRepo = $this->entityMgr
             ->getRepository('RcmEventCalenderCore\Entity\Event');
 
-        $this->categoryRepo  = $this->entityMgr
+        $this->categoryRepo = $this->entityMgr
             ->getRepository('RcmEventCalenderCore\Entity\Category');
     }
 
@@ -36,17 +37,18 @@ class Calender
      *
      * @return array
      */
-    function getEvents($categoryId=null, $includeExpired=false){
+    function getEvents($categoryId = null, $includeExpired = false)
+    {
 
         $join = null;
         $categoryClaus = null;
-        if($categoryId){
+        if ($categoryId) {
             $join = 'JOIN e.category c';
             $categoryClaus = 'AND c.categoryId=:categoryId';
         }
 
         $nonExpiredClause = 'AND e.endDate >= CURRENT_DATE()';
-        if($includeExpired){
+        if ($includeExpired) {
             $nonExpiredClause = null;
         }
 
@@ -61,7 +63,7 @@ class Calender
             "
         );
 
-        if($categoryId){
+        if ($categoryId) {
             $query->setParameter('categoryId', $categoryId);
         }
         return $query->getResult();
@@ -72,7 +74,8 @@ class Calender
      *
      * @return mixed
      */
-    function getEvent($eventId){
+    function getEvent($eventId)
+    {
         return $this->eventRepo->findOneByEventId($eventId);
     }
 
@@ -89,10 +92,11 @@ class Calender
      */
     function createEvent(
         $categoryId, $title, $text, $startDate, $endDate, $mapAddress
-    ) {
+    )
+    {
 
         $category = $this->categoryRepo->findOneByCategoryId($categoryId);
-        if(!$category){
+        if (!$category) {
             throw new InvalidArgumentException(
                 "Category #$categoryId not found"
             );
@@ -125,17 +129,18 @@ class Calender
      */
     function updateEvent(
         $eventId, $categoryId, $title, $text, $startDate, $endDate, $mapAddress
-    ) {
+    )
+    {
 
         $category = $this->categoryRepo->findOneByCategoryId($categoryId);
-        if(!$category){
+        if (!$category) {
             throw new InvalidArgumentException(
                 "Category #$categoryId not found"
             );
         }
 
         $event = $this->eventRepo->findOneByEventId($eventId);
-        if(!$event){
+        if (!$event) {
             throw new InvalidArgumentException(
                 "Event #$eventId not found"
             );
@@ -154,7 +159,8 @@ class Calender
     /**
      * @param $eventId
      */
-    function deleteEvent($eventId){
+    function deleteEvent($eventId)
+    {
         $this->entityMgr->remove($this->eventRepo->findOneByEventId($eventId));
         $this->entityMgr->flush();
     }
@@ -162,7 +168,8 @@ class Calender
     /**
      * @return array
      */
-    function getCategories(){
+    function getCategories()
+    {
         return $this->categoryRepo->findAll();
     }
 
@@ -171,7 +178,8 @@ class Calender
      *
      * @return mixed
      */
-    function getCategory($categoryId){
+    function getCategory($categoryId)
+    {
         return $this->categoryRepo->findOneByCategoryId($categoryId);
     }
 
@@ -180,7 +188,8 @@ class Calender
      *
      * @return int
      */
-    function createCategory($name){
+    function createCategory($name)
+    {
 
         $category = new Category();
         $category->setName($name);
@@ -194,7 +203,8 @@ class Calender
     /**
      * @param $categoryId
      */
-    function deleteCategory($categoryId){
+    function deleteCategory($categoryId)
+    {
         $this->entityMgr->remove(
             $this->categoryRepo->findOneByCategoryId($categoryId)
         );

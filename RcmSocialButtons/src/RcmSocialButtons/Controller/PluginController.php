@@ -35,12 +35,13 @@ class PluginController
     extends \RcmDoctrineJsonPluginStorage\Controller\BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
-    function availableButtonsAdminAjaxAction(){
+    function availableButtonsAdminAjaxAction()
+    {
         $config = $this->getServiceLocator()->get('config');
         $availableButtons
             = json_encode(
-                $config['rcmPlugin']['RcmSocialButtons']['availableButtons']
-            );
+            $config['rcmPlugin']['RcmSocialButtons']['availableButtons']
+        );
         header('Content-type: application/json');
         exit($availableButtons);
     }

@@ -2,7 +2,6 @@
 namespace RcmSocialButtons\Controller;
 
 
-
 class PluginControllerTest extends \Rcm\Base\BaseTest
 {
     /**
@@ -13,6 +12,7 @@ class PluginControllerTest extends \Rcm\Base\BaseTest
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
+     *
      * @covers Rcm\Plugin\PluginInterface
      */
     protected function setUp()
@@ -32,14 +32,15 @@ class PluginControllerTest extends \Rcm\Base\BaseTest
      * @covers Rcm\Plugin\PluginInterface::saveInstance
      * @covers RcmSocialButtons\Controller\PluginController::saveInstance
      */
-    function testSaveAction(){
-        $em=$this->getEmMock();
+    function testSaveAction()
+    {
+        $em = $this->getEmMock();
 
         $em->expects($this->once())->method('persist');
         $em->expects($this->once())->method('flush');
 
         $this->unit->setEm($em);
 
-        $this->unit->saveInstance(42,'<p>hi</p>');
+        $this->unit->saveInstance(42, '<p>hi</p>');
     }
 }

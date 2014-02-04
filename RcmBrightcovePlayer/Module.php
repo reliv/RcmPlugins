@@ -25,12 +25,12 @@ use \RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
  * ZF2 requires a Module.php file to load up all the Module Dependencies.  This
  * file has been included as part of the ZF2 standards.
  *
- * @category  Reliv
- * @package   RcmPlugins\RcmBrightcovePlayer
- * @author    Brian Janish <bjanish@relivinc.com>
- * @copyright 2013 Reliv International
+ * @category                                    Reliv
+ * @package                                     RcmPlugins\RcmBrightcovePlayer
+ * @author                                      Brian Janish <bjanish@relivinc.com>
+ * @copyright                                   2013 Reliv International
  * @licensRcmProductOptionSelect-skuSelectede   License.txt New BSD License
- * @version   Release: 1.0
+ * @version                                     Release: 1.0
  */
 class Module
 {
@@ -77,14 +77,14 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmBrightcovePlayer' => function($serviceMgr) {
-                    $controller = new BasePluginController (
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        __DIR__
-                    );
-                    return $controller;
-                }
+                'RcmBrightcovePlayer' => function ($serviceMgr) {
+                        $controller = new BasePluginController (
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            __DIR__
+                        );
+                        return $controller;
+                    }
             )
         );
     }

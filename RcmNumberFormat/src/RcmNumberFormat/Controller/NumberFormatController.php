@@ -19,17 +19,17 @@ use Zend\View\Model\JsonModel;
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
 class NumberFormatController extends AbstractActionController
 {
     /**
      * Returns formatted number view model
+     *
      * @return JsonModel
      */
     public function numberAction()
     {
         $value = $this->getRequestValue();
-        if ($value!==null) {
+        if ($value !== null) {
             return $this->getView(sprintf('%.2f', $this->getRequestValue()));
         }
         return $this->getNonNumericView();
@@ -37,12 +37,13 @@ class NumberFormatController extends AbstractActionController
 
     /**
      * Returns formatted currency number view model
+     *
      * @return JsonModel
      */
     public function currencyAction()
     {
         $value = $this->getRequestValue();
-        if ($value!==null) {
+        if ($value !== null) {
             return $this->getView(
                 money_format('%.2n', $this->getRequestValue())
             );
@@ -61,7 +62,7 @@ class NumberFormatController extends AbstractActionController
 
     public function getNonNumericView()
     {
-        $this->getResponse()->setStatusCode(400);//Bad Request
+        $this->getResponse()->setStatusCode(400); //Bad Request
         return new JsonModel(
             array(
                 'error' => 'Value to format is not numeric.'
@@ -74,6 +75,7 @@ class NumberFormatController extends AbstractActionController
      *
      * We cannot user FILTER_VALIDATE_FLOAT here because it stops working for
      * value 1.99 in germany where the filter_var would expect 1,99
+     *
      * @return float
      */
     public function getRequestValue()

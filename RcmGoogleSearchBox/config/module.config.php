@@ -21,13 +21,14 @@
 return array(
 
     'rcmPlugin' => array(
-        'RcmGoogleSearchBox'=>array(
+        'RcmGoogleSearchBox' => array(
             'type' => 'Common',
             'display' => 'Google Search Box',
             'tooltip' => 'Google Search Box',
             'icon' => '',
-            'editJs'=>'/modules/rcm-google-search-box/edit.js',
-            'defaultInstanceConfig'=>include __DIR__ . '/defaultInstanceConfig.php'
+            'editJs' => '/modules/rcm-google-search-box/edit.js',
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

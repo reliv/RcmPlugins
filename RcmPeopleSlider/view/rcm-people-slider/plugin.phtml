@@ -21,7 +21,7 @@ $this->headLink()->appendStylesheet(
 );
 $this->headScript()->appendFile(
     $this->basePath()
-        . '/modules/rcm/vendor/aperture-slider/aperture-slider.js',
+    . '/modules/rcm/vendor/aperture-slider/aperture-slider.js',
     'text/javascript'
 );
 $this->headScript()->appendFile(
@@ -37,32 +37,32 @@ if (!empty($_GET['id']) && $_GET['id'] < count($this->ic['people'])) {
 
 $selectedPerson = $this->ic['people'][$selectedPersonId];
 
-$uriParts=explode('?', $_SERVER['REQUEST_URI']);
+$uriParts = explode('?', $_SERVER['REQUEST_URI']);
 $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
 ?>
 <script type="text/javascript">
     $(function () {
         new RcmPeopleSlider(
-        <?=  $this->instanceId?>,
-        <?=  json_encode($this->ic)?>
+            <?=  $this->instanceId?>,
+            <?=  json_encode($this->ic)?>
         );
     });
 </script>
 <div>
 
     <div class="peopleDetails"
-         data-selectedPersonId="<?=  $selectedPersonId?>">
+         data-selectedPersonId="<?= $selectedPersonId ?>">
         <?php //person output here for non-js support for SEO reasons only ?>
         <table class="personDetails">
             <tr>
                 <td>
                     <div class="longDesc">
-                        <?=  $selectedPerson['longDesc']?>
+                        <?= $selectedPerson['longDesc'] ?>
                     </div>
                 </td>
                 <td>
                     <img class="largeImage"
-                         src="<?=  $selectedPerson['largeImage']?>">
+                         src="<?= $selectedPerson['largeImage'] ?>">
                 </td>
             </tr>
         </table>
@@ -77,21 +77,21 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
         <div class="peopleAperture">
             <div class="previews">
                 <?php foreach ($this->ic['people'] as $personId => $person): ?>
-                <?php
-                $classAppend = null;
-                if ($personId == $selectedPersonId) {
-                    $classAppend = ' selected';
-                }
-                ?>
-                <a href="<?=  "$currentUrl?id=$personId" //for SEO ?>"
-                   class="person<?=  $classAppend ?>"
-                   data-personId="<?=  $personId?>">
-                   <img class="smallImage"
-                         src="<?=  $person['smallImage']?>">
+                    <?php
+                    $classAppend = null;
+                    if ($personId == $selectedPersonId) {
+                        $classAppend = ' selected';
+                    }
+                    ?>
+                    <a href="<?= "$currentUrl?id=$personId" //for SEO ?>"
+                       class="person<?= $classAppend ?>"
+                       data-personId="<?= $personId ?>">
+                        <img class="smallImage"
+                             src="<?= $person['smallImage'] ?>">
 
-                    <div class="shortDesc"><?=  $person['shortDesc']?></div>
-                </a>
-                <?php endforeach?>
+                        <div class="shortDesc"><?= $person['shortDesc'] ?></div>
+                    </a>
+                <?php endforeach ?>
             </div>
         </div>
 

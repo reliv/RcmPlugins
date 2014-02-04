@@ -2,16 +2,16 @@
  * Created by bjanish on 12/4/13.
  */
 
-var brightcovePlayerApi = function(instanceId) {
+var brightcovePlayerApi = function (instanceId) {
 
     var me = this;
-    me.player=null;
-    me.modVP=null;
+    me.player = null;
+    me.modVP = null;
     me.nextVideo = 0;
     var templateReady = false;
     var loadVideoIdWhenReady = 0;
 
-    me.myTemplateLoaded = function(experienceID) {
+    me.myTemplateLoaded = function (experienceID) {
         me.player = brightcove.api.getExperience(experienceID);
         me.modVP = me.player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
     };
@@ -20,7 +20,7 @@ var brightcovePlayerApi = function(instanceId) {
         templateReady = true;
         me.modVP.addEventListener(brightcove.api.events.MediaEvent.BEGIN, me.onMediaBegin);
         me.modVP.addEventListener(brightcove.api.events.MediaEvent.COMPLETE, me.onMediaComplete);
-        if(loadVideoIdWhenReady){
+        if (loadVideoIdWhenReady) {
             me.cueVideoById(loadVideoIdWhenReady);
         }
     };
@@ -31,7 +31,7 @@ var brightcovePlayerApi = function(instanceId) {
     };
 
     me.cueVideoById = function (videoId) {
-        if(templateReady){
+        if (templateReady) {
             // onTemplateReady has already been called so we can just cue the video
             me.modVP.cueVideoByID(videoId);
         } else {
@@ -41,7 +41,7 @@ var brightcovePlayerApi = function(instanceId) {
         getDownloadURL(videoId, me.setDownloadUrl);
     };
 
-    me.setDownloadUrl = function(url){
+    me.setDownloadUrl = function (url) {
         $('#RcmBrightcovePlayerDownloadLink' + instanceId).attr('href', url);
     }
 

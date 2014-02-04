@@ -3,7 +3,7 @@
 namespace RcmEventCalenderCore\Controller;
 
 use
-\Zend\View\Model\JsonModel;
+    \Zend\View\Model\JsonModel;
 
 class EventAPIController extends AbstractAPIController
 {
@@ -13,14 +13,15 @@ class EventAPIController extends AbstractAPIController
      *
      * @return mixed
      */
-    function getList(){
+    function getList()
+    {
 
         $this->exitIfNotAdmin();
 
-        $categoryId=$this->params()->fromQuery('categoryId', null);
+        $categoryId = $this->params()->fromQuery('categoryId', null);
         $events = $this->calender->getEvents($categoryId);
-        $eventList=array();
-        foreach($events as $event){
+        $eventList = array();
+        foreach ($events as $event) {
             $eventList[] = $event->jsonSerialize();
         }
         return new JsonModel($eventList);
@@ -30,14 +31,16 @@ class EventAPIController extends AbstractAPIController
      * Return single resource
      *
      * @param  mixed $id
+     *
      * @return mixed
      */
-    function get($id){
+    function get($id)
+    {
 
         $this->exitIfNotAdmin();
 
         $event = $this->calender->getEvent($id);
-        if(!$event){
+        if (!$event) {
             $this->getResponse()->setStatusCode(404);
             return new JsonModel();
         }
@@ -48,20 +51,22 @@ class EventAPIController extends AbstractAPIController
      * Create a new resource
      *
      * @param  mixed $data
+     *
      * @return mixed
      */
-    function create($data){
+    function create($data)
+    {
 
         $this->exitIfNotAdmin();
 
         //Ensure they posted all required fields to avoid undefined index errors
         $requiredErrorView = $this->checkRequired($data);
-        if($requiredErrorView){
+        if ($requiredErrorView) {
             return $requiredErrorView;
         }
 
-        try{
-            $eventId=$this->calender->createEvent(
+        try {
+            $eventId = $this->calender->createEvent(
                 $data['categoryId'],
                 $data['title'],
                 $data['text'],
@@ -69,14 +74,16 @@ class EventAPIController extends AbstractAPIController
                 $data['endDate'],
                 $data['mapAddress']
             );
-        }catch(\RcmEventCalenderCore\Exception\InvalidArgumentException $e){
-            $this->getResponse()->setStatusCode(400);//Bad Request
+        } catch (\RcmEventCalenderCore\Exception\InvalidArgumentException $e) {
+            $this->getResponse()->setStatusCode(400); //Bad Request
             //Return the message so troubleshooters tell which field is invalid
-            return new JsonModel(array('message'=>$e->getMessage()));
+            return new JsonModel(array('message' => $e->getMessage()));
         }
-        $location=$this->getEventsUrl(). "/$eventId";
-        $this->getResponse()->setStatusCode(201);//Created
-        $this->getResponse()->getHeaders()->addHeaderLine("Location: $location");
+        $location = $this->getEventsUrl() . "/$eventId";
+        $this->getResponse()->setStatusCode(201); //Created
+        $this->getResponse()->getHeaders()->addHeaderLine(
+            "Location: $location"
+        );
         return new JsonModel();
     }
 
@@ -85,16 +92,18 @@ class EventAPIController extends AbstractAPIController
      *
      * @param  mixed $id
      * @param  mixed $data
+     *
      * @return mixed
      */
-    function update($id, $data){
+    function update($id, $data)
+    {
 
         $this->exitIfNotAdmin();
 
         //Forbid new Id's
         $event = $this->calender->getEvent($id);
-        if(!$event){
-            $this->getResponse()->setStatusCode(403);//Forbidden
+        if (!$event) {
+            $this->getResponse()->setStatusCode(403); //Forbidden
             return new JsonModel(
                 array(
                     'message' => 'PUT is forbidden for new resources. Use POST.'
@@ -104,12 +113,12 @@ class EventAPIController extends AbstractAPIController
 
         //Ensure they posted all required fields to avoid undefined index errors
         $requiredErrorView = $this->checkRequired($data);
-        if($requiredErrorView){
+        if ($requiredErrorView) {
             return $requiredErrorView;
         }
 
         //Update the event
-        try{
+        try {
             $this->calender->updateEvent(
                 $id,
                 $data['categoryId'],
@@ -119,10 +128,10 @@ class EventAPIController extends AbstractAPIController
                 $data['endDate'],
                 $data['mapAddress']
             );
-        }catch(\RcmEventCalenderCore\Exception\InvalidArgumentException $e){
-            $this->getResponse()->setStatusCode(400);//Bad Request
+        } catch (\RcmEventCalenderCore\Exception\InvalidArgumentException $e) {
+            $this->getResponse()->setStatusCode(400); //Bad Request
             //Return the message so troubleshooters tell which field is invalid
-            return new JsonModel(array('message'=>$e->getMessage()));
+            return new JsonModel(array('message' => $e->getMessage()));
         }
         return new JsonModel(array());
     }
@@ -131,14 +140,16 @@ class EventAPIController extends AbstractAPIController
      * Delete an existing resource
      *
      * @param  mixed $id
+     *
      * @return mixed
      */
-    function delete($id){
+    function delete($id)
+    {
 
         $this->exitIfNotAdmin();
 
         $event = $this->calender->getEvent($id);
-        if(!$event){
+        if (!$event) {
             $this->getResponse()->setStatusCode(404);
             return null;
         }
@@ -146,8 +157,9 @@ class EventAPIController extends AbstractAPIController
         return new JsonModel(array());
     }
 
-    function checkRequired($data){
-        foreach(
+    function checkRequired($data)
+    {
+        foreach (
             array(
                 'categoryId',
                 'title',
@@ -158,11 +170,11 @@ class EventAPIController extends AbstractAPIController
             )
             as $requiredName
         ) {
-            if(empty($data[$requiredName])){
-                $this->getResponse()->setStatusCode(400);//Bad Request
+            if (empty($data[$requiredName])) {
+                $this->getResponse()->setStatusCode(400); //Bad Request
                 return new JsonModel(
                     array(
-                        'message'=> "Field $requiredName is required"
+                        'message' => "Field $requiredName is required"
                     )
                 );
             }

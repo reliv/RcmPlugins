@@ -29,7 +29,8 @@ return array(
             'urlToken' => 'W3IM0czQo2YQ1EIM5CSIMj2KYCX0DrK4_vhAYu9vGSiC5Fw0-cgvow..',
             'readToken' => 'FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
             'editJs' => '/modules/rcm-brightcove-player/rcm-brightcove-player-edit.js',
-            'defaultInstanceConfig' => include __DIR__ . '/defaultInstanceConfig.php'
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 

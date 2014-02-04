@@ -32,22 +32,22 @@ var RcmRssFeedEdit = function (instanceId, container) {
     me.feedProxy = $(dataContainer).attr("data-rcmRssFeedProxy");
 
 
-    me.initEdit = function(){
+    me.initEdit = function () {
 
         //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function(){
+        container.delegate('div', 'dblclick', function () {
             me.showEditDialog();
         });
 
         //Add right click menu
         rcmEdit.pluginContextMenu({
-            selector:'[data-rcmPluginInstanceId="' + instanceId + '"]',
+            selector: '[data-rcmPluginInstanceId="' + instanceId + '"]',
             //Here are the right click menu options
-            items:{
-                edit:{
-                    name:'Edit Properties',
-                    icon:'edit',
-                    callback:function () {
+            items: {
+                edit: {
+                    name: 'Edit Properties',
+                    icon: 'edit',
+                    callback: function () {
                         me.showEditDialog();
                     }
                 }
@@ -78,7 +78,7 @@ var RcmRssFeedEdit = function (instanceId, container) {
     me.showEditDialog = function () {
 
         var feedUrl = $.dialogIn(
-            'text','RSS Feed Url', me.feedUrl
+            'text', 'RSS Feed Url', me.feedUrl
         );
         var feedLimit = $.dialogIn(
             'text', 'Entries to Display', me.feedLimit
@@ -86,16 +86,16 @@ var RcmRssFeedEdit = function (instanceId, container) {
 
         //Create and show our edit dialog
         var form = $('<form>')
-            .append(feedUrl,feedLimit)
+            .append(feedUrl, feedLimit)
             .dialog({
-                title:'Properties',
-                modal:true,
-                width:620,
-                buttons:{
-                    Cancel:function () {
+                title: 'Properties',
+                modal: true,
+                width: 620,
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
 
                         //Grab the non-jquery form so we can get its fields
                         var domForm = form.get(0);
@@ -107,7 +107,7 @@ var RcmRssFeedEdit = function (instanceId, container) {
                         new RssReader(
                             me.feedProxy,
                             me.instanceId,
-                            $(".rss-feed-"+me.instanceId),
+                            $(".rss-feed-" + me.instanceId),
                             me.feedUrl,
                             me.feedLimit
                         );

@@ -56,14 +56,14 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmHtmlArea'=>function($serviceMgr){
-                    $controller = new BasePluginController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        __DIR__
-                    );
-                    return $controller;
-                }
+                'RcmHtmlArea' => function ($serviceMgr) {
+                        $controller = new BasePluginController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            __DIR__
+                        );
+                        return $controller;
+                    }
             )
         );
     }

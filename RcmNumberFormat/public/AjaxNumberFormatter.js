@@ -18,9 +18,9 @@
  * @param $http the angular http object
  * @constructor
  */
-var AjaxNumberFormatter = function($http){
+var AjaxNumberFormatter = function ($http) {
 
-    this.formatNumber = function(value, callback){
+    this.formatNumber = function (value, callback) {
         $http.get('/rcm-number-format-http-api/number/' + value).success(
             function (data) {
                 callback(data.result);
@@ -28,7 +28,7 @@ var AjaxNumberFormatter = function($http){
         );
     };
 
-    this.formatCurrency = function(value, callback){
+    this.formatCurrency = function (value, callback) {
         $http.get('/rcm-number-format-http-api/currency/' + value).success(
             function (data) {
                 callback(data.result);

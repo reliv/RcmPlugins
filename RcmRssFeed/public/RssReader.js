@@ -14,13 +14,13 @@ function RssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
         limit: limit
     };
 
-    $.getJSON(me.proxy, me.dataToSend, function(data) {
+    $.getJSON(me.proxy, me.dataToSend,function (data) {
         $(displayContainer).html('');
-        $.each(data, function(key, value) {
-            var newLine = $("<p>").html('<a href="'+value.feedlink+'">'+value.feedtitle+'</a>').addClass("rcmRssFeedLine");
+        $.each(data, function (key, value) {
+            var newLine = $("<p>").html('<a href="' + value.feedlink + '">' + value.feedtitle + '</a>').addClass("rcmRssFeedLine");
             $(me.displayContainer).append(newLine);
         });
-    }).error(function(){
+    }).error(function () {
         var newLine = $("<p>").html('There was a problem retrieving the RSS feed');
         $(me.displayContainer).html(newLine);
     });

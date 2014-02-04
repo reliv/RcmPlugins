@@ -1,7 +1,7 @@
 //script
-$(function() {
+$(function () {
     $(".RcmImageWithThumbnails").find(".image").click(
-        function() {
+        function () {
             var container = $(this).closest('.rcmPluginContainer');
             var newSrc = $(this).attr("rel");
             var mainImage = container.find('.mainImage');

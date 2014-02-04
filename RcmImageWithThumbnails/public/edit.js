@@ -38,8 +38,8 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
     /**
      * Called by content management system to make this plugin user-editable
      */
-    me.initEdit = function(){
-        container.delegate('a.image', 'dblclick', function(){
+    me.initEdit = function () {
+        container.delegate('a.image', 'dblclick', function () {
             me.showEditDialog($(this));
         });
 
@@ -49,108 +49,106 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
 
         rcmEdit.pluginContextMenu({
-                selector:containerSelector+' a.image, ' + containerSelector+' .imgClass',
+            selector: containerSelector + ' a.image, ' + containerSelector + ' .imgClass',
 
-                items:{
-                    edit:{
-                        name:'Edit Properties',
-                        icon:'edit',
-                        callback:function () {
+            items: {
+                edit: {
+                    name: 'Edit Properties',
+                    icon: 'edit',
+                    callback: function () {
 
-                            var aTag;
+                        var aTag;
 
-                            if($(this).hasClass('image')) {
+                        if ($(this).hasClass('image')) {
 
-                                aTag=$(this);
+                            aTag = $(this);
 
-                            } else
-                            if($(this).hasClass('imgClass')) {
+                        } else if ($(this).hasClass('imgClass')) {
 
-                                aTag = container.find('a[rel = "'+($(this).attr('src'))+'"]');
+                            aTag = container.find('a[rel = "' + ($(this).attr('src')) + '"]');
 
-                            }
-                            me.showEditDialog(aTag);
                         }
-                    },
-                    createNew:{
-                        name:'Add New Image',
-                        icon:'edit',
-                        callback:function () {
-                            var newImg=$(me.newImageTemplate);
-                            $(this).after(newImg);
-                            me.showEditDialog(newImg, true);
+                        me.showEditDialog(aTag);
+                    }
+                },
+                createNew: {
+                    name: 'Add New Image',
+                    icon: 'edit',
+                    callback: function () {
+                        var newImg = $(me.newImageTemplate);
+                        $(this).after(newImg);
+                        me.showEditDialog(newImg, true);
+                    }
+                },
+
+                deleteImage: {
+                    name: 'Delete Image',
+                    icon: 'delete',                          // alert($(aTags).length);
+                    callback: function () {
+
+                        var aTags = container.find('a');
+                        var aTag;
+
+                        if ($(this).hasClass('image')) {
+
+                            aTag = $(this);
+
+                        } else if ($(this).hasClass('imgClass')) {
+
+                            aTag = container.find('a[rel = "' + ($(this).attr('src')) + '"]');
+
                         }
-                    },
 
-                    deleteImage:{
-                        name:'Delete Image',
-                        icon:'delete',                          // alert($(aTags).length);
-                        callback:function () {
+                        if (aTags.length == 1) {
 
-                            var aTags = container.find('a');
-                            var aTag;
+                            $().confirm(
 
-                            if($(this).hasClass('image')) {
+                                'Delete this link? <br /><br />' + aTag.html() + '<br /><br />',
 
-                                aTag=$(this);
+                                function () {
 
-                            } else
-                            if($(this).hasClass('imgClass')) {
+                                    // aTag.remove();
 
-                                aTag = container.find('a[rel = "'+($(this).attr('src'))+'"]');
+                                    var newImg = $(me.emptyImageTemplate);
+                                    var newMainImg = $(me.emptyMainImageTemplate);
 
-                            }
+                                    var mainImageVal = container.find('.mainImage');
 
-                            if(aTags.length==1){
+                                    $(aTag).replaceWith(newImg);
+                                    $(mainImageVal).replaceWith(newMainImg);
+                                },
 
-                                    $().confirm(
+                                function () {
 
-                                        'Delete this link? <br /><br />' + aTag.html() + '<br /><br />',
+                                }
 
-                                        function () {
+                            );
 
-                                           // aTag.remove();
+                        } else {
 
-                                            var newImg=$(me.emptyImageTemplate);
-                                            var newMainImg=$(me.emptyMainImageTemplate);
+                            $().confirm(
+                                'Delete this link? <br /><br />' + aTag.html() + '<br /><br />',
+                                function () {
 
-                                            var mainImageVal = container.find('.mainImage');
+                                    var mainImageVal = container.find('.imgClass').attr('src');
+                                    var mainRelVal = aTag.attr('rel');
 
-                                            $(aTag).replaceWith(newImg);
-                                            $(mainImageVal).replaceWith(newMainImg);
-                                        },
+                                    aTag.remove();
 
-                                        function(){
+                                    var initialImg = container.find('a.image').attr('rel');
+                                    if (mainImageVal == mainRelVal) {
 
-                                        }
+                                        container.find('.imgClass').attr('src', initialImg);
 
-                                    );
-
-                            } else {
-
-                                $().confirm(
-                                    'Delete this link? <br /><br />' + aTag.html() + '<br /><br />',
-                                    function () {
-
-                                        var mainImageVal = container.find('.imgClass').attr('src');
-                                        var mainRelVal = aTag.attr('rel');
-
-                                        aTag.remove();
-
-                                        var initialImg = container.find('a.image').attr('rel');
-                                        if(mainImageVal == mainRelVal){
-
-                                            container.find('.imgClass').attr('src', initialImg);
-
-                                        }
                                     }
-                                );
+                                }
+                            );
 
-                            }
                         }
                     }
-
                 }
+
+            }
 
         });
 
@@ -166,24 +164,24 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
         var aTags = container.find('.image');
         var imageArray = [];
 
-        $.each(aTags, function(key, nonJqueryATag) {
+        $.each(aTags, function (key, nonJqueryATag) {
 
-            var aTag=$(nonJqueryATag);
+            var aTag = $(nonJqueryATag);
 
             imageArray.push(
                 {
-                    'main':aTag.attr('rel'),
-                    'thumb':aTag.find('.thumb').attr('src')
+                    'main': aTag.attr('rel'),
+                    'thumb': aTag.find('.thumb').attr('src')
                 }
             );
 
         });
 
-       return imageArray;
+        return imageArray;
 
     };
 
-    me.getAssets = function(){
+    me.getAssets = function () {
         return me.getSaveData();
     };
 
@@ -209,13 +207,13 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .append(main,thumb)
+            .append(main, thumb)
 
             .dialog({
-                title:'Properties',
-                modal:true,
-                width:620,
-                close:function () {
+                title: 'Properties',
+                modal: true,
+                width: 620,
+                close: function () {
                     if (deleteOnClose && !okClicked) {
                         // Remove the new li that was created if the user clicks
                         // cancel
@@ -223,11 +221,11 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
                         me.refresh();
                     }
                 },
-                buttons:{
-                    Cancel:function () {
+                buttons: {
+                    Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok:function () {
+                    Ok: function () {
                         //Get user-entered data from form
                         var newMainVal = main.val();
                         var newThumbVal = thumb.val();

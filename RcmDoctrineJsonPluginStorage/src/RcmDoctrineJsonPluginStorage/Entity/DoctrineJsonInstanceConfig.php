@@ -73,7 +73,8 @@ class DoctrineJsonInstanceConfig
      *
      */
 
-    public function getConfig(){
+    public function getConfig()
+    {
         return json_decode($this->config, true);
     }
 

@@ -1,8 +1,27 @@
-.RcmBrightcovePlayer #sortable1, .RcmBrightcovePlayer #sortable2 { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 20px; background: #D8D4D4; padding: 5px; width: 222px; min-height: 20px;}
-.RcmBrightcovePlayer #sortable1 li, .RcmBrightcovePlayer #sortable2 li { margin: 5px; padding: 5px; font-size: 12px; width: 200px; }
-.RcmBrightcovePlayer #sortable1 {height: 300px; width: 235px; overflow-y: scroll;}
+.RcmBrightcovePlayer #sortable1, .RcmBrightcovePlayer #sortable2 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+    margin-right: 20px;
+    background: #D8D4D4;
+    padding: 5px;
+    width: 222px;
+    min-height: 20px;
+}
 
+.RcmBrightcovePlayer #sortable1 li, .RcmBrightcovePlayer #sortable2 li {
+    margin: 5px;
+    padding: 5px;
+    font-size: 12px;
+    width: 200px;
+}
 
+.RcmBrightcovePlayer #sortable1 {
+    height: 300px;
+    width: 235px;
+    overflow-y: scroll;
+}
 
 .RcmBrightcovePlayer #tabs {
     width: 683px;
@@ -40,9 +59,11 @@
     overflow: hidden;
     text-decoration: none;
 }
+
 .RcmBrightcovePlayer a {
     text-decoration: none;
 }
+
 .RcmBrightcovePlayer .videoAreaWrap {
     overflow: hidden;
 }

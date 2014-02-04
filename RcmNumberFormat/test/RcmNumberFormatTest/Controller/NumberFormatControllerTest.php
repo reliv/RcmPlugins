@@ -23,10 +23,11 @@ class NumberFormatControllerTest extends BaseTestCase
         $this->addModule('RcmNumberFormat');
         parent::setUp();
         $this->unit = new NumberFormatController();
-        $this->setRouteValues(array('value'=> self::VALUE));
+        $this->setRouteValues(array('value' => self::VALUE));
     }
 
-    public function setRouteValues(array $routeValues){
+    public function setRouteValues(array $routeValues)
+    {
         $event = new MvcEvent();
         $event->setRouteMatch(new RouteMatch($routeValues));
         $this->unit->setEvent($event);

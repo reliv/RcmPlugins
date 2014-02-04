@@ -68,6 +68,7 @@ class Module
     {
         return include __DIR__ . '/config/module.config.php';
     }
+
     /**
      * getServiceConfiguration is used by the ZF2 service manager in order
      * to create new objects.
@@ -79,16 +80,15 @@ class Module
         return array(
             'factories' => array(
                 'RcmLogin' =>
-                function($serviceMgr)
-                {
-                    $controller = new \RcmLogin\Controller\PluginController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        $serviceMgr->get('rcmUserMgr'),
-                        $serviceMgr->get('rcmSite')
-                    );
-                    return $controller;
-                },
+                    function ($serviceMgr) {
+                        $controller = new \RcmLogin\Controller\PluginController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            $serviceMgr->get('rcmUserMgr'),
+                            $serviceMgr->get('rcmSite')
+                        );
+                        return $controller;
+                    },
             )
         );
     }
@@ -125,10 +125,11 @@ class Module
     {
         $object = $event->getTarget();
 
-        if ( is_subclass_of(
+        if (is_subclass_of(
             $object,
             'Rcm\Controller\BaseController'
-        )) {
+        )
+        ) {
             $object->init();
         }
     }

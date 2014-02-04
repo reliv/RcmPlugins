@@ -4,7 +4,8 @@
 namespace RcmDoctrineJsonPluginStorageTest\Entity;
 
 require_once __DIR__ . '/../../../../../Rcm/test/Base/BaseTestCase.php';
-require_once __DIR__ . '/../../../src/RcmDoctrineJsonPluginStorage/Repo/PluginStorageRepoInterface.php';
+require_once __DIR__
+    . '/../../../src/RcmDoctrineJsonPluginStorage/Repo/PluginStorageRepoInterface.php';
 require_once __DIR__ . '/../Mock/PluginStorageRepoMock.php';
 
 use RcmDoctrineJsonPluginStorage\Model\InstanceConfigMerger;
