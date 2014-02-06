@@ -18,76 +18,25 @@ var RcmTabsEdit = function (instanceId, container) {
 
     var me = this;
 
-    me.tabContainers = [];
-
-    me.tabCount = 0;
-
-    me.instanceId = instanceId;
-
-    me.tabTitleContainer = $(container).find('.rcmTabsUI_' + me.instanceId);
+    var titleWrap = container.find('.titleWrap');
+    var tabs = container.find('.tabs');
+    var sortMode = false;
 
     /**
      * Called by content management system to make this plugin user-editable
      */
-    me.initEdit = function () {
+    this.initEdit = function () {
 
-        me.refreshTabs();
-        me.disablePropigationFromTitles();
+        me.addRightClick(
+            rcm.getPluginContainerSelector(instanceId) + ' .title', true
+        );
+        me.addRightClick(
+            rcm.getPluginContainerSelector(instanceId) + ' .titleWrap', false
+        );
 
-        me.tabCount = container.find(me.tabTitleContainer).find('li').length;
+        container.delegate('a', 'click', me.tabChanged);
 
-        var selector = rcm.getPluginContainerSelector(me.instanceId);
-
-        me.addRightClick(selector + ' .rcmTabsUI_' + me.instanceId + ' li', true);
-        me.addRightClick(selector);
-
-        container.find('a').click(me.tabChanged());
-    };
-
-    me.tabChanged = function(){
-        window['rcmEdit'].refreshEditors(container)
-    };
-
-    me.addRightClick = function (selector, addDelete) {
-        var items = {
-            add: {
-                name: 'Add New Tab',
-                icon: 'edit',
-                callback: function () {
-                    me.addTab();
-                }
-            },
-            sort: {
-                name: 'Sort Tabs',
-                icon: 'edit',
-                callback: function () {
-                    me.refreshTabs(true);
-                }
-            }
-        };
-
-        if (addDelete) {
-            items.delete = {
-                name: 'Delete Tab',
-                icon: 'delete',
-                callback: function () {
-                    me.deleteTab(this)
-                }
-            }
-        }
-
-        rcmEdit.pluginContextMenu({
-            selector: selector,
-            //Here are the right click menu options
-            items: items
-        });
-    };
-
-    me.deleteTab = function (tabToDelete) {
-        var tabId = $(tabToDelete).find("a").attr("href");
-        $(tabId).remove();
-        $(tabToDelete).remove();
-        me.refreshTabs();
+        me.refresh();
     };
 
     /**
@@ -96,50 +45,24 @@ var RcmTabsEdit = function (instanceId, container) {
      *
      * @return {Object}
      */
-    me.getSaveData = function () {
+    this.getSaveData = function () {
 
-        me.tabContainers = [];
+        var tabContainers = [];
 
-        container.find(me.tabTitleContainer).find('li').each(function () {
-            me.tabContainers.push({
-                'id': $(this).attr('data-containerId'),
-                'type': $(this).attr('data-containerType')
+        me.forEachTabTitle(function () {
+            tabContainers.push({
+                id: $(this).attr('data-tabId'),
+                type: $(this).attr('data-containerType')
             })
         });
 
         return {
-            'containers': me.tabContainers
+            containers: tabContainers
         }
     };
 
-    me.showAddDialog = function () {
-        var options = {
-            'html': 'HTML',
-            'video': 'Bright Cove Video'
-        };
-
-        var tabTypeSelector = $("<div id='tabType'></div>").dialogIn('select', 'Select Type', options, 'html');
-
-        var form = $('<form></form>')
-            .append(tabTypeSelector)
-            .dialog({
-                title: 'Add New Tab',
-                modal: true,
-                width: 620,
-                buttons: {
-                    Cancel: function () {
-                        $(this).dialog("close");
-                    },
-                    Ok: function () {
-                        me.addTab();
-                        $(this).dialog("close");
-                    }
-                }
-            });
-    };
-
-    me.addTab = function () {
-        var newId = me.tabCount + 2;
+    this.addTab = function () {
+        var newId = me.getGreatestTabId() + 1;
         var tabType = 'html';
 
         me.addTabTitle(newId, tabType);
@@ -148,68 +71,99 @@ var RcmTabsEdit = function (instanceId, container) {
             me.addHtmlTab(newId);
         }
 
-        me.refreshTabs();
-        rcmEdit.refreshEditors(container.parents('[data-rcmplugininstanceid="' + me.instanceId + '"]'));
-        me.disablePropigationFromTitles();
-
-        me.tabCount = newId;
+        me.refresh();
     };
 
-    /**
-     * @todo - Add instance id to ID tags!
-     *
-     * @param newId
-     * @param type
-     */
+    this.deleteTab = function () {
+        container.find('[data-tabId=' + $(this).attr('data-tabId') + ']')
+            .remove();
+        me.refresh();
+    };
 
-    me.addTabTitle = function (newId, type) {
-        var newLi = $('<li data-containerId="' + newId + '" data-containerType="' + type + '"></li>');
-        var newA = $('<a href="#tab_' + me.instanceId + '_' + newId + '"></a>');
-        var newDiv = $('<div data-richedit="tab_title_' + newId + '">New Tab</div>');
+    this.addTabTitle = function (newId, type) {
+        var newLi = $('<li class="title" data-tabId="' + newId + '" data-containerType="' + type + '"></li>');
+        var newA = $('<a href="#tab_' + instanceId + '_' + newId + '"></a>');
+        var newDiv = $('<div data-textedit="tab_title_' + newId + '">New Tab</div>');
 
         $(newA).append(newDiv);
         $(newLi).append(newA);
-
-        $(container).find(me.tabTitleContainer).append(newLi);
+        titleWrap.append(newLi);
     };
 
-    me.addHtmlTab = function (newId) {
-        var newDiv = $('<div id="tab_' + instanceId + '_' + newId + '"></div>');
+    this.addHtmlTab = function (newId) {
+        var newDiv = $('<div class="body" id="tab_' + instanceId + '_' + newId + '"></div>');
         var newHtmlContainer = $('<div data-richedit="tab_content_' + newId + '"></div>');
-        var newDummyData = '<h1>Lorem ipsum</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque justosapien, convallis vehicula sollicitudin tristique, rhoncus vel enim.Maecenas mollis dignissim urna, et mollis augue tempus nec. Proin a orcinulla. Pellentesque laoreet orci vitae nisl viverra imperdiet. Nam eueuismod orci. Etiam adipiscing condimentum quam a venenatis. Fusce faucibuslacus non velit varius egestas. Nam molestie mattis sem quis cursus. Duissit amet nunc turpis. Mauris elit urna, dapibus id hendrerit eleifend,placerat at magna. Etiam ornare eleifend elit, vel blandit tellussagittis pretium. Vivamus ut dignissim purus.</p>';
+        var newDummyData = '<h1>Lorem ipsum</h1><p>Lorem ipsum</p>';
 
         $(newHtmlContainer).html(newDummyData);
         $(newDiv).append(newHtmlContainer);
-
-        container.append(newDiv);
+        tabs.append(newDiv);
     };
 
-    me.disablePropigationFromTitles = function () {
-        container.find(me.tabTitleContainer).find("li").find("a").find("div").keydown(function (event) {
+    this.tabChanged = function () {
+        window['rcmEdit'].refreshEditors(container);
+    };
+
+    this.refresh = function () {
+        tabs.tabs('refresh');
+
+        container.find('.title').find('div').keydown(function (event) {
             event.stopPropagation();
-        })
-    };
-
-    me.refreshTabs = function (sortable) {
+        });
 
         try {
-            container.tabs("destroy");
+            tabs.find('.titleWrap').sortable('destroy');
         } catch (err) {
+            //its ok if we couldn't destroy
         }
-
-        var tabs = container.tabs();
-
-        if (sortable) {
-            tabs.find(".ui-tabs-nav").sortable({
-                axis: "x",
-                stop: function () {
-                    tabs.tabs("refresh");
-                }
-            });
+        if (sortMode) {
+            tabs.find('.titleWrap').sortable();
         }
-
-        me.disablePropigationFromTitles();
-        me.tabChanged();
     };
 
+    this.addRightClick = function (selector, addDelete) {
+        var items = {
+            add: {
+                name: 'Add New Tab',
+                icon: 'edit',
+                callback: me.addTab
+            },
+            sort: {
+                name: 'Toggle Tab Sorting vs Editing',
+                icon: 'edit',
+                callback: function () {
+                    sortMode = !sortMode;
+                    me.refresh();
+                }
+            }
+        };
+
+        if (addDelete) {
+            items.delete = {
+                name: 'Delete Tab',
+                icon: 'delete',
+                callback: me.deleteTab
+            }
+        }
+
+        window['rcmEdit'].pluginContextMenu({
+            selector: selector,
+            items: items
+        });
+    };
+
+    this.forEachTabTitle = function (callback) {
+        container.find('.title').each(callback);
+    };
+
+    this.getGreatestTabId = function () {
+        var greatestId = 0;
+        me.forEachTabTitle(function () {
+            var id = parseInt($(this).attr('data-tabId'));
+            if (id > greatestId) {
+                greatestId = id;
+            }
+        });
+        return greatestId;
+    };
 };
