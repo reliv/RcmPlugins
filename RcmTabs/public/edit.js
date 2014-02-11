@@ -99,7 +99,7 @@ var RcmTabsEdit = function (instanceId, container) {
     };
 
     this.tabClick = function () {
-        window['rcmEdit'].refreshEditors(bodyWrap);
+        window['rcmEdit'].refreshEditors(container);
     };
 
     this.refresh = function () {
@@ -109,13 +109,16 @@ var RcmTabsEdit = function (instanceId, container) {
             event.stopPropagation();
         });
 
+        var tabAs = tabs.find('li a');
         try {
             tabs.find('.titleWrap').sortable('destroy');
+            tabAs.attr('style', '');// Clear Draggable pointer
         } catch (err) {
             //its ok if we couldn't destroy
         }
         if (sortMode) {
             tabs.find('.titleWrap').sortable();
+            tabAs.attr('style', 'cursor: move;');// Draggable pointer
         }
     };
 
