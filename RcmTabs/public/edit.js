@@ -19,6 +19,7 @@ var RcmTabsEdit = function (instanceId, container) {
     var me = this;
 
     var titleWrap = container.find('.titleWrap');
+    var bodyWrap = container.find('.bodyWrap');
     var tabs = container.find('.tabs');
     var sortMode = false;
 
@@ -34,7 +35,7 @@ var RcmTabsEdit = function (instanceId, container) {
             rcm.getPluginContainerSelector(instanceId) + ' .titleWrap', false
         );
 
-        container.delegate('a', 'click', me.tabChanged);
+        container.delegate('a', 'click', me.tabClick);
 
         me.refresh();
     };
@@ -51,8 +52,7 @@ var RcmTabsEdit = function (instanceId, container) {
 
         me.forEachTabTitle(function () {
             tabContainers.push({
-                id: $(this).attr('data-tabId'),
-                type: $(this).attr('data-containerType')
+                id: $(this).attr('data-tabId')
             })
         });
 
@@ -81,27 +81,25 @@ var RcmTabsEdit = function (instanceId, container) {
     };
 
     this.addTabTitle = function (newId, type) {
-        var newLi = $('<li class="title" data-tabId="' + newId + '" data-containerType="' + type + '"></li>');
-        var newA = $('<a href="#tab_' + instanceId + '_' + newId + '"></a>');
-        var newDiv = $('<div data-textedit="tab_title_' + newId + '">New Tab</div>');
-
-        $(newA).append(newDiv);
-        $(newLi).append(newA);
-        titleWrap.append(newLi);
+        titleWrap.append($(
+            '<li class="title" data-tabId="' + newId + '" data-tabType="' + type + '">' +
+                '<a data-textedit="tab_title_' + newId + '" href="#rcmTab_' + instanceId + '_' + newId + '">' +
+                'New Tab' +
+                '</a>' +
+                '</li>'
+        ));
     };
 
     this.addHtmlTab = function (newId) {
-        var newDiv = $('<div class="body" id="tab_' + instanceId + '_' + newId + '"></div>');
-        var newHtmlContainer = $('<div data-richedit="tab_content_' + newId + '"></div>');
-        var newDummyData = '<h1>Lorem ipsum</h1><p>Lorem ipsum</p>';
-
-        $(newHtmlContainer).html(newDummyData);
-        $(newDiv).append(newHtmlContainer);
-        tabs.append(newDiv);
+        bodyWrap.append($('<div class="body" id="rcmTab_' + instanceId + '_' + newId + '" data-richedit="tab_content_' + newId + '">' +
+            '<h1>Lorem ipsum</h1>' +
+            '<p>Lorem ipsum</p>' +
+            '</div>'
+        ));
     };
 
-    this.tabChanged = function () {
-        window['rcmEdit'].refreshEditors(container);
+    this.tabClick = function () {
+        window['rcmEdit'].refreshEditors(bodyWrap);
     };
 
     this.refresh = function () {

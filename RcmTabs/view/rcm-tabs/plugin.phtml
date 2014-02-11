@@ -1,56 +1,19 @@
-<?php
-//Setup the tabs
-$titles = '';
-$bodies = '';
-
-foreach ($this->ic['containers'] as $container) {
-    $titles
-        .= '<li class="title" data-tabId="' . $container['id']
-        . '" data-containerType="'
-        . $container['type'] . '"><a href="#tab_' . $this->instanceId . '_'
-        . $container['id'] . '">';
-    $titles .= '<div data-textEdit="tab_title_' . $container['id'] . '">';
-    $titles .= $this->ic['tab_title_' . $container['id']];
-    $titles .= "</div>";
-    $titles .= '</a></li>';
-    $bodies
-        .= '<div id="tab_' . $this->instanceId . '_' . $container['id'] . '">';
-
-    if ($container['type'] == 'html') {
-        $bodies .= '<div class="body" data-tabId="'.$container['id'].'" data-richedit="tab_content_'
-            . $container['id'] . '">';
-        $bodies .= $this->ic['tab_content_' . $container['id']];
-        $bodies .= "</div>";
-    }
-
-    $bodies .= "</div>";
-}
-
-/**
- * RcmTabs content template
- *
- * Renders this plugins view
- *
- * PHP version 5.3
- *
- * LICENSE: No License yet
- *
- * @category  Reliv
- * @package   Plugins\Image
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
- */
-?>
 <div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
     <ul class="titleWrap">
-        <?= $titles; ?>
+        <?php foreach ($this->ic['containers'] as $tab) {
+            $tabId = $tab['id'];
+            $title = $this->ic['tab_title_' . $tabId];
+            include 'tab-title.phtml';
+        } ?>
     </ul>
-    <?= $bodies ?>
+    <div class="bodyWrap">
+        <?php foreach ($this->ic['containers'] as $tab) {
+            $tabId = $tab['id'];
+            $content = $this->ic['tab_content_' . $tabId];
+            include 'tab-body.phtml';
+        } ?>
+    </div>
 </div>
-
 
 <script type="text/javascript">
     $(function () {
