@@ -8,7 +8,6 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmPortalAnnouncementBox
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   http://www.nolicense.com None

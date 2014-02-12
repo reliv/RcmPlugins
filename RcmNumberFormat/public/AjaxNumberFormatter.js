@@ -9,7 +9,6 @@
  * LICENSE: New BSD License
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmNumberFormat
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2013 Reliv International
  * @license   License.txt New BSD License

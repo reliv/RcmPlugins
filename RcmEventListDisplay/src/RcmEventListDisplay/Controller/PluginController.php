@@ -10,7 +10,6 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   PrivatePlugins\RcmEventListDisplay
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -27,7 +26,6 @@ use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
  * Main controller for the online app
  *
  * @category  Reliv
- * @package   PrivatePlugins\RcmEventListDisplay
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License

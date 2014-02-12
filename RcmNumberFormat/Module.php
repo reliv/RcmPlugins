@@ -8,7 +8,6 @@
  * LICENSE: New BSD License
  *
  * @category  Reliv
- * @package   RcmNumberFormat
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2013 Reliv International
  * @license   License.txt New BSD License
@@ -26,7 +25,6 @@ use RcmNumberFormat\Controller\NumberFormatController;
  * file has been included as part of ZF2 standards.
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmHtmlArea
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv Inernational
  * @license   License.txt New BSD License

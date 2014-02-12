@@ -8,7 +8,6 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmHtmlArea
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -26,7 +25,6 @@ use \RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmHtmlArea
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License

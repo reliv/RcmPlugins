@@ -10,7 +10,6 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmDoctrineJsonPluginStorages\RcmDoctrineJsonPluginStorage
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -30,7 +29,6 @@ use Doctrine\ORM\Mapping as ORM;
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmDoctrineJsonPluginStorage\Entity
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License

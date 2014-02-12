@@ -8,7 +8,6 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmSocialButtons
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -24,7 +23,6 @@ namespace RcmSocialButtons;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmSocialButtons
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License

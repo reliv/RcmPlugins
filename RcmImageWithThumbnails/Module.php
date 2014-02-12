@@ -8,7 +8,6 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmImageWithThumbnails
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   http://www.nolicense.com None
@@ -26,7 +25,6 @@ use \RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @package   RcmPlugins\RcmImageWithThumbnails
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   http://www.nolicense.com None
