@@ -2,8 +2,7 @@
 return array(
     'containers' => array(
         array(
-            'id' => 1,
-            'type' => 'html',
+            'id' => 1
         ),
     ),
     'tab_title_1' => 'New Tab',

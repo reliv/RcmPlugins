@@ -1,58 +1,22 @@
-<?php
-//Setup the tabs
-$lis = '';
-$divs = '';
-
-foreach ($this->ic['containers'] as $container) {
-    $lis
-        .= '<li data-containerId="' . $container['id'] . '" data-containerType="'
-        . $container['type'] . '"><a href="#tab_' . $this->instanceId . '_'
-        . $container['id'] . '">';
-    $lis .= '<div data-richedit="tab_title_' . $container['id'] . '">';
-    $lis .= $this->ic['tab_title_' . $container['id']];
-    $lis .= "</div>";
-    $lis .= '</a></li>';
-    $divs
-        .= '<div id="tab_' . $this->instanceId . '_' . $container['id'] . '">';
-
-    if ($container['type'] == 'html') {
-        $divs .= '<div data-richedit="tab_content_' . $container['id'] . '">';
-        $divs .= $this->ic['tab_content_' . $container['id']];
-        $divs .= "</div>";
-    }
-
-    $divs .= "</div>";
-}
-
-//print_r($this->ic);
-//exit;
-
-/**
- * RcmTabs content template
- *
- * Renders this plugins view
- *
- * PHP version 5.3
- *
- * LICENSE: No License yet
- *
- * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
- */
-?>
-<div class="rcmTabs_<?= $this->instanceId; ?>">
-    <ul class="rcmTabsUI_<?= $this->instanceId; ?>"><?= $lis; ?></ul>
-    <?= $divs ?>
-
+<div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
+    <ul class="titleWrap">
+        <?php foreach ($this->ic['containers'] as $tab) {
+            $tabId = $tab['id'];
+            $title = $this->ic['tab_title_' . $tabId];
+            include 'tab-title.phtml';
+        } ?>
+    </ul>
+    <div class="bodyWrap">
+        <?php foreach ($this->ic['containers'] as $tab) {
+            $tabId = $tab['id'];
+            $content = $this->ic['tab_content_' . $tabId];
+            include 'tab-body.phtml';
+        } ?>
+    </div>
 </div>
-
 
 <script type="text/javascript">
     $(function () {
-        $(".rcmTabs_<?=  $this->instanceId; ?>").tabs();
+        $('#rcmTabs_<?=  $this->instanceId; ?>').tabs();
     })
 </script>
