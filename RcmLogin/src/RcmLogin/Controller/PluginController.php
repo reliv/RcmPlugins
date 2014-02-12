@@ -10,7 +10,6 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @package   RcmPlugins\Navigation
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -32,7 +31,6 @@ use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
  * This is the main controller for this plugin
  *
  * @category  Reliv
- * @package   RcmPlugins\Navigation
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
