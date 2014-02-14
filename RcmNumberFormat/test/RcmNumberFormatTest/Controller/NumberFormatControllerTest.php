@@ -34,7 +34,7 @@ class NumberFormatControllerTest extends BaseTestCase
     }
 
     /**
-     * @covers \RcmNumberFormat\Model\NumberFormatController
+     * @covers \RcmNumberFormat\Controller\NumberFormatController
      */
     public function testNumberActionUs()
     {
@@ -46,7 +46,7 @@ class NumberFormatControllerTest extends BaseTestCase
     }
 
     /**
-     * @covers \RcmNumberFormat\Model\NumberFormatController
+     * @covers \RcmNumberFormat\Controller\NumberFormatController
      */
     public function testNumberActionDe()
     {
@@ -58,7 +58,7 @@ class NumberFormatControllerTest extends BaseTestCase
     }
 
     /**
-     * @covers \RcmNumberFormat\Model\NumberFormatController
+     * @covers \RcmNumberFormat\Controller\NumberFormatController
      */
     public function testCurrencyActionUs()
     {
@@ -70,7 +70,7 @@ class NumberFormatControllerTest extends BaseTestCase
     }
 
     /**
-     * @covers \RcmNumberFormat\Model\NumberFormatController
+     * @covers \RcmNumberFormat\Controller\NumberFormatController
      */
     public function testCurrencyActionUsDe()
     {
