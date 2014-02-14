@@ -40,8 +40,8 @@ class NumberFormatControllerTest extends BaseTestCase
     {
         setlocale(LC_ALL, 'en_US.UTF-8');
         $this->assertEquals(
-            $this->unit->numberAction()->getVariables()['result'],
-            '1.99'
+            '1.99',
+            $this->unit->numberAction()->getVariables()['result']
         );
     }
 
@@ -52,8 +52,8 @@ class NumberFormatControllerTest extends BaseTestCase
     {
         setlocale(LC_ALL, 'de_DE.UTF-8');
         $this->assertEquals(
-            $this->unit->numberAction()->getVariables()['result'],
-            '1,99'
+            '1,99',
+            $this->unit->numberAction()->getVariables()['result']
         );
     }
 
@@ -64,8 +64,8 @@ class NumberFormatControllerTest extends BaseTestCase
     {
         setlocale(LC_ALL, 'en_US.UTF-8');
         $this->assertEquals(
-            $this->unit->currencyAction()->getVariables()['result'],
-            '$1.99'
+            '$1.99',
+            $this->unit->currencyAction()->getVariables()['result']
         );
     }
 
@@ -75,9 +75,9 @@ class NumberFormatControllerTest extends BaseTestCase
     public function testCurrencyActionUsDe()
     {
         setlocale(LC_ALL, 'de_DE.UTF-8');
-        $this->assertEquals(
-            $this->unit->currencyAction()->getVariables()['result'],
-            'Eu1,99'
-        );
+
+        $result = $this->unit->currencyAction()->getVariables()['result'];
+
+        $this->assertTrue('Eu1,99' == $result || '1,99 €' == $result);
     }
 }
