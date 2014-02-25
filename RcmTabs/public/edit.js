@@ -21,6 +21,7 @@ var RcmTabsEdit = function (instanceId, container) {
     var bodyWrap = container.find('.bodyWrap');
     var tabs = container.find('.tabs');
     var sortMode = false;
+    var embedMsg = 'Place Embed Code Below:<br>';
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -36,6 +37,18 @@ var RcmTabsEdit = function (instanceId, container) {
 
         container.delegate('a', 'click', me.tabClick);
 
+        //Convert rawHtml divs to text areas
+        me.forEachTab(function (tabId, tabType, title, body) {
+            if (tabType == 'rawHtml') {
+                body.html(
+                    embedMsg +
+                        '<textarea class="rawHtmlWrap">' +
+                        body.find('div.rawHtmlWrap').html() +
+                        '</textarea>'
+                );
+            }
+        });
+
         me.refresh();
     };
 
@@ -49,10 +62,12 @@ var RcmTabsEdit = function (instanceId, container) {
 
         var tabContainers = [];
 
-        me.forEachTabTitle(function () {
-            tabContainers.push({
-                id: $(this).attr('data-tabId')
-            })
+        me.forEachTab(function (tabId, tabType, title, body) {
+            var tabData = {id: tabId, type: tabType};
+            if (tabType == 'rawHtml') {
+                tabData['rawHtml'] = body.find('textarea.rawHtmlWrap').val();
+            }
+            tabContainers.push(tabData);
         });
 
         return {
@@ -60,14 +75,18 @@ var RcmTabsEdit = function (instanceId, container) {
         }
     };
 
-    this.addTab = function () {
+    this.addTab = function (type) {
         var newId = me.getGreatestTabId() + 1;
-        var tabType = 'html';
 
-        me.addTabTitle(newId, tabType);
+        me.addTabTitle(newId, type);
 
-        if (tabType == 'html') {
-            me.addHtmlTab(newId);
+        switch (type) {
+            case 'html':
+                me.addHtmlTab(newId);
+                break;
+            case 'rawHtml':
+                me.addRawHtmlTab(newId);
+                break;
         }
 
         me.refresh();
@@ -93,6 +112,14 @@ var RcmTabsEdit = function (instanceId, container) {
         bodyWrap.append($('<div class="body" id="rcmTab_' + instanceId + '_' + newId + '" data-richedit="tab_content_' + newId + '">' +
             '<h1>Lorem ipsum</h1>' +
             '<p>Lorem ipsum</p>' +
+            '</div>'
+        ));
+    };
+
+    this.addRawHtmlTab = function (newId) {
+        bodyWrap.append($('<div class="body rawHtml" id="rcmTab_' + instanceId + '_' + newId + '" >' +
+            embedMsg +
+            '<textarea class="rawHtmlWrap"></textarea>' +
             '</div>'
         ));
     };
@@ -126,7 +153,16 @@ var RcmTabsEdit = function (instanceId, container) {
             add: {
                 name: 'Add New Tab',
                 icon: 'edit',
-                callback: me.addTab
+                callback: function () {
+                    me.addTab('html')
+                }
+            },
+            addRaw: {
+                name: 'Add New Video Embed Tab',
+                icon: 'edit',
+                callback: function () {
+                    me.addTab('rawHtml')
+                }
             },
             sort: {
                 name: 'Toggle Tab Sorting vs Editing',
@@ -152,16 +188,31 @@ var RcmTabsEdit = function (instanceId, container) {
         });
     };
 
-    this.forEachTabTitle = function (callback) {
-        container.find('.title').each(callback);
+    this.forEachTab = function (callback) {
+        container.find('.title').each(
+            function () {
+                var title = $(this)
+                var tabId = title.attr('data-tabId')
+                callback(
+                    //tabId
+                    tabId,
+                    //tabType
+                    title.attr('data-tabType'),
+                    //Title Ele
+                    title,
+                    //Body Ele
+                    container.find('#rcmTab_' + instanceId + '_' + tabId)
+                );
+            });
+
+
     };
 
     this.getGreatestTabId = function () {
         var greatestId = 0;
-        me.forEachTabTitle(function () {
-            var id = parseInt($(this).attr('data-tabId'));
-            if (id > greatestId) {
-                greatestId = id;
+        me.forEachTab(function (tabId) {
+            if (tabId > greatestId) {
+                greatestId = tabId;
             }
         });
         return greatestId;
