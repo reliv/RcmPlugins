@@ -1,8 +1,8 @@
 <div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
     <ul class="titleWrap">
         <?php foreach ($this->ic['containers'] as $tab) {
-            if(empty($tab['type'])){
-                $tab['type']='html';
+            if (empty($tab['type'])) {
+                $tab['type'] = 'html';
             }
             include 'tab-title.phtml';
         } ?>
