@@ -1,16 +1,26 @@
 <div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
     <ul class="titleWrap">
         <?php foreach ($this->ic['containers'] as $tab) {
-            $tabId = $tab['id'];
-            $title = $this->ic['tab_title_' . $tabId];
+            if (empty($tab['type'])) {
+                $tab['type'] = 'html';
+            }
             include 'tab-title.phtml';
         } ?>
     </ul>
     <div class="bodyWrap">
         <?php foreach ($this->ic['containers'] as $tab) {
-            $tabId = $tab['id'];
-            $content = $this->ic['tab_content_' . $tabId];
-            include 'tab-body.phtml';
+            switch ($tab['type']) {
+            case 'html':
+                include 'tab-body-html.phtml';
+                break;
+            case 'rawHtml':
+                include 'tab-body-raw-html.phtml';
+                break;
+            default:
+                throw new \RuntimeException(
+                    $tab['type'] . ' is an invalid tab type'
+                );
+            }
         } ?>
     </div>
 </div>

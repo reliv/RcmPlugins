@@ -1,5 +1,7 @@
-<li class="title" data-tabId="<?= $tabId ?>">
-    <a data-textedit="tab_title_<?= $tabId ?>" href="#rcmTab_<?= $this->instanceId ?>_<?= $tabId ?>">
-        <?= $title?>
+<li class="title" data-tabId="<?= $tab['id'] ?>"
+    data-tabType="<?= $tab['type'] ?>">
+    <a data-textedit="tab_title_<?= $tab['id'] ?>"
+       href="#rcmTab_<?= $this->instanceId ?>_<?= $tab['id'] ?>">
+        <?= $this->ic['tab_title_' . $tab['id']] ?>
     </a>
 </li>
