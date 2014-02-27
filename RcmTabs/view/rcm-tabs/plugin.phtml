@@ -9,6 +9,12 @@
     </ul>
     <div class="bodyWrap">
         <?php foreach ($this->ic['containers'] as $tab) {
+
+            //Fix legacy tabs that have no type
+            if(empty($tab['type'])){
+                $tab['type']='html';
+            }
+
             switch ($tab['type']) {
             case 'html':
                 include 'tab-body-html.phtml';
