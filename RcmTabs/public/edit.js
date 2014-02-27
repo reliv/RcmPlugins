@@ -22,12 +22,23 @@ var RcmTabsEdit = function (instanceId, container) {
     var tabs = container.find('.tabs');
     var sortMode = false;
     var embedMsg = 'Place Embed Code Below:<br>';
+    var ajaxEditHelper = new AjaxPluginEditHelper(
+        instanceId, container, 'rcm-distributor-app'
+    );
 
     /**
      * Called by content management system to make this plugin user-editable
      */
     this.initEdit = function () {
+        ajaxEditHelper.ajaxGetInstanceConfigs(me.completeInitEdit);
+    };
 
+    /**
+     * Completes edit init after we make ajax call to get the un-altered embed
+     * html
+     * @param instanceConfig
+     */
+    this.completeInitEdit = function (instanceConfig) {
         me.addRightClick(
             rcm.getPluginContainerSelector(instanceId) + ' .title', true
         );
@@ -43,13 +54,28 @@ var RcmTabsEdit = function (instanceId, container) {
                 body.html(
                     embedMsg +
                         '<textarea class="rawHtmlWrap">' +
-                        body.find('div.rawHtmlWrap').html() +
+                        me.getInstanceConfigRawHtml(tabId, instanceConfig) +
                         '</textarea>'
                 );
             }
         });
 
         me.refresh();
+    };
+
+    /**
+     * Gets the raw html for a given tab id
+     * @param tabId nt tab id
+     * @param instanceConfig {Object} instance config from db
+     */
+    this.getInstanceConfigRawHtml = function (tabId, instanceConfig) {
+        var matches = $.grep(
+            instanceConfig['containers'],
+            function (e) {
+                return e.id == tabId;
+            }
+        );
+        return matches[0].rawHtml;
     };
 
     /**
