@@ -88,13 +88,15 @@ class PluginController
 
             try {
                 $user = $this->userMgr->loginUser($username, $password);
+                if (empty($user)) {
+                    $error = $instanceConfig['translate']['invalid'];
+                }
             } catch (\Exception $e) {
+                //Display the problem on dev
+                trigger_error($e, E_USER_WARNING);
                 $error = $instanceConfig['translate']['systemFailure'];
             }
 
-            if (empty($user)) {
-                $error = $instanceConfig['translate']['invalid'];
-            }
 
             if (!$error) {
                 $postSuccess = true;
