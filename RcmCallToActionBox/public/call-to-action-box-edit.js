@@ -75,11 +75,6 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
         }
     };
 
-    me.getAssets = function () {
-        var data = me.getSaveData();
-        return [data.imageSrc, data.href];
-    };
-
     /**
      * Displays a dialog box to edit href and image src
      */
