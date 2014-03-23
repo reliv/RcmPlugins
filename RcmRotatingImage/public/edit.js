@@ -243,13 +243,4 @@ var RcmRotatingImageEdit = function (instanceId, container) {
         return {src: '/modules/rcm/images/no-image.png', href: '', alt: ''};
     };
 
-
-//    me.getAssets = function () {
-//        var assets = [];
-//        $.each(instanceConfig.images, function () {
-//            assets.push(this.href);
-//            assets.push(this.src);
-//        });
-//        return assets;
-//    };
 };
