@@ -180,10 +180,6 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
 
     };
 
-    me.getAssets = function () {
-        return me.getSaveData();
-    };
-
     /**
      * Displays a dialog box to edit href and image src
      */
