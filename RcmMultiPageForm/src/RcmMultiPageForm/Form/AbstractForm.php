@@ -21,7 +21,9 @@ class AbstractForm extends Form
         $this->setAttribute('method', 'post');
         $this->setHydrator(new ClassMethods(false));
         $this->setInputFilter($inputFilter);
-        $this->setData($post);
+        if (!empty($post)) {
+            $this->setData($post);
+        }
 
         //Helps prevent this form's posts from affecting other plugins
         $this->add(
