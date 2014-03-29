@@ -45,20 +45,20 @@ class PluginController
     protected $userMgr;
 
     /**
-     * @var Site
+     * @var \Rcm\Service\SiteManager
      */
-    protected $site;
+    protected $siteManager;
 
     function __construct(
         PluginStorageMgr $pluginStorageMgr,
         $config,
         UserManagerInterface $userMgr,
-        Site $site
+        SiteManager $siteManager
     )
     {
         parent::__construct($pluginStorageMgr, $config);
         $this->userMgr = $userMgr;
-        $this->site = $site;
+        $this->siteManager = $siteManager;
     }
 
     public function renderInstance($instanceId)
