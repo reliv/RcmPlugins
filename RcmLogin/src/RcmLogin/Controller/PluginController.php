@@ -22,7 +22,7 @@ use Doctrine\ORM\EntityManager;
 use Rcm\Model\UserManagement\UserManagerInterface;
 use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Controller\BasePluginController;
-use Rcm\Entity\Site;
+use Rcm\Service\SiteManager;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 
 /**
