@@ -17,12 +17,10 @@
  */
 namespace RcmLogin\Controller;
 
-
-use Doctrine\ORM\EntityManager;
 use Rcm\Model\UserManagement\UserManagerInterface;
 use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Controller\BasePluginController;
-use Rcm\Entity\Site;
+use Rcm\Service\SiteManager;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 
 /**
@@ -45,20 +43,18 @@ class PluginController
     protected $userMgr;
 
     /**
-     * @var Site
+     * @var \Rcm\Service\SiteManager
      */
-    protected $site;
+    protected $siteManager;
 
     function __construct(
         PluginStorageMgr $pluginStorageMgr,
         $config,
-        UserManagerInterface $userMgr,
-        Site $site
+        UserManagerInterface $userMgr
     )
     {
         parent::__construct($pluginStorageMgr, $config);
         $this->userMgr = $userMgr;
-        $this->site = $site;
     }
 
     public function renderInstance($instanceId)
