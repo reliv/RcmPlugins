@@ -44,8 +44,6 @@ class Module
             'factories' => array(
                 'rcmNumberFormatController' => function ($controllerMgr) {
                         $serviceMgr = $controllerMgr->getServiceLocator();
-                        //We must load the site factory to init locales
-                        $serviceMgr->get('rcmSite');
                         $controller = new NumberFormatController(
                             $serviceMgr->get('rcmNumberFormatter'),
                             $serviceMgr->get('rcmCurrencyFormatter')

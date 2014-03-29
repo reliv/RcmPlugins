@@ -8,17 +8,15 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
+ * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
 
-namespace RcmLogin;
+namespace RcmPluginsCommon;
 
-use Zend\ModuleManager\ModuleManager;
-
-use RcmLogin\Controller\PluginController;
+use \Zend\Session\Container;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -27,13 +25,14 @@ use RcmLogin\Controller\PluginController;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
+ * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: 1.0
  */
 class Module
 {
+
     /**
      * getAutoloaderConfig() is a requirement for all Modules in ZF2.  This
      * function is included as part of that standard.  See Docs on ZF2 for more
@@ -76,58 +75,31 @@ class Module
     public function getServiceConfig()
     {
         return array(
+            'factories' => array(),
+        );
+    }
+
+    function getControllerConfig()
+    {
+        return array(
             'factories' => array(
-                'RcmLogin' =>
-                    function ($serviceMgr) {
-                        $controller = new PluginController(
-                            $serviceMgr->get('rcmPluginStorage'),
-                            $serviceMgr->get('config'),
-                            $serviceMgr->get('rcmUserMgr')
-                        );
-                        return $controller;
-                    },
+                'rcmPluginProxyController' => function ($controllerMgr) {
+                    $serviceMgr = $controllerMgr->getServiceLocator();
+                    $controller = new \RcmPluginsCommon\Controller\PluginProxyController(
+                        $serviceMgr->get('rcmUserMgr'),
+                        $serviceMgr->get('rcmPluginManager'),
+                        $serviceMgr->get('em'),
+                        $serviceMgr->get('viewRenderer'),
+                        $serviceMgr->get('config')
+                    );
+                    return $controller;
+                },
             )
         );
     }
 
-    /**
-     * New Init process for ZF2.
-     *
-     * @param ModuleManager $moduleManager ZF2 Module Manager.  Passed in
-     *                                     from the service manager.
-     *
-     * @return null
-     */
-
-    public function init(ModuleManager $moduleManager)
+    function getViewHelperConfig()
     {
-        $sharedEvents = $moduleManager->getEventManager()->getSharedManager();
-        $sharedEvents->attach(
-            'RcmLogin',
-            'dispatch',
-            array($this, 'baseControllerInit'),
-            12
-        );
-
-    }
-
-    /**
-     * Event Listener for the Base Controller.
-     *
-     * @param Event $event ZF2 Called Event
-     *
-     * @return null
-     */
-    public function baseControllerInit($event)
-    {
-        $object = $event->getTarget();
-
-        if (is_subclass_of(
-            $object,
-            'Rcm\Controller\BaseController'
-        )
-        ) {
-            $object->init();
-        }
+        return array();
     }
 }
