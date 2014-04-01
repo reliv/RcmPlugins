@@ -70,7 +70,7 @@ class PluginController
         $error = null;
         $username = null;
 
-        if ($this->postIsForThisPlugin('RcmLogin')) {
+        if ($this->postIsForThisPlugin()) {
             $username = trim(
                 filter_var(
                     $this->getRequest()->getPost('username')

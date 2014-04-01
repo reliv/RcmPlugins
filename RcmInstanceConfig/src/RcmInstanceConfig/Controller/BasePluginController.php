@@ -210,9 +210,10 @@ class BasePluginController extends AbstractActionController
         $this->pluginStorageMgr->deleteInstance($instanceId);
     }
 
-    public function postIsForThisPlugin($pluginName)
+    public function postIsForThisPlugin()
     {
-        return $this->getRequest()->getPost('rcmPluginName') == $pluginName;
+        return
+            $this->getRequest()->getPost('rcmPluginName') == $this->pluginName;
     }
 
 
