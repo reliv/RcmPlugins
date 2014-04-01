@@ -21,9 +21,9 @@ namespace RcmLogin\Controller;
 use Doctrine\ORM\EntityManager;
 use Rcm\Model\UserManagement\UserManagerInterface;
 use Rcm\Plugin\PluginInterface;
-use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
+use RcmInstanceConfig\Controller\BasePluginController;
 use Rcm\Entity\Site;
-use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
+use RcmInstanceConfig\Service\PluginStorageMgr;
 
 /**
  * Plugin Controller

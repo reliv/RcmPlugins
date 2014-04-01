@@ -8,8 +8,8 @@
  */
 namespace RcmRssFeed\Controller;
 
-use RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
-use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
+use RcmInstanceConfig\Controller\BasePluginController;
+use RcmInstanceConfig\Service\PluginStorageMgr;
 use \Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 

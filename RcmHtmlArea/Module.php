@@ -16,7 +16,7 @@
 
 namespace RcmHtmlArea;
 
-use \RcmDoctrineJsonPluginStorage\Controller\BasePluginController;
+use \RcmInstanceConfig\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2

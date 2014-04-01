@@ -1,7 +1,7 @@
 <?php
 
 
-namespace RcmNumberFormatTest;
+namespace RcmInstanceConfigTest;
 
 require_once __DIR__ . '/../../Module.php';
 

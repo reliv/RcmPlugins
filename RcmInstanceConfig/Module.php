@@ -14,9 +14,12 @@
  * @version   GIT: <git_id>
  */
 
-namespace RcmPeopleSlider;
+namespace RcmInstanceConfig;
 
-use \RcmInstanceConfig\Controller\BasePluginController;
+use RcmInstanceConfig\Model\InstanceConfigMerger;
+use RcmInstanceConfig\Repo\DoctrineJsonRepo;
+use RcmInstanceConfig\Service\PluginStorageMgr;
+use RcmInstanceConfig\Storage\DoctrineJsonPluginStorage;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -32,6 +35,27 @@ use \RcmInstanceConfig\Controller\BasePluginController;
  */
 class Module
 {
+    /**
+     * getAutoloaderConfig() is a requirement for all Modules in ZF2.  This
+     * function is included as part of that standard.  See Docs on ZF2 for more
+     * information.
+     *
+     * @return array Returns array to be used by the ZF2 Module Manager
+     */
+    public function getAutoloaderConfig()
+    {
+        return array(
+            'Zend\Loader\ClassMapAutoloader' => array(
+                __DIR__ . '/autoload_classmap.php',
+            ),
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                ),
+            ),
+        );
+    }
+
     /**
      * getConfig() is a requirement for all Modules in ZF2.  This
      * function is included as part of that standard.  See Docs on ZF2 for more
@@ -54,13 +78,12 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmPeopleSlider' => function ($serviceMgr) {
-                        $controller = new BasePluginController(
-                            $serviceMgr->get('rcmPluginStorage'),
+                'rcmPluginStorage' => function ($serviceMgr) {
+                        return new PluginStorageMgr(
+                            new DoctrineJsonRepo($serviceMgr->get('em')),
                             $serviceMgr->get('config'),
-                            __DIR__
+                            new InstanceConfigMerger()
                         );
-                        return $controller;
                     }
             )
         );

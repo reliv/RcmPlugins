@@ -2,7 +2,7 @@
 
 return array(
     'modules' => array(
-        'RcmDoctrineJsonPluginStorage',
+        'RcmInstanceConfig',
         'RcmRotatingImage'
     ),
 );

@@ -18,7 +18,7 @@
 namespace RcmEventListDisplay\Controller;
 
 use Doctrine\ORM\EntityManager;
-use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
+use RcmInstanceConfig\Service\PluginStorageMgr;
 
 /**
  * Online App Plugin Controller
@@ -33,7 +33,7 @@ use RcmDoctrineJsonPluginStorage\Service\PluginStorageMgr;
  *
  */
 class PluginController
-    extends \RcmDoctrineJsonPluginStorage\Controller\BasePluginController
+    extends \RcmInstanceConfig\Controller\BasePluginController
     implements \Rcm\Plugin\PluginInterface
 {
     /**
