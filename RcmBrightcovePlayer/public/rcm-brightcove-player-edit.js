@@ -125,9 +125,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
 
                         getVideoId = form.find(".singleVideo").html();
 
-                        getVideoId = $.trim(getVideoId);
-
-                        instanceConfig['videoId'] = getVideoId;
+                        instanceConfig['videoId'] = $.trim(getVideoId);
 
                     } else {
 
