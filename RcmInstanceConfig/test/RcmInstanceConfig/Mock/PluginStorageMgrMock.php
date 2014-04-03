@@ -4,6 +4,9 @@ namespace RcmInstanceConfig\Service;
 require_once __DIR__
     . '/../../../src/RcmInstanceConfig/Service/PluginStorageMgrInterface.php';
 
+/**
+ * @codeCoverageIgnore
+ */
 class PluginStorageMgrMock implements PluginStorageMgrInterface
 {
     public $testInstanceConfig = array();

@@ -1,6 +1,9 @@
 <?php
 namespace RcmInstanceConfig\Repo;
 
+/**
+ * @codeCoverageIgnore
+ */
 class PluginStorageRepoMock implements PluginStorageRepoInterface
 {
     public $testConfigData = array();
