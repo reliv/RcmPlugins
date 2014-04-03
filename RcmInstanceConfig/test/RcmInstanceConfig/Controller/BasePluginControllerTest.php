@@ -140,24 +140,28 @@ class BasePluginControllerTest extends BaseTestCase
     /**
      * @covers\RcmInstanceConfig\Controller\BasePluginController
      */
+    public function testPostIsForThisPlugin()
+    {
+        $pluginName = 'RcmJDPluginStorage';
+        $this->basePluginController->setPluginName($pluginName);
+        $_POST['rcmPluginName'] = $pluginName;
+        $this->basePluginController->setRequest(new Request());
+        $this->assertTrue(
+            $this->basePluginController->postIsForThisPlugin()
+        );
+    }
 
 
     /**
      * @covers\RcmInstanceConfig\Controller\BasePluginController
      */
-    public function testPostIsForThisPlugin()
+    public function testPostIsNotForThisPlugin()
     {
-        $pluginName = 'RcmJDPluginStorage';
-        $_POST['rcmPluginName'] = $pluginName;
-        $this->basePluginController->setRequest(new Request());
-        $this->assertTrue(
-            $this->basePluginController->postIsForThisPlugin($pluginName)
-        );
-
+        $this->basePluginController->setPluginName('RcmJDPluginStorage');
         $_POST['rcmPluginName'] = 'someOtherPlugin';
         $this->basePluginController->setRequest(new Request());
         $this->assertFalse(
-            $this->basePluginController->postIsForThisPlugin($pluginName)
+            $this->basePluginController->postIsForThisPlugin()
         );
     }
 

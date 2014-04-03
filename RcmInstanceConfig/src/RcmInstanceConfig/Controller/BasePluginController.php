@@ -228,4 +228,22 @@ class BasePluginController extends AbstractActionController
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $value));
     }
+
+    /**
+     * @param string $pluginName
+     */
+    public function setPluginName($pluginName)
+    {
+        $this->pluginName = $pluginName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPluginName()
+    {
+        return $this->pluginName;
+    }
+
+
 }
