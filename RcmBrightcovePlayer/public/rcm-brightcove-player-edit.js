@@ -108,14 +108,6 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
             $("#sortable1, #sortable2").disableSelection();
         });
 
-
-//        $(function() {
-//            $( "#sortable1, #sortable2" ).sortable({
-//                connectWith: ".connectedSortable",
-//                dropOnEmpty: true
-//            }).disableSelection();
-//        });
-
         form.dialog({
             width: '660px',
             position: 'center',
@@ -132,20 +124,16 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
                     if (selection == 'single-embed') {
 
                         getVideoId = form.find(".singleVideo").html();
+
+                        getVideoId = $.trim(getVideoId);
+
                         instanceConfig['videoId'] = getVideoId;
-
-//                    processVideoIdResponse(getVideoId);
-
 
                     } else {
 
                         instanceConfig['playlistIds'] = [];
 
                         var lis = form.find('ul.playlist-list li');
-
-//                        var first = lis.attr('data-first-video');
-//
-//                        instanceConfig['videoId'] = parseInt(first);
 
                         $.each(lis, function () {
                             var playlistId = $(this).attr('data-id');
