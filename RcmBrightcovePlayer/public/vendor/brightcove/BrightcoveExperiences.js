@@ -213,7 +213,6 @@ if (brightcove.experiences == undefined) {
             if (window.console) {
                 var message = "The forceHTML parameter was used for the Brightcove player. This value should ONLY be used for";
                 message += " development and testing purposes and is not supported in production environments.";
-                console.log(message);
             }
             return brightcove.playerType.HTML;
         }
