@@ -69,7 +69,7 @@ class BasePluginController extends AbstractActionController
              * this class by looking at the first part of the child's namespace
              */
             $classParts = explode('\\', get_class($this));
-            $this->pluginName = basename($classParts[0]);
+            $this->pluginName = $classParts[0];
         } elseif (substr($pluginName, 0, 1) == '/') {
             /**
              * @TODO REMOVE THIS AFTER REMOVING ALL USES OF IT
@@ -78,6 +78,10 @@ class BasePluginController extends AbstractActionController
              */
             $this->pluginName = basename(realpath($pluginName));
         } else {
+            /**
+             * When this class is instantiated directly instead of being
+             * extended, the plugin name must be passed in as the third argument
+             */
             $this->pluginName = $pluginName;
         }
 
