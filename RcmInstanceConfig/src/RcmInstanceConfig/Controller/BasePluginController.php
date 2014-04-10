@@ -51,8 +51,6 @@ class BasePluginController extends AbstractActionController
 
     protected $pluginNameLowerCaseDash;
 
-    protected $pluginDirectory;
-
     protected $config;
 
     protected $pluginStorageMgr;
@@ -60,21 +58,33 @@ class BasePluginController extends AbstractActionController
     public function __construct(
         PluginStorageMgrInterface $pluginStorageMgr,
         $config,
-        $pluginDirectory = null
+        $pluginName = null
     )
     {
         $this->pluginStorageMgr = $pluginStorageMgr;
 
-        if (!$pluginDirectory) {
-            //Allow auto path detection for controllers that extend this class
-            $reflection = new \ReflectionClass(get_class($this));
-            $pluginDirectory = realpath(
-                dirname($reflection->getFileName()) . '/../../../'
-            );
+        if ($pluginName === null) {
+            /**
+             * Automatically detect the plugin name for controllers that extend
+             * this class by looking at the first part of the child's namespace
+             */
+            $classParts = explode('\\', get_class($this));
+            $this->pluginName = $classParts[0];
+        } elseif (substr($pluginName, 0, 1) == '/') {
+            /**
+             * @TODO REMOVE THIS AFTER REMOVING ALL USES OF IT
+             * Support the deprecated method of passing the plugin path rather
+             * than its name as the third argument
+             */
+            $this->pluginName = basename(realpath($pluginName));
+        } else {
+            /**
+             * When this class is instantiated directly instead of being
+             * extended, the plugin name must be passed in as the third argument
+             */
+            $this->pluginName = $pluginName;
         }
 
-        $this->pluginDirectory = $pluginDirectory;
-        $this->pluginName = basename($pluginDirectory);
         $this->pluginNameLowerCaseDash = $this->camelToHyphens(
             $this->pluginName
         );
