@@ -42,4 +42,12 @@ return array(
             ),
         )
     ),
+
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-number-format/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
 );

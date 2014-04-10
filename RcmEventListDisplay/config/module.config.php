@@ -37,4 +37,11 @@ return array(
         ),
     ),
 
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-event-list-display/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
 );
