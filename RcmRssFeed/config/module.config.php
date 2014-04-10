@@ -52,4 +52,12 @@ return array(
             ),
         ),
     ),
+
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-rss-feed/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
 );
