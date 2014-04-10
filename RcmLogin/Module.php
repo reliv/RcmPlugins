@@ -18,7 +18,7 @@ namespace RcmLogin;
 
 use Zend\ModuleManager\ModuleManager;
 
-use \RcmInstanceConfig\Controller\BasePluginController;
+use RcmLogin\Controller\PluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
