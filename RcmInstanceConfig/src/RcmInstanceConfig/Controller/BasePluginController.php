@@ -25,7 +25,7 @@ use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 use Rcm\Plugin\PluginInterface;
-use Zend\Http\PhpEnvironment\Request;
+use Zend\Stdlib\RequestInterface;
 
 /**
  * Plugin Controller
@@ -156,7 +156,7 @@ class BasePluginController extends AbstractActionController
      *
      * @param $request
      */
-    public function setRequest(Request $request)
+    public function setRequest(RequestInterface $request)
     {
         $this->request = $request;
     }
