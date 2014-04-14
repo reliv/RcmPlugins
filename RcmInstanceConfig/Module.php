@@ -80,7 +80,7 @@ class Module
             'factories' => array(
                 'rcmPluginStorage' => function ($serviceMgr) {
                         return new PluginStorageMgr(
-                            new DoctrineJsonRepo($serviceMgr->get('em')),
+                            new DoctrineJsonRepo($serviceMgr->get('Doctrine\ORM\EntityManager')),
                             $serviceMgr->get('config'),
                             new InstanceConfigMerger()
                         );

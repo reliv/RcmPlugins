@@ -14,9 +14,8 @@
  * @version   GIT: <git_id>
  */
 
-namespace RcmPluginsCommon;
+namespace RcmAngularJs;
 
-use \Zend\Session\Container;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -66,40 +65,4 @@ class Module
         return include __DIR__ . '/config/module.config.php';
     }
 
-    /**
-     * getServiceConfiguration is used by the ZF2 service manager in order
-     * to create new objects.
-     *
-     * @return object Returns an object.
-     */
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(),
-        );
-    }
-
-    function getControllerConfig()
-    {
-        return array(
-            'factories' => array(
-                'rcmPluginProxyController' => function ($controllerMgr) {
-                    $serviceMgr = $controllerMgr->getServiceLocator();
-                    $controller = new \RcmPluginsCommon\Controller\PluginProxyController(
-                        $serviceMgr->get('rcmUserMgr'),
-                        $serviceMgr->get('Rcm\\Service\\PluginManager'),
-                        $serviceMgr->get('Doctrine\ORM\EntityManager'),
-                        $serviceMgr->get('viewRenderer'),
-                        $serviceMgr->get('config')
-                    );
-                    return $controller;
-                },
-            )
-        );
-    }
-
-    function getViewHelperConfig()
-    {
-        return array();
-    }
 }

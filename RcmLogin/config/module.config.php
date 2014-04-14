@@ -30,6 +30,7 @@ return array(
             'postLoginRedirectUrl' => '/login-home',
             'defaultInstanceConfig' => include __DIR__ .
                     '/defaultInstanceConfig.php',
+            'canCache' => false,
         ),
     ),
 

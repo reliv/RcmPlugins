@@ -225,6 +225,12 @@ return array(
         ),
     ),
 
+    'service_manager' => array(
+        'factories' => array (
+            'RcmAdmin\\EventListener\\DispatchListener'  => 'RcmAdmin\\Factory\\DispatchListenerFactory',
+            'RcmAdmin\\Controller\\AdminPanelController' => 'RcmAdmin\\Factory\\AdminPanelControllerFactory',
+        ),
+    ),
 
     'view_manager' => array(
         'template_path_stack' => array(

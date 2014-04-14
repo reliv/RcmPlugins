@@ -9,7 +9,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\View\HelperPluginManager;
 use Zend\View\Model\ViewModel;
 
-class RcmAdminDispatchListener
+class DispatchListener
 {
 
     protected $layoutManager;

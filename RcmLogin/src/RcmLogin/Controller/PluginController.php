@@ -64,7 +64,6 @@ class PluginController
     public function renderInstance($instanceId)
     {
         $instanceConfig = $this->getInstanceConfig($instanceId);
-        $this->request = $this->getEvent()->getRequest();
 
         $postSuccess = false;
         $error = null;

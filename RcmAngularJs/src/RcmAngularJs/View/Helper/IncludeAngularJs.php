@@ -9,13 +9,16 @@ class IncludeAngularJs extends AbstractHelper
 {
     public function __invoke()
     {
-        return $this;
+        $this->injectJs();
+        return;
     }
 
     protected function injectJs()
     {
         $view = $this->getView();
 
-
+        /** @var \Zend\View\Helper\HeadScript $headScript */
+        $headScript = $view->headScript();
+        $headScript->appendFile('modules/rcm-angular-js/js/angularjs/angular.min.js');
     }
 }
