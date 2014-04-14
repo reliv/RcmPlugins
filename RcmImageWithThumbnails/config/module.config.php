@@ -37,4 +37,12 @@ return array(
         ),
     ),
 
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-image-with-thumbnails/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
+
 );

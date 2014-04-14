@@ -16,9 +16,9 @@
 
 namespace RcmLogin;
 
-use \Zend\ModuleManager\ModuleManager;
+use Zend\ModuleManager\ModuleManager;
 
-use \RcmInstanceConfig\Controller\BasePluginController;
+use RcmLogin\Controller\PluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -79,11 +79,10 @@ class Module
             'factories' => array(
                 'RcmLogin' =>
                     function ($serviceMgr) {
-                        $controller = new \RcmLogin\Controller\PluginController(
+                        $controller = new PluginController(
                             $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
-                            $serviceMgr->get('rcmUserMgr'),
-                            $serviceMgr->get('rcmSite')
+                            $serviceMgr->get('rcmUserMgr')
                         );
                         return $controller;
                     },

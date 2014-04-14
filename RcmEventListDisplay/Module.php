@@ -79,7 +79,7 @@ class Module
                         $controller = new PluginController(
                             $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
-                            $serviceMgr->get('em'),
+                            $serviceMgr->get('Doctrine\ORM\EntityManager'),
                             $serviceMgr->get('CalenderModel')
                         );
                         return $controller;

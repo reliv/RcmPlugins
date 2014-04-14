@@ -37,4 +37,11 @@ return array(
         ),
     ),
 
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-portal-announcement-box/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
 );

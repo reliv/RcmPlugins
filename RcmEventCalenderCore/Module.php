@@ -79,7 +79,7 @@ class Module
             'factories' => array(
                 'CalenderModel' => function ($serviceMgr) {
                         $service = new Calender(
-                            $serviceMgr->get('em')
+                            $serviceMgr->get('Doctrine\ORM\EntityManager')
                         );
                         return $service;
                     }

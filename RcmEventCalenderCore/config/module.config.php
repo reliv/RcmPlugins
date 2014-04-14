@@ -68,4 +68,12 @@ return array(
         )
     ),
 
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-event-calender-core/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
+
 );

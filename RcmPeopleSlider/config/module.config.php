@@ -37,4 +37,12 @@ return array(
         ),
     ),
 
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-people-slider/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
+
 );

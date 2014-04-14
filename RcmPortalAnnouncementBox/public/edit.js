@@ -78,11 +78,6 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
         }
     };
 
-    me.getAssets = function () {
-        var saveData = me.getSaveData();
-        return [saveData.href];
-    };
-
     /**
      * Displays a dialog box to edit href and image src
      */

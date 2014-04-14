@@ -37,4 +37,12 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-rotating-image/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
 );
