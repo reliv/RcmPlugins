@@ -15,9 +15,7 @@
  */
 
 namespace RcmAdmin;
-use Rcm\EventListener\RcmDispatchListener;
-use RcmAdmin\Controller\AdminPanelController;
-use RcmAdmin\EventListener\RcmAdminDispatchListener;
+use Zend\Mvc\MvcEvent;
 
 
 /**
@@ -35,16 +33,16 @@ use RcmAdmin\EventListener\RcmAdminDispatchListener;
 class Module
 {
 
-    public function onBootstrap($e)
+    public function onBootstrap(MvcEvent $e)
     {
         $sm = $e->getApplication()->getServiceManager();
 
         //Add Domain Checker
-        $onDispatchListener = $sm->get('rcmAdminDispatchListener');
+        $onDispatchListener = $sm->get('RcmAdmin\\EventListener\\DispatchListener');
 
         /** @var \Zend\EventManager\EventManager $eventManager */
         $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_DISPATCH, array($onDispatchListener, 'getAdminPanel'), 10001);
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($onDispatchListener, 'getAdminPanel'), 10001);
 
     }
 
@@ -81,38 +79,4 @@ class Module
         return include __DIR__ . '/config/module.config.php';
     }
 
-    /**
-     * getServiceConfiguration is used by the ZF2 service manager in order
-     * to create new objects.
-     *
-     * @return object Returns an object.
-     */
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                'rcmAdminDispatchListener' => function ($serviceMgr) {
-                    $listener = new RcmAdminDispatchListener(
-                        $serviceMgr->get('rcmLayoutManager'),
-                        $serviceMgr->get('viewHelperManager'),
-                        $serviceMgr->get('rcmAdminPanel')
-                    );
-
-                    return $listener;
-                },
-
-                'rcmAdminPanel' => function($serviceMgr) {
-                   return new AdminPanelController(
-                       $serviceMgr->get('config')
-                   );
-                }
-            ),
-        );
-    }
-
-    function getControllerConfig()
-    {
-        return array();
-
-    }
 }
