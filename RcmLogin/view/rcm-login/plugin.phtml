@@ -13,13 +13,13 @@ $this->headScript()->appendFile(
     $(function () {
         new RcmLogin(
             <?= $this->instanceId?>,
-            '<?= $ic['translate']['buttonProcessing']?>'
+            '<?= $instanceConfig['translate']['buttonProcessing']?>'
         );
     });
 </script>
 
 <h1 data-textEdit="loginHeader">
-    <?= $this->ic['loginHeader']; ?>
+    <?= $this->instanceConfig['loginHeader']; ?>
 </h1>
 
 <div class="error">
@@ -28,7 +28,7 @@ $this->headScript()->appendFile(
 
 <form class="loginForm" method="post">
     <label data-textEdit="userNameCopy" for="rcmLoginUsername">
-        <?= $this->ic['userNameCopy']; ?>
+        <?= $this->instanceConfig['userNameCopy']; ?>
     </label>
     <br>
     <input type="hidden" name="rcmPluginName" value="RcmLogin">
@@ -36,7 +36,7 @@ $this->headScript()->appendFile(
     <br>
     <label data-textEdit="loginPasswordCopy"
            for="rcmLoginPassword">
-        <?= $this->ic['loginPasswordCopy']; ?>
+        <?= $this->instanceConfig['loginPasswordCopy']; ?>
     </label>
     <br>
     <input type="password" name="password">
@@ -45,12 +45,12 @@ $this->headScript()->appendFile(
     <br>
 
     <button class="login" data-textEdit="loginSubmitCopy" type="submit">
-        <?= $this->ic['loginSubmitCopy']; ?>
+        <?= $this->instanceConfig['loginSubmitCopy']; ?>
     </button>
 </form>
 <br>
 <br>
 
 <div data-richedit="bottomLoginText">
-    <?= $this->ic['bottomLoginText']; ?>
+    <?= $this->instanceConfig['bottomLoginText']; ?>
 </div>

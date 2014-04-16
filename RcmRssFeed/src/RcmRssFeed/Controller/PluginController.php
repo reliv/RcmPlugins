@@ -60,7 +60,7 @@ class PluginController
     {
         $view = new \Zend\View\Model\ViewModel(array(
             'instanceId' => $instanceId,
-            'ic' => $instanceConfig,
+            'instanceConfig' => $instanceConfig,
             'rssProxy' => '/rcm-rss-proxy'
         ));
         $view->setTemplate($this->template);

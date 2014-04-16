@@ -12,12 +12,12 @@ $this->headScript()->appendFile(
 
 ?>
 
-<div class="mainImage"><img src="<?= $this->ic[0]['main'] ?>" class="imgClass"
+<div class="mainImage"><img src="<?= $this->instanceConfig[0]['main'] ?>" class="imgClass"
                             border="0"/></div>
 
 <ul class="imgThumbs">
     <?php $i = 0; ?>
-    <?php foreach ($this->ic as $value) : ?>
+    <?php foreach ($this->instanceConfig as $value) : ?>
 
         <li>
             <a href="#" rel="<?= $value['main']; ?>" class="image">

@@ -12,5 +12,4 @@ return array(
             "href" => " /"
         )
     ),
-    "learnMore" => "<h2>Learn More <span class=\"arrowLogo\">&nbsp;</span></h2>"
 );

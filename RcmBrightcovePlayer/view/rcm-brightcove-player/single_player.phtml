@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
     getDownloadURL(
-        <?= json_encode($ic['videoId']); ?>,
+        <?= json_encode($instanceConfig['videoId']); ?>,
         function (url) {
             $('#RcmBrightcovePlayerDownloadLink<?= $instanceId ?>').attr('href', url);
         }
@@ -10,7 +10,7 @@
 <div class="hide-vid" style="border:0">
     <div style="float: right;"><a
             id="RcmBrightcovePlayerDownloadLink<?= $instanceId ?>"
-            data-textEdit="download"><?= $this->ic['download']; ?></a></div>
+            data-textEdit="download"><?= $this->instanceConfig['download']; ?></a></div>
     <br>
 
     <!-- Start of Brightcove Player -->
@@ -25,7 +25,7 @@
     <script language="JavaScript" type="text/javascript"
             src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"></script>
     <div id="brightcoveObject">
-        <object id="myExperience<?= $ic['videoId'] ?>"
+        <object id="myExperience<?= $instanceConfig['videoId'] ?>"
                 class="BrightcoveExperience">
             <param name="bgcolor" value="#FFFFFF"/>
             <param name="width" value="672"/>
@@ -38,7 +38,7 @@
             <param name="dynamicStreaming" value="true"/>
             <param name="mute" value="true"/>
 
-            <param name="@videoPlayer" value="<?= $ic['videoId'] ?>"/>
+            <param name="@videoPlayer" value="<?= $instanceConfig['videoId'] ?>"/>
         </object>
     </div>
     <br><br><br><br>

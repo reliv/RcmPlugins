@@ -1,22 +1,7 @@
-<?php
-
-/**
- * RcmHtmlArea content template
- *
- * Renders this plugins view
- *
- * PHP version 5.3
- *
- * LICENSE: No License yet
- *
- * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      http://ci.reliv.com/confluence
- */
-?>
-<div data-richEdit="html" style="width: 100%;">
-    <?= $this->ic['html'] ?>
-</div>
+<?=
+$this->rcmRichEdit(
+    'html',
+    '<img align="right" alt="" src="/modules/rcm/images/no-image.png"><h1>Lorem ipsum</h1><p>Lorem ipsum dolor sit amet',
+    'div',
+    array('style' => 'width:100%')
+); ?>

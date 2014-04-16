@@ -14,7 +14,7 @@
 <div class="hide-vid">
     <div style="float: right;"><a
             id="RcmBrightcovePlayerDownloadLink<?= $instanceId ?>"
-            data-textEdit="download"><?= $this->ic['download']; ?></a></div>
+            data-textEdit="download"><?= $this->instanceConfig['download']; ?></a></div>
     <br>
     <br>
 
@@ -22,7 +22,7 @@
     <div ng-controller="playerTabsCtrl"
          ng-init="init(<?=
          json_encode(
-             $ic['playlistIds']
+             $instanceConfig['playlistIds']
          ); ?>,<?php echo $this->instanceId; ?>)">
         <script type="text/javascript"
                 src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"></script>
