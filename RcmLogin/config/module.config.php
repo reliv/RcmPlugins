@@ -47,4 +47,12 @@ return array(
             ),
         ),
     ),
+
+    'service_manager' => array(
+
+        'factories' => array(
+            'RcmLogin' => 'RcmLogin\Factory\PluginControllerFactory',
+        )
+
+    ),
 );
