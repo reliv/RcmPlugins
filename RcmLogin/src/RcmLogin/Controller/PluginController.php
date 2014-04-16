@@ -22,6 +22,7 @@ use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Controller\BasePluginController;
 use Rcm\Service\SiteManager;
 use RcmInstanceConfig\Service\PluginStorageMgr;
+use RcmUser\Service\RcmUserService;
 
 /**
  * Plugin Controller
@@ -40,7 +41,7 @@ class PluginController
     implements PluginInterface
 {
 
-    protected $userMgr;
+    protected $rcmUserService;
 
     /**
      * @var \Rcm\Service\SiteManager
@@ -50,13 +51,12 @@ class PluginController
     function __construct(
         PluginStorageMgr $pluginStorageMgr,
         $config,
-        UserManagerInterface $userMgr,
-        SiteManager $siteManager
+        RcmUserService $rcmUserService
     )
     {
         parent::__construct($pluginStorageMgr, $config);
-        $this->userMgr = $userMgr;
-        $this->siteManager = $siteManager;
+        $this->rcmUserService = $rcmUserService;
+
     }
 
     public function renderInstance($instanceId)
@@ -84,8 +84,13 @@ class PluginController
             }
 
             try {
-                $user = $this->userMgr->loginUser($username, $password);
-                if (empty($user)) {
+                $user = $this->rcmUserService->buildNewUser();
+                $user->setUsername($username);
+                $user->setPassword($password);
+
+                $authResult = $this->rcmUserService->authenticate($user);
+
+                if (!$authResult->isValid()) {
                     $error = $instanceConfig['translate']['invalid'];
                 }
             } catch (\Exception $e) {
@@ -107,6 +112,7 @@ class PluginController
             /**
              * We let the successful login page handel redirects in case it
              * wants to override them
+             *
              */
             if (isset($_GET['redirect'])) {
                 $redirectUrl .= '?redirect='
