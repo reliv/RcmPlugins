@@ -6,7 +6,7 @@
  * Extend or directly-use this plugin controller for any Rcm plugin.
  * This controller does the following for you:
  * 1) Save plugin instance configs in Json format using the Doctrine DB Conn
- * 2) Injects instance configs into the view model for plugins under name "$ic"
+ * 2) Injects instance configs into the view model for plugins under name "$instanceConfig"
  *
  * PHP version 5.3
  *
@@ -25,7 +25,7 @@ use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 use Rcm\Plugin\PluginInterface;
-use Zend\Http\PhpEnvironment\Request;
+use Zend\Stdlib\RequestInterface;
 
 /**
  * Plugin Controller
@@ -112,7 +112,7 @@ class BasePluginController extends AbstractActionController
             array_merge(
                 array(
                     'instanceId' => $instanceId,
-                    'ic' => $this->getInstanceConfig($instanceId),
+                    'instanceConfig' => $this->getInstanceConfig($instanceId),
                     'config' => $this->config,
                 ),
                 $extraViewVariables
@@ -140,7 +140,7 @@ class BasePluginController extends AbstractActionController
             array_merge(
                 array(
                     'instanceId' => $instanceId,
-                    'ic' => $this->getDefaultInstanceConfig($instanceId),
+                    'instanceConfig' => $this->getDefaultInstanceConfig($instanceId),
                     'config' => $this->config
                 ),
                 $extraViewVariables
@@ -156,7 +156,7 @@ class BasePluginController extends AbstractActionController
      *
      * @param $request
      */
-    public function setRequest(Request $request)
+    public function setRequest(RequestInterface $request)
     {
         $this->request = $request;
     }

@@ -37,6 +37,6 @@ $cx = isset($_GET['cx']) ? $_GET['cx'] : null;
 <?php else: ?>
     <?php //Should only show during editing and during cx-missing errors?>
     <div data-textEdit="resultPlaceHolder">
-        <?= $this->ic['resultPlaceHolder'] ?>
+        <?= $this->instanceConfig['resultPlaceHolder'] ?>
     </div>
 <?php endif ?>

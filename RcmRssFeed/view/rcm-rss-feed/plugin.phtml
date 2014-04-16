@@ -21,12 +21,12 @@ $this->headScript()->appendFile(
 </script>
 
 <div class="rcmRssFeedReaderMainContainer"
-     data-rcmRssFeedUrl="<?= $this->ic['rssFeedUrl']; ?>"
-     data-rcmRssFeedLimit="<?= $this->ic['rssFeedLimit']; ?>"
+     data-rcmRssFeedUrl="<?= $this->instanceConfig['rssFeedUrl']; ?>"
+     data-rcmRssFeedLimit="<?= $this->instanceConfig['rssFeedLimit']; ?>"
      data-rcmRssFeedProxy="<?= $this->rssProxy; ?>"
     >
 
-    <h2 data-textEdit="headline"><?= $this->ic['headline']; ?></h2>
+    <h2 data-textEdit="headline"><?= $this->instanceConfig['headline']; ?></h2>
 
     <span class="rss-feed-<?= $this->instanceId; ?>"></span>
 </div>

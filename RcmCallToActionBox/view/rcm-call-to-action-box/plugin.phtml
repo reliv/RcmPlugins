@@ -18,43 +18,23 @@
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-call-to-action-box/style.css'
 );
-
 ?>
-
-<!--<span data-textEdit="newTestVal">-->
-<!--    --><?php //echo $this->ic['newTestVal']; ?>
-<!--</span>-->
-
 <div>
-
-
     <h1>
-        <a href="<?= $this->ic['href'] ?>">
-            <span data-textEdit="top">
-                <?= $this->ic['top']; ?>
-            </span>
+        <a href="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
+            <?= $this->rcmTextEdit('top', 'Top content', 'span') ?>
         </a>
     </h1>
 
-
     <h2>
-        <a href="<?= $this->ic['href'] ?>">
-            <span data-textEdit="middle">
-           <?= $this->ic['middle']; ?>
-            </span>
+        <a href="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
+            <?= $this->rcmTextEdit('middle', 'Middle content', 'span') ?>
         </a>
     </h2>
-
-    <p data-textEdit="bottom">
-        <?= $this->ic['bottom'] ?>
-    </p>
-
-    <img alt="<?= $this->ic['top'] ?>"
+    <?= $this->rcmTextEdit('bottom', 'Bottom content here', 'p') ?>
+    <img alt="<?= $this->escapeHtml($this->instanceConfig['top']) ?>"
          class="bg"
-         src="<?=
-         $this->getContentBasePath() . $this->ic['imageSrc']?>"
-        >
-
+         src="<?= $this->escapeHtml($this->instanceConfig['imageSrc']) ?>">
 </div>
 
 

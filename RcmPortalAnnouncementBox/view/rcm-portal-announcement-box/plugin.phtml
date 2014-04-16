@@ -22,15 +22,15 @@ $this->headLink()->appendStylesheet(
 ?>
 <div class="containerbox">
     <div data-textEdit="top" class="top">
-        <?= $this->ic['top'] ?>
+        <?= $this->instanceConfig['top'] ?>
     </div>
     <div data-richEdit="html" class="bottom">
-        <?= $this->ic['html'] ?>
+        <?= $this->instanceConfig['html'] ?>
     </div>
     <div class="linkStyle">
-        <a href="<?= $this->ic['href'] ?>" class="urlContainer">
+        <a href="<?= $this->instanceConfig['href'] ?>" class="urlContainer">
             <i>
-                <div data-textEdit="bottom"><?= $this->ic['bottom'] ?></div>
+                <div data-textEdit="bottom"><?= $this->instanceConfig['bottom'] ?></div>
             </i>
         </a>
     </div>

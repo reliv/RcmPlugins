@@ -30,11 +30,11 @@ $this->headScript()->appendFile(
 
 //Figure out which person we are viewing. This non-js support is only for SEO.
 $selectedPersonId = 0;
-if (!empty($_GET['id']) && $_GET['id'] < count($this->ic['people'])) {
+if (!empty($_GET['id']) && $_GET['id'] < count($this->instanceConfig['people'])) {
     $selectedPersonId = $_GET['id'];
 }
 
-$selectedPerson = $this->ic['people'][$selectedPersonId];
+$selectedPerson = $this->instanceConfig['people'][$selectedPersonId];
 
 $uriParts = explode('?', $_SERVER['REQUEST_URI']);
 $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
@@ -43,7 +43,7 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
     $(function () {
         new RcmPeopleSlider(
             <?=  $this->instanceId?>,
-            <?=  json_encode($this->ic)?>
+            <?=  json_encode($this->instanceConfig)?>
         );
     });
 </script>
@@ -75,7 +75,7 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
 
         <div class="peopleAperture">
             <div class="previews">
-                <?php foreach ($this->ic['people'] as $personId => $person): ?>
+                <?php foreach ($this->instanceConfig['people'] as $personId => $person): ?>
                     <?php
                     $classAppend = null;
                     if ($personId == $selectedPersonId) {

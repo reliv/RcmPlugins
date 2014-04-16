@@ -80,7 +80,7 @@ class PluginController
 
         $view = new \Zend\View\Model\ViewModel(
             array(
-                'ic' => $instanceConfig,
+                'instanceConfig' => $instanceConfig,
                 'events' => $events
             )
         );

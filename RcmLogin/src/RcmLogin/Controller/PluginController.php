@@ -17,13 +17,12 @@
  */
 namespace RcmLogin\Controller;
 
-
-use Doctrine\ORM\EntityManager;
 use Rcm\Model\UserManagement\UserManagerInterface;
 use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Controller\BasePluginController;
-use Rcm\Entity\Site;
+use Rcm\Service\SiteManager;
 use RcmInstanceConfig\Service\PluginStorageMgr;
+use RcmUser\Service\RcmUserService;
 
 /**
  * Plugin Controller
@@ -42,29 +41,27 @@ class PluginController
     implements PluginInterface
 {
 
-    protected $userMgr;
+    protected $rcmUserService;
 
     /**
-     * @var Site
+     * @var \Rcm\Service\SiteManager
      */
-    protected $site;
+    protected $siteManager;
 
     function __construct(
         PluginStorageMgr $pluginStorageMgr,
         $config,
-        UserManagerInterface $userMgr,
-        Site $site
+        RcmUserService $rcmUserService
     )
     {
         parent::__construct($pluginStorageMgr, $config);
-        $this->userMgr = $userMgr;
-        $this->site = $site;
+        $this->rcmUserService = $rcmUserService;
+
     }
 
     public function renderInstance($instanceId)
     {
         $instanceConfig = $this->getInstanceConfig($instanceId);
-        $this->request = $this->getEvent()->getRequest();
 
         $postSuccess = false;
         $error = null;
@@ -87,8 +84,13 @@ class PluginController
             }
 
             try {
-                $user = $this->userMgr->loginUser($username, $password);
-                if (empty($user)) {
+                $user = $this->rcmUserService->buildNewUser();
+                $user->setUsername($username);
+                $user->setPassword($password);
+
+                $authResult = $this->rcmUserService->authenticate($user);
+
+                if (!$authResult->isValid()) {
                     $error = $instanceConfig['translate']['invalid'];
                 }
             } catch (\Exception $e) {
@@ -110,6 +112,7 @@ class PluginController
             /**
              * We let the successful login page handel redirects in case it
              * wants to override them
+             *
              */
             if (isset($_GET['redirect'])) {
                 $redirectUrl .= '?redirect='

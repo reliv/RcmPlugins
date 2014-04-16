@@ -22,11 +22,11 @@ $this->headScript()->appendFile(
 ?>
 
 <a class="rcmShareThisKey"
-   data-rcmShareThisKey="<?= $this->ic['shareThisKey'] ?>"></a>
+   data-rcmShareThisKey="<?= $this->instanceConfig['shareThisKey'] ?>"></a>
 
 <div class="rcmSocialButtonsWrapper">
-    <?php foreach ($this->ic['buttons'] as $button): ?>
-        <span class='st_<?= $button . $this->ic['style'] ?>'>
+    <?php foreach ($this->instanceConfig['buttons'] as $button): ?>
+        <span class='st_<?= $button . $this->instanceConfig['style'] ?>'>
         </span>
     <?php endforeach ?>
 </div>

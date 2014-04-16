@@ -1,0 +1,83 @@
+<?php
+
+namespace RcmMockPlugin\Controller;
+
+use Rcm\Plugin\PluginInterface;
+use RcmMockPlugin\Exception\RuntimeException;
+use Zend\Cache\Storage\StorageInterface;
+use \Zend\Http\PhpEnvironment\Request;
+use Zend\View\Model\ViewModel;
+
+class PluginController implements PluginInterface
+{
+    protected $request;
+    protected $cache;
+    protected $activeCache;
+
+    public function __construct(StorageInterface $cache)
+    {
+        $this->cache = $cache;
+
+        if ($this->cache->hasItem('mockPluginData')) {
+            $this->activeCache = $this->cache->getItem('mockPluginData');
+            return;
+        }
+
+        $this->activeCache = array(
+            1 => array('instanceData' => '<p>This is a instance id 1</p>'),
+            2 => array('instanceData' => '<p>This is a instance id 2</p>'),
+            100 => array('instanceData' => '<p>This is a instance id 100</p>'),
+        );
+
+        $this->cache->setItem('mockPluginData', $this->activeCache);
+    }
+
+    public function renderInstance($instanceId)
+    {
+        $data = array();
+
+        if (!empty($this->activeCache[$instanceId])) {
+            $data = $this->activeCache[$instanceId];
+        }
+
+        $view = new ViewModel(
+            array(
+                'data' => $data
+            )
+        );
+        $view->setTemplate('rcm-mock-plugin/plugin');
+        return $view;
+    }
+
+    public function renderDefaultInstance($instanceId)
+    {
+        $view = new ViewModel(
+            array(
+                'data' => array('html' => '<p>This is a test</p>')
+            )
+        );
+        $view->setTemplate('rcm-mock-plugin/plugin');
+        return $view;
+    }
+
+    public function saveInstance($instanceId, $data)
+    {
+        $this->activeCache[$instanceId] = $data;
+        $this->cache->setItem('mockPluginData', $this->activeCache);
+    }
+
+    public function deleteInstance($instanceId)
+    {
+        if ($instanceId == 5000000) {
+            throw new RuntimeException('This call fails on purpose.');
+        }
+
+        unset($this->activeCache[$instanceId]);
+        $this->cache->setItem('mockPluginData', $this->activeCache);
+    }
+
+    public function setRequest(Request $request)
+    {
+
+    }
+}

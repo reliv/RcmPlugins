@@ -30,6 +30,7 @@ return array(
             'postLoginRedirectUrl' => '/login-home',
             'defaultInstanceConfig' => include __DIR__ .
                     '/defaultInstanceConfig.php',
+            'canCache' => false,
         ),
     ),
 
@@ -37,5 +38,21 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
+    ),
+
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-login/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
+
+    'service_manager' => array(
+
+        'factories' => array(
+            'RcmLogin' => 'RcmLogin\Factory\PluginControllerFactory',
+        )
+
     ),
 );

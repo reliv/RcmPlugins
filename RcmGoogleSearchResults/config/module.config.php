@@ -36,4 +36,11 @@ return array(
         ),
     ),
 
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-google-search-results/' => __DIR__ . '/../public/',
+            ),
+        ),
+    ),
 );
