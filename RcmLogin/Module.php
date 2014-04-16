@@ -72,23 +72,14 @@ class Module
      * to create new objects.
      *
      * @return object Returns an object.
-     */
+     *
     public function getServiceConfig()
     {
         return array(
-            'factories' => array(
-                'RcmLogin' =>
-                    function ($serviceMgr) {
-                        $controller = new PluginController(
-                            $serviceMgr->get('rcmPluginStorage'),
-                            $serviceMgr->get('config'),
-                            $serviceMgr->get('rcmUserMgr')
-                        );
-                        return $controller;
-                    },
-            )
+
         );
     }
+     */
 
     /**
      * New Init process for ZF2.
