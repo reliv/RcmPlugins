@@ -8,19 +8,15 @@
 
 namespace RcmInstanceConfig\Factory;
 
-
-use RcmInstanceConfig\ViewHelper\RcmRichEdit;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class RcmRichEditFactory implements FactoryInterface
+class HtmlPurifierFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new RcmRichEdit(
-            $serviceLocator->getServiceLocator()->get(
-                'RcmInstanceConfig/HtmlPurifier'
-            )
-        );
+        $config = \HTMLPurifier_Config::createDefault();
+        $config->set('Cache.SerializerPath', getcwd() . '/data/HTMLPurifier');
+        return new \HTMLPurifier($config);
     }
-}
+} 

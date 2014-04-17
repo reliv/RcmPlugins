@@ -30,7 +30,7 @@ class RcmTextEdit extends AbstractRcmEdit
         $defaultContent = $this->htmlPurifier->purify($defaultContent);
 
         return $this->buildEdit(
-            $name, $defaultContent, $elementType, $elementAttributes, true
+            $name, $defaultContent, $elementType, $elementAttributes, false
         );
     }
 } 

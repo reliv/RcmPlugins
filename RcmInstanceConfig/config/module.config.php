@@ -48,4 +48,11 @@ return array(
             'rcmRichEdit' => 'RcmInstanceConfig\Factory\RcmRichEditFactory',
         )
     ),
+
+    'service_manager' => array(
+        'factories' => array(
+            'RcmInstanceConfig/HtmlPurifier' =>
+                'RcmInstanceConfig\Factory\HtmlPurifierFactory',
+        )
+    ),
 );
