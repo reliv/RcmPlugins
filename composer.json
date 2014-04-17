@@ -2,7 +2,7 @@
     "name": "reliv/RcmPlugins",
     "description": "Development Tools for Reliv's Content Management system",
     "type": "library",
-    "license": "MIT",
+    "license": "BSD-3-Clause",
     "keywords": [
         "reliv",
         "plugins",
