@@ -18,8 +18,10 @@ class RcmTextEditFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = \HTMLPurifier_Config::createDefault();
-        $htmlPurifier = new \HTMLPurifier($config);
-        return new RcmTextEdit($htmlPurifier);
+        return new RcmTextEdit(
+            $serviceLocator->getServiceLocator()->get(
+                'RcmInstanceConfig/HtmlPurifier'
+            )
+        );
     }
 } 
