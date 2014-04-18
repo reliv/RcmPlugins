@@ -90,9 +90,6 @@ class BasePluginController extends AbstractActionController
         );
         $this->template = $this->pluginNameLowerCaseDash . '/plugin';
 
-        $this->defaultInstanceConfig = $config['rcmPlugin'][$this->pluginName]
-        ['defaultInstanceConfig'];
-
         $this->config = $config;
 
     }
