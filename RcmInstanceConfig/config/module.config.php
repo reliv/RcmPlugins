@@ -51,7 +51,7 @@ return array(
 
     'service_manager' => array(
         'factories' => array(
-            'RcmInstanceConfig/HtmlPurifier' =>
+            'RcmInstanceConfig\HtmlPurifier' =>
                 'RcmInstanceConfig\Factory\HtmlPurifierFactory',
         )
     ),

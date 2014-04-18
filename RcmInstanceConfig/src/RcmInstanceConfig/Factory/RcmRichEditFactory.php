@@ -50,7 +50,7 @@ class RcmRichEditFactory implements FactoryInterface
     {
         return new RcmEdit(
             $serviceLocator->getServiceLocator()->get(
-                'RcmInstanceConfig/HtmlPurifier'
+                'RcmInstanceConfig\HtmlPurifier'
             ),
             true
         );

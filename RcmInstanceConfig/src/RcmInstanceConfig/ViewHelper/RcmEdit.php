@@ -1,8 +1,9 @@
 <?php
 /**
- * RcmEdit.php
+ * Rcm edit view helper
  *
- * LongDescHere
+ * This creates editable text areas in views and also ensures that their content
+ * is stripped of javascript in order to prevent XSS attacks.
  *
  * PHP version 5
  *
@@ -20,9 +21,10 @@ namespace RcmInstanceConfig\ViewHelper;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * RcmEdit
+ * Rcm edit view helper
  *
- * LongDescHere
+ * This creates editable text areas in views and also ensures that their content
+ * is stripped of javascript in order to prevent XSS attacks.
  *
  * PHP version 5
  *
