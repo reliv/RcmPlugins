@@ -11,33 +11,62 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
+ * @package   RcmAdmin
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
+ * @link      http://reliv.com
  */
 return array(
 
     'rcmAdmin' => array(
 
         'createBlankPagesErrors' => array(
-            'missingItems' => 'Please make sure to include a Page Name and select the layout you wish to use.',
-            'pageExists' => 'The page URL provided already exists'
+            'missingItems'
+                => 'Please make sure to include a Page Name and select the'
+                    .'layout you wish to use.',
+
+            'pageExists'
+                => 'The page URL provided already exists'
         ),
 
         'saveAsTemplateErrors' => array(
-            'missingItems' => 'Please make sure to include a Page Name',
-            'pageExists' => 'The page URL provided already exists',
-            'revisionNotFound' => 'Unable to locate page revision.  Please contact the administrator.'
+            'missingItems'
+                => 'Please make sure to include a Page Name',
+
+            'pageExists'
+                => 'The page URL provided already exists',
+
+            'revisionNotFound'
+                => 'Unable to locate page revision.  '
+                    .'Please contact the administrator.'
         ),
 
         'createSiteErrors' => array(
-            'missingItems' => 'Some needed information is missing.  Please check and make sure to include a domain, country, and language.',
-            'countryNotFound' => 'Unable to locate country to save.  Please contact and administrator or try again.',
-            'languageNotFound' => 'Unable to locate language to save.  Please contact and administrator or try again.',
-            'domainInvalid' => 'Domain exists or is invalid.',
-            'newSiteNotImplemented' => 'Creating a new blank site has not been implemented yet.',
-            'siteNotFound' => 'Unable to locate the site to clone.  Please contact and administrator or try again.',
+            'missingItems'
+                => 'Some needed information is missing.  '
+                    .'Please check and make sure to include'
+                    .' a domain, country, and language.',
+
+            'countryNotFound'
+                => 'Unable to locate country to save.  '
+                    .'Please contact and administrator or try again.',
+
+            'languageNotFound'
+                => 'Unable to locate language to save.  '
+                    .'Please contact and administrator or try again.',
+
+            'domainInvalid'
+                => 'Domain exists or is invalid.',
+
+            'newSiteNotImplemented'
+                => 'Creating a new blank site has not'
+                    .' been implemented yet.',
+
+            'siteNotFound'
+                => 'Unable to locate the site to clone.  '
+                    .'Please contact and administrator or try again.',
         ),
 
         'adminRichEditor' => 'ckEditor',
@@ -62,7 +91,12 @@ return array(
                                 'aclGroups' => 'admin',
                                 'cssClass' => 'rcmNewPageIcon rcmNewPage',
                                 'href' => '#',
-                                'onclick' => "rcmEdit.adminPopoutWindow('/rcm-admin-create-blank-page', 430, 740, 'Add New Page'); return false;"
+                                'onclick' => "rcmEdit.adminPopoutWindow("
+                                    ."'/rcm-admin-create-blank-page', "
+                                    ."430, "
+                                    ."740, ".
+                                    "'Add New Page'); "
+                                    ."return false;"
                             ),
                         )
                     ),
@@ -129,7 +163,12 @@ return array(
                                 'aclGroups' => 'admin',
                                 'cssClass' => 'saveAsTemplate',
                                 'href' => "#",
-                                'onclick' => "rcmEdit.adminPopoutWindow('/rcm-admin-get-save-as-template', 150, 430, 'Copy to Template'); return false;"
+                                'onclick' => "rcmEdit.adminPopoutWindow("
+                                    ."'/rcm-admin-get-save-as-template', "
+                                    ."150, "
+                                    ."430, "
+                                    ."'Copy to Template'); "
+                                    ."return false;"
                             ),
                         ),
                     ),
@@ -164,7 +203,12 @@ return array(
                         'aclGroups' => 'admin',
                         'cssClass' => 'draftsIcon',
                         'href' => '#',
-                        'onclick' => "rcmEdit.adminPopoutWindow('/rcm-admin-create-site', 430, 740, 'Add New Site'); return false;"
+                        'onclick' => "rcmEdit.adminPopoutWindow("
+                            ."'/rcm-admin-create-site', "
+                            ."430, "
+                            ."740, "
+                            ."'Add New Site'); "
+                            ."return false;"
                     ),
 
                     'Site-Wide Plugins' => array(
@@ -227,8 +271,11 @@ return array(
 
     'service_manager' => array(
         'factories' => array (
-            'RcmAdmin\\EventListener\\DispatchListener'  => 'RcmAdmin\\Factory\\DispatchListenerFactory',
-            'RcmAdmin\\Controller\\AdminPanelController' => 'RcmAdmin\\Factory\\AdminPanelControllerFactory',
+            'RcmAdmin\EventListener\DispatchListener'
+                => 'RcmAdmin\Factory\DispatchListenerFactory',
+
+            'RcmAdmin\Controller\AdminPanelController'
+                => 'RcmAdmin\Factory\AdminPanelControllerFactory',
         ),
     ),
 

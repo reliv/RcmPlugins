@@ -8,10 +8,12 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
+ * @package   RcmAdmin
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
+ * @link      http://reliv.com
  */
 
 namespace RcmAdmin;
@@ -25,24 +27,41 @@ use Zend\Mvc\MvcEvent;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
+ * @package   RcmAdmin
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: 1.0
+ * @link      http://reliv.com
  */
 class Module
 {
 
+    /**
+     * Add Listeners to the bootstrap
+     *
+     * @param MvcEvent $e Event Manager
+     *
+     * @return null
+     */
     public function onBootstrap(MvcEvent $e)
     {
         $sm = $e->getApplication()->getServiceManager();
 
         //Add Domain Checker
-        $onDispatchListener = $sm->get('RcmAdmin\\EventListener\\DispatchListener');
+        $onDispatchListener = $sm->get('RcmAdmin\EventListener\DispatchListener');
 
         /** @var \Zend\EventManager\EventManager $eventManager */
         $eventManager = $e->getApplication()->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($onDispatchListener, 'getAdminPanel'), 10001);
+
+        $eventManager->attach(
+            MvcEvent::EVENT_DISPATCH,
+            array(
+                $onDispatchListener,
+                'getAdminPanel'
+            ),
+            10001
+        );
 
     }
 
