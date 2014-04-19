@@ -120,7 +120,7 @@ class Module
                             = new \RcmRssFeed\Controller\ProxyController(
                             $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
-                            $serviceMgr->get('rcmUserMgr'),
+                            //$serviceMgr->get('rcmUserMgr'),
                             $serviceMgr->get('rcmRssCache')
                         );
                         return $controller;

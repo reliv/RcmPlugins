@@ -23,12 +23,12 @@ class ProxyController
     function __construct(
         PluginStorageMgr $pluginStorageMgr,
         $config,
-        \Rcm\Model\UserManagement\UserManagerInterface $userMgr,
+        //\Rcm\Model\UserManagement\UserManagerInterface $userMgr,
         \Zend\Cache\Storage\StorageInterface $cacheMgr
     )
     {
         parent::__construct($pluginStorageMgr, $config);
-        $this->userMgr = $userMgr;
+        //$this->userMgr = $userMgr;
         $this->cacheMgr = $cacheMgr;
     }
 
@@ -56,7 +56,8 @@ class ProxyController
         }
 
         if (!empty($overrideFeedUrl) && $overrideFeedUrl != 'null') {
-            $permissions = $this->userMgr->getLoggedInAdminPermissions();
+            //$permissions = $this->userMgr->getLoggedInAdminPermissions();
+            $permissions = null;
             /**
              * Only admins can override the url. This prevents people from using
              * our proxy to DDOS other sites.
