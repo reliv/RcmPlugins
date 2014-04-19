@@ -24,9 +24,7 @@ return array(
             'type' => 'Common',
             'display' => 'Rich Content Area',
             'tooltip' => 'An editable area that allows you to add text, images, lists, links and more.',
-            'icon' => '',
-            'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php'
+            'icon' => ''
         ),
     ),
 

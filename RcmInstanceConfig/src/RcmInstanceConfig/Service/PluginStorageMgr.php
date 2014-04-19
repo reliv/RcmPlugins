@@ -36,9 +36,19 @@ class PluginStorageMgr implements PluginStorageMgrInterface
         $this->storageRepo = $storageRepo;
     }
 
+    /**
+     * Default instance configs are NOT required anymore
+     *
+     * @param string $pluginName the plugins module name
+     *
+     * @return array
+     */
     public function getDefaultInstanceConfig($pluginName)
     {
-        return $this->pluginConfigs[$pluginName]['defaultInstanceConfig'];
+        $defaultInstanceConfig = array_key_exists(
+            'defaultInstanceConfig', $this->pluginConfigs[$pluginName]
+        ) ? $this->pluginConfigs[$pluginName]['defaultInstanceConfig'] : array();
+        return $defaultInstanceConfig;
     }
 
     /**
