@@ -51,6 +51,4 @@ class PluginController
         $view->setTemplate($this->template);
         return $view;
     }
-
-
 }
