@@ -137,15 +137,4 @@ class PluginController
 
         return $view;
     }
-
-    function renderDefaultInstance($instanceId)
-    {
-        return parent::renderInstance(
-            $instanceId,
-            array(
-                'error' => null,
-                'username' => null,
-            )
-        );
-    }
 }

@@ -49,17 +49,6 @@ class PluginController implements PluginInterface
         return $view;
     }
 
-    public function renderDefaultInstance($instanceId)
-    {
-        $view = new ViewModel(
-            array(
-                'data' => array('html' => '<p>This is a test</p>')
-            )
-        );
-        $view->setTemplate('rcm-mock-plugin/plugin');
-        return $view;
-    }
-
     public function saveInstance($instanceId, $data)
     {
         $this->activeCache[$instanceId] = $data;
