@@ -1,6 +1,5 @@
-[SEARCH BOX]
 <?php
-return;
+
 /**
  * RcmGoogleSearchBox content template
  *
@@ -26,7 +25,7 @@ $qq = isset($_GET['qq']) ? $_GET['qq'] : null;
 <script type="text/javascript">
     $(function () {
         new RcmGoogleSearchBox(
-            <?=  $this->instanceId?>
+            <?= json_encode($this->instanceId)?>
         );
     });
 </script>
