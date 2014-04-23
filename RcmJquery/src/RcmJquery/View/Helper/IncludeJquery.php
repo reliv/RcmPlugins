@@ -47,15 +47,15 @@ class IncludeJquery extends AbstractHelper
 
         /** @var \Zend\View\Helper\HeadScript $headScript */
         $headScript = $view->headScript();
-        $headScript->appendFile(
-            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
-        );
-        $headScript->appendFile(
+        $headScript->prependFile(
             '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/'
             . 'jquery-ui-1.10.4.custom.min.js'
         );
-        $headScript->appendFile(
+        $headScript->prependFile(
             '/modules/rcm-jquery/jquery-block-ui/jquery-block-ui.js'
+        );
+        $headScript->prependFile(
+            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
         );
     }
 }
