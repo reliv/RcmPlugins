@@ -11,25 +11,41 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
+ * @package   RcmBrightcovePlayer
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
+ * @link      http://reliv.com
  */
 
 return array(
 
     'rcmPlugin' => array(
         'RcmBrightcovePlayer' => array(
-            'type' => 'Social Media',
-            'display' => 'Brightcove Video Player',
-            'tooltip' => 'Add a Brightcove Video to the page',
-            'icon' => '',
-            'urlToken' => 'W3IM0czQo2YQ1EIM5CSIMj2KYCX0DrK4_vhAYu9vGSiC5Fw0-cgvow..',
-            'readToken' => 'FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
-            'editJs' => '/modules/rcm-brightcove-player/rcm-brightcove-player-edit.js',
-            'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php'
+            'type'
+                => 'Social Media',
+
+            'display'
+                => 'Brightcove Video Player',
+
+            'tooltip'
+                => 'Add a Brightcove Video to the page',
+
+            'icon'
+                => '',
+
+            'urlToken'
+                => 'W3IM0czQo2YQ1EIM5CSIMj2KYCX0DrK4_vhAYu9vGSiC5Fw0-cgvow..',
+
+            'readToken'
+                => 'FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
+
+            'editJs'
+                => '/modules/rcm-brightcove-player/rcm-brightcove-player-edit.js',
+
+            'defaultInstanceConfig'
+                => include __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
 
@@ -47,10 +63,12 @@ return array(
         ),
     ),
 
+    // @codingStandardsIgnoreStart
     'service_manager' => array(
         'factories' => array (
-            'RcmBrightcovePlayer'    => 'RcmBrightcovePlayer\\Factory\\RcmBrightcovePlayerControllerFactory',
+            'RcmBrightcovePlayer' => 'RcmBrightcovePlayer\Factory\RcmBrightcovePlayerControllerFactory',
         ),
     ),
+    // @codingStandardsIgnoreEnd
 
 );

@@ -52,7 +52,7 @@ class Module
             'factories' => array(
                 'RcmMockPlugin' => function ($serviceMgr) {
                         $controller = new PluginController(
-                            $serviceMgr->get('Rcm\\Service\\Cache')
+                            $serviceMgr->get('Rcm\Service\Cache')
                         );
                         return $controller;
                     }

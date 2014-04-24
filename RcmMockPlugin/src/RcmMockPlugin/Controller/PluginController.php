@@ -5,7 +5,7 @@ namespace RcmMockPlugin\Controller;
 use Rcm\Plugin\PluginInterface;
 use RcmMockPlugin\Exception\RuntimeException;
 use Zend\Cache\Storage\StorageInterface;
-use \Zend\Http\PhpEnvironment\Request;
+use Zend\Stdlib\RequestInterface;
 use Zend\View\Model\ViewModel;
 
 class PluginController implements PluginInterface
@@ -65,7 +65,7 @@ class PluginController implements PluginInterface
         $this->cache->setItem('mockPluginData', $this->activeCache);
     }
 
-    public function setRequest(Request $request)
+    public function setRequest(RequestInterface $request)
     {
 
     }

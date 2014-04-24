@@ -87,7 +87,7 @@ class Module
                     $serviceMgr = $controllerMgr->getServiceLocator();
                     $controller = new \RcmPluginsCommon\Controller\PluginProxyController(
                         $serviceMgr->get('RcmUser\Service\RcmUserService'),
-                        $serviceMgr->get('Rcm\\Service\\PluginManager'),
+                        $serviceMgr->get('Rcm\Service\PluginManager'),
                         $serviceMgr->get('Doctrine\ORM\EntityManager'),
                         $serviceMgr->get('viewRenderer'),
                         $serviceMgr->get('config')

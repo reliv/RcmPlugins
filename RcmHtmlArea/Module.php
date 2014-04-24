@@ -45,23 +45,26 @@ class Module
     }
 
     /**
-     * getServiceConfiguration is used by the ZF2 service manager in order
+     * getControllerConfig is used by the ZF2 service manager in order
      * to create new objects.
      *
      * @return object Returns an object.
      */
-    public function getServiceConfig()
+
+    public function getControllerConfig()
     {
         return array(
             'factories' => array(
-                'RcmHtmlArea' => function ($serviceMgr) {
-                        $controller = new BasePluginController(
-                            $serviceMgr->get('rcmPluginStorage'),
-                            $serviceMgr->get('config'),
-                            __DIR__
-                        );
-                        return $controller;
-                    }
+                'RcmHtmlArea' => function ($controllerMgr) {
+                    $serviceMgr = $controllerMgr->getServiceLocator();
+
+                    $controller = new BasePluginController(
+                        $serviceMgr->get('rcmPluginStorage'),
+                        $serviceMgr->get('config'),
+                        __DIR__
+                    );
+                    return $controller;
+                }
             )
         );
     }
