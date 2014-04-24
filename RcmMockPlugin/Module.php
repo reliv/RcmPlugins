@@ -51,11 +51,11 @@ class Module
         return array(
             'factories' => array(
                 'RcmMockPlugin' => function ($serviceMgr) {
-                        $controller = new PluginController(
-                            $serviceMgr->get('Rcm\Service\Cache')
-                        );
-                        return $controller;
-                    }
+                    $controller = new PluginController(
+                        $serviceMgr->get('Rcm\Service\Cache')
+                    );
+                    return $controller;
+                }
             )
         );
     }
