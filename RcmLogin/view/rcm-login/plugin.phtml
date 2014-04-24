@@ -1,6 +1,6 @@
 <?php
 $this->headScript()->appendFile(
-    '/modules/rcm-plugin-helpers/form-processing/form-processing.js',
+    '/modules/rcm-plugin-helpers/form-double-submit-protect/form-double-submit-protect.js',
     'text/javascript'
 );
 ?>
@@ -11,7 +11,7 @@ $this->headScript()->appendFile(
     <?= isset($error) ? $this->escapeHtml($error) : '' ?>
 </div>
 
-<form class="loginForm" method="post" data-form-processing>
+<form class="loginForm" method="post" data-form-double-submit-protect>
     <?= $this->rcmTextEdit(
         'userNameCopy', 'Username:', 'label', array('for' => 'rcmLoginUsername')
     ) ?>
