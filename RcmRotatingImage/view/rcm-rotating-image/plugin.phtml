@@ -1,5 +1,4 @@
 <?php
-
 /**
  * RcmRotatingImage plugin template
  *
@@ -15,6 +14,7 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
+$this->rcmIncludeJquery();
 $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-rotating-image/script.js',
     'text/javascript'
