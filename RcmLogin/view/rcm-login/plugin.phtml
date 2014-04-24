@@ -1,56 +1,42 @@
 <?php
-
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-login/rcm-login.js',
+    '/modules/rcm-plugin-helpers/form-processing/form-processing.js',
     'text/javascript'
 );
-
-$this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm/js/zend-form-helper.js', 'text/javascript'
-);
 ?>
-<script type="text/javascript">
-    $(function () {
-        new RcmLogin(
-            <?= $this->instanceId?>,
-            '<?= $instanceConfig['translate']['buttonProcessing']?>'
-        );
-    });
-</script>
 
-<h1 data-textEdit="loginHeader">
-    <?= $this->instanceConfig['loginHeader']; ?>
-</h1>
+<?= $this->rcmTextEdit('loginHeader', 'Login', 'h1') ?>
 
 <div class="error">
-    <?= isset($error) ? $error : '' ?>
+    <?= isset($error) ? $this->escapeHtml($error) : '' ?>
 </div>
 
-<form class="loginForm" method="post">
-    <label data-textEdit="userNameCopy" for="rcmLoginUsername">
-        <?= $this->instanceConfig['userNameCopy']; ?>
-    </label>
+<form class="loginForm" method="post" data-form-processing>
+    <?= $this->rcmTextEdit(
+        'userNameCopy', 'Username:', 'label', array('for' => 'rcmLoginUsername')
+    ) ?>
     <br>
     <input type="hidden" name="rcmPluginName" value="RcmLogin">
-    <input autofocus type="text" name="username" value="<?= $username ?>">
+    <input autofocus type="text" name="username"
+           value="<?= $this->escapeHtml($username) ?>">
     <br>
-    <label data-textEdit="loginPasswordCopy"
-           for="rcmLoginPassword">
-        <?= $this->instanceConfig['loginPasswordCopy']; ?>
-    </label>
+    <?= $this->rcmTextEdit(
+        'loginPasswordCopy', 'Password:', 'label', array('for' => 'rcmLoginPassword')
+    ) ?>
     <br>
     <input type="password" name="password">
 
     <br>
     <br>
 
-    <button class="login" data-textEdit="loginSubmitCopy" type="submit">
-        <?= $this->instanceConfig['loginSubmitCopy']; ?>
-    </button>
+    <?= $this->rcmTextEdit(
+        'loginSubmitCopy', 'login', 'button', array('type' => 'submit')
+    ) ?>
 </form>
 <br>
 <br>
 
-<div data-richedit="bottomLoginText">
-    <?= $this->instanceConfig['bottomLoginText']; ?>
-</div>
+<?= $this->rcmRichEdit(
+    'bottomLoginText', '<a href="/reset-password">Forgot your password?</a><br>'
+) ?>
+
