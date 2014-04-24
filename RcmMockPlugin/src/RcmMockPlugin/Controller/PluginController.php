@@ -24,6 +24,7 @@ class PluginController implements PluginInterface
         }
 
         $this->activeCache = array(
+            -1 => array('instanceData' => '<p>This is a instance id -1</p>'),
             1 => array('instanceData' => '<p>This is a instance id 1</p>'),
             2 => array('instanceData' => '<p>This is a instance id 2</p>'),
             100 => array('instanceData' => '<p>This is a instance id 100</p>'),
