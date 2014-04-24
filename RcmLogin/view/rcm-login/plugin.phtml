@@ -11,7 +11,7 @@ $this->headScript()->appendFile(
     <?= isset($error) ? $this->escapeHtml($error) : '' ?>
 </div>
 
-<form class="loginForm" method="post" data-form-double-submit-protect>
+<form class="loginForm" method="post" data-ng-form-double-submit-protect>
     <?= $this->rcmTextEdit(
         'userNameCopy', 'Username:', 'label', array('for' => 'rcmLoginUsername')
     ) ?>
