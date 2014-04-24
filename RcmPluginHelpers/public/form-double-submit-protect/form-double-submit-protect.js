@@ -1,6 +1,6 @@
 /**
- * This finds any form with attribute data-ng-form-double-submit-protect and ensures that each
- * form can only be submitted once and shows that it is loading via css.
+ * This finds any form with attribute data-ng-form-double-submit-protect and ensures
+ * that each form can only be submitted once and shows that it is loading via css.
  *
  * setTimeout(func,0) is similar to $.ready()
  */
