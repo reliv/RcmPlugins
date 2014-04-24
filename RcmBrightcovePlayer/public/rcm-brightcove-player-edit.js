@@ -146,7 +146,17 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
 };
 
 
-rcm.angularBootstrap('playerEditModule', 'PlayerEditCtrl');
+/**
+ * Makes this angular controller and module place nice with all the others
+ */
+angular.element(document).ready(function () {
+    $.each(
+        $('[ng-controller=PlayerEditCtrl]'),
+        function (key, element) {
+            angular.bootstrap(element, ['playerEditModule']);
+        }
+    );
+});
 
 /**
  * Angular JS controller for this plugin
