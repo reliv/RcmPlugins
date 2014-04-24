@@ -1,4 +1,14 @@
-rcm.angularBootstrap('playerTabs', 'playerTabsCtrl');
+/**
+ * Makes this angular controller and module place nice with all the others
+ */
+angular.element(document).ready(function () {
+    $.each(
+        $('[ng-controller=playerTabsCtrl]'),
+        function (key, element) {
+            angular.bootstrap(element, ['playerTabs']);
+        }
+    );
+});
 
 var app = angular.module('playerTabs', [])
     .controller('playerTabsCtrl', function ($scope) {

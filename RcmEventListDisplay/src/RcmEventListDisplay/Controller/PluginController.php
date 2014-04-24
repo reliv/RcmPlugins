@@ -87,12 +87,5 @@ class PluginController
         $view->setTemplate($this->template);
         return $view;
     }
-
-    function renderDefaultInstance($instanceId)
-    {
-        return $this->renderInstanceFromConfig(
-            $this->getDefaultInstanceConfig()
-        );
-    }
 }
 

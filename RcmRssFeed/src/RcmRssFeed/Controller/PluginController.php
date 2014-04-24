@@ -41,21 +41,6 @@ class PluginController
         );
     }
 
-    /**
-     * Returns a view model filled with content for a brand new instance. This
-     * usually comes out of a config file rather than writable persistent
-     * storage like a database.
-     *
-     * @return \Zend\View\Model\ViewModel
-     */
-    function renderDefaultInstance($instanceId)
-    {
-        return $this->buildView(
-            $instanceId,
-            $this->getDefaultInstanceConfig()
-        );
-    }
-
     function buildView($instanceId, $instanceConfig)
     {
         $view = new \Zend\View\Model\ViewModel(array(
@@ -66,6 +51,4 @@ class PluginController
         $view->setTemplate($this->template);
         return $view;
     }
-
-
 }

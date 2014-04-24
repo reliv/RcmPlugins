@@ -27,7 +27,8 @@ return array(
 
     'view_helpers' => array(
         'factories' => array(
-            'rcmIncludeAngularJs' => 'RcmAngularJs\Factory\IncludeAngularJsViewHelperFactory',
+            'rcmIncludeAngularJs' =>
+                'RcmAngularJs\Factory\IncludeAngularJsViewHelperFactory',
         ),
     ),
 

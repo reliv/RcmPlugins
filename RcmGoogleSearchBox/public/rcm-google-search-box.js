@@ -6,10 +6,10 @@
 var RcmGoogleSearchBox = function (instanceId) {
 
     /**
-     * Plugin container div jQuery object
+     * jQuery container div that wraps this plugin
      * @type {jQuery}
      */
-    var container = rcm.getPluginContainer(instanceId);
+    var container = $('div[data-rcmPluginInstanceId=' + instanceId + ']');
 
     container.find("form").submit(
         function () {
