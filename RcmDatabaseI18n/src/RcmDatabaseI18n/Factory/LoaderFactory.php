@@ -7,7 +7,7 @@
  * PHP version 5
  *
  * @category  Reliv
- * @package   src\RcmI18n
+ * @package   src\RcmDatabaseI18n
  * @author    Rod Mcnew <rmcnew@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
@@ -15,11 +15,9 @@
  * @link      https://github.com/reliv
  */
 
-namespace RcmI18n\Factory;
+namespace RcmDatabaseI18n\Factory;
 
-use RcmI18n\RemoteLoader\Database;
-use Zend\Db\Adapter\Adapter;
-use Zend\I18n\Translator\Translator;
+use RcmDatabaseI18n\RemoteLoader\DoctrineDbLoader;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -32,7 +30,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * PHP version 5
  *
  * @category  Reliv
- * @package   src\RcmI18n
+ * @package   src\RcmDatabaseI18n
  * @author    Rod Mcnew <rmcnew@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
@@ -44,6 +42,6 @@ class LoaderFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $serviceLocator=$serviceLocator->getServiceLocator();
-        return new Database($serviceLocator->get('rcmZendDBAdaptor'));
+        return new DoctrineDbLoader($serviceLocator->get('Doctrine\ORM\EntityManager'));
     }
 }

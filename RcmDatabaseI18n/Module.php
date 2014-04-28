@@ -14,7 +14,7 @@
  * @version   GIT: <git_id>
  */
 
-namespace RcmI18n;
+namespace RcmDatabaseI18n;
 
 /**
  * ZF2 Module Config.  Required by ZF2

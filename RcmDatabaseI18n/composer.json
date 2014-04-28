@@ -1,0 +1,31 @@
+{
+    "name": "reliv/RcmDatabaseI18n",
+    "description": "Stores translations in DB for ZF2 i18n",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "reliv",
+        "plugins",
+        "module",
+        "zf2"
+    ],
+    "homepage": "http://www.reliv.com/",
+    "authors": [
+        {
+            "name": "Rod McNew",
+            "email": "rmcnew@relivinc.com",
+            "homepage": "http://www.reliv.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.5"
+    },
+    "autoload": {
+        "psr-0": {
+            "RcmDatabaseI18n": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}

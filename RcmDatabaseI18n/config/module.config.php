@@ -23,7 +23,7 @@ return array(
         'locale' => 'en_US',
         'remote_translation' => array(
             array(
-                'type' => 'RcmI18n\DbLoader',
+                'type' => 'RcmDatabaseI18n\DbLoader',
             ),
         ),
     ),
@@ -33,13 +33,31 @@ return array(
      */
     'service_manager' => array(
         'factories' => array(
-            'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
+            'MvcTranslator' => 'RcmDatabaseI18n\Factory\TranslatorFactory',
         )
     ),
 
     'translator_loaders' => array(
         'factories' => array(
-            'RcmI18n\DbLoader' => 'RcmI18n\Factory\LoaderFactory',
+            'RcmDatabaseI18n\DbLoader' => 'RcmDatabaseI18n\Factory\LoaderFactory',
         )
+    ),
+
+    'doctrine' => array(
+        'driver' => array(
+            'RcmDatabaseI18n' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(
+                    __DIR__ . '/../src/RcmDatabaseI18n/Entity'
+                )
+            ),
+
+            'orm_default' => array(
+                'drivers' => array(
+                    'RcmDatabaseI18n' => 'RcmDatabaseI18n'
+                )
+            )
+        ),
     )
 );

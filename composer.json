@@ -33,10 +33,13 @@
     },
     "autoload": {
         "psr-0": {
-            "RcmPlugins": "src/"
+            "RcmDatabaseI18n": "RcmDatabaseI18n/src/"
         },
         "classmap": [
             "./"
         ]
+    },
+    "replace": {
+        "reliv/RcmDatabaseI18n": "self.version"
     }
 }
