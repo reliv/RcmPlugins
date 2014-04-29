@@ -33,13 +33,10 @@
     },
     "autoload": {
         "psr-0": {
-            "RcmDatabaseI18n": "RcmDatabaseI18n/src/"
+            "ZendI18nDoctrineLoader": "ZendI18nDoctrineLoader/src/"
         },
         "classmap": [
             "./"
         ]
-    },
-    "replace": {
-        "reliv/RcmDatabaseI18n": "self.version"
     }
 }
