@@ -24,7 +24,10 @@ class TranslateHtmlTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $purifier = $this->getMockBuilder('\HTMLPurifier')->getMock();
+        $purifier = $this->getMockBuilder('\HTMLPurifier')
+            ->disableOriginalConstructor()
+            ->setMethods(array('purify'))
+            ->getMock();
         $purifier->expects($this->once())
             ->method('purify')
             ->will($this->returnValue('Translateidora!<br>ya!'));
