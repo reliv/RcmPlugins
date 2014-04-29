@@ -18,28 +18,52 @@
  */
 
 return array(
+    'translator' => array(
+
+        'locale' => 'en_US',
+        'remote_translation' => array(
+            array(
+                'type' => 'RcmI18n\DbLoader',
+            ),
+        ),
+    ),
+
+    /**
+     * Can be removed after ZF2 PR
+     */
+    'service_manager' => array(
+        'factories' => array(
+            'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
+        )
+    ),
+
+    'translator_loaders' => array(
+        'factories' => array(
+            'RcmI18n\DbLoader' => 'RcmI18n\Factory\LoaderFactory',
+        )
+    ),
 
     'doctrine' => array(
         'driver' => array(
-            'RcmInstanceConfig' => array(
+            'RcmI18n' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__ . '/../src/RcmInstanceConfig/Entity'
+                    __DIR__ . '/../src/RcmI18n/Entity'
                 )
             ),
+
             'orm_default' => array(
                 'drivers' => array(
-                    'RcmInstanceConfig' => 'RcmInstanceConfig'
+                    'RcmI18n' => 'RcmI18n'
                 )
             )
-        )
+        ),
     ),
 
     'view_helpers' => array(
         'factories' => array(
-            'rcmTextEdit' => 'RcmInstanceConfig\Factory\RcmTextEditFactory',
-            'rcmRichEdit' => 'RcmInstanceConfig\Factory\RcmRichEditFactory',
+            'rcmTranslate' => 'RcmI18n\Factory\TranslateHtmlFactory',
         )
     ),
 );

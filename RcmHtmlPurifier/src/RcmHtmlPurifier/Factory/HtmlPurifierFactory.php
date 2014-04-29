@@ -1,8 +1,8 @@
 <?php
 /**
- * RcmTextEditFactory
+ * HtmlPurifierFactory
  *
- * RcmTextEditFactory
+ * HtmlPurifierFactory
  *
  * PHP version 5
  *
@@ -15,15 +15,13 @@
  * @link      https://github.com/reliv
  */
 
-namespace RcmInstanceConfig\Factory;
+namespace RcmHtmlPurifier\Factory;
 
-
-use RcmInstanceConfig\ViewHelper\RcmEdit;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * RcmTextEditFactory
+ * HtmlPurifierFactory
  *
  * LongDescHere
  *
@@ -37,20 +35,19 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class RcmTextEditFactory implements FactoryInterface
+class HtmlPurifierFactory implements FactoryInterface
 {
     /**
      * Creates this service
      *
      * @param ServiceLocatorInterface $serviceLocator zf2 service locator
      *
-     * @return RcmEdit
+     * @return \HTMLPurifier
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new RcmEdit(
-            $serviceLocator->getServiceLocator()->get('RcmHtmlPurifier'),
-            false
-        );
+        $config = \HTMLPurifier_Config::createDefault();
+        $config->set('Cache.SerializerPath', getcwd() . '/data/HTMLPurifier');
+        return new \HTMLPurifier($config);
     }
 } 

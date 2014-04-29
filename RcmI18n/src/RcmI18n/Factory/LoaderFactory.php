@@ -1,13 +1,13 @@
 <?php
 /**
- * RcmTextEditFactory
+ * MvcTranslatorFactory.php
  *
- * RcmTextEditFactory
+ * LongDescHere
  *
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmInstanceConfig\Factory
+ * @package   src\RcmI18n
  * @author    Rod Mcnew <rmcnew@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
@@ -15,42 +15,33 @@
  * @link      https://github.com/reliv
  */
 
-namespace RcmInstanceConfig\Factory;
+namespace RcmI18n\Factory;
 
-
-use RcmInstanceConfig\ViewHelper\RcmEdit;
+use RcmI18n\RemoteLoader\DoctrineDbLoader;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+
 /**
- * RcmTextEditFactory
+ * MvcTranslatorFactory
  *
  * LongDescHere
  *
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmInstanceConfig\Factory
+ * @package   src\RcmI18n
  * @author    Rod Mcnew <rmcnew@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class RcmTextEditFactory implements FactoryInterface
+class LoaderFactory implements FactoryInterface
 {
-    /**
-     * Creates this service
-     *
-     * @param ServiceLocatorInterface $serviceLocator zf2 service locator
-     *
-     * @return RcmEdit
-     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new RcmEdit(
-            $serviceLocator->getServiceLocator()->get('RcmHtmlPurifier'),
-            false
-        );
+        $serviceLocator=$serviceLocator->getServiceLocator();
+        return new DoctrineDbLoader($serviceLocator->get('Doctrine\ORM\EntityManager'));
     }
-} 
+}
