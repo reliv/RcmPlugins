@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-0": {
-            "ZendI18nDoctrineLoader": "ZendI18nDoctrineLoader/src/"
+            "RcmI18n": "RcmI18n/src/"
         },
         "classmap": [
             "./"

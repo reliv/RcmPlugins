@@ -49,9 +49,7 @@ class RcmRichEditFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         return new RcmEdit(
-            $serviceLocator->getServiceLocator()->get(
-                'RcmInstanceConfig\HtmlPurifier'
-            ),
+            $serviceLocator->getServiceLocator()->get('RcmHtmlPurifier'),
             true
         );
     }

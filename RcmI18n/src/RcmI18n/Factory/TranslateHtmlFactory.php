@@ -1,13 +1,13 @@
 <?php
 /**
- * RcmTextEditFactory
+ * TranslateHtmlFactory.php
  *
- * RcmTextEditFactory
+ * LongDescHere
  *
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmInstanceConfig\Factory
+ * @package   RcmI18n\Factory
  * @author    Rod Mcnew <rmcnew@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
@@ -15,42 +15,37 @@
  * @link      https://github.com/reliv
  */
 
-namespace RcmInstanceConfig\Factory;
+namespace RcmI18n\Factory;
 
-
-use RcmInstanceConfig\ViewHelper\RcmEdit;
+use RcmInstanceConfig\ViewHelper\TranslateHtml;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+
 /**
- * RcmTextEditFactory
+ * TranslateHtmlFactory
  *
  * LongDescHere
  *
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmInstanceConfig\Factory
+ * @package   RcmI18n\Factory
  * @author    Rod Mcnew <rmcnew@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class RcmTextEditFactory implements FactoryInterface
+class TranslateHtmlFactory implements FactoryInterface
 {
-    /**
-     * Creates this service
-     *
-     * @param ServiceLocatorInterface $serviceLocator zf2 service locator
-     *
-     * @return RcmEdit
-     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return new RcmEdit(
-            $serviceLocator->getServiceLocator()->get('RcmHtmlPurifier'),
-            false
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        return new TranslateHtml(
+            $serviceLocator->get(
+                'RcmHtmlPurifier'
+            )
         );
     }
-} 
+}
