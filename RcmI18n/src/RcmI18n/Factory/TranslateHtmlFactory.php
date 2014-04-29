@@ -17,7 +17,7 @@
 
 namespace RcmI18n\Factory;
 
-use RcmInstanceConfig\ViewHelper\TranslateHtml;
+use RcmI18n\ViewHelper\TranslateHtml;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

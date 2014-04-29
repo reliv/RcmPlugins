@@ -10,7 +10,7 @@
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmInstanceConfig\ViewHelper
+ * @package   RcmI18n\ViewHelper
  * @author    Rod Mcnew <rmcnew@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
@@ -18,7 +18,7 @@
  * @link      https://github.com/reliv
  */
 
-namespace RcmInstanceConfig\ViewHelper;
+namespace RcmI18n\ViewHelper;
 
 use Zend\I18n\Translator\TranslatorAwareInterface;
 use Zend\I18n\View\Helper\AbstractTranslatorHelper;
@@ -34,7 +34,7 @@ use Zend\I18n\View\Helper\AbstractTranslatorHelper;
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmInstanceConfig\ViewHelper
+ * @package   RcmI18n\ViewHelper
  * @author    Rod Mcnew <rmcnew@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
