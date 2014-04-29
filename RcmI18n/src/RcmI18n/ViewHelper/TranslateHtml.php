@@ -69,16 +69,8 @@ class TranslateHtml extends AbstractTranslatorHelper implements
      */
     public function __invoke($message, $textDomain = null, $locale = null)
     {
-        $translator = $this->getTranslator();
-        if (null === $translator) {
-            throw new \RuntimeException('Translator has not been set');
-        }
-        if (null === $textDomain) {
-            $textDomain = $this->getTranslatorTextDomain();
-        }
-
         return $this->htmlPurifier->purify(
-            $translator->translate($message, $textDomain, $locale)
+            $this->getTranslator()->translate($message, $textDomain, $locale)
         );
     }
 } 
