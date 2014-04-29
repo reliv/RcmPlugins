@@ -9,7 +9,7 @@ use RcmI18n\ViewHelper\TranslateHtml;
 class TranslateHtmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \RcmI18n\ViewHelper\RcmEdit
+     * @covers \RcmI18n\ViewHelper\TranslateHtml
      */
     public function testInvoke()
     {
