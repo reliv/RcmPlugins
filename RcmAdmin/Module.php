@@ -13,7 +13,7 @@
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
- * @link      http://reliv.com
+ * @link      https://github.com/reliv
  */
 
 namespace RcmAdmin;
@@ -32,7 +32,7 @@ use Zend\Mvc\MvcEvent;
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: 1.0
- * @link      http://reliv.com
+ * @link      https://github.com/reliv
  */
 class Module
 {
