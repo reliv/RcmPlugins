@@ -4,7 +4,7 @@
  *
  * setTimeout(func,0) is similar to $.ready()
  */
-setTimeout(function () {
+function formDoubleClickSubmitProtectInit() {
     var forms = document.querySelectorAll("form[data-ng-form-double-submit-protect]");
     for (var i = 0; i < forms.length; ++i) {
         forms[i].addEventListener('submit', function () {
@@ -17,4 +17,11 @@ setTimeout(function () {
             return true;
         });
     }
-}, 0);
+}
+
+if (typeof jQuery == 'function') {
+    jQuery().ready(formDoubleClickSubmitProtectInit)
+} else {
+    //Poor replacement for jQuery().ready that doesn't always work well
+    setTimeout(formDoubleClickSubmitProtectInit, 0);
+}
