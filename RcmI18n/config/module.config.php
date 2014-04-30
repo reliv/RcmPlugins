@@ -63,7 +63,7 @@ return array(
 
     'view_helpers' => array(
         'factories' => array(
-            'rcmTranslate' => 'RcmI18n\Factory\TranslateHtmlFactory',
+            'translate' => 'RcmI18n\Factory\TranslateHtmlFactory',
         )
     ),
 );
