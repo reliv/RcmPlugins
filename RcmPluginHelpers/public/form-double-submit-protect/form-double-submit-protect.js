@@ -12,7 +12,6 @@ function formDoubleClickSubmitProtectInit() {
                 return false;
             }
             this.className = this.className + ' processing';
-            console.log('submitted');
             this.submit();
             return true;
         });
