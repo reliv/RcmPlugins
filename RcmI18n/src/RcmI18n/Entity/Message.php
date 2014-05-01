@@ -54,9 +54,9 @@ class Message
     /**
      * @var string Locale
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", options={"default" = "en_US"})
      */
-    protected $locale;
+    protected $locale = 'en_US';
 
     /**
      * @var string Translation key name
