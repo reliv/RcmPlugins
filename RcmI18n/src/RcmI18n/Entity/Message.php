@@ -36,7 +36,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity
  * @ORM\Table (
- *     name="zend_i18n_doctrine_loader_message",
+ *     name="rcmi18n_message",
  *     indexes={@ORM\Index(name="locale", columns={"locale"})}),
  * )
  */
