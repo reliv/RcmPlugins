@@ -37,30 +37,23 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table (
  *     name="zend_i18n_doctrine_loader_message",
- *     indexes={@ORM\Index(name="locale", columns={"locale"})})
+ *     indexes={@ORM\Index(name="locale", columns={"locale"})}),
  * )
  */
 class Message
 {
     /**
-     * @var int Auto-Incremented Primary Key
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    protected $messageId;
-
-    /**
      * @var string Locale
      *
-     * @ORM\Column(type="string")
+     * @ORM\Id
+     * @ORM\Column(type="string", options={"default" = "en_US"})
      */
-    protected $locale;
+    protected $locale = 'en_US';
 
     /**
      * @var string Translation key name
      *
+     * @ORM\Id
      * @ORM\Column(type="string")
      */
     protected $key;
