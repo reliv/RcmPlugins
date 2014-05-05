@@ -21,7 +21,7 @@ class RcmBrightcovePlayerControllerFactory implements FactoryInterface
         return new BasePluginController (
             $pluginStorage,
             $serviceLocator->get('config'),
-            __DIR__
+            'RcmBrightcovePlayer'
         );
     }
 }
