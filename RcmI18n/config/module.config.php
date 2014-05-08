@@ -31,11 +31,11 @@ return array(
     /**
      * Can be removed after ZF2 PR
      */
-    'service_manager' => array(
-        'factories' => array(
-            'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
-        )
-    ),
+//    'service_manager' => array(
+//        'factories' => array(
+//            'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
+//        )
+//    ),
 
     'translator_loaders' => array(
         'factories' => array(
