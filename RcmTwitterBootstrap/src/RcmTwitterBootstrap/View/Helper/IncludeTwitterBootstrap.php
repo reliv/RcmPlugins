@@ -1,26 +1,56 @@
 <?php
+/**
+ * IncludeTwitterBootstrap.php
+ *
+ * IncludeTwitterBootstrap
+ *
+ * PHP version 5
+ *
+ * @category  Reliv
+ * @package   moduleNameHere
+ * @author    James Jervis <jjervis@relivinc.com>
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      https://github.com/reliv
+ */
 
-
-namespace RcmAngularJs\View\Helper;
+namespace RcmTwitterBootstrap\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-class IncludeAngularJs extends AbstractHelper
+/**
+ * Class IncludeTwitterBootstrap
+ *
+ * IncludeTwitterBootstrap
+ *
+ * PHP version 5
+ *
+ * @category  Reliv
+ * @package   RcmAngularJs\View\Helper
+ * @author    James Jervis <jjervis@relivinc.com>
+ * @copyright ${YEAR} Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: <package_version>
+ * @link      https://github.com/reliv
+ */
+class IncludeTwitterBootstrap extends AbstractHelper
 {
     /**
      *
      */
-    const DIR = '/modules/rcm-angular-js/';
+    const DIR = '/modules/rcm-twitter-bootstrap/';
 
     /**
      * @var array
      */
     protected $defaultOptions
         = array(
-            'js' => array(
-                'angular/angular.min.js',
+            'css' => array(
+                'css/bootstrap.min.css',
+                'css/bootstrap.css.map',
             ),
-            'css' => array(),
+            'js' => array(),
         );
 
     /**
