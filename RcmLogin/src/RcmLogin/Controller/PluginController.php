@@ -17,10 +17,9 @@
  */
 namespace RcmLogin\Controller;
 
-use Rcm\Model\UserManagement\UserManagerInterface;
+use Rcm\Http\Response;
 use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Controller\BasePluginController;
-use Rcm\Service\SiteManager;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 use RcmUser\Service\RcmUserService;
 
