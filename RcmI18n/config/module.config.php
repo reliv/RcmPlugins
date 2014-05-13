@@ -37,7 +37,7 @@ return array(
         )
     ),
 
-    'translator_loaders' => array(
+    'translator_plugins' => array(
         'factories' => array(
             'RcmI18n\DbLoader' => 'RcmI18n\Factory\LoaderFactory',
         )

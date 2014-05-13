@@ -49,7 +49,7 @@ class TranslatorFactory implements FactoryInterface
          * Work-around for the translator loader plugin manager not having a config
          * key that it looks for.
          */
-        foreach ($config['translator_loaders']['factories'] as $name => $factory) {
+        foreach ($config['translator_plugins']['factories'] as $name => $factory) {
             $pluginManager = $translator->getPluginManager();
             $pluginManager->setServiceLocator($serviceLocator);
             $pluginManager->setFactory(
