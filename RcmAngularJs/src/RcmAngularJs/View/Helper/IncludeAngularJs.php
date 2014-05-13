@@ -18,7 +18,7 @@ class IncludeAngularJs extends AbstractHelper
     protected $defaultOptions
         = array(
             'js' => array(
-                'angular-1.2.16/angular.js',
+                'angular/angular.js',
             ),
             'css' => array(),
         );
