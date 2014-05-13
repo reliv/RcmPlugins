@@ -48,7 +48,7 @@ class IncludeTwitterBootstrap extends AbstractHelper
         = array(
             'css' => array(
                 'css/bootstrap.min.css',
-                'css/bootstrap.css.map',
+                //'css/bootstrap.css.map',
             ),
             'js' => array(),
         );
