@@ -18,7 +18,7 @@ class IncludeAngularJs extends AbstractHelper
     protected $defaultOptions
         = array(
             'js' => array(
-                'angular/angular.min.js',
+                'angular/angular.js',
             ),
             'css' => array(),
         );
@@ -38,9 +38,16 @@ class IncludeAngularJs extends AbstractHelper
     }
 
     /**
-     * inject
+     * inject - angularJs is always included by default.
      *
-     * @param array $options options
+     * @param array $options array(
+     *                          'js' => array(
+     *                                  'js/files/to/include'
+     *                                  ),
+     *                          'css' =>  array(
+     *                                  'css/files/to/include'
+     *                                  )
+     *                          )
      *
      * @return void
      */

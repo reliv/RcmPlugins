@@ -67,7 +67,7 @@ class TranslateHtml extends AbstractTranslatorHelper implements
      * @throws \RuntimeException
      * @return string
      */
-    public function __invoke($message, $textDomain = null, $locale = null)
+    public function __invoke($message, $textDomain = 'default', $locale = null)
     {
         return $this->htmlPurifier->purify(
             $this->getTranslator()->translate($message, $textDomain, $locale)
