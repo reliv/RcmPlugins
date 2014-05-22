@@ -20,6 +20,48 @@
  */
 return array(
 
+    'navigation' => array(
+        'RcmAdminMenu' => array(
+            'Page' => array(
+                'label' => 'Page',
+                'uri' => '#',
+                'pages' => array(
+                    'New' => array(
+                        'label' => 'New',
+                        'uri' => '#',
+                        'pages' => array(
+                            'Page' => array(
+                                'label' => 'Page',
+                                'route' => 'RcmAdmin\Page\New',
+                                'class' => 'RcmAdminMenu RcmForm'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+
+            'Site' => array(
+                'label' => 'Site',
+                'uri' => '#',
+            ),
+        ),
+    ),
+
+    'router' => array(
+        'routes' => array(
+            'RcmAdmin\Page\New' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/rcm-admin/page/new',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\PageController',
+                        'action' => 'new',
+                    ),
+                ),
+            ),
+        ),
+    ),
+
     'rcmAdmin' => array(
 
         'createBlankPagesErrors' => array(
@@ -88,15 +130,10 @@ return array(
                         'links' => array(
                             'Page' => array(
                                 'display' => 'Page',
-                                'aclGroups' => 'admin',
+                                'aclResource' => 'admin',
+                                'aclPermissions' => 'page.new',
                                 'cssClass' => 'rcmNewPageIcon rcmNewPage',
                                 'href' => '#',
-                                'onclick' => "rcmEdit.adminPopoutWindow("
-                                    ."'/rcm-admin-create-blank-page', "
-                                    ."430, "
-                                    ."740, ".
-                                    "'Add New Page'); "
-                                    ."return false;"
                             ),
                         )
                     ),
@@ -276,6 +313,8 @@ return array(
 
             'RcmAdmin\Controller\AdminPanelController'
                 => 'RcmAdmin\Factory\AdminPanelControllerFactory',
+
+            'RcmAdminNavigation' => 'RcmAdmin\Factory\AdminNavigationFactory'
         ),
     ),
 
@@ -284,4 +323,11 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+
+    'controllers' => array(
+        'factories' => array(
+            'RcmAdmin\Controller\PageController'
+                => 'RcmAdmin\Factory\PageControllerFactory',
+        )
+    )
 );

@@ -29,7 +29,7 @@ class DispatchListener
     public function getAdminPanel(MvcEvent $event)
     {
         $adminPanelView = new ViewModel();
-        $adminPanelView->setTemplate('admin-panel/panel.phtml');
+        $adminPanelView->setTemplate('rcm-admin/panel/panel.phtml');
 
         $adminNavigation = $this->adminPanelController->getAdminNavigationAction();
         $adminPanelView->addChild($adminNavigation,'rcmAdminNavigation');

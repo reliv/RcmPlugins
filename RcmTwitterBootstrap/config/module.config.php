@@ -26,9 +26,9 @@ return array(
     ),
 
     'view_helpers' => array(
-        'factories' => array(
+        'invokables' => array(
             'rcmIncludeTwitterBootstrap' =>
-                'RcmTwitterBootstrap\Factory\RcmTwitterBootstrapIncludeViewHelperFactory',
+                'RcmTwitterBootstrap\View\Helper\IncludeTwitterBootstrap',
         ),
     ),
 

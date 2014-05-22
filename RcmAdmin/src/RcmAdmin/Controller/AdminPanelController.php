@@ -2,7 +2,6 @@
 
 namespace RcmAdmin\Controller;
 
-
 use Zend\View\Model\ViewModel;
 
 class AdminPanelController
@@ -18,7 +17,7 @@ class AdminPanelController
     {
         $view = new ViewModel();
         $view->setVariable('adminMenu', $this->config['rcmAdmin']['adminPanel']);
-        $view->setTemplate('admin-panel/navigation');
+        $view->setTemplate('rcm-admin/panel/navigation');
         return $view;
     }
 }
