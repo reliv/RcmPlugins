@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>New Page</title>
+</head>
+<body>
+
+<?php
+
+$form = $this->form;
+$form->prepare();
+
+$pageUrl = $form->get('url');
+$pageTitle = $form->get('title');
+$pageTemplate = $form->get('page-template');
+
+// Assuming the "contact/process" route exists...
+$form->setAttribute('action', $this->url('RcmAdmin\Page\New'));
+
+// Set the method attribute for the form
+$form->setAttribute('method', 'post');
+
+// Get the form label plugin
+$formLabel = $this->plugin('formLabel');
+?>
+
+<?= $this->form()->openTag($form); ?>
+
+<?= $this->message; ?><br/>
+
+<?= $this->formElementErrors($pageUrl); ?>
+<?= $formLabel->openTag() . $pageUrl->getOption('label'); ?> &nbsp;
+<?= $this->formInput($pageUrl); ?>
+<?= $formLabel->closeTag(); ?>
+
+<br />
+
+<?= $this->formElementErrors($pageTitle); ?>
+<?= $formLabel->openTag() . $pageTitle->getOption('label'); ?> &nbsp;
+<?= $this->formInput($pageTitle); ?>
+<?= $formLabel->closeTag(); ?>
+
+<br />
+
+<?= $this->formElementErrors($pageTemplate); ?>
+<?= $formLabel->openTag() . $pageTemplate->getOption('label'); ?> &nbsp;
+<?= $this->formSelect($pageTemplate); ?>
+<?= $formLabel->closeTag(); ?>
+
+<?= $this->form()->closeTag(); ?>
+
+</body>
+</html>

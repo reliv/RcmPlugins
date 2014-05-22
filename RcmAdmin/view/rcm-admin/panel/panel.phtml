@@ -1,0 +1,39 @@
+<?php
+
+
+$this->rcmIncludeJqueryUi();
+$this->rcmIncludeTwitterBootstrap();
+
+
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-admin/css/rcm-admin-panel.css',
+    'screen,print'
+);
+?>
+<div class="rcmAdminPanelWrapper">
+    <?= $this->rcmAdminNavigation; ?>
+</div>
+
+
+<div class="modal fade" id="AdminDialogWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+
+
+<div id="RcmStandardDialogTemplate" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary saveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

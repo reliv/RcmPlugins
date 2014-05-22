@@ -1,0 +1,16 @@
+.rcmAdminPanelWrapper {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #00A3E6;
+    width: 100%;
+    position: relative;
+    z-index: 1030;
+    height: 20px;
+}
+
+/*.modal-content {*/
+    /*min-height: 300px;*/
+    /*padding-left: 15px;*/
+    /*padding-top: 15px;*/
+    /*width: 100%;*/
+    /*border: 3px solid #000000;*/
+/*}*/

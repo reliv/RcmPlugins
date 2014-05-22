@@ -37,32 +37,13 @@ use Zend\View\Helper\AbstractHelper;
 class IncludeTwitterBootstrap extends AbstractHelper
 {
     /**
-     *
-     */
-    const DIR = '/modules/rcm-twitter-bootstrap/';
-
-    /**
-     * @var array
-     */
-    protected $defaultOptions
-        = array(
-            'css' => array(
-                'css/bootstrap.min.css',
-                //'css/bootstrap.css.map',
-            ),
-            'js' => array(),
-        );
-
-    /**
      * __invoke
-     *
-     * @param array $options options
      *
      * @return void
      */
-    public function __invoke($options = array())
+    public function __invoke()
     {
-        $this->inject($options);
+        $this->inject();
 
         return;
     }
@@ -70,32 +51,39 @@ class IncludeTwitterBootstrap extends AbstractHelper
     /**
      * inject
      *
-     * @param array $options options
-     *
      * @return void
      */
-    protected function inject($options = array())
+    protected function inject()
     {
-        $options = array_merge_recursive($this->defaultOptions, $options);
+        $this->injectJs();
+        $this->injectCss();
+    }
 
+    public function injectJs()
+    {
         $view = $this->getView();
 
         /** @var \Zend\View\Helper\HeadScript $headScript */
         $headScript = $view->headScript();
         $headLink = $view->headLink();
 
-        foreach ($options['js'] as $file) {
+        $headScript->appendFile('/modules/rcm-twitter-bootstrap/js/bootstrap.js');
 
-            $file = self::DIR . $file;
+        $view->rcmIncludeJquery();
+    }
 
-            $headScript->appendFile($file);
-        }
+    public function injectCss()
+    {
+        $view = $this->getView();
 
-        foreach ($options['css'] as $file) {
+        $headLink = $view->headLink();
 
-            $file = self::DIR . $file;
+        $headLink->prependStylesheet(
+            '/modules/rcm-twitter-bootstrap/css/bootstrap.min.css'
+        );
 
-            $headLink->appendStylesheet($file);
-        }
+        $headLink->prependStylesheet(
+            '/modules/rcm-twitter-bootstrap/css/bootstrap.css.map'
+        );
     }
 }
