@@ -52,8 +52,7 @@ class PluginController
         PluginStorageMgr $pluginStorageMgr,
         $config,
         RcmUserService $rcmUserService
-    )
-    {
+    ) {
         parent::__construct($pluginStorageMgr, $config);
         $this->rcmUserService = $rcmUserService;
 
