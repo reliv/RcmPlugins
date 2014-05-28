@@ -49,8 +49,8 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
         // \Zend\ServiceManager\ServiceManager
         $mapServiceManager = array(
-            array('request', $this->mockRequest),
-            array('RcmUser\Service\RcmUserService', $this->mockRcmUserService)
+            array('request', true, $this->mockRequest),
+            array('RcmUser\Service\RcmUserService', true, $this->mockRcmUserService)
         );
         $mockObject = $this->getMockBuilder(
             '\Zend\ServiceManager\ServiceManager'
@@ -114,7 +114,6 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result), 'Did not return array.');
     }
-
 
     public function testonBootstrap()
     {
