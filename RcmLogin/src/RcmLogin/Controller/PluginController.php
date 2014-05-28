@@ -17,10 +17,8 @@
  */
 namespace RcmLogin\Controller;
 
-use Rcm\Model\UserManagement\UserManagerInterface;
 use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Controller\BasePluginController;
-use Rcm\Service\SiteManager;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 use RcmUser\Service\RcmUserService;
 
@@ -41,10 +39,13 @@ class PluginController
     implements PluginInterface
 {
 
+    /**
+     * @var \RcmUser\Service\RcmUserService $rcmUserService
+     */
     protected $rcmUserService;
 
     /**
-     * @var \Rcm\Service\SiteManager
+     * @var \Rcm\Service\SiteManager $siteManager
      */
     protected $siteManager;
 
@@ -52,8 +53,7 @@ class PluginController
         PluginStorageMgr $pluginStorageMgr,
         $config,
         RcmUserService $rcmUserService
-    )
-    {
+    ) {
         parent::__construct($pluginStorageMgr, $config);
         $this->rcmUserService = $rcmUserService;
 
@@ -119,6 +119,7 @@ class PluginController
                     . filter_var($_GET['redirect'], FILTER_SANITIZE_URL);
             }
 
+            // @todo? $this->redirect()->toUrl($redirectUrl);
             header('Location: ' . $redirectUrl);
             exit();
 
