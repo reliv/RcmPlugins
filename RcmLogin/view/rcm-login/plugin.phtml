@@ -3,6 +3,8 @@ $this->headScript()->appendFile(
     '/modules/rcm-plugin-helpers/form-double-submit-protect/form-double-submit-protect.js',
     'text/javascript'
 );
+
+$this->rcmIncludeJquery(); //needed for form-double-submit-protect.js
 ?>
 
 <?= $this->rcmTextEdit('loginHeader', 'Login', 'h1') ?>
