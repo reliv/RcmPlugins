@@ -16,9 +16,9 @@
 
 namespace RcmLogin;
 
+use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\ModuleManager;
-
-use RcmLogin\Controller\PluginController;
+use Zend\Mvc\MvcEvent;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -119,6 +119,44 @@ class Module
         )
         ) {
             $object->init();
+        }
+    }
+
+    /**
+     * onBootstrap
+     *
+     * @param MvcEvent $event event
+     *
+     * @return void
+     */
+    public function onBootstrap(MvcEvent $event)
+    {
+        $application = $event->getApplication();
+        $eventManager = $application->getEventManager();
+        $eventManager->attach(MvcEvent::EVENT_ROUTE, array($this,'doLogout'),100);
+    }
+
+    /**
+     * doLogout
+     *
+     * @param EventInterface $event event
+     *
+     * @return void
+     */
+    public function doLogout(EventInterface $event)
+    {
+        $application = $event->getApplication();
+        $sm = $application->getServiceManager();
+
+        /** @var $request \Zend\Http\Request */
+        $request = $sm->get('request');
+        $logout = (bool) $request->getQuery('logout', 0);
+
+        if($logout){
+
+            /** @var $rcmUserService \RcmUser\Service\RcmUserService */
+            $rcmUserService = $sm->get('RcmUser\Service\RcmUserService');
+            $rcmUserService->clearIdentity();
         }
     }
 }
