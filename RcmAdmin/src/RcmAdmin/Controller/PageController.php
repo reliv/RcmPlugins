@@ -21,6 +21,8 @@ namespace RcmAdmin\Controller;
 use Rcm\Repository\Page;
 use Rcm\Service\PageManager;
 use RcmAdmin\Form\NewPageForm;
+use RcmUser\Acl\Service\AclDataService;
+use RcmUser\Service\RcmUserService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -51,11 +53,15 @@ class PageController extends AbstractActionController
      *
      * @param PageManager $pageManager Rcm Page Manager
      */
-    public function __construct(PageManager $pageManager)
-    {
+    public function __construct(
+        PageManager $pageManager,
+        AclDataService $aclDataService
+    ) {
         $this->pageManager = $pageManager;
-        $this->view = new ViewModel();
+        $this->view        = new ViewModel();
         $this->view->setTerminal(true);
+
+        $aclDataService->getAclData();
     }
 
     /**
@@ -74,8 +80,6 @@ class PageController extends AbstractActionController
 
         if ($this->request->isPost() && $form->isValid()) {
             $validatedData = $form->getData();
-
-            $this->view->setVariable('message', '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />Saved');
         }
 
         $this->view->setVariable('form', $form);
