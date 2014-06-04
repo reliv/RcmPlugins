@@ -26,9 +26,12 @@ return array(
     ),
 
     'view_helpers' => array(
-        'factories' => array(
+        'invokables' => array(
             'rcmIncludeAngularJs' =>
-                'RcmAngularJs\Factory\IncludeAngularJsViewHelperFactory',
+                'RcmAngularJs\View\Helper\IncludeAngularJs',
+
+            'rcmIncludeAngularJsUiBootstrap' =>
+                'RcmAngularJs\View\Helper\IncludeAngularJsBootstrap',
         ),
     ),
 

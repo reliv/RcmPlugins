@@ -34,7 +34,7 @@ use Zend\View\Helper\AbstractHelper;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class IncludeJquery extends AbstractHelper
+class IncludeJqueryUi extends AbstractHelper
 {
     /**
      * Adds Jquery JS includes to the html
@@ -45,8 +45,16 @@ class IncludeJquery extends AbstractHelper
     {
         $view = $this->getView();
 
-        $view->headScript()->prependFile(
-            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
+        $view->headLink()->prependStylesheet(
+            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/'
+            . 'smoothness/jquery-ui-1.10.4.custom.min.css'
         );
+
+        $view->headScript()->appendFile(
+            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/'
+            . 'jquery-ui-1.10.4.custom.min.js'
+        );
+
+        $view->rcmIncludeJquery();
     }
 }

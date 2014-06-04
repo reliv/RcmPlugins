@@ -5,7 +5,7 @@ namespace RcmAngularJs\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-class IncludeAngularJs extends AbstractHelper
+class IncludeAngularJsBootstrap extends AbstractHelper
 {
     /**
      * __invoke
@@ -31,6 +31,15 @@ class IncludeAngularJs extends AbstractHelper
         /** @var \Zend\View\Helper\HeadScript $headScript */
         $headScript = $view->headScript();
 
-        $headScript->prependFile('/modules/rcm-angular-js/angular/angular.min.js');
+        // @codingStandardsIgnoreStart
+        $headScript->prependFile(
+            '/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-tpls-0.10.0.min.js'
+        );
+        // @codingStandardsIgnoreEnd
+
+        $view->rcmIncludeJquery();
+        $view->rcmIncludeAngularJs();
+        $view->plugin('rcmIncludeTwitterBootstrap')->injectCss();
+
     }
 }

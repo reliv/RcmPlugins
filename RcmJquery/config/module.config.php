@@ -26,8 +26,10 @@ return array(
     ),
 
     'view_helpers' => array(
-        'factories' => array(
-            'rcmIncludeJquery' => 'RcmJquery\Factory\IncludeJqueryFactory',
+        'invokables' => array(
+            'rcmIncludeJquery'        => 'RcmJquery\View\Helper\IncludeJquery',
+            'rcmIncludeJqueryUi'      => 'RcmJquery\View\Helper\IncludeJqueryUi',
+            'rcmIncludeJqueryBlockUi' => 'RcmJquery\View\Helper\IncludeJqueryUi',
         ),
     ),
 
