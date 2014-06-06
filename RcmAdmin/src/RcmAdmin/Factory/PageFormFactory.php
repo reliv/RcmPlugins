@@ -19,6 +19,7 @@
 namespace RcmAdmin\Factory;
 
 use RcmAdmin\Controller\PageController;
+use RcmAdmin\Form\PageForm;
 use Zend\Di\ServiceLocator;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -37,32 +38,33 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @link      https://github.com/reliv
  *
  */
-class PageControllerFactory implements FactoryInterface
+class PageFormFactory implements FactoryInterface
 {
 
     /**
      * Create Service
      *
-     * @param ServiceLocatorInterface $controllerManager Zend Controler Manager
+     * @param ServiceLocatorInterface $formElementManager Zend Controler Manager
      *
      * @return PageController
      */
-    public function createService(ServiceLocatorInterface $controllerManager)
+    public function createService(ServiceLocatorInterface $formElementManager)
     {
-        /** @var \Zend\Mvc\Controller\ControllerManager $controllerMgr  For IDE */
-        $controllerMgr = $controllerManager;
+        /** @var \Zend\Form\FormElementManager $formElementMgr  For IDE */
+        $formElementMgr = $formElementManager;
 
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $controllerMgr->getServiceLocator();
+        $serviceLocator = $formElementMgr->getServiceLocator();
 
-        /** @var \RcmUser\Acl\Service\AclDataService $aclDataService */
-        $aclDataService = $serviceLocator->get('RcmUser\Acl\AclDataService');
+        /** @var \Rcm\Service\PageManager $pageManager */
+        $pageManager = $serviceLocator->get('Rcm\Service\PageManager');
 
-        $pageForm = $serviceLocator->get('FormElementManager')->get('RcmAdmin\Form\PageForm');
+        /** @var \Rcm\Service\LayoutManager $layoutManager */
+        $layoutManager = $serviceLocator->get('Rcm\Service\LayoutManager');
 
-        return new PageController(
-            $pageForm,
-            $aclDataService
+        return new PageForm(
+            $pageManager,
+            $layoutManager
         );
     }
 }

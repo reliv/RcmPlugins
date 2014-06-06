@@ -1,0 +1,15 @@
+<?php
+$this->rcmIncludeJqueryUi();
+$this->rcmIncludeTwitterBootstrap();
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-admin/js/rcm-admin.js'
+);
+?>
+
+<?= $this->render('rcm-admin/admin/partial/panel/panel.phtml');?>
+<?= $this->render('rcm-admin/admin/partial/dialog/dialog.phtml'); ?>
+
+<div class="modal fade" id="AdminDialogWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>

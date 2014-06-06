@@ -33,7 +33,8 @@ return array(
                             'Page' => array(
                                 'label' => 'Page',
                                 'route' => 'RcmAdmin\Page\New',
-                                'class' => 'RcmAdminMenu RcmForm'
+                                'class' => 'RcmAdminMenu RcmForm',
+                                'title' => 'New Page',
                             ),
                         ),
                     ),
@@ -134,6 +135,7 @@ return array(
                                 'aclPermissions' => 'page.new',
                                 'cssClass' => 'rcmNewPageIcon rcmNewPage',
                                 'href' => '#',
+                                'data-title' => 'New Page',
                             ),
                         )
                     ),
@@ -303,6 +305,21 @@ return array(
             'aliases' => array(
                 'modules/rcm-admin/' => __DIR__ . '/../public/',
             ),
+
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'js/admin/rcm-admin.js',
+                    'js/dialog/rcm-dialog-helper.js',
+                    'js/dialog/strategy/rcm-form-strategy.js',
+                    'js/dialog/strategy/rcm-standard-dialog-strategy.js',
+                    'js/navigation/rcm-nav-menu-helper.js',
+                    /** must load last */
+                    'js/admin/rcm-admin-factory.js',
+                ),
+            ),
+            'paths' => array(
+                __DIR__ . '/../public',
+            ),
         ),
     ),
 
@@ -314,13 +331,28 @@ return array(
             'RcmAdmin\Controller\AdminPanelController'
                 => 'RcmAdmin\Factory\AdminPanelControllerFactory',
 
-            'RcmAdminNavigation' => 'RcmAdmin\Factory\AdminNavigationFactory'
+            'RcmAdminNavigation' => 'RcmAdmin\Factory\AdminNavigationFactory',
         ),
     ),
 
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+    ),
+
+    'view_helpers' => array(
+        'invokables' => array(
+            'formPageLayout' => 'RcmAdmin\View\Helper\FormPageLayout',
+        )
+    ),
+
+    'form_elements' => array(
+        'invokables' => array(
+            'pageLayout' => 'RcmAdmin\Form\Element\PageLayout',
+        ),
+        'factories' => array(
+            'RcmAdmin\Form\PageForm' => 'RcmAdmin\Factory\PageFormFactory',
         ),
     ),
 
