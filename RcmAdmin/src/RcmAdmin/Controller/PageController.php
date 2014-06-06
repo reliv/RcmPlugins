@@ -19,8 +19,10 @@
 namespace RcmAdmin\Controller;
 
 use Rcm\Repository\Page;
+use Rcm\Service\LayoutManager;
 use Rcm\Service\PageManager;
 use RcmAdmin\Form\NewPageForm;
+use RcmAdmin\Form\PageForm;
 use RcmUser\Acl\Service\AclDataService;
 use RcmUser\Service\RcmUserService;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -42,26 +44,30 @@ use Zend\View\Model\ViewModel;
  */
 class PageController extends AbstractActionController
 {
-    /** @var \Rcm\Service\PageManager */
-    protected $pageManager;
+    /** @var \RcmAdmin\Form\PageForm  */
+    protected $pageForm;
 
     /** @var \Zend\View\Model\ViewModel  */
     protected $view;
 
+    /** @var \RcmUser\Acl\Service\AclDataService  */
+    protected $aclDataService;
+
     /**
      * Constructor
      *
-     * @param PageManager $pageManager Rcm Page Manager
+     * @param PageForm       $pageForm       Rcm Admin Page Form
+     * @param AclDataService $aclDataService RcmUser Acl Data Service
      */
     public function __construct(
-        PageManager $pageManager,
+        PageForm    $pageForm,
         AclDataService $aclDataService
     ) {
-        $this->pageManager = $pageManager;
-        $this->view        = new ViewModel();
-        $this->view->setTerminal(true);
+        $this->pageForm       = $pageForm;
+        $this->aclDataService = $aclDataService;
+        $this->view           = new ViewModel();
 
-        $aclDataService->getAclData();
+        $this->view->setTerminal(true);
     }
 
     /**
@@ -72,7 +78,7 @@ class PageController extends AbstractActionController
     public function newAction()
     {
 
-        $form = new NewPageForm($this->pageManager);
+        $form = $this->pageForm;
 
         $data = $this->request->getPost();
 
@@ -83,6 +89,7 @@ class PageController extends AbstractActionController
         }
 
         $this->view->setVariable('form', $form);
+        $this->view->setVariable('aclRoles', $this->aclDataService->fetchAllRoles());
         return $this->view;
     }
 }

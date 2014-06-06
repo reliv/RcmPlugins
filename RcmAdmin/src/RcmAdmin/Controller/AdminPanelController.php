@@ -36,13 +36,13 @@ class AdminPanelController
      *
      * @return mixed
      */
-    public function getAdminNavigationAction()
+    public function getAdminWrapperAction()
     {
 
         $allowed = $this->userService->isAllowed(
             'Sites.'.$this->siteManager->getCurrentSiteId(),
             'admin',
-            '\Rcm\Acl\ResourceProvider'
+            'Rcm\Acl\ResourceProvider'
         );
 
         if (!$allowed) {
@@ -51,7 +51,7 @@ class AdminPanelController
 
         $view = new ViewModel();
         $view->setVariable('adminMenu', $this->config['rcmAdmin']['adminPanel']);
-        $view->setTemplate('rcm-admin/panel/navigation');
+        $view->setTemplate('rcm-admin/admin/admin');
         return $view;
     }
 }

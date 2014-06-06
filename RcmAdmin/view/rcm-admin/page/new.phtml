@@ -1,8 +1,12 @@
-<html>
-<head>
-    <title>New Page</title>
-</head>
-<body>
+<link rel="stylesheet" type="text/css"
+      href="<?= $this->basePath(); ?>/modules/rcm-admin/css/rcm-admin-page-form.css"
+/>
+
+<script type="text/javascript"
+        src="<?= $this->basePath(); ?>/modules/rcm-admin/js/rcm-admin-page-form.js"
+>
+
+</script>
 
 <?php
 
@@ -12,6 +16,7 @@ $form->prepare();
 $pageUrl = $form->get('url');
 $pageTitle = $form->get('title');
 $pageTemplate = $form->get('page-template');
+$pageLayouts = $form->get('page-layout');
 
 // Assuming the "contact/process" route exists...
 $form->setAttribute('action', $this->url('RcmAdmin\Page\New'));
@@ -41,12 +46,22 @@ $formLabel = $this->plugin('formLabel');
 
 <br />
 
-<?= $this->formElementErrors($pageTemplate); ?>
-<?= $formLabel->openTag() . $pageTemplate->getOption('label'); ?> &nbsp;
-<?= $this->formSelect($pageTemplate); ?>
-<?= $formLabel->closeTag(); ?>
+<div id="pageTemplate">
+    <?= $this->formElementErrors($pageTemplate); ?>
+    <?= $formLabel->openTag() . $pageTemplate->getOption('label'); ?> &nbsp;
+    <?= $this->formSelect($pageTemplate); ?>
+    <?= $formLabel->closeTag(); ?>
+</div>
+
+<div id="pageLayout">
+    <?= $this->formElementErrors($pageLayouts); ?>
+    <?= $formLabel->openTag(); ?>
+    <div class="PageLayoutLabelDiv">
+        <?= $pageLayouts->getOption('label'); ?>
+    </div>
+    <?= $this->formPageLayout($pageLayouts); ?>
+    <?= $formLabel->closeTag(); ?>
+    <div style="clear: both;"></div>
+</div>
 
 <?= $this->form()->closeTag(); ?>
-
-</body>
-</html>

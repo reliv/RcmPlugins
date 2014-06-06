@@ -28,22 +28,15 @@ class DispatchListener
 
     public function getAdminPanel(MvcEvent $event)
     {
-        $adminNavigation = $this->adminPanelController->getAdminNavigationAction();
+        $adminWrapper = $this->adminPanelController->getAdminWrapperAction();
 
-        if (!$adminNavigation instanceof ViewModel) {
+        if (!$adminWrapper instanceof ViewModel) {
             return;
         }
 
-        $adminPanelView = new ViewModel();
-        $adminPanelView->setTemplate('rcm-admin/panel/panel.phtml');
-
-
-        $adminPanelView->addChild($adminNavigation,'rcmAdminNavigation');
-        $adminPanelView->terminate(true);
-
         /** @var \Zend\View\Model\ViewModel $viewModel */
         $layout = $event->getViewModel();
-        $layout->addChild($adminPanelView, 'rcmAdminPanel');
+        $layout->addChild($adminWrapper, 'rcmAdminPanel');
 
         return;
     }
