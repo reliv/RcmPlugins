@@ -1,0 +1,10 @@
+<?php
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-admin/css/rcm-admin-panel.css',
+    'screen,print'
+);
+?>
+
+<div class="rcmAdminPanelWrapper">
+    <?= $this->render('rcm-admin/admin/partial/navigation/navigation.phtml'); ?>
+</div>
