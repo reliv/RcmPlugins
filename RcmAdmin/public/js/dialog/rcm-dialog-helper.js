@@ -8,6 +8,8 @@ function RcmAdminDialogHelper()
 
     me.stratageies = null;
 
+    me.currentTitle = null;
+
     me.init = function()
     {
         me.stratageies = {
@@ -31,6 +33,8 @@ function RcmAdminDialogHelper()
 
     me.load = function(url, title, data)
     {
+        me.currentTitle = title;
+
         me.currentStatagy.load(url, title, data);
     };
 

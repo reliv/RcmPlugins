@@ -54,8 +54,10 @@ class FormPageLayout extends FormMultiCheckbox
         $options = $element->getOptions();
         $element->setLabelOption('disable_html_escape', true);
 
-        foreach ($options['layouts'] as $key => $layout) {
-            $options['value_options'][$key]
+        $inputOptions = array();
+
+        foreach ($options['layouts'] as $key => &$layout) {
+            $inputOptions[$key]
                 = '<span class="pageLayoutLabel">'
                 . '    <img src="'.$layout['screenShot'].'" />'
                 . '    '.$layout['display']
@@ -63,8 +65,33 @@ class FormPageLayout extends FormMultiCheckbox
                 . '</span>';
         }
 
-        $element->setOptions($options);
 
-        return parent::render($element);
+        $name = static::getName($element);
+
+        $options = $inputOptions;
+
+        $attributes         = $element->getAttributes();
+        $attributes['name'] = $name;
+        $attributes['type'] = $this->getInputType();
+        $selectedOptions    = (array) $element->getValue();
+
+        $rendered = $this->renderOptions(
+            $element,
+            $options,
+            $selectedOptions,
+            $attributes
+        );
+
+        // Render hidden element
+        $useHiddenElement
+            = method_exists($element, 'useHiddenElement') && $element->useHiddenElement()
+            ? $element->useHiddenElement()
+            : $this->useHiddenElement;
+
+        if ($useHiddenElement) {
+            $rendered = $this->renderHiddenElement($element, $attributes) . $rendered;
+        }
+
+        return $rendered;
     }
 }

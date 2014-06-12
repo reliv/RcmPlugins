@@ -13,7 +13,22 @@ function RcmStandardDialogStrategy(dialogHelper)
 
         jQuery(template).find('.modal-title').html(title);
 
-        jQuery(contentBody).load(url, data, function(response) {
+        jQuery(contentBody).load(url, data, function(response, status, xhr) {
+
+            if (status == "error") {
+                jQuery(contentBody).html(xhr.responseText);
+            }
+
+            var contentType = xhr.getResponseHeader('Content-Type');
+
+            if (contentType.indexOf('application/json') > -1) {
+                var jsonResponse = jQuery.parseJSON(xhr.responseText);
+
+                if (jsonResponse.redirect !== undefined) {
+                    window.location.replace(jsonResponse.redirect);
+                }
+            }
+
             me.loadCallback(template, response);
         });
     };

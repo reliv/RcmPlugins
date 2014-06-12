@@ -23,7 +23,7 @@ $this->headScript()->appendFile(
 <div>
     <a>
         <div class="images">
-            <?php foreach ($instanceConfig['images'] as $image) {
+            <?php foreach ($instanceConfig['images'] as &$image) {
                 echo '<img style="display: none;" data-src="' . $image['src']
                     . '" data-href="' . $image['href'] . '" alt="'
                     . $image['href'] . '">';

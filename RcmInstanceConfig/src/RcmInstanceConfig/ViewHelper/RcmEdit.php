@@ -83,7 +83,7 @@ class RcmEdit extends AbstractHelper
          */
         $attributes = ' ' . $this->editAttributeKey
             . '="' . htmlentities($name, ENT_QUOTES) . '"';
-        foreach ($elementAttributes as $key => $value) {
+        foreach ($elementAttributes as $key => &$value) {
             $attributes .= ' ' . htmlentities($key, ENT_QUOTES)
                 . '="' . htmlentities($value, ENT_QUOTES) . '"';
         }
