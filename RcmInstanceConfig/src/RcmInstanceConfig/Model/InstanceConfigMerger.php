@@ -22,7 +22,7 @@ class InstanceConfigMerger
             return $default;
         }
 
-        foreach ($changes as $key => $value) {
+        foreach ($changes as $key => &$value) {
             if (is_array($value)) {
                 if (isset($value['0'])) {
                     /*

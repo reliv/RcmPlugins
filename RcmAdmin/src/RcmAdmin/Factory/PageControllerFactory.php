@@ -55,12 +55,16 @@ class PageControllerFactory implements FactoryInterface
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
         $serviceLocator = $controllerMgr->getServiceLocator();
 
+        /** @var \Rcm\Service\PageManager $pageManager */
+        $pageManager = $serviceLocator->get('Rcm\Service\PageManager');
+
         /** @var \RcmUser\Acl\Service\AclDataService $aclDataService */
         $aclDataService = $serviceLocator->get('RcmUser\Acl\AclDataService');
 
         $pageForm = $serviceLocator->get('FormElementManager')->get('RcmAdmin\Form\PageForm');
 
         return new PageController(
+            $pageManager,
             $pageForm,
             $aclDataService
         );

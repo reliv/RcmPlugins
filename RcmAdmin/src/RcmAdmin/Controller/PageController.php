@@ -1,21 +1,4 @@
 <?php
-/**
- * Service Factory for the Admin Page Controller
- *
- * This file contains the factory needed to generate a Admin Page Controller.
- *
- * PHP version 5.3
- *
- * LICENSE: BSD
- *
- * @category  Reliv
- * @package   RcmAdmin
- * @author    Westin Shafer <wshafer@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
 namespace RcmAdmin\Controller;
 
 use Rcm\Repository\Page;
@@ -26,24 +9,14 @@ use RcmAdmin\Form\PageForm;
 use RcmUser\Acl\Service\AclDataService;
 use RcmUser\Service\RcmUserService;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
-/**
- * Service Factory for the Admin Page Controller
- *
- * Factory for the Admin Page Controller.
- *
- * @category  Reliv
- * @package   RcmAdmin
- * @author    Westin Shafer <wshafer@relivinc.com>
- * @copyright 2012 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: 1.0
- * @link      https://github.com/reliv
- *
- */
 class PageController extends AbstractActionController
 {
+    /** @var \Rcm\Service\PageManager  */
+    protected $pageManager;
+
     /** @var \RcmAdmin\Form\PageForm  */
     protected $pageForm;
 
@@ -53,16 +26,20 @@ class PageController extends AbstractActionController
     /** @var \RcmUser\Acl\Service\AclDataService  */
     protected $aclDataService;
 
+
     /**
      * Constructor
      *
+     * @param PageManager    $pageManager    Rcm Page Manager
      * @param PageForm       $pageForm       Rcm Admin Page Form
      * @param AclDataService $aclDataService RcmUser Acl Data Service
      */
     public function __construct(
+        PageManager $pageManager,
         PageForm    $pageForm,
         AclDataService $aclDataService
     ) {
+        $this->pageManager    = $pageManager;
         $this->pageForm       = $pageForm;
         $this->aclDataService = $aclDataService;
         $this->view           = new ViewModel();
@@ -82,14 +59,36 @@ class PageController extends AbstractActionController
 
         $data = $this->request->getPost();
 
+        $form->setValidationGroup('url');
         $form->setData($data);
 
         if ($this->request->isPost() && $form->isValid()) {
             $validatedData = $form->getData();
+
+            // Create a new page
+            if (empty($validatedData['page-template'])
+                && !empty($validatedData['main-layout'])
+            ) {
+                $this->pageManager->createNewPage(
+                    $validatedData['url'],
+                    $validatedData['title'],
+                    $validatedData['main-layout'],
+                    'Westin Shafer'
+                );
+            }
+
+            $send = array(
+                'redirect' => $this->urlToPage($validatedData['url'], 'n')
+            );
+
+            return new JsonModel($send);
+
+        } elseif ($this->request->isPost() && !$form->isValid()) {
+            $this->view->setVariable('errors', $form->getMessages());
         }
 
         $this->view->setVariable('form', $form);
-        $this->view->setVariable('aclRoles', $this->aclDataService->fetchAllRoles());
+        $this->view->setVariable('aclRoles', $this->aclDataService->getAllRoles());
         return $this->view;
     }
 }

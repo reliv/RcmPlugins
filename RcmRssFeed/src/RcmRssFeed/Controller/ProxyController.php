@@ -83,7 +83,7 @@ class ProxyController
 
         $viewRssData = array();
 
-        foreach ($feedData as $entry) {
+        foreach ($feedData as &$entry) {
 
             if ($feedCount == $limit) {
                 break;

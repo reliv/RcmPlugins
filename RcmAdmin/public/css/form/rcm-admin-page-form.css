@@ -8,6 +8,36 @@ label input[type="text"] {
     float: right;
 }
 
+
+label.fieldOk input[type="text"]
+{
+    background: #67b168;
+}
+
+label input.fieldError,
+label.invalid-field input[type="text"]
+{
+    background: #FF0000;
+    color: #000000;
+}
+
+label.invalid-field {
+    color: #FF0000;
+    font-weight: bold;
+}
+
+#rcmNewPageErrorLine {
+    text-align: center;
+    width: 100%;
+    display: none;
+}
+
+#rcmNewPageErrorLine p {
+    font-weight: bold;
+    color: #FF0000;
+}
+
+/* Page Layout Selector */
 #pageLayout input[type="radio"] {
     visibility: hidden;
     position: absolute;

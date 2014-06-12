@@ -344,6 +344,7 @@ return array(
     'view_helpers' => array(
         'invokables' => array(
             'formPageLayout' => 'RcmAdmin\View\Helper\FormPageLayout',
+            'displayErrors'  => 'RcmAdmin\View\Helper\DisplayErrors',
         )
     ),
 

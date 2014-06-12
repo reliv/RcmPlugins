@@ -17,7 +17,7 @@ function RcmFormStrategy(dialogHelper)
             var form = me.dialog.getDialogWindow().find('form');
             var data = form.serializeArray();
             var actionUrl = form.attr('action');
-            me.dialog.load(actionUrl, data);
+            me.dialog.load(actionUrl, me.dialog.currentTitle, data);
         })
     };
 }

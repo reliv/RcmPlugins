@@ -65,7 +65,7 @@ class DoctrineDbLoader implements RemoteLoaderInterface
 
         $textDomain = new TextDomain();
 
-        foreach ($messages as $message) {
+        foreach ($messages as &$message) {
             $textDomain[$message['key']] = $message['text'];
         }
 
