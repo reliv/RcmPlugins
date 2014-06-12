@@ -1,9 +1,9 @@
 <link rel="stylesheet" type="text/css"
-      href="<?= $this->basePath(); ?>/modules/rcm-admin/css/rcm-admin-page-form.css"
+      href="<?= $this->basePath(); ?>/modules/rcm-admin/css/form/rcm-admin-page-form.css"
 />
 
 <script type="text/javascript"
-        src="<?= $this->basePath(); ?>/modules/rcm-admin/js/rcm-admin-page-form.js"
+        src="<?= $this->basePath(); ?>/modules/rcm-admin/js/form/rcm-admin-page-form.js"
 >
 
 </script>
@@ -13,10 +13,20 @@
 $form = $this->form;
 $form->prepare();
 
-$pageUrl = $form->get('url');
-$pageTitle = $form->get('title');
-$pageTemplate = $form->get('page-template');
-$pageLayouts = $form->get('page-layout');
+$elements['pageUrl']['element'] = $form->get('url');
+$elements['pageTitle']['element'] = $form->get('title');
+$elements['pageTemplate']['element'] = $form->get('page-template');
+$elements['mainLayouts']['element'] = $form->get('main-layout');
+
+foreach ($elements as &$element) {
+    if (count($element['element']->getMessages()) > 0) {
+        $element['attributes'] = array(
+            'class' => 'invalid-field'
+        );
+    } else {
+        $element['attributes'] = array();
+    }
+}
 
 // Assuming the "contact/process" route exists...
 $form->setAttribute('action', $this->url('RcmAdmin\Page\New'));
@@ -27,41 +37,44 @@ $form->setAttribute('method', 'post');
 // Get the form label plugin
 $formLabel = $this->plugin('formLabel');
 ?>
+<div id="rcmNewPageErrorLine"><?= $this->displayErrors($this->errors); ?></div>
 
 <?= $this->form()->openTag($form); ?>
 
 <?= $this->message; ?><br/>
 
-<?= $this->formElementErrors($pageUrl); ?>
-<?= $formLabel->openTag() . $pageUrl->getOption('label'); ?> &nbsp;
-<?= $this->formInput($pageUrl); ?>
-<?= $formLabel->closeTag(); ?>
+<div id="pageUrl">
+    <?= $formLabel->openTag($elements['pageUrl']['attributes'])
+        . $elements['pageUrl']['element']->getOption('label');
+    ?> &nbsp;
+    <?= $this->formInput($elements['pageUrl']['element']); ?>
+    <?= $formLabel->closeTag(); ?>
+</div>
 
 <br />
 
-<?= $this->formElementErrors($pageTitle); ?>
-<?= $formLabel->openTag() . $pageTitle->getOption('label'); ?> &nbsp;
-<?= $this->formInput($pageTitle); ?>
+<?= $formLabel->openTag($elements['pageTitle']['attributes']) . $elements['pageTitle']['element']->getOption('label'); ?> &nbsp;
+<?= $this->formInput($elements['pageTitle']['element']); ?>
 <?= $formLabel->closeTag(); ?>
 
 <br />
 
 <div id="pageTemplate">
-    <?= $this->formElementErrors($pageTemplate); ?>
-    <?= $formLabel->openTag() . $pageTemplate->getOption('label'); ?> &nbsp;
-    <?= $this->formSelect($pageTemplate); ?>
+    <?= $formLabel->openTag($elements['pageTemplate']['attributes']) . $elements['pageTemplate']['element']->getOption('label'); ?> &nbsp;
+    <?= $this->formSelect($elements['pageTemplate']['element']); ?>
     <?= $formLabel->closeTag(); ?>
 </div>
 
 <div id="pageLayout">
-    <?= $this->formElementErrors($pageLayouts); ?>
-    <?= $formLabel->openTag(); ?>
+    <?= $formLabel->openTag($elements['mainLayouts']['attributes']); ?>
     <div class="PageLayoutLabelDiv">
-        <?= $pageLayouts->getOption('label'); ?>
+        <?= $elements['mainLayouts']['element']->getOption('label'); ?>
     </div>
-    <?= $this->formPageLayout($pageLayouts); ?>
+    <?= $this->formPageLayout($elements['mainLayouts']['element']); ?>
     <?= $formLabel->closeTag(); ?>
     <div style="clear: both;"></div>
 </div>
+
+
 
 <?= $this->form()->closeTag(); ?>

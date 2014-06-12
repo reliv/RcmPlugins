@@ -34,7 +34,7 @@ class ModuleTest extends \Rcm\Base\BaseTest
     {
         $config = $this->unit->getServiceConfig();
         $sm = $this->getServiceManagerMock($config['factories']);
-        foreach (array_keys($config['factories']) as $serviceName) {
+        foreach (array_keys($config['factories']) as &$serviceName) {
             $this->assertTrue(
                 get_class($sm->get($serviceName)) == $serviceName
             );
