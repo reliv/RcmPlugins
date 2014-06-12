@@ -1,6 +1,9 @@
+<?php
+    $this->rcmIncludeJqueryUi();
+?>
 <div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
     <ul class="titleWrap">
-        <?php foreach ($this->instanceConfig['containers'] as &$tab) {
+        <?php foreach ($this->instanceConfig['containers'] as $tab) {
             if (empty($tab['type'])) {
                 $tab['type'] = 'html';
             }
@@ -8,7 +11,7 @@
         } ?>
     </ul>
     <div class="bodyWrap">
-        <?php foreach ($this->instanceConfig['containers'] as &$tab) {
+        <?php foreach ($this->instanceConfig['containers'] as $tab) {
 
             //Fix legacy tabs that have no type
             if(empty($tab['type'])){
