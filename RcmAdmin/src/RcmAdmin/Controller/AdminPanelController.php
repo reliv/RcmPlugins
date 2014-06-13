@@ -40,7 +40,7 @@ class AdminPanelController
     {
 
         $allowed = $this->userService->isAllowed(
-            'Sites.'.$this->siteManager->getCurrentSiteId(),
+            'sites.'.$this->siteManager->getCurrentSiteId(),
             'admin',
             'Rcm\Acl\ResourceProvider'
         );

@@ -58,15 +58,19 @@ class PageControllerFactory implements FactoryInterface
         /** @var \Rcm\Service\PageManager $pageManager */
         $pageManager = $serviceLocator->get('Rcm\Service\PageManager');
 
-        /** @var \RcmUser\Acl\Service\AclDataService $aclDataService */
-        $aclDataService = $serviceLocator->get('RcmUser\Acl\AclDataService');
+        /** @var \Rcm\Service\SiteManager $siteManager */
+        $siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
 
-        $pageForm = $serviceLocator->get('FormElementManager')->get('RcmAdmin\Form\PageForm');
+        $siteId = $siteManager->getCurrentSiteId();
+
+        $pageForm = $serviceLocator
+            ->get('FormElementManager')
+            ->get('RcmAdmin\Form\PageForm');
 
         return new PageController(
             $pageManager,
             $pageForm,
-            $aclDataService
+            $siteId
         );
     }
 }

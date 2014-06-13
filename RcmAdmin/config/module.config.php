@@ -350,7 +350,7 @@ return array(
 
     'form_elements' => array(
         'invokables' => array(
-            'pageLayout' => 'RcmAdmin\Form\Element\PageLayout',
+            'mainLayout' => 'RcmAdmin\Form\Element\PageLayout',
         ),
         'factories' => array(
             'RcmAdmin\Form\PageForm' => 'RcmAdmin\Factory\PageFormFactory',

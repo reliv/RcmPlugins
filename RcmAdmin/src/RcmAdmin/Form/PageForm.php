@@ -144,7 +144,7 @@ class PageForm extends Form implements ElementInterface
                     'label' => 'Main Layout',
                     'layouts' => $this->layoutManager->getThemeLayoutConfig(),
                 ),
-                'type'  => 'pageLayout',
+                'type'  => 'mainLayout',
             )
         );
 
