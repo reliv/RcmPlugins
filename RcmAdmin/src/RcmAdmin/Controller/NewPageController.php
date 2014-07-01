@@ -1,25 +1,59 @@
 <?php
+/**
+ * Admin Page Controller for the CMS
+ *
+ * This file contains the Admin Page Controller for the CMS.   This
+ * should extend from the base class and should need no further modification.
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   RcmAdmin
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://github.com/reliv
+ */
 namespace RcmAdmin\Controller;
 
 use Rcm\Http\Response;
-use Rcm\Repository\Page;
-use Rcm\Service\LayoutManager;
 use Rcm\Service\PageManager;
-use RcmAdmin\Form\NewPageForm;
-use RcmAdmin\Form\PageForm;
-use RcmUser\Acl\Service\AclDataService;
-use RcmUser\Service\RcmUserService;
-use RcmUser\User\Service\UserDataService;
+use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
+use RcmUser\User\Entity\User;
 
-class PageController extends AbstractActionController
+/**
+ * Admin Page Controller for the CMS
+ *
+ * This is Admin Page Controller for the CMS.  This should extend from
+ * the base class and should need no further modification.
+ *
+ * @category  Reliv
+ * @package   RcmAdmin
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: 1.0
+ * @link      http://github.com/reliv
+ *
+ * @method Response redirectToPage($pageName, $pageType) Redirect to CMS
+ *                                                                  Page
+ *
+ * @method boolean rcmUserIsAllowed($resource, $action, $providerId) Is User Allowed
+ * @method User rcmUserGetCurrentUser() Get Current User Object
+ * @method string urlToPage($pageName, $pageType) Get Url To a Page
+ */
+class NewPageController extends AbstractActionController
 {
     /** @var \Rcm\Service\PageManager  */
     protected $pageManager;
 
-    /** @var \RcmAdmin\Form\PageForm  */
+    /** @var \RcmAdmin\Form\NewPageForm  */
     protected $pageForm;
 
     /** @var \Zend\View\Model\ViewModel  */
@@ -27,17 +61,16 @@ class PageController extends AbstractActionController
 
     protected $siteId;
 
-
     /**
      * Constructor
      *
      * @param PageManager $pageManager Rcm Page Manager
-     * @param PageForm    $pageForm    Rcm Admin Page Form
+     * @param Form        $pageForm    Rcm Admin Page Form
      * @param integer     $siteId      RcmUser Acl Data Service
      */
     public function __construct(
         PageManager $pageManager,
-        PageForm    $pageForm,
+        Form $pageForm,
         $siteId
     ) {
         $this->pageManager = $pageManager;
@@ -56,7 +89,11 @@ class PageController extends AbstractActionController
     public function newAction()
     {
 
-        if (!$this->rcmUserIsAllowed('sites.'.$this->siteId.'.pages')) {
+        if (!$this->rcmUserIsAllowed(
+            'sites.'.$this->siteId.'.pages',
+            'create',
+            'Rcm\Acl\ResourceProvider'
+        )) {
             $response =  new Response();
             $response->setStatusCode('401');
 
@@ -65,12 +102,15 @@ class PageController extends AbstractActionController
 
         $form = $this->pageForm;
 
-        $data = $this->request->getPost();
+        /** @var \Zend\Http\Request $request */
+        $request = $this->request;
+
+        $data = $request->getPost();
 
         $form->setValidationGroup('url');
         $form->setData($data);
 
-        if ($this->request->isPost() && $form->isValid()) {
+        if ($request->isPost() && $form->isValid()) {
             $validatedData = $form->getData();
 
             // Create a new page
@@ -81,7 +121,7 @@ class PageController extends AbstractActionController
                     $validatedData['url'],
                     $validatedData['title'],
                     $validatedData['main-layout'],
-                    'Westin Shafer'
+                    $this->rcmUserGetCurrentUser()->getName()
                 );
             }
 
@@ -91,7 +131,7 @@ class PageController extends AbstractActionController
 
             return new JsonModel($send);
 
-        } elseif ($this->request->isPost() && !$form->isValid()) {
+        } elseif ($request->isPost() && !$form->isValid()) {
             $this->view->setVariable('errors', $form->getMessages());
         }
 

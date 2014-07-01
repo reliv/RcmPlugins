@@ -18,7 +18,7 @@
  */
 namespace RcmAdmin\Factory;
 
-use RcmAdmin\Controller\PageController;
+use RcmAdmin\Controller\NewPageController;
 use Zend\Di\ServiceLocator;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -37,15 +37,15 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @link      https://github.com/reliv
  *
  */
-class PageControllerFactory implements FactoryInterface
+class NewPageControllerFactory implements FactoryInterface
 {
 
     /**
      * Create Service
      *
-     * @param ServiceLocatorInterface $controllerManager Zend Controler Manager
+     * @param ServiceLocatorInterface $controllerManager Zend Controller Manager
      *
-     * @return PageController
+     * @return NewPageController
      */
     public function createService(ServiceLocatorInterface $controllerManager)
     {
@@ -65,9 +65,9 @@ class PageControllerFactory implements FactoryInterface
 
         $pageForm = $serviceLocator
             ->get('FormElementManager')
-            ->get('RcmAdmin\Form\PageForm');
+            ->get('RcmAdmin\Form\NewPageForm');
 
-        return new PageController(
+        return new NewPageController(
             $pageManager,
             $pageForm,
             $siteId

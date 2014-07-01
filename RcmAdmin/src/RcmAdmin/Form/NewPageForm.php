@@ -1,19 +1,44 @@
 <?php
-
+/**
+ * New Page Zend Form Definition
+ *
+ * This file contains the New Page Zend Form Definition
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: BSD
+ *
+ * @category  Reliv
+ * @package   RcmAdmin
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      https://github.com/reliv
+ */
 namespace RcmAdmin\Form;
 
 use Rcm\Service\LayoutManager;
 use Rcm\Service\PageManager;
-use Rcm\Validator\MainLayout;
-use Rcm\Validator\Page;
 use Rcm\Validator\PageTemplate;
 use Zend\Form\ElementInterface;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\Validator\Uri;
 
-class PageForm extends Form implements ElementInterface
+/**
+ * New Page Zend Form Definition
+ *
+ * New Page Zend Form Definition
+ *
+ * @category  Reliv
+ * @package   RcmAdmin
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: 1.0
+ * @link      https://github.com/reliv
+ */
+class NewPageForm extends Form implements ElementInterface
 {
 
     /** @var \Rcm\Service\PageManager  */
@@ -24,6 +49,7 @@ class PageForm extends Form implements ElementInterface
 
     /** @var \Rcm\Validator\Page */
     protected $pageValidator;
+
     /**
      * Constructor
      *
@@ -44,6 +70,7 @@ class PageForm extends Form implements ElementInterface
      * Initialize the form
      *
      * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function init()
     {
@@ -131,7 +158,7 @@ class PageForm extends Form implements ElementInterface
                     array('name' => 'StringTrim'),
                 ),
                 'validators' => array(
-                    new PageTemplate($this->pageManager),
+                    $this->pageManager->getTemplateValidator(),
                 ),
             )
         );
@@ -142,7 +169,7 @@ class PageForm extends Form implements ElementInterface
                 'name' => 'main-layout',
                 'options' => array(
                     'label' => 'Main Layout',
-                    'layouts' => $this->layoutManager->getThemeLayoutConfig(),
+                    'layouts' => $this->layoutManager->getSiteThemeLayoutsConfig(),
                 ),
                 'type'  => 'mainLayout',
             )
@@ -164,6 +191,12 @@ class PageForm extends Form implements ElementInterface
         $this->setInputFilter($filter);
     }
 
+    /**
+     * Is Valid method for the new page form.  Adds a validation group
+     * depending on if it's a new page or a copy of a template.
+     *
+     * @return bool
+     */
     public function isValid()
     {
         if ($this->get('page-template')->getValue() == 'blank') {
@@ -185,5 +218,4 @@ class PageForm extends Form implements ElementInterface
         }
         return parent::isValid();
     }
-
 }
