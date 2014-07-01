@@ -61,9 +61,39 @@ return array(
         ),
     ),
 
+    'controllers' => array(
+        'invokables' => array(
+            'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController'
+        )
+    ),
+
+    'router' => array(
+        'routes' => array(
+            'locales' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcmi8n/locales',
+                    'defaults' => array(
+                        'controller' => 'RcmI18n\Controller\Locale',
+                    ),
+                ),
+            ),
+        )
+    ),
+
     'view_helpers' => array(
         'factories' => array(
             'translate' => 'RcmI18n\Factory\TranslateHtmlFactory',
         )
     ),
+
+    'view_manager' => array(
+        'template_path_stack' => array(
+            __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
+    ),
+
 );
