@@ -52,10 +52,6 @@ class LocaleController extends AbstractRestfulController
         $list = array();
 
         foreach ($sites as $site) {
-            $siteId = $site->getSiteId();
-            $site = $em->getRepository('\Rcm\Entity\Site')->findOneBy(
-                array('siteId' => $siteId)
-            );
             $country = $site->getCountry();
             $iso2 = $country->getIso2();
 
@@ -63,7 +59,7 @@ class LocaleController extends AbstractRestfulController
             $iso639 = $language->getIso6391();
             $list[] = $iso639 . '_' . $iso2;
         }
-
+        //getting rid of duplicated locales
         $list = array_unique($list);
         $list = array_values($list);
 
