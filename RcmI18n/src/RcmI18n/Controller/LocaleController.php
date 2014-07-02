@@ -1,8 +1,8 @@
 <?php
  /**
- * AdminTranslationApiController.php
+ * LocaleController.php
  *
- * LongDescHere
+ * Restful Controller for creating admin screens for translations
  *
  * PHP version 5
  *
@@ -22,9 +22,9 @@ use Zend\View\Model\JsonModel;
 
 
 /**
- * AdminTranslationApiController
+ * Class LocaleController
  *
- * LongDescHere
+ * Restful Controller for creating admin screens for translations
  *
  * PHP version 5
  *
@@ -39,7 +39,11 @@ use Zend\View\Model\JsonModel;
 
 class LocaleController extends AbstractRestfulController
 {
-
+    /**
+     * getList
+     *
+     * @return mixed|\Zend\Stdlib\ResponseInterface|JsonModel
+     */
     public function getList()
     {
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
@@ -48,16 +52,16 @@ class LocaleController extends AbstractRestfulController
         $list = array();
 
         foreach ($sites as $site) {
-          $siteId = $site->getSiteId();
-          $site = $em->getRepository('\Rcm\Entity\Site')->findOneBy(
-          array('siteId' => $siteId)
-          );
-          $country = $site->getCountry();
-          $iso2 = $country->getIso2();
+            $siteId = $site->getSiteId();
+            $site = $em->getRepository('\Rcm\Entity\Site')->findOneBy(
+                array('siteId' => $siteId)
+            );
+            $country = $site->getCountry();
+            $iso2 = $country->getIso2();
 
-          $language = $site->getLanguage();
-          $iso639 = $language->getIso6391();
-          $list[] = $iso639 . '_' . $iso2;
+            $language = $site->getLanguage();
+            $iso639 = $language->getIso6391();
+            $list[] = $iso639 . '_' . $iso2;
         }
 
         $list = array_unique($list);
