@@ -1,34 +1,65 @@
 <?php
-
+/**
+ * Admin Panel Controller for the CMS
+ *
+ * This file contains the Admin Panel Controller for the CMS.
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @package   RcmAdmin
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://github.com/reliv
+ */
 namespace RcmAdmin\Controller;
 
-use Rcm\Service\SiteManager;
 use RcmUser\Service\RcmUserService;
 use Zend\View\Model\ViewModel;
 
+/**
+ * Admin Panel Controller for the CMS
+ *
+ * This is Admin Panel Controller for the CMS.
+ *
+ * @category  Reliv
+ * @package   RcmAdmin
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: 1.0
+ * @link      http://github.com/reliv
+ */
 class AdminPanelController
 {
-    protected $config;
+    /** @var array  */
+    protected $adminPanelConfig;
 
     /** @var \RcmUser\Service\RcmUserService  */
     protected $userService;
 
-    protected $siteManager;
+    /** @var integer  */
+    protected $siteId;
 
     /**
      * Constructor
      *
-     * @param array          $config      Admin Config
-     * @param RcmUserService $userService RmcUser User Service
-     * @param SiteManager    $siteManager Rcm Site Manager
+     * @param array          $adminPanelConfig Admin Config
+     * @param RcmUserService $userService      RmcUser User Service
+     * @param integer        $siteId           Rcm Site Id
      */
-    public function __construct($config,
+    public function __construct(
+        Array          $adminPanelConfig,
         RcmUserService $userService,
-        SiteManager    $siteManager
+        $siteId
     ) {
-        $this->config = $config;
-        $this->userService = $userService;
-        $this->siteManager = $siteManager;
+        $this->adminPanelConfig = $adminPanelConfig;
+        $this->userService      = $userService;
+        $this->siteId           = $siteId;
     }
 
     /**
@@ -40,7 +71,7 @@ class AdminPanelController
     {
 
         $allowed = $this->userService->isAllowed(
-            'Sites.'.$this->siteManager->getCurrentSiteId(),
+            'sites.'.$this->siteId,
             'admin',
             'Rcm\Acl\ResourceProvider'
         );
@@ -50,7 +81,7 @@ class AdminPanelController
         }
 
         $view = new ViewModel();
-        $view->setVariable('adminMenu', $this->config['rcmAdmin']['adminPanel']);
+        $view->setVariable('adminMenu', $this->adminPanelConfig);
         $view->setTemplate('rcm-admin/admin/admin');
         return $view;
     }
