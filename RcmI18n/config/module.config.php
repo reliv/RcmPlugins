@@ -96,4 +96,12 @@ return array(
         ),
     ),
 
+
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
+                'modules/rcm-i18n/' => __DIR__ . '/../public/',
+            ],
+        ],
+    ],
 );
