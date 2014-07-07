@@ -24,8 +24,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testSetGetKey()
     {
         $value='Bob';
-        $this->unit->setKey($value);
-        $this->assertEquals($value, $this->unit->getKey());
+        $this->unit->setDefaultText($value);
+        $this->assertEquals($value, $this->unit->getDefaultText());
     }
 
     /**

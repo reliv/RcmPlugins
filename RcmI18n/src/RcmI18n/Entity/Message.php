@@ -51,12 +51,12 @@ class Message
     protected $locale = 'en_US';
 
     /**
-     * @var string Translation key name
+     * @var string Translation name
      *
      * @ORM\Id
      * @ORM\Column(type="string")
      */
-    protected $key;
+    protected $defaultText;
 
     /**
      * @var string The translated message
@@ -66,19 +66,19 @@ class Message
     protected $text;
 
     /**
-     * @param string $key
+     * @param string $defaultText
      */
-    public function setKey($key)
+    public function setDefaultText($defaultText)
     {
-        $this->key = $key;
+        $this->defaultText = $defaultText;
     }
 
     /**
      * @return string
      */
-    public function getKey()
+    public function getDefaultText()
     {
-        return $this->key;
+        return $this->defaultText;
     }
 
     /**

@@ -19,7 +19,7 @@ class DoctrineDbLoaderTest extends \PHPUnit_Framework_TestCase
         $query->setMethod('setParameter', $query);
         $query->setMethod(
             'getArrayResult',
-            array(array('key' => 'translate', 'text' => 'Translatadoralata'))
+            array(array('defaultText' => 'translate', 'text' => 'Translatadoralata'))
         );
         $entityMgr = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()->getMock();
