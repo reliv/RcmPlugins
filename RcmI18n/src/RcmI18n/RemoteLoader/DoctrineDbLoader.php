@@ -58,7 +58,7 @@ class DoctrineDbLoader implements RemoteLoaderInterface
     public function load($locale, $UnusedTextDomain = null)
     {
         $messages = $this->entityMgr->createQuery(
-            'SELECT m.key, m.text '
+            'SELECT m.defaultText, m.text '
             . 'FROM RcmI18n\Entity\Message m '
             . 'WHERE m.locale = ?1'
         )->setParameter(1, $locale)->getArrayResult();
@@ -66,7 +66,7 @@ class DoctrineDbLoader implements RemoteLoaderInterface
         $textDomain = new TextDomain();
 
         foreach ($messages as &$message) {
-            $textDomain[$message['key']] = $message['text'];
+            $textDomain[$message['defaultText']] = $message['text'];
         }
 
         return $textDomain;

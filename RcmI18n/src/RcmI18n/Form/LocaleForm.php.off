@@ -1,0 +1,56 @@
+<?php
+ /**
+ * LocaleForm.php
+ *
+ * LongDescHere
+ *
+ * PHP version 5
+ *
+ * @category  Reliv
+ * @package   RcmI18n\Form
+ * @author    authorFirstAndLast <author@relivinc.com>
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      https://github.com/reliv
+ */
+
+namespace RcmI18n\Form;
+use Zend\Form\Form;
+
+
+/**
+ * LocaleForm
+ *
+ * LongDescHere
+ *
+ * PHP version 5
+ *
+ * @category  Reliv
+ * @package   RcmI18n\Form
+ * @author    Inna Davis <idavis@relivinc.com>
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: <package_version>
+ * @link      https://github.com/reliv
+ */
+
+class LocaleForm extends Form
+{
+  public function __construct()
+  {
+      parent::__construct('RcmI18n');
+
+      $this->add(
+          array(
+              'name' => 'locales',
+              'type' => 'Zend\Form\Element\Select',
+              'options' => array(
+                  'value_options' =>
+              )
+
+          )
+      )
+  }
+}
+ 

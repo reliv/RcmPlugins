@@ -18,6 +18,24 @@
  */
 
 return array(
+
+    'RcmUser' => array(
+        'Acl\Config' => array(
+            'RcmI18nTranslations' => array(
+            'Translations' => array(
+                'resourceId' => 'Translations',
+                'parentResourceId' => null,
+                'privileges' => array(
+                    'read',
+                    'update',
+                    'create',
+                    'delete',
+                )
+            )
+        )
+    )
+),
+
     'translator' => array(
 
         'locale' => 'en_US',
@@ -63,7 +81,8 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController'
+            'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController',
+            'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController'
         )
     ),
 
@@ -72,9 +91,18 @@ return array(
             'locales' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/rcmi8n/locales',
+                    'route' => '/rcmi18n/messages',
                     'defaults' => array(
                         'controller' => 'RcmI18n\Controller\Locale',
+                    ),
+                ),
+            ),
+            'messages' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcmi18n/messages/:locale[/:id]',
+                    'defaults' => array(
+                        'controller' => 'RcmI18n\Controller\Messages',
                     ),
                 ),
             ),
