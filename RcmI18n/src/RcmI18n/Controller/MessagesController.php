@@ -50,13 +50,22 @@ class MessagesController extends AbstractRestfulController
 
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         $locale = $this->params()->fromRoute('locale');
-        $messages = $em->getRepository('RcmI18n\Entity\Message')
+        $defaultMessages
+            = $messages = $em->getRepository('RcmI18n\Entity\Message')
+            ->findBy(array('locale' => 'en_US'));
+        $localeMessages = $em->getRepository('RcmI18n\Entity\Message')
             ->findBy(array('locale' => $locale));
 
         $translations = array();
-        foreach ($messages as $message) {
-            $defaultText = $message->getDefaultText();
-            $text = $message->getText();
+        foreach ($defaultMessages as $defaultMessage) {
+            $defaultText = $defaultMessage->getDefaultText();
+            $text = null;
+            foreach ($localeMessages as $localeMessage) {
+                if ($localeMessage->getDefaultText() == $defaultText) {
+                    $text = $localeMessage->getText();
+                    break;
+                }
+            }
             $translations[] = [
                 'locale' => $locale,
                 'defaultText' => $defaultText,
@@ -70,7 +79,7 @@ class MessagesController extends AbstractRestfulController
     /**
      * Update translations
      *
-     * @param mixed $id   Text that need to be translated
+     * @param mixed $id Text that need to be translated
      * @param mixed $data Data
      *
      * @return mixed
