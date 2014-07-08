@@ -88,13 +88,13 @@ class FormPageLayout extends FormMultiCheckbox
 
         foreach ($options['layouts'] as $key => &$layout) {
             $inputOptions[$key]
-                = "\n".'<span class="pageLayoutLabel">'."\n"
-                . '    <img src="'.$layout['screenShot'].'" />'."\n"
-                . '    <span class="pageLayoutTextDisplay">'."\n"
-                . '        '.$layout['display']."\n"
-                . '    </span>'."\n"
-                . '    <span class="pageLayoutImageOverlay"></span>'."\n"
-                . '</span>'."\n";
+                = "\n" . '<span class="pageLayoutLabel">' . "\n"
+                . '    <img src="' . $layout['screenShot'] . '" />' . "\n"
+                . '    <span class="pageLayoutTextDisplay">' . "\n"
+                . '        ' . $layout['display'] . "\n"
+                . '    </span>' . "\n"
+                . '    <span class="pageLayoutImageOverlay"></span>' . "\n"
+                . '</span>' . "\n";
         }
 
 
@@ -102,10 +102,10 @@ class FormPageLayout extends FormMultiCheckbox
 
         $options = $inputOptions;
 
-        $attributes         = $element->getAttributes();
+        $attributes = $element->getAttributes();
         $attributes['name'] = $name;
         $attributes['type'] = $this->getInputType();
-        $selectedOptions    = (array) $element->getValue();
+        $selectedOptions = (array)$element->getValue();
 
         $rendered = $this->renderOptions(
             $element,

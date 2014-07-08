@@ -16,7 +16,7 @@
 
 namespace RcmPeopleSlider;
 
-use \RcmInstanceConfig\Controller\BasePluginController;
+use RcmInstanceConfig\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2

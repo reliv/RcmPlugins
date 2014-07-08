@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Example - example-$route-service-production</title>
-  
+    <meta charset="UTF-8">
+    <title>Example - example-$route-service-production</title>
 
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.js"></script>
-  <script src="script.js"></script>
-  
 
-  <script type="text/javascript">
-    angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
-  </script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.js"></script>
+    <script src="script.js"></script>
+
+
+    <script type="text/javascript">
+        angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
+    </script>
 </head>
 <body ng-app="ngRouteExample">
-    <div ng-controller="MainController">
+<div ng-controller="MainController">
     Choose:
     <a href="Book/Moby">Moby</a> |
     <a href="Book/Moby/ch/1">Moby: Ch1</a> |
@@ -25,13 +25,13 @@
 
     <div ng-view></div>
 
-    <hr />
+    <hr/>
 
     <pre>$location.path() = {{$location.path()}}</pre>
     <pre>$route.current.templateUrl = {{$route.current.templateUrl}}</pre>
     <pre>$route.current.params = {{$route.current.params}}</pre>
     <pre>$route.current.scope.name = {{$route.current.scope.name}}</pre>
     <pre>$routeParams = {{$routeParams}}</pre>
-  </div>
+</div>
 </body>
 </html>

@@ -1,9 +1,6 @@
 <?php
 namespace RcmInstanceConfig\Service;
 
-use RcmInstanceConfig\Model\InstanceConfigMerger;
-use RcmInstanceConfig\Repo\PluginStorageRepoInterface;
-
 interface PluginStorageMgrInterface
 {
     public function getDefaultInstanceConfig($pluginName);

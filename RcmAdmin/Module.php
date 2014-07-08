@@ -17,6 +17,7 @@
  */
 
 namespace RcmAdmin;
+
 use Zend\Mvc\MvcEvent;
 
 
@@ -49,7 +50,9 @@ class Module
         $sm = $e->getApplication()->getServiceManager();
 
         //Add Domain Checker
-        $onDispatchListener = $sm->get('RcmAdmin\EventListener\DispatchListener');
+        $onDispatchListener = $sm->get(
+            'RcmAdmin\EventListener\DispatchListener'
+        );
 
         /** @var \Zend\EventManager\EventManager $eventManager */
         $eventManager = $e->getApplication()->getEventManager();

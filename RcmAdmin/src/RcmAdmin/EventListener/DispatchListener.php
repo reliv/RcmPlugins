@@ -39,7 +39,7 @@ use Zend\View\Model\ViewModel;
  */
 class DispatchListener
 {
-    /** @var \RcmAdmin\Controller\AdminPanelController  */
+    /** @var \RcmAdmin\Controller\AdminPanelController */
     protected $adminPanelController;
 
     /**

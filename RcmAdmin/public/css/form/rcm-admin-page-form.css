@@ -8,15 +8,12 @@ label input[type="text"] {
     float: right;
 }
 
-
-label.fieldOk input[type="text"]
-{
+label.fieldOk input[type="text"] {
     background: #67b168;
 }
 
 label input.fieldError,
-label.invalid-field input[type="text"]
-{
+label.invalid-field input[type="text"] {
     background: #FF0000;
     color: #000000;
 }
@@ -83,12 +80,11 @@ label.invalid-field {
     width: 200px;
 }
 
-
-#pageLayout label label input[type="radio"]:checked+span span.pageLayoutImageOverlay {
+#pageLayout label label input[type="radio"]:checked + span span.pageLayoutImageOverlay {
     display: block;
     opacity: 0.5;
 }
 
-#pageLayout label label input[type="radio"]:checked+span img {
+#pageLayout label label input[type="radio"]:checked + span img {
     opacity: 1;
 }

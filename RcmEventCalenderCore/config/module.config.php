@@ -41,7 +41,6 @@ return array(
             ),
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -50,7 +49,6 @@ return array(
             'ViewJsonStrategy',
         ),
     ),
-
     'doctrine' => array(
         'driver' => array(
             'RcmEventCalenderCore' => array(
@@ -67,7 +65,6 @@ return array(
             )
         )
     ),
-
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(

@@ -20,12 +20,12 @@
  */
 namespace RcmInstanceConfig\Controller;
 
+use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Service\PluginStorageMgrInterface;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\RequestInterface;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-use Zend\Mvc\Controller\AbstractActionController;
-use Rcm\Plugin\PluginInterface;
-use Zend\Stdlib\RequestInterface;
 
 /**
  * Plugin Controller
@@ -59,8 +59,7 @@ class BasePluginController extends AbstractActionController
         PluginStorageMgrInterface $pluginStorageMgr,
         $config,
         $pluginName = null
-    )
-    {
+    ) {
         $this->pluginStorageMgr = $pluginStorageMgr;
 
         if ($pluginName === null) {
@@ -130,14 +129,16 @@ class BasePluginController extends AbstractActionController
      * @return mixed|ViewModel
      */
     public function renderDefaultInstance(
-        $instanceId, $extraViewVariables = array()
-    )
-    {
+        $instanceId,
+        $extraViewVariables = array()
+    ) {
         $view = new ViewModel(
             array_merge(
                 array(
                     'instanceId' => $instanceId,
-                    'instanceConfig' => $this->getDefaultInstanceConfig($instanceId),
+                    'instanceConfig' => $this->getDefaultInstanceConfig(
+                            $instanceId
+                        ),
                     'config' => $this->config
                 ),
                 $extraViewVariables

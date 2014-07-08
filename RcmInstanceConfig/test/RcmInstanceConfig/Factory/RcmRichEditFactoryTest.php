@@ -47,7 +47,8 @@ class RcmRichEditFactoryTest extends BaseTestCase
         $factory = new RcmRichEditFactory();
         $serviceMgr = new ServiceManager();
         $serviceMgr->setService(
-            'RcmHtmlPurifier', $this->getMock('\HTMLPurifier')
+            'RcmHtmlPurifier',
+            $this->getMock('\HTMLPurifier')
         );
         $helperMgr = new HelperPluginManager();
         $helperMgr->setServiceLocator($serviceMgr);

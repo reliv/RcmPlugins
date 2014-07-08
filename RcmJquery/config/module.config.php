@@ -24,15 +24,13 @@ return array(
             ),
         ),
     ),
-
     'view_helpers' => array(
         'invokables' => array(
-            'rcmIncludeJquery'        => 'RcmJquery\View\Helper\IncludeJquery',
-            'rcmIncludeJqueryUi'      => 'RcmJquery\View\Helper\IncludeJqueryUi',
+            'rcmIncludeJquery' => 'RcmJquery\View\Helper\IncludeJquery',
+            'rcmIncludeJqueryUi' => 'RcmJquery\View\Helper\IncludeJqueryUi',
             'rcmIncludeJqueryBlockUi' => 'RcmJquery\View\Helper\IncludeJqueryUi',
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',

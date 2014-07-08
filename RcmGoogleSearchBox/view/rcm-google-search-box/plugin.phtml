@@ -30,7 +30,8 @@ $qq = isset($_GET['qq']) ? $_GET['qq'] : null;
     });
 </script>
 <form action="<?= $this->instanceConfig['resultPage'] ?>">
-    <input type="hidden" name="cx" value="<?= $this->instanceConfig['googleKey'] ?>">
+    <input type="hidden" name="cx"
+           value="<?= $this->instanceConfig['googleKey'] ?>">
     <input type="hidden" name="ie" value="UTF-8">
     <input type="hidden" name="q">
     <input value="<?= $this->escapeHtml($qq) ?>" type="text" name="qq"

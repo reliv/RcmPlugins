@@ -16,7 +16,7 @@
 
 namespace RcmEventListDisplay;
 
-use \RcmEventListDisplay\Controller\PluginController;
+use RcmEventListDisplay\Controller\PluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2

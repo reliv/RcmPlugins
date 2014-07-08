@@ -30,17 +30,16 @@ return array(
                     __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
     ),
-
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(
-                'modules/rcm-portal-announcement-box/' => __DIR__ . '/../public/',
+                'modules/rcm-portal-announcement-box/' =>
+                    __DIR__ . '/../public/',
             ),
         ),
     ),

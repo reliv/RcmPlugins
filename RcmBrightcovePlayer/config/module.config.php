@@ -24,37 +24,28 @@ return array(
     'rcmPlugin' => array(
         'RcmBrightcovePlayer' => array(
             'type'
-                => 'Social Media',
-
+            => 'Social Media',
             'display'
-                => 'Brightcove Video Player',
-
+            => 'Brightcove Video Player',
             'tooltip'
-                => 'Add a Brightcove Video to the page',
-
+            => 'Add a Brightcove Video to the page',
             'icon'
-                => '',
-
+            => '',
             'urlToken'
-                => 'W3IM0czQo2YQ1EIM5CSIMj2KYCX0DrK4_vhAYu9vGSiC5Fw0-cgvow..',
-
+            => 'W3IM0czQo2YQ1EIM5CSIMj2KYCX0DrK4_vhAYu9vGSiC5Fw0-cgvow..',
             'readToken'
-                => 'FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
-
+            => 'FqwdHcQgmq_r9A-CmzbuUqhy4cRl_9GtrGSlgiYwDraMpQfAE_EJ_Q..',
             'editJs'
-                => '/modules/rcm-brightcove-player/rcm-brightcove-player-edit.js',
-
+            => '/modules/rcm-brightcove-player/rcm-brightcove-player-edit.js',
             'defaultInstanceConfig'
-                => include __DIR__ . '/defaultInstanceConfig.php'
+            => include __DIR__ . '/defaultInstanceConfig.php'
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
     ),
-
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(
@@ -62,10 +53,9 @@ return array(
             ),
         ),
     ),
-
     // @codingStandardsIgnoreStart
     'service_manager' => array(
-        'factories' => array (
+        'factories' => array(
             'RcmBrightcovePlayer' => 'RcmBrightcovePlayer\Factory\RcmBrightcovePlayerControllerFactory',
         ),
     ),

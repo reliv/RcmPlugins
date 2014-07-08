@@ -49,7 +49,7 @@ class NewPageFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $formElementManager)
     {
-        /** @var \Zend\Form\FormElementManager $formElementMgr  For IDE */
+        /** @var \Zend\Form\FormElementManager $formElementMgr For IDE */
         $formElementMgr = $formElementManager;
 
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */

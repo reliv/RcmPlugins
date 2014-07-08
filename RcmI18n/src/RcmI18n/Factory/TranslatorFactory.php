@@ -18,7 +18,6 @@
 namespace RcmI18n\Factory;
 
 use RcmI18n\RemoteLoader\Database;
-use Zend\Db\Adapter\Adapter;
 use Zend\I18n\Translator\Translator;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -49,11 +48,14 @@ class TranslatorFactory implements FactoryInterface
          * Work-around for the translator loader plugin manager not having a config
          * key that it looks for.
          */
-        foreach ($config['translator_plugins']['factories'] as $name => &$factory) {
+        foreach (
+            $config['translator_plugins']['factories'] as $name => &$factory
+        ) {
             $pluginManager = $translator->getPluginManager();
             $pluginManager->setServiceLocator($serviceLocator);
             $pluginManager->setFactory(
-                $name, $factory
+                $name,
+                $factory
             );
         }
         return $translator;

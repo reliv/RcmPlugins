@@ -1,4 +1,4 @@
-  it('should auto compile', function() {
+it('should auto compile', function () {
     var textarea = $('textarea');
     var output = $('div[compile]');
     // The initial state reads 'Hello Angular'.
@@ -6,4 +6,4 @@
     textarea.clear();
     textarea.sendKeys('{{name}}!');
     expect(output.getText()).toBe('Angular!');
-  });
+});

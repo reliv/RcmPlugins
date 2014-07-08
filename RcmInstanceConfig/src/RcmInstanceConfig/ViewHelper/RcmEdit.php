@@ -50,7 +50,8 @@ class RcmEdit extends AbstractHelper
     function __construct(\HTMLPurifier $htmlPurifier, $isRichEdit = false)
     {
         $this->htmlPurifier = $htmlPurifier;
-        $this->editAttributeKey = ($isRichEdit ? 'data-richEdit' : 'data-textEdit');
+        $this->editAttributeKey = ($isRichEdit ? 'data-richEdit'
+            : 'data-textEdit');
     }
 
     /**

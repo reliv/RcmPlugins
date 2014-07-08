@@ -27,7 +27,8 @@ class InstanceConfigTest extends BaseTestCase
         $instanceId = 789;
         $this->instanceConfig->setInstanceId($instanceId);
         $this->assertEquals(
-            $this->instanceConfig->getInstanceId(), $instanceId
+            $this->instanceConfig->getInstanceId(),
+            $instanceId
         );
     }
 
@@ -39,7 +40,8 @@ class InstanceConfigTest extends BaseTestCase
         $instanceConfig = array(array('key' => 'val'));
         $this->instanceConfig->setInstanceId($instanceConfig);
         $this->assertEquals(
-            $this->instanceConfig->getInstanceId(), $instanceConfig
+            $this->instanceConfig->getInstanceId(),
+            $instanceConfig
         );
     }
 } 

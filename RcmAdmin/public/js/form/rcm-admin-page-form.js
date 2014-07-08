@@ -9,17 +9,17 @@ function RcmNewPageForm() {
     me.pageTempateSelect = '#pageTemplate select';
     me.pageLayoutDiv = '#pageLayout';
     me.pageUrlTextField = "#pageUrl input";
-    me.errorLabels = 'label.'+me.errorClass;
+    me.errorLabels = 'label.' + me.errorClass;
 
     me.xhrCount = 0;
 
-    me.init = function() {
+    me.init = function () {
         me.addBindHandlers();
         me.showHidePageLayout();
         me.checkErrorLine();
     };
 
-    me.checkErrorLine = function() {
+    me.checkErrorLine = function () {
         var errorLine = jQuery(me.formErrorLine);
 
         var currentHtml = errorLine.html();
@@ -31,15 +31,15 @@ function RcmNewPageForm() {
         }
     };
 
-    me.addBindHandlers = function() {
+    me.addBindHandlers = function () {
         jQuery(me.pageTempateSelect).change(me.showHidePageLayout);
         jQuery(me.pageUrlTextField).keyup(me.checkUrlValid);
-        jQuery(me.errorLabels).change(function(){
+        jQuery(me.errorLabels).change(function () {
             jQuery(this).removeClass();
         });
     };
 
-    me.showHidePageLayout = function() {
+    me.showHidePageLayout = function () {
         var currentValue = jQuery(me.pageTempateSelect).val();
 
         if (currentValue == 'blank') {
@@ -49,7 +49,7 @@ function RcmNewPageForm() {
         }
     };
 
-    me.checkUrlValid = function() {
+    me.checkUrlValid = function () {
         var pageUrlField = jQuery(me.pageUrlTextField);
         var currentValue = pageUrlField.val();
 
@@ -63,7 +63,7 @@ function RcmNewPageForm() {
 
         var seqNumber = ++me.xhrCount;
 
-        var jqxhr = jQuery.getJSON(me.pageCheckUrl+currentValue, function(){
+        var jqxhr = jQuery.getJSON(me.pageCheckUrl + currentValue,function () {
 
             if (seqNumber !== me.xhrCount) {
                 return;
@@ -71,10 +71,10 @@ function RcmNewPageForm() {
 
             pageUrlField.parent().addClass('fieldOk');
 
-            jQuery(me.formErrorLine+' p.urlErrorMessage').remove();
+            jQuery(me.formErrorLine + ' p.urlErrorMessage').remove();
             me.checkErrorLine();
 
-        }).fail(function(data) {
+        }).fail(function (data) {
 
             if (seqNumber !== me.xhrCount) {
                 return;
@@ -85,8 +85,8 @@ function RcmNewPageForm() {
             if (data.responseJSON.error != undefined) {
                 var messages = '';
 
-                jQuery.each(data.responseJSON.error, function($key, $value) {
-                    messages = messages+'<p class="urlErrorMessage">*'+$value+'</p>';
+                jQuery.each(data.responseJSON.error, function ($key, $value) {
+                    messages = messages + '<p class="urlErrorMessage">*' + $value + '</p>';
                 });
 
                 jQuery(me.formErrorLine).html(messages);
@@ -99,7 +99,7 @@ function RcmNewPageForm() {
 
 }
 
-jQuery(function(){
+jQuery(function () {
     var pageForm = new RcmNewPageForm;
     pageForm.init();
 });

@@ -21,8 +21,8 @@ namespace RcmAdminTest\Factory;
 
 require_once __DIR__ . '/../../../autoload.php';
 
-use RcmAdmin\Form\NewPageForm;
 use RcmAdmin\Factory\NewPageFormFactory;
+use RcmAdmin\Form\NewPageForm;
 use Zend\Form\FormElementManager;
 use Zend\ServiceManager\ServiceManager;
 

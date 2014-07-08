@@ -11,6 +11,7 @@ class RcmBrightcovePlayerControllerFactory implements FactoryInterface
 
     /**
      * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     *
      * @return BasePluginController
      */
     public function createService(ServiceLocatorInterface $serviceLocator)

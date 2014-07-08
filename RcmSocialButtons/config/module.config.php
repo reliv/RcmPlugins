@@ -29,7 +29,6 @@ return array(
             'editJs' => '/modules/rcm-social-buttons/edit.js',
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php',
-
             //Plugin Specific
             'availableButtons' => array(
                 'facebook' => 'Facebook',
@@ -41,13 +40,11 @@ return array(
             )
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
     ),
-
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(

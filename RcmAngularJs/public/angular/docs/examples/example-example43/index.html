@@ -1,19 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Example - example-example43</title>
-  <link href="animations.css" rel="stylesheet" type="text/css">
-  
+    <meta charset="UTF-8">
+    <title>Example - example-example43</title>
+    <link href="animations.css" rel="stylesheet" type="text/css">
 
-  <script src="../../../angular.min.js"></script>
-  <script src="../../../angular-animate.js"></script>
-  
 
-  
+    <script src="../../../angular.min.js"></script>
+    <script src="../../../angular-animate.js"></script>
+
+
 </head>
 <body ng-app="ngAnimate">
-    <div ng-init="friends = [
+<div ng-init="friends = [
     {name:'John', age:25, gender:'boy'},
     {name:'Jessie', age:30, gender:'girl'},
     {name:'Johanna', age:28, gender:'girl'},
@@ -26,12 +25,12 @@
     {name:'Samantha', age:60, gender:'girl'}
   ]">
     I have {{friends.length}} friends. They are:
-    <input type="search" ng-model="q" placeholder="filter friends..." />
+    <input type="search" ng-model="q" placeholder="filter friends..."/>
     <ul class="example-animate-container">
-      <li class="animate-repeat" ng-repeat="friend in friends | filter:q">
-        [{{$index + 1}}] {{friend.name}} who is {{friend.age}} years old.
-      </li>
+        <li class="animate-repeat" ng-repeat="friend in friends | filter:q">
+            [{{$index + 1}}] {{friend.name}} who is {{friend.age}} years old.
+        </li>
     </ul>
-  </div>
+</div>
 </body>
 </html>

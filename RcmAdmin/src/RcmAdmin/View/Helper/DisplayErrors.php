@@ -84,12 +84,13 @@ class DisplayErrors extends AbstractHelper
     public function errorMapper($errorCode, $errorMsg)
     {
         switch ($errorCode) {
-        case 'pageName':
-        case 'pageExists':
-            return '<p class="urlErrorMessage">'.$errorMsg.'</p>'."\n";
+            case 'pageName':
+            case 'pageExists':
+                return
+                    '<p class="urlErrorMessage">' . $errorMsg . '</p>' . "\n";
 
-        default:
-            return '<p class="errorMessage">'.$errorMsg.'</p>'."\n";
+            default:
+                return '<p class="errorMessage">' . $errorMsg . '</p>' . "\n";
         }
     }
 }

@@ -1,5 +1,4 @@
-function RcmAdminFactory()
-{
+function RcmAdminFactory() {
     var RcmDialog = new RcmAdminDialogHelper();
     var RcmAdminMenu = new RcmNavMenuHelper(RcmDialog);
     return new RcmAdminController(RcmDialog, RcmAdminMenu);
@@ -7,6 +6,6 @@ function RcmAdminFactory()
 
 var RcmAdmin = RcmAdminFactory();
 
-jQuery(function(){
+jQuery(function () {
     RcmAdmin.init();
 });

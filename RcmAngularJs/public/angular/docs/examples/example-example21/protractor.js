@@ -1,4 +1,4 @@
-  it('should check controller as', function() {
+it('should check controller as', function () {
     var container = element(by.id('ctrl-as-exmpl'));
 
     expect(container.findElement(by.model('settings.name'))
@@ -25,4 +25,4 @@
         .findElement(by.model('contact.value'))
         .getAttribute('value'))
         .toBe('yourname@example.org');
-  });
+});

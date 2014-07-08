@@ -2,9 +2,9 @@
 
 namespace RcmEventCalenderCore\Entity;
 
-use Doctrine\ORM\Mapping as ORM,
-    Doctrine\Common\Collections\ArrayCollection,
-    \RcmEventCalenderCore\Exception\InvalidArgumentException;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use RcmEventCalenderCore\Exception\InvalidArgumentException;
 
 /**
  *

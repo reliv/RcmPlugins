@@ -73,8 +73,14 @@ class NewPageControllerFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $serviceManager = new ServiceManager();
-        $serviceManager->setService('Rcm\Service\SiteManager', $mockSiteManager);
-        $serviceManager->setService('Rcm\Service\PageManager', $mockPageManager);
+        $serviceManager->setService(
+            'Rcm\Service\SiteManager',
+            $mockSiteManager
+        );
+        $serviceManager->setService(
+            'Rcm\Service\PageManager',
+            $mockPageManager
+        );
         $serviceManager->setService('FormElementManager', $formElementManager);
 
         $controllerManager = new ControllerManager();

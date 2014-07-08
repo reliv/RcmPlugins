@@ -1,9 +1,9 @@
-  #scrollArea {
+#scrollArea {
     height: 350px;
     overflow: auto;
-  }
+}
 
-  #bottom {
+#bottom {
     display: block;
     margin-top: 2000px;
-  }
+}

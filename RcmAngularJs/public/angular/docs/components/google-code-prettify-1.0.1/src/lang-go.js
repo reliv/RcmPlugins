@@ -13,12 +13,11 @@
 // limitations under the License.
 
 
-
 /**
  * @fileoverview
  * Registers a language handler for the Go language..
  * <p>
- * Based on the lexical grammar at 
+ * Based on the lexical grammar at
  * http://golang.org/doc/go_spec.html#Lexical_elements
  * <p>
  * Go uses a minimal style for highlighting so the below does not distinguish
@@ -44,15 +43,15 @@
 PR['registerLangHandler'](
     PR['createSimpleLexer'](
         [
-         // Whitespace is made up of spaces, tabs and newline characters.
-         [PR['PR_PLAIN'],       /^[\t\n\r \xA0]+/, null, '\t\n\r \xA0'],
-         // Not escaped as a string.  See note on minimalism above.
-         [PR['PR_PLAIN'],       /^(?:\"(?:[^\"\\]|\\[\s\S])*(?:\"|$)|\'(?:[^\'\\]|\\[\s\S])+(?:\'|$)|`[^`]*(?:`|$))/, null, '"\'']
+            // Whitespace is made up of spaces, tabs and newline characters.
+            [PR['PR_PLAIN'], /^[\t\n\r \xA0]+/, null, '\t\n\r \xA0'],
+            // Not escaped as a string.  See note on minimalism above.
+            [PR['PR_PLAIN'], /^(?:\"(?:[^\"\\]|\\[\s\S])*(?:\"|$)|\'(?:[^\'\\]|\\[\s\S])+(?:\'|$)|`[^`]*(?:`|$))/, null, '"\'']
         ],
         [
-         // Block comments are delimited by /* and */.
-         // Single-line comments begin with // and extend to the end of a line.
-         [PR['PR_COMMENT'],     /^(?:\/\/[^\r\n]*|\/\*[\s\S]*?\*\/)/],
-         [PR['PR_PLAIN'],       /^(?:[^\/\"\'`]|\/(?![\/\*]))+/i]
+            // Block comments are delimited by /* and */.
+            // Single-line comments begin with // and extend to the end of a line.
+            [PR['PR_COMMENT'], /^(?:\/\/[^\r\n]*|\/\*[\s\S]*?\*\/)/],
+            [PR['PR_PLAIN'], /^(?:[^\/\"\'`]|\/(?![\/\*]))+/i]
         ]),
     ['go']);

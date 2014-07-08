@@ -2,7 +2,7 @@
 
 namespace RcmEventCalenderCore\Controller;
 
-use \Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\Mvc\Controller\AbstractRestfulController;
 
 abstract class AbstractAPIController extends AbstractRestfulController
 {
@@ -17,8 +17,7 @@ abstract class AbstractAPIController extends AbstractRestfulController
     function __construct(
         \RcmEventCalenderCore\Model\Calender $calender,
         \Rcm\Model\UserManagement\UserManagerInterface $userMgr
-    )
-    {
+    ) {
         $this->calender = $calender;
         $this->adminLoggedIn = is_a(
             $userMgr->getLoggedInAdminPermissions(),

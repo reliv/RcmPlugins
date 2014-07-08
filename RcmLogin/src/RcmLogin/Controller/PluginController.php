@@ -54,8 +54,7 @@ class PluginController
         PluginStorageMgr $pluginStorageMgr,
         $config,
         RcmUserService $rcmUserService
-    )
-    {
+    ) {
         parent::__construct($pluginStorageMgr, $config);
         $this->rcmUserService = $rcmUserService;
     }
@@ -72,12 +71,14 @@ class PluginController
             $username = trim(
                 filter_var(
                     $this->getRequest()->getPost('username')
-                    , FILTER_SANITIZE_STRING
+                    ,
+                    FILTER_SANITIZE_STRING
                 )
             );
             $password = filter_var(
                 $this->getRequest()->getPost('password')
-                , FILTER_SANITIZE_STRING
+                ,
+                FILTER_SANITIZE_STRING
             );
 
             if (empty($username) || empty($password)) {
@@ -92,11 +93,14 @@ class PluginController
 
             if (!$authResult->isValid()) {
 
-                if($authResult->getCode() == Result::FAILURE_UNCATEGORIZED
+                if ($authResult->getCode() == Result::FAILURE_UNCATEGORIZED
                     && !empty($this->config['rcmPlugin']['RcmLogin']['uncategorizedErrorRedirect'])
-                ){
+                ) {
                     // @todo return $this->redirect()->toUrl($this->config['rcmPlugin']['RcmLogin']['uncategorizedErrorRedirect']);
-                    header('Location: ' . $this->config['rcmPlugin']['RcmLogin']['uncategorizedErrorRedirect']);
+                    header(
+                        'Location: '
+                        . $this->config['rcmPlugin']['RcmLogin']['uncategorizedErrorRedirect']
+                    );
                     exit();
                 }
                 $error = $instanceConfig['translate']['invalid'];

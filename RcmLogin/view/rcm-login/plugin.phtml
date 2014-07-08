@@ -14,16 +14,24 @@ $this->rcmIncludeJquery(); //needed for form-double-submit-protect.js
 </div>
 
 <form class="loginForm rcmDoubleSubmitProtect" method="post">
-    <?= $this->rcmTextEdit(
-        'userNameCopy', 'Username:', 'label', array('for' => 'rcmLoginUsername')
+    <?=
+    $this->rcmTextEdit(
+        'userNameCopy',
+        'Username:',
+        'label',
+        array('for' => 'rcmLoginUsername')
     ) ?>
     <br>
     <input type="hidden" name="rcmPluginName" value="RcmLogin">
     <input autofocus type="text" name="username"
            value="<?= $this->escapeHtml($username) ?>">
     <br>
-    <?= $this->rcmTextEdit(
-        'loginPasswordCopy', 'Password:', 'label', array('for' => 'rcmLoginPassword')
+    <?=
+    $this->rcmTextEdit(
+        'loginPasswordCopy',
+        'Password:',
+        'label',
+        array('for' => 'rcmLoginPassword')
     ) ?>
     <br>
     <input type="password" name="password">
@@ -31,14 +39,20 @@ $this->rcmIncludeJquery(); //needed for form-double-submit-protect.js
     <br>
     <br>
 
-    <?= $this->rcmTextEdit(
-        'loginSubmitCopy', 'login', 'button', array('type' => 'submit')
+    <?=
+    $this->rcmTextEdit(
+        'loginSubmitCopy',
+        'login',
+        'button',
+        array('type' => 'submit')
     ) ?>
 </form>
 <br>
 <br>
 
-<?= $this->rcmRichEdit(
-    'bottomLoginText', '<a href="/reset-password">Forgot your password?</a><br>'
+<?=
+$this->rcmRichEdit(
+    'bottomLoginText',
+    '<a href="/reset-password">Forgot your password?</a><br>'
 ) ?>
 

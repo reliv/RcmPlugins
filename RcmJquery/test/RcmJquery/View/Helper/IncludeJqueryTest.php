@@ -16,6 +16,7 @@
  */
 
 namespace RcmJqueryTest;
+
 require_once __DIR__ . '/../../../../../../Rcm/test/Base/BaseTestCase.php';
 use RcmJquery\View\Helper\IncludeJquery;
 use RcmTest\Base\BaseTestCase;
