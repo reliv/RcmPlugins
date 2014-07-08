@@ -55,7 +55,7 @@ return array(
                 'options' => array(
                     'route' => '/rcm-admin/page/new',
                     'defaults' => array(
-                        'controller' => 'RcmAdmin\Controller\PageController',
+                        'controller' => 'RcmAdmin\Controller\NewPageController',
                         'action' => 'new',
                     ),
                 ),
@@ -350,17 +350,17 @@ return array(
 
     'form_elements' => array(
         'invokables' => array(
-            'pageLayout' => 'RcmAdmin\Form\Element\PageLayout',
+            'mainLayout' => 'RcmAdmin\Form\Element\MainLayout',
         ),
         'factories' => array(
-            'RcmAdmin\Form\PageForm' => 'RcmAdmin\Factory\PageFormFactory',
+            'RcmAdmin\Form\NewPageForm' => 'RcmAdmin\Factory\NewPageFormFactory',
         ),
     ),
 
     'controllers' => array(
         'factories' => array(
-            'RcmAdmin\Controller\PageController'
-                => 'RcmAdmin\Factory\PageControllerFactory',
+            'RcmAdmin\Controller\NewPageController'
+                => 'RcmAdmin\Factory\NewPageControllerFactory',
         )
     )
 );

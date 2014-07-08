@@ -18,8 +18,7 @@
  */
 namespace RcmAdmin\Factory;
 
-use RcmAdmin\Controller\PageController;
-use RcmAdmin\Form\PageForm;
+use RcmAdmin\Controller\NewPageController;
 use Zend\Di\ServiceLocator;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -38,33 +37,40 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @link      https://github.com/reliv
  *
  */
-class PageFormFactory implements FactoryInterface
+class NewPageControllerFactory implements FactoryInterface
 {
 
     /**
      * Create Service
      *
-     * @param ServiceLocatorInterface $formElementManager Zend Controler Manager
+     * @param ServiceLocatorInterface $controllerManager Zend Controller Manager
      *
-     * @return PageController
+     * @return NewPageController
      */
-    public function createService(ServiceLocatorInterface $formElementManager)
+    public function createService(ServiceLocatorInterface $controllerManager)
     {
-        /** @var \Zend\Form\FormElementManager $formElementMgr  For IDE */
-        $formElementMgr = $formElementManager;
+        /** @var \Zend\Mvc\Controller\ControllerManager $controllerMgr  For IDE */
+        $controllerMgr = $controllerManager;
 
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $formElementMgr->getServiceLocator();
+        $serviceLocator = $controllerMgr->getServiceLocator();
 
         /** @var \Rcm\Service\PageManager $pageManager */
         $pageManager = $serviceLocator->get('Rcm\Service\PageManager');
 
-        /** @var \Rcm\Service\LayoutManager $layoutManager */
-        $layoutManager = $serviceLocator->get('Rcm\Service\LayoutManager');
+        /** @var \Rcm\Service\SiteManager $siteManager */
+        $siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
 
-        return new PageForm(
+        $siteId = $siteManager->getCurrentSiteId();
+
+        $pageForm = $serviceLocator
+            ->get('FormElementManager')
+            ->get('RcmAdmin\Form\NewPageForm');
+
+        return new NewPageController(
             $pageManager,
-            $layoutManager
+            $pageForm,
+            $siteId
         );
     }
 }

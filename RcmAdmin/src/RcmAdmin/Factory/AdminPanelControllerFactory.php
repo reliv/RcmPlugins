@@ -21,16 +21,26 @@ class AdminPanelControllerFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('config');
 
+        $adminPanelConfig = array();
+
+        if (!empty($config['rcmAdmin']['adminPanel'])
+            && is_array($config['rcmAdmin']['adminPanel'])
+        ) {
+            $adminPanelConfig = $config['rcmAdmin']['adminPanel'];
+        }
+
         /** @var \RcmUser\Service\RcmUserService $rcmUserService */
         $rcmUserService = $serviceLocator->get('RcmUser\Service\RcmUserService');
 
         /** @var \Rcm\Service\SiteManager $siteManager */
-        $siteManager = $serviceLocator->get('\Rcm\Service\SiteManager');
+        $siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
+
+        $siteId = $siteManager->getCurrentSiteId();
 
         return new AdminPanelController(
-            $config,
+            $adminPanelConfig,
             $rcmUserService,
-            $siteManager
+            $siteId
         );
     }
 }

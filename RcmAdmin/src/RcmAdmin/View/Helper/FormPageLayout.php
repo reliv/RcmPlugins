@@ -1,12 +1,42 @@
 <?php
+/**
+ * Form View Helper for the Page Layout Element
+ *
+ * This file contains the unit test for Form View Helper for the Page Layout Element
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: BSD
+ *
+ * @category  Reliv
+ * @package   RcmAdmin
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ * @link      http://github.com/reliv
+ */
 
 namespace RcmAdmin\View\Helper;
 
-use RcmAdmin\Form\Element\PageLayout;
+use RcmAdmin\Form\Element\MainLayout;
 use Zend\Form\ElementInterface;
 use Zend\Form\Exception\InvalidArgumentException;
 use Zend\Form\View\Helper\FormMultiCheckbox;
 
+/**
+ * Form View Helper for the Page Layout Element
+ *
+ * Form View Helper for the Page Layout Element
+ *
+ * @category  Reliv
+ * @package   RcmAdmin
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: 1.0
+ * @link      http://github.com/reliv
+ */
 class FormPageLayout extends FormMultiCheckbox
 {
     /**
@@ -42,7 +72,7 @@ class FormPageLayout extends FormMultiCheckbox
      */
     public function render(ElementInterface $element)
     {
-        if (!$element instanceof PageLayout) {
+        if (!$element instanceof MainLayout) {
             throw new InvalidArgumentException(
                 sprintf(
                     '%s requires that the element is of type PageLayout',
@@ -58,11 +88,13 @@ class FormPageLayout extends FormMultiCheckbox
 
         foreach ($options['layouts'] as $key => &$layout) {
             $inputOptions[$key]
-                = '<span class="pageLayoutLabel">'
-                . '    <img src="'.$layout['screenShot'].'" />'
-                . '    '.$layout['display']
-                . '    <span class="pageLayoutImageOverlay"></span>'
-                . '</span>';
+                = "\n".'<span class="pageLayoutLabel">'."\n"
+                . '    <img src="'.$layout['screenShot'].'" />'."\n"
+                . '    <span class="pageLayoutTextDisplay">'."\n"
+                . '        '.$layout['display']."\n"
+                . '    </span>'."\n"
+                . '    <span class="pageLayoutImageOverlay"></span>'."\n"
+                . '</span>'."\n";
         }
 
 
@@ -81,16 +113,6 @@ class FormPageLayout extends FormMultiCheckbox
             $selectedOptions,
             $attributes
         );
-
-        // Render hidden element
-        $useHiddenElement
-            = method_exists($element, 'useHiddenElement') && $element->useHiddenElement()
-            ? $element->useHiddenElement()
-            : $this->useHiddenElement;
-
-        if ($useHiddenElement) {
-            $rendered = $this->renderHiddenElement($element, $attributes) . $rendered;
-        }
 
         return $rendered;
     }
