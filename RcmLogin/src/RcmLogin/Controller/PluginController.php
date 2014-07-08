@@ -21,6 +21,7 @@ use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Controller\BasePluginController;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 use RcmUser\Service\RcmUserService;
+use Zend\Authentication\Result;
 
 /**
  * Plugin Controller
@@ -53,10 +54,10 @@ class PluginController
         PluginStorageMgr $pluginStorageMgr,
         $config,
         RcmUserService $rcmUserService
-    ) {
+    )
+    {
         parent::__construct($pluginStorageMgr, $config);
         $this->rcmUserService = $rcmUserService;
-
     }
 
     public function renderInstance($instanceId)
@@ -83,20 +84,22 @@ class PluginController
                 $error = $instanceConfig['translate']['missing'];
             }
 
-            try {
-                $user = $this->rcmUserService->buildNewUser();
-                $user->setUsername($username);
-                $user->setPassword($password);
+            $user = $this->rcmUserService->buildNewUser();
+            $user->setUsername($username);
+            $user->setPassword($password);
 
-                $authResult = $this->rcmUserService->authenticate($user);
+            $authResult = $this->rcmUserService->authenticate($user);
 
-                if (!$authResult->isValid()) {
-                    $error = $instanceConfig['translate']['invalid'];
+            if (!$authResult->isValid()) {
+
+                if($authResult->getCode() == Result::FAILURE_UNCATEGORIZED
+                    && !empty($this->config['rcmPlugin']['RcmLogin']['uncategorizedErrorRedirect'])
+                ){
+                    // @todo return $this->redirect()->toUrl($this->config['rcmPlugin']['RcmLogin']['uncategorizedErrorRedirect']);
+                    header('Location: ' . $this->config['rcmPlugin']['RcmLogin']['uncategorizedErrorRedirect']);
+                    exit();
                 }
-            } catch (\Exception $e) {
-                //Display the problem on dev
-                trigger_error($e, E_USER_WARNING);
-                $error = $instanceConfig['translate']['systemFailure'];
+                $error = $instanceConfig['translate']['invalid'];
             }
 
 
