@@ -79,7 +79,7 @@ class MessagesController extends AbstractRestfulController
     {
 
         if (!$this->rcmUserIsAllowed(
-            'Translations', 'update', 'RcmI18nTranslations'
+            'translations', 'update', 'RcmI18nTranslations'
         )
         ) {
             $response = $this->getResponse();
@@ -105,4 +105,3 @@ class MessagesController extends AbstractRestfulController
 
     }
 }
- 
