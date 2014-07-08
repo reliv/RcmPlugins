@@ -82,8 +82,10 @@ class IncludeTwitterBootstrap extends AbstractHelper
             '/modules/rcm-twitter-bootstrap/css/bootstrap.min.css'
         );
 
+        /** not required *
         $headLink->prependStylesheet(
             '/modules/rcm-twitter-bootstrap/css/bootstrap.css.map'
         );
+         /* */
     }
 }
