@@ -1,20 +1,22 @@
 <html>
 <head>
     <script type="text/javascript"
-            src="/modules/rcm-twitter-bootstrap/js/bootstrap.js"></script>
-    <link href="/modules/rcm-twitter-bootstrap/css/bootstrap.min.css"
-          media="screen"
+            src="/modules/rcm-angular-js/angular/angular.min.js"></script>
+    <script type="text/javascript"
+            src="/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js"></script>
+    <link href="/modules/rcm-twitter-bootstrap/css/bootstrap.min.css" media="screen"
           rel="stylesheet" type="text/css">
+    <script type="text/javascript"
+            src="/modules/rcm-i18n/locales.js"></script>
 </head>
-<body>
+<body ng-app="rcmLocales" ng-controller="rcmTranslations">
+<div  ng-controller="rcmTranslations">
 <form style="margin:2em;">
+    <div ng-show="loading">Loading</div>
     <label>
-        <select class="form-control">
-            <option>
-                en_US
-            </option>
-            <option>
-                sp_MX
+        <select class="form-control" ng-model="selectedLocale" ng-options="locale for locale in locales">
+            <option value=""> {{locales}}
+                Please select language
             </option>
         </select>
     </label>
@@ -37,12 +39,6 @@
                 Become a distributor Become a distributorBecome a
                 distributorBecome a distributorBecome a distributorBecome a
                 distributorBecome a distributorBecome a distributor
-            </td>
-            <td>
-                <textarea class="form-control">Becomo Distributoro Becomo
-                    Distributoro Becomo Distributoro Becomo Distributoro Becomo
-                    Distributoro Becomo Distributoro Becomo Distributoro Becomo
-                    Distributoro </textarea>
             </td>
         </tr>
         <tr>
@@ -76,5 +72,6 @@
         </tr>
     </table>
 </form>
+</div>
 </body>
 </html>
