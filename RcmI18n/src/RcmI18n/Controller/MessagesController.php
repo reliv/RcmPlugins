@@ -38,8 +38,8 @@ use Zend\View\Model\JsonModel;
  * @link      https://github.com/reliv
  */
 
-class MessagesController extends AbstractRestfulController {
-
+class MessagesController extends AbstractRestfulController
+{
 
     /**
      * getList
@@ -51,30 +51,47 @@ class MessagesController extends AbstractRestfulController {
 
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         $locale = $this->params()->fromRoute('locale');
-        $messages = $em->getRepository('RcmI18n\Entity\Message')->findBy(array('locale' => $locale));
+        $messages = $em->getRepository('RcmI18n\Entity\Message')
+            ->findBy(array('locale' => $locale));
 
         $translations = array();
         foreach ($messages as $message) {
-            $defaultText= $message->getDefaultText();
+            $defaultText = $message->getDefaultText();
             $text = $message->getText();
-            $translations[] = ['locale'=>$locale,'defaultText'=>$defaultText,'text'=>$text];
+            $translations[] = [
+                'locale' => $locale, 'defaultText' => $defaultText,
+                'text' => $text
+            ];
         }
 
         return new JsonModel($translations);
     }
 
+    /**
+     * Update translations
+     *
+     * @param mixed $id   Text that need to be translated
+     * @param mixed $data Data
+     *
+     * @return mixed
+     */
     public function update($id, $data)
     {
 
-       if (!$this->rcmUserIsAllowed('Translations', 'update', 'RcmI18nTranslations')) {
-           $response = $this->getResponse();
-           $response->setStatusCode(Response::STATUS_CODE_401);
-           $response->setContent($response->renderStatusLine());
-           return $response;
-       }
+        if (!$this->rcmUserIsAllowed(
+            'Translations', 'update', 'RcmI18nTranslations'
+        )
+        ) {
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_401);
+            $response->setContent($response->renderStatusLine());
+            return $response;
+        }
         $locale = $this->params()->fromRoute('locale');
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        $message = $em->getRepository('RcmI18n\Entity\Message')->findBy(array('locale' => $locale, 'defaultText' => $id));
+        $message = $em->getRepository('RcmI18n\Entity\Message')->findBy(
+            array('locale' => $locale, 'defaultText' => $id)
+        );
         if ($message instanceof Message) {
             $message->setText($data['text']);
         } else {
