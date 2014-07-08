@@ -1,4 +1,4 @@
-  it('should load and compile correct template', function() {
+it('should load and compile correct template', function () {
     element(by.linkText('Moby: Ch1')).click();
     var content = element(by.css('[ng-view]')).getText();
     expect(content).toMatch(/controller\: ChapterCtrl/);
@@ -10,4 +10,4 @@
     content = element(by.css('[ng-view]')).getText();
     expect(content).toMatch(/controller\: BookCtrl/);
     expect(content).toMatch(/Book Id\: Scarlet/);
-  });
+});

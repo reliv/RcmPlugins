@@ -20,7 +20,6 @@ namespace RcmAdmin\Form;
 
 use Rcm\Service\LayoutManager;
 use Rcm\Service\PageManager;
-use Rcm\Validator\PageTemplate;
 use Zend\Form\ElementInterface;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
@@ -41,10 +40,10 @@ use Zend\InputFilter\InputFilter;
 class NewPageForm extends Form implements ElementInterface
 {
 
-    /** @var \Rcm\Service\PageManager  */
+    /** @var \Rcm\Service\PageManager */
     protected $pageManager;
 
-    /** @var \Rcm\Service\LayoutManager  */
+    /** @var \Rcm\Service\LayoutManager */
     protected $layoutManager;
 
     /** @var \Rcm\Validator\Page */
@@ -57,7 +56,7 @@ class NewPageForm extends Form implements ElementInterface
      * @param LayoutManager $layoutManager Rcm Page Manager
      */
     public function __construct(
-        PageManager   $pageManager,
+        PageManager $pageManager,
         LayoutManager $layoutManager
     ) {
         $this->pageManager = $pageManager;
@@ -85,7 +84,7 @@ class NewPageForm extends Form implements ElementInterface
                 'options' => array(
                     'label' => 'Page Url',
                 ),
-                'type'  => 'text',
+                'type' => 'text',
 
             )
         );
@@ -94,7 +93,7 @@ class NewPageForm extends Form implements ElementInterface
             array(
                 'name' => 'url',
                 'required' => true,
-                'filters'  => array(
+                'filters' => array(
                     array('name' => 'StripTags'),
                     array(
                         'name' => 'StringTrim',
@@ -115,7 +114,7 @@ class NewPageForm extends Form implements ElementInterface
                 'options' => array(
                     'label' => 'Page Title',
                 ),
-                'type'  => 'text',
+                'type' => 'text',
             )
         );
 
@@ -123,7 +122,7 @@ class NewPageForm extends Form implements ElementInterface
             array(
                 'name' => 'title',
                 'required' => true,
-                'filters'  => array(
+                'filters' => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
                 ),
@@ -145,7 +144,7 @@ class NewPageForm extends Form implements ElementInterface
                     'label' => 'Page Template',
                     'value_options' => $pageList,
                 ),
-                'type'  => 'Zend\Form\Element\Select',
+                'type' => 'Zend\Form\Element\Select',
             )
         );
 
@@ -153,7 +152,7 @@ class NewPageForm extends Form implements ElementInterface
             array(
                 'name' => 'page-template',
                 'required' => true,
-                'filters'  => array(
+                'filters' => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
                 ),
@@ -169,16 +168,17 @@ class NewPageForm extends Form implements ElementInterface
                 'name' => 'main-layout',
                 'options' => array(
                     'label' => 'Main Layout',
-                    'layouts' => $this->layoutManager->getSiteThemeLayoutsConfig(),
+                    'layouts' => $this->layoutManager->getSiteThemeLayoutsConfig(
+                        ),
                 ),
-                'type'  => 'mainLayout',
+                'type' => 'mainLayout',
             )
         );
 
         $filter->add(
             array(
                 'name' => 'main-layout',
-                'filters'  => array(
+                'filters' => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
                 ),

@@ -16,9 +16,9 @@
 
 namespace RcmEventCalenderCore;
 
-use RcmEventCalenderCore\Model\Calender,
-    RcmEventCalenderCore\Controller\EventAPIController,
-    RcmEventCalenderCore\Controller\CategoryAPIController;
+use RcmEventCalenderCore\Controller\CategoryAPIController;
+use RcmEventCalenderCore\Controller\EventAPIController;
+use RcmEventCalenderCore\Model\Calender;
 
 /**
  * ZF2 Module Config.  Required by ZF2

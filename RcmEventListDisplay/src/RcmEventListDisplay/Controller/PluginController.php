@@ -46,8 +46,7 @@ class PluginController
         $config,
         EntityManager $entityMgr,
         \RcmEventCalenderCore\Model\Calender $calender
-    )
-    {
+    ) {
         parent::__construct($pluginStorageMgr, $config);
         $this->calender = $calender;
     }

@@ -1,8 +1,8 @@
 {
-  "name": "example-example43",
-  "files": [
-    "index-production.html",
-    "animations.css",
-    "protractor.js"
-  ]
+    "name": "example-example43",
+    "files": [
+        "index-production.html",
+        "animations.css",
+        "protractor.js"
+    ]
 }

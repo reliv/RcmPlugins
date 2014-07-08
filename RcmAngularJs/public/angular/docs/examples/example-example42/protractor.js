@@ -1,4 +1,4 @@
-  it('should show correct pluralized string', function() {
+it('should show correct pluralized string', function () {
     var withoutOffset = element.all(by.css('ng-pluralize')).get(0);
     var withOffset = element.all(by.css('ng-pluralize')).get(1);
     var countInput = element(by.model('personCount'));
@@ -29,8 +29,8 @@
 
     expect(withoutOffset.getText()).toEqual('4 people are viewing.');
     expect(withOffset.getText()).toEqual('Igor, Misko and 2 other people are viewing.');
-  });
-  it('should show data-bound names', function() {
+});
+it('should show data-bound names', function () {
     var withOffset = element.all(by.css('ng-pluralize')).get(1);
     var personCount = element(by.model('personCount'));
     var person1 = element(by.model('person1'));
@@ -42,4 +42,4 @@
     person2.clear();
     person2.sendKeys('Vojta');
     expect(withOffset.getText()).toEqual('Di, Vojta and 2 other people are viewing.');
-  });
+});

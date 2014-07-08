@@ -40,14 +40,12 @@ return array(
                     ),
                 ),
             ),
-
             'Site' => array(
                 'label' => 'Site',
                 'uri' => '#',
             ),
         ),
     ),
-
     'router' => array(
         'routes' => array(
             'RcmAdmin\Page\New' => array(
@@ -62,56 +60,44 @@ return array(
             ),
         ),
     ),
-
     'rcmAdmin' => array(
 
         'createBlankPagesErrors' => array(
             'missingItems'
-                => 'Please make sure to include a Page Name and select the'
-                    .'layout you wish to use.',
-
+            => 'Please make sure to include a Page Name and select the'
+                . 'layout you wish to use.',
             'pageExists'
-                => 'The page URL provided already exists'
+            => 'The page URL provided already exists'
         ),
-
         'saveAsTemplateErrors' => array(
             'missingItems'
-                => 'Please make sure to include a Page Name',
-
+            => 'Please make sure to include a Page Name',
             'pageExists'
-                => 'The page URL provided already exists',
-
+            => 'The page URL provided already exists',
             'revisionNotFound'
-                => 'Unable to locate page revision.  '
-                    .'Please contact the administrator.'
+            => 'Unable to locate page revision.  '
+                . 'Please contact the administrator.'
         ),
-
         'createSiteErrors' => array(
             'missingItems'
-                => 'Some needed information is missing.  '
-                    .'Please check and make sure to include'
-                    .' a domain, country, and language.',
-
+            => 'Some needed information is missing.  '
+                . 'Please check and make sure to include'
+                . ' a domain, country, and language.',
             'countryNotFound'
-                => 'Unable to locate country to save.  '
-                    .'Please contact and administrator or try again.',
-
+            => 'Unable to locate country to save.  '
+                . 'Please contact and administrator or try again.',
             'languageNotFound'
-                => 'Unable to locate language to save.  '
-                    .'Please contact and administrator or try again.',
-
+            => 'Unable to locate language to save.  '
+                . 'Please contact and administrator or try again.',
             'domainInvalid'
-                => 'Domain exists or is invalid.',
-
+            => 'Domain exists or is invalid.',
             'newSiteNotImplemented'
-                => 'Creating a new blank site has not'
-                    .' been implemented yet.',
-
+            => 'Creating a new blank site has not'
+                . ' been implemented yet.',
             'siteNotFound'
-                => 'Unable to locate the site to clone.  '
-                    .'Please contact and administrator or try again.',
+            => 'Unable to locate the site to clone.  '
+                . 'Please contact and administrator or try again.',
         ),
-
         'adminRichEditor' => 'ckEditor',
 //        'adminRichEditor' => 'tinyMce',
         //'adminRichEditor' => 'aloha',
@@ -139,8 +125,6 @@ return array(
                             ),
                         )
                     ),
-
-
                     'Edit' => array(
                         'display' => 'Edit',
                         'aclGroups' => 'admin',
@@ -159,7 +143,6 @@ return array(
                                 'cssClass' => 'rcmLayoutIcon rcmShowLayoutEditor',
                                 'href' => '#',
                             ),
-
                             'Page Properties' => array(
                                 'display' => 'Page Properties',
                                 'aclGroups' => 'admin',
@@ -168,7 +151,6 @@ return array(
                             ),
                         ),
                     ),
-
                     'Publish' => array(
                         'display' => 'Publish',
                         'aclGroups' => 'admin',
@@ -181,7 +163,6 @@ return array(
                                 'cssClass' => 'stageIcon',
                                 'href' => '#',
                             ),
-
                             'Publish Now' => array(
                                 'display' => 'Publish Now',
                                 'aclGroups' => 'admin',
@@ -190,7 +171,6 @@ return array(
                             ),
                         ),
                     ),
-
                     'Copy To...' => array(
                         'display' => 'Copy To...',
                         'aclGroups' => 'admin',
@@ -203,15 +183,14 @@ return array(
                                 'cssClass' => 'saveAsTemplate',
                                 'href' => "#",
                                 'onclick' => "rcmEdit.adminPopoutWindow("
-                                    ."'/rcm-admin-get-save-as-template', "
-                                    ."150, "
-                                    ."430, "
-                                    ."'Copy to Template'); "
-                                    ."return false;"
+                                    . "'/rcm-admin-get-save-as-template', "
+                                    . "150, "
+                                    . "430, "
+                                    . "'Copy to Template'); "
+                                    . "return false;"
                             ),
                         ),
                     ),
-
                     'Drafts' => array(
                         'display' => 'Drafts',
                         'aclGroups' => 'admin',
@@ -219,7 +198,6 @@ return array(
                         'href' => '#',
                         'links' => array()
                     ),
-
                     'Restore' => array(
                         'display' => 'Restore',
                         'aclGroups' => 'admin',
@@ -230,7 +208,6 @@ return array(
 
                 ),
             ),
-
             'Site' => array(
                 'display' => 'Site',
                 'aclGroups' => 'admin',
@@ -243,13 +220,12 @@ return array(
                         'cssClass' => 'draftsIcon',
                         'href' => '#',
                         'onclick' => "rcmEdit.adminPopoutWindow("
-                            ."'/rcm-admin-create-site', "
-                            ."430, "
-                            ."740, "
-                            ."'Add New Site'); "
-                            ."return false;"
+                            . "'/rcm-admin-create-site', "
+                            . "430, "
+                            . "740, "
+                            . "'Add New Site'); "
+                            . "return false;"
                     ),
-
                     'Site-Wide Plugins' => array(
                         'display' => 'Site-Wide Plugins',
                         'aclGroups' => 'admin',
@@ -264,7 +240,6 @@ return array(
                             ),
                         ),
                     ),
-
                     'Site Properties' => array(
                         'display' => 'Site Properties',
                         'aclGroups' => 'admin',
@@ -276,7 +251,6 @@ return array(
 
         ),
     ),
-
     'includeFileManager' => array(
         'files' => array(
             'style.css' => array(
@@ -299,13 +273,11 @@ return array(
             ),
         ),
     ),
-
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(
                 'modules/rcm-admin/' => __DIR__ . '/../public/',
             ),
-
             'collections' => array(
                 'modules/rcm-admin/js/rcm-admin.js' => array(
                     'js/admin/rcm-admin.js',
@@ -322,32 +294,26 @@ return array(
             ),
         ),
     ),
-
     'service_manager' => array(
-        'factories' => array (
+        'factories' => array(
             'RcmAdmin\EventListener\DispatchListener'
-                => 'RcmAdmin\Factory\DispatchListenerFactory',
-
+            => 'RcmAdmin\Factory\DispatchListenerFactory',
             'RcmAdmin\Controller\AdminPanelController'
-                => 'RcmAdmin\Factory\AdminPanelControllerFactory',
-
+            => 'RcmAdmin\Factory\AdminPanelControllerFactory',
             'RcmAdminNavigation' => 'RcmAdmin\Factory\AdminNavigationFactory',
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
     ),
-
     'view_helpers' => array(
         'invokables' => array(
             'formPageLayout' => 'RcmAdmin\View\Helper\FormPageLayout',
-            'displayErrors'  => 'RcmAdmin\View\Helper\DisplayErrors',
+            'displayErrors' => 'RcmAdmin\View\Helper\DisplayErrors',
         )
     ),
-
     'form_elements' => array(
         'invokables' => array(
             'mainLayout' => 'RcmAdmin\Form\Element\MainLayout',
@@ -356,11 +322,10 @@ return array(
             'RcmAdmin\Form\NewPageForm' => 'RcmAdmin\Factory\NewPageFormFactory',
         ),
     ),
-
     'controllers' => array(
         'factories' => array(
             'RcmAdmin\Controller\NewPageController'
-                => 'RcmAdmin\Factory\NewPageControllerFactory',
+            => 'RcmAdmin\Factory\NewPageControllerFactory',
         )
     )
 );

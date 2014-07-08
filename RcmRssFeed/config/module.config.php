@@ -31,13 +31,11 @@ return array(
             'cacheable' => true,
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
     ),
-
     'router' => array(
         'routes' => array(
             'rcm-rss-proxy' => array(
@@ -52,7 +50,6 @@ return array(
             ),
         ),
     ),
-
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(

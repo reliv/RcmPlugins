@@ -29,8 +29,7 @@ class PluginStorageMgr implements PluginStorageMgrInterface
         PluginStorageRepoInterface $storageRepo,
         $config,
         InstanceConfigMerger $instanceConfigMerger
-    )
-    {
+    ) {
         $this->pluginConfigs = $config['rcmPlugin'];
         $this->instanceConfigMerger = $instanceConfigMerger;
         $this->storageRepo = $storageRepo;
@@ -46,8 +45,10 @@ class PluginStorageMgr implements PluginStorageMgrInterface
     public function getDefaultInstanceConfig($pluginName)
     {
         $defaultInstanceConfig = array_key_exists(
-            'defaultInstanceConfig', $this->pluginConfigs[$pluginName]
-        ) ? $this->pluginConfigs[$pluginName]['defaultInstanceConfig'] : array();
+            'defaultInstanceConfig',
+            $this->pluginConfigs[$pluginName]
+        ) ? $this->pluginConfigs[$pluginName]['defaultInstanceConfig']
+            : array();
         return $defaultInstanceConfig;
     }
 

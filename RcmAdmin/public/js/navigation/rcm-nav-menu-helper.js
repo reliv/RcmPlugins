@@ -1,12 +1,10 @@
-function RcmNavMenuHelper(dialog)
-{
+function RcmNavMenuHelper(dialog) {
     var me = this;
 
     me.dialog = dialog;
 
-    me.init = function()
-    {
-        jQuery(".RcmAdminMenu").find("a").click(function(event){
+    me.init = function () {
+        jQuery(".RcmAdminMenu").find("a").click(function (event) {
             event.preventDefault();
 
             var link = jQuery(this);
@@ -23,13 +21,11 @@ function RcmNavMenuHelper(dialog)
         });
     };
 
-    me.setDialog = function (dialog)
-    {
-        me.dialog =  dialog;
+    me.setDialog = function (dialog) {
+        me.dialog = dialog;
     };
 
-    me.getDialog = function getDialog()
-    {
+    me.getDialog = function getDialog() {
         return me.dialog;
     };
 }

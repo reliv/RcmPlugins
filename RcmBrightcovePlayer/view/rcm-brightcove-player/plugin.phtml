@@ -38,7 +38,9 @@ if (($instanceConfig['type']) == 'single-embed') {
 <div style="display:none">
     <div ng-controller="PlayerEditCtrl"
          ng-init="init(<?php echo str_replace(
-             '"', "'", json_encode($instanceConfig)
+             '"',
+             "'",
+             json_encode($instanceConfig)
          ); ?> )">
         <form style="display:none" title="Brightcove Player Editor" novalidate
               class="RcmBrightcovePlayer">

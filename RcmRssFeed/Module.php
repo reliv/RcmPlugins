@@ -16,8 +16,6 @@
 
 namespace RcmRssFeed;
 
-use \RcmInstanceConfig\Controller\BasePluginController;
-
 /**
  * ZF2 Module Config.  Required by ZF2
  *

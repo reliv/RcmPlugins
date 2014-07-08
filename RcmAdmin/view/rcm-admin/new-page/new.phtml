@@ -1,10 +1,12 @@
 <link rel="stylesheet" type="text/css"
-      href="<?= $this->basePath(); ?>/modules/rcm-admin/css/form/rcm-admin-page-form.css"
-/>
+      href="<?=
+      $this->basePath(); ?>/modules/rcm-admin/css/form/rcm-admin-page-form.css"
+    />
 
 <script type="text/javascript"
-        src="<?= $this->basePath(); ?>/modules/rcm-admin/js/form/rcm-admin-page-form.js"
->
+        src="<?=
+        $this->basePath(); ?>/modules/rcm-admin/js/form/rcm-admin-page-form.js"
+    >
 
 </script>
 
@@ -44,23 +46,28 @@ $formLabel = $this->plugin('formLabel');
 <?= $this->message; ?><br/>
 
 <div id="pageUrl">
-    <?= $formLabel->openTag($elements['pageUrl']['attributes'])
-        . $elements['pageUrl']['element']->getOption('label');
+    <?=
+    $formLabel->openTag($elements['pageUrl']['attributes'])
+    . $elements['pageUrl']['element']->getOption('label');
     ?> &nbsp;
     <?= $this->formInput($elements['pageUrl']['element']); ?>
     <?= $formLabel->closeTag(); ?>
 </div>
 
-<br />
+<br/>
 
-<?= $formLabel->openTag($elements['pageTitle']['attributes']) . $elements['pageTitle']['element']->getOption('label'); ?> &nbsp;
+<?=
+$formLabel->openTag($elements['pageTitle']['attributes'])
+. $elements['pageTitle']['element']->getOption('label'); ?> &nbsp;
 <?= $this->formInput($elements['pageTitle']['element']); ?>
 <?= $formLabel->closeTag(); ?>
 
-<br />
+<br/>
 
 <div id="pageTemplate">
-    <?= $formLabel->openTag($elements['pageTemplate']['attributes']) . $elements['pageTemplate']['element']->getOption('label'); ?> &nbsp;
+    <?=
+    $formLabel->openTag($elements['pageTemplate']['attributes'])
+    . $elements['pageTemplate']['element']->getOption('label'); ?> &nbsp;
     <?= $this->formSelect($elements['pageTemplate']['element']); ?>
     <?= $formLabel->closeTag(); ?>
 </div>

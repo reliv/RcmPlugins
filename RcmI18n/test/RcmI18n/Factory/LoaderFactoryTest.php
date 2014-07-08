@@ -22,7 +22,7 @@ class LoaderFactoryTest extends \PHPUnit_Framework_TestCase
                 ->disableOriginalConstructor()
                 ->getMock()
         );
-        $loadPluginMgr= new LoaderPluginManager();
+        $loadPluginMgr = new LoaderPluginManager();
         $loadPluginMgr->setServiceLocator($sm);
         $unit = new LoaderFactory();
         $this->assertInstanceOf(

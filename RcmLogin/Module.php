@@ -73,12 +73,12 @@ class Module
      *
      * @return object Returns an object.
      *
-    public function getServiceConfig()
-    {
-        return array(
-
-        );
-    }
+     * public function getServiceConfig()
+     * {
+     * return array(
+     *
+     * );
+     * }
      */
 
     /**
@@ -133,7 +133,11 @@ class Module
     {
         $application = $event->getApplication();
         $eventManager = $application->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_ROUTE, array($this,'doLogout'),100);
+        $eventManager->attach(
+            MvcEvent::EVENT_ROUTE,
+            array($this, 'doLogout'),
+            100
+        );
     }
 
     /**
@@ -150,9 +154,9 @@ class Module
 
         /** @var $request \Zend\Http\Request */
         $request = $sm->get('request');
-        $logout = (bool) $request->getQuery('logout', 0);
+        $logout = (bool)$request->getQuery('logout', 0);
 
-        if($logout){
+        if ($logout) {
 
             /** @var $rcmUserService \RcmUser\Service\RcmUserService */
             $rcmUserService = $sm->get('RcmUser\Service\RcmUserService');

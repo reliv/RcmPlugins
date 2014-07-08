@@ -1,5 +1,5 @@
 <?php
-    $this->rcmIncludeJqueryUi();
+$this->rcmIncludeJqueryUi();
 ?>
 <div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
     <ul class="titleWrap">
@@ -14,21 +14,21 @@
         <?php foreach ($this->instanceConfig['containers'] as $tab) {
 
             //Fix legacy tabs that have no type
-            if(empty($tab['type'])){
-                $tab['type']='html';
+            if (empty($tab['type'])) {
+                $tab['type'] = 'html';
             }
 
             switch ($tab['type']) {
-            case 'html':
-                include 'tab-body-html.phtml';
-                break;
-            case 'rawHtml':
-                include 'tab-body-raw-html.phtml';
-                break;
-            default:
-                throw new \RuntimeException(
-                    $tab['type'] . ' is an invalid tab type'
-                );
+                case 'html':
+                    include 'tab-body-html.phtml';
+                    break;
+                case 'rawHtml':
+                    include 'tab-body-raw-html.phtml';
+                    break;
+                default:
+                    throw new \RuntimeException(
+                        $tab['type'] . ' is an invalid tab type'
+                    );
             }
         } ?>
     </div>

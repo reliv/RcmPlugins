@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../../../Rcm/tests/Base/RcmBootstrap.php';
 
-use \Rcm\Tests\Base\RcmBootstrap;
+use Rcm\Tests\Base\RcmBootstrap;
 
 class Bootstrap extends RcmBootstrap
 {

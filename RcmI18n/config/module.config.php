@@ -22,20 +22,19 @@ return array(
     'RcmUser' => array(
         'Acl\Config' => array(
             'RcmI18nTranslations' => array(
-            'Translations' => array(
-                'resourceId' => 'Translations',
-                'parentResourceId' => null,
-                'privileges' => array(
-                    'read',
-                    'update',
-                    'create',
-                    'delete',
+                'Translations' => array(
+                    'resourceId' => 'Translations',
+                    'parentResourceId' => null,
+                    'privileges' => array(
+                        'read',
+                        'update',
+                        'create',
+                        'delete',
+                    )
                 )
             )
         )
-    )
-),
-
+    ),
     'translator' => array(
 
         'locale' => 'en_US',
@@ -45,7 +44,6 @@ return array(
             ),
         ),
     ),
-
     /**
      * Can be removed after ZF2 PR
      */
@@ -54,13 +52,11 @@ return array(
             'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
         )
     ),
-
     'translator_plugins' => array(
         'factories' => array(
             'RcmI18n\DbLoader' => 'RcmI18n\Factory\LoaderFactory',
         )
     ),
-
     'doctrine' => array(
         'driver' => array(
             'RcmI18n' => array(
@@ -70,7 +66,6 @@ return array(
                     __DIR__ . '/../src/RcmI18n/Entity'
                 )
             ),
-
             'orm_default' => array(
                 'drivers' => array(
                     'RcmI18n' => 'RcmI18n'
@@ -78,14 +73,12 @@ return array(
             )
         ),
     ),
-
     'controllers' => array(
         'invokables' => array(
             'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController',
             'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController'
         )
     ),
-
     'router' => array(
         'routes' => array(
             'locales' => array(
@@ -108,13 +101,11 @@ return array(
             ),
         )
     ),
-
     'view_helpers' => array(
         'factories' => array(
             'translate' => 'RcmI18n\Factory\TranslateHtmlFactory',
         )
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -123,8 +114,6 @@ return array(
             'ViewJsonStrategy',
         ),
     ),
-
-
     'asset_manager' => [
         'resolver_configs' => [
             'aliases' => [

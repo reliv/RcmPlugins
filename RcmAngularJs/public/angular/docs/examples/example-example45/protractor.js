@@ -1,7 +1,7 @@
-  var thumbsUp = element(by.css('span.glyphicon-thumbs-up'));
-  var thumbsDown = element(by.css('span.glyphicon-thumbs-down'));
+var thumbsUp = element(by.css('span.glyphicon-thumbs-up'));
+var thumbsDown = element(by.css('span.glyphicon-thumbs-down'));
 
-  it('should check ng-show / ng-hide', function() {
+it('should check ng-show / ng-hide', function () {
     expect(thumbsUp.isDisplayed()).toBeFalsy();
     expect(thumbsDown.isDisplayed()).toBeTruthy();
 
@@ -9,4 +9,4 @@
 
     expect(thumbsUp.isDisplayed()).toBeTruthy();
     expect(thumbsDown.isDisplayed()).toBeFalsy();
-  });
+});

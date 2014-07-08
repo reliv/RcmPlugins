@@ -32,7 +32,9 @@ class RcmEditTest extends BaseTestCase
         $this->assertEquals(
             '<p data-textEdit="salutation" class="bigFunky"><h1>aloha!</h1></p>',
             $edit->__invoke(
-                self::IC_KEY, '<b>defaultContent<b>', 'p',
+                self::IC_KEY,
+                '<b>defaultContent<b>',
+                'p',
                 array('class' => 'bigFunky')
             )
         );
@@ -44,11 +46,13 @@ class RcmEditTest extends BaseTestCase
     public function testInvokeTextEditFromWithoutInstanceConfig()
     {
         $edit = new RcmEdit($this->getMockPurifier(), false);
-        $edit->setView( $this->getMockView(array()));
+        $edit->setView($this->getMockView(array()));
         $this->assertEquals(
             '<p data-textEdit="salutation" class="bigFunky"><h1>aloha!</h1></p>',
             $edit->__invoke(
-                self::IC_KEY, self::DIRTY_CONTENT, 'p',
+                self::IC_KEY,
+                self::DIRTY_CONTENT,
+                'p',
                 array('class' => 'bigFunky')
             )
         );
@@ -66,7 +70,9 @@ class RcmEditTest extends BaseTestCase
         $this->assertEquals(
             '<p data-richEdit="salutation" class="bigFunky"><h1>aloha!</h1></p>',
             $edit->__invoke(
-                self::IC_KEY, '<b>defaultContent<b>', 'p',
+                self::IC_KEY,
+                '<b>defaultContent<b>',
+                'p',
                 array('class' => 'bigFunky')
             )
         );

@@ -23,7 +23,7 @@ class TranslateHtmlFactoryTest extends \PHPUnit_Framework_TestCase
                 ->setMethods(array('purify'))
                 ->getMock()
         );
-        $viewSm= new LoaderPluginManager();
+        $viewSm = new LoaderPluginManager();
         $viewSm->setServiceLocator($sm);
         $unit = new TranslateHtmlFactory();
         $this->assertInstanceOf(

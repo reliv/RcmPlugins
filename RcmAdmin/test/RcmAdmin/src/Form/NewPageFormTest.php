@@ -23,7 +23,6 @@ use RcmAdmin\Form\Element\MainLayout;
 use RcmAdmin\Form\NewPageForm;
 use Zend\Form\Factory;
 use Zend\Form\FormElementManager;
-use Zend\Http\Request;
 use Zend\Stdlib\Parameters;
 
 require_once __DIR__ . '/../../../autoload.php';

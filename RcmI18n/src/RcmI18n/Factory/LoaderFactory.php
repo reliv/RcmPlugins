@@ -41,7 +41,9 @@ class LoaderFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator=$serviceLocator->getServiceLocator();
-        return new DoctrineDbLoader($serviceLocator->get('Doctrine\ORM\EntityManager'));
+        $serviceLocator = $serviceLocator->getServiceLocator();
+        return new DoctrineDbLoader($serviceLocator->get(
+            'Doctrine\ORM\EntityManager'
+        ));
     }
 }

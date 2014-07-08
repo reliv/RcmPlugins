@@ -1,4 +1,4 @@
-  it('should check ng-bind', function() {
+it('should check ng-bind', function () {
     var salutationElem = element(by.binding('salutation'));
     var salutationInput = element(by.model('salutation'));
     var nameInput = element(by.model('name'));
@@ -11,4 +11,4 @@
     nameInput.sendKeys('user');
 
     expect(salutationElem.getText()).toBe('Greetings user!');
-  });
+});

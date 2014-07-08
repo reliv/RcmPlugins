@@ -44,7 +44,8 @@ class HtmlPurifierFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new HtmlPurifierFactory();
         $this->assertInstanceOf(
-            '\HTMLPurifier', $factory->createService(new ServiceManager())
+            '\HTMLPurifier',
+            $factory->createService(new ServiceManager())
         );
     }
 } 

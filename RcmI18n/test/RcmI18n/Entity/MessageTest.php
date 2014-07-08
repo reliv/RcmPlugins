@@ -23,7 +23,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetKey()
     {
-        $value='Bob';
+        $value = 'Bob';
         $this->unit->setDefaultText($value);
         $this->assertEquals($value, $this->unit->getDefaultText());
     }
@@ -33,7 +33,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetLocale()
     {
-        $value='en_US';
+        $value = 'en_US';
         $this->unit->setLocale($value);
         $this->assertEquals($value, $this->unit->getLocale());
     }
@@ -43,7 +43,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetText()
     {
-        $value='Bobinseo';
+        $value = 'Bobinseo';
         $this->unit->setText($value);
         $this->assertEquals($value, $this->unit->getText());
     }

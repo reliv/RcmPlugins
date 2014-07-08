@@ -1,26 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Example - example-example96</title>
-  
+    <meta charset="UTF-8">
+    <title>Example - example-example96</title>
 
-  <script src="../../../angular.min.js"></script>
-  <script src="script.js"></script>
-  
 
-  
+    <script src="../../../angular.min.js"></script>
+    <script src="script.js"></script>
+
+
 </head>
 <body ng-app="FilterInControllerModule">
-    <div ng-controller="FilterController as ctrl">
+<div ng-controller="FilterController as ctrl">
     <div>
-      All entries:
-      <span ng-repeat="entry in ctrl.array">{{entry.name}} </span>
+        All entries:
+        <span ng-repeat="entry in ctrl.array">{{entry.name}} </span>
     </div>
     <div>
-      Entries that contain an "a":
-      <span ng-repeat="entry in ctrl.filteredArray">{{entry.name}} </span>
+        Entries that contain an "a":
+        <span ng-repeat="entry in ctrl.filteredArray">{{entry.name}} </span>
     </div>
-  </div>
+</div>
 </body>
 </html>

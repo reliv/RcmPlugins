@@ -10,7 +10,7 @@ namespace RcmRssFeed\Controller;
 
 use RcmInstanceConfig\Controller\BasePluginController;
 use RcmInstanceConfig\Service\PluginStorageMgr;
-use \Zend\Feed\Reader\Reader;
+use Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 
 class ProxyController
@@ -25,8 +25,7 @@ class ProxyController
         $config,
         //\Rcm\Model\UserManagement\UserManagerInterface $userMgr,
         \Zend\Cache\Storage\StorageInterface $cacheMgr
-    )
-    {
+    ) {
         parent::__construct($pluginStorageMgr, $config);
         //$this->userMgr = $userMgr;
         $this->cacheMgr = $cacheMgr;

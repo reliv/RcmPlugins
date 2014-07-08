@@ -1,4 +1,4 @@
-  it('should check controller', function() {
+it('should check controller', function () {
     var container = element(by.id('ctrl-exmpl'));
 
     expect(container.findElement(by.model('name'))
@@ -25,4 +25,4 @@
         .findElement(by.model('contact.value'))
         .getAttribute('value'))
         .toBe('yourname@example.org');
-  });
+});

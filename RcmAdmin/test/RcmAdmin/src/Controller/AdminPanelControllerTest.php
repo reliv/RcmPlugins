@@ -99,8 +99,6 @@ class AdminPanelControllerTest extends \PHPUnit_Framework_TestCase
                             ),
                         )
                     ),
-
-
                     'Edit' => array(
                         'display' => 'Edit',
                         'aclGroups' => 'admin',
@@ -119,7 +117,6 @@ class AdminPanelControllerTest extends \PHPUnit_Framework_TestCase
                                 'cssClass' => 'rcmLayoutIcon rcmShowLayoutEditor',
                                 'href' => '#',
                             ),
-
                             'Page Properties' => array(
                                 'display' => 'Page Properties',
                                 'aclGroups' => 'admin',

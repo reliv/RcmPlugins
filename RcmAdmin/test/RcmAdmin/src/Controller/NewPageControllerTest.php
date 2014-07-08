@@ -25,8 +25,8 @@ use Zend\Form\Form;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
 use Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter;
+use Zend\Mvc\Router\RouteMatch;
 use Zend\Stdlib\Parameters;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
@@ -149,13 +149,13 @@ class NewPageControllerTest extends \PHPUnit_Framework_TestCase
             ->setService('rcmUserGetCurrentUser', $this->mockGetUser)
             ->setService('urlToPage', $this->mockRedirectToPage);
 
-        $this->request    = new Request();
+        $this->request = new Request();
         $this->routeMatch = new RouteMatch(
             array(
                 'controller' => 'RcmAdmin\Controller\PageController'
             )
         );
-        $this->event      = new MvcEvent();
+        $this->event = new MvcEvent();
         $routerConfig = $config;
         $router = HttpRouter::factory($routerConfig);
 
@@ -343,7 +343,7 @@ class NewPageControllerTest extends \PHPUnit_Framework_TestCase
         $this->routeMatch->setParam('action', 'new');
 
         $params = new Parameters;
-        $params->fromArray(array('my-post'=> 'nothingValid'));
+        $params->fromArray(array('my-post' => 'nothingValid'));
 
         $this->request->setPost($params);
         $this->request->setMethod('POST');

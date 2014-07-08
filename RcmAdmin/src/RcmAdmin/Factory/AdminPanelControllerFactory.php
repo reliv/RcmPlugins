@@ -30,7 +30,9 @@ class AdminPanelControllerFactory implements FactoryInterface
         }
 
         /** @var \RcmUser\Service\RcmUserService $rcmUserService */
-        $rcmUserService = $serviceLocator->get('RcmUser\Service\RcmUserService');
+        $rcmUserService = $serviceLocator->get(
+            'RcmUser\Service\RcmUserService'
+        );
 
         /** @var \Rcm\Service\SiteManager $siteManager */
         $siteManager = $serviceLocator->get('Rcm\Service\SiteManager');

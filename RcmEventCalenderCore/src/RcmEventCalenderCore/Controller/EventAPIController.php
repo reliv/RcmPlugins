@@ -2,8 +2,7 @@
 
 namespace RcmEventCalenderCore\Controller;
 
-use
-    \Zend\View\Model\JsonModel;
+use Zend\View\Model\JsonModel;
 
 class EventAPIController extends AbstractAPIController
 {

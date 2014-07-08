@@ -6,9 +6,9 @@
  */
 Rainbow.extend('javascript', [
 
-    /**
-     * matches $. or $(
-     */
+/**
+ * matches $. or $(
+ */
     {
         'name': 'selector',
         'pattern': /(\s|^)\$(?=\.|\()/g
@@ -54,16 +54,16 @@ Rainbow.extend('javascript', [
         'pattern': /(&lt;\/?)(script.*?)(&gt;)/g
     },
 
-    /**
-     * matches any escaped characters inside of a js regex pattern
-     *
-     * @see https://github.com/ccampbell/rainbow/issues/22
-     *
-     * this was causing single line comments to fail so it now makes sure
-     * the opening / is not directly followed by a *
-     *
-     * @todo check that there is valid regex in match group 1
-     */
+/**
+ * matches any escaped characters inside of a js regex pattern
+ *
+ * @see https://github.com/ccampbell/rainbow/issues/22
+ *
+ * this was causing single line comments to fail so it now makes sure
+ * the opening / is not directly followed by a *
+ *
+ * @todo check that there is valid regex in match group 1
+ */
     {
         'name': 'string.regexp',
         'matches': {
@@ -78,9 +78,9 @@ Rainbow.extend('javascript', [
         'pattern': /(\/)(?!\*)(.+)(\/)([igm]{0,3})/g
     },
 
-    /**
-     * matches runtime function declarations
-     */
+/**
+ * matches runtime function declarations
+ */
     {
         'matches': {
             1: 'storage',
@@ -89,9 +89,9 @@ Rainbow.extend('javascript', [
         'pattern': /(var)?(\s|^)(.*)(?=\s?=\s?function\()/g
     },
 
-    /**
-     * matches constructor call
-     */
+/**
+ * matches constructor call
+ */
     {
         'matches': {
             1: 'keyword',
@@ -100,9 +100,9 @@ Rainbow.extend('javascript', [
         'pattern': /(new)\s+(.*)(?=\()/g
     },
 
-    /**
-     * matches any function call in the style functionName: function()
-     */
+/**
+ * matches any function call in the style functionName: function()
+ */
     {
         'name': 'entity.function',
         'pattern': /(\w+)(?=:\s{0,}function)/g

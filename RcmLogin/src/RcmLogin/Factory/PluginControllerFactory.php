@@ -1,5 +1,5 @@
 <?php
- /**
+/**
  * @category  RCM
  * @author    James Jervis <jjervis@relivinc.com>
  * @copyright 2012 Reliv International
@@ -10,9 +10,9 @@
 
 namespace RcmLogin\Factory;
 
-    use RcmLogin\Controller\PluginController;
-    use Zend\ServiceManager\FactoryInterface;
-    use Zend\ServiceManager\ServiceLocatorInterface;
+use RcmLogin\Controller\PluginController;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class PluginControllerFactory implements FactoryInterface
 {

@@ -33,7 +33,7 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
             'translate' => array(
                 'missing' => 'missing',
                 'invalid' => 'invalid',
-                'systemFailure'=> 'systemFailure',
+                'systemFailure' => 'systemFailure',
 
             ),
         );
@@ -43,8 +43,8 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
         $mockObject->disableOriginalConstructor();
         $this->mockPluginStorageMgr = $mockObject->getMock();
         $this->mockPluginStorageMgr->expects($this->any())
-        ->method('getInstanceConfig')
-        ->will($this->returnValue($instanceConfig));
+            ->method('getInstanceConfig')
+            ->will($this->returnValue($instanceConfig));
 
         // config
         $this->mockConfig = array(
@@ -85,7 +85,11 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
         // \Zend\Mvc\Controller\PluginManager
         $mapPluginManager = array(
             array('request', true, $this->mockRequest),
-            array('RcmUser\Service\RcmUserService', true, $this->mockRcmUserService)
+            array(
+                'RcmUser\Service\RcmUserService',
+                true,
+                $this->mockRcmUserService
+            )
         );
         $mockObject = $this->getMockBuilder(
             '\Zend\Mvc\Controller\PluginManager'
@@ -114,7 +118,8 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
         $result = $this->getMockResult();
         $this->buildMocks($result, $user);
 
-        $controller = new PluginController($this->mockPluginStorageMgr, $this->mockConfig, $this->mockRcmUserService);
+        $controller
+            = new PluginController($this->mockPluginStorageMgr, $this->mockConfig, $this->mockRcmUserService);
 
         $result = $controller->renderInstance('testId');
 

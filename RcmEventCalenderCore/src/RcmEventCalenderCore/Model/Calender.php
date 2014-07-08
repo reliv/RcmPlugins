@@ -2,9 +2,9 @@
 
 namespace RcmEventCalenderCore\Model;
 
-use \RcmEventCalenderCore\Entity\Event,
-    \RcmEventCalenderCore\Entity\Category,
-    \RcmEventCalenderCore\Exception\InvalidArgumentException;
+use RcmEventCalenderCore\Entity\Category;
+use RcmEventCalenderCore\Entity\Event;
+use RcmEventCalenderCore\Exception\InvalidArgumentException;
 
 class Calender
 {
@@ -91,9 +91,13 @@ class Calender
      * @throws \RcmEventCalenderCore\Exception\InvalidArgumentException
      */
     function createEvent(
-        $categoryId, $title, $text, $startDate, $endDate, $mapAddress
-    )
-    {
+        $categoryId,
+        $title,
+        $text,
+        $startDate,
+        $endDate,
+        $mapAddress
+    ) {
 
         $category = $this->categoryRepo->findOneByCategoryId($categoryId);
         if (!$category) {
@@ -128,9 +132,14 @@ class Calender
      * @throws \RcmEventCalenderCore\Exception\InvalidArgumentException
      */
     function updateEvent(
-        $eventId, $categoryId, $title, $text, $startDate, $endDate, $mapAddress
-    )
-    {
+        $eventId,
+        $categoryId,
+        $title,
+        $text,
+        $startDate,
+        $endDate,
+        $mapAddress
+    ) {
 
         $category = $this->categoryRepo->findOneByCategoryId($categoryId);
         if (!$category) {

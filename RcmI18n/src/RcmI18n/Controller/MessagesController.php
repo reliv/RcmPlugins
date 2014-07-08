@@ -1,5 +1,5 @@
 <?php
- /**
+/**
  * MessagesController.php
  *
  * LongDescHere
@@ -37,7 +37,6 @@ use Zend\View\Model\JsonModel;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-
 class MessagesController extends AbstractRestfulController
 {
 
@@ -59,7 +58,8 @@ class MessagesController extends AbstractRestfulController
             $defaultText = $message->getDefaultText();
             $text = $message->getText();
             $translations[] = [
-                'locale' => $locale, 'defaultText' => $defaultText,
+                'locale' => $locale,
+                'defaultText' => $defaultText,
                 'text' => $text
             ];
         }
@@ -79,7 +79,9 @@ class MessagesController extends AbstractRestfulController
     {
 
         if (!$this->rcmUserIsAllowed(
-            'translations', 'update', 'RcmI18nTranslations'
+            'translations',
+            'update',
+            'RcmI18nTranslations'
         )
         ) {
             $response = $this->getResponse();

@@ -36,13 +36,13 @@ use Zend\View\Model\ViewModel;
  */
 class AdminPanelController
 {
-    /** @var array  */
+    /** @var array */
     protected $adminPanelConfig;
 
-    /** @var \RcmUser\Service\RcmUserService  */
+    /** @var \RcmUser\Service\RcmUserService */
     protected $userService;
 
-    /** @var integer  */
+    /** @var integer */
     protected $siteId;
 
     /**
@@ -58,8 +58,8 @@ class AdminPanelController
         $siteId
     ) {
         $this->adminPanelConfig = $adminPanelConfig;
-        $this->userService      = $userService;
-        $this->siteId           = $siteId;
+        $this->userService = $userService;
+        $this->siteId = $siteId;
     }
 
     /**
@@ -71,7 +71,7 @@ class AdminPanelController
     {
 
         $allowed = $this->userService->isAllowed(
-            'sites.'.$this->siteId,
+            'sites.' . $this->siteId,
             'admin',
             'Rcm\Acl\ResourceProvider'
         );

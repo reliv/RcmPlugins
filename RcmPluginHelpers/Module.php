@@ -16,10 +16,6 @@
 
 namespace RcmPluginHelpers;
 
-use Zend\ModuleManager\ModuleManager;
-
-use RcmLogin\Controller\PluginController;
-
 /**
  * ZF2 Module Config.  Required by ZF2
  *

@@ -1,5 +1,5 @@
 <?php
- /**
+/**
  * LocaleController.php
  *
  * Restful Controller for creating admin screens for translations
@@ -36,7 +36,6 @@ use Zend\View\Model\JsonModel;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-
 class LocaleController extends AbstractRestfulController
 {
     /**

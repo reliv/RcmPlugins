@@ -21,11 +21,11 @@ namespace RcmAdmin\Controller;
 
 use Rcm\Http\Response;
 use Rcm\Service\PageManager;
+use RcmUser\User\Entity\User;
 use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-use RcmUser\User\Entity\User;
 
 /**
  * Admin Page Controller for the CMS
@@ -50,13 +50,13 @@ use RcmUser\User\Entity\User;
  */
 class NewPageController extends AbstractActionController
 {
-    /** @var \Rcm\Service\PageManager  */
+    /** @var \Rcm\Service\PageManager */
     protected $pageManager;
 
-    /** @var \RcmAdmin\Form\NewPageForm  */
+    /** @var \RcmAdmin\Form\NewPageForm */
     protected $pageForm;
 
-    /** @var \Zend\View\Model\ViewModel  */
+    /** @var \Zend\View\Model\ViewModel */
     protected $view;
 
     protected $siteId;
@@ -74,9 +74,9 @@ class NewPageController extends AbstractActionController
         $siteId
     ) {
         $this->pageManager = $pageManager;
-        $this->pageForm    = $pageForm;
-        $this->siteId      = $siteId;
-        $this->view        = new ViewModel();
+        $this->pageForm = $pageForm;
+        $this->siteId = $siteId;
+        $this->view = new ViewModel();
 
         $this->view->setTerminal(true);
     }
@@ -90,11 +90,12 @@ class NewPageController extends AbstractActionController
     {
 
         if (!$this->rcmUserIsAllowed(
-            'sites.'.$this->siteId.'.pages',
+            'sites.' . $this->siteId . '.pages',
             'create',
             'Rcm\Acl\ResourceProvider'
-        )) {
-            $response =  new Response();
+        )
+        ) {
+            $response = new Response();
             $response->setStatusCode('401');
 
             return $response;

@@ -1,23 +1,22 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Example - example-email-input-directive-jquery</title>
-  
+    <meta charset="UTF-8">
+    <title>Example - example-email-input-directive-jquery</title>
 
-  <script src="../../components/jquery-1.10.2/jquery.js"></script>
-  <script src="../../../angular.js"></script>
-  
 
-  
+    <script src="../../components/jquery-1.10.2/jquery.js"></script>
+    <script src="../../../angular.js"></script>
+
+
 </head>
 <body ng-app="">
-  <script>
-  function Ctrl($scope) {
-    $scope.text = 'me@example.com';
-  }
+<script>
+    function Ctrl($scope) {
+        $scope.text = 'me@example.com';
+    }
 </script>
-  <form name="myForm" ng-controller="Ctrl">
+<form name="myForm" ng-controller="Ctrl">
     Email: <input type="email" name="input" ng-model="text" required>
     <span class="error" ng-show="myForm.input.$error.required">
       Required!</span>
@@ -29,6 +28,6 @@
     <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
     <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
     <tt>myForm.$error.email = {{!!myForm.$error.email}}</tt><br/>
-  </form>
+</form>
 </body>
 </html>

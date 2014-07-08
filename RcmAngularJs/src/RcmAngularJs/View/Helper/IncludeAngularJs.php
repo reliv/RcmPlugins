@@ -31,6 +31,8 @@ class IncludeAngularJs extends AbstractHelper
         /** @var \Zend\View\Helper\HeadScript $headScript */
         $headScript = $view->headScript();
 
-        $headScript->prependFile('/modules/rcm-angular-js/angular/angular.min.js');
+        $headScript->prependFile(
+            '/modules/rcm-angular-js/angular/angular.min.js'
+        );
     }
 }

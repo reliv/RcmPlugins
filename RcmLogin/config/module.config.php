@@ -34,13 +34,11 @@ return array(
             'uncategorizedErrorRedirect' => "/account-issue"
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
     ),
-
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(
@@ -48,7 +46,6 @@ return array(
             ),
         ),
     ),
-
     'service_manager' => array(
 
         'factories' => array(

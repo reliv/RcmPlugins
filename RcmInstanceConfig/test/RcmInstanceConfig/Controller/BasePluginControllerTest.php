@@ -54,7 +54,8 @@ class BasePluginControllerTest extends BaseTestCase
         $request = new Request();
         $this->basePluginController->setRequest(new Request());
         $this->assertEquals(
-            $request, $this->basePluginController->getRequest()
+            $request,
+            $this->basePluginController->getRequest()
         );
     }
 
@@ -97,7 +98,8 @@ class BasePluginControllerTest extends BaseTestCase
      */
     function testGetNewInstanceConfig()
     {
-        $instanceConfig = $this->basePluginController->getDefaultInstanceConfig();
+        $instanceConfig = $this->basePluginController->getDefaultInstanceConfig(
+        );
         $this->assertEquals($instanceConfig['html'], self::DEFAULT_HTML);
     }
 
@@ -143,7 +145,7 @@ class BasePluginControllerTest extends BaseTestCase
     public function testPostIsForThisPlugin()
     {
         $this->basePluginController->setPluginName('RcmJDPluginStorage');
-        $_POST['rcmPluginName'] =  $this->basePluginController->getPluginName();
+        $_POST['rcmPluginName'] = $this->basePluginController->getPluginName();
         $this->basePluginController->setRequest(new Request());
         $this->assertTrue(
             $this->basePluginController->postIsForThisPlugin()

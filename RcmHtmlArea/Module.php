@@ -16,7 +16,7 @@
 
 namespace RcmHtmlArea;
 
-use \RcmInstanceConfig\Controller\BasePluginController;
+use RcmInstanceConfig\Controller\BasePluginController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -56,15 +56,15 @@ class Module
         return array(
             'factories' => array(
                 'RcmHtmlArea' => function ($controllerMgr) {
-                    $serviceMgr = $controllerMgr->getServiceLocator();
+                        $serviceMgr = $controllerMgr->getServiceLocator();
 
-                    $controller = new BasePluginController(
-                        $serviceMgr->get('rcmPluginStorage'),
-                        $serviceMgr->get('config'),
-                        __DIR__
-                    );
-                    return $controller;
-                }
+                        $controller = new BasePluginController(
+                            $serviceMgr->get('rcmPluginStorage'),
+                            $serviceMgr->get('config'),
+                            __DIR__
+                        );
+                        return $controller;
+                    }
             )
         );
     }

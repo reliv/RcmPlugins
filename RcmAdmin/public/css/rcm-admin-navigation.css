@@ -8,6 +8,7 @@
 
     border-width: 1px 0;
 }
+
 .rcmAdminNavigation ul ul {
     width: 100%;
     list-style: none;
@@ -25,11 +26,10 @@
     color: #000000;
     text-decoration: none;
     padding: 0.10em 1.2em;
-    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
     font-weight: normal;
 }
-
 
 .rcmAdminNavigation li {
     float: left;
@@ -91,7 +91,6 @@
 .rcmAdminNavigation li:hover ul, .rcmAdminNavigation li li:hover ul, .rcmAdminNavigation li li li:hover ul {
     left: auto;
 }
-
 
 .rcmAdminNavigation li li.newPageIcon, .rcmAdminNavigation li li.newPageIcon:hover {
     background-image: url("/modules/rcm/images/icons/karma/newpage.png");
