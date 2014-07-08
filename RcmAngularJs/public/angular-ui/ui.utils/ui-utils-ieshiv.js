@@ -64,5 +64,4 @@
             document.createElement(customElement);
         }
     }
-
 })(window, document);
