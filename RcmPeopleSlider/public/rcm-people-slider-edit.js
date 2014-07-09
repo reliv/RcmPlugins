@@ -242,5 +242,4 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             people: people
         }
     }
-
 };
