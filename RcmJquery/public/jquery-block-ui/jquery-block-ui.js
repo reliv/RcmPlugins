@@ -623,5 +623,4 @@
     } else {
         setup(jQuery);
     }
-
 })();

@@ -44,7 +44,6 @@ section {
     .bs-social {
         text-align: left;
     }
-
 }
 
 .nav, .pagination, .carousel, .panel-title a {
@@ -73,7 +72,6 @@ section {
     .visible-xs.collapse {
         display: none !important;
     }
-
 }
 
 .navbar .collapse {
@@ -143,7 +141,6 @@ section {
         padding: 18px 24px;
         font-size: 21px;
     }
-
 }
 
 .btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active {
@@ -333,5 +330,4 @@ section {
         margin-right: 5px;
         margin-left: 10px;
     }
-
 }
