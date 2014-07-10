@@ -36,7 +36,7 @@ return array(
             'ViewJsonStrategy',
         ),
     ),
-    /* <TEST> - TESTING ONLY */
+    /* <TEST> - TESTING ONLY *
     'controllers' => array(
         'invokables' => array(
             'RcmTinyMce\Controller\TestController' =>

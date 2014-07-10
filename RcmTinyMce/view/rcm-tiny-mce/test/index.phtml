@@ -124,71 +124,60 @@ if ($this->testType == 'default') {
                 return self;
             }
         )
-            .factory(
+        .factory(
+            'htmlEditorDefaultOptions',
+            [
+                'rcmConfig',
+                function (rcmConfig) {
+                    var tinymceOptions = {
+                        force_br_newlines: false,
+                        force_p_newlines: false,
+                        forced_root_block: '',
+
+                        inline: true,
+                        fixed_toolbar_container: '#externalToolbarWrapper',
+
+                        menubar: false,
+                        plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
+                        relative_urls: true,
+                        document_base_url: rcmConfig.baseUrl,
+                        statusbar: false,
+                        selector: "[data-richEdit],[data-textEdit]", //"div.editor",
+
+                        setup: function (theEditor) {
+                            /* hide/show toolbar on focus div.mce-toolbar-grp *
+                             theEditor.on('focus', function () {
+                             $('#externalToolbarWrapper').find("div.mce-panel").show();
+                             });
+                             theEditor.on('blur', function () {
+                             $('#externalToolbarWrapper').find("div.mce-panel").show();
+                             });
+                             theEditor.on("init", function() {
+                             $('#externalToolbarWrapper').find("div.mce-panel").show();
+                             });
+                             //*/
+                        },
+
+                        toolbar: [
+                            "code | undo redo | spellchecker | styleselect | " +
+                                "bold italic underline strikethrough subscript superscript removeformat | " +
+                                "alignleft aligncenter alignright alignjustify | " +
+                                "bullist numlist outdent indent | cut copy paste pastetext | " +
+                                "image table hr charmap template | link unlink anchor"
+                        ]
+                    };
+
+                    return tinymceOptions;
+                }
+            ]
+        )
+        .factory(
+            'rcmHtmlEdit',
+            [
                 'htmlEditorDefaultOptions',
-                [
-                    'rcmConfig',
-                    function (rcmConfig) {
-                        var tinymceOptions = {
-                            force_br_newlines: false,
-                            force_p_newlines: false,
-                            forced_root_block: '',
+                function (htmlEditorDefaultOptions) {
 
-                            inline: true,
-                            fixed_toolbar_container: '#externalToolbarWrapper',
-
-                            menubar: false,
-                            plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
-                            relative_urls: true,
-                            document_base_url: rcmConfig.baseUrl,
-                            statusbar: false,
-                            selector: "[data-richEdit],[data-textEdit]", //"div.editor",
-
-                            setup: function (theEditor) {
-                                /* hide/show toolbar on focus div.mce-toolbar-grp *
-                                 theEditor.on('focus', function () {
-                                 $('#externalToolbarWrapper').find("div.mce-panel").show();
-                                 });
-                                 theEditor.on('blur', function () {
-                                 $('#externalToolbarWrapper').find("div.mce-panel").show();
-                                 });
-                                 theEditor.on("init", function() {
-                                 $('#externalToolbarWrapper').find("div.mce-panel").show();
-                                 });
-                                 //*/
-                            },
-
-                            toolbar: [
-                                "code | undo redo | spellchecker | styleselect | " +
-                                    "bold italic underline strikethrough subscript superscript removeformat | " +
-                                    "alignleft aligncenter alignright alignjustify | " +
-                                    "bullist numlist outdent indent | cut copy paste pastetext | " +
-                                    "image table hr charmap template | link unlink anchor"
-                            ]
-                        };
-
-                        return tinymceOptions;
-                    }
-                ]
-            )
-            .controller(
-                'rcmController',
-                [
-                    '$scope',
-                    'htmlEditorDefaultOptions',
-                    function ($scope, htmlEditorDefaultOptions) {
-
-                        $scope.tinymceOptions = htmlEditorDefaultOptions;
-
-                        $scope.myModel = "My Text"
-                    }
-                ]
-            )
-            .directive(
-                'richedit',
-                [
-                    'htmlEditorDefaultOptions',
-                    function(htmlEditorDefaultOptions){
+                    return function () {
 
                         var thislink = function (scope, element, attrs) {
 
@@ -199,7 +188,7 @@ if ($this->testType == 'default') {
                             };
 
                             console.log(attrs);
-                            if (!attrs.id) {
+                            if (!attrs.uiTinymce) {
                                 attrs.$set('uiTinymce', htmlEditorDefaultOptions);
                             }
 
@@ -212,8 +201,32 @@ if ($this->testType == 'default') {
                             template: 'MEEEEEEEE'
                         }
                     }
-                ]
-            );
+                }
+            ]
+        )
+        .controller(
+            'rcmController',
+            [
+                '$scope',
+                'htmlEditorDefaultOptions',
+                function ($scope, htmlEditorDefaultOptions) {
+
+                    $scope.tinymceOptions = htmlEditorDefaultOptions;
+
+                    $scope.myModel = "My Text"
+                }
+            ]
+        )
+        .directive(
+            'richedit',
+            [
+                'rcmHtmlEdit',
+                function (rcmHtmlEdit) {
+
+                    return rcmHtmlEdit();
+                }
+            ]
+        );
     </script>
     <div ng-app="Rcm">
         <form method="post" ng-controller="rcmController">
