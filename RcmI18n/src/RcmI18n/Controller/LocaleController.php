@@ -8,7 +8,7 @@
  *
  * @category  Reliv
  * @package   RcmI18n\Entity\Controller
- * @author    authorFirstAndLast <author@relivinc.com>
+ * @author    Inna Davis <idavis@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
@@ -20,22 +20,6 @@ namespace RcmI18n\Controller;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
-
-/**
- * Class LocaleController
- *
- * Restful Controller for creating admin screens for translations
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   RcmI18n\Entity\Controller
- * @author    Inna Davis <idavis@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
- */
 class LocaleController extends AbstractRestfulController
 {
     /**
@@ -64,7 +48,4 @@ class LocaleController extends AbstractRestfulController
 
         return new JsonModel($list);
     }
-
-
 }
- 

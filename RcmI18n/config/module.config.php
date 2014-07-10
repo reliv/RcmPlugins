@@ -30,7 +30,9 @@ return array(
                         'update',
                         'create',
                         'delete',
-                    )
+                    ),
+                     'name' => 'Translations',
+                     'description' => 'Creating translations for other countries',
                 )
             )
         )
