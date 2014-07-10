@@ -9,11 +9,11 @@ angular.module('rcmLocales', [])
                 locales: '/rcmi18n/messages'
             };
             $scope.locales = [];
-            $scope.loading = false;
+            $scope.loading = false;//loadin ng-show set to false
             $scope.messageQuery = '';
             self.getLocales = function () {
-                $scope.loading = true;
-                $http({method: 'GET', url: self.url.locales}).
+                $scope.loading = true;//loadin ng-show set to true when getLocales is called
+                $http({method: 'GET', url: self.url.locales}).//method get to get all locales
                     success(function (data, status, headers, config) {
                         $scope.locales = data;
                         $scope.loading = false;
@@ -34,11 +34,12 @@ angular.module('rcmLocales', [])
             $scope.messages = [];
             $scope.loading = false;
             $scope.OpenLocale = function () {
-                $scope.loading = true;
+                $scope.loading = true;//loadin ng-show set to true when ng change OpenLocale() is called
                 var locale = $scope.selectedLocale;
                 if (locale) {
+                    $scope.loading = true;
                     $http({
-                        method: 'GET',
+                        method: 'GET',//method get to get selected locale
                         url: '/rcmi18n/messages/' + $scope.selectedLocale
                     }).
                         success(function (data, status, headers, config) {
@@ -58,7 +59,7 @@ angular.module('rcmLocales', [])
 
             $scope.saveText = function (message) {
                 $http({
-                    method: 'PUT',
+                    method: 'PUT',//method put to update selected locale
                     url: '/rcmi18n/messages/' + $scope.selectedLocale + '/' + message.defaultText,
                     data: message
                 }).
@@ -81,7 +82,7 @@ angular.module('rcmLocales', [])
 
 
     ])
-    .filter('filter', function () {
+    .filter('filter', function () { //search for text and Default text
 
         var compareStr = function (stra, strb) {
             stra = ("" + stra).toLowerCase();

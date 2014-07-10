@@ -16,11 +16,12 @@
 <body ng-app="rcmLocales">
 <div ng-controller="rcmTranslations">
     <form style="margin:2em;">
-        <div ng-show="loading"><div class="loading"><div></div><div></div><div></div></div></div>
         <label>
+            <div class="container" ng-show="loading"><div class="loading"><div></div><div></div><div></div><div></div></div></div>
             <select class="form-control" ng-model="selectedLocale"
                     ng-options="locale for locale in locales"
-                    ng-change="OpenLocale()">
+                    ng-change="OpenLocale()"
+                    ng-disabled="loading">
                 <option value="">
                     Please select language
                 </option>
