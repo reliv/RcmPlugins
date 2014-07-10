@@ -30,6 +30,8 @@ return array(
                 'RcmAngularJs\View\Helper\IncludeAngularJs',
             'rcmIncludeAngularJsUiBootstrap' =>
                 'RcmAngularJs\View\Helper\IncludeAngularJsBootstrap',
+            'rcmIncludeAngularJsUiTinyMce' =>
+                'RcmAngularJs\View\Helper\IncludeAngularJsTinyMce',
         ),
     ),
     'view_manager' => array(
