@@ -1434,7 +1434,6 @@ if (typeof jQuery === 'undefined') {
         $.fn.tooltip = old
         return this
     }
-
 }(jQuery);
 
 /* ========================================================================
@@ -1545,7 +1544,6 @@ if (typeof jQuery === 'undefined') {
         $.fn.popover = old
         return this
     }
-
 }(jQuery);
 
 /* ========================================================================
