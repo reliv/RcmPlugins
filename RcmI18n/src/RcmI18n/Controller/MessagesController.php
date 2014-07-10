@@ -68,11 +68,10 @@ class MessagesController extends AbstractRestfulController
             }
             $translations[] = [
                 'locale' => $locale,
-                'defaultText' => $defaultText,
-                'text' => $text
+                'defaultText' => utf8_decode($defaultText),
+                'text' => utf8_decode($text)
             ];
         }
-
         return new JsonModel($translations);
     }
 
@@ -84,7 +83,7 @@ class MessagesController extends AbstractRestfulController
      *
      * @return mixed
      */
-    public function update($id, $data)
+    public function update($defaultText, $data)
     {
 
         if (!$this->rcmUserIsAllowed(
@@ -100,19 +99,22 @@ class MessagesController extends AbstractRestfulController
         }
         $locale = $this->params()->fromRoute('locale');
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        $message = $em->getRepository('RcmI18n\Entity\Message')->findBy(
-            array('locale' => $locale, 'defaultText' => $id)
+        $message = $em->getRepository('RcmI18n\Entity\Message')->findOneBy(
+            array('locale' => $locale, 'defaultText' => $defaultText)
         );
         if ($message instanceof Message) {
             $message->setText($data['text']);
         } else {
             $message = new Message();
-            $em->persist($message);
             $message->setLocale($locale);
-            $message->setDefaultText($id);
+            $message->setDefaultText($defaultText);
             $message->setText($data['text']);
+
+            $em->persist($message);
         }
         $em->flush();
 
+
+        return new JsonModel();
     }
 }

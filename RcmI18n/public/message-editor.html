@@ -4,74 +4,57 @@
             src="/modules/rcm-angular-js/angular/angular.min.js"></script>
     <script type="text/javascript"
             src="/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js"></script>
-    <link href="/modules/rcm-twitter-bootstrap/css/bootstrap.min.css" media="screen"
+    <link href="/modules/rcm-twitter-bootstrap/css/bootstrap.min.css"
+          media="screen"
           rel="stylesheet" type="text/css">
     <script type="text/javascript"
             src="/modules/rcm-i18n/locales.js"></script>
+    <link href="/modules/rcm-i18n/styles.css"
+          media="screen"
+          rel="stylesheet" type="text/css">
 </head>
-<body ng-app="rcmLocales" ng-controller="rcmTranslations">
-<div  ng-controller="rcmTranslations">
-<form style="margin:2em;">
-    <div ng-show="loading">Loading</div>
-    <label>
-        <select class="form-control" ng-model="selectedLocale" ng-options="locale for locale in locales">
-            <option value=""> {{locales}}
-                Please select language
-            </option>
-        </select>
-    </label>
-    <label style="float:right;width:20em" class="input-group">
-        <input class="form-control">
+<body ng-app="rcmLocales">
+<div ng-controller="rcmTranslations">
+    <form style="margin:2em;">
+        <div ng-show="loading"><div class="loading"><div></div><div></div><div></div></div></div>
+        <label>
+            <select class="form-control" ng-model="selectedLocale"
+                    ng-options="locale for locale in locales"
+                    ng-change="OpenLocale()">
+                <option value="">
+                    Please select language
+                </option>
+            </select>
+        </label>
+        <label style="float:right;width:20em" class="input-group">
+            <input ng-model="messageQuery" class="form-control"/>
         <span class="input-group-addon glyphicon glyphicon-search"
               style="position:static"></span>
-    </label>
-    <table class="table panel panel-default" style="margin-top: 1em">
-        <tr>
-            <th style="width:50%">
-                Default Message
-            </th>
-            <th>
-                Translated Message
-            </th>
-        </tr>
-        <tr>
-            <td>
-                Become a distributor Become a distributorBecome a
-                distributorBecome a distributorBecome a distributorBecome a
-                distributorBecome a distributorBecome a distributor
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Become a distributor
-            </td>
-            <td>
-                <textarea class="form-control">Becomo Distributoro i typed a
-                    change</textarea>
-                <button class="glyphicon glyphicon-save"
-                        style="float:right;margin-top:1em">
-                    Save
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Become a distributor
-            </td>
-            <td>
-                <textarea class="form-control">Becomo Distributoro</textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Become a distributor
-            </td>
-            <td>
-                <textarea class="form-control">Becomo Distributoro</textarea>
-            </td>
-        </tr>
-    </table>
-</form>
+        </label>
+        <table class="table panel panel-default" style="margin-top: 1em">
+            <tr>
+                <th style="width:50%">
+                    Default Message
+                </th>
+                <th>
+                    Translated Message
+                </th>
+            </tr>
+            <tr ng-repeat="message in messages | filter:messageQuery">
+                <td>
+                   {{message.defaultText}}
+                </td>
+                <td>
+                    <textarea class="form-control" ng-change="message.dirty = true" ng-model="message.text">{{message.text}}</textarea>
+                    <div ng-show="message.dirty"><button ng-click="saveText(message)" class="glyphicon glyphicon-save"
+                            style="float:right;margin-top:1em">
+                        Save
+                    </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 </body>
 </html>
