@@ -7,7 +7,7 @@ var rcmHtmlEditorState = {
     isEditing: false,
     toolbarLoading: true
 };
-angular.module('RcmHtmlEditor', ['ui.tinymce'])
+angular.module('RcmHtmlEditor',[])
     .factory(
     'rcmHtmlEditorConfig',
     function () {
