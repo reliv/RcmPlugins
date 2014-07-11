@@ -7,4 +7,9 @@ $this->headLink()->appendStylesheet(
 
 <div class="rcmAdminPanelWrapper">
     <?= $this->render('rcm-admin/admin/partial/navigation/navigation.phtml'); ?>
+    <?php
+    // Requires Angular and rcmJavaScriptLib/public/html-editor/html-editor.js
+    // and a parent angular controller
+    ?>
+    <div html-editor-toolbar></div>
 </div>

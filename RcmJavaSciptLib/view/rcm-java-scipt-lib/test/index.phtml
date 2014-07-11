@@ -1,0 +1,136 @@
+<?php
+
+if ($this->testType == 'default') {
+
+    /* From RcmAngularJs Module */
+    $this->rcmIncludeAngularJsUiTinyMce();
+    $this->rcmJsLibIncludeHtmlEditor();
+
+    ?>
+
+    TEST ANGULARJS RcmTinyMce
+    <script type="text/javascript">
+        // angular
+
+    </script>
+    <div ng-app="RcmHtmlEditor" ng-controller="RcmHtmlEditorTestController">
+        <div>
+            <div html-editor-toolbar></div>
+
+            <form method="post">
+                <div>Model Value: <pre>{{myModel | json}}</pre></div>
+                <br/>
+                <br/>
+
+                <div data-richEdit="something" ng-model="myModel.a">richEdit</div>
+                <br/>
+
+                <span data-textEdit="somethingText" ng-model="myModel.b">textEdit</span>
+                <br/>
+
+                <label data-richEdit="something" ng-model="myModel.c">richEdit label</label>
+                <br/>
+
+                <button disabled="disabled" onclick="return false;">
+                    <div data-richEdit="something" ng-model="myModel.c">richEdit button</div>
+                </button>
+                <br/>
+            </form>
+        </div>
+    </div>
+
+
+<?php
+
+} else {
+    $this->rcmIncludeTinyMceJs();
+
+    ?>
+
+    TEST STNADARD RcmTinyMce
+    <script type="text/javascript">
+        baseUrl = "<?php echo $baseUrl; ?>";
+
+        //tn1 = new tinymce();
+        /* */
+        tinymce.init({
+            force_br_newlines: false,
+            force_p_newlines: false,
+            forced_root_block: '',
+
+            inline: true,
+            fixed_toolbar_container: '#externalToolbarWrapper',
+
+            menubar: false,
+            plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
+            relative_urls: true,
+            document_base_url: baseUrl,
+            statusbar: false,
+            selector: "[data-richEdit],[data-textEdit]", //"div.editor",
+
+            setup: function (theEditor) {
+                /* hide/show toolbar on focus div.mce-toolbar-grp *
+                 theEditor.on('focus', function () {
+                 $('#externalToolbarWrapper').find("div.mce-panel").show();
+                 });
+                 theEditor.on('blur', function () {
+                 $('#externalToolbarWrapper').find("div.mce-panel").show();
+                 });
+                 theEditor.on("init", function() {
+                 $('#externalToolbarWrapper').find("div.mce-panel").show();
+                 });
+                 //*/
+            },
+
+            toolbar: [
+                "code | undo redo | spellchecker | styleselect | " +
+                    "bold italic underline strikethrough subscript superscript removeformat | " +
+                    "alignleft aligncenter alignright alignjustify | " +
+                    "bullist numlist outdent indent | cut copy paste pastetext | " +
+                    "image table hr charmap template | link unlink anchor"
+            ]
+        });
+        //*/
+
+        testDefaultOutput = function (elm) {
+
+            document.getElementById('defaultOutput').innerText = elm.innerHTML;
+        };
+    </script>
+    <div>
+        <div id="externalToolbarWrapper" class="mce-tinymce-inline">TOOLBAR</div>
+        <br/>
+        <br/>
+
+        <div>Model Value: "<span id="defaultOutput"></span>"</div>
+        <br/>
+
+        <form method="post">
+            <label for="textarea1">GENERAL USAGE</label>
+            <br/>
+
+            <div class="editor">CLASS</div>
+            <br/>
+
+            <div data-richEdit="something" onblur="testDefaultOutput(this)">richEdit</div>
+            <br/>
+
+            <div data-richEdit="somethingElse" onblur="testDefaultOutput(this)">richEdit2</div>
+            <br/>
+
+            <div data-textEdit="somethingText" onblur="testDefaultOutput(this)">textEdit</div>
+            <br/>
+            <label data-richEdit="something" onblur="testDefaultOutput(this)">richEdit label</label>
+            <br/>
+            <button disabled="disabled" onclick="return false;">
+                <div data-richEdit="something">richEdit button</div>
+            </button>
+        </form>
+    </div>
+
+<?php
+}
+?>
+
+
+

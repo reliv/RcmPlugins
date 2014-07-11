@@ -32,34 +32,5 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
-        'strategies' => array(
-            'ViewJsonStrategy',
-        ),
     ),
-    /* <TEST> - TESTING ONLY *
-    'controllers' => array(
-        'invokables' => array(
-            'RcmTinyMce\Controller\TestController' =>
-                'RcmTinyMce\Controller\TestController',
-        ),
-    ),
-    'router' => array(
-        'routes' => array(
-            'RcmTinyMceTest' => array(
-                'may_terminate' => true,
-                'type' => 'segment',
-                'options' => array(
-                    'route' => '/rcmtinymce',
-                    'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'RcmTinyMce\Controller\TestController',
-                        'action' => 'index',
-                    ),
-                ),
-            ),
-        ),
-    ),
-    /* </TEST> */
 );
