@@ -1,6 +1,6 @@
 <?php
 
-namespace RcmTinyMce\Controller;
+namespace RcmJavaSciptLib\Controller;
 
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
