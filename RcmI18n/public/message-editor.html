@@ -17,7 +17,6 @@
 <div ng-controller="rcmTranslations">
     <form style="margin:2em;">
         <label>
-            <div class="container" ng-show="loading"><div class="loading"><div></div><div></div><div></div><div></div></div></div>
             <select class="form-control" ng-model="selectedLocale"
                     ng-options="locale for locale in locales"
                     ng-change="OpenLocale()"
@@ -32,7 +31,11 @@
         <span class="input-group-addon glyphicon glyphicon-search"
               style="position:static"></span>
         </label>
-        <table class="table panel panel-default" style="margin-top: 1em">
+        <div class="loadBar"><div ng-show="loading">
+            <i class="glyphicon glyphicon-refresh loading"
+               ng-class="{'active': loading}"></i>
+        </div></div>
+        <table ng-hide="translations" class="table panel panel-default" style="margin-top: 1em">
             <tr>
                 <th style="width:50%">
                     Default Message
@@ -43,6 +46,7 @@
             </tr>
             <tr ng-repeat="message in messages | filter:messageQuery">
                 <td>
+
                    {{message.defaultText}}
                 </td>
                 <td>
