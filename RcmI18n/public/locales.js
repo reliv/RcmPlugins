@@ -10,13 +10,16 @@ angular.module('rcmLocales', [])
             };
             $scope.locales = [];
             $scope.loading = false;//loadin ng-show set to false
+            $scope.translations = false;
             $scope.messageQuery = '';
             self.getLocales = function () {
                 $scope.loading = true;//loadin ng-show set to true when getLocales is called
+                $scope.translations = true;
                 $http({method: 'GET', url: self.url.locales}).//method get to get all locales
                     success(function (data, status, headers, config) {
                         $scope.locales = data;
                         $scope.loading = false;
+                        $scope.translations = false;
                         // this callback will be called asynchronously
                         // when the response is available
                     }).
@@ -33,11 +36,13 @@ angular.module('rcmLocales', [])
             $scope.selectedLocale = null;
             $scope.messages = [];
             $scope.loading = false;
+            $scope.translations = false;
             $scope.OpenLocale = function () {
                 $scope.loading = true;//loadin ng-show set to true when ng change OpenLocale() is called
                 var locale = $scope.selectedLocale;
                 if (locale) {
                     $scope.loading = true;
+                    $scope.translations = true;
                     $http({
                         method: 'GET',//method get to get selected locale
                         url: '/rcmi18n/messages/' + $scope.selectedLocale
@@ -45,6 +50,7 @@ angular.module('rcmLocales', [])
                         success(function (data, status, headers, config) {
                             $scope.messages = data;
                             $scope.loading = false;
+                            $scope.translations = false;
                         }
 
                     ).
