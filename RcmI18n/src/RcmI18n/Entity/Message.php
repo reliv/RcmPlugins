@@ -65,6 +65,7 @@ class Message
      */
     protected $text;
 
+
     /**
      * @param string $defaultText
      */
@@ -112,4 +113,5 @@ class Message
     {
         return $this->text;
     }
+
 } 
