@@ -3,43 +3,71 @@
 if ($this->testType == 'default') {
 
     /* From RcmAngularJs Module */
-    $this->rcmIncludeAngularJsUiTinyMce();
+    $this->rcmIncludeAngularJs();
+    $this->rcmIncludeTinyMceJs();
     $this->rcmJsLibIncludeHtmlEditor();
+
+    $headLink = $this->headLink();
+
+    /* Fixes issues with toolbar wrapping */
+    $headLink->appendStylesheet(
+        '/modules/rcm-js-lib/html-editor/html-editor.css'
+    );
 
     ?>
 
-    TEST ANGULARJS RcmTinyMce
-    <script type="text/javascript">
-        // angular
-
-    </script>
+    <h1>TEST ANGULARJS RcmTinyMce</h1>
     <div ng-app="RcmHtmlEditor" ng-controller="RcmHtmlEditorTestController">
         <div>
-            <div html-editor-toolbar></div>
+            <div style="position: relative; height: 100px;">
+                <div style="position: absolute; top: 0px; left: 0px; width: 700px; z-index: 1000">
+                    <div html-editor-toolbar></div>
+                </div>
+            </div>
 
             <form method="post">
-                <div>Model Value: <pre>{{myModel | json}}</pre></div>
+                <div>
+                    <p><b>Model:</b></p>
+                    <pre>{{myModel | json}}</pre>
+                </div>
                 <br/>
                 <br/>
+
+                <p><b>EXAMPLE data-rcm-html-edit:</b></p>
+
+                <div data-rcm-html-edit="something" ng-model="myModel.a">rcmHtmlEdit</div>
+                <br/>
+
+                <p><b>EXAMPLE Attribute options:</b></p>
+                <span data-rcm-html-edit="somethingText" htlm-editor-options="tinymceOptions" ng-model="myModel.b">OPTIONS ATTR</span>
+                <br/><br/>
+
+                <p><b>EXAMPLE Label:</b></p>
+                <label data-rcm-html-edit="something" ng-model="myModel.c">LABEL</label>
+                <br/><br/>
+
+                <!--<p><b>EXAMPLE textarea (NOT SUPPORTED):</b></p>
+                <textarea data-rcm-html-edit="something" id="TEXTAREA1" ng-model="myModel.e">TEXTAREA</textarea>
+                <br/><br/>
+                -->
+
+                <p><b>EXAMPLE Button:</b></p>
+                <button disabled="disabled" onclick="return false;">
+                    <div data-rcm-html-edit="something" ng-model="myModel.d">BUTTON</div>
+                </button>
+                <br/><br/>
+
+                <p><b>@DEPRECATED data-richEdit</b></p>
 
                 <div data-richEdit="something" ng-model="myModel.a">richEdit</div>
-                <br/>
+                <br/><br/>
 
+                <p><b>@DEPRECATED data-textEdit</b></p>
                 <span data-textEdit="somethingText" ng-model="myModel.b">textEdit</span>
-                <br/>
-
-                <label data-richEdit="something" ng-model="myModel.c">richEdit label</label>
-                <br/>
-
-                <button disabled="disabled" onclick="return false;">
-                    <div data-richEdit="something" ng-model="myModel.c">richEdit button</div>
-                </button>
-                <br/>
+                <br/><br/>
             </form>
         </div>
     </div>
-
-
 <?php
 
 } else {

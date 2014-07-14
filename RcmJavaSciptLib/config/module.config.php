@@ -49,7 +49,7 @@ return array(
                 'may_terminate' => true,
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/rcm-java-scipt-lib/html-editor',
+                    'route' => '/rcm-java-scipt-lib/html-editor-example',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ),

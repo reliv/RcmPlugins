@@ -1,0 +1,9 @@
+/* To help with responsive design */
+.mce-tinymce {
+    position: relative!important;
+    width: 100%!important;
+}
+
+.mce-btn-group {
+    float: left!important;
+}
