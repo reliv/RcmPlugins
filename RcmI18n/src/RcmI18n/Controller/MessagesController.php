@@ -84,25 +84,36 @@ class MessagesController extends AbstractRestfulController
         }
 
         $locale = $this->params()->fromRoute('locale');
+        $cleanDefaultText = $this->rcmHtmlPurify($defaultText);
         $cleanLocal = $this->rcmHtmlPurify($locale);
+        $cleanText = $this->rcmHtmlPurify($data['text']);
 
-        if($cleanLocal != $locale){
+        if(
+            $cleanLocal != $locale  ||
+            $cleanDefaultText != $defaultText ||
+            $cleanText != $data['text']
+        ){
 
-            throw new \Exception('Locale contains invalid data.');
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_400);
+            $response->setContent(
+                $response->renderStatusLine() .' - Data contains unacceptable HTML.'
+            );
+            return $response;
         }
 
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         $message = $em->getRepository('RcmI18n\Entity\Message')->findOneBy(
-            array('locale' => $cleanLocal, 'defaultText' => $defaultText)
+            array('locale' => $cleanLocal, 'defaultText' => $cleanDefaultText)
         );
 
         if ($message instanceof Message) {
-            $message->setText($this->rcmHtmlPurify($data['text']));
+            $message->setText($cleanText);
         } else {
             $message = new Message();
             $message->setLocale($cleanLocal);
-            $message->setDefaultText($this->rcmHtmlPurify($defaultText));
-            $message->setText($this->rcmHtmlPurify($data['text']));
+            $message->setDefaultText($cleanDefaultText);
+            $message->setText($cleanText);
 
             $em->persist($message);
         }
