@@ -17,7 +17,10 @@
 
 namespace RcmI18n\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use
+    Doctrine\ORM\Mapping as ORM;
+use
+    Zend\Stdlib\ArrayObject;
 
 /**
  * Message Entity
@@ -40,7 +43,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     indexes={@ORM\Index(name="locale", columns={"locale"})}),
  * )
  */
-class Message
+class Message implements \IteratorAggregate
 {
     /**
      * @var string Locale
@@ -114,4 +117,14 @@ class Message
         return $this->text;
     }
 
+    /**
+     * getIterator
+     *
+     * @return array|\Traversable
+     */
+    public function getIterator()
+    {
+        $a = new ArrayObject(get_object_vars($this));
+        return $a->getIterator();
+    }
 } 

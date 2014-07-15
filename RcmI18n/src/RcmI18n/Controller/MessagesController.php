@@ -63,14 +63,14 @@ class MessagesController extends AbstractRestfulController
     /**
      * Update translations
      *
-     * @param mixed $id Text that need to be translated
-     * @param mixed $data Data
+     * @param mixed $defaultText Text that need to be translated
+     * @param mixed $data        Data
      *
-     * @return mixed
+     * @return mixed|\Zend\Stdlib\ResponseInterface|JsonModel
+     * @throws \Exception
      */
     public function update($defaultText, $data)
     {
-
         if (!$this->rcmUserIsAllowed(
             'translations',
             'update',
@@ -82,23 +82,31 @@ class MessagesController extends AbstractRestfulController
             $response->setContent($response->renderStatusLine());
             return $response;
         }
+
         $locale = $this->params()->fromRoute('locale');
+        $cleanLocal = $this->rcmHtmlPurify($locale);
+
+        if($cleanLocal != $locale){
+
+            throw new \Exception('Locale contains invalid data.');
+        }
+
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         $message = $em->getRepository('RcmI18n\Entity\Message')->findOneBy(
-            array('locale' => $locale, 'defaultText' => $defaultText)
+            array('locale' => $cleanLocal, 'defaultText' => $defaultText)
         );
+
         if ($message instanceof Message) {
-            $message->setText($data['text']);
+            $message->setText($this->rcmHtmlPurify($data['text']));
         } else {
             $message = new Message();
-            $message->setLocale($locale);
-            $message->setDefaultText($defaultText);
-            $message->setText($data['text']);
+            $message->setLocale($cleanLocal);
+            $message->setDefaultText($this->rcmHtmlPurify($defaultText));
+            $message->setText($this->rcmHtmlPurify($data['text']));
 
             $em->persist($message);
         }
         $em->flush();
-
 
         return new JsonModel();
     }

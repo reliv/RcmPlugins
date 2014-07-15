@@ -23,4 +23,10 @@ return array(
             'RcmHtmlPurifier' => 'RcmHtmlPurifier\Factory\HtmlPurifierFactory',
         )
     ),
+    'controller_plugins' => array(
+        'invokables' => array(
+            'rcmHtmlPurify' =>
+                'RcmHtmlPurifier\Controller\Plugin\HtmlPurify',
+        ),
+    ),
 );
