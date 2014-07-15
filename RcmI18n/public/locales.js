@@ -29,7 +29,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                         // or server returns response with an error status.
                     });
 
-            }
+            };
 
 
             self.getLocales();
@@ -61,7 +61,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                         });
 
                 }
-            }
+            };
 
             $scope.saveText = function (message) {
                 $http({
@@ -95,7 +95,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             strb = ("" + strb).toLowerCase();
 
             return stra.indexOf(strb) !== -1;
-        }
+        };
 
         return function (input, query) {
             if (!query) {

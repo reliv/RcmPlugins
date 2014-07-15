@@ -36,11 +36,16 @@ return array(
                                 'class' => 'RcmAdminMenu RcmForm',
                                 'title' => 'New Page',
                             ),
-                            'Test' => array(
-                                'label' => 'Test',
-                                'uri'   => '/modules/rcm-admin/test.html',
+                        ),
+                    ),
+                    'Edit' => array(
+                        'label' => 'Edit',
+                        'uri' => '#',
+                        'pages' => array(
+                            'PageProperties' => array(
+                                'label' => 'Page Properties',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
-                                'title' => 'New Page',
+                                'uri' => '/modules/rcm-admin/page-properties.html',
                             ),
                         ),
                     ),
@@ -49,6 +54,20 @@ return array(
             'Site' => array(
                 'label' => 'Site',
                 'uri' => '#',
+            ),
+            'User' => array(
+                'label' => 'Users',
+                'uri' => '#',
+                'pages' => array(
+                    'RolesAndAccess' => array(
+                        'label' => 'Roles and Access',
+                        'uri' => '/admin/rcmuser-acl',
+                    ),
+                    'UserManagement' => array(
+                        'label' => 'User Management',
+                        'uri' => '/admin/rcmuser-users',
+                    ),
+                ),
             ),
         ),
     ),
@@ -108,154 +127,154 @@ return array(
 //        'adminRichEditor' => 'tinyMce',
         //'adminRichEditor' => 'aloha',
 
-        'adminPanel' => array(
-            'Page' => array(
-                'display' => 'Page',
-                'aclGroups' => 'admin',
-                'cssClass' => '',
-                'href' => '#',
-                'links' => array(
-                    'New' => array(
-                        'display' => 'New',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'newPageIcon',
-                        'href' => '#',
-                        'links' => array(
-                            'Page' => array(
-                                'display' => 'Page',
-                                'aclResource' => 'admin',
-                                'aclPermissions' => 'page.new',
-                                'cssClass' => 'rcmNewPageIcon rcmNewPage',
-                                'href' => '#',
-                                'data-title' => 'New Page',
-                            ),
-                        )
-                    ),
-                    'Edit' => array(
-                        'display' => 'Edit',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'draftsIcon',
-                        'href' => '#',
-                        'links' => array(
-                            'Page' => array(
-                                'display' => 'Edit Content',
-                                'aclGroups' => 'admin',
-                                'cssClass' => 'rcmEditPageIcon rcmEditPage',
-                                'href' => '#',
-                            ),
-                            'Page Layout' => array(
-                                'display' => 'Add/Remove Plugins on Page',
-                                'aclGroups' => 'admin',
-                                'cssClass' => 'rcmLayoutIcon rcmShowLayoutEditor',
-                                'href' => '#',
-                            ),
-                            'Page Properties' => array(
-                                'display' => 'Page Properties',
-                                'aclGroups' => 'admin',
-                                'cssClass' => 'PagePropertiesIcon rcmPageProperties',
-                                'href' => '#',
-                            ),
-                        ),
-                    ),
-                    'Publish' => array(
-                        'display' => 'Publish',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'publishIcon',
-                        'href' => '#',
-                        'links' => array(
-                            'Stage' => array(
-                                'display' => 'Stage (Only Admins Will See)',
-                                'aclGroups' => 'admin',
-                                'cssClass' => 'stageIcon',
-                                'href' => '#',
-                            ),
-                            'Publish Now' => array(
-                                'display' => 'Publish Now',
-                                'aclGroups' => 'admin',
-                                'cssClass' => 'publishIcon',
-                                'href' => '#',
-                            ),
-                        ),
-                    ),
-                    'Copy To...' => array(
-                        'display' => 'Copy To...',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'copyToIcon',
-                        'href' => '#',
-                        'links' => array(
-                            'Template' => array(
-                                'display' => 'Template',
-                                'aclGroups' => 'admin',
-                                'cssClass' => 'saveAsTemplate',
-                                'href' => "#",
-                                'onclick' => "rcmEdit.adminPopoutWindow("
-                                    . "'/rcm-admin-get-save-as-template', "
-                                    . "150, "
-                                    . "430, "
-                                    . "'Copy to Template'); "
-                                    . "return false;"
-                            ),
-                        ),
-                    ),
-                    'Drafts' => array(
-                        'display' => 'Drafts',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'draftsIcon',
-                        'href' => '#',
-                        'links' => array()
-                    ),
-                    'Restore' => array(
-                        'display' => 'Restore',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'draftsIcon',
-                        'href' => '#',
-                        'links' => array()
-                    ),
-
-                ),
-            ),
-            'Site' => array(
-                'display' => 'Site',
-                'aclGroups' => 'admin',
-                'cssClass' => 'draftsIcon',
-                'href' => '#',
-                'links' => array(
-                    'New Site' => array(
-                        'display' => 'New Site',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'draftsIcon',
-                        'href' => '#',
-                        'onclick' => "rcmEdit.adminPopoutWindow("
-                            . "'/rcm-admin-create-site', "
-                            . "430, "
-                            . "740, "
-                            . "'Add New Site'); "
-                            . "return false;"
-                    ),
-                    'Site-Wide Plugins' => array(
-                        'display' => 'Site-Wide Plugins',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'draftsIcon',
-                        'href' => '#',
-                        'links' => array(
-                            'Edit Only Site-Wide Plugins' => array(
-                                'display' => 'Edit Site-Wide Plugin Content',
-                                'aclGroups' => 'admin',
-                                'cssClass' => 'rcmEditSiteWideIcon rcmEditSiteWide',
-                                'href' => '#',
-                            ),
-                        ),
-                    ),
-                    'Site Properties' => array(
-                        'display' => 'Site Properties',
-                        'aclGroups' => 'admin',
-                        'cssClass' => 'rcmEditSiteWideIcon rcmEditSiteWide',
-                        'href' => '#',
-                    ),
-                ),
-            ),
-
-        ),
+//        'adminPanel' => array(
+//            'Page' => array(
+//                'display' => 'Page',
+//                'aclGroups' => 'admin',
+//                'cssClass' => '',
+//                'href' => '#',
+//                'links' => array(
+//                    'New' => array(
+//                        'display' => 'New',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'newPageIcon',
+//                        'href' => '#',
+//                        'links' => array(
+//                            'Page' => array(
+//                                'display' => 'Page',
+//                                'aclResource' => 'admin',
+//                                'aclPermissions' => 'page.new',
+//                                'cssClass' => 'rcmNewPageIcon rcmNewPage',
+//                                'href' => '#',
+//                                'data-title' => 'New Page',
+//                            ),
+//                        )
+//                    ),
+//                    'Edit' => array(
+//                        'display' => 'Edit',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'draftsIcon',
+//                        'href' => '#',
+//                        'links' => array(
+//                            'Page' => array(
+//                                'display' => 'Edit Content',
+//                                'aclGroups' => 'admin',
+//                                'cssClass' => 'rcmEditPageIcon rcmEditPage',
+//                                'href' => '#',
+//                            ),
+//                            'Page Layout' => array(
+//                                'display' => 'Add/Remove Plugins on Page',
+//                                'aclGroups' => 'admin',
+//                                'cssClass' => 'rcmLayoutIcon rcmShowLayoutEditor',
+//                                'href' => '#',
+//                            ),
+//                            'Page Properties' => array(
+//                                'display' => 'Page Properties',
+//                                'aclGroups' => 'admin',
+//                                'cssClass' => 'PagePropertiesIcon rcmPageProperties',
+//                                'href' => '#',
+//                            ),
+//                        ),
+//                    ),
+//                    'Publish' => array(
+//                        'display' => 'Publish',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'publishIcon',
+//                        'href' => '#',
+//                        'links' => array(
+//                            'Stage' => array(
+//                                'display' => 'Stage (Only Admins Will See)',
+//                                'aclGroups' => 'admin',
+//                                'cssClass' => 'stageIcon',
+//                                'href' => '#',
+//                            ),
+//                            'Publish Now' => array(
+//                                'display' => 'Publish Now',
+//                                'aclGroups' => 'admin',
+//                                'cssClass' => 'publishIcon',
+//                                'href' => '#',
+//                            ),
+//                        ),
+//                    ),
+//                    'Copy To...' => array(
+//                        'display' => 'Copy To...',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'copyToIcon',
+//                        'href' => '#',
+//                        'links' => array(
+//                            'Template' => array(
+//                                'display' => 'Template',
+//                                'aclGroups' => 'admin',
+//                                'cssClass' => 'saveAsTemplate',
+//                                'href' => "#",
+//                                'onclick' => "rcmEdit.adminPopoutWindow("
+//                                    . "'/rcm-admin-get-save-as-template', "
+//                                    . "150, "
+//                                    . "430, "
+//                                    . "'Copy to Template'); "
+//                                    . "return false;"
+//                            ),
+//                        ),
+//                    ),
+//                    'Drafts' => array(
+//                        'display' => 'Drafts',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'draftsIcon',
+//                        'href' => '#',
+//                        'links' => array()
+//                    ),
+//                    'Restore' => array(
+//                        'display' => 'Restore',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'draftsIcon',
+//                        'href' => '#',
+//                        'links' => array()
+//                    ),
+//
+//                ),
+//            ),
+//            'Site' => array(
+//                'display' => 'Site',
+//                'aclGroups' => 'admin',
+//                'cssClass' => 'draftsIcon',
+//                'href' => '#',
+//                'links' => array(
+//                    'New Site' => array(
+//                        'display' => 'New Site',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'draftsIcon',
+//                        'href' => '#',
+//                        'onclick' => "rcmEdit.adminPopoutWindow("
+//                            . "'/rcm-admin-create-site', "
+//                            . "430, "
+//                            . "740, "
+//                            . "'Add New Site'); "
+//                            . "return false;"
+//                    ),
+//                    'Site-Wide Plugins' => array(
+//                        'display' => 'Site-Wide Plugins',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'draftsIcon',
+//                        'href' => '#',
+//                        'links' => array(
+//                            'Edit Only Site-Wide Plugins' => array(
+//                                'display' => 'Edit Site-Wide Plugin Content',
+//                                'aclGroups' => 'admin',
+//                                'cssClass' => 'rcmEditSiteWideIcon rcmEditSiteWide',
+//                                'href' => '#',
+//                            ),
+//                        ),
+//                    ),
+//                    'Site Properties' => array(
+//                        'display' => 'Site Properties',
+//                        'aclGroups' => 'admin',
+//                        'cssClass' => 'rcmEditSiteWideIcon rcmEditSiteWide',
+//                        'href' => '#',
+//                    ),
+//                ),
+//            ),
+//
+//        ),
     ),
     'includeFileManager' => array(
         'files' => array(
@@ -290,7 +309,6 @@ return array(
                     'js/dialog/rcm-dialog-helper.js',
                     'js/dialog/strategy/rcm-form-strategy.js',
                     'js/dialog/strategy/rcm-standard-dialog-strategy.js',
-                    'js/dialog/strategy/rcm-blank-dialog-strategy.js',
                     'js/navigation/rcm-nav-menu-helper.js',
                     /** must load last */
                     'js/admin/rcm-admin-factory.js',
