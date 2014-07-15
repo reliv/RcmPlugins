@@ -6,7 +6,7 @@ function RcmFormStrategy(dialogHelper) {
     me.dialogTemplate = "#RcmStandardDialogTemplate";
 
     me.load = function (url, title, data) {
-        me.dialog.stratageies.standard.load(url, title, data);
+        me.dialog.stratageies.RcmStandardDialog.load(url, title, data);
     };
 
     me.postOpen = function () {

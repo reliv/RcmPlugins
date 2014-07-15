@@ -12,7 +12,8 @@ function RcmAdminDialogHelper() {
     me.init = function () {
         me.stratageies = {
             'RcmForm': new RcmFormStrategy(me),
-            'standard': new RcmStandardDialogStrategy(me)
+            'RcmStandardDialog': new RcmStandardDialogStrategy(me),
+            'RcmBlankDialog': new RcmBlankDialogStrategy(me)
         };
 
         me.currentStatagy = me.stratageies.standard;

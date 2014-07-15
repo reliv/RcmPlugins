@@ -37,7 +37,7 @@ function RcmStandardDialogStrategy(dialogHelper) {
 
     me.loadCallback = function (template, response) {
 
-        jQuery("#AdminDialogWindow").html(template);
+        jQuery(me.dialog.dialogWindowId).html(template);
 
         me.dialog.open();
     };
