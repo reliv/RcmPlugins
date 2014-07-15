@@ -1,7 +1,7 @@
 /**
  * Created by idavis on 7/2/14.
  */
-angular.module('rcmLocales', [])
+angular.module('rcmLocales', ['RcmHtmlEditor'])
     .controller('rcmTranslations', ['$scope', '$log', '$http',
         function ($scope, $log, $http) {
             var self = this;
