@@ -63,14 +63,14 @@ class MessagesController extends AbstractRestfulController
     /**
      * Update translations
      *
-     * @param mixed $id Text that need to be translated
-     * @param mixed $data Data
+     * @param mixed $defaultText Text that need to be translated
+     * @param mixed $data        Data
      *
-     * @return mixed
+     * @return mixed|\Zend\Stdlib\ResponseInterface|JsonModel
+     * @throws \Exception
      */
     public function update($defaultText, $data)
     {
-
         if (!$this->rcmUserIsAllowed(
             'translations',
             'update',
@@ -82,23 +82,42 @@ class MessagesController extends AbstractRestfulController
             $response->setContent($response->renderStatusLine());
             return $response;
         }
+
         $locale = $this->params()->fromRoute('locale');
+        $cleanDefaultText = $this->rcmHtmlPurify($defaultText);
+        $cleanLocal = $this->rcmHtmlPurify($locale);
+        $cleanText = $this->rcmHtmlPurify($data['text']);
+
+        if(
+            $cleanLocal != $locale  ||
+            $cleanDefaultText != $defaultText ||
+            $cleanText != $data['text']
+        ){
+
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_400);
+            $response->setContent(
+                $response->renderStatusLine() .' - Data contains unacceptable HTML.'
+            );
+            return $response;
+        }
+
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         $message = $em->getRepository('RcmI18n\Entity\Message')->findOneBy(
-            array('locale' => $locale, 'defaultText' => $defaultText)
+            array('locale' => $cleanLocal, 'defaultText' => $cleanDefaultText)
         );
+
         if ($message instanceof Message) {
-            $message->setText($data['text']);
+            $message->setText($cleanText);
         } else {
             $message = new Message();
-            $message->setLocale($locale);
-            $message->setDefaultText($defaultText);
-            $message->setText($data['text']);
+            $message->setLocale($cleanLocal);
+            $message->setDefaultText($cleanDefaultText);
+            $message->setText($cleanText);
 
             $em->persist($message);
         }
         $em->flush();
-
 
         return new JsonModel();
     }
