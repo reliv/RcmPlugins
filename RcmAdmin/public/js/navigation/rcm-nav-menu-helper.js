@@ -15,8 +15,8 @@ function RcmNavMenuHelper(dialog) {
 
             var linkParent = link.parent();
 
-            if (linkParent.hasClass('RcmForm')) {
-                me.dialog.switchStrategy('RcmForm')
+            if (linkParent.hasClass('RcmFormDialog')) {
+                me.dialog.switchStrategy('RcmFormDialog')
             } else if (linkParent.hasClass('RcmBlankDialog')) {
                 me.dialog.switchStrategy('RcmBlankDialog')
             }
