@@ -13,8 +13,12 @@ function RcmNavMenuHelper(dialog) {
 
             var title = link.attr('title');
 
-            if (link.parent().hasClass('RcmForm')) {
+            var linkParent = link.parent();
+
+            if (linkParent.hasClass('RcmForm')) {
                 me.dialog.switchStrategy('RcmForm')
+            } else if (linkParent.hasClass('RcmBlankDialog')) {
+                me.dialog.switchStrategy('RcmBlankDialog')
             }
 
             me.dialog.load(url, title);

@@ -36,6 +36,12 @@ return array(
                                 'class' => 'RcmAdminMenu RcmForm',
                                 'title' => 'New Page',
                             ),
+                            'Test' => array(
+                                'label' => 'Test',
+                                'uri'   => '/modules/rcm-admin/test.html',
+                                'class' => 'RcmAdminMenu RcmBlankDialog',
+                                'title' => 'New Page',
+                            ),
                         ),
                     ),
                 ),
@@ -284,6 +290,7 @@ return array(
                     'js/dialog/rcm-dialog-helper.js',
                     'js/dialog/strategy/rcm-form-strategy.js',
                     'js/dialog/strategy/rcm-standard-dialog-strategy.js',
+                    'js/dialog/strategy/rcm-blank-dialog-strategy.js',
                     'js/navigation/rcm-nav-menu-helper.js',
                     /** must load last */
                     'js/admin/rcm-admin-factory.js',
