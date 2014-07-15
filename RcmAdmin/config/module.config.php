@@ -33,7 +33,7 @@ return array(
                             'Page' => array(
                                 'label' => 'Page',
                                 'route' => 'RcmAdmin\Page\New',
-                                'class' => 'RcmAdminMenu RcmForm',
+                                'class' => 'RcmAdminMenu RcmFormDialog',
                                 'title' => 'New Page',
                             ),
                         ),
