@@ -29,4 +29,10 @@ return array(
                 'RcmHtmlPurifier\Controller\Plugin\HtmlPurify',
         ),
     ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'rcmHtmlPurify' =>
+                'RcmHtmlPurifier\View\Helper\HtmlPurify',
+        ),
+    ),
 );
