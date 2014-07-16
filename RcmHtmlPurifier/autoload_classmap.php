@@ -4,5 +4,6 @@ return array(
   'RcmHtmlPurifier\Module'                              => __DIR__ . '/Module.php',
   'RcmHtmlPurifier\Controller\Plugin\HtmlPurify'        => __DIR__ . '/src/Controller/Plugin/HtmlPurify.php',
   'RcmHtmlPurifier\Factory\HtmlPurifierFactory'         => __DIR__ . '/src/RcmHtmlPurifier/Factory/HtmlPurifierFactory.php',
+  'RcmHtmlPurifier\View\Helper\HtmlPurify'              => __DIR__ . '/src/View/Helper/HtmlPurify.php',
   'RcmHtmlPurifierTest\Factory\HtmlPurifierFactoryTest' => __DIR__ . '/test/RcmhtmlPurifier/Factory/HtmlPurifierFactoryTest.php',
 );
