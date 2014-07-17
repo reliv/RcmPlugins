@@ -35,15 +35,34 @@ if ($this->testType == 'default') {
 
                 <p><b>EXAMPLE data-rcm-html-edit:</b></p>
 
-                <div data-rcm-html-edit="something" ng-model="myModel.a">rcmHtmlEdit</div>
+                <div
+                    data-rcm-html-edit="something"
+                    html-editor-options="text"
+                    ng-model="myModel.a"
+                    >
+                    rcmHtmlEdit
+                </div>
                 <br/>
 
                 <p><b>EXAMPLE Attribute options:</b></p>
-                <span data-rcm-html-edit="somethingText" htlm-editor-options="tinymceOptions" ng-model="myModel.b">OPTIONS ATTR</span>
+                <span
+                    data-rcm-html-edit="somethingText"
+                    html-editor-attached-toolbar
+                    html-editor-options="simpleText"
+                    html-editor-show-hide-toolbar
+                    ng-model="myModel.b"
+                    >
+                    OPTIONS ATTR
+                </span>
                 <br/><br/>
 
                 <p><b>EXAMPLE Label:</b></p>
-                <label data-rcm-html-edit="something" ng-model="myModel.c">LABEL</label>
+                <label
+                    data-rcm-html-edit="something"
+                    ng-model="myModel.c"
+                    >
+                    LABEL
+                </label>
                 <br/><br/>
 
                 <!--<p><b>EXAMPLE textarea (NOT SUPPORTED):</b></p>
@@ -53,7 +72,12 @@ if ($this->testType == 'default') {
 
                 <p><b>EXAMPLE Button:</b></p>
                 <button disabled="disabled" onclick="return false;">
-                    <div data-rcm-html-edit="something" ng-model="myModel.d">BUTTON</div>
+                    <div
+                        data-rcm-html-edit="something"
+                        ng-model="myModel.d"
+                        >
+                        BUTTON
+                    </div>
                 </button>
                 <br/><br/>
 
