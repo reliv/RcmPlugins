@@ -12,6 +12,10 @@
     overflow-y: auto;
 }
 
+.modal-dialog {
+    width: 800px;
+}
+
 /*.modal-content {*/
 /*min-height: 300px;*/
 /*padding-left: 15px;*/
