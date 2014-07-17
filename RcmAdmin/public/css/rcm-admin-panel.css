@@ -13,7 +13,8 @@
 }
 
 .modal-dialog {
-    width: 800px;
+    width: auto;
+    max-width: 800px;
 }
 
 /*.modal-content {*/
