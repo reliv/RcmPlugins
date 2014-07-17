@@ -1,12 +1,8 @@
 <html>
 <head>
-    <script type="text/javascript"
-            src="/modules/rcm-angular-js/angular/angular.min.js"></script>
+
     <script type="text/javascript"
             src="/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js"></script>
-    <link href="/modules/rcm-twitter-bootstrap/css/bootstrap.min.css"
-          media="screen"
-          rel="stylesheet" type="text/css">
     <script type="text/javascript"
             src="/modules/rcm-tinymce-js/tinymce/tinymce.min.js"></script>
     <script type="text/javascript"
@@ -17,54 +13,69 @@
           media="screen"
           rel="stylesheet" type="text/css">
 </head>
-<body ng-app="rcmLocales">
-<div ng-controller="rcmTranslations">
-    <div html-editor-toolbar></div>
-    <form style="margin:2em;">
-        <label>
-            <select class="form-control" ng-model="selectedLocale"
-                    ng-options="locale for locale in locales"
-                    ng-change="OpenLocale()"
-                    ng-disabled="loading">
-                <option value="">
-                    Please select language
-                </option>
-            </select>
-        </label>
-        <label style="float:right;width:20em" class="input-group">
-            <input ng-model="messageQuery" class="form-control"/>
+<body>
+<div ng-controller="rcmTranslations" class="modal-dialog">
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel">Translations</h2>
+        </div>
+        <div class="modal-body">
+            <div html-editor-toolbar></div>
+            <form style="margin:2em;">
+                <label>
+                    <select class="form-control" ng-model="selectedLocale"
+                            ng-options="locale for locale in locales"
+                            ng-change="OpenLocale()"
+                            ng-disabled="loading">
+                        <option value="">
+                            Please select language
+                        </option>
+                    </select>
+                </label>
+                <label style="float:right;width:20em" class="input-group">
+                    <input ng-model="messageQuery" class="form-control"/>
         <span class="input-group-addon glyphicon glyphicon-search"
               style="position:static"></span>
-        </label>
-        <div class="loadBar"><div ng-show="loading">
-            <i class="glyphicon glyphicon-refresh loading"
-               ng-class="{'active': loading}"></i>
-        </div></div>
-        <table ng-hide="translations" class="table panel panel-default" style="margin-top: 1em">
-            <tr>
-                <th style="width:50%">
-                    Default Message
-                </th>
-                <th>
-                    Translated Message
-                </th>
-            </tr>
-            <tr ng-repeat="message in messages | filter:messageQuery">
-                <td>
-
-                   {{message.defaultText}}
-                </td>
-                <td>
-                    <div data-richEdit ng-change="message.dirty = true" ng-model="message.text"></div>
-                    <div ng-show="message.dirty"><button ng-click="saveText(message)" class="glyphicon glyphicon-save"
-                            style="float:right;margin-top:1em">
-                        Save
-                    </button>
+                </label>
+                <div class="loadBar">
+                    <div ng-show="loading">
+                        <i class="glyphicon glyphicon-refresh loading"
+                           ng-class="{'active': loading}"></i>
                     </div>
-                </td>
-            </tr>
-        </table>
-    </form>
-</div>
+                </div>
+                <table ng-hide="translations" class="table panel panel-default"
+                       style="margin-top: 1em">
+                    <tr>
+                        <th style="width:50%">
+                            Default Message
+                        </th>
+                        <th>
+                            Translated Message
+                        </th>
+                    </tr>
+                    <tr ng-repeat="message in messages | filter:messageQuery">
+                        <td>
+                            {{message.defaultText}}
+                        </td>
+                        <td>
+                            <div data-richEdit ng-change="message.dirty = true"
+                                 ng-model="message.text"></div>
+                            <div ng-show="message.dirty">
+                                <button ng-click="saveText(message)"
+                                        class="glyphicon glyphicon-save"
+                                        style="float:right;margin-top:1em">
+                                    Save
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    </div>
 </body>
 </html>
