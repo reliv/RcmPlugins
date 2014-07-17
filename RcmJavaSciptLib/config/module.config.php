@@ -32,11 +32,8 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
-        'strategies' => array(
-            'ViewJsonStrategy',
-        ),
     ),
-    /* <TEST> - TESTING ONLY */
+    /* <TEST> - TESTING ONLY *
     'controllers' => array(
         'invokables' => array(
             'RcmJavaSciptLib\Controller\TestController' =>
