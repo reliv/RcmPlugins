@@ -4,6 +4,11 @@
     width: 100%!important;
 }
 
+.mce-toolbar-grp {
+    float: left!important;
+    width: 100%!important;
+}
+
 .mce-btn-group {
     float: left!important;
 }
