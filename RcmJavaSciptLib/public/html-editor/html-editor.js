@@ -153,6 +153,10 @@ angular.module('RcmHtmlEditor', [])
                         settings.baseUrl = attrs.htmlEditorBaseUrl;
                     }
 
+                    if(attrs.htmlEditorSize) {
+                        settings.toolbar_items_size= attrs.htmlEditorSize; // 'small'
+                    }
+
                     settings.mode = 'exact';
                     settings.elements = attrs.id
 
@@ -197,7 +201,6 @@ angular.module('RcmHtmlEditor', [])
 
                     return function (scope, elm, attrs, ngModel) {
                         var settings = {};
-                        var options;
                         var tinyInstance;
                         var tagName = elm[0].tagName;
                         var isFormControl = function () {
