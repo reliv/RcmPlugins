@@ -1,6 +1,5 @@
 <html>
 <head>
-
     <script type="text/javascript"
             src="/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js"></script>
     <script type="text/javascript"
@@ -40,6 +39,7 @@
         <span class="input-group-addon glyphicon glyphicon-search"
               style="position:static"></span>
                 </label>
+
                 <div class="loadBar">
                     <div ng-show="loading">
                         <i class="glyphicon glyphicon-refresh loading"
@@ -61,7 +61,13 @@
                             {{message.defaultText}}
                         </td>
                         <td>
-                            <div data-richEdit ng-change="message.dirty = true"
+                            <div data-richEdit
+                                 html-editor-attached-toolbar
+                                 html-editor-show-hide-toolbar
+                                 html-editor-type="simpleText"
+                                 html-editor-type="text"
+                                 html-editor-size="small"
+                                 ng-change="message.dirty = true"
                                  ng-model="message.text"></div>
                             <div ng-show="message.dirty">
                                 <button ng-click="saveText(message)"
@@ -76,6 +82,6 @@
             </form>
         </div>
     </div>
-    </div>
+</div>
 </body>
 </html>
