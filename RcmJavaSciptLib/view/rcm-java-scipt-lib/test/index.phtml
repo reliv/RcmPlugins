@@ -37,7 +37,6 @@ if ($this->testType == 'default') {
 
                 <div
                     data-rcm-html-edit="something"
-                    html-editor-options="text"
                     ng-model="myModel.a"
                     >
                     rcmHtmlEdit
@@ -48,7 +47,7 @@ if ($this->testType == 'default') {
                 <span
                     data-rcm-html-edit="somethingText"
                     html-editor-attached-toolbar
-                    html-editor-options="simpleText"
+                    html-editor-options="tinymceOptions"
                     html-editor-show-hide-toolbar
                     ng-model="myModel.b"
                     >
@@ -59,6 +58,7 @@ if ($this->testType == 'default') {
                 <p><b>EXAMPLE Label:</b></p>
                 <label
                     data-rcm-html-edit="something"
+                    html-editor-type="text"
                     ng-model="myModel.c"
                     >
                     LABEL
@@ -74,6 +74,7 @@ if ($this->testType == 'default') {
                 <button disabled="disabled" onclick="return false;">
                     <div
                         data-rcm-html-edit="something"
+                        html-editor-type="simpleText"
                         ng-model="myModel.d"
                         >
                         BUTTON
