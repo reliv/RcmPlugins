@@ -37,6 +37,22 @@ return array(
             )
         )
     ),
+
+    'navigation' => array(
+        'RcmAdminMenu' => array(
+            'Site' => array(
+                'label' => 'Site',
+                'uri' => '#',
+                'pages' => array(
+                    'Translations' => array(
+                        'label' => 'Translations',
+                        'class' => 'RcmAdminMenu RcmBlankDialog',
+                        'uri' => '/modules/rcm-i18n/message-editor.html',
+                    )
+                )
+            ),
+        )
+    ),
     'translator' => array(
 
         'locale' => 'en_US',

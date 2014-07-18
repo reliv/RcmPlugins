@@ -112,3 +112,11 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             return result;
         };
     });
+angular.element(document).ready(
+    function () {
+        angular.bootstrap(
+            document.querySelectorAll('[ng-controller=rcmTranslations]'),
+            ['rcmLocales']
+        );
+    }
+);
