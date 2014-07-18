@@ -19,7 +19,7 @@ angular.module('RcmHtmlEditor', [])
 
         self.htmlEditorOptions = {
             defaults: {
-                optionsSet: 'defaults',
+                optionsName: 'defaults',
                 force_br_newlines: false,
                 force_p_newlines: false,
                 forced_root_block: '',
@@ -42,7 +42,7 @@ angular.module('RcmHtmlEditor', [])
                 ]
             },
             text: {
-                optionsSet: 'text',
+                optionsName: 'text',
                 force_br_newlines: false,
                 force_p_newlines: false,
                 forced_root_block: '',
@@ -64,7 +64,7 @@ angular.module('RcmHtmlEditor', [])
                 ]
             },
             simpleText: {
-                optionsSet: 'simpleText',
+                optionsName: 'simpleText',
                 force_br_newlines: false,
                 force_p_newlines: false,
                 forced_root_block: '',
@@ -98,34 +98,44 @@ angular.module('RcmHtmlEditor', [])
 
                 var self = this;
 
-                self.getHtmlOptions = function(config){
+                // get options based on the config settings
+                self.getHtmlOptions = function(type){
 
-                    // @todo will we support this?
-                    //config = scope.$eval(config);
-
-                    if(!config) {
+                    if(!type) {
 
                         return rcmHtmlEditorConfig.htmlEditorOptions.defaults;
                     }
 
-                    // if we get and object, then the config has been defined
-                    if(typeof config === 'object') {
+                    if(rcmHtmlEditorConfig.htmlEditorOptions[type]){
 
-                        return config;
-                    }
-
-                    if(rcmHtmlEditorConfig.htmlEditorOptions[config]){
-
-                        return rcmHtmlEditorConfig.htmlEditorOptions[config]
+                        return rcmHtmlEditorConfig.htmlEditorOptions[type]
                     }
 
                     return rcmHtmlEditorConfig.htmlEditorOptions.defaults;
                 }
 
-                self.buildHtmlOptions = function(attrs) {
+                self.getConfigSetup = function(attrs){
+                }
 
-                    var options = self.getHtmlOptions(attrs.htmlEditorOptions);
-                    var settings = angular.copy(options);
+                // build settings based on the attrs
+                self.buildHtmlOptions = function(scope, attrs) {
+
+                    var config = null;
+                    var options = {};
+                    var settings = {};
+                    try {
+                        var config = scope.$eval(attrs.htmlEditorOptions);
+                    } catch(e) {
+                    }
+
+                    if(typeof config !== 'object') {
+
+                        config = {};
+                    }
+
+                    options = angular.copy(self.getHtmlOptions(attrs.htmlEditorType));
+
+                    settings = angular.extend(options, config); // copy(options);
 
                     // set some overrides based on attr html-editor-attached-toolbar
                     if(typeof attrs.htmlEditorAttachedToolbar !== 'undefined') {
@@ -179,10 +189,9 @@ angular.module('RcmHtmlEditor', [])
     .factory(
         'rcmHtmlEdit',
         [
-            '$cacheFactory',
             'guid',
             'htmlEditorOptions',
-            function ($cacheFactory, guid, htmlEditorOptions) {
+            function (guid, htmlEditorOptions) {
 
                 return function () {
 
@@ -218,7 +227,6 @@ angular.module('RcmHtmlEditor', [])
                             }
                         };
 
-
                         // this is to hide the default toolbar before init
                         rcmHtmlEditorState.toolbarLoading = true;
 
@@ -228,7 +236,7 @@ angular.module('RcmHtmlEditor', [])
                         }
 
                         // get settings from attr or config
-                        settings = htmlEditorOptions.buildHtmlOptions(attrs);
+                        settings = htmlEditorOptions.buildHtmlOptions(scope, attrs);
 
                         settings.setup = function (ed) {
                             var args;
@@ -299,9 +307,10 @@ angular.module('RcmHtmlEditor', [])
                                 ed.save();
                                 updateView();
                             });
-                            if (configSetup) {
-                                configSetup(ed);
-                            }
+                            // This might be needed if setup can be passed in
+//                            if (settings) {
+//                                settings(ed);
+//                            }
                         };
 
                         setTimeout(function () {
@@ -409,7 +418,7 @@ angular.module('RcmHtmlEditor', [])
                 '         <div>' +
                 '          <div class="mce-widget mce-btn mce-first mce-last mce-disabled" tabindex="-1" aria-labelledby="mceu_0" role="button" aria-label="Source code">' +
                 '           <button role="presentation" type="button" tabindex="-1" disabled="disabled"><i class="mce-ico mce-i-code"></i></button>' +
-//                '            <button role="presentation" type="button" disabled tabindex="-1">Select text to show controls</button>' +
+//              '            <button role="presentation" type="button" disabled tabindex="-1">Select text to show controls</button>' +
                 '          </div>' +
                 '         </div>' +
                 '        </div>' +
@@ -441,6 +450,7 @@ angular.module('RcmHtmlEditor', [])
 
                 // EXAMPLE of adding custom options using attribute
                 $scope.tinymceOptions = {
+                    optionsName: 'fromScope',
                     force_br_newlines: false,
                     force_p_newlines: false,
                     forced_root_block: '',
