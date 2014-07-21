@@ -4,6 +4,7 @@ function RcmBlankDialogStrategy(dialogHelper) {
     me.dialog = dialogHelper;
 
     me.load = function (url, title, data) {
+
         jQuery(me.dialog.dialogWindowId).load(url, data, function (response, status, xhr) {
 
             var contentType = xhr.getResponseHeader('Content-Type');

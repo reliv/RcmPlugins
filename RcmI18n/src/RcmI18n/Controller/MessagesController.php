@@ -89,7 +89,8 @@ class MessagesController extends AbstractRestfulController
         $cleanText = $this->rcmHtmlPurify($data['text']);
 
         if(
-            $cleanLocal != $locale  ||
+           $cleanLocal != $locale
+        ||
             $cleanDefaultText != $defaultText ||
             $cleanText != $data['text']
         ){
