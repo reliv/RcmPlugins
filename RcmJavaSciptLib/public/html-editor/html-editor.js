@@ -16,6 +16,7 @@ angular.module('RcmHtmlEditor', [])
 
         self.baseUrl = "/"; //"<?php echo $baseUrl; ?>";
         self.fixed_toolbar_container = '#externalToolbarWrapper';
+        self.toolbar_container_prefix = '#htmlEditorToolbar-'
 
         self.htmlEditorOptions = {
             defaults: {
@@ -35,9 +36,9 @@ angular.module('RcmHtmlEditor', [])
 
                 toolbar: [
                     "code | undo redo | spellchecker | styleselect | " +
-                    "bold italic underline strikethrough subscript superscript removeformat | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | cut copy paste pastetext | ",
+                        "bold italic underline strikethrough subscript superscript removeformat | " +
+                        "alignleft aligncenter alignright alignjustify | " +
+                        "bullist numlist outdent indent | cut copy paste pastetext | ",
                     "image table hr charmap template | link unlink anchor"
                 ]
             },
@@ -58,8 +59,8 @@ angular.module('RcmHtmlEditor', [])
 
                 toolbar: [
                     "code | undo redo | spellchecker | " +
-                    "bold italic underline strikethrough subscript superscript removeformat | " +
-                    "outdent indent | cut copy paste pastetext | ",
+                        "bold italic underline strikethrough subscript superscript removeformat | " +
+                        "outdent indent | cut copy paste pastetext | ",
                     "image charmap template | link unlink anchor"
                 ]
             },
@@ -80,8 +81,8 @@ angular.module('RcmHtmlEditor', [])
 
                 toolbar: [
                     "code | " +
-                    "bold italic underline strikethrough subscript superscript removeformat | " +
-                    "link unlink anchor"
+                        "bold italic underline strikethrough subscript superscript removeformat | " +
+                        "link unlink anchor"
                 ]
             }
         }
@@ -99,14 +100,14 @@ angular.module('RcmHtmlEditor', [])
                 var self = this;
 
                 // get options based on the config settings
-                self.getHtmlOptions = function(type){
+                self.getHtmlOptions = function (type) {
 
-                    if(!type) {
+                    if (!type) {
 
                         return rcmHtmlEditorConfig.htmlEditorOptions.defaults;
                     }
 
-                    if(rcmHtmlEditorConfig.htmlEditorOptions[type]){
+                    if (rcmHtmlEditorConfig.htmlEditorOptions[type]) {
 
                         return rcmHtmlEditorConfig.htmlEditorOptions[type]
                     }
@@ -114,21 +115,21 @@ angular.module('RcmHtmlEditor', [])
                     return rcmHtmlEditorConfig.htmlEditorOptions.defaults;
                 }
 
-                self.getConfigSetup = function(attrs){
+                self.getConfigSetup = function (attrs) {
                 }
 
                 // build settings based on the attrs
-                self.buildHtmlOptions = function(scope, attrs) {
+                self.buildHtmlOptions = function (scope, attrs) {
 
                     var config = null;
                     var options = {};
                     var settings = {};
                     try {
                         var config = scope.$eval(attrs.htmlEditorOptions);
-                    } catch(e) {
+                    } catch (e) {
                     }
 
-                    if(typeof config !== 'object') {
+                    if (typeof config !== 'object') {
 
                         config = {};
                     }
@@ -137,28 +138,29 @@ angular.module('RcmHtmlEditor', [])
 
                     settings = angular.extend(options, config); // copy(options);
 
-                    // set some overrides based on attr html-editor-attached-toolbar
-                    if(typeof attrs.htmlEditorAttachedToolbar !== 'undefined') {
-                        settings.inline = false;
-                        delete settings.fixed_toolbar_container;
+                    settings.mode = 'exact';
+                    settings.elements = attrs.id;
 
-                        // attr html-editor-show-hide-toolbar
-                        if(typeof attrs.htmlEditorShowHideToolbar !== 'undefined') {
-                            settings.show_hide_toolbar = true;
-                        }
+                    // set some overrides based on attr html-editor-attached-toolbar
+                    if (typeof attrs.htmlEditorAttachedToolbar !== 'undefined') {
+                        settings.inline = true;
+                        settings.fixed_toolbar_container = rcmHtmlEditorConfig.toolbar_container_prefix + attrs.id;
+
+                        // @todo NOT SUPPORTED: attr html-editor-show-hide-toolbar
+                        //if (typeof attrs.htmlEditorShowHideToolbar !== 'undefined') {
+                        //    settings.show_hide_toolbar = true;
+                        //}
                     }
 
                     // set some overrides based on attr html-editor-base-url
-                    if(attrs.htmlEditorBaseUrl){
+                    if (attrs.htmlEditorBaseUrl) {
                         settings.baseUrl = attrs.htmlEditorBaseUrl;
                     }
 
-                    if(attrs.htmlEditorSize) {
-                        settings.toolbar_items_size= attrs.htmlEditorSize; // 'small'
+                    if (attrs.htmlEditorSize) {
+                        settings.toolbar_items_size = attrs.htmlEditorSize; // 'small'
                     }
 
-                    settings.mode = 'exact';
-                    settings.elements = attrs.id
 
                     return settings
                 }
@@ -247,13 +249,11 @@ angular.module('RcmHtmlEditor', [])
 
                                 ngModel.$render();
                                 ngModel.$setPristine();
+
                                 // will show default toolbar on init
-                                if (ed.settings.show_hide_toolbar) {
-                                    $(this.contentAreaContainer.parentElement).find("div.mce-toolbar-grp").hide();
-                                } else {
-                                    rcmHtmlEditorState.showToolbar = false;
-                                }
+                                rcmHtmlEditorState.showToolbar = false;
                                 rcmHtmlEditorState.toolbarLoading = false;
+
                                 if (!scope.$root.$$phase) {
                                     scope.$apply();
                                 }
@@ -281,11 +281,8 @@ angular.module('RcmHtmlEditor', [])
                             ed.on('blur', function (e) {
 
                                 rcmHtmlEditorState.isEditing = false;
-                                if (ed.settings.show_hide_toolbar) {
-                                    $(this.contentAreaContainer.parentElement).find("div.mce-toolbar-grp").hide();
-                                } else {
-                                    rcmHtmlEditorState.showToolbar = false;
-                                }
+                                rcmHtmlEditorState.showToolbar = false;
+
                                 if (elm.blur) {
                                     elm.blur();
                                 }
@@ -294,11 +291,8 @@ angular.module('RcmHtmlEditor', [])
                             ed.on('focus', function (e) {
 
                                 rcmHtmlEditorState.isEditing = true;
-                                if (ed.settings.show_hide_toolbar) {
-                                    $(this.contentAreaContainer.parentElement).find("div.mce-toolbar-grp").show();
-                                } else {
-                                    rcmHtmlEditorState.showToolbar = true;
-                                }
+                                rcmHtmlEditorState.showToolbar = true;
+
                                 if (elm.focus) {
                                     elm.focus();
                                 }
