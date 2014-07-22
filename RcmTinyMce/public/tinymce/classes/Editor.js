@@ -245,6 +245,10 @@ define("tinymce/Editor", [
 		self.queryValueCommands = {};
 		self.loadedCSS = {};
 
+		if (settings.target) {
+			self.targetElm = settings.target;
+		}
+
 		self.suffix = editorManager.suffix;
 		self.editorManager = editorManager;
 		self.inline = settings.inline;
@@ -631,8 +635,9 @@ define("tinymce/Editor", [
 				bodyClass = bodyClass[self.id] || '';
 			}
 
-			self.iframeHTML += '</head><body id="' + bodyId + '" class="mce-content-body ' + bodyClass + '" ' +
-				'onload="window.parent.tinymce.get(\'' + self.id + '\').fire(\'load\');"><br></body></html>';
+			self.iframeHTML += '</head><body id="' + bodyId +
+				'" class="mce-content-body ' + bodyClass +
+				'" data-id="' + self.id + '"><br></body></html>';
 
 			/*eslint no-script-url:0 */
 			var domainRelaxUrl = 'javascript:(function(){' +
@@ -647,14 +652,14 @@ define("tinymce/Editor", [
 
 			// Create iframe
 			// TODO: ACC add the appropriate description on this.
-			n = DOM.add(o.iframeContainer, 'iframe', {
+			var ifr = DOM.create('iframe', {
 				id: self.id + "_ifr",
-				src: url || 'javascript:""', // Workaround for HTTPS warning in IE6/7
+				//src: url || 'javascript:""', // Workaround for HTTPS warning in IE6/7
 				frameBorder: '0',
 				allowTransparency: "true",
 				title: self.editorManager.translate(
-					"Rich Text Area. Press ALT-F9 for menu. " +
-					"Press ALT-F10 for toolbar. Press ALT-0 for help"
+						"Rich Text Area. Press ALT-F9 for menu. " +
+						"Press ALT-F10 for toolbar. Press ALT-0 for help"
 				),
 				style: {
 					width: '100%',
@@ -662,6 +667,15 @@ define("tinymce/Editor", [
 					display: 'block' // Important for Gecko to render the iframe correctly
 				}
 			});
+
+			ifr.onload = function() {
+				ifr.onload = null;
+				self.fire("load");
+			};
+
+			DOM.setAttrib("src", url || 'javascript:""');
+
+			n = DOM.add(o.iframeContainer, ifr);
 
 			// Try accessing the document this will fail on IE when document.domain is set to the same as location.hostname
 			// Then we have to force domain relaxing using the domainRelaxUrl approach very ugly!!
@@ -674,12 +688,14 @@ define("tinymce/Editor", [
 			}
 
 			self.contentAreaContainer = o.iframeContainer;
+			self.iframeElement = ifr;
 
 			if (o.editorContainer) {
 				DOM.get(o.editorContainer).style.display = self.orgDisplay;
+				self.hidden = DOM.isHidden(o.editorContainer);
 			}
 
-			DOM.get(self.id).style.display = 'none';
+			self.getElement().style.display = 'none';
 			DOM.setAttrib(self.id, 'aria-hidden', true);
 
 			if (!url) {
@@ -697,7 +713,7 @@ define("tinymce/Editor", [
 		 * @private
 		 */
 		initContentBody: function(skipWrite) {
-			var self = this, settings = self.settings, targetElm = DOM.get(self.id), doc = self.getDoc(), body, contentCssText;
+			var self = this, settings = self.settings, targetElm = self.getElement(), doc = self.getDoc(), body, contentCssText;
 
 			// Restore visibility on target element
 			if (!settings.inline) {
@@ -770,7 +786,7 @@ define("tinymce/Editor", [
 				hex_colors: settings.force_hex_style_colors,
 				class_filter: settings.class_filter,
 				update_styles: true,
-				root_element: settings.content_editable ? self.id : null,
+				root_element: self.inline ? self.getBody() : null,
 				collect: settings.content_editable,
 				schema: self.schema,
 				onSetAttrib: function(e) {
@@ -1879,7 +1895,11 @@ define("tinymce/Editor", [
 		 * @return {Element} HTML DOM element for the replaced element.
 		 */
 		getElement: function() {
-			return DOM.get(this.settings.content_element || this.id);
+			if (!this.targetElm) {
+				this.targetElm = DOM.get(this.id);
+			}
+
+			return this.targetElm;
 		},
 
 		/**
@@ -1892,7 +1912,7 @@ define("tinymce/Editor", [
 			var self = this, elm;
 
 			if (!self.contentWindow) {
-				elm = DOM.get(self.id + "_ifr");
+				elm = self.iframeElement;
 
 				if (elm) {
 					self.contentWindow = elm.contentWindow;
@@ -2117,7 +2137,8 @@ define("tinymce/Editor", [
 			}
 
 			self.contentAreaContainer = self.formElement = self.container = self.editorContainer = null;
-			self.settings.content_element = self.bodyElement = self.contentDocument = self.contentWindow = null;
+			self.bodyElement = self.contentDocument = self.contentWindow = null;
+			self.iframeElement = self.targetElm = null;
 
 			if (self.selection) {
 				self.selection = self.selection.win = self.selection.dom = self.selection.dom.doc = null;

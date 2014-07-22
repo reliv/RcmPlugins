@@ -46,6 +46,7 @@ if ($this->testType == 'default') {
                 <br/>
 
                 <p><b>EXAMPLE Attribute options div:</b></p>
+
                 <div id="htmlEditorToolbar-myEditor1">
                     <!-- NOTICE how this id maps to the edit area id -->
                 </div>
@@ -103,6 +104,35 @@ if ($this->testType == 'default') {
                     </div>
                 </button>
                 <br/><br/>
+
+                <!-- -->
+                {{myModel.list | json}}
+                <div ng-repeat="item in myModel.list" ng-init="outerIndex = $index">
+                    <div id="test-{{item}}">
+                        {{item}}
+                    </div>
+                    </div>
+
+                <button ng-click="remove()">Remove one</button>
+                <div ng-repeat="item in myModel.list" ng-init="outerIndex = $index">
+                    <p><b>EXAMPLE myModel.list[{{outerIndex}}] = {{item}}:</b></p>
+
+                    <div id="htmlEditorToolbar-{{item}}">
+                        <!-- NOTICE how this id maps to the edit area id -->
+                    </div>
+                    <div
+                        data-rcm-html-edit="somethingText"
+                        html-editor-attached-toolbar
+                        html-editor-type="simpleText"
+                        html-editor-size="small"
+                        id="{{item}}"
+                        ng-model="item"
+                        >
+                        {{item}}
+                    </div>
+                    <br/>
+
+                </div>
 
                 <p><b>@DEPRECATED data-richEdit</b></p>
 

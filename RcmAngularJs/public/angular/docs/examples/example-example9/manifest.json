@@ -1,7 +1,7 @@
 {
-    "name": "example-example9",
-    "files": [
-        "index-production.html",
-        "protractor.js"
-    ]
+  "name": "example-example9",
+  "files": [
+    "index-production.html",
+    "protractor.js"
+  ]
 }

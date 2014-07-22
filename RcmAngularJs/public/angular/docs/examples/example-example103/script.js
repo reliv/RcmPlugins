@@ -1,10 +1,8 @@
-// declare a module
-var myAppModule = angular.module('myApp', []);
+  angular.module('scopeExample', [])
+    .controller('MyController', ['$scope', function($scope) {
+      $scope.username = 'World';
 
-// configure the module.
-// in this example we will create a greeting filter
-myAppModule.filter('greet', function () {
-    return function (name) {
-        return 'Hello, ' + name + '!';
-    };
-});
+      $scope.sayHello = function() {
+        $scope.greeting = 'Hello ' + $scope.username + '!';
+      };
+    }]);

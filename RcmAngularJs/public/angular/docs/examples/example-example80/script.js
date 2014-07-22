@@ -1,12 +1,13 @@
-angular.module('docsSimpleDirective', [])
-    .controller('Controller', ['$scope', function ($scope) {
-        $scope.customer = {
-            name: 'Naomi',
-            address: '1600 Amphitheatre'
-        };
+  angular.module('docsRestrictDirective', [])
+    .controller('Controller', ['$scope', function($scope) {
+      $scope.customer = {
+        name: 'Naomi',
+        address: '1600 Amphitheatre'
+      };
     }])
-    .directive('myCustomer', function () {
-        return {
-            template: 'Name: {{customer.name}} Address: {{customer.address}}'
-        };
+    .directive('myCustomer', function() {
+      return {
+        restrict: 'E',
+        templateUrl: 'my-customer.html'
+      };
     });

@@ -1,7 +1,8 @@
 {
-    "name": "example-example76",
-    "files": [
-        "index-production.html",
-        "app.js"
-    ]
+  "name": "example-example76",
+  "files": [
+    "index-production.html",
+    "app.css",
+    "app.js"
+  ]
 }
