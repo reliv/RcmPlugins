@@ -47,7 +47,7 @@ class IncludeTinyMce extends AbstractHelper
         $headScript = $view->headScript();
 
         $headScript->prependFile(
-            '/modules/rcm-tinymce-js/tinymce/tinymce.js'
+            '/modules/rcm-tinymce-js/tinymce/tinymce.min.js'
         );
 
     }

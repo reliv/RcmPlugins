@@ -33,7 +33,7 @@ class IncludeAngularJsBootstrap extends AbstractHelper
 
         // @codingStandardsIgnoreStart
         $headScript->prependFile(
-            '/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-tpls-0.10.0.min.js'
+            '/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-tpls-0.11.0.min.js'
         );
         // @codingStandardsIgnoreEnd
 
