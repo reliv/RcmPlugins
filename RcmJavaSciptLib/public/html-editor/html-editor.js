@@ -10,6 +10,34 @@ var rcmHtmlEditorState = {
 };
 angular.module('RcmHtmlEditor', [])
     .factory(
+        'rcmHtmlEditorLoading',
+        [
+            function () {
+
+                var editorLoadingIds = [];
+
+                return function(editorId, loading){
+
+                    if(loading){
+
+                        editorLoadingIds.push(editorId);
+                    } else {
+
+                        if(editorLoadingIds.indexOf(editorId) > -1){
+
+                            editorLoadingIds.splice(
+                                editorLoadingIds.indexOf(editorId),
+                                1
+                            )
+                        }
+                    }
+
+                    rcmHtmlEditorState.toolbarLoading = editorLoadingIds.length > 0;
+                }
+            }
+        ]
+    )
+    .factory(
     'rcmHtmlEditorConfig',
     function () {
         self = this;
@@ -199,7 +227,8 @@ angular.module('RcmHtmlEditor', [])
         [
             'guid',
             'htmlEditorOptions',
-            function (guid, htmlEditorOptions) {
+            'rcmHtmlEditorLoading',
+            function (guid, htmlEditorOptions, rcmHtmlEditorLoading) {
 
                 return function () {
 
@@ -234,13 +263,13 @@ angular.module('RcmHtmlEditor', [])
                             }
                         };
 
-                        // this is to hide the default toolbar before init
-                        rcmHtmlEditorState.toolbarLoading = true;
-
                         // generate an ID if not present
                         if (!attrs.id) {
                             attrs.$set('id', guid());
                         }
+
+                        // this is to hide the default toolbar before init
+                        rcmHtmlEditorLoading(attrs.id, true);
 
                         // get settings from attr or config
                         settings = htmlEditorOptions.buildHtmlOptions(scope, attrs);
@@ -257,13 +286,13 @@ angular.module('RcmHtmlEditor', [])
                                 }
                             });
                             ed.on('postrender', function (args) {
-                                console.log('postrender');
+
                                 // will show default toolbar on init
-                                if(ed.settings.fixed_toolbar){
+                                if (ed.settings.fixed_toolbar) {
 
                                     rcmHtmlEditorState.showFixedToolbar = false;
                                 }
-                                rcmHtmlEditorState.toolbarLoading = false;
+                                rcmHtmlEditorLoading(attrs.id, false);
                             });
                             // Update model on button click
                             ed.on('ExecCommand', function (e) {
@@ -288,7 +317,7 @@ angular.module('RcmHtmlEditor', [])
                             ed.on('blur', function (e) {
 
                                 rcmHtmlEditorState.isEditing = false;
-                                if(ed.settings.fixed_toolbar){
+                                if (ed.settings.fixed_toolbar) {
 
                                     rcmHtmlEditorState.showFixedToolbar = false;
                                 }
@@ -301,7 +330,7 @@ angular.module('RcmHtmlEditor', [])
                             ed.on('focus', function (e) {
 
                                 rcmHtmlEditorState.isEditing = true;
-                                if(ed.settings.fixed_toolbar){
+                                if (ed.settings.fixed_toolbar) {
 
                                     rcmHtmlEditorState.showFixedToolbar = true;
                                 }
@@ -363,12 +392,16 @@ angular.module('RcmHtmlEditor', [])
                 return {
                     priority: 10,
                     require: 'ngModel',
+//                    compile: function compile() {
+//                        var func = rcmHtmlEdit()
+//                        return func(scope, elm, attrs, ngModel);p
+//                    },
                     link: rcmHtmlEdit()
                 }
             }
         ]
     )
-    /* @deprecated */
+    /* @deprecated *
     .directive(
         'richedit',
         [
@@ -383,7 +416,7 @@ angular.module('RcmHtmlEditor', [])
             }
         ]
     )
-    /* @deprecated */
+    /* @deprecated *
     .directive(
         'textedit',
         [
@@ -399,6 +432,7 @@ angular.module('RcmHtmlEditor', [])
             }
         ]
     )
+    */
     .directive('htmlEditorToolbar', function () {
         /*
          * Example:
@@ -416,7 +450,6 @@ angular.module('RcmHtmlEditor', [])
             link: thislink,
             restrict: 'A',
             template: '' +
-//                'toolbarLoading:{{rcmHtmlEditorState.toolbarLoading | json}} -- showFixedToolbar:{{rcmHtmlEditorState.showFixedToolbar | json}} ' +
                 '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading">' +
                 ' <div ng-hide="rcmHtmlEditorState.showFixedToolbar">' +
                 '  <div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation" style="border-width: 1px; left: 0px; top: 0px; width: 100%; height: 34px;">' +
@@ -450,7 +483,7 @@ angular.module('RcmHtmlEditor', [])
         [
             '$scope',
             '$timeout',
-            function ($scope, $timeout) {
+            function ($scope) {
 
                 $scope.myModel = {
                     a: "My Test Text",
@@ -466,29 +499,20 @@ angular.module('RcmHtmlEditor', [])
                     ]
                 }
 
-                $scope.index = 0;
-                $scope.getIndex = function(){
+                $scope.rcmHtmlEditorState = rcmHtmlEditorState;
 
-                    $scope.index ++
-                    return $scope.index;
-                }
+                $scope.index = 3;
 
-                $scope.remove = function(){
+                $scope.remove = function () {
 
                     $scope.myModel.list.splice(1, 1);
+                }
 
-//                    $timeout(function() {
-//                         $scope.myModel.list.splice(1, 1);
-//                    }, 0);
+                $scope.add = function () {
 
-//                    $rootScope.$apply(function() {
-//                        delete $scope.myModel.list[1];
-//                    });
-
-
-//                    if (!$scope.$root.$$phase) {
-//                        $scope.$apply();
-//                    }
+                    $scope.index ++;
+                    $scope.myModel.list.push('NEW:'+$scope.index);
+                    //$scope.$compile();
                 }
 
                 // EXAMPLE of adding custom options using attribute

@@ -19,6 +19,20 @@ if ($this->testType == 'default') {
     <h1>TEST ANGULARJS RcmTinyMce</h1>
     <div ng-app="RcmHtmlEditor" ng-controller="RcmHtmlEditorTestController">
         <div>
+
+            <div>
+                <p><b>Model:</b></p>
+                <pre>{{myModel | json}}</pre>
+            </div>
+            <br/>
+
+            <div>
+                <p><b>rcmHtmlEditorState</b></p>
+                <pre>{{rcmHtmlEditorState | json}}</pre>
+            </div>
+            <br/>
+            <br/>
+
             <div style="position: relative; height: 100px;">
                 <div style="position: absolute; top: 0px; left: 0px; width: 700px; z-index: 1000">
                     <div html-editor-toolbar>
@@ -27,13 +41,8 @@ if ($this->testType == 'default') {
                 </div>
             </div>
 
-            <form method="post">
-                <div>
-                    <p><b>Model:</b></p>
-                    <pre>{{myModel | json}}</pre>
-                </div>
-                <br/>
-                <br/>
+            <form>
+
 
                 <p><b>EXAMPLE data-rcm-html-edit:</b></p>
 
@@ -106,14 +115,9 @@ if ($this->testType == 'default') {
                 <br/><br/>
 
                 <!-- -->
-                {{myModel.list | json}}
-                <div ng-repeat="item in myModel.list" ng-init="outerIndex = $index">
-                    <div id="test-{{item}}">
-                        {{item}}
-                    </div>
-                    </div>
+                <div><button ng-click="remove()">Remove</button> <button ng-click="add()">Add</button> </div>
+                <div>myModel.list: {{myModel.list | json}}</div>
 
-                <button ng-click="remove()">Remove one</button>
                 <div ng-repeat="item in myModel.list" ng-init="outerIndex = $index">
                     <p><b>EXAMPLE myModel.list[{{outerIndex}}] = {{item}}:</b></p>
 
@@ -133,15 +137,6 @@ if ($this->testType == 'default') {
                     <br/>
 
                 </div>
-
-                <p><b>@DEPRECATED data-richEdit</b></p>
-
-                <div data-richEdit="something" ng-model="myModel.a">richEdit</div>
-                <br/><br/>
-
-                <p><b>@DEPRECATED data-textEdit</b></p>
-                <span data-textEdit="somethingText" ng-model="myModel.b">textEdit</span>
-                <br/><br/>
             </form>
         </div>
     </div>
