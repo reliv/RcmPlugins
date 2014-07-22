@@ -106,7 +106,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                 if (compareStr(message.defaultText, query) || compareStr(message.text, query)) {
                     result.push(message);
                 }
-
             });
 
             return result;

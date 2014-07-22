@@ -16,6 +16,12 @@
     width: auto !important;
     max-width: 800px;
 }
+/* fixes the bug in bootstrap form-control input, width was wider in FF than it appears in Chrome */
+@-moz-document url-prefix() {
+.form-control  {
+ width: 96%;
+}
+}
 
 /*.modal-content {*/
 /*min-height: 300px;*/

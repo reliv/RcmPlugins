@@ -21,18 +21,20 @@ return array(
 
     'RcmUser' => array(
         'Acl\Config' => array(
-            'RcmI18nTranslations' => array(
-                'Translations' => array(
-                    'resourceId' => 'Translations',
-                    'parentResourceId' => null,
-                    'privileges' => array(
-                        'read',
-                        'update',
-                        'create',
-                        'delete',
-                    ),
-                     'name' => 'Translations',
-                     'description' => 'Creating translations for other countries',
+            'ResourceProviders' => array(
+                'RcmI18nTranslations' => array(
+                    'translations' => array(
+                        'resourceId' => 'translations',
+                        'parentResourceId' => null,
+                        'privileges' => array(
+                            'read',
+                            'update',
+                            'create',
+                            'delete',
+                        ),
+                        'name' => 'Translations',
+                        'description' => 'Creating translations for other countries',
+                    )
                 )
             )
         )
