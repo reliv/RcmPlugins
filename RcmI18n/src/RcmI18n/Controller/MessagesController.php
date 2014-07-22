@@ -113,7 +113,6 @@ class MessagesController extends AbstractRestfulController
         } else {
             $message = new Message();
             $message->setLocale($cleanLocal);
-            $message->setDefaultText($cleanDefaultText);
             $message->setText($cleanText);
 
             $em->persist($message);

@@ -61,11 +61,12 @@
                             {{message.defaultText}}
                         </td>
                         <td>
-                            <div data-richEdit
+                            <div id="htmlEditorToolbar-{{$index}}">
+                            </div>
+                            <div id="{{$index}}"
+                                 data-richEdit
                                  html-editor-attached-toolbar
-                                 html-editor-show-hide-toolbar
                                  html-editor-type="simpleText"
-                                 html-editor-type="text"
                                  html-editor-size="small"
                                  ng-change="message.dirty = true"
                                  ng-model="message.text"></div>
