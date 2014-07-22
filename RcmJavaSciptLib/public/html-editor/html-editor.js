@@ -252,16 +252,18 @@ angular.module('RcmHtmlEditor', [])
                                 ngModel.$render();
                                 ngModel.$setPristine();
 
+                                if (!scope.$root.$$phase) {
+                                    scope.$apply();
+                                }
+                            });
+                            ed.on('postrender', function (args) {
+                                console.log('postrender');
                                 // will show default toolbar on init
                                 if(ed.settings.fixed_toolbar){
 
                                     rcmHtmlEditorState.showFixedToolbar = false;
                                 }
                                 rcmHtmlEditorState.toolbarLoading = false;
-
-                                if (!scope.$root.$$phase) {
-                                    scope.$apply();
-                                }
                             });
                             // Update model on button click
                             ed.on('ExecCommand', function (e) {
