@@ -6,7 +6,7 @@
 var rcmHtmlEditorState = {
     isEditing: false,
     toolbarLoading: true,
-    showToolbar: false
+    showFixedToolbar: false
 };
 angular.module('RcmHtmlEditor', [])
     .factory(
@@ -140,11 +140,13 @@ angular.module('RcmHtmlEditor', [])
 
                     settings.mode = 'exact';
                     settings.elements = attrs.id;
+                    settings.fixed_toolbar = true;
 
                     // set some overrides based on attr html-editor-attached-toolbar
                     if (typeof attrs.htmlEditorAttachedToolbar !== 'undefined') {
                         settings.inline = true;
                         settings.fixed_toolbar_container = rcmHtmlEditorConfig.toolbar_container_prefix + attrs.id;
+                        settings.fixed_toolbar = false;
 
                         // @todo NOT SUPPORTED: attr html-editor-show-hide-toolbar
                         //if (typeof attrs.htmlEditorShowHideToolbar !== 'undefined') {
@@ -251,7 +253,10 @@ angular.module('RcmHtmlEditor', [])
                                 ngModel.$setPristine();
 
                                 // will show default toolbar on init
-                                rcmHtmlEditorState.showToolbar = false;
+                                if(ed.settings.fixed_toolbar){
+
+                                    rcmHtmlEditorState.showFixedToolbar = false;
+                                }
                                 rcmHtmlEditorState.toolbarLoading = false;
 
                                 if (!scope.$root.$$phase) {
@@ -281,7 +286,10 @@ angular.module('RcmHtmlEditor', [])
                             ed.on('blur', function (e) {
 
                                 rcmHtmlEditorState.isEditing = false;
-                                rcmHtmlEditorState.showToolbar = false;
+                                if(ed.settings.fixed_toolbar){
+
+                                    rcmHtmlEditorState.showFixedToolbar = false;
+                                }
 
                                 if (elm.blur) {
                                     elm.blur();
@@ -291,7 +299,10 @@ angular.module('RcmHtmlEditor', [])
                             ed.on('focus', function (e) {
 
                                 rcmHtmlEditorState.isEditing = true;
-                                rcmHtmlEditorState.showToolbar = true;
+                                if(ed.settings.fixed_toolbar){
+
+                                    rcmHtmlEditorState.showFixedToolbar = true;
+                                }
 
                                 if (elm.focus) {
                                     elm.focus();
@@ -403,9 +414,9 @@ angular.module('RcmHtmlEditor', [])
             link: thislink,
             restrict: 'A',
             template: '' +
-//                'showToolbar:{{rcmHtmlEditorState.toolbarLoading | json}} -- showToolbar:{{rcmHtmlEditorState.showToolbar | json}} ' +
+//                'toolbarLoading:{{rcmHtmlEditorState.toolbarLoading | json}} -- showFixedToolbar:{{rcmHtmlEditorState.showFixedToolbar | json}} ' +
                 '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading">' +
-                ' <div ng-hide="rcmHtmlEditorState.showToolbar">' +
+                ' <div ng-hide="rcmHtmlEditorState.showFixedToolbar">' +
                 '  <div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation" style="border-width: 1px; left: 0px; top: 0px; width: 100%; height: 34px;">' +
                 '   <div class="mce-container-body mce-abs-layout">' +
                 '    <div class="mce-toolbar-grp mce-container mce-panel mce-first mce-last">' +
