@@ -305,9 +305,9 @@ angular.module('RcmHtmlEditor', [])
                                 updateView();
                             });
                             // This might be needed if setup can be passed in
-//                            if (settings) {
-//                                settings(ed);
-//                            }
+                            //if (settings) {
+                            //    settings(ed);
+                            //}
                         };
 
                         setTimeout(function () {
@@ -378,8 +378,9 @@ angular.module('RcmHtmlEditor', [])
             function (rcmHtmlEdit) {
 
                 return {
-                    priority: 10,
+                    //priority: 10,
                     require: 'ngModel',
+                    transclude: true,
                     link: rcmHtmlEdit()
                 }
             }
@@ -435,14 +436,46 @@ angular.module('RcmHtmlEditor', [])
         'RcmHtmlEditorTestController',
         [
             '$scope',
-            function ($scope) {
+            '$timeout',
+            function ($scope, $timeout) {
 
                 $scope.myModel = {
                     a: "My Test Text",
                     b: "Other Test Text",
                     c: "More Test Text",
                     d: "More Great Test Text",
-                    e: "tttttttttt"
+                    e: "tttttttttt",
+                    list: [
+                        'one',
+                        'two',
+                        'three',
+                        'four'
+                    ]
+                }
+
+                $scope.index = 0;
+                $scope.getIndex = function(){
+
+                    $scope.index ++
+                    return $scope.index;
+                }
+
+                $scope.remove = function(){
+
+                    $scope.myModel.list.splice(1, 1);
+
+//                    $timeout(function() {
+//                         $scope.myModel.list.splice(1, 1);
+//                    }, 0);
+
+//                    $rootScope.$apply(function() {
+//                        delete $scope.myModel.list[1];
+//                    });
+
+
+//                    if (!$scope.$root.$$phase) {
+//                        $scope.$apply();
+//                    }
                 }
 
                 // EXAMPLE of adding custom options using attribute

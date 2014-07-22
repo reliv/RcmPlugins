@@ -1,21 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Example - example-example70</title>
+  <meta charset="UTF-8">
+  <title>Example - example-example70</title>
+  
 
+  <script src="../../../angular.min.js"></script>
+  <script src="script.js"></script>
+  
 
-    <script src="../../../angular.min.js"></script>
-
-
+  
 </head>
-<body ng-app="">
-<div ng-show="!showActions" ng-swipe-left="showActions = true">
-    Some list content, like an email in the inbox
-</div>
-<div ng-show="showActions" ng-swipe-right="showActions = false">
-    <button ng-click="reply()">Reply</button>
-    <button ng-click="delete()">Delete</button>
+<body ng-app="locationExample">
+  <div ng-controller="LocationController">
+  <input type="text" ng-model="locationPath" />
 </div>
 </body>
 </html>

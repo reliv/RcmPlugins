@@ -6,9 +6,6 @@
  *
  * License: http://www.tinymce.com/license
  * Contributing: http://www.tinymce.com/contributing
- *
- * Some of this logic is based on jQuery code that is released under
- * MIT license that grants us to sublicense it under LGPL.
  */
 
 /**
@@ -21,7 +18,6 @@
  * - Event binding
  *
  * This is not currently implemented:
- * - Offset
  * - Dimension
  * - Ajax
  * - Animation
@@ -70,7 +66,7 @@ define("tinymce/dom/DomQuery", [
 		var i;
 
 		if (isString(sourceItem)) {
-			sourceItem = createFragment(sourceItem);
+			sourceItem = createFragment(sourceItem, getElementDocument(targetNodes[0]));
 		} else if (sourceItem.length && !sourceItem.nodeType) {
 			sourceItem = DomQuery.makeArray(sourceItem);
 
@@ -193,6 +189,30 @@ define("tinymce/dom/DomQuery", [
 		return obj;
 	}
 
+	function grep(array, callback) {
+		var out = [];
+
+		each(array, function(i, item) {
+			if (callback(item, i)) {
+				out.push(item);
+			}
+		});
+
+		return out;
+	}
+
+	function getElementDocument(element) {
+		if (!element) {
+			return doc;
+		}
+
+		if (element.nodeType == 9) {
+			return element;
+		}
+
+		return element.ownerDocument;
+	}
+
 	DomQuery.fn = DomQuery.prototype = {
 		constructor: DomQuery,
 
@@ -263,14 +283,18 @@ define("tinymce/dom/DomQuery", [
 
 				if (match) {
 					if (match[1]) {
-						node = createFragment(selector, context).firstChild;
+						node = createFragment(selector, getElementDocument(context)).firstChild;
 
 						while (node) {
 							push.call(self, node);
 							node = node.nextSibling;
 						}
 					} else {
-						node = doc.getElementById(match[2]);
+						node = getElementDocument(context).getElementById(match[2]);
+
+						if (!node) {
+							return self;
+						}
 
 						if (node.id !== match[2]) {
 							return self.find(selector);
@@ -993,10 +1017,16 @@ define("tinymce/dom/DomQuery", [
 		 * Filters the current set with the specified selector.
 		 *
 		 * @method filter
-		 * @param {String} selector Selector to filter elements by.
+		 * @param {String/function} selector Selector to filter elements by.
 		 * @return {tinymce.dom.DomQuery} Set with filtered elements.
 		 */
 		filter: function(selector) {
+			if (typeof selector == 'function') {
+				return DomQuery(grep(this.toArray(), function(item, i) {
+					return selector(i, item);
+				}));
+			}
+
 			return DomQuery(DomQuery.filter(selector, this.toArray()));
 		},
 
@@ -1029,6 +1059,40 @@ define("tinymce/dom/DomQuery", [
 			});
 
 			return DomQuery(result);
+		},
+
+		/**
+		 * Returns the offset of the first element in set or sets the top/left css properties of all elements in set.
+		 *
+		 * @method offset
+		 * @param {Object} offset Optional offset object to set on each item.
+		 * @return {Object/tinymce.dom.DomQuery} Returns the first element offset or the current set if you specified an offset.
+		 */
+		offset: function(offset) {
+			var elm, doc, docElm;
+			var x = 0, y = 0, pos;
+
+			if (!offset) {
+				elm = this[0];
+
+				if (elm) {
+					doc = elm.ownerDocument;
+					docElm = doc.documentElement;
+
+					if (elm.getBoundingClientRect) {
+						pos = elm.getBoundingClientRect();
+						x = pos.left + (docElm.scrollLeft || doc.body.scrollLeft) - docElm.clientLeft;
+						y = pos.top + (docElm.scrollTop || doc.body.scrollTop) - docElm.clientTop;
+					}
+				}
+
+				return {
+					left: x,
+					top: y
+				};
+			}
+
+			return this.css(offset);
 		},
 
 		push: push,
@@ -1100,6 +1164,21 @@ define("tinymce/dom/DomQuery", [
 		 * @return {String} New string with removed whitespace.
 		 */
 		trim: trim,
+
+		/**
+		 * Filters out items from the input array by calling the specified function for each item.
+		 * If the function returns false the item will be excluded if it returns true it will be included.
+		 *
+		 * @static
+		 * @method grep
+		 * @param {Array} array Array of items to loop though.
+		 * @param {function} callback Function to call for each item. Include/exclude depends on it's return value.
+		 * @return {Array} New array with values imported and filtered based in input.
+		 * @example
+		 * // Filter out some items, this will return an array with 4 and 5
+		 * var items = DomQuery.grep([1, 2, 3, 4, 5], function(v) {return v > 3;});
+		 */
+		grep: grep,
 
 		// Sizzle
 		find: Sizzle,
