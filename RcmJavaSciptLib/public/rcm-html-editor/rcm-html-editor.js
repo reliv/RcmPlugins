@@ -9,11 +9,13 @@ angular.module('RcmHtmlEditor', [])
     .factory(
     'rcmHtmlEditorConfig',
     function () {
-        self = this;
 
+        var self = this;
+
+        self.language = 'en';
         self.baseUrl = "/"; //"<?php echo $baseUrl; ?>";
         self.fixed_toolbar_container = '#externalToolbarWrapper';
-        self.toolbar_container_prefix = '#htmlEditorToolbar-'
+        self.toolbar_container_prefix = '#htmlEditorToolbar-';
 
         self.htmlEditorOptions = {
             defaults: {
@@ -24,6 +26,7 @@ angular.module('RcmHtmlEditor', [])
 
                 inline: true,
                 fixed_toolbar_container: self.fixed_toolbar_container,
+                language: self.language,
 
                 menubar: false,
                 plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
@@ -47,6 +50,7 @@ angular.module('RcmHtmlEditor', [])
 
                 inline: true,
                 fixed_toolbar_container: self.fixed_toolbar_container,
+                language: self.language,
 
                 menubar: false,
                 plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
@@ -69,6 +73,7 @@ angular.module('RcmHtmlEditor', [])
 
                 inline: true,
                 fixed_toolbar_container: self.fixed_toolbar_container,
+                language: self.language,
 
                 menubar: false,
                 plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
@@ -94,7 +99,7 @@ angular.module('RcmHtmlEditor', [])
 
                 var rcmHtmlEditorState = {
                     isEditing: false,
-                    toolbarLoading: true,
+                    toolbarLoading: false,
                     showFixedToolbar: false
                 };
 
