@@ -16,53 +16,163 @@ if ($this->testType == 'default') {
 
     ?>
 
+    <script type="application/javascript">
+        angular.module('RcmHtmlEditor')
+            /* @EXAMPLE */
+            .controller(
+                'RcmHtmlEditorTestController',
+                [
+                    '$scope',
+                    '$timeout',
+                    'rcmHtmlEditorState',
+                    function ($scope, $timeout, rcmHtmlEditorState) {
+
+                        $scope.myModel = {
+                            a: "My Test Text",
+                            b: "Other Test Text",
+                            c: "More Test Text",
+                            d: "More Great Test Text",
+                            e: "tttttttttt",
+                            list: [
+                                'one',
+                                'two',
+                                'three',
+                                'four'
+                            ]
+                        }
+
+                        $scope.rcmHtmlEditorState = rcmHtmlEditorState;
+
+                        $scope.index = 3;
+
+                        $scope.remove = function () {
+
+                            $scope.myModel.list.splice(1, 1);
+                        }
+
+                        $scope.add = function () {
+
+                            $scope.index++;
+                            $scope.myModel.list.push('NEW-' + $scope.index);
+
+                            //$scope.$evalAsync(
+                            //    function ($scope) {
+                            //        $scope.index++;
+                            //        $scope.myModel.list.push('NEW-' + $scope.index);
+                            //    }
+                            //)
+
+                            //$timeout(
+                            //    function () {
+                            //        $scope.index++;
+                            //        $scope.myModel.list.push('NEW-' + $scope.index);
+                            //    }
+                            //)
+                        }
+
+                        // EXAMPLE of adding custom options using attribute
+                        $scope.tinymceOptions = {
+                            optionsName: 'fromScope',
+                            force_br_newlines: false,
+                            force_p_newlines: false,
+                            forced_root_block: '',
+
+                            inline: true,
+                            fixed_toolbar_container: '#externalToolbarWrapper',
+
+                            menubar: false,
+                            plugins: "anchor, charmap, code, image, link, paste, spellchecker, template",
+                            relative_urls: true,
+                            document_base_url: '/',
+                            statusbar: false,
+
+                            toolbar: [
+                                // "code | undo redo | spellchecker | " +
+                                "bold italic underline strikethrough subscript superscript removeformat | "
+                                // "outdent indent | cut copy paste pastetext | " +
+                                // "image charmap template | link unlink anchor"
+                            ]
+                        };
+                    }
+                ]
+            );
+    </script>
+
+    <style type="text/css">
+        .example {
+            border: 1px solid #999999;
+            margin: 7px 0 7px 0;
+            padding: 7px;
+        }
+
+        .example .item {
+            border-bottom: 1px solid #999999;
+            padding: 7px;
+        }
+    </style>
+
     <h1>TEST ANGULARJS RcmTinyMce</h1>
     <div ng-app="RcmHtmlEditor" ng-controller="RcmHtmlEditorTestController">
         <div>
-            <div style="position: relative; height: 100px;">
-                <div style="position: absolute; top: 0px; left: 0px; width: 700px; z-index: 1000">
-                    <div html-editor-toolbar>
-                        <!-- Use this to contain a master/shared toolbar -->
+
+            <div>
+                <p><b>Model:</b></p>
+                <pre>{{myModel | json}}</pre>
+            </div>
+            <br/>
+
+            <div>
+                <p><b>rcmHtmlEditorState</b></p>
+                <pre>{{rcmHtmlEditorState | json}}</pre>
+            </div>
+            <br/>
+            <br/>
+
+            <div class="example" style="position: relative;">
+                <p><b>FIXED TOOLBAR:</b></p>
+
+                <div style="position: relative; min-height: 80px;">
+                    <div style="position: absolute; top: 0px; left: 0px; width: 100%; z-index: 1000">
+                        <div html-editor-toolbar>
+                            <!-- Use this to contain a master/shared toolbar -->
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <form method="post">
-                <div>
-                    <p><b>Model:</b></p>
-                    <pre>{{myModel | json}}</pre>
+            <form>
+
+                <div class="example">
+                    <p><b>EXAMPLE data-rcm-html-edit:</b></p>
+
+                    <div
+                        data-rcm-html-edit="something"
+                        ng-model="myModel.a"
+                        >
+                        rcmHtmlEdit
+                    </div>
                 </div>
-                <br/>
-                <br/>
 
-                <p><b>EXAMPLE data-rcm-html-edit:</b></p>
+                <div class="example">
+                    <p><b>EXAMPLE Attribute options div:</b></p>
 
-                <div
-                    data-rcm-html-edit="something"
-                    ng-model="myModel.a"
-                    >
-                    rcmHtmlEdit
+                    <div id="htmlEditorToolbar-myEditor1">
+                        <!-- NOTICE how this id maps to the edit area id -->
+                    </div>
+                    <div
+                        data-rcm-html-edit="somethingText"
+                        html-editor-attached-toolbar
+                        html-editor-options="tinymceOptions"
+                        html-editor-size="small"
+                        id="myEditor1"
+                        ng-model="myModel.b"
+                        >
+                        OPTIONS ATTR
+                    </div>
                 </div>
-                <br/>
 
-                <p><b>EXAMPLE Attribute options div:</b></p>
-
-                <div id="htmlEditorToolbar-myEditor1">
-                    <!-- NOTICE how this id maps to the edit area id -->
-                </div>
-                <div
-                    data-rcm-html-edit="somethingText"
-                    html-editor-attached-toolbar
-                    html-editor-options="tinymceOptions"
-                    html-editor-size="small"
-                    id="myEditor1"
-                    ng-model="myModel.b"
-                    >
-                    OPTIONS ATTR
-                </div>
-                <br/>
-
-                <p><b>EXAMPLE Attribute options span:</b></p>
+                <div class="example">
+                    <p><b>EXAMPLE Attribute options span:</b></p>
                 <span
                     data-rcm-html-edit="somethingText"
                     html-editor-attached-toolbar
@@ -76,72 +186,69 @@ if ($this->testType == 'default') {
                 <span id="htmlEditorToolbar-myEditor2">
                     <!-- NOTICE how this id maps to the edit area id -->
                 </span>
-                <br/><br/>
+                </div>
 
-                <p><b>EXAMPLE Label:</b></p>
-                <label
-                    data-rcm-html-edit="something"
-                    html-editor-type="text"
-                    ng-model="myModel.c"
-                    >
-                    LABEL
-                </label>
-                <br/><br/>
+                <div class="example">
+                    <p><b>EXAMPLE Label:</b></p>
+                    <label
+                        data-rcm-html-edit="something"
+                        html-editor-type="text"
+                        ng-model="myModel.c"
+                        >
+                        LABEL
+                    </label>
+                </div>
+
+                <div class="example">
+                    <p><b>EXAMPLE Button:</b></p>
+                    <button disabled="disabled" onclick="return false;">
+                        <div
+                            data-rcm-html-edit="something"
+                            html-editor-type="simpleText"
+                            ng-model="myModel.d"
+                            >
+                            BUTTON
+                        </div>
+                    </button>
+                </div>
+
+                <div class="example">
+                    <!-- Dynamic list -->
+                    <p><b>EXAMPLE Dynamic list:</b></p>
+
+                    <div>myModel.list: {{myModel.list | json}}</div>
+                    <div>
+                        <button ng-click="remove()">Remove</button>
+                        <button ng-click="add()">Add</button>
+                    </div>
+
+
+                    <div ng-repeat="item in myModel.list" ng-init="outerIndex = $index" class="item">
+                        <p><b>List Item #{{outerIndex}} = {{item}}:</b>
+                        </p>
+
+                        <div id="htmlEditorToolbar-{{item}}">
+                            <!-- NOTICE how this id maps to the edit area id -->
+                        </div>
+                        <div
+                            data-rcm-html-edit="somethingText"
+                            html-editor-attached-toolbar
+                            html-editor-type="simpleText"
+                            html-editor-size="small"
+                            id="{{item}}"
+                            ng-model="item"
+                            >
+                            {{item}}
+                        </div>
+                    </div>
+                </div>
+
 
                 <!--<p><b>EXAMPLE textarea (NOT SUPPORTED):</b></p>
                 <textarea data-rcm-html-edit="something" id="TEXTAREA1" ng-model="myModel.e">TEXTAREA</textarea>
                 <br/><br/>
                 -->
 
-                <p><b>EXAMPLE Button:</b></p>
-                <button disabled="disabled" onclick="return false;">
-                    <div
-                        data-rcm-html-edit="something"
-                        html-editor-type="simpleText"
-                        ng-model="myModel.d"
-                        >
-                        BUTTON
-                    </div>
-                </button>
-                <br/><br/>
-
-                <!-- -->
-                {{myModel.list | json}}
-                <div ng-repeat="item in myModel.list" ng-init="outerIndex = $index">
-                    <div id="test-{{item}}">
-                        {{item}}
-                    </div>
-                    </div>
-
-                <button ng-click="remove()">Remove one</button>
-                <div ng-repeat="item in myModel.list" ng-init="outerIndex = $index">
-                    <p><b>EXAMPLE myModel.list[{{outerIndex}}] = {{item}}:</b></p>
-
-                    <div id="htmlEditorToolbar-{{item}}">
-                        <!-- NOTICE how this id maps to the edit area id -->
-                    </div>
-                    <div
-                        data-rcm-html-edit="somethingText"
-                        html-editor-attached-toolbar
-                        html-editor-type="simpleText"
-                        html-editor-size="small"
-                        id="{{item}}"
-                        ng-model="item"
-                        >
-                        {{item}}
-                    </div>
-                    <br/>
-
-                </div>
-
-                <p><b>@DEPRECATED data-richEdit</b></p>
-
-                <div data-richEdit="something" ng-model="myModel.a">richEdit</div>
-                <br/><br/>
-
-                <p><b>@DEPRECATED data-textEdit</b></p>
-                <span data-textEdit="somethingText" ng-model="myModel.b">textEdit</span>
-                <br/><br/>
             </form>
         </div>
     </div>
@@ -159,42 +266,42 @@ if ($this->testType == 'default') {
         //tn1 = new tinymce();
         /* */
         tinymce.init({
-            force_br_newlines: false,
-            force_p_newlines: false,
-            forced_root_block: '',
+                         force_br_newlines: false,
+                         force_p_newlines: false,
+                         forced_root_block: '',
 
-            inline: true,
-            fixed_toolbar_container: '#externalToolbarWrapper',
+                         inline: true,
+                         fixed_toolbar_container: '#externalToolbarWrapper',
 
-            menubar: false,
-            plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
-            relative_urls: true,
-            document_base_url: baseUrl,
-            statusbar: false,
-            selector: "[data-richEdit],[data-textEdit]", //"div.editor",
+                         menubar: false,
+                         plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
+                         relative_urls: true,
+                         document_base_url: baseUrl,
+                         statusbar: false,
+                         selector: "[data-richEdit],[data-textEdit]", //"div.editor",
 
-            setup: function (theEditor) {
-                /* hide/show toolbar on focus div.mce-toolbar-grp *
-                 theEditor.on('focus', function () {
-                 $('#externalToolbarWrapper').find("div.mce-panel").show();
-                 });
-                 theEditor.on('blur', function () {
-                 $('#externalToolbarWrapper').find("div.mce-panel").show();
-                 });
-                 theEditor.on("init", function() {
-                 $('#externalToolbarWrapper').find("div.mce-panel").show();
-                 });
-                 //*/
-            },
+                         setup: function (theEditor) {
+                             /* hide/show toolbar on focus div.mce-toolbar-grp *
+                              theEditor.on('focus', function () {
+                              $('#externalToolbarWrapper').find("div.mce-panel").show();
+                              });
+                              theEditor.on('blur', function () {
+                              $('#externalToolbarWrapper').find("div.mce-panel").show();
+                              });
+                              theEditor.on("init", function() {
+                              $('#externalToolbarWrapper').find("div.mce-panel").show();
+                              });
+                              //*/
+                         },
 
-            toolbar: [
-                "code | undo redo | spellchecker | styleselect | " +
-                    "bold italic underline strikethrough subscript superscript removeformat | " +
-                    "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | cut copy paste pastetext | " +
-                    "image table hr charmap template | link unlink anchor"
-            ]
-        });
+                         toolbar: [
+                             "code | undo redo | spellchecker | styleselect | " +
+                                 "bold italic underline strikethrough subscript superscript removeformat | " +
+                                 "alignleft aligncenter alignright alignjustify | " +
+                                 "bullist numlist outdent indent | cut copy paste pastetext | " +
+                                 "image table hr charmap template | link unlink anchor"
+                         ]
+                     });
         //*/
 
         testDefaultOutput = function (elm) {
