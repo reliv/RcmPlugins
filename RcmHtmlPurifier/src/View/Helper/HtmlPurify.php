@@ -18,6 +18,8 @@
 namespace RcmHtmlPurifier\View\Helper;
 
 use
+    RcmHtmlPurifier\Model\Config;
+use
     Zend\View\Helper\AbstractHelper;
 
 
@@ -50,7 +52,7 @@ class HtmlPurify extends AbstractHelper {
      */
     public function __invoke($dirtyHtml ,$allowedElements = null)
     {
-        $config = \HTMLPurifier_Config::createDefault();
+        $config = Config::Html5Config();
         $config->set('Cache.SerializerPath', getcwd() . '/data/HTMLPurifier');
 
         if(is_array($allowedElements)){

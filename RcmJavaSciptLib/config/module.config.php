@@ -46,9 +46,9 @@ return array(
                 'may_terminate' => true,
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/rcm-java-scipt-lib/html-editor-example',
+                    'route' => '/rcm-java-scipt-lib/:template',
                     'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'template' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ),
                     'defaults' => array(
                         'controller' => 'RcmJavaSciptLib\Controller\TestController',
