@@ -251,7 +251,7 @@ angular.module('RcmHtmlEditor', [])
                 return function () {
 
                     return function (scope, elm, attrs, ngModel) {
-                        console.log(elm);
+
                         var settings = {};
                         var tinyInstance;
                         var tagName = elm[0].tagName;
@@ -297,8 +297,6 @@ angular.module('RcmHtmlEditor', [])
                             var args;
                             //
                             ed.on('init', function (args) {
-
-                                console.log('init');
 
                                 ngModel.$render();
                                 ngModel.$setPristine();
@@ -408,13 +406,22 @@ angular.module('RcmHtmlEditor', [])
             }
         ]
     )
+    /*
+     * rcmHtmlEdit - rcm-html-edit
+     *
+     * Attributes options:
+     *  html-editor-options
+     *  html-editor-type
+     *  html-editor-attachedToolbar
+     *  html-editor-base-url
+     *  html-editor-size
+     *  id
+     */
     .directive(
         'rcmHtmlEdit',
         [
             'rcmHtmlEdit',
             function (rcmHtmlEdit) {
-
-                console.log('directive');
 
                 return {
                     priority: 10,
@@ -424,19 +431,23 @@ angular.module('RcmHtmlEditor', [])
             }
         ]
     )
-
+    /*
+     * htmlEditorToolbar - html-editor-toolbar
+     * Example:
+     * <div html-editor-toolbar></div>
+     */
     .directive(
         'htmlEditorToolbar',
         [
             'rcmHtmlEditorState',
             function (rcmHtmlEditorState) {
-               /*
-                * Example:
-                * <div html-editor-toolbar></div>
-                */
 
-               var thislink = function (scope, element, attrs,
-                                        htmlEditorState) {
+               var thislink = function (
+                   scope,
+                   element,
+                   attrs,
+                   htmlEditorState
+                   ) {
 
                    var self = this;
 
