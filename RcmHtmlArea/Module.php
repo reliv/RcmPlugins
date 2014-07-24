@@ -16,7 +16,7 @@
 
 namespace RcmHtmlArea;
 
-use RcmInstanceConfig\Controller\BasePluginController;
+use Rcm\Plugin\BaseController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -48,7 +48,7 @@ class Module
      * getControllerConfig is used by the ZF2 service manager in order
      * to create new objects.
      *
-     * @return object Returns an object.
+     * @return BaseController Returns an object.
      */
 
     public function getControllerConfig()
@@ -58,7 +58,7 @@ class Module
                 'RcmHtmlArea' => function ($controllerMgr) {
                         $serviceMgr = $controllerMgr->getServiceLocator();
 
-                        $controller = new BasePluginController(
+                        $controller = new BaseController(
                             $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
                             __DIR__

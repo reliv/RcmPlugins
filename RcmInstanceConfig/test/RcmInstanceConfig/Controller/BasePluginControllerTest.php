@@ -5,7 +5,7 @@ namespace RcmInstanceConfigTest\Controller;
 require_once __DIR__ . '/../../../../../Rcm/test/Base/BaseTestCase.php';
 require_once __DIR__ . '/../Mock/PluginStorageMgrMock.php';
 
-use RcmInstanceConfig\Controller\BasePluginController;
+use Rcm\Plugin\BaseController;
 use RcmInstanceConfig\Service\PluginStorageMgrMock;
 use RcmTest\Base\BaseTestCase;
 use Zend\Http\PhpEnvironment\Request;
