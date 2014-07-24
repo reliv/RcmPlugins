@@ -9,7 +9,7 @@ use RcmTest\Base\BaseTestCase;
 
 class InstanceConfigTest extends BaseTestCase
 {
-    /** @var  \RcmInstanceConfig\Entity\InstanceConfig */
+    /** @var  \Rcm\Entity\InstanceConfig */
     protected $instanceConfig;
 
     public function setUp()
@@ -20,7 +20,7 @@ class InstanceConfigTest extends BaseTestCase
     }
 
     /**
-     * @covers \RcmInstanceConfig\Entity\InstanceConfig
+     * @covers \Rcm\Entity\InstanceConfig
      */
     public function testSetGetInstanceId()
     {
@@ -33,7 +33,7 @@ class InstanceConfigTest extends BaseTestCase
     }
 
     /**
-     * @covers \RcmInstanceConfig\Entity\InstanceConfig
+     * @covers \Rcm\Entity\InstanceConfig
      */
     public function testSetGetInstanceConfig()
     {

@@ -25,7 +25,7 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
         $this->repo = new DoctrineJsonRepo($this->entityManager);
         $this->doctrineRepo = $this->entityManager
             ->getRepository(
-                '\RcmInstanceConfig\Entity\InstanceConfig'
+                '\Rcm\Entity\InstanceConfig'
             );
     }
 
