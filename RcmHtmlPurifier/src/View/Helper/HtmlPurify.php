@@ -15,12 +15,10 @@
  * @link      https://github.com/reliv
  */
 
-namespace RcmHtmlPurifier\View\Helper;
+namespace RcmHtmlPurifier\Controller\Plugin;
 
 use
-    RcmHtmlPurifier\Model\Config;
-use
-    Zend\View\Helper\AbstractHelper;
+    Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 
 /**
@@ -39,7 +37,7 @@ use
  * @link      https://github.com/reliv
  */
 
-class HtmlPurify extends AbstractHelper {
+class HtmlPurify extends AbstractPlugin {
 
     /**
      * __invoke
@@ -52,7 +50,7 @@ class HtmlPurify extends AbstractHelper {
      */
     public function __invoke($dirtyHtml ,$allowedElements = null)
     {
-        $config = Config::Html5Config();
+        $config = \HTMLPurifier_Config::createDefault();
         $config->set('Cache.SerializerPath', getcwd() . '/data/HTMLPurifier');
 
         if(is_array($allowedElements)){
