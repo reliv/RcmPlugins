@@ -32,26 +32,6 @@ class TestController extends AbstractActionController
     }
 
     /**
-     * htmlEditorExampleAction
-     *
-     * @return array
-     */
-    public function htmlEditorExampleAction()
-    {
-        return $this->getTestView();
-    }
-
-    /**
-     * rcmCoreExampleAction
-     *
-     * @return array
-     */
-    public function rcmCoreExampleAction()
-    {
-        return $this->getTestView();
-    }
-
-    /**
      * getTestView
      *
      * @return array
@@ -66,19 +46,25 @@ class TestController extends AbstractActionController
 
         /** @var ViewModel $viewModel */
         $viewModel = new ViewModel();
-        $templateRoot = realpath(
-            __DIR__ . '/../../../view/rcm-java-scipt-lib/test/'
-        );
-        $templatePath = $templateRoot . '/' . $template . '.phtml';
-        var_dump($templatePath);
+        $templatePath = '/rcm-java-scipt-lib/test/' . $template . '.phtml';
+
         $viewModel->setTemplate($templatePath);
 
         /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
         $testType = $request->getQuery(
-            'testType',
+            'testtype',
             'default'
         );
+        $terminate = $request->getQuery(
+            'terminate',
+            false
+        );
+
+        if($terminate){
+            $viewModel->setTerminal(true);
+        }
+
         $baseUrl = $this->getRequest()->getServer('HTTP_HOST');
 
         $viewModel->setVariables(

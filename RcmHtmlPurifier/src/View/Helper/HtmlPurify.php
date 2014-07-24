@@ -15,10 +15,10 @@
  * @link      https://github.com/reliv
  */
 
-namespace RcmHtmlPurifier\Controller\Plugin;
+namespace RcmHtmlPurifier\View\Helper;
 
 use
-    Zend\Mvc\Controller\Plugin\AbstractPlugin;
+    Zend\View\Helper\AbstractHelper;
 
 
 /**
@@ -37,7 +37,7 @@ use
  * @link      https://github.com/reliv
  */
 
-class HtmlPurify extends AbstractPlugin {
+class HtmlPurify extends AbstractHelper {
 
     /**
      * __invoke
