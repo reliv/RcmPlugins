@@ -2,7 +2,7 @@
 
 namespace RcmBrightcovePlayer\Factory;
 
-use RcmInstanceConfig\Controller\BasePluginController;
+use Rcm\Plugin\BaseController;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -12,14 +12,14 @@ class RcmBrightcovePlayerControllerFactory implements FactoryInterface
     /**
      * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
      *
-     * @return BasePluginController
+     * @return BaseController
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         /** @var \RcmInstanceConfig\Service\PluginStorageMgrInterface $pluginStorage */
         $pluginStorage = $serviceLocator->get('rcmPluginStorage');
 
-        return new BasePluginController (
+        return new BaseController (
             $pluginStorage,
             $serviceLocator->get('config'),
             'RcmBrightcovePlayer'

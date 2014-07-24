@@ -5,13 +5,13 @@ namespace RcmInstanceConfigTest\Entity;
 
 require_once __DIR__ . '/../../../../../Rcm/test/Base/BaseTestCase.php';
 
-use RcmInstanceConfig\Model\InstanceConfigMerger;
+use Rcm\Service\InstanceConfigMerger;
 use RcmTest\Base\BaseTestCase;
 
 class InstanceConfigMergerTest extends BaseTestCase
 {
     /**
-     * @var \RcmInstanceConfig\Model\InstanceConfigMerger
+     * @var \Rcm\Service\InstanceConfigMerger
      */
     protected $merger;
 

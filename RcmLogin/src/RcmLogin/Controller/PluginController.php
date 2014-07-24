@@ -18,7 +18,7 @@
 namespace RcmLogin\Controller;
 
 use Rcm\Plugin\PluginInterface;
-use RcmInstanceConfig\Controller\BasePluginController;
+use Rcm\Plugin\BaseController;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 use RcmUser\Service\RcmUserService;
 use Zend\Authentication\Result;

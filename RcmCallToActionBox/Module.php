@@ -16,7 +16,7 @@
 
 namespace RcmCallToActionBox;
 
-use RcmInstanceConfig\Controller\BasePluginController;
+use Rcm\Plugin\BaseController;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -48,14 +48,14 @@ class Module
      * getServiceConfiguration is used by the ZF2 service manager in order
      * to create new objects.
      *
-     * @return object Returns an object.
+     * @return BaseController Returns an object.
      */
     public function getServiceConfig()
     {
         return array(
             'factories' => array(
                 'RcmCallToActionBox' => function ($serviceMgr) {
-                        $controller = new BasePluginController(
+                        $controller = new BaseController(
                             $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
                             __DIR__

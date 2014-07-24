@@ -8,7 +8,7 @@ require_once __DIR__
     . '/../../../src/RcmInstanceConfig/Repo/PluginStorageRepoInterface.php';
 require_once __DIR__ . '/../Mock/PluginStorageRepoMock.php';
 
-use RcmInstanceConfig\Model\InstanceConfigMerger;
+use Rcm\Service\InstanceConfigMerger;
 use RcmInstanceConfig\Repo\PluginStorageRepoMock;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 use RcmTest\Base\BaseTestCase;

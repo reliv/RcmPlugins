@@ -1,15 +1,15 @@
 <?php
 namespace RcmInstanceConfig\Service;
 
-use RcmInstanceConfig\Model\InstanceConfigMerger;
-use RcmInstanceConfig\Repo\PluginStorageRepoInterface;
+use Rcm\Service\InstanceConfigMerger;
+use Rcm\Repository\PluginStorageRepoInterface;
 
 class PluginStorageMgr implements PluginStorageMgrInterface
 {
     protected $pluginConfigs;
 
     /**
-     * @var \RcmInstanceConfig\Model\InstanceConfigMerger
+     * @var \Rcm\Service\InstanceConfigMerger
      */
     protected $instanceConfigMerger;
 
@@ -21,7 +21,7 @@ class PluginStorageMgr implements PluginStorageMgrInterface
     private $instanceConfigs = array();
 
     /**
-     * @var \RcmInstanceConfig\Repo\PluginStorageRepoInterface
+     * @var \Rcm\Repository\PluginStorageRepoInterface
      */
     protected $storageRepo;
 
