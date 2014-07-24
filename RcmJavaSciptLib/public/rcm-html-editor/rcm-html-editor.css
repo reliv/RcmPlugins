@@ -9,6 +9,11 @@
     width: 100%!important;
 }
 
+.mce-container {
+    float: left!important;
+}
+
 .mce-btn-group {
     float: left!important;
 }
+

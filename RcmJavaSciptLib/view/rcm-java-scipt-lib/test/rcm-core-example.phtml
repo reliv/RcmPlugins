@@ -75,8 +75,8 @@
     </script>
     <script type="text/javascript" src="/modules/rcm-js-lib/rcm-core/rcm-admin.js">
     </script>
-    <!--link href="/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.css" media="screen,print"
-          rel="stylesheet" type="text/css"-->
+    <link href="/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.css" media="screen,print"
+          rel="stylesheet" type="text/css">
     <!-- </TEST_RCM_ADMIN> -->
 
     <link href="/modules/rcm-admin/css/rcm-admin-navigation.css" media="screen,print"
@@ -106,7 +106,7 @@
     <meta name="viewport" content="width=1024, initial-scale=1">
 </head>
 <body style="">
-STATIC TEST:
+<!-- STATIC TEST: -->
 <div class="rcmAdminPanelWrapper">
     <div class="rcmAdminNavigation">
         <ul class="navigation">
@@ -199,7 +199,8 @@ STATIC TEST:
 <div id="sitewrapper">
     <!-- <TEST_RCM_ADMIN> -->
     <div
-        data-rcm-html-edit="something"
+        XXdata-rcm-html-edit="something"
+        data-trcmpluginname="TEST"
         ng-model="myModel.a"
         style="position: relative"
         >
@@ -864,14 +865,20 @@ STATIC TEST:
             </div>
         </div>
         <div id="relivCenter">
-            <div class="rcmContainer" data-containerid="4"
-                 data-containerrevision="13568" data-ispagecontainer="Y" id="login">
+            <div class="rcmContainer"
+                 data-containerid="4"
+                 data-containerrevision="13568"
+                 data-ispagecontainer="Y"
+                 id="login"
+                >
+                <!-- <TEST_RCM_ADMIN> -->
                 <div class="rcmPlugin RcmLogin LoginArea "
                      data-rcmpluginname="RcmLogin"
                      data-rcmplugininstanceid="22573"
                      data-rcmsitewideplugin=""
                      data-rcmpluginresized="N"
                      data-rcmplugindisplayname="Login Area"
+                     ng-model="myModel.b"
                      style=" float: left; float: left; ">
                     <div class="rcmPluginContainer">
                         RcmLogin
@@ -929,6 +936,7 @@ STATIC TEST:
                         </div>
                     </div>
                 </div>
+                <!-- </TEST_RCM_ADMIN> -->
             </div>
         </div>
         <div style="clear: both;">
