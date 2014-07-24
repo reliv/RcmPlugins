@@ -7,6 +7,15 @@
     height: 20px;
 }
 
+.rcmAdminPanelWrapper div.rcmPanelRightButtons{
+    float: right;
+    padding-right: 1em;
+}
+/*.rcmAdminPanelWrapper div.rcmPanelRightButtons button{*/
+    /*padding: 1px;*/
+    /*font-size: 10px;*/
+/*}*/
+
 .modal-body {
     max-height: 400px;
     overflow-y: auto;
