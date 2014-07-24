@@ -18,6 +18,8 @@
 namespace RcmEventListDisplay\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Rcm\Plugin\BaseController;
+use Rcm\Plugin\PluginInterface;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 
 /**
@@ -33,8 +35,8 @@ use RcmInstanceConfig\Service\PluginStorageMgr;
  *
  */
 class PluginController
-    extends \RcmInstanceConfig\Controller\BasePluginController
-    implements \Rcm\Plugin\PluginInterface
+    extends BaseController
+    implements PluginInterface
 {
     /**
      * @var \RcmEventCalenderCore\Model\Calender $calender

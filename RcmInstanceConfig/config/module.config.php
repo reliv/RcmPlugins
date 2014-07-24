@@ -18,27 +18,4 @@
  */
 
 return array(
-
-    'doctrine' => array(
-        'driver' => array(
-            'RcmInstanceConfig' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(
-                    __DIR__ . '/../src/RcmInstanceConfig/Entity'
-                )
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                    'RcmInstanceConfig' => 'RcmInstanceConfig'
-                )
-            )
-        )
-    ),
-    'view_helpers' => array(
-        'factories' => array(
-            'rcmTextEdit' => 'RcmInstanceConfig\Factory\RcmTextEditFactory',
-            'rcmRichEdit' => 'RcmInstanceConfig\Factory\RcmRichEditFactory',
-        )
-    ),
 );
