@@ -1,0 +1,14 @@
+<?php
+$this->rcmIncludeAngularJs();
+$this->rcmIncludeTinyMceJs();
+$this->rcmJsLibIncludeHtmlEditor();
+
+$headScript = $this->headScript();
+
+$headScript->appendFile(
+    '/modules/rcm-js-lib/rcm-admin/rcm-admin.js'
+);
+
+echo $this->baseUrl
+
+?>
