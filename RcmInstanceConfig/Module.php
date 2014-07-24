@@ -16,10 +16,8 @@
 
 namespace RcmInstanceConfig;
 
-use RcmInstanceConfig\Model\InstanceConfigMerger;
-use RcmInstanceConfig\Repo\DoctrineJsonRepo;
+use Rcm\Service\InstanceConfigMerger;
 use RcmInstanceConfig\Service\PluginStorageMgr;
-use RcmInstanceConfig\Storage\DoctrineJsonPluginStorage;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -79,10 +77,13 @@ class Module
         return array(
             'factories' => array(
                 'rcmPluginStorage' => function ($serviceMgr) {
+
+                        /** @var \Doctrine\ORM\EntityManager $entityManager */
+                        $entityManager = $serviceMgr->get('Doctrine\ORM\EntityManager');
+                        $repo = $entityManager->getRepository('\Rcm\Entity\InstanceConfig');
+
                         return new PluginStorageMgr(
-                            new DoctrineJsonRepo($serviceMgr->get(
-                                'Doctrine\ORM\EntityManager'
-                            )),
+                            $repo,
                             $serviceMgr->get('config'),
                             new InstanceConfigMerger()
                         );

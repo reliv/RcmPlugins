@@ -4,23 +4,23 @@ namespace RcmInstanceConfigTest\Entity;
 
 require_once __DIR__ . '/../../../../../Rcm/test/Base/BaseTestCase.php';
 
-use RcmInstanceConfig\Entity\DoctrineJsonInstanceConfig;
+use RcmInstanceConfig\Entity\InstanceConfig;
 use RcmTest\Base\BaseTestCase;
 
 class InstanceConfigTest extends BaseTestCase
 {
-    /** @var  \RcmInstanceConfig\Entity\DoctrineJsonInstanceConfig */
+    /** @var  \Rcm\Entity\InstanceConfig */
     protected $instanceConfig;
 
     public function setUp()
     {
         $this->addModule('RcmInstanceConfig');
         parent::setUp();
-        $this->instanceConfig = new DoctrineJsonInstanceConfig();
+        $this->instanceConfig = new InstanceConfig();
     }
 
     /**
-     * @covers \RcmInstanceConfig\Entity\DoctrineJsonInstanceConfig
+     * @covers \Rcm\Entity\InstanceConfig
      */
     public function testSetGetInstanceId()
     {
@@ -33,7 +33,7 @@ class InstanceConfigTest extends BaseTestCase
     }
 
     /**
-     * @covers \RcmInstanceConfig\Entity\DoctrineJsonInstanceConfig
+     * @covers \Rcm\Entity\InstanceConfig
      */
     public function testSetGetInstanceConfig()
     {

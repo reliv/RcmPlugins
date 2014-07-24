@@ -5,7 +5,7 @@ namespace RcmInstanceConfigTest\Entity;
 
 require_once __DIR__ . '/../../../../../Rcm/test/Base/DoctrineTestCase.php';
 
-use RcmInstanceConfig\Entity\DoctrineJsonInstanceConfig;
+use RcmInstanceConfig\Entity\InstanceConfig;
 use RcmInstanceConfig\Repo\DoctrineJsonRepo;
 use RcmTest\Base\DoctrineTestCase;
 
@@ -25,7 +25,7 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
         $this->repo = new DoctrineJsonRepo($this->entityManager);
         $this->doctrineRepo = $this->entityManager
             ->getRepository(
-                '\RcmInstanceConfig\Entity\DoctrineJsonInstanceConfig'
+                '\Rcm\Entity\InstanceConfig'
             );
     }
 
@@ -37,7 +37,7 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
         $id = 1;
         $configData = array('numbers' => array(1, 1, 1));
 
-        $entity = new DoctrineJsonInstanceConfig();
+        $entity = new InstanceConfig();
         $entity->setInstanceId($id);
         $entity->setConfig($configData);
         $this->entityManager->persist($entity);
@@ -73,7 +73,7 @@ class DoctrineJsonRepoTest extends DoctrineTestCase
         $id = 3;
         $configData = array('numbers' => array(3, 3, 3));
 
-        $entity = new DoctrineJsonInstanceConfig();
+        $entity = new InstanceConfig();
         $entity->setInstanceId($id);
         $entity->setConfig($configData);
         $this->entityManager->persist($entity);

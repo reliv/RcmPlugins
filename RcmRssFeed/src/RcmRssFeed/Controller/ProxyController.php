@@ -8,13 +8,13 @@
  */
 namespace RcmRssFeed\Controller;
 
-use RcmInstanceConfig\Controller\BasePluginController;
+use Rcm\Plugin\BaseController;
 use RcmInstanceConfig\Service\PluginStorageMgr;
 use Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 
 class ProxyController
-    extends BasePluginController
+    extends BaseController
 {
 
     protected $userMgr;

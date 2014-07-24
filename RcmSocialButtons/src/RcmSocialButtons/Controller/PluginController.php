@@ -17,6 +17,9 @@
  */
 namespace RcmSocialButtons\Controller;
 
+use Rcm\Plugin\BaseController;
+use Rcm\Plugin\PluginInterface;
+
 /**
  * Plugin Controller
  *
@@ -30,8 +33,8 @@ namespace RcmSocialButtons\Controller;
  *
  */
 class PluginController
-    extends \RcmInstanceConfig\Controller\BasePluginController
-    implements \Rcm\Plugin\PluginInterface
+    extends BaseController
+    implements PluginInterface
 {
     function availableButtonsAdminAjaxAction()
     {

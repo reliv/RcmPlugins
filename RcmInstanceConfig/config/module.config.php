@@ -36,9 +36,6 @@ return array(
         )
     ),
     'view_helpers' => array(
-        'factories' => array(
-            'rcmTextEdit' => 'RcmInstanceConfig\Factory\RcmTextEditFactory',
-            'rcmRichEdit' => 'RcmInstanceConfig\Factory\RcmRichEditFactory',
-        )
+
     ),
 );
