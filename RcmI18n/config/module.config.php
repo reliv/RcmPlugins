@@ -48,7 +48,7 @@ return array(
                 'pages' => array(
                     'Translations' => array(
                         'label' => 'Translations',
-                        'class' => 'RcmAdminMenu RcmBlankDialog',
+                        'class' => 'RcmAdminMenu RcmBlankDialog Translations',
                         'uri' => '/modules/rcm-i18n/message-editor.html',
                     )
                 )
