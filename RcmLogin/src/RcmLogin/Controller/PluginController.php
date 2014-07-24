@@ -36,7 +36,7 @@ use Zend\Authentication\Result;
  *
  */
 class PluginController
-    extends BasePluginController
+    extends BaseController
     implements PluginInterface
 {
 
