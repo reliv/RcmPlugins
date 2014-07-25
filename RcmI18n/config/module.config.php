@@ -39,7 +39,6 @@ return array(
             )
         )
     ),
-
     'navigation' => array(
         'RcmAdminMenu' => array(
             'Site' => array(
@@ -70,6 +69,7 @@ return array(
     'service_manager' => array(
         'factories' => array(
             'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
+            'RcmI18n\Model\Locales' => 'RcmI18n\Factory\LocalesFactory',
         )
     ),
     'translator_plugins' => array(
@@ -104,7 +104,7 @@ return array(
             'locales' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/rcmi18n/messages',
+                    'route' => '/rcmi18n/locales',
                     'defaults' => array(
                         'controller' => 'RcmI18n\Controller\Locale',
                     ),
