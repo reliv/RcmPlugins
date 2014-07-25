@@ -1,3 +1,5 @@
+var rcmCore =  angular.module('rcmCore');
+
 var rcmHelpers = function () {
 
     /**
@@ -14,7 +16,7 @@ var rcmHelpers = function () {
      * @param moduleName string usually same as plugin name
      * @param controllerName the angular controller name
      */
-    self.angularBootstrap = function (moduleName, controllerName) {
+    var angularBootstrap = function (moduleName, controllerName) {
         angular.element(document).ready(function () {
             $.each(
                 $('[ng-controller=' + controllerName + ']'),
@@ -26,85 +28,5 @@ var rcmHelpers = function () {
     };
 }
 
-var RcmLayout = function() {
-
-    var self = this;
-
-    /**
-     * Layout type
-     * page, layout
-     * @type {string}
-     */
-    self.type = 'page';
-
-}
-
-var RcmContainer = function() {
-
-    var self = this;
-
-    /**
-     * @type RcmLayout
-     */
-    self.layout;
-}
-
-
-var RcmPlugin = function () {
-
-    var self = this;
-
-    /**
-     * @type RcmContainer
-     */
-    self.container;
-
-    self.data = {};
-
-    self.state = {
-
-        editMode: false
-    }
-
-    /**
-     *
-     */
-    self.init = function (scope, elm, attrs, ngModel) {
-
-        // populate data from attributes
-    }
-
-    /**
-     *
-     */
-    self.lockPlugin = function () {
-
-    }
-
-    /**
-     *
-     */
-    self.unlockPlugin = function () {
-
-    }
-
-    /**
-     *
-     */
-    self.getContainerData = function() {
-
-    }
-}
-
-var RcmPluginHtmlEditor = function () {
-
-    var self = this;
-
-    /**
-     * @type RcmPlugin
-     */
-    self.plugin;
-
-}
 
 

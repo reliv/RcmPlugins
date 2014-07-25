@@ -4,6 +4,15 @@
     width: 100%!important;
 }
 
+/*
+.mce-btn button {
+    line-height: inherit!important;
+}
+
+.mce-menubtn span {
+    line-height: inherit!important;
+}
+*/
 .mce-toolbar-grp {
     float: left!important;
     width: 100%!important;
@@ -13,7 +22,11 @@
     float: left!important;
 }
 
+.mce-container .mce-menubtn {
+    margin: 0!important;
+    padding: 0!important;
+}
+
 .mce-btn-group {
     float: left!important;
 }
-

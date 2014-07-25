@@ -33,7 +33,7 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-    /* <TEST> - TESTING ONLY */
+    /* <TEST> - TESTING ONLY *
     'controllers' => array(
         'invokables' => array(
             'RcmJavaSciptLib\Controller\TestController' =>

@@ -1,5 +1,5 @@
 /**
- * Angular JS module used to shoe HTML editor and toolbar on a page
+ * Angular JS module used to show HTML editor and toolbar on a page
  * @require:
  *  AngularJS
  *  TinyMce
@@ -21,71 +21,6 @@ angular.module(
                 }
 
                 return state;
-            }
-        ]
-    )
-/**
- *
- */
-    .factory(
-        'rcmHtmlEditByState',
-        [
-            'rcmAdminState',
-            'rcmHtmlEdit',
-            function (rcmAdminState, rcmHtmlEdit) {
-
-                var editing = [];
-
-                return function () {
-
-                    if (editMode) {
-
-                        editing.push(id);
-                    } else {
-
-                        if (editing.indexOf(id) > -1) {
-
-                            editing.splice(
-                                editing.indexOf(id),
-                                1
-                            )
-                        }
-                    }
-
-                    rcmAdminState.editMode = editing.length > 0;
-                }
-            }
-        ]
-    )
-    /**
-     * TEMP
-     */
-    .factory(
-        'rcmAdminEditMode',
-        [
-            'rcmAdminState',
-            function (rcmAdminState) {
-
-                var editing = [];
-
-                return function (id, editMode) {
-
-                    if (editMode) {
-
-                        editing.push(id);
-                    } else {
-
-                        if (editing.indexOf(id) > -1) {
-
-                            editing.splice(
-                                editing.indexOf(id),
-                                1
-                            )
-                        }
-                    }
-
-                    rcmAdminState.editMode = editing.length > 0;
-                }
             }
         ]
     )
@@ -140,3 +75,84 @@ angular.module(
             }
         ]
     );
+
+
+var RcmLayout = function () {
+
+    var self = this;
+
+    /**
+     * Layout type
+     * page, layout
+     * @type {string}
+     */
+    self.type = 'page';
+}
+
+var RcmContainer = function () {
+
+    var self = this;
+
+    /**
+     * @type RcmLayout
+     */
+    self.layout;
+}
+
+
+var RcmPlugin = function () {
+
+    var self = this;
+
+    /**
+     * @type RcmContainer
+     */
+    self.container;
+
+    self.data = {};
+
+    self.state = {
+
+        editMode: false
+    }
+
+    /**
+     *
+     */
+    self.init = function (scope, elm, attrs, ngModel) {
+
+        // populate data from attributes
+    }
+
+    /**
+     *
+     */
+    self.lockPlugin = function () {
+
+    }
+
+    /**
+     *
+     */
+    self.unlockPlugin = function () {
+
+    }
+
+    /**
+     *
+     */
+    self.getContainerData = function () {
+
+    }
+}
+
+var RcmPluginHtmlEditor = function () {
+
+    var self = this;
+
+    /**
+     * @type RcmPlugin
+     */
+    self.plugin;
+
+}
