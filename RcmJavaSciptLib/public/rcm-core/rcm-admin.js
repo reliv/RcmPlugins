@@ -5,7 +5,7 @@
  *  TinyMce
  */
 angular.module(
-        'RcmAdmin',
+        'rcmAdmin',
         ['RcmHtmlEditor']
     )
 /**
@@ -75,7 +75,6 @@ angular.module(
             }
         ]
     );
-
 
 var RcmLayout = function () {
 

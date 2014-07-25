@@ -1,32 +1,66 @@
-var rcmCore =  angular.module('rcmCore');
 
-var rcmHelpers = function () {
+var rcm = new function () {
 
-    /**
-     * Always refers to this object unlike the 'this' JS variable;
-     *
-     * @type {Rcm}
-     */
-    var self = this;
+    self = this;
 
-    /**
-     * Allows your angular controllers and modules to play nice with the other
-     * plugins' angular controllers and modules. Call this above each angular
-     * controller your create. The directive 'ng-app' is NOT needed in the view.
-     * @param moduleName string usually same as plugin name
-     * @param controllerName the angular controller name
-     */
-    var angularBootstrap = function (moduleName, controllerName) {
-        angular.element(document).ready(function () {
-            $.each(
-                $('[ng-controller=' + controllerName + ']'),
-                function (key, element) {
-                    angular.bootstrap(element, [moduleName]);
-                }
+    self.moduleDepenencies = [];
+
+    self.angularModule = null;
+
+    self.addModule = function (moduleName) {
+
+        if (self.angularModule) {
+
+            self.console.error(
+                'Module '+moduleName+' cannot be registered after init is called.'
             );
-        });
-    };
-}
+        }
 
+        if (self.moduleDepenencies.indexOf(moduleName) < 0) {
+
+            self.moduleDepenencies.push(moduleName);
+            self.console.log('Module '+moduleName+' registered.');
+        }
+    }
+
+    self.addModules = function (moduleNames) {
+
+        for(key in moduleNames){
+
+            self.addModule(moduleNames[key]);
+        }
+    }
+
+    self.init = function (document) {
+
+        self.angularModule = angular.module('rcm', self.moduleDepenencies)
+    }
+
+    if (window.console) {
+
+        self.console = window.console;
+    } else {
+
+        /* keep older browsers from blowing up */
+        self.console = function () {
+
+            self = this;
+
+            self.log = function (msg) {
+            };
+
+            self.info = function (msg) {
+            };
+
+            self.warn = function (msg) {
+            };
+
+            self.error = function (msg) {
+            };
+
+            /* there are more methods, but this covers the basics */
+        }
+    }
+};
 
 

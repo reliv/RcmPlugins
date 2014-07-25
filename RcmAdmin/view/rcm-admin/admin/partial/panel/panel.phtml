@@ -1,17 +1,39 @@
 <?php
+
+$this->headScript()->prependFile(
+    $this->basePath() . '/modules/rcm-js-lib/rcm-core/rcm-core.js'
+);
+
+$this->headScript()->prependFile(
+    $this->basePath() . '/modules/rcm-angular-js/angular/angular.min.js'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-tinymce-js/tinymce/tinymce.js'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.js'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-js-lib/rcm-core/rcm-admin.js'
+);
+
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-admin/css/rcm-admin-panel.css',
     'screen,print'
 );
-?>
 
+?>
 <div class="rcmAdminPanelWrapper">
     <?= $this->render('rcm-admin/admin/partial/navigation/navigation.phtml'); ?>
     <div class="rcmPanelRightButtons">
         <!--    NOTE: BOOTSTRAP BUTTON GROUPS MIGHT LOOK NICE IF WE HAVE
         MORE THAN ONE LIKE FOR [PUBLISH] /[CANCEL] -->
         <button type="button" class="btn btn-primary btn-xs">
-            <span class="glyphicon glyphicon-edit"></span> Edit
+            <span class="glyphicon glyphicon-edit"></span>
+            Edit
         </button>
     </div>
     <?php
@@ -20,3 +42,12 @@ $this->headLink()->appendStylesheet(
     ?>
     <div html-editor-toolbar></div>
 </div>
+<script type="application/javascript">
+    rcm.addModule('rcmAdmin');
+
+    //angular.element(document).ready(
+    //    function () {
+            rcm.init()
+        //}
+    //);
+</script>
