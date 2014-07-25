@@ -83,36 +83,42 @@ class MessagesController extends AbstractRestfulController
             return $response;
         }
 
+        $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+        $messageRepo = $em->getRepository('RcmI18n\Entity\Message');
+
         $locale = $this->params()->fromRoute('locale');
-        $cleanDefaultText = $this->rcmHtmlPurify($defaultText);
-        $cleanLocal = $this->rcmHtmlPurify($locale);
-        $cleanText = $this->rcmHtmlPurify($data['text']);
 
-        if(
-           $cleanLocal != $locale
-        ||
-            $cleanDefaultText != $defaultText ||
-            $cleanText != $data['text']
-        ){
-
-            $response = $this->getResponse();
-            $response->setStatusCode(Response::STATUS_CODE_400);
-            $response->setContent(
-                $response->renderStatusLine() .' - Data contains unacceptable HTML.'
-            );
-            return $response;
+        /**
+         * White-list local and default test to make sure nothing funny is
+         * making its way to the DB. All default text's used must already exist
+         * in the en_US locale
+         */
+        $usMessage = $messageRepo->findOneBy(
+            array('locale' => 'en_US', 'defaultText' => $defaultText)
+        );
+        if (!$this->getServiceLocator()->get('RcmI18n\Model\Locales')
+            ->localeIsValid($locale)
+        ) {
+            return $this->buildBadRequestResponse('invalid locale');
+        } elseif (!$usMessage instanceof Message) {
+            return $this->buildBadRequestResponse('invalid defaultText');
         }
 
-        $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        $message = $em->getRepository('RcmI18n\Entity\Message')->findOneBy(
-            array('locale' => $cleanLocal, 'defaultText' => $cleanDefaultText)
+        /**
+         * Purify text to make sure nothing funny is making its way to the DB
+         */
+        $cleanText = $this->rcmHtmlPurify($data['text']);
+
+        $message = $messageRepo->findOneBy(
+            array('locale' => $locale, 'defaultText' => $defaultText)
         );
 
         if ($message instanceof Message) {
             $message->setText($cleanText);
         } else {
             $message = new Message();
-            $message->setLocale($cleanLocal);
+            $message->setLocale($locale);
+            $message->setDefaultText($defaultText);
             $message->setText($cleanText);
 
             $em->persist($message);
@@ -120,5 +126,16 @@ class MessagesController extends AbstractRestfulController
         $em->flush();
 
         return new JsonModel();
+    }
+
+    public function buildBadRequestResponse($message)
+    {
+        $response = $this->getResponse();
+        $response->setStatusCode(Response::STATUS_CODE_400);
+        $response->setContent(
+            $response->renderStatusLine()
+            . ' - ' . $message
+        );
+        return $response;
     }
 }

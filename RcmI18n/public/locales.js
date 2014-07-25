@@ -6,11 +6,10 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
         function ($scope, $log, $http, rcmHtmlEditorState) {
             var self = this;
             self.url = {
-                locales: '/rcmi18n/messages'
+                locales: '/rcmi18n/locales'
             };
             $scope.locales = [];
             $scope.loading = false;//loadin ng-show set to false
-//            $scope.translations = false;
             $scope.messageQuery = '';
             $scope.rcmHtmlEditorState = rcmHtmlEditorState;
             self.getLocales = function () {
@@ -18,8 +17,10 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
 
                 $http({method: 'GET', url: self.url.locales}).//method get to get all locales
                     success(function (data, status, headers, config) {
-                        $scope.locales = data;
+                        $scope.locales = data.locales;
+                        $scope.selectedLocale = data.currentSiteLocale
                         $scope.loading = false;
+                        $scope.OpenLocale();
 //                        $scope.translations = false;
                         // this callback will be called asynchronously
                         // when the response is available
@@ -44,7 +45,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                 var locale = $scope.selectedLocale;
                 if (locale) {
                     $scope.loading = true;
-//                    $scope.translations = true;//ng-hide for spinning bar
                     $http({
                         method: 'GET',//method get to get selected locale
                         url: '/rcmi18n/messages/' + $scope.selectedLocale
@@ -52,12 +52,11 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                         success(function (data, status, headers, config) {
                             //adding id to match up keys
                             angular.forEach(data, function(value, key) {
-                                   value.id = key;
+                                   value.id = 'trans' + key;
                                 }
                             );
                             $scope.messages = data;
                             $scope.loading = false;
-//                            $scope.translations = false;
                         }
 
                     ).
@@ -70,18 +69,16 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                 }
             };
 
-            $scope.saveText = function (message) { console.log(escape(message.defaultText))
+            $scope.saveText = function (message) {
+
                 $http({
                     method: 'PUT',//method put to update selected locale
-                    params: {defaultText: true, selectedLocale: true} ,
                     url: '/rcmi18n/messages/' + $scope.selectedLocale + '/' + message.defaultText,
                     data: message
 
                 }).
                     success(function (data, status, headers, config) {
-                        message = data;
                         message.dirty = false;
-                        console.log(data);
                     }
                 ).
                     error(function (data, status, headers, config) {
