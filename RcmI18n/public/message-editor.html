@@ -13,79 +13,85 @@
           media="screen"
           rel="stylesheet" type="text/css">
 </head>
-<body>
-<div ng-controller="rcmTranslations" class="modal-dialog">
 
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"
-                    aria-hidden="true">&times;</button>
-            <h2 class="modal-title" id="myModalLabel">Translations</h2>
-        </div>
-        <div class="modal-body">
-            <form style="margin:2em;">
-                <label>
-                    <select class="form-control" ng-model="selectedLocale"
-                            ng-options="locale for locale in locales"
-                            ng-change="OpenLocale()"
-                            ng-disabled="loading || rcmHtmlEditorState.toolbarLoading">
-                        <option value="">
-                            Please select language
-                        </option>
-                    </select>
-                </label>
-                <label style="float:right;width:20em" class="input-group">
-                    <input ng-model="messageQuery"
-                           ng-disabled="loading || rcmHtmlEditorState.toolbarLoading"
-                           class="form-control"/>
+<body>
+<div class="translations">
+    <div ng-controller="rcmTranslations" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h1 class="modal-title" id="myModalLabel">Translations</h1>
+                <div class="fixed">
+                    <div class="responsiveStyle">
+                    <label style="position: fixed;">
+                        <select class="form-control" ng-model="selectedLocale"
+                                ng-options="locale for locale in locales"
+                                ng-change="OpenLocale()"
+                                ng-disabled="loading || rcmHtmlEditorState.toolbarLoading">
+                            <option value="">
+                                Please select language
+                            </option>
+                        </select>
+                    </label>
+                    </div>
+                    <label style="float:right;width:20em;" class="input-group">
+                        <input ng-model="messageQuery"
+                               ng-disabled="loading || rcmHtmlEditorState.toolbarLoading"
+                               class="form-control"/>
         <span class="input-group-addon glyphicon glyphicon-search"
               style="position:static"></span>
-                </label>
-
-                <div class="loadBar">
-                    <div>
-                        <i class="glyphicon glyphicon-refresh loading"
-                           ng-class="{'active': loading || rcmHtmlEditorState.toolbarLoading}"></i>
-                    </div>
+                    </label>
                 </div>
-                <table id="transMesages"
-                       ng-hide="loading || rcmHtmlEditorState.toolbarLoading"
-                       class="table panel panel-default">
-                    <tr>
-                        <th style="width:50%">
-                            Default Message
-                        </th>
-                        <th>
-                            Translated Message
-                        </th>
-                    </tr>
-                    <tr ng-repeat="message in messages | filter:messageQuery">
-                        <td>
-                            {{message.defaultText}}
-                        </td>
-                        <td>
-                            <div id="htmlEditorToolbar-{{message.id}}">
-                            </div>
-                            <div id="{{message.id}}"
-                                 data-rcm-html-edit
-                                 html-editor-attached-toolbar
-                                 html-editor-type="simpleText"
-                                 html-editor-size="small"
-                                 ng-change="message.dirty = true"
-                                 ng-model="message.text"></div>
-                        </td>
-                        <td style="vertical-align: top">
-                            <button ng-class="{invisible: !message.dirty}"
-                                    id="button-{{message.id}}"
-                                    ng-click="saveText(message)"
-                                    class="glyphicon glyphicon-save btn btn-primary"
-                                    style="float:right;margin-top:1em">
-                                Save
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+            </div>
+            <div class="modal-body">
+                <form style="margin:2em;">
+                    <div class="loadBar">
+                        <div>
+                            <i class="glyphicon glyphicon-refresh loading"
+                               ng-class="{'active': loading || rcmHtmlEditorState.toolbarLoading}"></i>
+                        </div>
+                    </div>
+                    <table id="transMesages"
+                           ng-hide="loading || rcmHtmlEditorState.toolbarLoading"
+                           class="table panel panel-default">
+                        <tr class="titleTranslations">
+                            <th style="width:50%">
+                                Default Message
+                            </th>
+                            <th>
+                                Translated Message
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="message in messages | filter:messageQuery">
+                            <td style="padding-top: 14px;">
+                                {{message.defaultText}}
+                            </td>
+                            <td>
+                                <div id="htmlEditorToolbar-{{message.id}}">
+                                </div>
+                                <div style="padding: 6px 0 6px 0" id="{{message.id}}"
+                                     data-rcm-html-edit
+                                     html-editor-attached-toolbar
+                                     html-editor-type="simpleText"
+                                     html-editor-size="small"
+                                     ng-change="message.dirty = true"
+                                     ng-model="message.text"></div>
+                            </td>
+                            <td style="vertical-align: top">
+                                <button ng-class="{invisible: !message.dirty}"
+                                        id="button-{{message.id}}"
+                                        ng-click="saveText(message)"
+                                        class="glyphicon glyphicon-save btn btn-primary"
+                                        style="float:right;margin-top:1em">
+                                    Save
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
         </div>
     </div>
 </div>
