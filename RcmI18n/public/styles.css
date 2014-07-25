@@ -1,57 +1,57 @@
 /* animation for loading bar */
 /*.loading div{*/
-    /*height:10px;*/
-    /*width:10px;*/
-    /*display:inline-block;*/
-    /*background-color: #00A3E6;*/
-    /*margin-top:10px;*/
+/*height:10px;*/
+/*width:10px;*/
+/*display:inline-block;*/
+/*background-color: #00A3E6;*/
+/*margin-top:10px;*/
 
-    /*-webkit-animation:loading_loader 1.20s linear infinite;*/
-    /*animation:loading_loader  1.20s linear infinite;*/
+/*-webkit-animation:loading_loader 1.20s linear infinite;*/
+/*animation:loading_loader  1.20s linear infinite;*/
 
-    /*-webkit-transform: scale(0.60);*/
-    /*transform: scale(0.60);*/
+/*-webkit-transform: scale(0.60);*/
+/*transform: scale(0.60);*/
 /*}*/
 /*.loading div:nth-child(1){*/
-    /*-webkit-animation-delay:0.15s;*/
-    /*animation-delay:0.15s;*/
+/*-webkit-animation-delay:0.15s;*/
+/*animation-delay:0.15s;*/
 
 /*}*/
 /*.loading div:nth-child(2){*/
-    /*-webkit-animation-delay:0.30s;*/
-    /*animation-delay:0.30s;*/
+/*-webkit-animation-delay:0.30s;*/
+/*animation-delay:0.30s;*/
 /*}*/
 /*.loading div:nth-child(3){*/
-    /*-webkit-animation-delay:0.45s;*/
-    /*animation-delay:0.45s;*/
+/*-webkit-animation-delay:0.45s;*/
+/*animation-delay:0.45s;*/
 /*}*/
 /*.loading div:nth-child(4){*/
-    /*-webkit-animation-delay:0.65s;*/
-    /*animation-delay:0.65s;*/
+/*-webkit-animation-delay:0.65s;*/
+/*animation-delay:0.65s;*/
 /*}*/
 
 /*@-webkit-keyframes loading_loader{*/
-    /*0%{*/
-        /*-webkit-transform:scale(1.2);*/
-        /*opacity:1*/
-    /*}*/
+/*0%{*/
+/*-webkit-transform:scale(1.2);*/
+/*opacity:1*/
+/*}*/
 
-    /*100%{*/
-        /*-webkit-transform:scale(0.3);*/
-        /*opacity:0.1*/
-    /*}*/
+/*100%{*/
+/*-webkit-transform:scale(0.3);*/
+/*opacity:0.1*/
+/*}*/
 /*}*/
 
 /*@keyframes loading_loader{*/
-    /*0%{*/
-        /*transform:scale(1.2);*/
-        /*opacity:1*/
-    /*}*/
+/*0%{*/
+/*transform:scale(1.2);*/
+/*opacity:1*/
+/*}*/
 
-    /*100%{*/
-        /*transform:scale(0.7);*/
-        /*opacity:0.1*/
-    /*}*/
+/*100%{*/
+/*transform:scale(0.7);*/
+/*opacity:0.1*/
+/*}*/
 /*}*/
 /* <loader> */
 .loading {
@@ -93,12 +93,15 @@
     font-size: 22px;
 }
 
- .loadBar div{
+.loadBar div {
     width: 5%;
     margin: 0 auto;
-    margin-top:20px;
+    margin-top: 20px;
 }
 
+.invisible {
+    visibility: hidden;
+}
 
 /* </loader> */
 

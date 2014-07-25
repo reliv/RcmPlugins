@@ -6,7 +6,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
         function ($scope, $log, $http, rcmHtmlEditorState) {
             var self = this;
             self.url = {
-                locales: '/rcmi18n/messages'
+                locales: '/rcmi18n/locales'
             };
             $scope.locales = [];
             $scope.loading = false;//loadin ng-show set to false
@@ -17,8 +17,10 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
 
                 $http({method: 'GET', url: self.url.locales}).//method get to get all locales
                     success(function (data, status, headers, config) {
-                        $scope.locales = data;
+                        $scope.locales = data.locales;
+                        $scope.selectedLocale = data.currentSiteLocale
                         $scope.loading = false;
+                        $scope.OpenLocale();
 //                        $scope.translations = false;
                         // this callback will be called asynchronously
                         // when the response is available

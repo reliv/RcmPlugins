@@ -83,11 +83,33 @@ class MessagesController extends AbstractRestfulController
             return $response;
         }
 
+        $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+        $messageRepo = $em->getRepository('RcmI18n\Entity\Message');
+
         $locale = $this->params()->fromRoute('locale');
+
+        /**
+         * White-list local and default test to make sure nothing funny is
+         * making its way to the DB. All default text's used must already exist
+         * in the en_US locale
+         */
+        $usMessage = $messageRepo->findOneBy(
+            array('locale' => 'en_US', 'defaultText' => $defaultText)
+        );
+        if (!$this->getServiceLocator()->get('RcmI18n\Model\Locales')
+            ->localeIsValid($locale)
+        ) {
+            return $this->buildBadRequestResponse('invalid locale');
+        } elseif (!$usMessage instanceof Message) {
+            return $this->buildBadRequestResponse('invalid defaultText');
+        }
+
+        /**
+         * Purify text to make sure nothing funny is making its way to the DB
+         */
         $cleanText = $this->rcmHtmlPurify($data['text']);
 
-        $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        $message = $em->getRepository('RcmI18n\Entity\Message')->findOneBy(
+        $message = $messageRepo->findOneBy(
             array('locale' => $locale, 'defaultText' => $defaultText)
         );
 
@@ -104,5 +126,16 @@ class MessagesController extends AbstractRestfulController
         $em->flush();
 
         return new JsonModel();
+    }
+
+    public function buildBadRequestResponse($message)
+    {
+        $response = $this->getResponse();
+        $response->setStatusCode(Response::STATUS_CODE_400);
+        $response->setContent(
+            $response->renderStatusLine()
+            . ' - ' . $message
+        );
+        return $response;
     }
 }
