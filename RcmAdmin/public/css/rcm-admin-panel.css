@@ -4,12 +4,13 @@
     width: 100%;
     position: relative;
     z-index: 1030;
-    height: 20px;
+    height: 22px;
+    font-size: 11px;
 }
 
 .rcmAdminPanelWrapper div.rcmPanelRightButtons{
     float: right;
-    padding-right: 1em;
+    padding-right: 2em;
 }
 /*.rcmAdminPanelWrapper div.rcmPanelRightButtons button{*/
     /*padding: 1px;*/
