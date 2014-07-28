@@ -18,18 +18,20 @@
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">&times;</button>
                 <h1 class="modal-title" id="myModalLabel">Translations</h1>
+            </div>
+            <div class="modal-header fixed">
                 <div class="fixed">
                     <div class="responsiveStyle">
-                    <label style="position: fixed;">
-                        <select class="form-control" ng-model="selectedLocale"
-                                ng-options="locale for locale in locales"
-                                ng-change="OpenLocale()"
-                                ng-disabled="loading || rcmHtmlEditorState.toolbarLoading">
-                            <option value="">
-                                Please select language
-                            </option>
-                        </select>
-                    </label>
+                        <label style="position: fixed;">
+                            <select class="form-control" ng-model="selectedLocale"
+                                    ng-options="locale for locale in locales"
+                                    ng-change="OpenLocale()"
+                                    ng-disabled="loading || rcmHtmlEditorState.toolbarLoading">
+                                <option value="">
+                                    Please select language
+                                </option>
+                            </select>
+                        </label>
                     </div>
                     <label style="float:right;width:20em;" class="input-group">
                         <input ng-model="messageQuery"

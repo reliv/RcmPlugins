@@ -56,21 +56,17 @@
 }
 }
 .fixed {
-    margin-top: 10px;
+    margin-top: 15px;
     padding: 0 15px 0 15px;
 }
-.modal-header {
-    height: 10em;
+.modal-header.fixed {
+    height: 5em;
 }
 
 .invisible {
     visibility: hidden;
 }
-@-moz-document url-prefix() {
-.modal-header {
-height: 100px;
-}
-}
+
 .titleTranslations {
     background-color: #F5F5F5;
 }
