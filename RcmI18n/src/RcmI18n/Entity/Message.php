@@ -17,10 +17,8 @@
 
 namespace RcmI18n\Entity;
 
-use
-    Doctrine\ORM\Mapping as ORM;
-use
-    Zend\Stdlib\ArrayObject;
+use Doctrine\ORM\Mapping as ORM;
+use Zend\Stdlib\ArrayObject;
 
 /**
  * Message Entity
@@ -46,9 +44,17 @@ use
 class Message implements \IteratorAggregate
 {
     /**
+     * @var int Auto-Incremented Key - NOT TO BE USED BY ANYTHING BUT THE DB!
+     *
+     * @ORM\GeneratedValue
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     */
+    protected $messageId;
+
+    /**
      * @var string Locale
      *
-     * @ORM\Id
      * @ORM\Column(type="string", options={"default" = "en_US"})
      */
     protected $locale = 'en_US';
@@ -56,15 +62,14 @@ class Message implements \IteratorAggregate
     /**
      * @var string Translation name
      *
-     * @ORM\Id
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      */
     protected $defaultText;
 
     /**
      * @var string The translated message
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      */
     protected $text;
 
