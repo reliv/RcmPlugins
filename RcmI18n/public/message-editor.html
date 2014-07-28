@@ -7,7 +7,7 @@
             src="/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.js"></script>
     <!--<script src="/modules/rcm-angular-js/angular-base64/angular-base64.js"></script>-->
     <script type="text/javascript"
-            src="/modules/rcm-i18n/locales.js"></script>
+            src="/modules/rcm-i18n/rcmTranslationsCtrl.js"></script>
     <link href="/modules/rcm-i18n/styles.css"
           media="screen"
           rel="stylesheet" type="text/css">
@@ -52,13 +52,13 @@
                            ng-hide="loading || rcmHtmlEditorState.toolbarLoading"
                            class="table panel panel-default">
                         <tr class="titleTranslations">
-                            <th style="width:50%">
+                            <th style="width:20em">
                                 Default Message
                             </th>
-                            <th>
+                            <th style="width:20em">
                                 Translated Message
                             </th>
-                            <th></th>
+                            <th style="width:10em"></th>
                         </tr>
                         <tr ng-repeat="message in messages | filter:messageQuery">
                             <td style="padding-top: 14px;">
@@ -87,6 +87,11 @@
                         </tr>
                     </table>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">Close
+                </button>
             </div>
         </div>
     </div>
