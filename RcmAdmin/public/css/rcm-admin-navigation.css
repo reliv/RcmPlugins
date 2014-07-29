@@ -5,8 +5,8 @@
     padding: 0;
     margin: 0;
     background-color: #FFFFFF;
-
     border-width: 1px 0;
+    padding-top: 1.5px;
 }
 
 .rcmAdminNavigation ul ul {
@@ -34,15 +34,15 @@
 .rcmAdminNavigation li {
     float: left;
     padding: 0;
-    width: 6em;
+    width: 8em;
 
 }
+
 
 .rcmAdminNavigation li:hover {
     background: #00A3E6;
     behavior: url('/modules/rcm/vendor/pie/PIE.htc');
     border-radius: 3px 3px 0px 0px;
-
 }
 
 .rcmAdminNavigation li ul {
@@ -70,6 +70,7 @@
     width: 16em;
     padding-top: 5px;
     padding-bottom: 5px;
+
 }
 
 .rcmAdminNavigation li ul a.additionalMenus {
