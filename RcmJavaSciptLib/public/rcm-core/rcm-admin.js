@@ -1,3 +1,4 @@
+rcm.addAngularModule('rcmAdmin');
 /**
  * Angular JS module used to show HTML editor and toolbar on a page
  * @require:

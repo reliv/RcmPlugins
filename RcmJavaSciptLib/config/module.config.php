@@ -26,6 +26,8 @@ return array(
         'invokables' => array(
             'rcmJsLibIncludeHtmlEditor' =>
                 'RcmJavaSciptLib\View\Helper\IncludeHtmlEditor',
+            'rcmJsLibIncludeCoreJs' =>
+                'RcmJavaSciptLib\View\Helper\IncludeCoreJs',
         ),
     ),
     'view_manager' => array(
@@ -33,7 +35,7 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-    /* <TEST> - TESTING ONLY *
+    /* <TEST> - TESTING ONLY */
     'controllers' => array(
         'invokables' => array(
             'RcmJavaSciptLib\Controller\TestController' =>
