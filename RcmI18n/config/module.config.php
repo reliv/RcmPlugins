@@ -45,10 +45,11 @@ return array(
                 'label' => 'Site',
                 'uri' => '#',
                 'pages' => array(
-                    'Translations' => array(
+                    'Page' => array(
                         'label' => 'Translations',
                         'class' => 'RcmAdminMenu RcmBlankDialog Translations',
                         'uri' => '/modules/rcm-i18n/message-editor.html',
+                        'title' => 'Translations',
                     )
                 )
             ),

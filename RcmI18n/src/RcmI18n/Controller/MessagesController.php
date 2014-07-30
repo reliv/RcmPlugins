@@ -51,10 +51,11 @@ class MessagesController extends AbstractRestfulController
                     break;
                 }
             }
+            //utf8_encode belows stops json_encode from dieing in some cases
             $translations[] = [
                 'locale' => $locale,
-                'defaultText' => utf8_decode($defaultText),
-                'text' => utf8_decode($text)
+                'defaultText' => utf8_encode($defaultText),
+                'text' => utf8_encode($text)
             ];
         }
         return new JsonModel($translations);
@@ -87,6 +88,9 @@ class MessagesController extends AbstractRestfulController
         $messageRepo = $em->getRepository('RcmI18n\Entity\Message');
 
         $locale = $this->params()->fromRoute('locale');
+
+        //Fixes an issue with odd apostrophe chars
+        $defaultText = utf8_decode($defaultText);
 
         /**
          * White-list local and default test to make sure nothing funny is
