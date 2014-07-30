@@ -16,6 +16,13 @@
 
 namespace RcmAngularJs;
 
+use
+    RcmAngularJs\Model\AngularRegistry;
+use
+    Zend\View\Renderer\PhpRenderer;
+use
+    Zend\View\ViewEvent;
+
 
 /**
  * ZF2 Module Config.  Required by ZF2

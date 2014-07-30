@@ -3,6 +3,7 @@
  * @require:
  *  AngularJS
  *  TinyMce
+ *  RcmHtmlEditor
  */
 angular.module(
         'rcmAdmin',

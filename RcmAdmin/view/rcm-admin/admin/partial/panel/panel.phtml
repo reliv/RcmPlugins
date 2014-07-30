@@ -1,4 +1,24 @@
 <?php
+/*
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-tinymce-js/tinymce/tinymce.js'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.js'
+);
+
+$this->rcmIncludeAngularJsModule(
+    'rcmAdmin',
+    '/modules/rcm-js-lib/rcm-core/rcm-admin.js'
+);
+
+
+
+
+$this->headScript()->prependFile(
+    $this->basePath() . '/modules/rcm-admin/js/rcm-admin.js'
+);
 
 $this->headScript()->prependFile(
     $this->basePath() . '/modules/rcm-js-lib/rcm-core/rcm-core.js'
@@ -19,7 +39,11 @@ $this->headScript()->appendFile(
 $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-js-lib/rcm-core/rcm-admin.js'
 );
+<script type="application/javascript">
 
+</script>
+
+*/
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-admin/css/rcm-admin-panel.css',
     'screen,print'
@@ -40,14 +64,6 @@ $this->headLink()->appendStylesheet(
     // Requires Angular and rcmJavaScriptLib/public/html-editor/html-editor.js
     // and a parent angular controller
     ?>
+    <br/>
     <div html-editor-toolbar></div>
 </div>
-<script type="application/javascript">
-    rcm.addModule('rcmAdmin');
-
-    //angular.element(document).ready(
-    //    function () {
-            rcm.init()
-        //}
-    //);
-</script>
