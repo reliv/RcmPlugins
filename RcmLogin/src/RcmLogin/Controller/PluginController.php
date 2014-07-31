@@ -51,18 +51,15 @@ class PluginController
     protected $siteManager;
 
     function __construct(
-        PluginStorageMgr $pluginStorageMgr,
         $config,
         RcmUserService $rcmUserService
     ) {
-        parent::__construct($pluginStorageMgr, $config);
+        parent::__construct($config);
         $this->rcmUserService = $rcmUserService;
     }
 
-    public function renderInstance($instanceId)
+    public function renderInstance($instanceId, $instanceConfig)
     {
-        $instanceConfig = $this->getInstanceConfig($instanceId);
-
         $postSuccess = false;
         $error = null;
         $username = null;
@@ -134,6 +131,10 @@ class PluginController
 
             $view = parent::renderInstance(
                 $instanceId,
+                $instanceConfig
+            );
+
+            $view->setVariables(
                 array(
                     'error' => $error,
                     'username' => $username,

@@ -21,12 +21,10 @@ class ProxyController
     protected $cacheMgr;
 
     function __construct(
-        PluginStorageMgr $pluginStorageMgr,
         $config,
-        //\Rcm\Model\UserManagement\UserManagerInterface $userMgr,
         \Zend\Cache\Storage\StorageInterface $cacheMgr
     ) {
-        parent::__construct($pluginStorageMgr, $config);
+        parent::__construct($config);
         //$this->userMgr = $userMgr;
         $this->cacheMgr = $cacheMgr;
     }
@@ -41,12 +39,10 @@ class ProxyController
             'instanceId'
         );
 
-        if ($instanceId < 0) {
-            $instanceConfig = $this->getDefaultInstanceConfig();
-        } else {
-            $instanceConfig = $this->getInstanceConfig($instanceId);
+        /** @var \Rcm\Service\PluginManager $pluginManager */
+        $pluginManager = $this->serviceLocator->get('\Rcm\Service\PluginManager');
 
-        }
+        $instanceConfig = $pluginManager->getInstanceConfig($instanceId);
 
         $feedUrl = $instanceConfig['rssFeedUrl'];
 
@@ -82,7 +78,7 @@ class ProxyController
 
         $viewRssData = array();
 
-        foreach ($feedData as &$entry) {
+        foreach ($feedData as $entry) {
 
             if ($feedCount == $limit) {
                 break;

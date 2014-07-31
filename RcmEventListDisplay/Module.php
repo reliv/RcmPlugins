@@ -77,7 +77,6 @@ class Module
             'factories' => array(
                 'RcmEventListDisplay' => function ($serviceMgr) {
                         $controller = new PluginController(
-                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
                             $serviceMgr->get('Doctrine\ORM\EntityManager'),
                             $serviceMgr->get('CalenderModel')
