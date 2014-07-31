@@ -29,17 +29,17 @@ angular.module('RcmHtmlEditor', [])
                 language: self.language,
 
                 menubar: false,
-                plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
+                plugins: "anchor, charmap, code, hr, image, link, paste, table",
                 relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
 
                 toolbar: [
-                    "code | undo redo | spellchecker | styleselect | " +
+                    "code | undo redo | styleselect | " +
                     "bold italic underline strikethrough subscript superscript removeformat | " +
                     "alignleft aligncenter alignright alignjustify | " +
-                    "bullist numlist outdent indent | cut copy paste pastetext | " +
-                    "image table hr charmap template | link unlink anchor"
+                    "bullist numlist outdent indent | cut copy pastetext | " +
+                    "image table hr charmap | link unlink anchor"
                 ]
             },
             text: {
@@ -53,16 +53,16 @@ angular.module('RcmHtmlEditor', [])
                 language: self.language,
 
                 menubar: false,
-                plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
+                plugins: "anchor, charmap, code, hr, image, link, paste, table",
                 relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
 
                 toolbar: [
-                    "code | undo redo | spellchecker | " +
+                    "code | undo redo | " +
                     "bold italic underline strikethrough subscript superscript removeformat | " +
-                    "outdent indent | cut copy paste pastetext | " +
-                    "image charmap template | link unlink anchor"
+                    "outdent indent | cut copy pastetext | " +
+                    "image charmap | link unlink anchor"
                 ]
             },
             simpleText: {
@@ -76,7 +76,7 @@ angular.module('RcmHtmlEditor', [])
                 language: self.language,
 
                 menubar: false,
-                plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
+                plugins: "anchor, charmap, code, hr, image, link, paste, table",
                 relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
@@ -100,7 +100,8 @@ angular.module('RcmHtmlEditor', [])
                 var rcmHtmlEditorState = {
                     isEditing: false,
                     toolbarLoading: false,
-                    showFixedToolbar: false
+                    showFixedToolbar: false,
+                    hasEditors: false
                 };
 
                 return rcmHtmlEditorState;
@@ -162,7 +163,7 @@ angular.module('RcmHtmlEditor', [])
 
 
                 // build settings based on the attrs and config
-                self.buildHtmlOptions = function (scope, attrs, config) {
+                self.buildHtmlOptions = function (id, scope, attrs, config) {
 
                     var options = {};
                     var settings = {};
@@ -190,13 +191,13 @@ angular.module('RcmHtmlEditor', [])
                     settings = angular.extend(options, config); // copy(options);
 
                     settings.mode = 'exact';
-                    settings.elements = attrs.id;
+                    settings.elements = id;
                     settings.fixed_toolbar = true;
 
                     // set some overrides based on attr html-editor-attached-toolbar
                     if (typeof attrs.htmlEditorAttachedToolbar !== 'undefined') {
                         settings.inline = true;
-                        settings.fixed_toolbar_container = rcmHtmlEditorConfig.toolbar_container_prefix + attrs.id;
+                        settings.fixed_toolbar_container = rcmHtmlEditorConfig.toolbar_container_prefix + id;
                         settings.fixed_toolbar = false;
 
                         // @todo NOT SUPPORTED: attr html-editor-show-hide-toolbar
@@ -245,14 +246,66 @@ angular.module('RcmHtmlEditor', [])
 
     )
     .factory(
+        'rcmHtmlEditorFactory',
+        [
+            'RcmHtmlEditor',
+            'rcmHtmlEditorState',
+            function (RcmHtmlEditor, rcmHtmlEditorState) {
+
+                var self = this;
+
+                self.editors = {};
+
+                self.editorCount = 0;
+
+                self.build = function (id) {
+
+                    if(!self.editors[id]){
+
+                        self.editors[id] = new RcmHtmlEditor(id);
+                        self.editorCount ++;
+                    }
+
+                    self.setHasEditors();
+                    return self.editors[id];
+                }
+
+                self.destroy = function (id) {
+
+                    if(self.editors[id]){
+
+                        self.editors[id].destroy();
+                        self.editors[id] = null;
+                        self.editorCount --;
+                    }
+
+                    self.setHasEditors();
+                    return null;
+                }
+
+                self.setHasEditors = function(){
+
+                    if(self.editorCount > 0){
+                        rcmHtmlEditorState.hasEditors = true;
+                    } else {
+                        rcmHtmlEditorState.hasEditors = false;
+                    }
+                }
+
+                return self;
+            }
+        ]
+    )
+    .factory(
         'RcmHtmlEditor',
         [
             'rcmHtmlEditorState',
             'rcmHtmlEditorLoading',
             function (rcmHtmlEditorState, rcmHtmlEditorLoading) {
 
-                var RcmHtmlEditor = function () {
+                var RcmHtmlEditor = function (id) {
                     var self = this;
+                    self.id = id;
                     self.scope;
                     self.elm;
                     self.attrs;
@@ -342,7 +395,7 @@ angular.module('RcmHtmlEditor', [])
 
                                     rcmHtmlEditorState.showFixedToolbar = false;
                                 }
-                                rcmHtmlEditorLoading(self.attrs.id, false);
+                                rcmHtmlEditorLoading(self.id, false);
                             });
                             // Update model on button click
                             ed.on('ExecCommand', function (e) {
@@ -423,7 +476,7 @@ angular.module('RcmHtmlEditor', [])
                             self.ngModel.$render = function () {
 
                                 if (!self.tinyInstance) {
-                                    self.tinyInstance = tinymce.get(self.attrs.id);
+                                    self.tinyInstance = tinymce.get(self.id);
                                 }
                                 if (self.tinyInstance) {
                                     self.tinyInstance.setContent(self.ngModel.$viewValue || self.getElmValue());
@@ -433,15 +486,21 @@ angular.module('RcmHtmlEditor', [])
 
                         self.scope.$on('$destroy', function () {
 
-                            if (!self.tinyInstance) {
-                                self.tinyInstance = tinymce.get(self.attrs.id);
-                            }
-                            if (self.tinyInstance) {
-                                self.tinyInstance.remove();
-                                self.tinyInstance = null;
-                            }
+                            self.destroy();
                         });
                     };
+
+                    self.destroy = function () {
+
+                        if (!self.tinyInstance) {
+                            self.tinyInstance = tinymce.get(self.id);
+                        }
+                        if (self.tinyInstance) {
+                            self.tinyInstance.remove();
+                            self.tinyInstance = null;
+                        }
+
+                    }
                 };
 
                 return RcmHtmlEditor;
@@ -454,8 +513,8 @@ angular.module('RcmHtmlEditor', [])
             'guid',
             'htmlEditorOptions',
             'rcmHtmlEditorLoading',
-            'RcmHtmlEditor',
-            function (guid, htmlEditorOptions, rcmHtmlEditorLoading, RcmHtmlEditor) {
+            'rcmHtmlEditorFactory',
+            function (guid, htmlEditorOptions, rcmHtmlEditorLoading, rcmHtmlEditorFactory) {
 
                 return function (scope, elm, attrs, ngModel, config) {
 
@@ -463,20 +522,37 @@ angular.module('RcmHtmlEditor', [])
                     if (!attrs.id) {
                         attrs.$set('id', guid());
                     }
+                    var id = attrs.id;
 
                     // this is to hide the default toolbar before init
-                    rcmHtmlEditorLoading(attrs.id, true);
+                    rcmHtmlEditorLoading(id, true);
 
                     // get settings from attr or config
                     var settings = htmlEditorOptions.buildHtmlOptions(
+                        id,
                         scope,
                         attrs,
                         config
                     );
 
-                    var rcmHtmlEditor = new RcmHtmlEditor()
+                    var rcmHtmlEditor = rcmHtmlEditorFactory.build(id);
 
                     return rcmHtmlEditor.init(scope, elm, attrs, ngModel, settings);
+                }
+            }
+        ]
+    )
+    .factory(
+        'rcmHtmlEditorDestroy',
+        [
+            'rcmHtmlEditorLoading',
+            'rcmHtmlEditorFactory',
+            function (rcmHtmlEditorLoading, rcmHtmlEditorFactory) {
+
+                return function (id) {
+
+                    rcmHtmlEditorFactory.destroy(id);
+                    rcmHtmlEditorLoading(id, false);
                 }
             }
         ]
@@ -528,7 +604,7 @@ angular.module('RcmHtmlEditor', [])
                     link: thislink,
                     restrict: 'A',
                     template: '' +
-                        '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading">' +
+                        '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading || !rcmHtmlEditorState.hasEditors">' +
                         ' <div ng-hide="rcmHtmlEditorState.showFixedToolbar">' +
                         '  <div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation" style="border-width: 1px; left: 0px; top: 0px; width: 100%; height: 34px;">' +
                         '   <div class="mce-container-body mce-abs-layout">' +
@@ -540,7 +616,7 @@ angular.module('RcmHtmlEditor', [])
                         '         <div>' +
                         '          <div class="mce-widget mce-btn mce-first mce-last mce-disabled" tabindex="-1" aria-labelledby="mceu_0" role="button" aria-label="Source code">' +
                         '           <button role="presentation" type="button" tabindex="-1" disabled="disabled"><i class="mce-ico mce-i-code"></i></button>' +
-                        //              '            <button role="presentation" type="button" disabled tabindex="-1">Select text to show controls</button>' +
+                        //'            <button role="presentation" type="button" disabled tabindex="-1">Select text to show controls</button>' +
                         '          </div>' +
                         '         </div>' +
                         '        </div>' +

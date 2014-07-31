@@ -7,6 +7,8 @@ var rcm = new function () {
     self.app = null;
 
     self.ocLazyLoad;
+    self.compile;
+    self.scope;
 
     /**
      *
@@ -20,25 +22,49 @@ var rcm = new function () {
      */
     self.addAngularModule = function (moduleName, lazyloadConfig) {
 
-        if (self.app) {
+        if (self.hasModule(moduleName)){
 
-            if (self.ocLazyLoad && lazyloadConfig) {
-
-                lazyloadConfig.name = moduleName
-
-                self.ocLazyLoad.load(lazyloadConfig);
-
-                self.pushModuleName(moduleName);
-                self.console.log('Module ' + moduleName + ' Registered with lazy loader.');
-                return;
-            }
-
-            self.console.info('Module ' + moduleName + ' Could not be register.');
+            self.console.log('Module (' + moduleName + ') already registered.');
             return;
         }
 
-        self.pushModuleName(moduleName);
-        self.console.log('Module ' + moduleName + ' Registered.');
+        if (self.app) {
+
+            if (self.ocLazyLoad && lazyloadConfig) {
+                self.pushModuleName(moduleName);
+
+                if (!lazyloadConfig) {
+                    lazyloadConfig = {};
+                }
+
+                lazyloadConfig.name = moduleName
+
+                self.ocLazyLoad.load(lazyloadConfig)
+                    .then(
+                    function () {
+
+                        self.scope.safeApply(
+                            function () {
+                                self.console.log('rcm apply');
+                            }
+                        );
+                        self.console.log('Module (' + moduleName + ') registered with lazy loader.');
+                        self.console.log(self.moduleDepenencies);
+                        //element.append($compile(data)(scope));
+                    }
+                );
+
+            } else {
+
+                self.console.info('Module (' + moduleName + ') ignored due to late registration.');
+            }
+
+        } else {
+
+            self.pushModuleName(moduleName);
+            self.console.log('Module (' + moduleName + ') registered.');
+            self.console.log(self.moduleDepenencies);
+        }
     }
 
     /**
@@ -60,18 +86,27 @@ var rcm = new function () {
     /**
      *
      * @param moduleName
-     * @returns boolean
      */
     self.pushModuleName = function (moduleName) {
 
-        if (self.moduleDepenencies.indexOf(moduleName) < 0) {
+        if (!self.hasModule(moduleName)){
 
             self.moduleDepenencies.push(moduleName);
+        }
+    }
 
-            return true;
+    /**
+     *
+     * @param moduleName
+     * @returns {boolean}
+     */
+    self.hasModule = function(moduleName){
+
+        if (self.moduleDepenencies.indexOf(moduleName) < 0) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -99,18 +134,30 @@ var rcm = new function () {
 
         angular.element(document).ready(
             function () {
+
                 self.app = angularModule;
-                self.console.info('Bootstrap angular module with: ');
-                self.console.info(self.app.requires);
+
                 angular.bootstrap(
                     document,
                     ['rcm']
                 );
 
-                try {
-                    self.ocLazyLoad = angular.element(document).injector().get('$ocLazyLoad');
-                } catch (e) {
-                }
+                self.ocLazyLoad = angular.element(document).injector().get('$ocLazyLoad');
+
+                self.compile = angular.element(document).injector().get('$compile');
+
+                self.scope = angular.element(document).scope();
+
+                self.scope.safeApply = function(fn) {
+                    var phase = self.scope.$root.$$phase;
+                    if(phase == '$apply' || phase == '$digest') {
+                        if(fn && (typeof(fn) === 'function')) {
+                            fn();
+                        }
+                    } else {
+                        self.scope.$apply(fn);
+                    }
+                };
             }
         )
         ;

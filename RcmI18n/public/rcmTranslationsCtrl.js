@@ -120,11 +120,12 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             return result;
         };
     });
-angular.element(document).ready(
-    function () {
-        angular.bootstrap(
-            document.querySelectorAll('[ng-controller=rcmTranslations]'),
-            ['rcmLocales']
-        );
-    }
-);
+rcm.addAngularModule('rcmLocales'/*, {files: ['/modules/rcm-i18n/rcmTranslationsCtrl.js']}*/);
+//angular.element(document).ready(
+//    function () {
+//        angular.bootstrap(
+//            document.querySelectorAll('[ng-controller=rcmTranslations]'),
+//            ['rcmLocales']
+//        );
+//    }
+//);

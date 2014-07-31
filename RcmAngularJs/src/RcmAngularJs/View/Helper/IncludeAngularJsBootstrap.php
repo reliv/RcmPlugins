@@ -31,14 +31,13 @@ class IncludeAngularJsBootstrap extends AbstractHelper
         /** @var \Zend\View\Helper\HeadScript $headScript */
         $headScript = $view->headScript();
 
-        // @codingStandardsIgnoreStart
-        $headScript->prependFile(
-            '/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-tpls-0.11.0.min.js'
-        );
-        // @codingStandardsIgnoreEnd
-
         $view->rcmIncludeJquery();
         $view->rcmIncludeAngularJs();
+
+        $headScript->appendFile(
+            '/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-tpls-0.11.0.min.js'
+        );
+
         $view->plugin('rcmIncludeTwitterBootstrap')->injectCss();
 
     }

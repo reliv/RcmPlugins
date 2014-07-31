@@ -1,17 +1,17 @@
 
-    <script type="text/javascript"
-            src="/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js"></script>
-    <script type="text/javascript"
-            src="/modules/rcm-tinymce-js/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript"
-            src="/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.js"></script>
-    <!--<script src="/modules/rcm-angular-js/angular-base64/angular-base64.js"></script>-->
-    <script type="text/javascript"
-            src="/modules/rcm-i18n/rcmTranslationsCtrl.js"></script>
-    <link href="/modules/rcm-i18n/styles.css"
-          media="screen"
-          rel="stylesheet" type="text/css">
-<div class="translations">
+<script type="text/javascript"
+        src="/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js"></script>
+<script type="text/javascript"
+        src="/modules/rcm-tinymce-js/tinymce/tinymce.min.js"></script>
+<!--<script type="text/javascript"-->
+        <!--src="/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.js"></script>-->
+<!--<script src="/modules/rcm-angular-js/angular-base64/angular-base64.js"></script>-->
+<!--<script type="text/javascript"-->
+        <!--src="/modules/rcm-i18n/rcmTranslationsCtrl.js"></script>-->
+<link href="/modules/rcm-i18n/styles.css"
+      media="screen"
+      rel="stylesheet" type="text/css">
+<div class="translations" oc-lazy-load="{name: 'rcmLocales', files: ['/modules/rcm-i18n/rcmTranslationsCtrl.js']}" >
     <div ng-controller="rcmTranslations" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
