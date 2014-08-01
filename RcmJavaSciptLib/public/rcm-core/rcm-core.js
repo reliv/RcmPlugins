@@ -24,7 +24,7 @@ var rcm = new function () {
 
         if (self.hasModule(moduleName)){
 
-            self.console.log('Module (' + moduleName + ') already registered.');
+            //self.console.log('Module (' + moduleName + ') already registered.');
             return;
         }
 
@@ -48,22 +48,22 @@ var rcm = new function () {
                                 self.console.log('rcm apply');
                             }
                         );
-                        self.console.log('Module (' + moduleName + ') registered with lazy loader.');
-                        self.console.log(self.moduleDepenencies);
+                        //self.console.log('Module (' + moduleName + ') registered with lazy loader.');
+                        //self.console.log(self.moduleDepenencies);
                         //element.append($compile(data)(scope));
                     }
                 );
 
             } else {
 
-                self.console.info('Module (' + moduleName + ') ignored due to late registration.');
+                //self.console.info('Module (' + moduleName + ') ignored due to late registration.');
             }
 
         } else {
 
             self.pushModuleName(moduleName);
-            self.console.log('Module (' + moduleName + ') registered.');
-            self.console.log(self.moduleDepenencies);
+            //self.console.log('Module (' + moduleName + ') registered.');
+            //self.console.log(self.moduleDepenencies);
         }
     }
 
@@ -197,6 +197,8 @@ var rcm = new function () {
 
                 /* there are more methods, but this covers the basics */
             }
+
+            window.console = self.console;
         }
     }
 

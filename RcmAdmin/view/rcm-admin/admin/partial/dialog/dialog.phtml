@@ -8,8 +8,7 @@
                     <h1 class="modal-title"
                         id="myModalLabel">{{rcmAdminDialogState.title}}</h1>
                 </div>
-                <div class="modal-body">
-                    {{content}}
+                <div class="modal-body" ng-bind-html="content">
                 </div>
                 <div class="modal-footer">
                     <button

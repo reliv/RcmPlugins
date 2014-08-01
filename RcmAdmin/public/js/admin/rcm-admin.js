@@ -5,7 +5,7 @@
  */
 angular.module(
         'rcmAdminDialog',
-        []
+        ['ngSanitize']
     )
     .factory(
         'rcmAdminDialogState',
@@ -32,7 +32,8 @@ angular.module(
         [
             '$http',
             '$compile',
-            function ($http, $compile) {
+            '$sce',
+            function ($http, $compile, $sce) {
 
                 var BaseStrategy = function ($http, $compile) {
 
@@ -41,6 +42,8 @@ angular.module(
                     me.template = "RcmStandardDialogTemplate"
 
                     me.content = '';
+
+                    me.error = [];
 
                     me.data = {};
 
@@ -62,39 +65,75 @@ angular.module(
                      * @param scope
                      * @param callback
                      */
-                    me.load = function (url, elm, scope, callback) {
+                    me.load = function (url, elm, scope, ctrl, callback) {
 
                         if (url) {
                             me.loading = true;
+                            var contentBody = elm.find(".modal-body");
+                            contentBody.load(url, null, function (response, status, xhr) {
 
-                            $http({method: 'GET', url: url}).
-                                success(
-                                function (data, status, headers, config) {
+                                if (status == "error") {
+                                    jQuery(contentBody).html(xhr.responseText);
+                                }
 
-                                    console.log('SUCCESS');
-                                    console.log(data);
-                                    console.log(headers);
+                                var contentType = xhr.getResponseHeader('Content-Type');
 
-                                    if (headers['Content-Type'] == 'application/json') {
+                                if (contentType.indexOf('application/json') > -1) {
+                                    var jsonResponse = jQuery.parseJSON(xhr.responseText);
 
-                                        if (data.redirect !== undefined) {
-                                            window.location.replace(data.redirect);
-                                        }
-                                    } else {
-
-                                        scope.content = data;
+                                    if (jsonResponse.redirect !== undefined) {
+                                        window.location.replace(jsonResponse.redirect);
                                     }
-
-                                    me.loadCallback(data, elm, scope, callback);
                                 }
-                            ).
-                                error(
-                                function (data, status, headers, config) {
-                                    scope.content = data;
-                                    me.loadCallback(data, elm, scope, callback);
 
-                                }
-                            );
+                                me.loadCallback(response, elm, scope, callback);
+                            });
+                            /*
+                             $http.get(url, {}).success(function(response) {
+                             console.log('SUCCESS');
+                             //scope.content = response;
+                             scope.content = $sce.trustAsHtml(response);
+                             //var html = $sce.trustAsHtml(response);
+                             //var element = $compile(html)(scope);
+                             //console.log(element.html());
+                             //
+                             //scope.content = element.html();
+                             //    //scope.content = angular.element(response).html();
+                             ////scope.content = $compile(r)(scope);
+                             //scope.$apply(function() {
+                             //    scope.content = r;
+                             //});
+                             }).error(function(response) {
+
+                             });
+                             $http({method: 'GET', url: url}).
+                             success(
+                             function (data, status, headers, config) {
+
+                             console.log('SUCCESS');
+                             console.log(headers['Content-Type']);
+
+                             // @todo - rules inject for non standard return?
+                             if (headers['Content-Type'] == 'application/json') {
+
+                             if (data.redirect !== undefined) {
+                             window.location.replace(data.redirect);
+                             }
+                             } else {
+                             scope.content = $sce.trustAsHtml(data);
+                             }
+
+                             me.loadCallback(data, elm, scope, callback);
+                             }
+                             ).
+                             error(
+                             function (data, status, headers, config) {
+                             // @todo - rules inject for non 200 status?
+                             scope.content = data;
+                             me.loadCallback(data, elm, scope, callback);
+                             }
+                             );
+                             */
                         }
                     };
 
@@ -109,21 +148,39 @@ angular.module(
 
                         jQuery('.modal-dialog').draggable({handle: '.modal-header'});
 
-                        $compile(data)(scope);
-
                         if (callback) {
                             callback(data);
                         }
 
                         me.loading = false;
                     };
-
-
                 };
 
                 var baseStrategy = new BaseStrategy($http, $compile);
 
                 return baseStrategy;
+            }
+        ]
+    )
+
+    .factory(
+        'rcmAdminDialogBlankStrategy',
+        [
+            'rcmAdminDialogBaseStrategy',
+            function (rcmAdminDialogBaseStrategy) {
+
+                // extend BaseStrategy
+
+                var rcmAdminDialogBlankStrategy = rcmAdminDialogBaseStrategy;
+
+                rcmAdminDialogBlankStrategy.template = "RcmStandardDialogTemplate"
+                rcmAdminDialogBlankStrategy.load = function (url, elm, scope, callback) {
+
+                    me.loadCallback(null, elm, scope, callback);
+
+                }
+
+                return rcmAdminDialogBlankStrategy;
             }
         ]
     )
@@ -142,6 +199,7 @@ angular.module(
                     $injector = angular.injector();
 
                     var strategy = {};
+
                     if ($injector.has(id)) {
 
                         return $injector.get(id);
@@ -154,7 +212,6 @@ angular.module(
             }
         ]
     )
-
     .directive(
         'rcmAdminDialog',
         [
@@ -163,7 +220,7 @@ angular.module(
             'rcmAdminStrategyFactory',
             function ($log, rcmAdminDialogState, rcmAdminStrategyFactory) {
 
-                var thisLink = function (scope, elm, attrs, ngModel) {
+                var thisLink = function (scope, elm, attrs, ctrl) {
 
                     self = this;
 
@@ -184,16 +241,19 @@ angular.module(
 
                                 elm.modal('show');
 
+                                strategy.load(rcmAdminDialogState.url, elm, scope, ctrl);
+
                                 elm.on(
                                     'shown.bs.modal',
                                     function (event) {
-
+                                        console.log('shown.bs.modal');
                                         if (strategy.onShow) {
                                             strategy.onShow(scope, elm, event)
                                         }
-                                        scope.rcmAdminDialogState.loading = false;
+
                                     }
                                 );
+                                scope.rcmAdminDialogState.loading = false;
                             }
                         }
                     );
@@ -202,6 +262,7 @@ angular.module(
                 return {
                     restrict: 'A',
                     link: thisLink,
+                    controller: angular.noop,
                     template: '<div ng-include="template">TEMPLATE</div>'
                 }
             }
@@ -283,15 +344,6 @@ angular.module(
             }
         ]
     )
-    .factory(
-        'rcmEditorCompile',
-        [
-            function () {
-
-                return '@todo';
-            }
-        ]
-    )
     .directive(
         'rcmAdminEditButton',
         [
@@ -367,15 +419,14 @@ angular.module(
                             function (newValue, oldValue) {
 
                                 if (newValue) {
-
+                                    // @todo disable click and other content events
                                     rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
                                 } else {
+                                    // @todo enable click and other content events + prepare
                                     rcmHtmlEditorDestroy(attrs.id);
                                 }
                             }
                         );
-
-
                     };
                     return thisLink;
                 }
@@ -414,9 +465,10 @@ angular.module(
                             function (newValue, oldValue) {
 
                                 if (newValue) {
-
+                                    // @todo disable click and other content events
                                     rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
                                 } else {
+                                    // @todo enable click and other content events + prepare
                                     rcmHtmlEditorDestroy(attrs.id);
                                 }
                             }
