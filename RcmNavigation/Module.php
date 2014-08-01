@@ -57,7 +57,6 @@ class Module
             'factories' => array(
                 'RcmNavigation' => function ($serviceMgr) {
                         return new BaseController(
-                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
                             __DIR__
                         );

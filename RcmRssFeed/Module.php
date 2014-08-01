@@ -77,7 +77,6 @@ class Module
                     function ($serviceMgr) {
                         $controller
                             = new \RcmRssFeed\Controller\PluginController(
-                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config')
                         );
                         return $controller;
@@ -116,9 +115,7 @@ class Module
                         $serviceMgr = $controllerMgr->getServiceLocator();
                         $controller
                             = new \RcmRssFeed\Controller\ProxyController(
-                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
-                            $serviceMgr->get('RcmUser\Service\RcmUserService'),
                             $serviceMgr->get('rcmRssCache')
                         );
                         return $controller;

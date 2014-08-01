@@ -1,5 +1,6 @@
 <?php
 $this->rcmIncludeJqueryUi();
+$this->headScript()->appendScript('jQuery.ajaxSetup({cache: true, ifModified: true, isLocal: true});');
 $this->rcmIncludeTwitterBootstrap();
 
 $this->headScript()->appendFile(
@@ -14,3 +15,5 @@ $this->headScript()->appendFile(
      aria-labelledby="myModalLabel" aria-hidden="true">
 
 </div>
+
+<?php

@@ -19,6 +19,7 @@ namespace RcmRssFeed\Controller;
 
 use Rcm\Plugin\BaseController;
 use Rcm\Plugin\PluginInterface;
+use Zend\View\Model\ViewModel;
 
 /**
  * Plugin Controller
@@ -36,21 +37,14 @@ class PluginController
     extends BaseController
     implements PluginInterface
 {
-    public function renderInstance($instanceId)
+    public function renderInstance($instanceId, $instanceConfig)
     {
-        return $this->buildView(
-            $instanceId,
-            $this->getInstanceConfig($instanceId)
-        );
-    }
-
-    function buildView($instanceId, $instanceConfig)
-    {
-        $view = new \Zend\View\Model\ViewModel(array(
+        $view = new ViewModel(array(
             'instanceId' => $instanceId,
             'instanceConfig' => $instanceConfig,
             'rssProxy' => '/rcm-rss-proxy'
         ));
+
         $view->setTemplate($this->template);
         return $view;
     }

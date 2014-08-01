@@ -16,11 +16,7 @@ class RcmBrightcovePlayerControllerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var \RcmInstanceConfig\Service\PluginStorageMgrInterface $pluginStorage */
-        $pluginStorage = $serviceLocator->get('rcmPluginStorage');
-
         return new BaseController (
-            $pluginStorage,
             $serviceLocator->get('config'),
             'RcmBrightcovePlayer'
         );

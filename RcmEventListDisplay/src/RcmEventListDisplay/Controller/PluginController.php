@@ -44,26 +44,26 @@ class PluginController
     protected $calender;
 
     function __construct(
-        PluginStorageMgr $pluginStorageMgr,
         $config,
         EntityManager $entityMgr,
         \RcmEventCalenderCore\Model\Calender $calender
     ) {
-        parent::__construct($pluginStorageMgr, $config);
+        parent::__construct($config);
         $this->calender = $calender;
     }
 
     /**
      * Plugin Action - Returns the guest-facing view model for this plugin
      *
-     * @param int $instanceId plugin instance id
+     * @param int   $instanceId     plugin instance id
+     * @param array $instanceConfig Instance Config
      *
      * @return \Zend\View\Model\ViewModel
      */
-    function renderInstance($instanceId)
+    function renderInstance($instanceId, $instanceConfig)
     {
         return $this->renderInstanceFromConfig(
-            $this->getInstanceConfig($instanceId)
+            $instanceConfig
         );
     }
 
