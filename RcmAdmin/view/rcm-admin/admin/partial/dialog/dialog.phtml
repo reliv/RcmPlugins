@@ -1,5 +1,5 @@
 <script type="text/ng-template" id="RcmStandardDialogTemplate">
-    <div id="RcmStandardDialogTemplateIn" style="display: block;">
+    <div id="RcmStandardDialogTemplateIn" style="display: block;" ng-hide="rcmAdminDialogState.loading">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -8,7 +8,7 @@
                     <h1 class="modal-title"
                         id="myModalLabel">{{rcmAdminDialogState.title}}</h1>
                 </div>
-                <div class="modal-body" ng-bind-html="content">
+                <div class="modal-body" ng-include="content">
                 </div>
                 <div class="modal-footer">
                     <button

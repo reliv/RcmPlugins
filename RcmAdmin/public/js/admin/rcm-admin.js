@@ -1,24 +1,28 @@
 ///////////////////////////////////////////////
 
 /**
- *
+ * <rcmDialog>
  */
 angular.module(
-        'rcmAdminDialog',
+        'rcmDialog',
         ['ngSanitize']
     )
     .factory(
-        'rcmAdminDialogState',
+        'rcmDialogState',
         [
             function () {
 
                 var State = function () {
 
                     var self = this;
-                    self.url = '';
-                    self.title = '';
                     self.loading = false;
-                    self.strategy;
+                    self.open = false;
+                    self.strategy = {
+                        loading: true,
+                        name: '',
+                        title: '',
+                        url: ''
+                    };
                 }
 
                 var state = new State();
@@ -27,6 +31,116 @@ angular.module(
             }
         ]
     )
+    .directive(
+        'rcmDialog',
+        [
+            '$compile',
+            'rcmDialogState',
+            function ($compile, rcmDialogState) {
+
+                var thisCompile = function (tElement, tAttrs) {
+
+                    console.log('rcmDialog COMPILEPREP');
+
+                    var thisLink = function (scope, elm, attrs, ctrl) {
+
+                        console.log('rcmDialog LINKPREP');
+                        self = this;
+
+                        scope.rcmDialogState = rcmDialogState;
+                        var strategyName = rcmDialogState.strategy.name;
+
+                        scope.directive = strategyName;
+                        console.log(strategyName);
+                        if(strategyName){
+                            var directiveName = strategyName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+                            elm.find(':first-child').attr(directiveName, 'rcmDialogState');
+
+                            console.log(elm.find(':first-child'));
+                        }
+
+                        scope.$watch(
+                            'rcmDialogState.open',
+                            function (newValue, oldValue) {
+
+                                if (newValue) {
+                                    console.log('change');
+
+                                    rcmDialogState.open = false;
+
+                                    $compile(elm)(scope);
+                                    $compile(elm.contents())(scope);
+
+//                                    elm.modal('show');
+//
+//                                    elm.on(
+//                                        'shown.bs.modal',
+//                                        function (event) {
+//                                            // @todo
+//                                        }
+//                                    );
+                                }
+                            }
+                        );
+                    };
+
+                    return thisLink;
+                }
+
+                return {
+                    restrict: 'A',
+                    compile: thisCompile,
+                    controller: angular.noop,
+                    template: '<div>-{{directive}}-</div>'
+                }
+            }
+        ]
+    )
+    .directive(
+        'rcmBlankDialog',
+        [
+            '$compile',
+            'rcmDialogState',
+            function ($compile, rcmDialogState) {
+
+                var thisCompile = function (tElement, tAttrs, transclude) {
+
+                    console.log('rcmBlankDialog COMPILEPREP');
+
+                    var thisLink = function (scope, elm, attrs, ctrl) {
+
+                        console.log('rcmBlankDialog LINKPREP')
+
+                        scope.rcmDialogState = rcmDialogState;
+                        scope.template = rcmDialogState.url;
+                        scope.loading = false;
+
+                        scope.$on('$destroy', function () {
+                            console.log('DESTROY');
+                            scope.rcmDialogState.open = false;
+                        });
+
+                    };
+
+                    return thisLink;
+                }
+
+                return {
+                    restrict: 'A',
+                    compile: thisCompile,
+                    template: '' +
+                        '<div XXXng-hide="loading" >' +
+                        '    <div XXXng-include="template">BLANK</div>' +
+                        '</div>'
+                }
+            }
+        ]
+    )
+    //
+    //
+    //
+    /* @deprecated */
     .factory(
         'RcmStandardDialogStrategy',
         [
@@ -35,40 +149,52 @@ angular.module(
             '$sce',
             function ($http, $compile, $sce) {
 
-                var BaseStrategy = function ($http, $compile) {
+                /**
+                 var XXXBaseStrategy = function ($http, $compile) {
 
-                    var me = this;
+                    var self = this;
+                    self.params = {
+                        url: '',
+                        title: '',
+                        loading: false
+                    }
 
-                    me.template = "RcmStandardDialogTemplate"
+                    self.template = "RcmStandardDialogTemplate"
 
-                    me.content = '';
+                    self.getTemplate = function () {
 
-                    me.error = [];
+                        return self.template;
+                    };
 
-                    me.data = {};
+                    self.setParams = function (params) {
 
-                    me.loading = false;
-                    /**
-                     *
-                     * @param scope
-                     * @param elm
-                     * @param event
-                     */
-                    me.onShow = function (scope, elm, event) {
+                        self.params = params;
+                    };
+
+
+                    var self = this;
+
+
+                    self.content = '';
+
+                    self.error = [];
+
+                    self.data = {};
+
+                    self.loading = false;
+
+
+                    self.onShow = function (scope, elm, event) {
 
                     }
 
-                    /**
-                     *
-                     * @param url
-                     * @param elm
-                     * @param scope
-                     * @param callback
-                     */
-                    me.load = function (url, elm, scope, ctrl, callback) {
+                    self.load = function (url, elm, scope, ctrl, callback) {
 
                         if (url) {
-                            me.loading = true;
+                            self.loading = true;
+
+                            scope.content = url;
+
 
                             /* jQuery
                              var contentBody = elm.find(".modal-body");
@@ -89,205 +215,162 @@ angular.module(
                              }
                              }
 
-                             me.loadCallback(response, elm, scope, callback);
+                             self.loadCallback(response, elm, scope, callback);
                              });
                              */
 
-                            /* angular get
-                            $http.get(url, {}).success(function (response) {
-                                console.log('SUCCESS');
-                                //scope.content = response;
-                                scope.content = $sce.trustAsHtml(response);
-                                //var html = $sce.trustAsHtml(response);
-                                //var element = $compile(html)(scope);
-                                //console.log(element.html());
-                                //
-                                //scope.content = element.html();
-                                //    //scope.content = angular.element(response).html();
-                                ////scope.content = $compile(r)(scope);
-                                //scope.$apply(function() {
-                                //    scope.content = r;
-                                //});
-                            }).error(function (response) {
+                /* angular get
+                 $http.get(url, {}).success(function (response) {
+                 console.log('SUCCESS');
+                 //scope.content = response;
+                 scope.content = $sce.trustAsHtml(response);
+                 //var html = $sce.trustAsHtml(response);
+                 //var element = $compile(html)(scope);
+                 //console.log(element.html());
+                 //
+                 //scope.content = element.html();
+                 //    //scope.content = angular.element(response).html();
+                 ////scope.content = $compile(r)(scope);
+                 //scope.$apply(function() {
+                 //    scope.content = r;
+                 //});
+                 }).error(function (response) {
 
-                            });
-                            */
-                            $http({method: 'GET', url: url}).
-                                success(
-                                function (data, status, headers, config) {
+                 });
+                 */
+                /*
+                 $http({method: 'GET', url: url}).
+                 success(
+                 function (data, status, headers, config) {
 
-                                    console.log('SUCCESS');
-                                    console.log(headers['Content-Type']);
+                 console.log('SUCCESS');
+                 console.log(headers['Content-Type']);
 
-                                    // @todo - rules inject for non standard return?
-                                    if (headers['Content-Type'] == 'application/json') {
+                 // @todo - rules inject for non standard return?
+                 if (headers['Content-Type'] == 'application/json') {
 
-                                        if (data.redirect !== undefined) {
-                                            window.location.replace(data.redirect);
-                                        }
-                                    } else {
-                                        scope.content = $sce.trustAsHtml(data);
-                                    }
+                 if (data.redirect !== undefined) {
+                 window.location.replace(data.redirect);
+                 }
+                 } else {
+                 scope.content = $sce.trustAsHtml(data);
+                 }
 
-                                    me.loadCallback(data, elm, scope, callback);
-                                }
-                            ).
-                                error(
-                                function (data, status, headers, config) {
-                                    // @todo - rules inject for non 200 status?
-                                    scope.content = data;
-                                    me.loadCallback(data, elm, scope, callback);
-                                }
-                            );
+                 self.loadCallback(data, elm, scope, callback);
+                 }
+                 ).
+                 error(
+                 function (data, status, headers, config) {
+                 // @todo - rules inject for non 200 status?
+                 scope.content = data;
+                 self.loadCallback(data, elm, scope, callback);
+                 }
+                 );
+                 */
+                /*
+                 }
+                 };
 
-                        }
-                    };
+                 self.loadCallback = function (data, elm, scope, callback) {
 
-                    /**
-                     *
-                     * @param data
-                     * @param elm
-                     * @param scope
-                     * @param callback
-                     */
-                    me.loadCallback = function (data, elm, scope, callback) {
+                 jQuery('.modal-dialog').draggable({handle: '.modal-header'});
 
-                        jQuery('.modal-dialog').draggable({handle: '.modal-header'});
+                 if (typeof callback === 'function') {
+                 callback(data);
+                 }
 
-                        if (typeof callback === 'function') {
-                            callback(data);
-                        }
+                 self.loading = false;
+                 };
+                 };
 
-                        me.loading = false;
-                    };
-                };
+                 var baseStrategy = new BaseStrategy($http, $compile);
 
-                var baseStrategy = new BaseStrategy($http, $compile);
-
-                return baseStrategy;
+                 return baseStrategy;
+                 */
             }
         ]
     )
 
+    /* @deprecated */
     .service(
         'RcmBlankDialogStrategy',
         [
-            'RcmStandardDialogStrategy',
-            function (RcmStandardDialogStrategy) {
+            function () {
 
-                // extend BaseStrategy
+                var BlankStrategy = function ($http, $compile) {
 
-                var rcmBlankDialogStrategy = angular.copy(RcmStandardDialogStrategy);
+                    var self = this;
+                    self.params = {
+                        url: '',
+                        title: '',
+                        loading: false
+                    }
 
-                rcmBlankDialogStrategy.template = '';//angular.element('<div ></div>');
-                rcmBlankDialogStrategy.load = function (url, elm, scope, callback) {
+                    self.template = "RcmStandardDialogTemplate"
 
-                    rcmBlankDialogStrategy.loadCallback(null, elm, scope, callback);
+                    self.getTemplate = function () {
+
+                        return self.template;
+                    };
+
+                    self.setParams = function (params) {
+
+                        self.params = params;
+                    };
+
+
+                    var self = this;
                 }
-
-                return rcmBlankDialogStrategy;
             }
         ]
     )
+    /* @deprecated */
     .factory(
         'rcmAdminStrategyFactory',
         [
             '$injector',
-            'rcmAdminDialogState',
+            'rcmDialogState',
             'RcmStandardDialogStrategy',
-            function ($injector, rcmAdminDialogState, RcmStandardDialogStrategy) {
+            function ($injector, rcmDialogState, RcmStandardDialogStrategy) {
 
                 var self = this;
+                var defaultStrategyId = 'RcmBlankDialogStrategy';
 
-                self.getStrategy = function (id) {
+                self.getStrategy = function (params) {
 
-                    var strategyId = id + 'Strategy';
-
-                    var strategy = {};
+                    var strategyId = params.name + 'Strategy';
 
                     var injector = $injector;
 
-                    if (injector.has(strategyId)) {
+                    if (!injector.has(strategyId)) {
 
-                        return injector.get(strategyId);
+                        strategyId = defaultStrategyId;
                     }
 
-                    return RcmStandardDialogStrategy;
+                    var strategy = injector.get(strategyId);
+                    strategy.setParams(params);
                 }
 
                 return self;
             }
         ]
-    )
-    .directive(
-        'rcmAdminDialog',
-        [
-            '$log',
-            'rcmAdminDialogState',
-            'rcmAdminStrategyFactory',
-            function ($log, rcmAdminDialogState, rcmAdminStrategyFactory) {
-
-                var thisLink = function (scope, elm, attrs, ctrl) {
-
-                    self = this;
-
-                    scope.rcmAdminDialogState = rcmAdminDialogState;
-                    scope.template = '';
-
-                    scope.$watch(
-                        'rcmAdminDialogState.loading',
-                        function (newValue, oldValue) {
-
-                            if (newValue) {
-
-                                var strategy = rcmAdminStrategyFactory.getStrategy(
-                                    rcmAdminDialogState.strategy
-                                );
-
-                                scope.template = strategy.template;
-
-                                elm.modal('show');
-
-                                strategy.load(rcmAdminDialogState.url, elm, scope, ctrl);
-
-                                elm.on(
-                                    'shown.bs.modal',
-                                    function (event) {
-
-                                        if (strategy.onShow) {
-                                            strategy.onShow(scope, elm, event)
-                                        }
-                                    }
-                                );
-                                scope.rcmAdminDialogState.loading = false;
-                            }
-                        }
-                    );
-                };
-
-                return {
-                    restrict: 'A',
-                    link: thisLink,
-                    controller: angular.noop,
-                    template: '<div ng-include="template">TEMPLATE</div>'
-                }
-            }
-        ]
     );
+/** </rcmDialog> */
+
+////////////////////////////////////////////////
 /**
  * rcmAdminMenu
  */
 angular.module(
         'rcmAdminMenu',
-        ['rcmAdminDialog']
+        ['rcmDialog']
     )
-
     .directive(
         'RcmAdminMenu',
         [
             '$log',
-            'rcmAdminDialogState',
-            function ($log, rcmAdminDialogState) {
+            'rcmDialogState',
+            function ($log, rcmDialogState) {
 
                 var thisLink = function (scope, elm, attrs) {
 
@@ -297,12 +380,27 @@ angular.module(
 
                         event.preventDefault();
 
+                        // get strategyName
+                        var strategyName = 'DEFAULT';
+
+                        if (elm[0].classList[1]) {
+                            strategyName = elm[0].classList[1];
+                        }
+
+                        var strategy = {
+                            loading: true,
+                            name: strategyName,
+                            title: htlmLink.attr('title'),
+                            url: htlmLink.attr('href')
+                        }
+
+                        console.log('RcmAdminMenu');
+
                         scope.$apply(
                             function () {
-                                rcmAdminDialogState.url = htlmLink.attr('href');
-                                rcmAdminDialogState.title = htlmLink.attr('title');
-                                rcmAdminDialogState.strategy = elm[0].classList[1];
-                                rcmAdminDialogState.loading = true;
+                                rcmDialogState.open = true;
+                                rcmDialogState.loading = true;
+                                rcmDialogState.strategy = strategy;
                             }
                         );
                     });
@@ -319,6 +417,7 @@ angular.module(
     );
 
 /**
+ * **************************************************************
  * Angular JS module used to show HTML editor and toolbar on a page
  * @require:
  *  AngularJS
