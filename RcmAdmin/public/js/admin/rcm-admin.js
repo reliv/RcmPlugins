@@ -28,7 +28,7 @@ angular.module(
         ]
     )
     .factory(
-        'rcmAdminDialogBaseStrategy',
+        'RcmStandardDialogStrategy',
         [
             '$http',
             '$compile',
@@ -69,71 +69,77 @@ angular.module(
 
                         if (url) {
                             me.loading = true;
-                            var contentBody = elm.find(".modal-body");
-                            contentBody.load(url, null, function (response, status, xhr) {
 
-                                if (status == "error") {
-                                    jQuery(contentBody).html(xhr.responseText);
-                                }
+                            /* jQuery
+                             var contentBody = elm.find(".modal-body");
+                             console.log('LOAD1');
+                             jQuery(contentBody).load(url, {}, function (response, status, xhr) {
 
-                                var contentType = xhr.getResponseHeader('Content-Type');
+                             if (status == "error") {
+                             jQuery(contentBody).html(xhr.responseText);
+                             }
+                             console.log(response);
+                             var contentType = xhr.getResponseHeader('Content-Type');
 
-                                if (contentType.indexOf('application/json') > -1) {
-                                    var jsonResponse = jQuery.parseJSON(xhr.responseText);
+                             if (contentType.indexOf('application/json') > -1) {
+                             var jsonResponse = jQuery.parseJSON(xhr.responseText);
 
-                                    if (jsonResponse.redirect !== undefined) {
-                                        window.location.replace(jsonResponse.redirect);
-                                    }
-                                }
+                             if (jsonResponse.redirect !== undefined) {
+                             window.location.replace(jsonResponse.redirect);
+                             }
+                             }
 
-                                me.loadCallback(response, elm, scope, callback);
-                            });
-                            /*
-                             $http.get(url, {}).success(function(response) {
-                             console.log('SUCCESS');
-                             //scope.content = response;
-                             scope.content = $sce.trustAsHtml(response);
-                             //var html = $sce.trustAsHtml(response);
-                             //var element = $compile(html)(scope);
-                             //console.log(element.html());
-                             //
-                             //scope.content = element.html();
-                             //    //scope.content = angular.element(response).html();
-                             ////scope.content = $compile(r)(scope);
-                             //scope.$apply(function() {
-                             //    scope.content = r;
-                             //});
-                             }).error(function(response) {
-
+                             me.loadCallback(response, elm, scope, callback);
                              });
-                             $http({method: 'GET', url: url}).
-                             success(
-                             function (data, status, headers, config) {
-
-                             console.log('SUCCESS');
-                             console.log(headers['Content-Type']);
-
-                             // @todo - rules inject for non standard return?
-                             if (headers['Content-Type'] == 'application/json') {
-
-                             if (data.redirect !== undefined) {
-                             window.location.replace(data.redirect);
-                             }
-                             } else {
-                             scope.content = $sce.trustAsHtml(data);
-                             }
-
-                             me.loadCallback(data, elm, scope, callback);
-                             }
-                             ).
-                             error(
-                             function (data, status, headers, config) {
-                             // @todo - rules inject for non 200 status?
-                             scope.content = data;
-                             me.loadCallback(data, elm, scope, callback);
-                             }
-                             );
                              */
+
+                            /* angular get
+                            $http.get(url, {}).success(function (response) {
+                                console.log('SUCCESS');
+                                //scope.content = response;
+                                scope.content = $sce.trustAsHtml(response);
+                                //var html = $sce.trustAsHtml(response);
+                                //var element = $compile(html)(scope);
+                                //console.log(element.html());
+                                //
+                                //scope.content = element.html();
+                                //    //scope.content = angular.element(response).html();
+                                ////scope.content = $compile(r)(scope);
+                                //scope.$apply(function() {
+                                //    scope.content = r;
+                                //});
+                            }).error(function (response) {
+
+                            });
+                            */
+                            $http({method: 'GET', url: url}).
+                                success(
+                                function (data, status, headers, config) {
+
+                                    console.log('SUCCESS');
+                                    console.log(headers['Content-Type']);
+
+                                    // @todo - rules inject for non standard return?
+                                    if (headers['Content-Type'] == 'application/json') {
+
+                                        if (data.redirect !== undefined) {
+                                            window.location.replace(data.redirect);
+                                        }
+                                    } else {
+                                        scope.content = $sce.trustAsHtml(data);
+                                    }
+
+                                    me.loadCallback(data, elm, scope, callback);
+                                }
+                            ).
+                                error(
+                                function (data, status, headers, config) {
+                                    // @todo - rules inject for non 200 status?
+                                    scope.content = data;
+                                    me.loadCallback(data, elm, scope, callback);
+                                }
+                            );
+
                         }
                     };
 
@@ -148,7 +154,7 @@ angular.module(
 
                         jQuery('.modal-dialog').draggable({handle: '.modal-header'});
 
-                        if (callback) {
+                        if (typeof callback === 'function') {
                             callback(data);
                         }
 
@@ -163,24 +169,23 @@ angular.module(
         ]
     )
 
-    .factory(
-        'rcmAdminDialogBlankStrategy',
+    .service(
+        'RcmBlankDialogStrategy',
         [
-            'rcmAdminDialogBaseStrategy',
-            function (rcmAdminDialogBaseStrategy) {
+            'RcmStandardDialogStrategy',
+            function (RcmStandardDialogStrategy) {
 
                 // extend BaseStrategy
 
-                var rcmAdminDialogBlankStrategy = rcmAdminDialogBaseStrategy;
+                var rcmBlankDialogStrategy = angular.copy(RcmStandardDialogStrategy);
 
-                rcmAdminDialogBlankStrategy.template = "RcmStandardDialogTemplate"
-                rcmAdminDialogBlankStrategy.load = function (url, elm, scope, callback) {
+                rcmBlankDialogStrategy.template = '';//angular.element('<div ></div>');
+                rcmBlankDialogStrategy.load = function (url, elm, scope, callback) {
 
-                    me.loadCallback(null, elm, scope, callback);
-
+                    rcmBlankDialogStrategy.loadCallback(null, elm, scope, callback);
                 }
 
-                return rcmAdminDialogBlankStrategy;
+                return rcmBlankDialogStrategy;
             }
         ]
     )
@@ -189,23 +194,25 @@ angular.module(
         [
             '$injector',
             'rcmAdminDialogState',
-            'rcmAdminDialogBaseStrategy',
-            function ($injector, rcmAdminDialogState, rcmAdminDialogBaseStrategy) {
+            'RcmStandardDialogStrategy',
+            function ($injector, rcmAdminDialogState, RcmStandardDialogStrategy) {
 
                 var self = this;
 
                 self.getStrategy = function (id) {
 
-                    $injector = angular.injector();
+                    var strategyId = id + 'Strategy';
 
                     var strategy = {};
 
-                    if ($injector.has(id)) {
+                    var injector = $injector;
 
-                        return $injector.get(id);
+                    if (injector.has(strategyId)) {
+
+                        return injector.get(strategyId);
                     }
 
-                    return rcmAdminDialogBaseStrategy;
+                    return RcmStandardDialogStrategy;
                 }
 
                 return self;
@@ -246,11 +253,10 @@ angular.module(
                                 elm.on(
                                     'shown.bs.modal',
                                     function (event) {
-                                        console.log('shown.bs.modal');
+
                                         if (strategy.onShow) {
                                             strategy.onShow(scope, elm, event)
                                         }
-
                                     }
                                 );
                                 scope.rcmAdminDialogState.loading = false;
