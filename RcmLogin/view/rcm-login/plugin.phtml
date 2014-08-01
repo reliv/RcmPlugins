@@ -4,7 +4,8 @@ $this->headScript()->appendFile(
     'text/javascript'
 );
 
-$this->rcmIncludeJquery(); //needed for form-double-submit-protect.js
+$this->rcmJsLibIncludeCoreJs();
+//needed for form-double-submit-protect.js
 ?>
 
 <?= $this->rcmTextEdit('loginHeader', 'Login', 'h1') ?>
@@ -13,7 +14,7 @@ $this->rcmIncludeJquery(); //needed for form-double-submit-protect.js
     <?= isset($error) ? $this->escapeHtml($error) : '' ?>
 </div>
 
-<form class="loginForm rcmDoubleSubmitProtect" method="post">
+<form class="loginForm rcmDoubleSubmitProtect" action="#" method="post">
     <?=
     $this->rcmTextEdit(
         'userNameCopy',

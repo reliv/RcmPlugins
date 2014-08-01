@@ -9,6 +9,15 @@
     width: 100%!important;
 }
 
+.mce-container {
+    float: left!important;
+}
+
+.mce-container .mce-menubtn {
+    margin: 0!important;
+    padding: 0!important;
+}
+
 .mce-btn-group {
     float: left!important;
 }
