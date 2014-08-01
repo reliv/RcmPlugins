@@ -21,7 +21,6 @@ class PluginControllerFactory implements FactoryInterface
     {
 
         $controller = new PluginController(
-            $serviceLocator->get('rcmPluginStorage'),
             $serviceLocator->get('config'),
             $serviceLocator->get('RcmUser\Service\RcmUserService')
         );

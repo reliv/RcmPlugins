@@ -77,7 +77,6 @@ class Module
                     function ($serviceMgr) {
                         $controller
                             = new \RcmSocialButtons\Controller\PluginController(
-                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config')
                         );
                         return $controller;

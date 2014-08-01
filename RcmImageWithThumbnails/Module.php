@@ -56,7 +56,6 @@ class Module
             'factories' => array(
                 'RcmImageWithThumbnails' => function ($serviceMgr) {
                         $controller = new BaseController(
-                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
                             __DIR__
                         );
