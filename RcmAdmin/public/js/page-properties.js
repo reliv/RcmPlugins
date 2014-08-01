@@ -2,7 +2,7 @@
  * Created by idavis on 7/15/14.
  */
 
-
+rcm.addAngularModule('rcmAdminPage');
 angular.module('rcmAdminPage', [])
     .controller('PageProperties',
     function ($scope) {
@@ -46,13 +46,5 @@ angular.module('rcmAdminPage', [])
                 metaKeywords.attr('content', $scope.keywords);
             }
         }
-    }
-);
-angular.element(document).ready(
-    function () {
-        angular.bootstrap(
-            document.querySelectorAll('[ng-controller=PageProperties]'),
-            ['rcmAdminPage']
-        );
     }
 );
