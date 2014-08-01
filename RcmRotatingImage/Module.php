@@ -79,7 +79,6 @@ class Module
                     function ($serviceMgr) {
                         $service
                             = new BaseController(
-                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
                             __DIR__
                         );

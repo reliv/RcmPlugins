@@ -56,7 +56,6 @@ class Module
             'factories' => array(
                 'RcmCallToActionBox' => function ($serviceMgr) {
                         $controller = new BaseController(
-                            $serviceMgr->get('rcmPluginStorage'),
                             $serviceMgr->get('config'),
                             __DIR__
                         );
