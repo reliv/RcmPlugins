@@ -9,15 +9,13 @@ $this->headLink()->appendStylesheet(
 <div class="rcmAdminPanelWrapper">
     <?= $this->render('rcm-admin/admin/partial/navigation/navigation.phtml'); ?>
     <div class="rcmPanelRightButtons">
-        <!--    NOTE: BOOTSTRAP BUTTON GROUPS MIGHT LOOK NICE IF WE HAVE
-        MORE THAN ONE LIKE FOR [PUBLISH] /[CANCEL] -->
         <div ng-show="rcmAdminState.editMode">
-            <button type="button" class="btn btn-danger btn-xs" rcm-admin-edit-button>
-                <span class="glyphicon glyphicon-edit"></span>
+            <button type="button" class="btn btn-primary btn-xs" rcm-admin-edit-button>
+                <span class="glyphicon glyphicon glyphicon glyphicon-ok"></span>
                 Save Draft
             </button>
             <button type="button" class="btn btn-xs" rcm-admin-edit-button>
-                <span class="glyphicon glyphicon-edit"></span>
+                <span class="glyphicon glyphicon glyphicon-remove"></span>
                 Cancel
             </button>
         </div>

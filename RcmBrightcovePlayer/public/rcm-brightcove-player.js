@@ -1,15 +1,4 @@
-/**
- * Makes this angular controller and module place nice with all the others
- */
-angular.element(document).ready(function () {
-    $.each(
-        $('[ng-controller=playerTabsCtrl]'),
-        function (key, element) {
-            angular.bootstrap(element, ['playerTabs']);
-        }
-    );
-});
-
+rcm.addAngularModule('playerTabs');
 var app = angular.module('playerTabs', [])
     .controller('playerTabsCtrl', function ($scope) {
         var instanceId;
@@ -45,5 +34,48 @@ var app = angular.module('playerTabs', [])
             window[apiObjectName].loadVideoById(this.video.id);
         };
 
-    })
+    }
+).controller(
+    'PlayerEditCtrl',
+    function PlayerEditCtrl($scope) {
 
+        $scope.init = function (instanceConfig) {
+
+            function fillDropdownList(items) {
+
+                $scope.videos = items;
+                $scope.selectedVideos = $scope.videos[0];
+                $scope.$apply();
+            }
+
+            singleEmbedDropdownList(fillDropdownList);
+
+            function processMultiselectResponse(data) {
+
+                var allOfPlaylists = data.items;
+                var selectedIds = instanceConfig['playlistIds'];
+                $scope.unselectedPlaylist = [];
+                $scope.selectedPlaylist = [];
+                $.each(allOfPlaylists, function () {
+
+                    var pos = $.inArray(this.id, selectedIds);
+                    if (pos == -1) {
+                        $scope.unselectedPlaylist.push(this);
+                    } else {
+                        $scope.selectedPlaylist.push(this);
+                    }
+                });
+
+                $scope.$apply();
+
+            }
+
+            requestPlaylist(processMultiselectResponse);
+        };
+
+        $scope.items = [
+            { id: 'single-embed', name: 'single embed' },
+            { id: 'multi-embed', name: 'tabbed video player' }
+        ];
+    }
+);
