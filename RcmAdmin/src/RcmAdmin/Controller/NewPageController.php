@@ -126,11 +126,9 @@ class NewPageController extends AbstractActionController
                 );
             }
 
-            $send = array(
-                'redirect' => $this->urlToPage($validatedData['url'], 'n')
-            );
-
-            return new JsonModel($send);
+            $this->view->setVariable('newPageUrl', $this->urlToPage($validatedData['url'], 'n'));
+            $this->view->setTemplate('rcm-admin/new-page/sucess');
+            return $this->view;
 
         } elseif ($request->isPost() && !$form->isValid()) {
             $this->view->setVariable('errors', $form->getMessages());
