@@ -204,12 +204,27 @@ angular.module(
         'rcmStandardDialog',
         [
             '$compile',
+            '$http',
             'rcmDialogService',
-            function ($compile, rcmDialogService) {
+            function ($compile, $http, rcmDialogService) {
 
                 var thisCompile = function (tElement, tAttrs, transclude) {
 
+
                     var thisLink = function (scope, elm, attrs, ctrl) {
+
+                        console.log('rcmFormDialog: LINK');
+                        $http({method: 'GET', url: rcmDialogService.strategy.url}).
+                            success(function (data, status, headers, config) {
+                                        console.log('http');
+                                        var contentBody = tElement.find(".modal-body");
+                                        contentBody.html(data);
+                                        $compile(contentBody)(scope);
+                                    }).
+                            error(function (data, status, headers, config) {
+
+                                  });
+
 
                         scope.dialogTemplate = 'RcmStandardDialogTemplate';
                         scope.title = rcmDialogService.strategy.title;
@@ -236,32 +251,26 @@ angular.module(
             function ($compile, $http, rcmDialogService) {
 
                 var thisCompile = function (tElement, tAttrs, transclude) {
-                    $http({method: 'GET', url: rcmDialogService.strategy.url}).
-                        success(function (data, status, headers, config) {
-                                    console.log('http');
-                                    var contentBody = tElement.find(".modal-body");
-                                    //console.log(contentBody);
-                                    //console.log(data);
-                                    contentBody.html(data);
-                                    //$compile(contentBody);
-                                    //contentBody.append(jQuery(data));
-                                }).
-                        error(function (data, status, headers, config) {
 
-                              });
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
 
                         console.log('rcmFormDialog: LINK');
+                        $http({method: 'GET', url: rcmDialogService.strategy.url}).
+                            success(function (data, status, headers, config) {
+                                        console.log('http');
+                                        var contentBody = tElement.find(".modal-body");
+                                        contentBody.html(data);
+                                        $compile(contentBody)(scope);
+                                    }).
+                            error(function (data, status, headers, config) {
+
+                                  });
+
 
                         scope.dialogTemplate = 'RcmStandardDialogTemplate';
                         scope.title = rcmDialogService.strategy.title;
-                        scope.content = 'My Content.';
                         scope.loading = false;
-
-
-
-
                     };
 
                     return thisLink;
