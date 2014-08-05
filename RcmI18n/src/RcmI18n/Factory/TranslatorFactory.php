@@ -58,6 +58,6 @@ class TranslatorFactory implements FactoryInterface
                 $factory
             );
         }
-        return $translator;
+        return new \Zend\Mvc\I18n\Translator($translator);
     }
 }
