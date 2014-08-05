@@ -157,14 +157,9 @@ return array(
             ),
             'collections' => array(
                 'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'js/dialog/rcm-dialog.js',
+                    'js/navigation/rcm-admin-menu.js',
                     'js/admin/rcm-admin.js',
-//                    'js/dialog/rcm-dialog-helper.js',
-//                    'js/dialog/strategy/rcm-form-strategy.js',
-//                    'js/dialog/strategy/rcm-standard-dialog-strategy.js',
-//                    'js/dialog/strategy/rcm-blank-dialog-strategy.js',
-//                    'js/navigation/rcm-nav-menu-helper.js',
-//                    /** must load last */
-//                    'js/admin/rcm-admin-factory.js',
                 ),
             ),
             'paths' => array(
