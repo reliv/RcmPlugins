@@ -548,7 +548,7 @@ angular.module('RcmHtmlEditor', [])
                             self.tinyInstance.remove();
                             self.tinyInstance = null;
                         }
-                        console.log('DESTROY');
+                        //console.log('DESTROY');
                         delete self;
                     }
 
