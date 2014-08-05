@@ -1,5 +1,3 @@
-///////////////////////////////////////////////
-
 /**
  * <rcmDialog>
  */
@@ -19,6 +17,7 @@ angular.module(
                     var self = this;
                     self.loading = false;
                     self.openState = 'closed'; // open, opening, opened, close, closing, closed
+                    // @todo self.dialogElm = null; // set by watcher instead of requiring dialog to trigger
                     self.strategy = {
                         loading: true,
                         name: defaultStrategy,
@@ -60,15 +59,8 @@ angular.module(
                         self.openState = 'opening';
 
                         /* jQuery IU Modal */
+                        self.syncEvents(elm);
                         elm.modal('show');
-
-                        elm.on(
-                            'shown.bs.modal',
-                            function (event) {
-                                // @todo
-                                self.openState = 'opened';
-                            }
-                        );
 
                         scope.$broadcast('rcmDialogOpen');
                     }
@@ -79,7 +71,7 @@ angular.module(
                      */
                     self.closeDialog = function (scope) {
 
-                        console.log('closeDialog' + self.strategy.name);
+                        console.log('closeDialog: ' + self.strategy.name);
 
                         self.openState = 'close';
                     }
@@ -93,11 +85,53 @@ angular.module(
                      */
                     self.onCloseDialog = function (scope, elm, attrs, ctrl) {
 
-                        console.log('onCloseDialog' + self.strategy.name);
+                        console.log('onCloseDialog: ' + self.strategy.name);
                         self.openState = 'closing';
-                        // @todo use event
-                        self.openState = 'closed';
+
+                        /* jQuery IU Modal */
+                        self.syncEvents(elm);
+                        elm.modal('hide');
+
                         scope.$broadcast('rcmDialogClose');
+                    }
+
+                    self.syncEvents = function (elm) {
+
+                        if (elm.modal) {
+
+                            elm.on(
+                                'show.bs.modal',
+                                function (event) {
+                                    self.openState = 'opening';
+                                    console.log('openState: opening');
+                                }
+                            );
+
+                            elm.on(
+                                'shown.bs.modal',
+                                function (event) {
+                                    self.openState = 'opened';
+                                    console.log('openState: opened');
+                                }
+                            );
+
+                            elm.on(
+                                'hide.bs.modal',
+                                function (event) {
+                                    self.openState = 'closing';
+                                    elm.remove(); // prevent multiple instances of modal
+                                    console.log('openState: closing');
+                                }
+                            );
+
+                            elm.on(
+                                'hidden.bs.modal',
+                                function (event) {
+                                    self.openState = 'closed';
+                                    console.log('openState: closed');
+                                }
+                            );
+                        }
                     }
                 }
 
@@ -141,14 +175,6 @@ angular.module(
                                 if (newValue == 'open') {
 
                                     rcmDialogService.onOpenDialog(scope, elm, attrs, ctrl);
-
-                                    $compile(elm)(scope);
-                                    $compile(elm.contents())(scope);
-                                }
-
-                                if (newValue == 'close') {
-
-                                    rcmDialogService.onCloseDialog(scope, elm, attrs, ctrl);
 
                                     $compile(elm)(scope);
                                     $compile(elm.contents())(scope);
@@ -217,14 +243,13 @@ angular.module(
                         $http({method: 'GET', url: rcmDialogService.strategy.url}).
                             success(function (data, status, headers, config) {
                                         console.log('http');
-                                        var contentBody = tElement.find(".modal-body");
+                                        var contentBody = elm.find(".modal-body");
                                         contentBody.html(data);
                                         $compile(contentBody)(scope);
                                     }).
                             error(function (data, status, headers, config) {
 
                                   });
-
 
                         scope.dialogTemplate = 'RcmStandardDialogTemplate';
                         scope.title = rcmDialogService.strategy.title;
@@ -259,9 +284,16 @@ angular.module(
                         $http({method: 'GET', url: rcmDialogService.strategy.url}).
                             success(function (data, status, headers, config) {
                                         console.log('http');
-                                        var contentBody = tElement.find(".modal-body");
+                                        var contentBody = elm.find(".modal-body");
                                         contentBody.html(data);
                                         $compile(contentBody)(scope);
+
+                                        elm.find(".saveBtn").click(function (event) {
+                                            var form = elm.find('form');
+                                            var data = form.serializeArray();
+                                            var actionUrl = form.attr('action');
+                                            contentBody.load(actionUrl, data);
+                                        })
                                     }).
                             error(function (data, status, headers, config) {
 

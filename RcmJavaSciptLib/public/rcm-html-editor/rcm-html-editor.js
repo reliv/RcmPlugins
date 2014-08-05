@@ -258,12 +258,13 @@ angular.module('RcmHtmlEditor', [])
 
                 self.editorCount = 0;
 
-                self.build = function (id) {
-
+                self.build = function (id, scope, elm, attrs, ngModel, settings) {
+                    console.log('rcmHtmlEditorFactory.build');
+                    console.log(self.editors);
                     if(!self.editors[id]){
 
                         self.editors[id] = new RcmHtmlEditor(id);
-                        self.editorCount ++;
+                        self.editors[id].init(scope, elm, attrs, ngModel, settings);
                     }
 
                     self.setHasEditors();
@@ -271,12 +272,13 @@ angular.module('RcmHtmlEditor', [])
                 }
 
                 self.destroy = function (id) {
-
+                    console.log('rcmHtmlEditorFactory.destroy');
+                    console.log(self.editors);
                     if(self.editors[id]){
 
                         self.editors[id].destroy();
                         self.editors[id] = null;
-                        self.editorCount --;
+                        delete self.editors[id];
                     }
 
                     self.setHasEditors();
@@ -284,6 +286,18 @@ angular.module('RcmHtmlEditor', [])
                 }
 
                 self.setHasEditors = function(){
+
+                    self.editorCount = 0;
+                    for (var id in self.editors) {
+
+                        if(self.editors[id].hasTinyMce()){
+
+                            self.editorCount ++;
+                        } else {
+
+                            delete self.editors[id];
+                        }
+                    }
 
                     if(self.editorCount > 0){
                         rcmHtmlEditorState.hasEditors = true;
@@ -499,7 +513,17 @@ angular.module('RcmHtmlEditor', [])
                             self.tinyInstance.remove();
                             self.tinyInstance = null;
                         }
+                    }
 
+                    self.hasTinyMce = function(){
+
+                        var tinyInstance = tinymce.get(self.id);
+
+                        if(tinyInstance) {
+                            return true;
+                        }
+
+                        return false;
                     }
                 };
 
@@ -535,9 +559,9 @@ angular.module('RcmHtmlEditor', [])
                         config
                     );
 
-                    var rcmHtmlEditor = rcmHtmlEditorFactory.build(id);
+                    var rcmHtmlEditor = rcmHtmlEditorFactory.build(id, scope, elm, attrs, ngModel, settings);
 
-                    return rcmHtmlEditor.init(scope, elm, attrs, ngModel, settings);
+                    return rcmHtmlEditor;
                 }
             }
         ]
@@ -604,6 +628,7 @@ angular.module('RcmHtmlEditor', [])
                     link: thislink,
                     restrict: 'A',
                     template: '' +
+                        '<pre>{{rcmHtmlEditorState | json}}</pre>'+
                         '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading || !rcmHtmlEditorState.hasEditors">' +
                         ' <div ng-hide="rcmHtmlEditorState.showFixedToolbar">' +
                         '  <div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation" style="border-width: 1px; left: 0px; top: 0px; width: 100%; height: 34px;">' +
@@ -633,43 +658,3 @@ angular.module('RcmHtmlEditor', [])
             }
         ]
     );
-
-
-/* @deprecated *
- var rcmHtmlEditorState = {
- isEditing: false,
- toolbarLoading: true,
- showFixedToolbar: false
- };
-
- .directive(
- 'richedit',
- [
- 'rcmHtmlEdit',
- function (rcmHtmlEdit) {
-
- return {
- priority: 10,
- require: 'ngModel',
- link: rcmHtmlEdit()
- }
- }
- ]
- )
- /* @deprecated *
- .directive(
- 'textedit',
- [
- 'rcmHtmlEdit',
- function (rcmHtmlEdit) {
-
- return {
- //priority: 10,
- require: 'ngModel',
- transclude: true,
- link: rcmHtmlEdit()
- }
- }
- ]
- )
- */
