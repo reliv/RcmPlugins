@@ -50,8 +50,6 @@ class IncludeAngularJsTinyMce extends AbstractHelper
             '/modules/rcm-angular-js/angular-ui/ui-tinymce/src/tinymce.js'
         );
 
-        $view->rcmIncludeJquery();
-        $view->rcmIncludeAngularJs();
         $view->rcmIncludeTinyMceJs();
     }
 }
