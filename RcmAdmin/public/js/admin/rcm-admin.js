@@ -36,7 +36,7 @@ angular.module(
                         self.loading = true;
                         self.strategy = strategy;
 
-                        console.log('openDialog' + self.strategy.name);
+                        //console.log('openDialog' + self.strategy.name);
 
                         if (!strategy.name) {
                             strategy.name = defaultStrategy;
@@ -54,7 +54,7 @@ angular.module(
                      */
                     self.onOpenDialog = function (scope, elm, attrs, ctrl) {
 
-                        console.log('onOpenDialog' + self.strategy.name);
+                        //console.log('onOpenDialog' + self.strategy.name);
 
                         self.openState = 'opening';
 
@@ -71,7 +71,7 @@ angular.module(
                      */
                     self.closeDialog = function (scope) {
 
-                        console.log('closeDialog: ' + self.strategy.name);
+                        //console.log('closeDialog: ' + self.strategy.name);
 
                         self.openState = 'close';
                     }
@@ -85,7 +85,7 @@ angular.module(
                      */
                     self.onCloseDialog = function (scope, elm, attrs, ctrl) {
 
-                        console.log('onCloseDialog: ' + self.strategy.name);
+                        //console.log('onCloseDialog: ' + self.strategy.name);
                         self.openState = 'closing';
 
                         /* jQuery IU Modal */
@@ -103,7 +103,7 @@ angular.module(
                                 'show.bs.modal',
                                 function (event) {
                                     self.openState = 'opening';
-                                    console.log('openState: opening');
+                                    //console.log('openState: opening');
                                 }
                             );
 
@@ -111,7 +111,7 @@ angular.module(
                                 'shown.bs.modal',
                                 function (event) {
                                     self.openState = 'opened';
-                                    console.log('openState: opened');
+                                    //console.log('openState: opened');
                                 }
                             );
 
@@ -120,7 +120,7 @@ angular.module(
                                 function (event) {
                                     self.openState = 'closing';
 
-                                    console.log('openState: closing');
+                                    //console.log('openState: closing');
                                 }
                             );
 
@@ -128,9 +128,9 @@ angular.module(
                                 'hidden.bs.modal',
                                 function (event) {
                                     self.openState = 'closed';
-                                    //elm.remove(); // prevent multiple instances of modal
-                                    scope.$destroy()
-                                    console.log('openState: closed');
+                                    elm.remove(); // prevent multiple instances of modal
+                                    scope.$destroy()// prevent multiple instances of modal
+                                    //console.log('openState: closed');
                                 }
                             );
                         }
@@ -241,10 +241,10 @@ angular.module(
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
 
-                        console.log('rcmFormDialog: LINK');
+                        //console.log('rcmFormDialog: LINK');
                         $http({method: 'GET', url: rcmDialogService.strategy.url}).
                             success(function (data, status, headers, config) {
-                                        console.log('http');
+                                        //console.log('http');
                                         var contentBody = elm.find(".modal-body");
                                         contentBody.html(data);
                                         $compile(contentBody)(scope);
@@ -282,10 +282,10 @@ angular.module(
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
 
-                        console.log('rcmFormDialog: LINK');
+                        //console.log('rcmFormDialog: LINK');
                         $http({method: 'GET', url: rcmDialogService.strategy.url}).
                             success(function (data, status, headers, config) {
-                                        console.log('http');
+                                        //console.log('http');
                                         var contentBody = elm.find(".modal-body");
                                         contentBody.html(data);
                                         $compile(contentBody)(scope);
