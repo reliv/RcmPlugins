@@ -8,7 +8,8 @@ angular.module(
     .factory(
         'rcmDialogService',
         [
-            function () {
+            '$compile',
+            function ($compile) {
 
                 var defaultStrategy = 'rcmBlankDialog';
 
@@ -17,7 +18,9 @@ angular.module(
                     var self = this;
                     self.loading = false;
                     self.openState = 'closed'; // open, opening, opened, close, closing, closed
-                    // @todo self.dialogElm = null; // set by watcher instead of requiring dialog to trigger
+                    // @todo
+                    self.dialogElm = null; // set by watcher instead of requiring dialog to trigger
+                    self.dialogScope = null;
                     self.strategy = {
                         loading: true,
                         name: defaultStrategy,
@@ -27,22 +30,55 @@ angular.module(
 
                     /**
                      *
+                     * @param onInitComplete
+                     */
+                    self.init = function(onInitComplete){
+
+                        self.openState = 'init';
+
+                        if(typeof onInitComplete === 'function'){
+
+                            onInitComplete();
+                        }
+                    }
+
+                    /**
+                     *
                      * @param strategy
                      * @param scope
                      */
                     self.openDialog = function (strategy, scope) {
 
-                        self.openState = 'open';
-                        self.loading = true;
-                        self.strategy = strategy;
+                        var open = function(){
 
-                        //console.log('openDialog' + self.strategy.name);
+                            self.openState = 'open';
+                            self.loading = true;
+                            self.strategy = strategy;
 
-                        if (!strategy.name) {
-                            strategy.name = defaultStrategy;
+                            //console.log('openDialog' + self.strategy.name);
+
+                            if (!strategy.name) {
+                                strategy.name = defaultStrategy;
+                            }
+
+                            //console.log('Compile');
+                            $compile(self.dialogElm)(self.dialogScope);
+                            $compile(self.dialogElm.contents())(self.dialogScope);
+
+                            setTimeout(function () {
+                                self.dialogScope.$apply();
+
+                                self.onOpenDialog(self.dialogScope, self.dialogElm);
+                            });
                         }
 
-                        scope.$apply();
+                        if(!self.dialogScope || !self.dialogElm){
+
+                            self.init(open)
+                        } else {
+
+                            open();
+                        }
                     }
 
                     /**
@@ -159,6 +195,9 @@ angular.module(
 
                         self = this;
 
+                        rcmDialogService.dialogElm = elm;
+                        rcmDialogService.dialogScope = scope;
+
                         scope.rcmDialogService = rcmDialogService;
                         var strategyName = rcmDialogService.strategy.name;
 
@@ -170,19 +209,6 @@ angular.module(
                             elm.find(':first-child').attr(directiveName, 'rcmDialogService');
                         }
 
-                        scope.$watch(
-                            'rcmDialogService.openState',
-                            function (newValue, oldValue) {
-
-                                if (newValue == 'open') {
-
-                                    rcmDialogService.onOpenDialog(scope, elm, attrs, ctrl);
-
-                                    $compile(elm)(scope);
-                                    $compile(elm.contents())(scope);
-                                }
-                            }
-                        );
                     };
 
                     return thisLink;
