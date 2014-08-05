@@ -26,10 +26,6 @@ return array(
     ),
     'view_helpers' => array(
         'invokables' => array(
-            'rcmIncludeAngularJs' =>
-                'RcmAngularJs\View\Helper\IncludeAngularJs',
-            /*'rcmIncludeAngularJsModule' =>
-                'RcmAngularJs\View\Helper\IncludeAngularJsModule',*/
             'rcmIncludeAngularJsUiBootstrap' =>
                 'RcmAngularJs\View\Helper\IncludeAngularJsBootstrap',
             'rcmIncludeAngularJsUiTinyMce' =>
