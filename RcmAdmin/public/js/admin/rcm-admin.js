@@ -59,7 +59,7 @@ angular.module(
                         self.openState = 'opening';
 
                         /* jQuery IU Modal */
-                        self.syncEvents(elm);
+                        self.syncEvents(scope, elm);
                         elm.modal('show');
 
                         scope.$broadcast('rcmDialogOpen');
@@ -89,13 +89,13 @@ angular.module(
                         self.openState = 'closing';
 
                         /* jQuery IU Modal */
-                        self.syncEvents(elm);
+                        //self.syncEvents(scope, elm);
                         elm.modal('hide');
 
                         scope.$broadcast('rcmDialogClose');
                     }
 
-                    self.syncEvents = function (elm) {
+                    self.syncEvents = function (scope, elm) {
 
                         if (elm.modal) {
 
@@ -119,7 +119,7 @@ angular.module(
                                 'hide.bs.modal',
                                 function (event) {
                                     self.openState = 'closing';
-                                    elm.remove(); // prevent multiple instances of modal
+
                                     console.log('openState: closing');
                                 }
                             );
@@ -128,6 +128,8 @@ angular.module(
                                 'hidden.bs.modal',
                                 function (event) {
                                     self.openState = 'closed';
+                                    //elm.remove(); // prevent multiple instances of modal
+                                    scope.$destroy()
                                     console.log('openState: closed');
                                 }
                             );
