@@ -158,13 +158,13 @@ return array(
             'collections' => array(
                 'modules/rcm-admin/js/rcm-admin.js' => array(
                     'js/admin/rcm-admin.js',
-                    'js/dialog/rcm-dialog-helper.js',
-                    'js/dialog/strategy/rcm-form-strategy.js',
-                    'js/dialog/strategy/rcm-standard-dialog-strategy.js',
-                    'js/dialog/strategy/rcm-blank-dialog-strategy.js',
-                    'js/navigation/rcm-nav-menu-helper.js',
-                    /** must load last */
-                    'js/admin/rcm-admin-factory.js',
+//                    'js/dialog/rcm-dialog-helper.js',
+//                    'js/dialog/strategy/rcm-form-strategy.js',
+//                    'js/dialog/strategy/rcm-standard-dialog-strategy.js',
+//                    'js/dialog/strategy/rcm-blank-dialog-strategy.js',
+//                    'js/navigation/rcm-nav-menu-helper.js',
+//                    /** must load last */
+//                    'js/admin/rcm-admin-factory.js',
                 ),
             ),
             'paths' => array(

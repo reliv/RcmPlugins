@@ -26,6 +26,8 @@ return array(
         'invokables' => array(
             'rcmJsLibIncludeHtmlEditor' =>
                 'RcmJavaSciptLib\View\Helper\IncludeHtmlEditor',
+            'rcmJsLibIncludeCoreJs' =>
+                'RcmJavaSciptLib\View\Helper\IncludeCoreJs',
         ),
     ),
     'view_manager' => array(

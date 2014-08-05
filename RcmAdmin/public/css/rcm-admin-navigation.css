@@ -1,5 +1,4 @@
 .rcmAdminNavigation, .rcmAdminNavigation ul {
-    width: 100%;
     list-style: none;
     font-weight: bold;
     padding: 0;
@@ -7,6 +6,10 @@
     background-color: #FFFFFF;
     border-width: 1px 0;
     padding-top: 1.5px;
+}
+
+.rcmAdminNavigation {
+    float: left;
 }
 
 .rcmAdminNavigation ul ul {
@@ -38,10 +41,8 @@
 
 }
 
-
 .rcmAdminNavigation li:hover {
     background: #00A3E6;
-    behavior: url('/modules/rcm/vendor/pie/PIE.htc');
     border-radius: 3px 3px 0px 0px;
 }
 
@@ -53,7 +54,6 @@
     font-weight: normal;
     border-width: 0.25em;
     margin: 0;
-    behavior: url('/modules/rcm/vendor/pie/PIE.htc');
     border-radius: 0px 10px 10px 5px;
 }
 
