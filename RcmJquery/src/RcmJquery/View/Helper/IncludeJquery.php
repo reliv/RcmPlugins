@@ -43,10 +43,13 @@ class IncludeJquery extends AbstractHelper
      */
     public function __invoke()
     {
-        $view = $this->getView();
-
-        $view->headScript()->prependFile(
-            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
-        );
+        /**
+         * This is breaking pages like the /earnmore page by
+         * screwing up the load order
+         */
+//        $view = $this->getView();
+//        $view->headScript()->prependFile(
+//            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
+//        );
     }
 }
