@@ -32,11 +32,11 @@ angular.module(
                      *
                      * @param onInitComplete
                      */
-                    self.init = function(onInitComplete){
+                    self.init = function (onInitComplete) {
 
                         self.openState = 'init';
 
-                        if(typeof onInitComplete === 'function'){
+                        if (typeof onInitComplete === 'function') {
 
                             onInitComplete();
                         }
@@ -49,7 +49,7 @@ angular.module(
                      */
                     self.openDialog = function (strategy, scope) {
 
-                        var open = function(){
+                        var open = function () {
 
                             self.openState = 'open';
                             self.loading = true;
@@ -72,7 +72,7 @@ angular.module(
                             });
                         }
 
-                        if(!self.dialogScope || !self.dialogElm){
+                        if (!self.dialogScope || !self.dialogElm) {
 
                             self.init(open)
                         } else {
@@ -239,7 +239,7 @@ angular.module(
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
 
-                        scope.dialogTemplate = rcmDialogService.strategy.url;
+                        scope.rcmDialogService = rcmDialogService;
                         scope.loading = false;
                     };
 
@@ -249,8 +249,136 @@ angular.module(
                 return {
                     restrict: 'A',
                     compile: thisCompile,
-                    template: '<div ng-include="dialogTemplate">--{{dialogTemplate}}--</div>'
+                    templateUrl: rcmDialogService.strategy.url
                 }
+            }
+        ]
+    )
+/**
+ * RcmDialog.rcmBlankSyncDialog
+ */
+    .directive(
+        'rcmBlankSyncDialog',
+        [
+            '$log',
+            '$compile',
+            '$http',
+            '$q',
+            'rcmDialogService',
+            function ($log, $compile, $http, $q, rcmDialogService) {
+
+                var self = this;
+
+                self.restrict = 'A';
+
+                self.compile = function (elm, attrs) {
+
+                    $log.log('rcmBlankSyncDialog.compile');
+
+                    var content = jQuery.ajax(
+                            {
+                                async: false,
+                                url: rcmDialogService.strategy.url,
+                                dataType: 'html',
+                                success: function(){$log.log('rcmBlankSyncDialog.ajax.success');}
+                            }
+                        ).responseText
+
+                    elm.html(content);
+
+                    return {
+
+                        pre: function (scope, elm, attrs, controller, transcludeFn) {
+                            $log.log('rcmBlankSyncDialog.link.pre');
+
+                            scope.loading = true;
+                        },
+                        post: function (scope, elm, attrs, controller, transcludeFn) {
+                            $log.log('rcmBlankSyncDialog.link.post');
+
+                            // @todo this is a hack to wait for any scripts to load and then re-compile
+                            // for asynchronous loaded modules
+                            setTimeout(
+                                function () {
+                                    //$compile(elm.contents())(scope);
+                                    ///scope.$apply();
+                                    //scope.loading = false;
+                                },
+                                1000
+                            )
+                        }
+                    }
+                };
+
+                self.controller = function ($scope, $element) {
+
+                    $log.log('rcmBlankSyncDialog.controller');
+                };
+
+                self.template = '<div></div>';
+
+
+                return self;
+            }
+        ]
+    )
+    .directive(
+        'rcmBlankHackDialog',
+        [
+            '$log',
+            '$compile',
+            '$http',
+            '$q',
+            'rcmDialogService',
+            function ($log, $compile, $http, $q, rcmDialogService) {
+
+                var self = this;
+
+                self.restrict = 'A';
+
+                self.compile = function (elm, attrs) {
+
+                    $log.log('rcmBlankADialog.compile');
+
+                    elm.html(
+                        '<div class="rcmBlankHttpDialogWrapper">\n' +
+                            elm.html() +
+                            '</div>'
+                    );
+
+                    return {
+
+                        pre: function (scope, elm, attrs, controller, transcludeFn) {
+                            $log.log('rcmBlankADialog.link.pre');
+
+                            scope.loading = true;
+                        },
+                        post: function (scope, elm, attrs, controller, transcludeFn) {
+                            $log.log('rcmBlankADialog.link.post');
+
+                            // @todo this is a hack to wait for any scripts to load and then re-compile
+                            // for asynchronous loaded modules
+                            setTimeout(
+                                function () {
+                                    $compile(elm.contents())(scope);
+                                    scope.$apply();
+                                    scope.loading = false;
+                                },
+                                1000
+                            )
+                        }
+                    }
+                };
+
+                self.controller = function ($scope, $element) {
+
+                    $log.log('rcmBlankADialog.controller');
+                };
+
+                self.templateUrl = rcmDialogService.strategy.url;
+
+
+                return self;
             }
         ]
     )

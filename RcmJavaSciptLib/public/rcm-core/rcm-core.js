@@ -28,39 +28,33 @@ var rcm = new function () {
             return;
         }
 
-        if (self.app) {
+        if (self.ocLazyLoad) {
 
-            if (self.ocLazyLoad && lazyloadConfig) {
-                self.pushModuleName(moduleName);
+            self.console.log('rcm.addAngularModule.ocLazyLoad: '+moduleName);
 
-                if (!lazyloadConfig) {
-                    lazyloadConfig = {};
-                }
-
-                lazyloadConfig.name = moduleName
-
-                self.ocLazyLoad.load(lazyloadConfig)
-                    .then(
-                    function () {
-
-                        self.scope.safeApply(
-                            function () {
-                                self.console.log('rcm apply');
-                            }
-                        );
-                        //self.console.log('Module (' + moduleName + ') registered with lazy loader.');
-                        //self.console.log(self.moduleDepenencies);
-                        //element.append($compile(data)(scope));
-                    }
-                );
-
-            } else {
-
-                //self.console.info('Module (' + moduleName + ') ignored due to late registration.');
+            if (!lazyloadConfig) {
+                lazyloadConfig = {};
             }
 
-        } else {
+            lazyloadConfig.name = moduleName;
 
+            self.ocLazyLoad.load(lazyloadConfig)
+                .then(
+                function () {
+                    self.pushModuleName(moduleName);
+                    self.scope.safeApply(
+                        function(){
+                            //console.log(self.ocLazyLoad.getModules());
+                        }
+                    );
+                }
+            );
+
+            return;
+        }
+
+        if (!self.app) {
+            self.console.log('rcm.addAngularModule.pushModuleName: '+moduleName);
             self.pushModuleName(moduleName);
             //self.console.log('Module (' + moduleName + ') registered.');
             //self.console.log(self.moduleDepenencies);
@@ -135,12 +129,12 @@ var rcm = new function () {
         angular.element(document).ready(
             function () {
 
-                self.app = angularModule;
-
                 angular.bootstrap(
                     document,
                     ['rcm']
                 );
+
+                self.app = angularModule;
 
                 self.ocLazyLoad = angular.element(document).injector().get('$ocLazyLoad');
 
