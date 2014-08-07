@@ -1,39 +1,13 @@
-<?php
+<a href="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
+    <img src="<?= $this->escapeHtml($this->instanceConfig['imageSrc']) ?>">
+    <?= $this->rcmTextEdit('top', 'Discover', 'div', ['class' => 'top']) ?>
+    <?=
+    $this->rcmTextEdit(
+        'bottom',
+        'Discover th greatness and grandeur of the call to action box plugin',
+        'div',
+        ['class' => 'bottom']
+    ) ?>
+</a>
 
-/**
- * RcmCallToActionBox content template
- *
- * Renders this plugins view
- *
- * PHP version 5.3
- *
- * LICENSE: No License yet
- *
- * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- */
-$this->headLink()->appendStylesheet(
-    $this->basePath() . '/modules/rcm-call-to-action-box/style.css'
-);
-?>
-<div>
-    <h1>
-        <a href="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
-            <?= $this->rcmTextEdit('top', 'Top content', 'span') ?>
-        </a>
-    </h1>
-
-    <h2>
-        <a href="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
-            <?= $this->rcmTextEdit('middle', 'Middle content', 'span') ?>
-        </a>
-    </h2>
-    <?= $this->rcmTextEdit('bottom', 'Bottom content here', 'p') ?>
-    <img alt="<?= $this->escapeHtml($this->instanceConfig['top']) ?>"
-         class="bg"
-         src="<?= $this->escapeHtml($this->instanceConfig['imageSrc']) ?>">
-</div>
 

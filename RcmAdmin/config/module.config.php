@@ -160,6 +160,7 @@ return array(
                     'js/dialog/rcm-dialog.js',
                     'js/navigation/rcm-admin-menu.js',
                     'js/admin/rcm-admin.js',
+                    'js/jquery-dialog-inputs.js',
                 ),
             ),
             'paths' => array(
