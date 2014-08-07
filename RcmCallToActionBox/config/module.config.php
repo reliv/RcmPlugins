@@ -22,8 +22,8 @@ return array(
     'rcmPlugin' => array(
         'RcmCallToActionBox' => array(
             'type' => 'Content Templates',
-            'display' => 'Feature Box w/ Bg Image',
-            'tooltip' => 'Editable box with three text areas and a background image',
+            'display' => 'Call to Action Box',
+            'tooltip' => 'Editable box with an image, headline, and description',
             'icon' => '',
             'editJs' => '/modules/rcm-call-to-action-box/call-to-action-box-edit.js',
             'defaultInstanceConfig' => include
