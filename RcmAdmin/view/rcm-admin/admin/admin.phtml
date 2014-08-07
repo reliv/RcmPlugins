@@ -18,6 +18,17 @@ $this->headScript()->appendFile(
 $this->headLink()->appendStylesheet(
     '/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.css'
 );
+$this->headLink()->appendStylesheet(
+    '/modules/rcm-admin/vendor/jquery-context-menu/jquery.contextMenu.css'
+);
+$this->headScript()->appendFile(
+    $this->basePath()
+    . '/modules/rcm-admin/vendor/jquery-context-menu/jquery.contextMenu.js'
+);
+$this->headScript()->appendFile(
+    $this->basePath()
+    . '/modules/rcm-admin/vendor/jquery-context-menu/jquery.ui.position.js'
+);
 
 ?>
 
