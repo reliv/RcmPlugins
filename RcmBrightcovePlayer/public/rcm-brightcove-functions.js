@@ -20,7 +20,7 @@ function singleEmbedDropdownList(callback) {
 
     function requestPage(page) {
         var data = $.ajax({
-            url: 'http://api.brightcove.com/services/library?command=search_videos&video_fields=id,name,thumbnailURL,shortDescription,renditions&page_size=100&sort_by=publish_date:desc&page_number=' + page + '&get_item_count=true&token=' + bgReadToken,
+            url: 'https://api.brightcove.com/services/library?command=search_videos&video_fields=id,name,thumbnailURL,shortDescription,renditions&page_size=100&sort_by=publish_date:desc&page_number=' + page + '&get_item_count=true&token=' + bgReadToken,
             dataType: 'jsonp',
             success: processSearchVideoResponse
         });
@@ -32,7 +32,7 @@ function singleEmbedDropdownList(callback) {
 function requestPlaylist(callback) {
     var data = $.ajax({
         type: 'POST',
-        url: 'http://api.brightcove.com/services/library?command=find_all_playlists&video_fields=id,name,thumbnailURL,shortDescription&page_size=100&page_number=0&get_item_count=true&token=' + bgReadToken,
+        url: 'https://api.brightcove.com/services/library?command=find_all_playlists&video_fields=id,name,thumbnailURL,shortDescription&page_size=100&page_number=0&get_item_count=true&token=' + bgReadToken,
         dataType: 'jsonp',
         success: callback
     });
@@ -42,7 +42,7 @@ function requestPlaylist(callback) {
 function getDownloadURL(video_id, callback) {
     var data = $.ajax({
         type: 'POST',
-        url: 'http://api.brightcove.com/services/library?command=find_video_by_id&video_id=' + video_id + '&video_fields=FLVURL,renditions&token=' + bgUrlToken + '&media_delivery=HTTP',
+        url: 'https://api.brightcove.com/services/library?command=find_video_by_id&video_id=' + video_id + '&video_fields=FLVURL,renditions&token=' + bgUrlToken + '&media_delivery=HTTP',
         dataType: 'jsonp',
         success: function (data) {
             renditions = data.renditions;
