@@ -55,19 +55,15 @@ angular.module(
                             self.loading = true;
                             self.strategy = strategy;
 
-                            //console.log('openDialog' + self.strategy.name);
-
                             if (!strategy.name) {
                                 strategy.name = defaultStrategy;
                             }
 
-                            //console.log('Compile');
                             $compile(self.dialogElm)(self.dialogScope);
                             $compile(self.dialogElm.contents())(self.dialogScope);
 
                             setTimeout(function () {
                                 self.dialogScope.$apply();
-
                                 self.onOpenDialog(self.dialogScope, self.dialogElm);
                             });
                         }
@@ -90,8 +86,6 @@ angular.module(
                      */
                     self.onOpenDialog = function (scope, elm, attrs, ctrl) {
 
-                        //console.log('onOpenDialog' + self.strategy.name);
-
                         self.openState = 'opening';
 
                         /* jQuery IU Modal */
@@ -107,8 +101,6 @@ angular.module(
                      */
                     self.closeDialog = function (scope) {
 
-                        //console.log('closeDialog: ' + self.strategy.name);
-
                         self.openState = 'close';
                     }
 
@@ -121,7 +113,6 @@ angular.module(
                      */
                     self.onCloseDialog = function (scope, elm, attrs, ctrl) {
 
-                        //console.log('onCloseDialog: ' + self.strategy.name);
                         self.openState = 'closing';
 
                         /* jQuery IU Modal */
@@ -139,7 +130,6 @@ angular.module(
                                 'show.bs.modal',
                                 function (event) {
                                     self.openState = 'opening';
-                                    //console.log('openState: opening');
                                 }
                             );
 
@@ -147,7 +137,6 @@ angular.module(
                                 'shown.bs.modal',
                                 function (event) {
                                     self.openState = 'opened';
-                                    //console.log('openState: opened');
                                 }
                             );
 
@@ -155,8 +144,6 @@ angular.module(
                                 'hide.bs.modal',
                                 function (event) {
                                     self.openState = 'closing';
-
-                                    //console.log('openState: closing');
                                 }
                             );
 
@@ -166,7 +153,6 @@ angular.module(
                                     self.openState = 'closed';
                                     elm.remove(); // prevent multiple instances of modal
                                     scope.$destroy()// prevent multiple instances of modal
-                                    //console.log('openState: closed');
                                 }
                             );
                         }
@@ -204,11 +190,11 @@ angular.module(
                         scope.directive = strategyName;
 
                         if (strategyName) {
+
                             var directiveName = strategyName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
                             elm.find(':first-child').attr(directiveName, 'rcmDialogService');
                         }
-
                     };
 
                     return thisLink;
@@ -225,6 +211,7 @@ angular.module(
             }
         ]
     )
+
 /**
  * RcmDialog.rcmBlankDialog
  */
@@ -238,8 +225,9 @@ angular.module(
                 var thisCompile = function (tElement, tAttrs, transclude) {
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
-
+                        console.log(rcmDialogService.strategy.url);
                         scope.rcmDialogService = rcmDialogService;
+                        scope.dialogTemplate = rcmDialogService.strategy.url;
                         scope.loading = false;
                     };
 
@@ -249,13 +237,16 @@ angular.module(
                 return {
                     restrict: 'A',
                     compile: thisCompile,
-                    templateUrl: rcmDialogService.strategy.url
+                    template: '<div ng-include="dialogTemplate">--{{dialogTemplate}}--</div>'
                 }
             }
         ]
     )
 /**
- * RcmDialog.rcmBlankSyncDialog
+ * RcmDialog.rcmBlankSyncDialog.failed
+ *  Use this for loading modules with dependencies
+ *  - Use script tags in html, not the oc-lazy-loader files array in the oc-lazy-loader directive
+ *  - oc-lazy-loader takes time to process dependencies
  */
     .directive(
         'rcmBlankSyncDialog',
@@ -263,49 +254,65 @@ angular.module(
             '$log',
             '$compile',
             '$http',
-            '$q',
             'rcmDialogService',
-            function ($log, $compile, $http, $q, rcmDialogService) {
+            function ($log, $compile, $http, rcmDialogService) {
 
+                var startTime = new Date().getTime();
                 var self = this;
 
                 self.restrict = 'A';
 
                 self.compile = function (elm, attrs) {
 
+                    startTime = new Date().getTime();
+
                     $log.log('rcmBlankSyncDialog.compile');
 
                     var content = jQuery.ajax(
-                            {
-                                async: false,
-                                url: rcmDialogService.strategy.url,
-                                dataType: 'html',
-                                success: function(){$log.log('rcmBlankSyncDialog.ajax.success');}
+                        {
+                            async: false,
+                            //cache: false,
+                            url: rcmDialogService.strategy.url,
+                            dataType: 'html',
+                            success: function () {
+                                $log.log('rcmBlankSyncDialog.ajax.success');
                             }
-                        ).responseText
+                            //data : { r: Math.random() } // prevent caching
+                        }
+                    ).responseText
 
                     elm.html(content);
+
+                    $log.log('rcmBlankSyncDialog.ajax.after');
+
+                    // hide for late compile
+                    var orgStyle = elm.attr('style');
+                    if (!orgStyle) {
+                        orgStyle = '';
+                    }
+                    elm.attr('style', 'visibility: hidden');
 
                     return {
 
                         pre: function (scope, elm, attrs, controller, transcludeFn) {
                             $log.log('rcmBlankSyncDialog.link.pre');
 
-                            scope.loading = true;
+                            // @todo this is a hack to wait for any dependencies to load and then re-compile
+                            var totalTime = (new Date().getTime() - startTime) * 2;
+                            $log.log('rcmBlankSyncDialog.link.setTimeout: ' + totalTime);
+
+                            setTimeout(
+                                function () {
+                                    elm.attr('style', orgStyle);
+                                    $compile(elm.contents())(scope);
+                                    scope.$apply();
+                                    $log.log('rcmBlankSyncDialog.link.setTimeout: complete ' + totalTime);
+                                },
+                                totalTime
+                            );
                         },
                         post: function (scope, elm, attrs, controller, transcludeFn) {
                             $log.log('rcmBlankSyncDialog.link.post');
-
-                            // @todo this is a hack to wait for any scripts to load and then re-compile
-                            // for asynchronous loaded modules
-                            setTimeout(
-                                function () {
-                                    //$compile(elm.contents())(scope);
-                                    ///scope.$apply();
-                                    //scope.loading = false;
-                                },
-                                1000
-                            )
                         }
                     }
                 };
@@ -316,67 +323,6 @@ angular.module(
                 };
 
                 self.template = '<div></div>';
-
-
-                return self;
-            }
-        ]
-    )
-    .directive(
-        'rcmBlankHackDialog',
-        [
-            '$log',
-            '$compile',
-            '$http',
-            '$q',
-            'rcmDialogService',
-            function ($log, $compile, $http, $q, rcmDialogService) {
-
-                var self = this;
-
-                self.restrict = 'A';
-
-                self.compile = function (elm, attrs) {
-
-                    $log.log('rcmBlankADialog.compile');
-
-                    elm.html(
-                        '<div class="rcmBlankHttpDialogWrapper">\n' +
-                            elm.html() +
-                            '</div>'
-                    );
-
-                    return {
-
-                        pre: function (scope, elm, attrs, controller, transcludeFn) {
-                            $log.log('rcmBlankADialog.link.pre');
-
-                            scope.loading = true;
-                        },
-                        post: function (scope, elm, attrs, controller, transcludeFn) {
-                            $log.log('rcmBlankADialog.link.post');
-
-                            // @todo this is a hack to wait for any scripts to load and then re-compile
-                            // for asynchronous loaded modules
-                            setTimeout(
-                                function () {
-                                    $compile(elm.contents())(scope);
-                                    scope.$apply();
-                                    scope.loading = false;
-                                },
-                                1000
-                            )
-                        }
-                    }
-                };
-
-                self.controller = function ($scope, $element) {
-
-                    $log.log('rcmBlankADialog.controller');
-                };
-
-                self.templateUrl = rcmDialogService.strategy.url;
-
 
                 return self;
             }
@@ -395,13 +341,10 @@ angular.module(
 
                 var thisCompile = function (tElement, tAttrs, transclude) {
 
-
                     var thisLink = function (scope, elm, attrs, ctrl) {
 
-                        //console.log('rcmFormDialog: LINK');
                         $http({method: 'GET', url: rcmDialogService.strategy.url}).
                             success(function (data, status, headers, config) {
-                                        //console.log('http');
                                         var contentBody = elm.find(".modal-body");
                                         contentBody.html(data);
                                         $compile(contentBody)(scope);
@@ -442,7 +385,6 @@ angular.module(
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
 
-                        //console.log('rcmFormDialog: LINK');
                         $http({method: 'GET', url: rcmDialogService.strategy.url}).
                             success(function (data, status, headers, config) {
                                         //console.log('http');
@@ -477,7 +419,76 @@ angular.module(
                 }
             }
         ]
-    );
+    )
 
+/* TEST ALT PATTERN: WORKS! /////*
+.directive(
+    'rcmDialogTest',
+    [
+        '$compile',
+        '$http',
+        'rcmDialogService',
+        function ($compile, $http, rcmDialogService) {
+
+            return {
+                restrict: 'A',
+                controller: function ($scope, $element) {
+
+                    var clicker = '<a ng-click="click(1)" href="#">Click me</a>';
+
+                    var cnt = 0;
+
+                    $scope.click = function (arg) {
+
+                        //var startTime = new Date().getTime();
+
+                        $http.get('/modules/rcm-shopping-cart/list-categories.html')
+                            .success(
+                            function (data) {
+                                console.log('new stuf');
+                                cnt++;
+                                var html = clicker + cnt + data;
+
+                                $scope.html = html;
+                            }
+                        )
+                            .error(
+                            function (data) {
+                                $scope.html = 'ERROR';
+                            }
+                        );
+                    }
+                    $scope.html = clicker;
+                },
+                template: '<div>' +
+                    '<textarea ng-model="html"></textarea>' +
+                    '<div rcm-dialog-content="html"></div>' +
+                    '</div>'
+            }
+        }
+    ]
+)
+    .directive(
+        'rcmDialogContent',
+        [
+            '$compile',
+            '$ocLazyLoad',
+            function ($compile, $ocLazyLoad) {
+                return {
+                    restrict: 'A',
+                    replace: true,
+                    link: function (scope, elm, attrs) {
+
+                        scope.$watch(attrs.rcmDialogContent, function (html) {
+                            elm.html(html);
+                            console.log('Compile');
+                            $compile(elm.contents())(scope);
+                        });
+                    }
+                };
+            }
+        ]
+    )
+//* //////////////////////////// */
 /** </RcmDialog> */
 rcm.addAngularModule('RcmDialog');
