@@ -65,13 +65,10 @@ class IncludeTwitterBootstrap extends AbstractHelper
 
         /** @var \Zend\View\Helper\HeadScript $headScript */
         $headScript = $view->headScript();
-        $headLink = $view->headLink();
 
         $headScript->appendFile(
             '/modules/rcm-twitter-bootstrap/js/bootstrap.js'
         );
-
-        $view->rcmIncludeJquery();
     }
 
     public function injectCss()

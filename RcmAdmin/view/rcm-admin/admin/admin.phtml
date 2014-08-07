@@ -1,19 +1,25 @@
 <?php
+
+$this->rcmJsLibIncludeCoreJs();
 $this->rcmIncludeJqueryUi();
-$this->headScript()->appendScript('jQuery.ajaxSetup({cache: true, ifModified: true, isLocal: true});');
 $this->rcmIncludeTwitterBootstrap();
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-tinymce-js/tinymce/tinymce.js'
+);
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.js'
+);
 
 $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-admin/js/rcm-admin.js'
 );
+
+$this->headLink()->appendStylesheet(
+    '/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.css'
+);
+
 ?>
 
 <?= $this->render('rcm-admin/admin/partial/panel/panel.phtml'); ?>
 <?= $this->render('rcm-admin/admin/partial/dialog/dialog.phtml'); ?>
-
-<div class="modal fade" id="AdminDialogWindow" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-
-</div>
-
-<?php
