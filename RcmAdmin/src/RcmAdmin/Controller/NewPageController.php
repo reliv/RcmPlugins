@@ -124,6 +124,8 @@ class NewPageController extends AbstractActionController
                     $validatedData['main-layout'],
                     $this->rcmUserGetCurrentUser()->getName()
                 );
+            } elseif (!empty($validatedData['page-template'])) {
+
             }
 
             $send = array(
