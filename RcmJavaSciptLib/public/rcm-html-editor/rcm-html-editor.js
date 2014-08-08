@@ -121,8 +121,6 @@ angular.module('RcmHtmlEditor', [])
 
                         self.hasEditors = hasEditors;
 
-                        console.log('rcmHtmlEditorState', self);
-
                         if (typeof onUpdateComplete === 'function') {
 
                             onUpdateComplete(self);
@@ -131,7 +129,6 @@ angular.module('RcmHtmlEditor', [])
 
                     self.deleteEditor = function (id) {
 
-                        console.log('rcmHtmlEditorState.delete:' + id);
                         delete self.editors[id];
                     }
 
@@ -417,7 +414,6 @@ angular.module('RcmHtmlEditor', [])
 
                                 rcmHtmlEditorState.updateState(
                                     function () {
-                                        console.log('RcmHtmlEditor.init: complete');
                                         if (typeof onBuilt === 'function') {
                                             onBuilt(self, rcmHtmlEditorState);
                                         }
@@ -522,12 +518,12 @@ angular.module('RcmHtmlEditor', [])
                         }
 
                         self.elm.on('$destroy', function(){
-                            console.log('RcmHtmlEditor.elm.on.$destroy');
+
                             self.destroy();
                         })
 
                         self.scope.$on('$destroy', function () {
-                            console.log('RcmHtmlEditor.scope.on.$destroy');
+
                             self.destroy();
                         });
                     };
@@ -545,8 +541,6 @@ angular.module('RcmHtmlEditor', [])
                         rcmHtmlEditorState.updateState(
                             function (rcmHtmlEditorState) {
                                 rcmHtmlEditorState.deleteEditor(id);
-                                console.log('RcmHtmlEditor.destroy: complete');
-                                console.log(rcmHtmlEditorState.editors);
                                 if (typeof onDestroyed === 'function') {
                                     onDestroyed(rcmHtmlEditorState);
                                 }
@@ -581,8 +575,6 @@ angular.module('RcmHtmlEditor', [])
 
                 return function (scope, elm, attrs, ngModel, config) {
 
-                    console.log('rcmHtmlEditorInit');
-
                     // generate an ID if not present
                     if (!attrs.id) {
                         attrs.$set('id', guid());
@@ -602,8 +594,6 @@ angular.module('RcmHtmlEditor', [])
 
                     var onBuilt = function (rcmHtmlEditor, rcmHtmlEditorState) {
 
-                        console.log('rcmHtmlEditorFactory.built');
-                        console.log('rcmHtmlEditor.id: ' + rcmHtmlEditor.id);
                         //console.log(rcmHtmlEditorState.editors);
                     }
 
@@ -654,9 +644,7 @@ angular.module('RcmHtmlEditor', [])
                 var self = this;
 
                 self.compile = function (tElm, tAttr) {
-                    console.log('rcmHtmlEdit.compile');
                     return function(scope, elm, attrs, ngModel, config){
-                        console.log('rcmHtmlEdit.link');
                         rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
                     }
                 }
