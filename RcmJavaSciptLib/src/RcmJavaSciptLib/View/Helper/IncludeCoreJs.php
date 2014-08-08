@@ -53,7 +53,7 @@ class IncludeCoreJs extends AbstractHelper
             $view->basePath() . '/modules/rcm-js-lib/rcm-core/rcm-core.js'
         );
         $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-angular-js/angular/angular.min.js'
+            $view->basePath() . '/modules/rcm-angular-js/angular/angular.js'
         );
         $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'

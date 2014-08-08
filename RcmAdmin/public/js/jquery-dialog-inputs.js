@@ -506,16 +506,16 @@ var inputImageEventsDelegated = false;
      * @param value
      * @constructor
      */
-    $.fn.prop = function (value) {
+    $.fn.prop = function (propertyName, value) {
         if (this.hasClass('dialogElementCheckBox')) {
-            return this.find('input').prop(value);
+            return this.find('input').prop(propertyName, value);
         }
 
         //Catch all others
         if (typeof value == 'undefined') {
-            return originalProp.call(this);
+            return originalProp.call(this, propertyName);
         }
-        return originalProp.call(this, value);
+        return originalProp.call(this, propertyName, value);
     };
 
     /**
