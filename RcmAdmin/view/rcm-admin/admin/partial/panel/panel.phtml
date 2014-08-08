@@ -1,21 +1,41 @@
 <?php
+// css
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-admin/css/rcm-admin-panel.css',
     'screen,print'
 );
+
 ?>
 <div class="rcmAdminPanelWrapper">
     <?= $this->render('rcm-admin/admin/partial/navigation/navigation.phtml'); ?>
     <div class="rcmPanelRightButtons">
-        <!--    NOTE: BOOTSTRAP BUTTON GROUPS MIGHT LOOK NICE IF WE HAVE
-        MORE THAN ONE LIKE FOR [PUBLISH] /[CANCEL] -->
-        <button type="button" class="btn btn-primary btn-xs">
-            <span class="glyphicon glyphicon-edit"></span> Edit
-        </button>
+        <div ng-show="rcmAdminState.editMode">
+            <button type="button" class="btn btn-primary btn-xs" rcm-admin-edit-button>
+                <span class="glyphicon glyphicon glyphicon glyphicon-ok"></span>
+                Save Draft
+            </button>
+            <button type="button" class="btn btn-xs" rcm-admin-edit-button>
+                <span class="glyphicon glyphicon glyphicon-remove"></span>
+                Cancel
+            </button>
+        </div>
+        <div ng-hide="rcmAdminState.editMode">
+            <button type="button" class="btn btn-primary btn-xs" rcm-admin-edit-button>
+                <span class="glyphicon glyphicon-edit"></span>
+                Edit
+            </button>
+        </div>
     </div>
+
+    <div style="clear: both;"></div>
+</div>
+
+<div class="rcmPanelEditorToolbar">
     <?php
     // Requires Angular and rcmJavaScriptLib/public/html-editor/html-editor.js
     // and a parent angular controller
     ?>
     <div html-editor-toolbar></div>
 </div>
+
+<div style="clear: both;"></div>

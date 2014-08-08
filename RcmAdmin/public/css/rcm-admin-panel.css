@@ -4,18 +4,20 @@
     width: 100%;
     position: relative;
     z-index: 1030;
-    height: 29px;
     font-size: 11px;
 }
 
-.rcmAdminPanelWrapper div.rcmPanelRightButtons{
+.rcmAdminPanelWrapper div.rcmPanelRightButtons {
     float: right;
-    padding-right: 2em;
+    padding: 2px 2em 2px 2px;
 }
-/*.rcmAdminPanelWrapper div.rcmPanelRightButtons button{*/
-    /*padding: 1px;*/
-    /*font-size: 10px;*/
-/*}*/
+
+div.rcmPanelEditorToolbar {
+    padding: 2px;
+    position: relative;
+    width: 100%;
+    z-index: 1020;
+}
 
 .modal-body {
     max-height: 400px;
@@ -26,17 +28,10 @@
     width: auto !important;
     max-width: 800px;
 }
+
 /* fixes the bug in bootstrap form-control input, width was wider in FF than it appears in Chrome */
 @-moz-document url-prefix() {
-.form-control  {
- width: 96%;
+    .form-control {
+        width: 96%;
+    }
 }
-}
-
-/*.modal-content {*/
-/*min-height: 300px;*/
-/*padding-left: 15px;*/
-/*padding-top: 15px;*/
-/*width: 100%;*/
-/*border: 3px solid #000000;*/
-/*}*/
