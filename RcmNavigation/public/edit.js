@@ -84,7 +84,7 @@ var RcmNavigationEdit = function (instanceId, container) {
     me.addEditElements = function () {
 
         //Add right click menu
-        rcmEdit.pluginContextMenu({
+        $.contextMenu({
             selector: containerSelector + ' li',
 
             //Make nav stay popped up when right click menu opens
@@ -192,7 +192,7 @@ var RcmNavigationEdit = function (instanceId, container) {
     me.removeEditElements = function () {
 
         //Remove right click menu
-        rcmEdit.pluginContextMenu(
+        $.contextMenu(
             'destroy',
             containerSelector + ' li'
         );

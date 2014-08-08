@@ -40,6 +40,11 @@ return array(
             'aliases' => array(
                 'modules/rcm-event-list-display/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-event-list-display/rcm-event-list-display-edit.js',
+                ),
+            ),
         ),
     ),
 );

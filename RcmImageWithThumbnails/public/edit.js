@@ -47,7 +47,7 @@ var RcmImageWithThumbnailsEdit = function (instanceId, container) {
         container.find('.imgThumbs').disableSelection();
 
 
-        rcmEdit.pluginContextMenu({
+        $.contextMenu({
             selector: containerSelector + ' a.image, ' + containerSelector + ' .imgClass',
 
             items: {

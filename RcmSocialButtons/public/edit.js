@@ -76,7 +76,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         });
 
         //Add right click menu
-        rcmEdit.pluginContextMenu({
+        $.contextMenu({
             selector: rcm.getPluginContainerSelector(instanceId) + ' .rcmSocialButtonsWrapper',
             //Here are the right click menu options
             items: {

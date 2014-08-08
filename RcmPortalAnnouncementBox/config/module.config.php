@@ -41,6 +41,11 @@ return array(
                 'modules/rcm-portal-announcement-box/' =>
                     __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-portal-announcement-box/edit.js',
+                ),
+            ),
         ),
     ),
 );

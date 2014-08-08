@@ -1,13 +1,6 @@
 /**
- * Synchronously grab dependency object file(s)
- */
-$.ajax({
-    async: false,
-    url: '/modules/rcm/js/admin/ajax-plugin-edit-helper.js',
-    instanceConfigType: 'script'
-});
-
-/**
+ * requires AjaxPluginEditHelper which should be included by rcm-admin
+ *
  * Random Image
  *
  * JS for editing Random Image
@@ -116,7 +109,7 @@ var RcmRotatingImageEdit = function (instanceId, container) {
         );
 
         //Add right click menu
-        rcmEdit.pluginContextMenu({
+        $.contextMenu({
             selector: rcm.getPluginContainerSelector(instanceId) + ' a',
 
             //Here are the right click menu options

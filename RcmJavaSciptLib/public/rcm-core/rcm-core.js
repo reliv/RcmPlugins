@@ -164,6 +164,23 @@ var rcm = new function () {
     }
 
     /**
+     * From old scripts
+     * @param instanceId
+     * @returns {string}
+     */
+    this.getPluginContainerSelector = function (instanceId) {
+
+        ///* Check for actual container.  Helpful for duplicates on page */
+        //var container = $('#RcmRealPage [data-rcmPluginInstanceId="' + instanceId + '"]');
+        //
+        //if (container.length < 1) {
+            return('[data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
+        //} else {
+        //    return('#RcmRealPage [data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
+        //}
+    };
+
+    /**
      * Browser safe console replacement
      */
     self.console = function () {

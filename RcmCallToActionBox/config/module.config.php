@@ -40,6 +40,12 @@ return array(
             'aliases' => array(
                 'modules/rcm-call-to-action-box/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                // required for admin edit //
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-call-to-action-box/call-to-action-box-edit.js',
+                ),
+            ),
         ),
     ),
 

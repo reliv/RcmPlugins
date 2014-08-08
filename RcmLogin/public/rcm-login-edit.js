@@ -15,15 +15,7 @@
  */
 
 /**
- * Synchronously grab dependency object file(s)
- */
-$.ajax({
-    async: false,
-    url: '/modules/rcm/js/admin/ajax-plugin-edit-helper.js',
-    dataType: 'script'
-});
-
-/**
+ * requires AjaxPluginEditHelper which should be included by rcm-admin
  *
  * @param {int} instanceId
  * @param {jQuery} container

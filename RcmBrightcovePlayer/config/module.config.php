@@ -51,6 +51,11 @@ return array(
             'aliases' => array(
                 'modules/rcm-brightcove-player/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-brightcove-player/rcm-brightcove-player-edit.js',
+                ),
+            ),
         ),
     ),
     // @codingStandardsIgnoreStart

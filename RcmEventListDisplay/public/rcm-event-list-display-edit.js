@@ -14,20 +14,14 @@
  * @version   GIT: <git_id>
  */
 
-/**
- * Synchronously grab dependency object file(s)
- */
-$.ajax({
-    async: false,
-    url: '/modules/rcm/js/admin/ajax-plugin-edit-helper.js',
-    dataType: 'script'
-});
 $.ajax({
     async: false,
     url: '/modules/rcm-event-calender-core/rcm-event-manager.js',
     dataType: 'script'
 });
-
+/**
+ * requires AjaxPluginEditHelper which should be included by rcm-admin
+ */
 var RcmEventListDisplayEdit = function (instanceId, container) {
 
     /**
@@ -76,7 +70,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
         container.delegate('.event', 'dblclick', me.handleOpenEventManager);
 
         //Add right click menu
-        rcmEdit.pluginContextMenu(
+        $.contextMenu(
             {
                 selector: rcm.getPluginContainerSelector(instanceId),
                 //Here are the right click menu options

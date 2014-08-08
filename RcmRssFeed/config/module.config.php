@@ -55,6 +55,11 @@ return array(
             'aliases' => array(
                 'modules/rcm-rss-feed/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-rss-feed/edit.js',
+                ),
+            ),
         ),
     ),
 );

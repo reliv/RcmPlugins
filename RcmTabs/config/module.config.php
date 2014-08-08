@@ -41,6 +41,11 @@ return array(
             'aliases' => array(
                 'modules/rcm-tabs/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-tabs/edit.js',
+                ),
+            ),
         ),
     ),
 

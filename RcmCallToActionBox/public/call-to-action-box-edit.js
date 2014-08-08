@@ -45,7 +45,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
         container.dblclick(me.showEditDialog);
 
         //Add right click menu
-        rcmEdit.pluginContextMenu({
+        $.contextMenu({
             selector: rcm.getPluginContainerSelector(instanceId),
             //Here are the right click menu options
             items: {

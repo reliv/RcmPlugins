@@ -157,14 +157,16 @@ return array(
             ),
             'collections' => array(
                 'modules/rcm-admin/js/rcm-admin.js' => array(
-                    'js/dialog/rcm-dialog.js',
-                    'js/navigation/rcm-admin-menu.js',
-                    'js/admin/rcm-admin.js',
-                    //'js/jquery-dialog-inputs.js',
+                    'modules/rcm-admin/js/dialog/rcm-dialog.js',
+                    'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
+                    'modules/rcm-admin/js/admin/rcm-admin.js',
+                    'modules/rcm-admin/js/jquery-dialog-inputs.js',
+                    'modules/rcm-admin/js/ajax-plugin-edit-helper.js',
                 ),
-            ),
-            'paths' => array(
-                __DIR__ . '/../public',
+                'modules/rcm-admin/css/rcm-admin.css' => array(
+
+                ),
+
             ),
         ),
     ),
