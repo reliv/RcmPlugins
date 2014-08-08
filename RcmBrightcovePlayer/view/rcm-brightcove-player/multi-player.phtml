@@ -18,8 +18,6 @@
     </div>
     <br>
     <br>
-
-
     <div ng-controller="playerTabsCtrl"
          ng-init="init(<?=
          json_encode(
@@ -31,8 +29,8 @@
         <div data-hbo-tabs id="rcm-brightcove-player-tabs">
             <div id="player" align="center">
                 <!-- Start of Brightcove Player -->
-                <!--                <script language="JavaScript" type="text/javascript"-->
-                <!--                        src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"></script>-->
+                <script language="JavaScript" type="text/javascript"
+                        src="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"></script>
                 <object id="myExperience" class="BrightcoveExperience">
                     <param name="bgcolor" value="#FFFFFF"/>
                     <param name="width" value="672"/>
@@ -45,11 +43,12 @@
                     <param name="wmode" value="opaque"/>
                     <param name="dynamicStreaming" value="true"/>
                     <param name="includeAPI" value="true"/>
+                    <param name="secureConnections" value="true"/>
+                    <param name="secureHTMLConnections" value="true"/>
                     <param name="templateLoadHandler"
                            value="myTemplateLoaded<?php echo $this->instanceId; ?>"/>
                     <param name="templateReadyHandler"
                            value="onTemplateReady<?php echo $this->instanceId; ?>"/>
-
                 </object>
                 <script
                     type="text/javascript">brightcove.createExperiences();</script>
