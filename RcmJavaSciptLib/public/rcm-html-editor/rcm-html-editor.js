@@ -109,8 +109,6 @@ angular.module('RcmHtmlEditor', [])
 
                     self.updateState = function (onUpdateComplete) {
 
-                        //console.log('rcmHtmlEditorFactory.updateState: ');
-
                         var hasEditors = false;
 
                         for (var id in self.editors) {
@@ -120,18 +118,17 @@ angular.module('RcmHtmlEditor', [])
                                 hasEditors = true;
 
                             } else {
-
-                                self.editors[id].destroy();
-                                self.editors[id] = null;
-                                delete self.editors[id];
+                                // this causes things to get out of sync
+                                //self.editors[id].destroy();
+                                //self.editors[id] = null;
+                                //delete self.editors[id];
                             }
                         }
 
                         self.hasEditors = hasEditors;
 
-                        if(typeof onUpdateComplete === 'function'){
+                        if (typeof onUpdateComplete === 'function') {
 
-                            //console.log(self);
                             onUpdateComplete();
                         }
                     }
@@ -160,8 +157,6 @@ angular.module('RcmHtmlEditor', [])
             function (rcmHtmlEditorState) {
 
                 return function (editorId, loading, msg) {
-
-                    //console.log('rcmHtmlEditorLoading:' + editorId + ' '  + loading + ' ' + msg);
 
                     if (loading) {
 
@@ -303,7 +298,6 @@ angular.module('RcmHtmlEditor', [])
 
                 self.build = function (id, scope, elm, attrs, ngModel, settings) {
 
-                    //console.log('rcmHtmlEditorFactory.build: ' + id);
                     rcmHtmlEditorState.editors[id] = new RcmHtmlEditor(id);
                     rcmHtmlEditorState.editors[id].init(
                         scope,
@@ -312,7 +306,7 @@ angular.module('RcmHtmlEditor', [])
                         ngModel,
                         settings,
                         function (rcmHtmlEditor) {
-                            //console.log('rcmHtmlEditorFactory.built: ' + id);
+
                             rcmHtmlEditorState.updateState();
                         }
                     );
@@ -322,10 +316,8 @@ angular.module('RcmHtmlEditor', [])
 
                 self.destroy = function (id) {
 
-                    //console.log('rcmHtmlEditorFactory.destroy TRY: ' + id);
-
                     if (rcmHtmlEditorState.editors[id]) {
-                        //console.log('rcmHtmlEditorFactory.destroy: ' + id);
+
                         rcmHtmlEditorState.editors[id].destroy();
                         rcmHtmlEditorState.editors[id] = null;
                         delete rcmHtmlEditorState.editors[id];
@@ -548,7 +540,7 @@ angular.module('RcmHtmlEditor', [])
                             self.tinyInstance.remove();
                             self.tinyInstance = null;
                         }
-                        //console.log('DESTROY');
+
                         delete self;
                     }
 
@@ -612,9 +604,9 @@ angular.module('RcmHtmlEditor', [])
 
                 return function (id) {
 
-                    if(id){
+                    if (id) {
                         rcmHtmlEditorFactory.destroy(id);
-                        rcmHtmlEditorLoading(id, false,'rcmHtmlEditorDestroy');
+                        rcmHtmlEditorLoading(id, false, 'rcmHtmlEditorDestroy');
                     }
                 }
             }

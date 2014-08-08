@@ -65,7 +65,7 @@ angular.module(
  * rcmAdmin.rcmpluginname
  */
     .directive(
-        'rcmpluginname',
+        'rcmplugininstanceId',
         [
             '$compile',
             'rcmAdminState',
@@ -75,6 +75,22 @@ angular.module(
 
                     var link = function (scope, elm, attrs, ngModel) {
                         scope.rcmAdminState = rcmAdminState;
+
+                        var name = attrs.rcmPluginName;
+
+                        console.log(name);
+
+                        if (name) {
+
+                            var editClass;
+                            eval('editClass = ' + name + '"Edit"');
+
+                            if (typeof editClass === 'object' && editClass.initEdit){
+
+                                editClass.initEdit();
+                            }
+                        }
+
                     };
 
                     return link

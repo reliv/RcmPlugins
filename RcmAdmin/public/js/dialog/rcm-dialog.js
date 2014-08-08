@@ -242,6 +242,67 @@ angular.module(
             }
         ]
     )
+
+/**
+ * RcmDialog.rcmBlankIframeDialog
+ */
+    .directive(
+        'rcmBlankIframeDialog',
+        [
+            '$compile',
+            '$parse',
+            'rcmDialogService',
+            function ($compile, $parse, rcmDialogService) {
+
+                var thisCompile = function (tElement, tAttrs, transclude) {
+
+                    var thisLink = function (scope, elm, attrs, ctrl) {
+                        console.log(rcmDialogService.strategy.url);
+                        scope.rcmDialogService = rcmDialogService;
+                        scope.url = rcmDialogService.strategy.url;
+                        scope.title = rcmDialogService.strategy.title;
+                        if(rcmDialogService.strategy.save){
+                            scope.save = $parse(rcmDialogService.strategy.save);
+                        }
+                        scope.loading = false;
+                    };
+
+                    return thisLink;
+                }
+
+                return {
+                    restrict: 'A',
+                    compile: thisCompile,
+                    template: '' +
+                    '<div id="RcmStandardDialogTemplateIn" style="display: block;" ng-hide="loading">' +
+                    '<div class="modal-dialog">' +
+                    '    <div class="modal-content">' +
+                    '        <div class="modal-header">' +
+                    '            <button type="button" class="close" data-dismiss="modal"' +
+                    '            aria-hidden="true">&times;</button>' +
+                    '            <h1 class="modal-title" id="myModalLabel">{{title}}</h1>' +
+                    '        </div>' +
+                    '        <div class="modal-body" style="height: 400px"><iframe src="{{url}}" style="width: 100%; height: 400px"></iframe>' +
+                    '        </div>' +
+                    '        <div class="modal-footer">' +
+                    '            <button' +
+                    '            type="button"' +
+                    '            class="btn btn-default"' +
+                    '            data-dismiss="modal"' +
+                    '            >' +
+                    '            Close' +
+                    '            </button>' +
+                    '            <button type="button" class="btn btn-primary saveBtn" ng-click="save()" ng-show="save">Save' +
+                    '            </button>' +
+                    '        </div>' +
+                    '    </div>' +
+                    '</div>' +
+                    '</div>'
+
+                }
+            }
+        ]
+    )
 /**
  * RcmDialog.rcmBlankSyncDialog.failed
  *  Use this for loading modules with dependencies
