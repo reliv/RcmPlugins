@@ -49,7 +49,7 @@ var RcmPortalAnnouncementBoxEdit = function (instanceId, container) {
         });
 
         //Add right click menu
-        rcmEdit.pluginContextMenu({
+        $.contextMenu({
             selector: rcm.getPluginContainerSelector(instanceId),
             //Here are the right click menu options
             items: {

@@ -44,6 +44,11 @@ return array(
             'aliases' => array(
                 'modules/rcm-login/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-login/rcm-login-edit.js',
+                ),
+            ),
         ),
     ),
     'service_manager' => array(

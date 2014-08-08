@@ -50,7 +50,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
         peopleSlider.init(container);
 
         //Add right click menu
-        rcmEdit.pluginContextMenu({
+        $.contextMenu({
             selector: contSel + ' .person, ' + contSel + ' .personDetails',
             //Here are the right click menu options
             items: {

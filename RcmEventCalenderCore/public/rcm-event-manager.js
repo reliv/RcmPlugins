@@ -143,7 +143,7 @@ var RcmEventManager = function () {
                     me.editEvent($(this).attr('data-eventId'));
                 });
 
-                rcmEdit.pluginContextMenu(
+                $.contextMenu(
                     {
                         selector: '#eventManagerList tr',
                         //Here are the right click menu options

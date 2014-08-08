@@ -1,13 +1,5 @@
 /**
- * Synchronously grab dependency object file(s)
- */
-$.ajax({
-    async: false,
-    url: '/modules/rcm/js/admin/ajax-plugin-edit-helper.js',
-    instanceConfigType: 'script'
-});
-
-/**
+ * requires AjaxPluginEditHelper which should be included by rcm-admin
  * RcmCallToActionBox
  *
  * JS for editing RcmCallToActionBox
@@ -55,7 +47,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
                 container.dblclick(me.showEditDialog);
 
                 //Add right click menu
-                window['rcmEdit'].pluginContextMenu({
+                $.contextMenu({
                     selector: rcm.getPluginContainerSelector(instanceId),
                     //Here are the right click menu options
                     items: {

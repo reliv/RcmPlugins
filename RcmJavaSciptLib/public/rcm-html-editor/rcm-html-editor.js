@@ -29,13 +29,13 @@ angular.module('RcmHtmlEditor', [])
                 language: self.language,
 
                 menubar: false,
-                plugins: "anchor, charmap, code, hr, image, link, paste, table",
+                plugins: "anchor, charmap, code, hr, image, link, paste, table, textcolor, colorpicker",
                 relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
 
                 toolbar: [
-                    "code | undo redo | styleselect | " +
+                    "code | undo redo | styleselect | forecolor | " +
                         "bold italic underline strikethrough subscript superscript removeformat | " +
                         "alignleft aligncenter alignright alignjustify | " +
                         "bullist numlist outdent indent | cut copy pastetext | " +
@@ -53,13 +53,13 @@ angular.module('RcmHtmlEditor', [])
                 language: self.language,
 
                 menubar: false,
-                plugins: "anchor, charmap, code, hr, image, link, paste, table",
+                plugins: "anchor, charmap, code, hr, image, link, paste, table, textcolor, colorpicker",
                 relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
 
                 toolbar: [
-                    "code | undo redo | " +
+                    "code | undo redo | forecolor | " +
                         "bold italic underline strikethrough subscript superscript removeformat | " +
                         "outdent indent | cut copy pastetext | " +
                         "image charmap | link unlink anchor"

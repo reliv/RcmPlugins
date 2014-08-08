@@ -41,6 +41,11 @@ return array(
             'aliases' => array(
                 'modules/rcm-rotating-image/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-rotating-image/edit.js',
+                ),
+            ),
         ),
     ),
 );

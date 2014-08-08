@@ -50,6 +50,11 @@ return array(
             'aliases' => array(
                 'modules/rcm-social-buttons/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-social-buttons/edit.js',
+                ),
+            ),
         ),
     ),
 );
