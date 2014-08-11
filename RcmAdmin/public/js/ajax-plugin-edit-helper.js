@@ -12,8 +12,8 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginUrlName) {
      */
     var me = this;
 
-    var pluginBaseUrl = '/rcm-plugin-admin-proxy/' + pluginUrlName + '/'
-        + instanceId + '/';
+    var pluginBaseUrl = '/api/admin/instance-configs/'
+        + instanceId;
 
     this.disableEvents = function () {
         //Disable normal events
@@ -29,7 +29,7 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginUrlName) {
     me.ajaxGetInstanceConfigs = function (callback) {
         container.hide();//Hide while loading to prevent weirdness
         $.getJSON(
-            pluginBaseUrl + 'instance-config',
+            pluginBaseUrl,
             function (result) {
                 container.show();
                 window['rcmEdit'].refreshEditors(container);

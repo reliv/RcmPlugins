@@ -39,8 +39,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         me.disableShareThis();
 
         $.getJSON(
-            '/rcm-plugin-admin-proxy/rcm-social-buttons/' + instanceId
-                + '/available-buttons',
+            '/api/admin/instance-configs' + instanceId,
             function (returnedData) {
                 availableButtons = returnedData;
                 if (me.haveDataAndAvailableButtons()) {
@@ -50,8 +49,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
         );
 
         $.getJSON(
-            '/rcm-plugin-admin-proxy/rcm-social-buttons/' + instanceId
-                + '/instanceConfig',
+            '/api/admin/instance-configs' + instanceId,
             function success(returnedData) {
                 data = returnedData;
                 if (me.haveDataAndAvailableButtons()) {
