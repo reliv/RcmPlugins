@@ -49,6 +49,19 @@ return array(
                             ),
                         ),
                     ),
+
+                    'Copy To' => array(
+                        'label' => 'Copy To...',
+                        'uri' => '#',
+                        'pages' => array(
+                            'Page' => array(
+                                'label' => 'Template',
+                                'route' => 'RcmAdmin\Page\CreateTemplateFromPage',
+                                'class' => 'RcmAdminMenu RcmFormDialog',
+                                'title' => 'Copy To Template',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'Site' => array(
@@ -78,8 +91,18 @@ return array(
                 'options' => array(
                     'route' => '/rcm-admin/page/new',
                     'defaults' => array(
-                        'controller' => 'RcmAdmin\Controller\NewPageController',
+                        'controller' => 'RcmAdmin\Controller\PageController',
                         'action' => 'new',
+                    ),
+                ),
+            ),
+            'RcmAdmin\Page\CreateTemplateFromPage' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/rcm-admin/page/create-template-from-page',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\PageController',
+                        'action' => 'createPageFromTemplate',
                     ),
                 ),
             ),
@@ -196,12 +219,14 @@ return array(
         ),
         'factories' => array(
             'RcmAdmin\Form\NewPageForm' => 'RcmAdmin\Factory\NewPageFormFactory',
+            'RcmAdmin\Form\CreateTemplateFromPageForm'
+                => 'RcmAdmin\Factory\CreateTemplateFromPageFormFactory',
         ),
     ),
     'controllers' => array(
         'factories' => array(
-            'RcmAdmin\Controller\NewPageController'
-            => 'RcmAdmin\Factory\NewPageControllerFactory',
+            'RcmAdmin\Controller\PageController'
+            => 'RcmAdmin\Factory\PageControllerFactory',
         )
     )
 );
