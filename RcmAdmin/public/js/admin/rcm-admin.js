@@ -11,23 +11,97 @@ angular.module(
         ['RcmHtmlEditor']
     )
 /**
- * rcmAdminState
+ * rcmAdminService
  */
     .factory(
-        'rcmAdminState',
+        'rcmAdminService',
         [
             function () {
 
-                var State = function () {
+                var Service = function () {
 
                     var self = this;
                     self.editMode = false;
-                    self.editModeSite = false;
+                    self.editing = []; // page, layout, site-wide
+                    self.editingState = {
+                        page: false,
+                        layout: false,
+                        sitewide: false
+                    };
+
+                    /*
+                     * @todo disable click and other content events
+                     * @todo check for attributes to see if edit should be enabled
+                     */
+                    self.initEdit = function(elm){
+
+                    }
+
+                    self.getEditType = function(elm) {
+
+                        var isPagePlugin = (elm.attr('data-isPageContainer') == 'Y');
+
+                        var isLayoutPlugin = (elm.attr('data-isPageContainer') != 'Y');
+
+                        var isLayoutPlugin = (elm.attr('data-isPageContainer') != 'Y');
+                    }
+
+                    self.initEditPage = function(elm) {
+
+                        if(self.editingState.page){
+
+                            self.doInitEdit(elm);
+                        }
+                    }
+
+                    self.initEditLayout = function(elm) {
+
+                        var isLayoutPlugin = (elm.attr('data-isPageContainer') != 'Y');
+
+                        if(self.editingState.layout && isLayoutPlugin){
+
+                            self.doInitEdit(elm);
+                        }
+                    }
+
+                    self.initEditSitewide = function(elm) {
+
+                        var isSitewidePlugin = (elm.attr('data-rcmSiteWidePlugin') == '1');
+
+                        if(self.editingState.sitewide && isSitewidePlugin){
+
+                            self.doInitEdit(elm);
+                        }
+                    }
+
+                    self.doInitEdit = function(elm) {
+
+                        var name = elm.attr('data-rcmPluginName');
+                        var id = elm.attr('data-rcmPluginInstanceId');
+
+                        if (name) {
+
+                            var className = name + 'Edit';
+                            var editClass = window[className];
+
+                            if (editClass) {
+
+                                var editObj = new editClass(id, elm.find('.rcmPluginContainer')); // first child
+
+                                editObj.initEdit();
+                            }
+                        }
+                    }
+
+                    self.cancelEdit = function(elm){
+
+                        window.location = window.location.pathname;
+                    }
                 }
 
-                var state = new State();
+                var service = new Service();
 
-                return state;
+                return service;
             }
         ]
     )
@@ -38,15 +112,15 @@ angular.module(
         'rcmAdminEditButton',
         [
             '$compile',
-            'rcmAdminState',
-            function ($compile, rcmAdminState) {
+            'rcmAdminService',
+            function ($compile, rcmAdminService) {
 
                 var thisLink = function (scope, elm, attrs) {
 
                     elm.on('click', null, null, function () {
                         scope.$apply(
                             function () {
-                                rcmAdminState.editMode = !rcmAdminState.editMode;
+                                rcmAdminService.editMode = !rcmAdminService.editMode;
                             }
                         );
                     });
@@ -58,7 +132,6 @@ angular.module(
                     link: thisLink
                 }
             }
-
         ]
     )
 /**
@@ -68,34 +141,27 @@ angular.module(
         'rcmplugininstanceid',
         [
             '$compile',
-            'rcmAdminState',
-            function ($compile, rcmAdminState) {
+            'rcmAdminService',
+            function ($compile, rcmAdminService) {
 
                 var thisCompile = function (tElem, attrs) {
 
                     var link = function (scope, elm, attrs, ngModel) {
 
-                        var id = attrs.rcmplugininstanceid;
+                        scope.rcmAdminService = rcmAdminService;
 
-                        scope.rcmAdminState = rcmAdminState;
+                        scope.$watch(
+                            'rcmAdminService.editMode',
+                            function (newValue, oldValue) {
 
-                        var name = attrs.rcmpluginname;
-
-                        if (name) {
-
-                            var className = name + 'Edit';
-                            var editClass = window[className];
-
-                            console.log(className);
-
-                            if (editClass) {
-
-                                var editObj = new editClass(id, elm.find('.rcmPluginContainer')); // first child
-
-                                console.log(name + '.initEdit()');
-                                editObj.initEdit();
+                                if (newValue) {
+                                    rcmAdminService.initEdit(elm);
+                                } else {
+                                    //rcmAdminService.cancelEdit(elm);
+                                }
                             }
-                        }
+                        );
+
                     };
 
                     return link
@@ -115,23 +181,23 @@ angular.module(
     .directive(
         'richedit',
         [
-            'rcmAdminState',
+            'rcmAdminService',
             'rcmHtmlEditorInit',
             'rcmHtmlEditorDestroy',
-            function (rcmAdminState, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
+            function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
                 var config = {};
 
                 var thisCompile = function (tElem, attrs) {
 
-                    attrs.$set('richedit', '{{rcmAdminState.editMode}}');
+                    attrs.$set('richedit', '{{rcmAdminService.editMode}}');
 
                     var thisLink = function (scope, elm, attrs, ngModel) {
 
-                        scope.rcmAdminState = rcmAdminState;
+                        scope.rcmAdminService = rcmAdminService;
 
                         scope.$watch(
-                            'rcmAdminState.editMode',
+                            'rcmAdminService.editMode',
                             function (newValue, oldValue) {
 
                                 if (newValue) {
@@ -162,25 +228,25 @@ angular.module(
     .directive(
         'textedit',
         [
-            'rcmAdminState',
+            'rcmAdminService',
             'rcmHtmlEditorInit',
             'rcmHtmlEditorDestroy',
-            function (rcmAdminState, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
+            function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
                 var config = {};
 
                 var thisCompile = function (tElem, attrs) {
 
-                    attrs.$set('textedit', '{{rcmAdminState.editMode}}');
+                    attrs.$set('textedit', '{{rcmAdminService.editMode}}');
 
                     var thisLink = function (scope, elm, attrs, ngModel) {
 
-                        scope.rcmAdminState = rcmAdminState;
+                        scope.rcmAdminService = rcmAdminService;
 
                         attrs.$set('htmlEditorType', 'text');
 
                         scope.$watch(
-                            'rcmAdminState.editMode',
+                            'rcmAdminService.editMode',
                             function (newValue, oldValue) {
 
                                 if (newValue) {

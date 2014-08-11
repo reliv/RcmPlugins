@@ -90,6 +90,7 @@ var rcm = new function () {
      */
     self.hasModule = function (moduleName) {
 
+        // @todo check oc-lazy-loader too
         if (self.moduleDepenencies.indexOf(moduleName) < 0) {
             return false;
         }
@@ -168,7 +169,7 @@ var rcm = new function () {
      * @param instanceId
      * @returns {string}
      */
-    this.getPluginContainerSelector = function (instanceId) {
+    self.getPluginContainerSelector = function (instanceId) {
 
         ///* Check for actual container.  Helpful for duplicates on page */
         //var container = $('#RcmRealPage [data-rcmPluginInstanceId="' + instanceId + '"]');
@@ -178,6 +179,15 @@ var rcm = new function () {
         //} else {
         //    return('#RcmRealPage [data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
         //}
+    };
+
+    /**
+     * From old scripts
+     * @param instanceId
+     * @returns {*|jQuery|HTMLElement}
+     */
+    self.getPluginContainer = function (instanceId) {
+        return $(self.getPluginContainerSelector(instanceId));
     };
 
     /**
@@ -198,7 +208,7 @@ var rcm = new function () {
             /* keep older browsers from blowing up */
             self.console = function () {
 
-                self = this;
+                var self = this;
 
                 self.log = function (msg) {
                 };

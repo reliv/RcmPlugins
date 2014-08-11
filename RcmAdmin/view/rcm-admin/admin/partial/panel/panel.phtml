@@ -9,7 +9,7 @@ $this->headLink()->appendStylesheet(
 <div class="rcmAdminPanelWrapper">
     <?= $this->render('rcm-admin/admin/partial/navigation/navigation.phtml'); ?>
     <div class="rcmPanelRightButtons">
-        <div ng-show="rcmAdminState.editMode">
+        <div ng-show="rcmAdminService.editMode">
             <button type="button" class="btn btn-primary btn-xs" rcm-admin-edit-button>
                 <span class="glyphicon glyphicon glyphicon glyphicon-ok"></span>
                 Save Draft
@@ -19,7 +19,7 @@ $this->headLink()->appendStylesheet(
                 Cancel
             </button>
         </div>
-        <div ng-hide="rcmAdminState.editMode">
+        <div ng-hide="rcmAdminService.editMode">
             <button type="button" class="btn btn-primary btn-xs" rcm-admin-edit-button>
                 <span class="glyphicon glyphicon-edit"></span>
                 Edit
