@@ -34,7 +34,7 @@ var inputImageEventsDelegated = false;
                 source: pageUrls,
                 minLength: 0
             });
-            console.log(pageUrls);
+//            console.log(pageUrls);
         });
     };
 
