@@ -140,6 +140,8 @@ var RcmTabsEdit = function (instanceId, container) {
             '<p>Lorem ipsum</p>' +
             '</div>'
         ));
+
+        rcm.angularCompile(container);
     };
 
     this.addRawHtmlTab = function (newId) {
@@ -151,7 +153,8 @@ var RcmTabsEdit = function (instanceId, container) {
     };
 
     this.tabClick = function () {
-        window['rcmEdit'].refreshEditors(container);
+        //window['rcmEdit'].refreshEditors(container);
+
     };
 
     this.refresh = function () {

@@ -46,9 +46,6 @@ class NewPageForm extends Form implements ElementInterface
     /** @var \Rcm\Service\LayoutManager */
     protected $layoutManager;
 
-    /** @var \Rcm\Validator\Page */
-    protected $pageValidator;
-
     /**
      * Constructor
      *
