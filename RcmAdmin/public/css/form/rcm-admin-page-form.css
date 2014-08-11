@@ -18,6 +18,11 @@ label.invalid-field input[type="text"] {
     color: #000000;
 }
 
+label select {
+    float: right;
+    width: 80%;
+}
+
 label.invalid-field {
     color: #FF0000;
     font-weight: bold;
@@ -58,7 +63,7 @@ label.invalid-field {
 #pageLayout label label {
     text-align: center;
     float: left;
-    margin: 2.7em;
+    margin: 2em;
 }
 
 #pageLayout label label span.pageLayoutLabel span.pageLayoutImageOverlay {

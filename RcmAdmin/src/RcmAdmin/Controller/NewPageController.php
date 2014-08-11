@@ -24,7 +24,6 @@ use Rcm\Service\PageManager;
 use RcmUser\User\Entity\User;
 use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -125,7 +124,12 @@ class NewPageController extends AbstractActionController
                     $this->rcmUserGetCurrentUser()->getName()
                 );
             } elseif (!empty($validatedData['page-template'])) {
-
+                $this->pageManager->copyPage(
+                    $validatedData['page-template'],
+                    $validatedData['url'],
+                    $validatedData['title'],
+                    $this->rcmUserGetCurrentUser()->getName()
+                );
             }
 
             $this->view->setVariable('newPageUrl', $this->urlToPage($validatedData['url'], 'n'));
