@@ -27,6 +27,20 @@ angular.module(
 
                     self.setEditing = function(type, val, callback){
 
+                        if(type == 'cancel'){
+
+                            self.editing = [];
+                            self.editMode = false;
+
+                            self.cancelEdit();
+
+                            if(callback){
+                                callback(self);
+                            }
+
+                            return;
+                        }
+
                         if (val) {
 
                             if (self.editing.indexOf(type) < 0) {
@@ -53,7 +67,6 @@ angular.module(
                     self.isEditing = function(type) {
 
                         if(type){
-
                             return (self.editing.indexOf(type) > -1);
                         }
 
@@ -64,13 +77,13 @@ angular.module(
 
                     /*
                      * @todo disable click and other content events
-                     * @todo check for attributes to see if edit should be enabled
                      */
                     self.initEdit = function (elm) {
 
-                        if (self.canEdit(elm)) {
+                        //if (self.canEdit(elm)) {
+
                             self.doInitEdit(elm);
-                        }
+                        //}
                     }
 
                     self.canEdit = function (elm) {
@@ -124,7 +137,7 @@ angular.module(
                         }
                     }
 
-                    self.cancelEdit = function (elm) {
+                    self.cancelEdit = function () {
 
                         window.location = window.location.pathname;
                     }
@@ -147,8 +160,6 @@ angular.module(
             function ($compile, rcmAdminService) {
 
                 var thisLink = function (scope, elm, attrs) {
-
-                    scope.editing = rcmAdminService.editing;
 
                     elm.on('click', null, null, function () {
 
@@ -196,10 +207,7 @@ angular.module(
                             'rcmAdminService.editing',
                             function (newValue, oldValue) {
 
-                                if (rcmAdminService.isEditing()) {
-
-                                    rcmAdminService.initEdit(elm);
-                                }
+                                rcmAdminService.initEdit(elm);
                             },
                             true
                         );
@@ -241,7 +249,7 @@ angular.module(
                             'rcmAdminService.editing',
                             function (newValue, oldValue) {
 
-                                if (rcmAdminService.isEditing()) {
+                                if (rcmAdminService.editMode) {
                                     // @todo disable click and other content events
                                     rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
                                 } else {
@@ -291,7 +299,7 @@ angular.module(
                             'rcmAdminService.editing',
                             function (newValue, oldValue) {
 
-                                if (rcmAdminService.isEditing()) {
+                                if (rcmAdminService.editMode) {
                                     // @todo disable click and other content events
                                     rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
                                 } else {
