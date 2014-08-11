@@ -178,8 +178,8 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
 
     me.render = function () {
         container.load(
-            '/rcm-plugin-admin-proxy/rcm-event-list-display/'
-                + instanceId + '/preview'
+            '/api/admin/instance-configs'
+                + instanceId
             , data
             , function () {
                 rcmSocialButtonsReload();
