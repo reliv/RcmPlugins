@@ -78,7 +78,7 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
         <div class="peopleAperture">
             <div class="previews">
                 <?php foreach (
-                    $this->instanceConfig['people'] as $personId => &$person
+                    $this->instanceConfig['people'] as $personId => $person
                 ): ?>
                     <?php
                     $classAppend = null;
