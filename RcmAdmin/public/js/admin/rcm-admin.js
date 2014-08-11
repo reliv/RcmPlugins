@@ -35,6 +35,7 @@ angular.module(
                      */
                     self.initEdit = function(elm){
 
+                        self.doInitEdit(elm);
                     }
 
                     self.getEditType = function(elm) {
@@ -190,7 +191,7 @@ angular.module(
 
                 var thisCompile = function (tElem, attrs) {
 
-                    attrs.$set('richedit', '{{rcmAdminService.editMode}}');
+                    //attrs.$set('richedit', '{{rcmAdminService.editMode}}');
 
                     var thisLink = function (scope, elm, attrs, ngModel) {
 
@@ -237,7 +238,7 @@ angular.module(
 
                 var thisCompile = function (tElem, attrs) {
 
-                    attrs.$set('textedit', '{{rcmAdminService.editMode}}');
+                    //attrs.$set('textedit', '{{rcmAdminService.editMode}}');
 
                     var thisLink = function (scope, elm, attrs, ngModel) {
 

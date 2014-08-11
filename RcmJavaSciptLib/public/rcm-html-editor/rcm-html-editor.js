@@ -470,7 +470,7 @@ angular.module('RcmHtmlEditor', [])
                                 }
 
                                 if (self.elm.blur) {
-                                    self.elm.blur();
+                                    //causing some issues //self.elm.blur();
                                 }
                                 self.updateView();
                             });
@@ -484,7 +484,7 @@ angular.module('RcmHtmlEditor', [])
                                 }
 
                                 if (self.elm.focus) {
-                                    self.elm.focus();
+                                    //causing some issues //self.elm.focus();
                                 }
                                 self.updateView();
                             });
