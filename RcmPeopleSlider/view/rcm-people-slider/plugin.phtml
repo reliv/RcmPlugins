@@ -19,12 +19,12 @@ $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-people-slider/style.css'
 );
 $this->headScript()->appendFile(
-    $this->basePath()
-    . '/modules/rcm/vendor/aperture-slider/aperture-slider.js',
+    $this->basePath() . '/modules/rcm-people-slider/rcm-people-slider.js',
     'text/javascript'
 );
+
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-people-slider/rcm-people-slider.js',
+    $this->basePath() . '/modules/rcm-people-slider/aperture-slider.js',
     'text/javascript'
 );
 
