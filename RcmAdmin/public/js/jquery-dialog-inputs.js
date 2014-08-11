@@ -1,5 +1,7 @@
 var inputImageEventsDelegated = false;
-
+/**
+ * <jquery-dialog-inputs>
+ */
 (function ($) {
     var richEditToolbars = {
 
@@ -633,3 +635,6 @@ jQuery.dialogIn = function (inputType, description, value, option2, option3) {
 jQuery.generateUUID = function () {
     return $.fn.generateUUID();
 }
+/**
+ * </jquery-dialog-inputs>
+ */
