@@ -47,13 +47,10 @@ use Zend\View\Model\ViewModel;
  * @method User rcmUserGetCurrentUser() Get Current User Object
  * @method string urlToPage($pageName, $pageType) Get Url To a Page
  */
-class NewPageController extends AbstractActionController
+class PageController extends AbstractActionController
 {
     /** @var \Rcm\Service\PageManager */
     protected $pageManager;
-
-    /** @var \RcmAdmin\Form\NewPageForm */
-    protected $pageForm;
 
     /** @var \Zend\View\Model\ViewModel */
     protected $view;
@@ -64,16 +61,13 @@ class NewPageController extends AbstractActionController
      * Constructor
      *
      * @param PageManager $pageManager Rcm Page Manager
-     * @param Form        $pageForm    Rcm Admin Page Form
      * @param integer     $siteId      RcmUser Acl Data Service
      */
     public function __construct(
         PageManager $pageManager,
-        Form $pageForm,
         $siteId
     ) {
         $this->pageManager = $pageManager;
-        $this->pageForm = $pageForm;
         $this->siteId = $siteId;
         $this->view = new ViewModel();
 
@@ -92,15 +86,17 @@ class NewPageController extends AbstractActionController
             'sites.' . $this->siteId . '.pages',
             'create',
             'Rcm\Acl\ResourceProvider'
-        )
-        ) {
+        )) {
             $response = new Response();
             $response->setStatusCode('401');
 
             return $response;
         }
 
-        $form = $this->pageForm;
+        /** @var \RcmAdmin\Form\NewPageForm $form */
+        $form = $this->getServiceLocator()
+            ->get('FormElementManager')
+            ->get('RcmAdmin\Form\NewPageForm');
 
         /** @var \Zend\Http\Request $request */
         $request = $this->request;
@@ -142,5 +138,43 @@ class NewPageController extends AbstractActionController
 
         $this->view->setVariable('form', $form);
         return $this->view;
+    }
+
+    public function createPageFromTemplateAction()
+    {
+        if (!$this->rcmUserIsAllowed(
+            'sites.' . $this->siteId . '.pages',
+            'create',
+            'Rcm\Acl\ResourceProvider'
+        )) {
+            $response = new Response();
+            $response->setStatusCode('401');
+
+            return $response;
+        }
+
+        /** @var \RcmAdmin\Form\CreateTemplateFromPageForm $form */
+        $form = $this->getServiceLocator()
+            ->get('FormElementManager')
+            ->get('RcmAdmin\Form\CreateTemplateFromPageForm');
+
+        /** @var \Zend\Http\Request $request */
+        $request = $this->request;
+
+        $data = $request->getPost();
+
+        $form->setValidationGroup('template-name');
+        $form->setData($data);
+
+        if ($request->isPost() && $form->isValid()) {
+            $validatedData = $form->getData();
+
+            echo 'Valid';
+            exit;
+        }
+
+        $this->view->setVariable('form', $form);
+        return $this->view;
+
     }
 }
