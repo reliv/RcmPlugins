@@ -22,6 +22,23 @@ var inputImageEventsDelegated = false;
             { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }
         ]
     };
+    var attachPageListAutoComplete = function (input) {
+        $.getJSON('/rcm-page-search/title', function (data) {
+            var pageUrls = [];
+            alert('hi there');
+            console.log(pageUrls);
+            $.each(data, function (pageUrl) {
+                pageUrls.push(pageUrl);
+            });
+            input.autocomplete({
+                source: pageUrls,
+                minLength: 0
+            });
+            console.log(pageUrls);
+        });
+    };
+
+
     var methods = {
         image: function (description, src) {
 
@@ -113,19 +130,7 @@ var inputImageEventsDelegated = false;
             var input = $('<input type="text" name="' + name + '" value="' + value + '">');
             p.append(input);
 
-//            rcmEdit.attachPageListAutoComplete(input);
-            attachPageListAutoComplete = function (input) {
-                $.getJSON('/rcm-page-search/title', function (data) {
-                    var pageUrls = [];
-                    $.each(data, function (pageUrl) {
-                        pageUrls.push(pageUrl);
-                    });
-                    input.autocomplete({
-                        source: pageUrls,
-                        minLength: 0
-                    });
-                });
-            };
+            attachPageListAutoComplete(input);
 
             return p;
         },
