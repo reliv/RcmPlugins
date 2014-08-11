@@ -62,10 +62,10 @@ angular.module(
         ]
     )
 /**
- * rcmAdmin.rcmpluginname
+ * rcmAdmin.rcmplugininstanceid
  */
     .directive(
-        'rcmpluginname',
+        'rcmplugininstanceid',
         [
             '$compile',
             'rcmAdminState',
@@ -74,7 +74,28 @@ angular.module(
                 var thisCompile = function (tElem, attrs) {
 
                     var link = function (scope, elm, attrs, ngModel) {
+
+                        var id = attrs.rcmplugininstanceid;
+
                         scope.rcmAdminState = rcmAdminState;
+
+                        var name = attrs.rcmpluginname;
+
+                        if (name) {
+
+                            var className = name + 'Edit';
+                            var editClass = window[className];
+
+                            console.log(className);
+
+                            if (editClass) {
+
+                                var editObj = new editClass(id, elm.find('.rcmPluginContainer')); // first child
+
+                                console.log(name + '.initEdit()');
+                                editObj.initEdit();
+                            }
+                        }
                     };
 
                     return link

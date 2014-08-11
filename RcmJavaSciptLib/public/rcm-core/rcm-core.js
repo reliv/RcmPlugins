@@ -22,48 +22,36 @@ var rcm = new function () {
      */
     self.addAngularModule = function (moduleName, lazyloadConfig) {
 
-        if (self.hasModule(moduleName)){
+        if (self.hasModule(moduleName)) {
 
-            //self.console.log('Module (' + moduleName + ') already registered.');
             return;
         }
 
-        if (self.app) {
+        if (self.ocLazyLoad) {
 
-            if (self.ocLazyLoad && lazyloadConfig) {
-                self.pushModuleName(moduleName);
+            //self.console.log('rcm.addAngularModule.ocLazyLoad: '+moduleName);
 
-                if (!lazyloadConfig) {
-                    lazyloadConfig = {};
-                }
-
-                lazyloadConfig.name = moduleName
-
-                self.ocLazyLoad.load(lazyloadConfig)
-                    .then(
-                    function () {
-
-                        self.scope.safeApply(
-                            function () {
-                                self.console.log('rcm apply');
-                            }
-                        );
-                        //self.console.log('Module (' + moduleName + ') registered with lazy loader.');
-                        //self.console.log(self.moduleDepenencies);
-                        //element.append($compile(data)(scope));
-                    }
-                );
-
-            } else {
-
-                //self.console.info('Module (' + moduleName + ') ignored due to late registration.');
+            if (!lazyloadConfig) {
+                lazyloadConfig = {};
             }
 
-        } else {
+            lazyloadConfig.name = moduleName;
 
+            self.ocLazyLoad.load(lazyloadConfig)
+                .then(
+                function () {
+                    self.pushModuleName(moduleName);
+                    //self.console.log('rcm.addAngularModule.ocLazyLoad.then: '+moduleName);
+                    self.scope.safeApply();
+                }
+            );
+
+            return;
+        }
+
+        if (!self.app) {
+            //self.console.log('rcm.addAngularModule.pushModuleName: '+moduleName);
             self.pushModuleName(moduleName);
-            //self.console.log('Module (' + moduleName + ') registered.');
-            //self.console.log(self.moduleDepenencies);
         }
     }
 
@@ -89,7 +77,7 @@ var rcm = new function () {
      */
     self.pushModuleName = function (moduleName) {
 
-        if (!self.hasModule(moduleName)){
+        if (!self.hasModule(moduleName)) {
 
             self.moduleDepenencies.push(moduleName);
         }
@@ -100,7 +88,7 @@ var rcm = new function () {
      * @param moduleName
      * @returns {boolean}
      */
-    self.hasModule = function(moduleName){
+    self.hasModule = function (moduleName) {
 
         if (self.moduleDepenencies.indexOf(moduleName) < 0) {
             return false;
@@ -135,12 +123,12 @@ var rcm = new function () {
         angular.element(document).ready(
             function () {
 
-                self.app = angularModule;
-
                 angular.bootstrap(
                     document,
                     ['rcm']
                 );
+
+                self.app = angularModule;
 
                 self.ocLazyLoad = angular.element(document).injector().get('$ocLazyLoad');
 
@@ -148,20 +136,49 @@ var rcm = new function () {
 
                 self.scope = angular.element(document).scope();
 
-                self.scope.safeApply = function(fn) {
+                self.scope.safeApply = function (fn) {
                     var phase = self.scope.$root.$$phase;
-                    if(phase == '$apply' || phase == '$digest') {
-                        if(fn && (typeof(fn) === 'function')) {
+                    if (phase == '$apply' || phase == '$digest') {
+                        if (fn && (typeof(fn) === 'function')) {
                             fn();
                         }
                     } else {
                         self.scope.$apply(fn);
                     }
                 };
+                /*
+                 self.scope.$on('ocLazyLoad.moduleLoaded', function (e, module) {
+                 console.log('module loaded', module);
+                 });
+
+                 self.scope.$on('ocLazyLoad.componentLoaded', function (e, module) {
+                 console.log('componentLoaded loaded', module);
+                 });
+
+                 self.scope.$on('ocLazyLoad.fileLoaded', function (e, module) {
+                 console.log('fileLoaded loaded', module);
+                 });
+                */
             }
-        )
-        ;
+        );
     }
+
+    /**
+     * From old scripts
+     * @param instanceId
+     * @returns {string}
+     */
+    this.getPluginContainerSelector = function (instanceId) {
+
+        ///* Check for actual container.  Helpful for duplicates on page */
+        //var container = $('#RcmRealPage [data-rcmPluginInstanceId="' + instanceId + '"]');
+        //
+        //if (container.length < 1) {
+            return('[data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
+        //} else {
+        //    return('#RcmRealPage [data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
+        //}
+    };
 
     /**
      * Browser safe console replacement
@@ -206,12 +223,3 @@ var rcm = new function () {
     self.initConsole();
     self.init(document);
 };
-
-//angular.element(document).ready(
-//    function () {
-//        rcm.init(document);
-//    }
-//);
-
-
-

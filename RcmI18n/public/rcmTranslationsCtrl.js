@@ -32,7 +32,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
 
             };
 
-
             self.getLocales();
             $scope.selectedLocale = null;
             $scope.messages = [];

@@ -208,7 +208,7 @@ var RcmTabsEdit = function (instanceId, container) {
             }
         }
 
-        window['rcmEdit'].pluginContextMenu({
+        $.contextMenu({
             selector: selector,
             items: items
         });
