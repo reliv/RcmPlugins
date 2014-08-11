@@ -113,7 +113,19 @@ var inputImageEventsDelegated = false;
             var input = $('<input type="text" name="' + name + '" value="' + value + '">');
             p.append(input);
 
-            rcmEdit.attachPageListAutoComplete(input);
+//            rcmEdit.attachPageListAutoComplete(input);
+            attachPageListAutoComplete = function (input) {
+                $.getJSON('/rcm-page-search/title', function (data) {
+                    var pageUrls = [];
+                    $.each(data, function (pageUrl) {
+                        pageUrls.push(pageUrl);
+                    });
+                    input.autocomplete({
+                        source: pageUrls,
+                        minLength: 0
+                    });
+                });
+            };
 
             return p;
         },
