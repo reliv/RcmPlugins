@@ -237,6 +237,7 @@ angular.module('RcmHtmlEditor', [])
 
                     // set some overrides based on attr html-editor-attached-toolbar
                     if (typeof attrs.htmlEditorAttachedToolbar !== 'undefined') {
+
                         settings.inline = true;
                         settings.fixed_toolbar_container = rcmHtmlEditorConfig.toolbar_container_prefix + id;
                         settings.fixed_toolbar = false;
@@ -411,6 +412,16 @@ angular.module('RcmHtmlEditor', [])
                                 rcmHtmlEditorState.updateState(
                                     function () {
                                         rcmHtmlEditorLoading(self.id, false, 'init');
+
+                                        // will show default toolbar on init
+                                        if (ed.settings.fixed_toolbar) {
+
+                                            rcmHtmlEditorState.showFixedToolbar = false;
+                                        } else {
+
+                                            rcmHtmlEditorState.showFixedToolbar = true;
+                                        }
+
                                         // could cause issue if fires early
                                         if (!self.scope.$root.$$phase) {
                                             self.scope.$apply(
@@ -425,12 +436,6 @@ angular.module('RcmHtmlEditor', [])
                             });
                             //
                             ed.on('postrender', function (args) {
-
-                                // will show default toolbar on init
-                                if (ed.settings.fixed_toolbar) {
-
-                                    rcmHtmlEditorState.showFixedToolbar = false;
-                                }
                             });
                             // Update model on button click
                             ed.on('ExecCommand', function (e) {
@@ -702,8 +707,8 @@ angular.module('RcmHtmlEditor', [])
                         '        <div class="mce-container mce-first mce-flow-layout-item mce-btn-group">' +
                         '         <div>' +
                         '          <div class="mce-widget mce-btn mce-first mce-last mce-disabled" tabindex="-1" aria-labelledby="mceu_0" role="button" aria-label="Source code">' +
-                        '           <button role="presentation" type="button" tabindex="-1" disabled="disabled"><i class="mce-ico mce-i-code"></i></button>' +
-                        //'            <button role="presentation" type="button" disabled tabindex="-1">Select text to show controls</button>' +
+                        //'           <button role="presentation" type="button" tabindex="-1" disabled="disabled"><i class="mce-ico mce-i-code"></i></button>' +
+                        '            <button role="presentation" type="button" disabled tabindex="-1">Select editable text to show editor controls</button>' +
                         '          </div>' +
                         '         </div>' +
                         '        </div>' +
