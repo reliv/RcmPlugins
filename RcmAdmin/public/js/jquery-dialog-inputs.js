@@ -115,7 +115,8 @@ var inputImageEventsDelegated = false;
             var input = $('<input type="text" name="' + name + '" value="' + value + '">');
             p.append(input);
 
-            rcmEdit.attachPageListAutoComplete(input);
+            console.log('waiting for brians autocomplete fix here');
+            //rcmEdit.attachPageListAutoComplete(input);
 
             return p;
         },
