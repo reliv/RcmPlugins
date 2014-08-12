@@ -408,12 +408,15 @@ angular.module('RcmHtmlEditor', [])
                                     self.ngModel.$setPristine();
                                 }
 
-                                if (!self.scope.$root.$$phase) {
-                                    self.scope.$apply();
-                                }
-
                                 rcmHtmlEditorState.updateState(
                                     function () {
+                                        rcmHtmlEditorLoading(self.id, false, 'init');
+                                        // could cause issue if fires early
+                                        if (!self.scope.$root.$$phase) {
+                                            self.scope.$apply(
+
+                                            );
+                                        }
                                         if (typeof onBuilt === 'function') {
                                             onBuilt(self, rcmHtmlEditorState);
                                         }
@@ -428,7 +431,6 @@ angular.module('RcmHtmlEditor', [])
 
                                     rcmHtmlEditorState.showFixedToolbar = false;
                                 }
-                                rcmHtmlEditorLoading(self.id, false, 'postrender');
                             });
                             // Update model on button click
                             ed.on('ExecCommand', function (e) {
@@ -470,7 +472,8 @@ angular.module('RcmHtmlEditor', [])
                                 }
 
                                 if (self.elm.blur) {
-                                    //causing some issues //self.elm.blur();
+                                    //causing some issues //
+                                    //self.elm.blur();
                                 }
                                 self.updateView();
                             });
@@ -484,7 +487,8 @@ angular.module('RcmHtmlEditor', [])
                                 }
 
                                 if (self.elm.focus) {
-                                    //causing some issues //self.elm.focus();
+                                    //causing some issues //
+                                    //self.elm.focus();
                                 }
                                 self.updateView();
                             });
@@ -541,6 +545,7 @@ angular.module('RcmHtmlEditor', [])
                         rcmHtmlEditorState.updateState(
                             function (rcmHtmlEditorState) {
                                 rcmHtmlEditorState.deleteEditor(id);
+
                                 if (typeof onDestroyed === 'function') {
                                     onDestroyed(rcmHtmlEditorState);
                                 }
@@ -594,7 +599,7 @@ angular.module('RcmHtmlEditor', [])
 
                     var onBuilt = function (rcmHtmlEditor, rcmHtmlEditorState) {
 
-                        //console.log(rcmHtmlEditorState.editors);
+                        rcmHtmlEditorLoading(id, false, 'rcmHtmlEditorInit.onBuilt: ');
                     }
 
                     rcmHtmlEditorFactory.build(id, scope, elm, attrs, ngModel, settings, onBuilt);
