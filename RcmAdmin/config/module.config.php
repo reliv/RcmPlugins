@@ -185,6 +185,7 @@ return array(
                     'modules/rcm-admin/js/admin/rcm-admin.js',
                     'modules/rcm-admin/js/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/ajax-plugin-edit-helper.js',
+                    'modules/rcm-admin/js/rcm-edit.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
 
