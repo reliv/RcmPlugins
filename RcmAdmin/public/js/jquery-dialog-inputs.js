@@ -22,11 +22,12 @@ var inputImageEventsDelegated = false;
             { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }
         ]
     };
+
     var attachPageListAutoComplete = function (input) {
         $.getJSON('/rcm-page-search/title', function (data) {
             var pageUrls = [];
             alert('hi there');
-            console.log(pageUrls);
+//            console.log(pageUrls);
             $.each(data, function (pageUrl) {
                 pageUrls.push(pageUrl);
             });
@@ -37,7 +38,6 @@ var inputImageEventsDelegated = false;
 //            console.log(pageUrls);
         });
     };
-
 
     var methods = {
         image: function (description, src) {
