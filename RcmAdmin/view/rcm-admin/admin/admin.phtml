@@ -8,7 +8,7 @@ $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-tinymce-js/tinymce/tinymce.js'
 );
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.js'
+    $this->basePath() . '/modules/rcm-lib/rcm-html-editor/rcm-html-editor.js'
 );
 
 $this->headScript()->appendFile(
@@ -16,18 +16,21 @@ $this->headScript()->appendFile(
 );
 
 $this->headLink()->appendStylesheet(
-    '/modules/rcm-js-lib/rcm-html-editor/rcm-html-editor.css'
+    '/modules/rcm-admin/css/rcm-admin.css'
 );
 $this->headLink()->appendStylesheet(
-    '/modules/rcm-admin/vendor/jquery-context-menu/jquery.contextMenu.css'
+    '/modules/rcm-lib/rcm-html-editor/rcm-html-editor.css'
+);
+$this->headLink()->appendStylesheet(
+    '/modules/rcm-jquery/jquery-context-menu/jquery.contextMenu.css'
 );
 $this->headScript()->appendFile(
     $this->basePath()
-    . '/modules/rcm-admin/vendor/jquery-context-menu/jquery.contextMenu.js'
+    . '/modules/rcm-jquery/jquery-context-menu/jquery.contextMenu.js'
 );
 $this->headScript()->appendFile(
     $this->basePath()
-    . '/modules/rcm-admin/vendor/jquery-context-menu/jquery.ui.position.js'
+    . '/modules/rcm-jquery/jquery-context-menu/jquery.ui.position.js'
 );
 
 ?>

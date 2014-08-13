@@ -225,7 +225,7 @@ angular.module(
                 var thisCompile = function (tElement, tAttrs, transclude) {
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
-                        console.log(rcmDialogService.strategy.url);
+
                         scope.rcmDialogService = rcmDialogService;
                         scope.dialogTemplate = rcmDialogService.strategy.url;
                         scope.loading = false;
@@ -257,7 +257,7 @@ angular.module(
                 var thisCompile = function (tElement, tAttrs, transclude) {
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
-                        console.log(rcmDialogService.strategy.url);
+
                         scope.rcmDialogService = rcmDialogService;
                         scope.url = rcmDialogService.strategy.url;
                         scope.title = rcmDialogService.strategy.title;
@@ -327,8 +327,6 @@ angular.module(
 
                     startTime = new Date().getTime();
 
-                    $log.log('rcmBlankSyncDialog.compile');
-
                     var content = jQuery.ajax(
                         {
                             async: false,
@@ -336,7 +334,7 @@ angular.module(
                             url: rcmDialogService.strategy.url,
                             dataType: 'html',
                             success: function () {
-                                $log.log('rcmBlankSyncDialog.ajax.success');
+
                             }
                             //data : { r: Math.random() } // prevent caching
                         }
@@ -344,7 +342,6 @@ angular.module(
 
                     elm.html(content);
 
-                    $log.log('rcmBlankSyncDialog.ajax.after');
 
                     // hide for late compile
                     var orgStyle = elm.attr('style');
@@ -356,31 +353,27 @@ angular.module(
                     return {
 
                         pre: function (scope, elm, attrs, controller, transcludeFn) {
-                            $log.log('rcmBlankSyncDialog.link.pre');
 
                             // @todo this is a hack to wait for any dependencies to load and then re-compile
                             var totalTime = (new Date().getTime() - startTime) * 2;
-                            $log.log('rcmBlankSyncDialog.link.setTimeout: ' + totalTime);
 
                             setTimeout(
                                 function () {
                                     elm.attr('style', orgStyle);
                                     $compile(elm.contents())(scope);
                                     scope.$apply();
-                                    $log.log('rcmBlankSyncDialog.link.setTimeout: complete ' + totalTime);
                                 },
                                 totalTime
                             );
                         },
                         post: function (scope, elm, attrs, controller, transcludeFn) {
-                            $log.log('rcmBlankSyncDialog.link.post');
+
                         }
                     }
                 };
 
                 self.controller = function ($scope, $element) {
 
-                    $log.log('rcmBlankSyncDialog.controller');
                 };
 
                 self.template = '<div></div>';
@@ -448,7 +441,7 @@ angular.module(
 
                         $http({method: 'GET', url: rcmDialogService.strategy.url}).
                             success(function (data, status, headers, config) {
-                                        //console.log('http');
+
                                         var contentBody = elm.find(".modal-body");
                                         contentBody.html(data);
                                         $compile(contentBody)(scope);
@@ -506,7 +499,6 @@ angular.module(
                         $http.get('/modules/rcm-shopping-cart/list-categories.html')
                             .success(
                             function (data) {
-                                console.log('new stuf');
                                 cnt++;
                                 var html = clicker + cnt + data;
 
@@ -542,7 +534,7 @@ angular.module(
 
                         scope.$watch(attrs.rcmDialogContent, function (html) {
                             elm.html(html);
-                            console.log('Compile');
+
                             $compile(elm.contents())(scope);
                         });
                     }

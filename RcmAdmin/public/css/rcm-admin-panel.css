@@ -1,4 +1,36 @@
-.rcmAdminPanelWrapper {
+.rcmAdminPanelWrapper{
+    min-height: 96px;
+    width: 100%;
+    z-index: 1000;
+}
+
+.rcmAdminPanelWrapper .rcmAdminPanelFixed {
+    background-color: #FFFFFF;
+    position: fixed; left: 0;
+    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.10);
+    -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.10);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.10);
+    width: 100%;
+    z-index: 1000;
+}
+
+.rcmAdminPanelWrapper .rcmAdminPanelInner {
+    background-color: #f3f3f3;
+    border: 1px solid #9e9e9e;
+    margin: 0 auto;
+    min-height: 94px;
+    width: 100%;
+}
+
+.rcmAdminPanelWrapper .rcmAdminPanelShadow{
+    width: 100%;
+    height: 5px;
+    position: absolute; left: 0; bottom: -5px;
+    z-index: 500;
+    display: none;
+}
+
+.rcmAdminPanelNav {
     background-color: #FFFFFF;
     border-bottom: 1px solid #00A3E6;
     width: 100%;
@@ -7,13 +39,14 @@
     font-size: 11px;
 }
 
-.rcmAdminPanelWrapper div.rcmPanelRightButtons {
+.rcmAdminPanelNav div.rcmPanelRightButtons {
     float: right;
     padding: 2px 2em 2px 2px;
 }
 
 div.rcmPanelEditorToolbar {
-    padding: 2px;
+    float: left;
+    padding: 0px;
     position: relative;
     width: 100%;
     z-index: 1020;
@@ -34,4 +67,8 @@ div.rcmPanelEditorToolbar {
     .form-control {
         width: 96%;
     }
+}
+
+.form-control {
+    padding: 0;
 }
