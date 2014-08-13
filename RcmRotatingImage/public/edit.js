@@ -29,9 +29,12 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      * Called by RelivContentManger to make the random image editable
      */
     me.initEdit = function () {
+
         ajaxEditHelper.ajaxGetInstanceConfigs(
             function (returnedInstanceConfig) {
+
                 instanceConfig = returnedInstanceConfig;
+
                 me.completeInitEdit();
             }
         );
@@ -78,9 +81,8 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      */
     me.completeInitEdit = function () {
 
-
         //The div that holds our edit buttons
-        var tools = $('<div class="tools"></div>');
+        var tools = $('<div class="tools" style="position: absolute; right: 10px; top: 5px"></div>');
         container.children('div').append(tools);
 
         //# of #
@@ -88,14 +90,14 @@ var RcmRotatingImageEdit = function (instanceId, container) {
         tools.append(me.numberDisplay);
 
         //Arrows
-        tools.append($('<img title="Last image" src="/modules/rcm/images/icons/left.png">')
+        tools.append($('<img title="Last image" src="/modules/rcm-lib/images/icons/left.png" style="cursor: pointer;margin-left: 10px;">')
             .click(function () {
                 --me.current;
                 me.render();
             }
         ));
 
-        tools.append($('<img title="Next image" src="/modules/rcm/images/icons/right.png" class="right">')
+        tools.append($('<img title="Next image" src="/modules/rcm-lib/images/icons/right.png" style="cursor: pointer;margin-left:0">')
             .click(function () {
                 ++me.current;
                 me.render();
@@ -233,7 +235,7 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      * @return {Object}
      */
     me.getBlankImage = function () {
-        return {src: '/modules/rcm/images/no-image.png', href: '', alt: ''};
+        return {src: '/modules/rcm-lib/images/no-image.png', href: '', alt: ''};
     };
 
 };

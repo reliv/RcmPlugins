@@ -6,36 +6,55 @@ $this->headLink()->appendStylesheet(
 );
 
 ?>
+<!-- <panel> -->
 <div class="rcmAdminPanelWrapper">
-    <?= $this->render('rcm-admin/admin/partial/navigation/navigation.phtml'); ?>
-    <div class="rcmPanelRightButtons">
-        <div ng-show="rcmAdminService.editMode">
-            <button type="button" class="btn btn-primary btn-xs" rcm-admin-edit-button="cancel">
-                <span class="glyphicon glyphicon glyphicon glyphicon-ok"></span>
-                Save Draft
-            </button>
-            <button type="button" class="btn btn-xs" rcm-admin-edit-button="cancel">
-                <span class="glyphicon glyphicon glyphicon-remove"></span>
-                Cancel
-            </button>
+    <div class="rcmAdminPanelFixed">
+        <div class="rcmAdminPanelInner">
+            <div class="rcmAdminPanelNav">
+                <?=
+                $this->render(
+                    'rcm-admin/admin/partial/navigation/navigation.phtml'
+                ); ?>
+                <div class="rcmPanelRightButtons">
+                    <div ng-show="rcmAdminService.editMode">
+                        <button type="button" class="btn btn-primary btn-xs"
+                                rcm-admin-edit-button="cancel">
+                            <span
+                                class="glyphicon glyphicon glyphicon glyphicon-ok"></span>
+                            Save Draft
+                        </button>
+                        <button type="button" class="btn btn-xs"
+                                rcm-admin-edit-button="cancel">
+                            <span
+                                class="glyphicon glyphicon glyphicon-remove"></span>
+                            Cancel
+                        </button>
+                    </div>
+                    <div ng-hide="rcmAdminService.editMode">
+                        <button type="button" class="btn btn-primary btn-xs"
+                                rcm-admin-edit-button="page">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+
+                <div style="clear: both;"></div>
+            </div>
+
+            <div class="rcmPanelEditorToolbar">
+                <?php
+                // Requires Angular and rcmLib/public/html-editor/html-editor.js
+                // and a parent angular controller
+                ?>
+                <div html-editor-toolbar></div>
+            </div>
+
+            <div style="clear: both;"></div>
         </div>
-        <div ng-hide="rcmAdminService.editMode">
-            <button type="button" class="btn btn-primary btn-xs" rcm-admin-edit-button="page">
-                <span class="glyphicon glyphicon-edit"></span>
-                Edit
-            </button>
+        <div class="rcmAdminPanelShadow" style="display:block;">
+            <span></span>
         </div>
     </div>
-
-    <div style="clear: both;"></div>
 </div>
-
-<div class="rcmPanelEditorToolbar">
-    <?php
-    // Requires Angular and rcmJavaScriptLib/public/html-editor/html-editor.js
-    // and a parent angular controller
-    ?>
-    <div html-editor-toolbar></div>
-</div>
-
-<div style="clear: both;"></div>
+<!-- </panel> -->

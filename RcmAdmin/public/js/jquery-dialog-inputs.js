@@ -24,6 +24,117 @@ var inputImageEventsDelegated = false;
             { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }
         ]
     };
+
+    var attachPageListAutoComplete = function (input) {
+        $.getJSON('/rcm-page-search/title', function (data) {
+            var pageUrls = [];
+            $.each(data, function (pageUrl) {
+                pageUrls.push(pageUrl);
+            });
+            input.autocomplete({
+                source: pageUrls,
+                minLength: 0
+            });
+        });
+    };
+
+
+
+    /**
+     * Displays a file picker window that is connected to an input box.
+     *
+     * @param {Object} urlInputBox jQuery input box to attach to file URL
+     * @param {String} fileType optional file type to allow
+     *
+     * @return {Null}
+     */
+    var showFileBrowserForInputBox = function (urlInputBox, fileType) {
+        showFileBrowser(
+            function (path) {
+                urlInputBox.attr('value', path);
+                urlInputBox.trigger('change');
+            },
+            fileType
+        )
+    };
+
+    /**
+     * Displays a file picker window
+     *
+     * @param {Function} callBack this is called when the user picks a file
+     * @param {String} fileType optional file type to allow
+     */
+    var showFileBrowser = function (callBack, fileType) {
+        //Declare a function for the file picker to call when user picks a file
+        window['elFinderFileSelected'] = function (url) {
+            callBack(url);
+        };
+        //Open the file picker window
+        var url = '/elfinder';
+        if (fileType) {
+            url += '/' + fileType;
+        }
+        popup(url, 1024, 768);
+    };
+    /**
+     * Opens Browser in a popup. The "width" and "height" parameters accept
+     * numbers (pixels) or percent (of screen size) values.
+     *
+     * This is pulled from ckEditor code
+     *
+     * @param {String} url The url of the external file browser.
+     * @param {String} width Popup window width.
+     * @param {String} height Popup window height.
+     * @param {String} options Popup window features.
+     */
+    var popup = function (url, width, height, options) {
+        width = width || '80%';
+        height = height || '70%';
+
+        if (typeof width == 'string' && width.length > 1 && width.substr(width.length - 1, 1) == '%')
+            width = parseInt(window.screen.width * parseInt(width, 10) / 100, 10);
+
+        if (typeof height == 'string' && height.length > 1 && height.substr(height.length - 1, 1) == '%')
+            height = parseInt(window.screen.height * parseInt(height, 10) / 100, 10);
+
+        if (width < 640)
+            width = 640;
+
+        if (height < 420)
+            height = 420;
+
+        var top = parseInt(( window.screen.height - height ) / 2, 10),
+            left = parseInt(( window.screen.width - width ) / 2, 10);
+
+        options = ( options || 'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes' ) +
+            ',width=' + width +
+            ',height=' + height +
+            ',top=' + top +
+            ',left=' + left;
+
+        var popupWindow = window.open('', null, options, true);
+
+        // Blocked by a popup blocker.
+        if (!popupWindow)
+            return false;
+
+        try {
+            // Chrome 18 is problematic, but it's not really needed here (#8855).
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.indexOf(' chrome/18') == -1) {
+                popupWindow.moveTo(left, top);
+                popupWindow.resizeTo(width, height);
+            }
+            popupWindow.focus();
+            popupWindow.location.href = url;
+        }
+        catch (e) {
+            popupWindow = window.open(url, null, options, true);
+        }
+
+        return true;
+    }
+
     var methods = {
         image: function (description, src) {
 
@@ -36,7 +147,7 @@ var inputImageEventsDelegated = false;
 
             var p = $('<p class="dialogElement imageInput" data-dialogElementName="' + name + '" style="overflow-y:hidden"></p>');
             p.append('<label for="' + name + '">' + description + '</label><br>' +
-                '<img style="max-width:120px;float:left;margin-right:10px" src="' + src + '" onerror="this.src=\'/modules/rcm/images/no-image.png\';">');
+                '<img style="max-width:120px;float:left;margin-right:10px" src="' + src + '" onerror="this.src=\'/modules/rcm-lib/images/no-image.png\';">');
             var urlBox = $('<input style="width:370px;margin-right:10px" name="' + name + '" value="' + src + '">');
             p.append(urlBox);
             p.append('<button type="button" class="image-button ui-button ui-widget ' +
@@ -51,7 +162,7 @@ var inputImageEventsDelegated = false;
 
                 $('body').on('click', '.imageInput button, .imageInput img',
                     function () {
-                        rcmEdit.showFileBrowserForInputBox(
+                        showFileBrowserForInputBox(
                             $(this).parent().children('input')
                             , 'images'
                         );
@@ -115,7 +226,7 @@ var inputImageEventsDelegated = false;
             var input = $('<input type="text" name="' + name + '" value="' + value + '">');
             p.append(input);
 
-            rcmEdit.attachPageListAutoComplete(input);
+            attachPageListAutoComplete(input);
 
             return p;
         },
