@@ -106,10 +106,10 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
 
     me.makePersonEditable = function (personId) {
         var personEles = peopleSlider.getPersonElements(personId);
-        if (!personEles.shortDesc.attr('contenteditable')) {
+        if (!personEles.shortDesc.attr('editInited')) {
+            personEles.shortDesc.attr('editInited', true);
 
             //Make the shortDesc editable
-            personEles.shortDesc.attr('contenteditable', true);
             personEles.shortDesc.css('cursor', 'text');
 
             // We load all images when in the editor to make saving easier
@@ -122,7 +122,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             //CkEditor has issues attaching to hidden elements
             personEles.details.show();
 
-            window['rcmEditor'].convertToHtml5Editor(personEles.longDesc);
+            rcm.angularCompile(personEles.details);
         }
     };
 
