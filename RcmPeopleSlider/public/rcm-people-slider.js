@@ -98,7 +98,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
             '<table class="personDetails"'
                 + dataPersonId + ' style="display:none;"' + '>' +
                 '<tr>' +
-                '<td><div class="longDesc">' +
+                '<td><div class="longDesc" data-richEdit>' +
                 person.longDesc +
                 '</div></td>' +
                 '<td>' +
@@ -124,7 +124,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
                 'class="person" ' +
                 'data-personId="' + personId + '">' +
                 '<img class="smallImage" src="' + person.smallImage + '">' +
-                '<div class="shortDesc">' +
+                '<div class="shortDesc" data-richEdit>' +
                 person.shortDesc +
                 '</div>' +
                 '</a>');
