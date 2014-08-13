@@ -29,8 +29,6 @@ var rcm = new function () {
 
         if (self.ocLazyLoad) {
 
-            //self.console.log('rcm.addAngularModule.ocLazyLoad: '+moduleName);
-
             if (!lazyloadConfig) {
                 lazyloadConfig = {};
             }
@@ -41,7 +39,7 @@ var rcm = new function () {
                 .then(
                 function () {
                     self.pushModuleName(moduleName);
-                    //self.console.log('rcm.addAngularModule.ocLazyLoad.then: '+moduleName);
+
                     self.scope.safeApply();
                 }
             );
@@ -50,7 +48,7 @@ var rcm = new function () {
         }
 
         if (!self.app) {
-            //self.console.log('rcm.addAngularModule.pushModuleName: '+moduleName);
+
             self.pushModuleName(moduleName);
         }
     }

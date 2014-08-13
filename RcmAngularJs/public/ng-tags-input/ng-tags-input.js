@@ -128,6 +128,15 @@ tagsInput.directive('tagsInput', ["$timeout","$document","tagsInputConfig", func
                    !findInObjectArray(self.items, tag, options.displayProperty);
         };
 
+        self.tagCanBeRemoved = function(tag) {
+            if(typeof options.canRemove == 'function'){
+
+                return options.canRemove(tag);
+            }
+
+            return true;
+        };
+
         self.items = [];
 
         self.addText = function(text) {
@@ -157,6 +166,11 @@ tagsInput.directive('tagsInput', ["$timeout","$document","tagsInputConfig", func
         };
 
         self.remove = function(index) {
+
+            if(!self.tagCanBeRemoved(self.items[index])){
+
+                return null;
+            }
             var tag = self.items.splice(index, 1)[0];
             events.trigger('tag-removed', { $tag: tag });
             return tag;
