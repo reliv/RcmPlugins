@@ -1,4 +1,6 @@
 /* To help with responsive design */
+.htmlEditorToolbar {
+}
 .mce-tinymce {
     position: relative!important;
     float: left!important;;
