@@ -122,7 +122,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
             //CkEditor has issues attaching to hidden elements
             personEles.details.show();
 
-            rcm.angularCompile(personEles.details);
+            rcm.angularCompile(container);
         }
     };
 
