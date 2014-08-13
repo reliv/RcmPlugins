@@ -19,7 +19,7 @@
                 '<span aria-hidden="true">&times;</span>' +
                 '<span class="sr-only">Close</span>' +
                 '</button>' +
-                '<h4 class="modal-title">' + title + '</h4></div>' +
+                '<h1 class="modal-title">' + title + '</h1></div>' +
                 ' <div class="modal-body"><p>' + text + '</p></div> ' +
                 '<div class="modal-footer">' +
                 ' <button type="button" class="btn btn-primary ok">Ok</button> ' +
@@ -54,7 +54,7 @@
                 '<span aria-hidden="true">&times;</span>' +
                 '<span class="sr-only">Close</span>' +
                 '</button>' +
-                '<h4 class="modal-title">' + title + '</h4></div>' +
+                '<h1 class="modal-title">' + title + '</h1></div>' +
                 ' <div class="modal-body"><p>' + text + '</p></div> ' +
                 '<div class="modal-footer">' +
                 ' <button type="button" class="btn btn-default cancel">Cancel</button> ' +
