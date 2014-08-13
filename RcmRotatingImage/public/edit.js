@@ -82,7 +82,7 @@ var RcmRotatingImageEdit = function (instanceId, container) {
     me.completeInitEdit = function () {
 
         //The div that holds our edit buttons
-        var tools = $('<div class="tools"></div>');
+        var tools = $('<div class="tools" style="position: relative; bottom: 1.2em;"></div>');
         container.children('div').append(tools);
 
         //# of #

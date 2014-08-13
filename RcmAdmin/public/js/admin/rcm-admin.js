@@ -230,7 +230,7 @@ angular.module(
                             'rcmAdminService.editing',
                             function (newValue, oldValue) {
 
-                                if(newValue != oldValue){
+                                if (newValue != oldValue) {
                                     rcmAdminService.initEdit(elm);
                                 }
                             },
@@ -270,16 +270,22 @@ angular.module(
 
                         scope.rcmAdminService = rcmAdminService;
 
+                        if (rcmAdminService.editMode) {
+                            rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
+                        } else {
+                            rcmHtmlEditorDestroy(attrs.id);
+                        }
+
                         scope.$watch(
                             'rcmAdminService.editing',
                             function (newValue, oldValue) {
 
-                                if (rcmAdminService.editMode && newValue != oldValue) {
-                                    // @todo disable click and other content events
-                                    rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
-                                } else {
-                                    // @todo enable click and other content events + prepare
-                                    rcmHtmlEditorDestroy(attrs.id);
+                                if (newValue != oldValue) {
+                                    if (rcmAdminService.editMode) {
+                                        rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
+                                    } else {
+                                        rcmHtmlEditorDestroy(attrs.id);
+                                    }
                                 }
                             },
                             true
@@ -290,7 +296,7 @@ angular.module(
 
                 return {
                     compile: thisCompile,
-                    priority: 10,
+                    //priority: 10,
                     restrict: 'A',
                     require: '?ngModel'
                 }
@@ -320,16 +326,24 @@ angular.module(
 
                         attrs.$set('htmlEditorType', 'text');
 
+                        if (rcmAdminService.editMode) {
+                            rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
+                        } else {
+                            rcmHtmlEditorDestroy(attrs.id);
+                        }
+
                         scope.$watch(
                             'rcmAdminService.editing',
                             function (newValue, oldValue) {
 
-                                if (rcmAdminService.editMode && newValue != oldValue) {
-                                    // @todo disable click and other content events
-                                    rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
-                                } else {
-                                    // @todo enable click and other content events + prepare
-                                    rcmHtmlEditorDestroy(attrs.id);
+                                if (newValue != oldValue) {
+                                    if (rcmAdminService.editMode) {
+                                        // @todo disable click and other content events
+                                        rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
+                                    } else {
+                                        // @todo enable click and other content events + prepare
+                                        rcmHtmlEditorDestroy(attrs.id);
+                                    }
                                 }
                             },
                             true
@@ -339,7 +353,7 @@ angular.module(
                 }
                 return {
                     compile: thisCompile,
-                    priority: 10,
+                    //priority: 10,
                     restrict: 'A',
                     require: '?ngModel'
                 }

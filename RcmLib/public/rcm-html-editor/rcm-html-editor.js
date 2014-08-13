@@ -517,17 +517,21 @@ angular.module('RcmHtmlEditor', [])
 
                         self.elm.on('$destroy', function(){
 
+                            console.log('tinymce.elm.on($destroy): ' + self.id);
+
                             self.destroy();
                         })
 
                         self.scope.$on('$destroy', function () {
 
-                            self.destroy();
+                            console.log('tinymce.scope-$destroy: ' + self.id);
+                            //self.destroy(); // this is causing issues with editors that are on the page dynamically
                         });
                     };
 
                     self.destroy = function (onDestroyed) {
 
+                        console.log('RcmHtmlEditor.destroy: ' + self.id);
                         if (!self.tinyInstance) {
                             self.tinyInstance = tinymce.get(self.id);
                         }
@@ -591,8 +595,11 @@ angular.module('RcmHtmlEditor', [])
                         config
                     );
 
+                    console.log('rcmHtmlEditorInit: ' + id);
+
                     var onBuilt = function (rcmHtmlEditor, rcmHtmlEditorState) {
 
+                        console.log('rcmHtmlEditorInit.onBuilt: ',id);
                         rcmHtmlEditorLoading(id, false, 'rcmHtmlEditorInit.onBuilt: ');
                     }
 
@@ -611,6 +618,8 @@ angular.module('RcmHtmlEditor', [])
                 return function (id) {
 
                     if (id) {
+
+                        console.log('rcmHtmlEditorDestroy: ' + id);
 
                         var onDestroyed = function (rcmHtmlEditorState) {
                             // clean up loading
@@ -686,8 +695,8 @@ angular.module('RcmHtmlEditor', [])
                         //'editorsLoading: {{rcmHtmlEditorState.editorsLoading | json}}\n' +
                         //'</pre>' +
                         '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading || !rcmHtmlEditorState.hasEditors">' +
-                        ' <div ng-show="rcmHtmlEditorState.showFixedToolbar && !rcmHtmlEditorState.isEditing">' +
-                        '  <div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation" style="border-width: 1px; left: 0px; top: 0px; width: 100%; height: 34px;">' +
+                        ' <div class="mce-fake" ng-show="rcmHtmlEditorState.showFixedToolbar && !rcmHtmlEditorState.isEditing">' +
+                        '  <div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation">' +
                         '   <div class="mce-container-body mce-abs-layout">' +
                         '    <div class="mce-toolbar-grp mce-container mce-panel mce-first mce-last">' +
                         '     <div class="mce-container-body mce-stack-layout">' +
