@@ -51,18 +51,16 @@ var inputImageEventsDelegated = false;
      * @param {String} fileType optional file type to allow
      */
     var showFileBrowser = function (callBack, fileType) {
-
         //Declare a function for the file picker to call when user picks a file
         window['elFinderFileSelected'] = function (url) {
             callBack(url);
         };
-
         //Open the file picker window
-        var url = config.filebrowserBrowseUrl;
+        var url = '/elfinder';
         if (fileType) {
             url += '/' + fileType;
         }
-        popup(url, config.filebrowserWindowWidth, config.filebrowserWindowHeight);
+        popup(url, 1024, 768);
     };
     /**
      * Opens Browser in a popup. The "width" and "height" parameters accept
