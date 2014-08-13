@@ -185,7 +185,7 @@ return array(
                     'modules/rcm-admin/js/admin/rcm-admin.js',
                     'modules/rcm-admin/js/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/ajax-plugin-edit-helper.js',
-                    'modules/rcm-admin/js/jquery-ui-alert-confirm.js',
+                    'modules/rcm-admin/js/bootstrap-alert-confirm.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
