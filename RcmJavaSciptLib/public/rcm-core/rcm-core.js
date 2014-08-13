@@ -90,6 +90,7 @@ var rcm = new function () {
      */
     self.hasModule = function (moduleName) {
 
+        // @todo check oc-lazy-loader too
         if (self.moduleDepenencies.indexOf(moduleName) < 0) {
             return false;
         }
@@ -136,6 +137,8 @@ var rcm = new function () {
 
                 self.scope = angular.element(document).scope();
 
+                self.rootScope = angular.element(document).injector().get('$rootScope');
+
                 self.scope.safeApply = function (fn) {
                     var phase = self.scope.$root.$$phase;
                     if (phase == '$apply' || phase == '$digest') {
@@ -146,6 +149,21 @@ var rcm = new function () {
                         self.scope.$apply(fn);
                     }
                 };
+
+                self.angularSafeApply = function (fn) {
+                    self.scope.safeApply(fn);
+                }
+
+                self.angularCompile = function (elm, fn) {
+
+                    var content = elm.contents();
+
+                    angular.element(document).injector().invoke(function ($compile) {
+                        var scope = angular.element(content).scope();
+                        $compile(content)(scope);
+                        self.scope.safeApply(fn);
+                    });
+                }
                 /*
                  self.scope.$on('ocLazyLoad.moduleLoaded', function (e, module) {
                  console.log('module loaded', module);
@@ -158,7 +176,7 @@ var rcm = new function () {
                  self.scope.$on('ocLazyLoad.fileLoaded', function (e, module) {
                  console.log('fileLoaded loaded', module);
                  });
-                */
+                 */
             }
         );
     }
@@ -168,16 +186,18 @@ var rcm = new function () {
      * @param instanceId
      * @returns {string}
      */
-    this.getPluginContainerSelector = function (instanceId) {
+    self.getPluginContainerSelector = function (instanceId) {
 
-        ///* Check for actual container.  Helpful for duplicates on page */
-        //var container = $('#RcmRealPage [data-rcmPluginInstanceId="' + instanceId + '"]');
-        //
-        //if (container.length < 1) {
-            return('[data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
-        //} else {
-        //    return('#RcmRealPage [data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
-        //}
+        return('[data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
+    };
+
+    /**
+     * From old scripts
+     * @param instanceId
+     * @returns {*|jQuery|HTMLElement}
+     */
+    self.getPluginContainer = function (instanceId) {
+        return $(self.getPluginContainerSelector(instanceId));
     };
 
     /**
@@ -198,7 +218,7 @@ var rcm = new function () {
             /* keep older browsers from blowing up */
             self.console = function () {
 
-                self = this;
+                var self = this;
 
                 self.log = function (msg) {
                 };

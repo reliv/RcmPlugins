@@ -63,7 +63,8 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
             }
         );
 
-        window['rcmEdit'].refreshEditors(container);
+        //window['rcmEdit'].refreshEditors(container);
+        rcm.angularCompile(container);
 
     };
 
