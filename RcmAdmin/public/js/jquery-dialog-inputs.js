@@ -28,8 +28,6 @@ var inputImageEventsDelegated = false;
     var attachPageListAutoComplete = function (input) {
         $.getJSON('/rcm-page-search/title', function (data) {
             var pageUrls = [];
-//            alert('hi there');
-//            console.log(pageUrls);
             $.each(data, function (pageUrl) {
                 pageUrls.push(pageUrl);
             });
@@ -37,7 +35,6 @@ var inputImageEventsDelegated = false;
                 source: pageUrls,
                 minLength: 0
             });
-//            console.log(pageUrls);
         });
     };
 
