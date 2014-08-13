@@ -1,19 +1,19 @@
 /* To help with responsive design */
 .mce-tinymce {
-    /*position: relative!important;*/
-    /*width: 100%!important;*/
-
+    position: relative!important;
+    float: left!important;;
+    width: 100%!important; /* ie8 support */
+    width: calc(100% - 4px)!important;
 }
 
 .mce-toolbar-grp {
-    /*float: left!important;*/
-    /*margin: 0!important;*/
-    /*width: 100%!important;*/
-    /*position: relative; left: 0px; top: 0px; right:5px;*/
+    float: left!important;
+    margin: 0!important;
+    width: 100%!important;
 }
 
 .mce-container {
-    /*float: left!important;*/
+    float: left!important;
     margin-left: auto;
     margin-right: auto;
 }
@@ -29,6 +29,5 @@
 
 .mce-fake .mce-tinymce {
     border-width: 1px;
-     /*left: 0px; top: 0px; right:10px;*/
     height: 34px;
 }

@@ -171,16 +171,6 @@ angular.module('RcmHtmlEditor', [])
         ]
     )
     .factory(
-        'rcmHtmlEditorLoading',
-        [
-            'rcmHtmlEditorState',
-            function (rcmHtmlEditorState) {
-
-                return rcmHtmlEditorState.loading;
-            }
-        ]
-    )
-    .factory(
         'htmlEditorOptions',
         [
             'rcmHtmlEditorConfig',
@@ -328,8 +318,7 @@ angular.module('RcmHtmlEditor', [])
         'RcmHtmlEditor',
         [
             'rcmHtmlEditorState',
-            'rcmHtmlEditorLoading',
-            function (rcmHtmlEditorState, rcmHtmlEditorLoading) {
+            function (rcmHtmlEditorState) {
 
                 var RcmHtmlEditor = function (id) {
                     var self = this;
@@ -413,7 +402,7 @@ angular.module('RcmHtmlEditor', [])
 
                                 rcmHtmlEditorState.updateState(
                                     function () {
-                                        rcmHtmlEditorLoading(self.id, false, 'init');
+                                        rcmHtmlEditorState.loading(self.id, false, 'init');
 
                                         // will show default toolbar on init
                                         if (ed.settings.fixed_toolbar) {
@@ -532,7 +521,7 @@ angular.module('RcmHtmlEditor', [])
 
                             // this can cause issues with editors that are on the page dynamically
                             // might be caused by element being destroyed and scope is part on elm.
-                            self.destroy(null, 'RcmHtmlEditor.scope.$on($destroy)');
+                            // self.destroy(null, 'RcmHtmlEditor.scope.$on($destroy)');
                         });
                     };
 
@@ -577,9 +566,9 @@ angular.module('RcmHtmlEditor', [])
         [
             'guid',
             'htmlEditorOptions',
-            'rcmHtmlEditorLoading',
+            'rcmHtmlEditorState',
             'rcmHtmlEditorFactory',
-            function (guid, htmlEditorOptions, rcmHtmlEditorLoading, rcmHtmlEditorFactory) {
+            function (guid, htmlEditorOptions, rcmHtmlEditorState, rcmHtmlEditorFactory) {
 
                 return function (scope, elm, attrs, ngModel, config) {
 
@@ -590,7 +579,7 @@ angular.module('RcmHtmlEditor', [])
                     var id = attrs.id;
 
                     // this is to hide the default toolbar before init
-                    rcmHtmlEditorLoading(id, true, 'rcmHtmlEditorInit');
+                    rcmHtmlEditorState.loading(id, true, 'rcmHtmlEditorInit');
 
                     // get settings from attr or config
                     var settings = htmlEditorOptions.buildHtmlOptions(
@@ -602,7 +591,7 @@ angular.module('RcmHtmlEditor', [])
 
                     var onBuilt = function (rcmHtmlEditor, rcmHtmlEditorState) {
 
-                        rcmHtmlEditorLoading(id, false, 'rcmHtmlEditorInit.onBuilt: ');
+                        rcmHtmlEditorState.loading(id, false, 'rcmHtmlEditorInit.onBuilt: ');
                     }
 
                     rcmHtmlEditorFactory.build(id, scope, elm, attrs, ngModel, settings, onBuilt);
@@ -613,9 +602,9 @@ angular.module('RcmHtmlEditor', [])
     .factory(
         'rcmHtmlEditorDestroy',
         [
-            'rcmHtmlEditorLoading',
+            'rcmHtmlEditorState',
             'rcmHtmlEditorFactory',
-            function (rcmHtmlEditorLoading, rcmHtmlEditorFactory) {
+            function (rcmHtmlEditorState, rcmHtmlEditorFactory) {
 
                 return function (id) {
 
@@ -623,7 +612,7 @@ angular.module('RcmHtmlEditor', [])
 
                         var onDestroyed = function (rcmHtmlEditorState) {
                             // clean up loading
-                            rcmHtmlEditorLoading(id, false, 'rcmHtmlEditorDestroy');
+                            rcmHtmlEditorState.loading(id, false, 'rcmHtmlEditorDestroy');
                         }
 
                         rcmHtmlEditorFactory.destroy(id, onDestroyed);
@@ -685,41 +674,18 @@ angular.module('RcmHtmlEditor', [])
                 return {
                     link: thislink,
                     restrict: 'A',
-                    template: '' +
-                        //'<div style="display:block; position: absolute; top: 300px; left: 0px;"><pre>' +
-                        //'isEditing: {{rcmHtmlEditorState.isEditing | json}}\n' +
-                        //'toolbarLoading: {{rcmHtmlEditorState.toolbarLoading | json}}\n' +
-                        //'showFixedToolbar: {{rcmHtmlEditorState.showFixedToolbar | json}}\n' +
-                        //'hasEditors: {{rcmHtmlEditorState.hasEditors | json}}\n' +
-                        ////'editors: ' + JSON.stringify(rcmHtmlEditorState.editors) + '\n' +
-                        //'editorsLoading: {{rcmHtmlEditorState.editorsLoading | json}}\n' +
-                        //'</pre></div>' +
-                        '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading">' + //|| !rcmHtmlEditorState.hasEditors
-                        ' <div class="mce-fake" ng-show="rcmHtmlEditorState.showFixedToolbar && !rcmHtmlEditorState.isEditing">' +
-                        '  <div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation">' +
-                        '   <div class="mce-container-body mce-abs-layout">' +
-                        '    <div class="mce-toolbar-grp mce-container mce-panel mce-first mce-last">' +
-                        '     <div class="mce-container-body mce-stack-layout">' +
-                        '      <div class="mce-container mce-toolbar mce-first mce-last mce-stack-layout-item">' +
-                        '       <div class="mce-container-body mce-flow-layout">' +
-                        '        <div class="mce-container mce-first mce-flow-layout-item mce-btn-group">' +
-                        '         <div>' +
-                        '          <div class="mce-widget mce-btn mce-first mce-last mce-disabled" tabindex="-1" aria-labelledby="mceu_0" role="button" aria-label="Source code">' +
-                        //'           <button role="presentation" type="button" tabindex="-1" disabled="disabled"><i class="mce-ico mce-i-code"></i></button>' +
-                        '            <button role="presentation" type="button" disabled tabindex="-1">Select editable text to show editor controls</button>' +
-                        '          </div>' +
-                        '         </div>' +
-                        '        </div>' +
-                        '       </div>' +
-                        '      </div>' +
-                        '     </div>' +
-                        '    </div>' +
-                        '   </div>' +
-                        '  </div>' +
-                        ' </div>' +
-                        ' <div id="externalToolbarWrapper"></div>' +
-                        '</div>'
+                    templateUrl: 'rcm-html-editor-fake-text.html'
                 };
             }
         ]
-    );
+    )
+    .run([
+             "$templateCache",
+             function ($templateCache) {
+                 $templateCache.put(
+                     'rcm-html-editor-fake-text.html',
+                     '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading"><div class="mce-fake" ng-show="rcmHtmlEditorState.showFixedToolbar && !rcmHtmlEditorState.isEditing" ><div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation"><div class="mce-container-body mce-abs-layout"><div class="mce-toolbar-grp mce-container mce-panel mce-first mce-last"><div class="mce-container-body mce-stack-layout"><div class="mce-container mce-toolbar mce-first mce-last mce-stack-layout-item"><div class="mce-container-body mce-flow-layout"><div class="mce-container mce-first mce-flow-layout-item mce-btn-group" role="group"><div><div class="mce-widget mce-btn mce-first mce-last mce-disabled" tabindex="-1" role="button" aria-label="Source code" ><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-code"></i></button></div></div></div><div class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div><div class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" aria-labelledby="" role="button" aria-label="Undo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-undo"></i></button></div><div class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Redo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-redo"></i></button></div></div></div><div class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div><div class="mce-widget mce-btn mce-colorbutton mce-first mce-last mce-disabled" role="button" tabindex="-1" aria-haspopup="true" aria-label="Text color"><button role="presentation" hidefocus="1" type="button" tabindex="-1"><i class="mce-ico mce-i-forecolor"></i><span class="mce-preview"></span></button><button type="button" class="mce-open mce-disabled" hidefocus="1" tabindex="-1"><i class="mce-caret"></i></button></div></div></div><div class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div><div class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Bold"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bold"></i></button></div><div class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Italic"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-italic"></i></button></div><div class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Underline"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-underline"></i></button></div><div class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Strikethrough"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-strikethrough"></i></button></div><div class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Subscript"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-subscript"></i></button></div><div class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Superscript"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-superscript"></i></button></div><div class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Clear formatting"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-removeformat"></i></button></div></div></div><div class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div><div class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Decrease indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-outdent"></i></button></div><div class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Increase indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-indent"></i></button></div></div></div><div class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div><div class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Cut"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-cut"></i></button></div><div class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Copy"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-copy"></i></button></div><div class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-pressed="false" aria-label="Paste as text"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-pastetext"></i></button></div></div></div><div class="mce-container mce-flow-layout-item mce-btn-group mce-disabled" role="group"><div><div class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Insert/edit image"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-image"></i></button></div><div class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Special character"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-charmap"></i></button></div></div></div><div class="mce-container mce-last mce-flow-layout-item mce-btn-group" role="group"><div><div class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" aria-labelledby=" " role="button" aria-label="Insert/edit link"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-link"></i></button></div><div id="mcefake_21" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_21" role="button" aria-label="Remove link"><button role="presentation" type="button" tabindex="-1" ><i class="mce-ico mce-i-unlink"></i></button></div><div id="mcefake_22" class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" aria-labelledby="mcefake_22" role="button" aria-label="Anchor"><button role="presentation" type="button" tabindex="-1" ><i class="mce-ico mce-i-anchor"></i></button></div></div></div></div></div></div></div></div></div></div><div id="externalToolbarWrapper"></div></div>'
+
+                 );
+             }
+         ]);
