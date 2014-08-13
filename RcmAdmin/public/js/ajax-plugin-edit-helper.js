@@ -34,6 +34,7 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginUrlName) {
                 container.show();
                 //window['rcmEdit'].refreshEditors(container);
                 rcm.angularCompile(container);
+                //result.instanceConfig, result.defaultInstanceConfig
                 callback(result.instanceConfig, result.defaultInstanceConfig);
             }
         );

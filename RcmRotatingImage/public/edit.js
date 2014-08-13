@@ -29,9 +29,12 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      * Called by RelivContentManger to make the random image editable
      */
     me.initEdit = function () {
+
         ajaxEditHelper.ajaxGetInstanceConfigs(
             function (returnedInstanceConfig) {
+
                 instanceConfig = returnedInstanceConfig;
+
                 me.completeInitEdit();
             }
         );
@@ -78,7 +81,6 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      */
     me.completeInitEdit = function () {
 
-
         //The div that holds our edit buttons
         var tools = $('<div class="tools"></div>');
         container.children('div').append(tools);
@@ -88,78 +90,78 @@ var RcmRotatingImageEdit = function (instanceId, container) {
         tools.append(me.numberDisplay);
 
         //Arrows
-        tools.append($('<img title="Last image" src="/modules/rcm/images/icons/left.png">')
-            .click(function () {
-                --me.current;
-                me.render();
-            }
+        tools.append($('<img title="Last image" src="/modules/rcm-lib/images/icons/left.png">')
+                         .click(function () {
+                                    --me.current;
+                                    me.render();
+                                }
         ));
 
-        tools.append($('<img title="Next image" src="/modules/rcm/images/icons/right.png" class="right">')
-            .click(function () {
-                ++me.current;
-                me.render();
-            }
+        tools.append($('<img title="Next image" src="/modules/rcm-lib/images/icons/right.png" class="right">')
+                         .click(function () {
+                                    ++me.current;
+                                    me.render();
+                                }
         ));
 
         //Edit by clicking main image
         container.find('a img').dblclick(function () {
-                me.showEditDialog(false);
-            }
+                                             me.showEditDialog(false);
+                                         }
         );
 
         //Add right click menu
         $.contextMenu({
-            selector: rcm.getPluginContainerSelector(instanceId) + ' a',
+                          selector: rcm.getPluginContainerSelector(instanceId) + ' a',
 
-            //Here are the right click menu options
-            items: {
-                createNew: {
-                    name: 'Add New Image',
-                    icon: 'edit',
-                    callback: function () {
-                        instanceConfig.images.push(me.getBlankImage());
-                        me.current = instanceConfig.images.length - 1;
-                        me.render();
-                        me.showEditDialog(true);
-                    }
-                },
-                separator1: "-",
-                deleteMe: {
-                    name: 'Remove Image',
-                    icon: 'delete',
-                    callback: function () {
-                        if (!instanceConfig.images.length) {
-                            $().alert('No images to remove.');
-                        } else {
-                            $().confirm(
-                                'Remove image #' + (me.current + 1) + '?',
-                                function () {
-                                    instanceConfig.images.splice(me.current, 1);
-                                    if (instanceConfig.images.length == 0) {
-                                        instanceConfig.images.push(
-                                            me.getBlankImage()
-                                        );
-                                    } else {
-                                        --me.current;
-                                    }
-                                    me.render();
-                                }
-                            );
-                        }
-                    }
-                },
-                separator3: "-",
-                edit: {
-                    name: 'Edit Image Properties',
-                    icon: 'edit',
-                    callback: function () {
-                        me.showEditDialog();
-                    }
-                }
+                          //Here are the right click menu options
+                          items: {
+                              createNew: {
+                                  name: 'Add New Image',
+                                  icon: 'edit',
+                                  callback: function () {
+                                      instanceConfig.images.push(me.getBlankImage());
+                                      me.current = instanceConfig.images.length - 1;
+                                      me.render();
+                                      me.showEditDialog(true);
+                                  }
+                              },
+                              separator1: "-",
+                              deleteMe: {
+                                  name: 'Remove Image',
+                                  icon: 'delete',
+                                  callback: function () {
+                                      if (!instanceConfig.images.length) {
+                                          $().alert('No images to remove.');
+                                      } else {
+                                          $().confirm(
+                                              'Remove image #' + (me.current + 1) + '?',
+                                              function () {
+                                                  instanceConfig.images.splice(me.current, 1);
+                                                  if (instanceConfig.images.length == 0) {
+                                                      instanceConfig.images.push(
+                                                          me.getBlankImage()
+                                                      );
+                                                  } else {
+                                                      --me.current;
+                                                  }
+                                                  me.render();
+                                              }
+                                          );
+                                      }
+                                  }
+                              },
+                              separator3: "-",
+                              edit: {
+                                  name: 'Edit Image Properties',
+                                  icon: 'edit',
+                                  callback: function () {
+                                      me.showEditDialog();
+                                  }
+                              }
 
-            }
-        });
+                          }
+                      });
 
         //Run render to render our first image
         me.current = 0;
@@ -196,34 +198,34 @@ var RcmRotatingImageEdit = function (instanceId, container) {
             .addClass('simple')
             .append(src, alt, href)
             .dialog({
-                title: 'Properties',
-                modal: true,
-                width: 620,
-                close: function () {
-                    if (deleteOnClose && !okClicked) {
-                        //Delete image
-                        instanceConfig.images.pop();
-                    }
-                    me.render();
-                },
-                buttons: {
-                    Cancel: function () {
+                        title: 'Properties',
+                        modal: true,
+                        width: 620,
+                        close: function () {
+                            if (deleteOnClose && !okClicked) {
+                                //Delete image
+                                instanceConfig.images.pop();
+                            }
+                            me.render();
+                        },
+                        buttons: {
+                            Cancel: function () {
 
-                        $(this).dialog("close");
-                    },
-                    Ok: function () {
+                                $(this).dialog("close");
+                            },
+                            Ok: function () {
 
-                        //Get user-entered instanceConfig from form
-                        instanceConfig.images[me.current].alt = alt.val();
-                        instanceConfig.images[me.current].href = href.val();
-                        instanceConfig.images[me.current].src = src.val();
+                                //Get user-entered instanceConfig from form
+                                instanceConfig.images[me.current].alt = alt.val();
+                                instanceConfig.images[me.current].href = href.val();
+                                instanceConfig.images[me.current].src = src.val();
 
-                        //Close the dialog
-                        okClicked = true;
-                        $(this).dialog("close");
-                    }
-                }
-            });
+                                //Close the dialog
+                                okClicked = true;
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
     };
 
     /**
@@ -233,7 +235,7 @@ var RcmRotatingImageEdit = function (instanceId, container) {
      * @return {Object}
      */
     me.getBlankImage = function () {
-        return {src: '/modules/rcm/images/no-image.png', href: '', alt: ''};
+        return {src: '/modules/rcm-lib/images/no-image.png', href: '', alt: ''};
     };
 
 };

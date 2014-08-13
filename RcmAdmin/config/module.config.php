@@ -187,7 +187,8 @@ return array(
                     'modules/rcm-admin/js/ajax-plugin-edit-helper.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
-
+                    'modules/rcm-admin/css/admin-toolbar.css',
+                    'modules/rcm-admin/css/cm-admin.css',
                 ),
 
             ),
