@@ -296,7 +296,7 @@ angular.module(
 
                 return {
                     compile: thisCompile,
-                    //priority: 10,
+                    scope: {},
                     restrict: 'A',
                     require: '?ngModel'
                 }
@@ -353,7 +353,7 @@ angular.module(
                 }
                 return {
                     compile: thisCompile,
-                    //priority: 10,
+                    scope: {},
                     restrict: 'A',
                     require: '?ngModel'
                 }

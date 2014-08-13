@@ -141,6 +141,27 @@ angular.module('RcmHtmlEditor', [])
 
                         return false;
                     }
+
+                    self.loading = function (editorId, loading, msg) {
+
+                        if (loading) {
+
+                            if (self.editorsLoading.indexOf(editorId) < 0) {
+                                self.editorsLoading.push(editorId);
+                            }
+                        } else {
+
+                            if (self.editorsLoading.indexOf(editorId) > -1) {
+
+                                self.editorsLoading.splice(
+                                    self.editorsLoading.indexOf(editorId),
+                                    1
+                                )
+                            }
+                        }
+
+                        self.toolbarLoading = self.editorsLoading.length > 0;
+                    }
                 };
 
                 var rcmHtmlEditorState = new RcmHtmlEditorState();
@@ -155,26 +176,7 @@ angular.module('RcmHtmlEditor', [])
             'rcmHtmlEditorState',
             function (rcmHtmlEditorState) {
 
-                return function (editorId, loading, msg) {
-
-                    if (loading) {
-
-                        if (rcmHtmlEditorState.editorsLoading.indexOf(editorId) < 0) {
-                            rcmHtmlEditorState.editorsLoading.push(editorId);
-                        }
-                    } else {
-
-                        if (rcmHtmlEditorState.editorsLoading.indexOf(editorId) > -1) {
-
-                            rcmHtmlEditorState.editorsLoading.splice(
-                                rcmHtmlEditorState.editorsLoading.indexOf(editorId),
-                                1
-                            )
-                        }
-                    }
-
-                    rcmHtmlEditorState.toolbarLoading = rcmHtmlEditorState.editorsLoading.length > 0;
-                }
+                return rcmHtmlEditorState.loading;
             }
         ]
     )
@@ -422,12 +424,15 @@ angular.module('RcmHtmlEditor', [])
                                         // could cause issue if fires early
                                         if (!self.scope.$root.$$phase) {
                                             self.scope.$apply(
+                                                function () {
 
+                                                    if (typeof onBuilt === 'function') {
+                                                        onBuilt(self, rcmHtmlEditorState);
+                                                    }
+                                                }
                                             );
                                         }
-                                        if (typeof onBuilt === 'function') {
-                                            onBuilt(self, rcmHtmlEditorState);
-                                        }
+
                                     }
                                 );
                             });
@@ -499,6 +504,7 @@ angular.module('RcmHtmlEditor', [])
                         };
 
                         setTimeout(function () {
+
                             tinymce.init(self.settings);
                         });
 
@@ -511,33 +517,32 @@ angular.module('RcmHtmlEditor', [])
                                 }
                                 if (self.tinyInstance) {
                                     self.tinyInstance.setContent(self.ngModel.$viewValue || self.getElmValue());
+                                } else {
+                                    // self.destroy(null, 'tinyInstance not found')
                                 }
                             };
                         }
 
-                        self.elm.on('$destroy', function(){
+                        self.elm.on('$destroy', function () {
 
-                            console.log('tinymce.elm.on($destroy): ' + self.id);
-
-                            self.destroy();
+                            self.destroy(null, 'RcmHtmlEditor.elm.$on($destroy');
                         })
 
                         self.scope.$on('$destroy', function () {
 
-                            console.log('tinymce.scope-$destroy: ' + self.id);
-                            //self.destroy(); // this is causing issues with editors that are on the page dynamically
+                            // this can cause issues with editors that are on the page dynamically
+                            // might be caused by element being destroyed and scope is part on elm.
+                            self.destroy(null, 'RcmHtmlEditor.scope.$on($destroy)');
                         });
                     };
 
-                    self.destroy = function (onDestroyed) {
+                    self.destroy = function (onDestroyed, msg) {
 
-                        console.log('RcmHtmlEditor.destroy: ' + self.id);
                         if (!self.tinyInstance) {
                             self.tinyInstance = tinymce.get(self.id);
                         }
                         if (self.tinyInstance) {
                             self.tinyInstance.remove();
-                            //self.tinyInstance = null;
                         }
 
                         rcmHtmlEditorState.updateState(
@@ -595,11 +600,8 @@ angular.module('RcmHtmlEditor', [])
                         config
                     );
 
-                    console.log('rcmHtmlEditorInit: ' + id);
-
                     var onBuilt = function (rcmHtmlEditor, rcmHtmlEditorState) {
 
-                        console.log('rcmHtmlEditorInit.onBuilt: ',id);
                         rcmHtmlEditorLoading(id, false, 'rcmHtmlEditorInit.onBuilt: ');
                     }
 
@@ -618,8 +620,6 @@ angular.module('RcmHtmlEditor', [])
                 return function (id) {
 
                     if (id) {
-
-                        console.log('rcmHtmlEditorDestroy: ' + id);
 
                         var onDestroyed = function (rcmHtmlEditorState) {
                             // clean up loading
@@ -652,7 +652,7 @@ angular.module('RcmHtmlEditor', [])
                 var self = this;
 
                 self.compile = function (tElm, tAttr) {
-                    return function(scope, elm, attrs, ngModel, config){
+                    return function (scope, elm, attrs, ngModel, config) {
                         rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
                     }
                 }
@@ -686,15 +686,15 @@ angular.module('RcmHtmlEditor', [])
                     link: thislink,
                     restrict: 'A',
                     template: '' +
-                        //'<pre>' +
+                        //'<div style="display:block; position: absolute; top: 300px; left: 0px;"><pre>' +
                         //'isEditing: {{rcmHtmlEditorState.isEditing | json}}\n' +
                         //'toolbarLoading: {{rcmHtmlEditorState.toolbarLoading | json}}\n' +
                         //'showFixedToolbar: {{rcmHtmlEditorState.showFixedToolbar | json}}\n' +
                         //'hasEditors: {{rcmHtmlEditorState.hasEditors | json}}\n' +
                         ////'editors: ' + JSON.stringify(rcmHtmlEditorState.editors) + '\n' +
                         //'editorsLoading: {{rcmHtmlEditorState.editorsLoading | json}}\n' +
-                        //'</pre>' +
-                        '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading || !rcmHtmlEditorState.hasEditors">' +
+                        //'</pre></div>' +
+                        '<div class="htmlEditorToolbar" ng-cloak ng-hide="rcmHtmlEditorState.toolbarLoading">' + //|| !rcmHtmlEditorState.hasEditors
                         ' <div class="mce-fake" ng-show="rcmHtmlEditorState.showFixedToolbar && !rcmHtmlEditorState.isEditing">' +
                         '  <div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation">' +
                         '   <div class="mce-container-body mce-abs-layout">' +
