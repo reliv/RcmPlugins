@@ -25,6 +25,20 @@ var inputImageEventsDelegated = false;
         ]
     };
 
+    var attachPageListAutoComplete = function (input) {
+        $.getJSON('/rcm-page-search/title', function (data) {
+            var pageUrls = [];
+            $.each(data, function (pageUrl) {
+                pageUrls.push(pageUrl);
+            });
+            input.autocomplete({
+                source: pageUrls,
+                minLength: 0
+            });
+        });
+    };
+
+
 
     /**
      * Displays a file picker window that is connected to an input box.
@@ -212,8 +226,7 @@ var inputImageEventsDelegated = false;
             var input = $('<input type="text" name="' + name + '" value="' + value + '">');
             p.append(input);
 
-            console.log('waiting for brians autocomplete fix here');
-            //attachPageListAutoComplete(input);
+            attachPageListAutoComplete(input);
 
             return p;
         },
