@@ -69,7 +69,6 @@ class AdminPanelController
      */
     public function getAdminWrapperAction()
     {
-
         $allowed = $this->userService->isAllowed(
             'sites.' . $this->siteId,
             'admin',

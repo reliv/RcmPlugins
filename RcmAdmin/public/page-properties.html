@@ -1,5 +1,8 @@
 <div oc-lazy-load="{name: 'rcmAdminPage', files: ['/modules/rcm-admin/js/page-properties.js']}">
     <script type="text/javascript" src="/modules/rcm-admin/js/page-properties.js"></script>
+    <link href="/modules/rcm-admin/css/rcm-admin-panel.css"
+          media="screen"
+          rel="stylesheet" type="text/css">
     <div ng-controller="PageProperties" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,6 +11,7 @@
                 <h1 class="modal-title" id="myModalLabel">Page Properties</h1>
             </div>
             <div class="modal-body">
+                <div class="wrapperPageProp">
                 <form>
                     <div class="form-group">
                         <label>Page Title</label>
@@ -19,6 +23,7 @@
                         <input class="form-control" ng-model="keywords" type="text">
                     </div>
                 </form>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"
