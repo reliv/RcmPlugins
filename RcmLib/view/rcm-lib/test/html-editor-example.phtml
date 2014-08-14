@@ -23,8 +23,8 @@ if ($this->testType == 'default') {
                 [
                     '$scope',
                     '$timeout',
-                    'rcmHtmlEditorState',
-                    function ($scope, $timeout, rcmHtmlEditorState) {
+                    'rcmHtmlEditorService',
+                    function ($scope, $timeout, rcmHtmlEditorService) {
 
                         $scope.myModel = {
                             a: "My Test Text",
@@ -40,7 +40,7 @@ if ($this->testType == 'default') {
                             ]
                         }
 
-                        $scope.rcmHtmlEditorState = rcmHtmlEditorState;
+                        $scope.rcmHtmlEditorService = rcmHtmlEditorService;
 
                         $scope.index = 3;
 
@@ -121,8 +121,8 @@ if ($this->testType == 'default') {
             <br/>
 
             <div>
-                <p><b>rcmHtmlEditorState</b></p>
-                <pre>{{rcmHtmlEditorState | json}}</pre>
+                <p><b>rcmHtmlEditorService</b></p>
+                <pre>{{rcmHtmlEditorService | json}}</pre>
             </div>
             <br/>
             <br/>

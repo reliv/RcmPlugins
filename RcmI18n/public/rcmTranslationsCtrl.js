@@ -2,8 +2,8 @@
  * Created by idavis on 7/2/14.
  */
 angular.module('rcmLocales', ['RcmHtmlEditor'])
-    .controller('rcmTranslations', ['$scope', '$log', '$http', 'rcmHtmlEditorState',
-        function ($scope, $log, $http, rcmHtmlEditorState) {
+    .controller('rcmTranslations', ['$scope', '$log', '$http', 'rcmHtmlEditorService',
+        function ($scope, $log, $http, rcmHtmlEditorService) {
             var self = this;
             self.url = {
                 locales: '/rcmi18n/locales'
@@ -11,7 +11,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             $scope.locales = [];
             $scope.loading = false;//loadin ng-show set to false
             $scope.messageQuery = '';
-            $scope.rcmHtmlEditorState = rcmHtmlEditorState;
+            $scope.rcmHtmlEditorService = rcmHtmlEditorService;
             self.getLocales = function () {
                 $scope.loading = true;//loadin ng-show set to true when getLocales is called
 
