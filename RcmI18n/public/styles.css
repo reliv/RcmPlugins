@@ -32,7 +32,7 @@
     font-size: 22px;
 }
 
-.rcmHtmlEditorState.toolbarLoading.active {
+.rcmHtmlEditorService.toolbarLoading.active {
     display: inline-block;
     width: auto; /* fix for unknown width elements */
     font-size: 22px;

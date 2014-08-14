@@ -27,7 +27,7 @@
                                         ng-model="selectedLocale"
                                         ng-options="locale for locale in locales"
                                         ng-change="OpenLocale()"
-                                        ng-disabled="loading || rcmHtmlEditorState.toolbarLoading">
+                                        ng-disabled="loading || rcmHtmlEditorService.toolbarLoading">
                                     <option value="">
                                         Please select language
                                     </option>
@@ -36,7 +36,7 @@
                         </div>
                         <label style="float:right;width:20em;" class="input-group">
                             <input ng-model="messageQuery"
-                                   ng-disabled="loading || rcmHtmlEditorState.toolbarLoading"
+                                   ng-disabled="loading || rcmHtmlEditorService.toolbarLoading"
                                    class="form-control"/>
                             <span class="input-group-addon glyphicon glyphicon-search"
                                   style="position:static"></span>
@@ -48,11 +48,11 @@
                         <div class="loadBar">
                             <div>
                                 <i class="glyphicon glyphicon-refresh loading"
-                                   ng-class="{'active': loading || rcmHtmlEditorState.toolbarLoading}"></i>
+                                   ng-class="{'active': loading || rcmHtmlEditorService.toolbarLoading}"></i>
                             </div>
                         </div>
                         <table id="transMesages"
-                               ng-hide="loading || rcmHtmlEditorState.toolbarLoading"
+                               ng-hide="loading || rcmHtmlEditorService.toolbarLoading"
                                class="table panel panel-default">
                             <tr class="titleTranslations">
                                 <th style="width:20em">
