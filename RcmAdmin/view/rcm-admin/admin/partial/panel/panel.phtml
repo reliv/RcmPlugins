@@ -16,7 +16,8 @@ $this->headLink()->appendStylesheet(
                     'rcm-admin/admin/partial/navigation/navigation.phtml'
                 ); ?>
                 <div class="rcmPanelRightButtons">
-                    <div ng-show="rcmAdminService.editMode">
+                    {{rcmAdminPage || json}}
+                    <div ng-show="rcmAdminPage.editMode">
                         <button type="button" class="btn btn-primary btn-xs"
                                 rcm-admin-edit-button="cancel">
                             <span
@@ -30,7 +31,7 @@ $this->headLink()->appendStylesheet(
                             Cancel
                         </button>
                     </div>
-                    <div ng-hide="rcmAdminService.editMode">
+                    <div ng-hide="rcmAdminPage.editMode">
                         <button type="button" class="btn btn-primary btn-xs"
                                 rcm-admin-edit-button="page">
                             <span class="glyphicon glyphicon-edit"></span>
