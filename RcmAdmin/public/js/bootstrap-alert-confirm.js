@@ -11,29 +11,28 @@
             title = 'Alert';
         }
         var modal = $(
-            '<div class="modal fade">' +
+            '<div id="alertModal" class="modal fade">' +
                 '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
-                '<button type="button" class="close" data-dismiss="modal">' +
-                '<span aria-hidden="true">&times;</span>' +
+                '<button type="button" class="close">' +
                 '<span class="sr-only">Close</span>' +
                 '</button>' +
                 '<h1 class="modal-title">' + title + '</h1></div>' +
                 ' <div class="modal-body"><p>' + text + '</p></div> ' +
                 '<div class="modal-footer">' +
-                ' <button type="button" class="btn btn-primary ok">Ok</button> ' +
+                ' <button id="closeAlert" type="button" class="btn btn-primary ok">Ok</button> ' +
                 '</div>  </div><!-- /.modal-content --> ' +
                 ' </div><!-- /.modal-dialog -->' +
                 '</div><!-- /.modal -->');
         modal.modal('show');
         modal.find('.ok').click(function () {
             $('.modal-backdrop').remove();
-            modal.modal('hide');
+            $('#alertModal').remove();
+             modal.modal('hide');
             if (typeof(okCallBack) == 'function') {
                 okCallBack();
             }
-
         });
     };
     /**
@@ -49,12 +48,11 @@
             title = 'Confirm';
         }
         var modal = $(
-            '<div class="modal fade">' +
+            '<div id="alertModal" class="modal fade bootstrapConfirm">' +
                 '<div class="modal-dialog">' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
                 '<button type="button" class="close" data-dismiss="modal">' +
-                '<span aria-hidden="true">&times;</span>' +
                 '<span class="sr-only">Close</span>' +
                 '</button>' +
                 '<h1 class="modal-title">' + title + '</h1></div>' +
@@ -68,11 +66,13 @@
         modal.modal('show');
         modal.find('.cancel').click(function () {
             $('.modal-backdrop').remove();
+            $('#alertModal').remove();
             modal.modal('hide');
             cancelCallBack();
         });
         modal.find('.ok').click(function () {
             $('.modal-backdrop').remove();
+            $('#alertModal').remove();
             modal.modal('hide');
             okCallBack();
         });
