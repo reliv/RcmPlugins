@@ -30,7 +30,10 @@
         modal.find('.ok').click(function () {
             $('.modal-backdrop').remove();
             modal.modal('hide');
-            okCallBack();
+            if (typeof(okCallBack) == 'function') {
+                okCallBack();
+            }
+
         });
     };
     /**

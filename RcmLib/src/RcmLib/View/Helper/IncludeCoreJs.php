@@ -56,11 +56,15 @@ class IncludeCoreJs extends AbstractHelper
             $view->basePath() . '/modules/rcm-angular-js/angular/angular.js'
         );
         $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
-        );
-        $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-lib/es5-shim-master/es5-shim.min.js'
         );
+        $headScript()->prependFile(
+            $view->basePath() . '/modules/rcm-twitter-bootstrap/js/bootstrap.js'
+        );
+        $headScript()->prependFile(
+            $view->basePath() . '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
+        );
+
         /* </CORE_JS_FILES> */
     }
 }
