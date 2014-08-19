@@ -15,24 +15,35 @@ $this->headLink()->appendStylesheet(
                 $this->render(
                     'rcm-admin/admin/partial/navigation/navigation.phtml'
                 ); ?>
-                <div class="rcmPanelRightButtons">
-                    <div ng-show="rcmAdminService.editMode">
-                        <button type="button" class="btn btn-primary btn-xs"
-                                rcm-admin-edit-button="cancel">
+                <div class="rcmPanelRightButtons" data-rcm-admin-menu>
+                    <div ng-show="rcmAdminPage.editMode">
+                        <button
+                            class="btn btn-primary btn-xs"
+                            rcm-admin-edit-button="cancel"
+                            type="button"
+                            >
                             <span
-                                class="glyphicon glyphicon glyphicon glyphicon-ok"></span>
+                                class="glyphicon glyphicon glyphicon glyphicon-ok"
+                                ></span>
                             Save Draft
                         </button>
-                        <button type="button" class="btn btn-xs"
-                                rcm-admin-edit-button="cancel">
+                        <button
+                            class="btn btn-xs"
+                            rcm-admin-edit-button="cancel"
+                            type="button"
+                            >
                             <span
-                                class="glyphicon glyphicon glyphicon-remove"></span>
+                                class="glyphicon glyphicon glyphicon-remove"
+                                ></span>
                             Cancel
                         </button>
                     </div>
-                    <div ng-hide="rcmAdminService.editMode">
-                        <button type="button" class="btn btn-primary btn-xs"
-                                rcm-admin-edit-button="page">
+                    <div ng-hide="rcmAdminPage.editMode">
+                        <button
+                            class="btn btn-primary btn-xs"
+                            rcm-admin-edit-button="page"
+                            type="button"
+                            >
                             <span class="glyphicon glyphicon-edit"></span>
                             Edit
                         </button>
@@ -47,7 +58,8 @@ $this->headLink()->appendStylesheet(
                 // Requires Angular and rcmLib/public/html-editor/html-editor.js
                 // and a parent angular controller
                 ?>
-                <div html-editor-toolbar html-editor-toolbar-toggle="false" html-editor-toolbar-default-skin="lightgray"></div>
+                <div html-editor-toolbar html-editor-toolbar-toggle="false"
+                     html-editor-toolbar-default-skin="lightgray"></div>
             </div>
 
             <div style="clear: both;"></div>
