@@ -40,7 +40,7 @@ var rcm = new function () {
                 function () {
                     self.pushModuleName(moduleName);
 
-                    self.scope.safeApply();
+                    self.rootScope.safeApply();
                 }
             );
 
@@ -51,7 +51,7 @@ var rcm = new function () {
 
             self.pushModuleName(moduleName);
         }
-    }
+    };
 
     /**
      *
@@ -67,7 +67,7 @@ var rcm = new function () {
 
             self.addAngularModule(moduleName, moduleConfigs[moduleName]);
         }
-    }
+    };
 
     /**
      *
@@ -79,7 +79,7 @@ var rcm = new function () {
 
             self.moduleDepenencies.push(moduleName);
         }
-    }
+    };
 
     /**
      *
@@ -94,7 +94,7 @@ var rcm = new function () {
         }
 
         return true;
-    }
+    };
 
     /**
      *
@@ -137,19 +137,19 @@ var rcm = new function () {
 
                 self.rootScope = angular.element(document).injector().get('$rootScope');
 
-                self.scope.safeApply = function (fn) {
-                    var phase = self.scope.$root.$$phase;
+                self.rootScope.safeApply = function (fn) {
+                    var phase = self.rootScope.$$phase;
                     if (phase == '$apply' || phase == '$digest') {
                         if (fn && (typeof(fn) === 'function')) {
                             fn();
                         }
                     } else {
-                        self.scope.$apply(fn);
+                        self.rootScope.$apply(fn);
                     }
                 };
 
                 self.angularSafeApply = function (fn) {
-                    self.scope.safeApply(fn);
+                    self.rootScope.safeApply(fn);
                 }
 
                 self.angularCompile = function (elm, fn) {
@@ -159,7 +159,7 @@ var rcm = new function () {
                     angular.element(document).injector().invoke(function ($compile) {
                         var scope = angular.element(content).scope();
                         $compile(content)(scope);
-                        self.scope.safeApply(fn);
+                        self.rootScope.safeApply(fn);
                     });
                 }
                 /*
@@ -177,7 +177,7 @@ var rcm = new function () {
                  */
             }
         );
-    }
+    };
 
     /**
      * From old scripts
@@ -235,7 +235,7 @@ var rcm = new function () {
 
             window.console = self.console;
         }
-    }
+    };
 
     // construct
     self.initConsole();

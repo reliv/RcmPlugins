@@ -204,7 +204,7 @@ var RcmTabsEdit = function (instanceId, container) {
         };
 
         if (addDelete) {
-            items.delete = {
+            items['delete'] = {
                 name: 'Delete Tab',
                 icon: 'delete',
                 callback: me.deleteTab

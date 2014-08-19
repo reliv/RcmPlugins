@@ -1,5 +1,6 @@
 /* To help with responsive design */
 .htmlEditorToolbar {
+    color:#999999;
 }
 .mce-tinymce {
     position: relative!important;
