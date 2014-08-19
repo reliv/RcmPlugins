@@ -59,9 +59,14 @@ class IncludeCoreJs extends AbstractHelper
         $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-angular-js/angular/angular.js'
         );
+
         $headScript()->prependFile(
             $view->basePath()
             . '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
+        );
+
+        $headScript()->prependFile(
+            $view->basePath() . '/modules/rcm-lib/respond/respond.min.js'
         );
         $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-lib/html5shiv/html5shiv.js'
