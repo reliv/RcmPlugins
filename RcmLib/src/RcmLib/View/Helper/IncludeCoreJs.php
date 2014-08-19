@@ -2,7 +2,8 @@
 
 namespace RcmLib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use
+    Zend\View\Helper\AbstractHelper;
 
 /**
  * Class IncludeCoreJs
@@ -47,24 +48,28 @@ class IncludeCoreJs extends AbstractHelper
 
         /* <CORE_JS_FILES> */
         $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-angular-js/ocLazyLoad/dist/ocLazyLoad.js'
-        );
-        $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-lib/rcm-core/rcm-core.js'
         );
         $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-angular-js/angular/angular.js'
-        );
-        $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-lib/es5-shim-master/es5-shim.min.js'
+            $view->basePath()
+            . '/modules/rcm-angular-js/ocLazyLoad/dist/ocLazyLoad.js'
         );
         $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-twitter-bootstrap/js/bootstrap.js'
         );
         $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
+            $view->basePath() . '/modules/rcm-angular-js/angular/angular.js'
         );
-
+        $headScript()->prependFile(
+            $view->basePath()
+            . '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
+        );
+        $headScript()->prependFile(
+            $view->basePath() . '/modules/rcm-lib/html5shiv/html5shiv.js'
+        );
+        $headScript()->prependFile(
+            $view->basePath() . '/modules/rcm-lib/es5-shim-master/es5-shim.min.js'
+        );
         /* </CORE_JS_FILES> */
     }
 }

@@ -25,6 +25,7 @@ angular.module('RcmHtmlEditor', [])
                 forced_root_block: '',
 
                 inline: true,
+                encoding : "raw",
                 fixed_toolbar_container: self.fixed_toolbar_container,
                 language: self.language,
 
@@ -49,6 +50,7 @@ angular.module('RcmHtmlEditor', [])
                 forced_root_block: '',
 
                 inline: true,
+                encoding : "raw",
                 fixed_toolbar_container: self.fixed_toolbar_container,
                 language: self.language,
 
@@ -72,6 +74,7 @@ angular.module('RcmHtmlEditor', [])
                 forced_root_block: '',
 
                 inline: true,
+                encoding : "raw",
                 fixed_toolbar_container: self.fixed_toolbar_container,
                 language: self.language,
 

@@ -6,6 +6,7 @@
  *  TinyMce
  *  RcmHtmlEditor
  */
+
 angular.module(
         'rcmAdmin',
         ['RcmHtmlEditor']
@@ -17,132 +18,33 @@ angular.module(
         'rcmAdminService',
         [
             function () {
-
                 return RcmAdminService;
-                /*
-                var Service = function () {
+            }
+        ]
+    )
+/**
+ * rcmAdmin.rcmAdminMenu
+ */
+    .directive(
+        'rcmAdminMenu',
+        [
+            'rcmAdminService',
+            function (rcmAdminService) {
 
-                    var self = this;
+                var thisLink = function (scope, elm, attrs) {
 
-                    self.editing = []; // page, layout, sitewide
-                    self.editMode = false;
+                };
 
-                    self.setEditing = function (type, val, callback) {
+                var controller = function ($scope, $element) {
 
-                        if (type == 'cancel') {
+                    $scope.rcmAdminPage = rcmAdminService.getPage();
+                };
 
-                            self.cancelEdit();
-
-                            if (callback) {
-                                callback(self);
-                            }
-
-                            return;
-                        }
-
-                        if (val) {
-
-                            if (self.editing.indexOf(type) < 0) {
-                                self.editing.push(type);
-                            }
-                        } else {
-
-                            if (self.editing.indexOf(type) > -1) {
-
-                                self.editing.splice(
-                                    self.editing.indexOf(type),
-                                    1
-                                )
-                            }
-                        }
-
-                        self.editMode = (self.editing.length > 0);
-
-                        if (callback) {
-                            callback(self);
-                        }
-                    }
-
-                    self.isEditing = function (type) {
-
-                        if (type) {
-                            return (self.editing.indexOf(type) > -1);
-                        }
-
-                        self.editMode = (self.editing.length > 0);
-
-                        return self.editMode;
-                    }
-
-                    self.initEdit = function (elm) {
-
-                        //if (self.canEdit(elm)) {
-
-                        self.doInitEdit(elm);
-                        //}
-                    }
-
-                    self.canEdit = function (elm) {
-
-                        var isPagePlugin = (elm.attr('data-isPageContainer') == 'Y');
-
-                        var isLayoutPlugin = (elm.attr('data-isPageContainer') != 'Y');
-
-                        var isSitewidePlugin = (elm.attr('data-rcmSiteWidePlugin') == '1');
-
-                        // must be in page edit mode
-                        if (!self.isEditing('page')) {
-
-                            return false;
-                        }
-
-                        if (self.isEditing('sitewide') && isSitewidePlugin) {
-
-                            return true;
-                        }
-
-                        if (self.isEditing('layout') && isLayoutPlugin) {
-
-                            return true;
-                        }
-
-                        if (self.isEditing('page') && isPagePlugin) {
-
-                            return true;
-                        }
-
-                        return false;
-                    }
-
-                    self.doInitEdit = function (elm) {
-
-                        var name = elm.attr('data-rcmPluginName');
-                        var id = elm.attr('data-rcmPluginInstanceId');
-
-                        if (name) {
-
-                            var className = name + 'Edit';
-                            var editClass = window[className];
-
-                            if (editClass) {
-
-                                var editObj = new editClass(id, elm.find('.rcmPluginContainer')); // first child
-
-                                editObj.initEdit();
-                            }
-                        }
-                    }
-
-                    self.cancelEdit = function () {
-
-                        window.location = window.location.pathname;
-                    }
+                return {
+                    restrict: 'A',
+                    link: thisLink,
+                    controller: controller
                 }
-
-                var service = new Service();
-
-                return service;
-                */
             }
         ]
     )
@@ -158,20 +60,35 @@ angular.module(
 
                 var thisLink = function (scope, elm, attrs) {
 
+                    scope.rcmAdminPage = rcmAdminService.getPage();
+
                     elm.on('click', null, null, function () {
 
-                        var rcmPage = rcmAdminService.getPage();
-                        rcmPage.build(function (page) {
+                        scope.rcmAdminPage.build(
+                            function (page) {
 
-                            var editingState = attrs.rcmAdminEditButton;
+                                var editingState = attrs.rcmAdminEditButton;
 
-                            if (!editingState) {
-                                editingState = 'page';
+                                if (!editingState) {
+                                    editingState = 'page';
+                                }
+
+                                if (editingState == 'cancel') {
+                                    scope.rcmAdminPage.cancel();
+                                    scope.$apply();
+                                    return;
+                                }
+
+                                if (editingState == 'save') {
+                                    scope.rcmAdminPage.save();
+                                    scope.$apply();
+                                    return;
+                                }
+
+                                scope.rcmAdminPage.setEditingOn(editingState);
+                                scope.$apply();
                             }
-
-                            rcmPage.setEditingOn(editingState);
-                            scope.$apply();
-                        });
+                        );
                     });
 
                 };
@@ -322,9 +239,9 @@ var RcmAdminService = {
         };
     },
 
-    getPage: function() {
+    getPage: function () {
 
-        if(!RcmAdminService.page){
+        if (!RcmAdminService.page) {
 
             RcmAdminService.page = new RcmAdminService.RcmPage(document, jQuery('body'))
         }
@@ -338,6 +255,7 @@ var RcmAdminService = {
         self.elm = elm;
         self.events = new RcmAdminService.RcmEvents();
         self.editing = []; // page, layout, sitewide
+        self.editMode = false;
         self.containerAttr = 'data-containerId';
         self.data = {
             url: '',
@@ -373,16 +291,21 @@ var RcmAdminService = {
 
         self.isEditing = function () {
 
-            var editMode = (self.editing.length > 0)
+            self.editMode = (self.editing.length > 0)
 
-            self.events.trigger('editingStateChange', {editMode: editMode, editing: self.editing});
+            self.events.trigger('editingStateChange', {editMode: self.editMode, editing: self.editing});
 
-            return editMode;
+            return self.editMode;
         };
 
-        self.save = function(){
+        self.save = function () {
             // loop containers and fire saves... aggregate data and sent to server
 
+        }
+
+        self.cancel = function () {
+
+            window.location = window.location.pathname;
         }
 
         self.buildData = function (onBuilt) {
@@ -454,7 +377,7 @@ var RcmAdminService = {
             return false;
         }
 
-        self.save = function(onSaved){
+        self.save = function (onSaved) {
             // loop plugins and fire saves...
 
             if (typeof onSaved === 'function') {
@@ -562,9 +485,11 @@ var RcmAdminService = {
 
         self.initEdit = function (onInitted) {
 
-            if (self.canEdit() && self.getPluginObject.initEdit) {
+            var pluginObject = self.getPluginObject()
 
-                self.getPluginObject.initEdit();
+            if (self.canEdit() && pluginObject.initEdit) {
+
+                pluginObject.initEdit();
             }
 
             if (typeof onInitted === 'function') {
@@ -581,7 +506,9 @@ var RcmAdminService = {
 
         self.save = function (onSaved) {
 
-            if (self.canEdit()) {
+            var pluginObject = self.getPluginObject()
+
+            if (self.canEdit() && pluginObject.getSaveData) {
 
                 var saveData = self.getPluginObject.getSaveData();
 
@@ -615,7 +542,7 @@ var RcmAdminService = {
 
         self.getPluginObject = function () {
 
-            if(self.pluginObject){
+            if (self.pluginObject) {
 
                 return self.pluginObject;
             }
@@ -642,9 +569,6 @@ var RcmAdminService = {
 
         self.onEditChange = function (args) {
 
-            console.log('plugin.onEditChange',args,self.data.name);
-            // args = {editMode: editMode, editing: editing}
-
             self.editMode = self.canEdit(args.editing);
 
             self.initEdit();
@@ -663,8 +587,8 @@ var RcmAdminService = {
 
             var resized = (self.elm.attr('data-rcmPluginResized') == 'Y');
 
-            if(resized) {
-                self.data.size = self.elm.width() +','+self.elm.height();
+            if (resized) {
+                self.data.size = self.elm.width() + ',' + self.elm.height();
             }
 
             self.container.page.events.on('editingStateChange', self.onEditChange);
@@ -698,11 +622,11 @@ var RcmAdminService = {
         self.id = id;
         //self.pluginContainer = pluginContainer;
 
-        self.initEdit = function(){
+        self.initEdit = function () {
             console.log('initEdit: no edit js object found - using default for: ' + self.id);
         };
 
-        self.getSaveData = function(){
+        self.getSaveData = function () {
             console.log('getSaveData: no edit js object found - using default for: ' + self.id);
             return {};
         };

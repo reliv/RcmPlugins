@@ -80,7 +80,7 @@ var RcmPeopleSliderEdit = function (instanceId, container) {
                     callback: me.editPersonImages
                 },
                 line2: '-',
-                delete: {
+                "delete": {
                     name: 'Delete Person',
                     icon: 'delete',
                     callback: me.deletePerson
