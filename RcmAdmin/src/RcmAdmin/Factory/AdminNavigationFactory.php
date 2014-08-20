@@ -93,6 +93,8 @@ class AdminNavigationFactory extends AbstractNavigationFactory
     }
 
     /**
+     * Zend Inject Components.
+     *
      * @param array $pages
      * @param RouteMatch $routeMatch
      * @param Router $router
@@ -135,6 +137,13 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         return $pages;
     }
 
+    /**
+     * Should link be shown in nav bar?
+     *
+     * @param $page
+     *
+     * @return bool
+     */
     protected function shouldShowInNavigation(&$page)
     {
         if (isset($page['rcmOnly'])
@@ -173,6 +182,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         return true;
     }
 
+    /**
+     * Setup Rcm Navigation
+     *
+     * @param $page
+     */
     protected function setupRcmNavigation(&$page) {
 
         if (empty($this->page)) {
@@ -193,6 +207,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
 
     }
 
+    /**
+     * Get Draft Revision List
+     *
+     * @return array
+     */
     protected function getDraftRevisionList()
     {
         $return = array();
@@ -215,6 +234,9 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         return $return;
     }
 
+    /*
+     * Get Published Revision List
+     */
     protected function getPublishedRevisionList()
     {
         $return = array();
@@ -237,6 +259,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         return $return;
     }
 
+    /**
+     * Update config place holders with correct data prior to building the navigation
+     *
+     * @param $item
+     */
     protected function updatePlaceHolders(&$item) {
 
         if (empty($this->page)) {
