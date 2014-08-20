@@ -37,6 +37,8 @@ class IncludeTinyMce extends AbstractHelper
     /**
      * inject
      *
+     * @param array $options
+     *
      * @return void
      */
     protected function inject($options = array())
@@ -46,8 +48,8 @@ class IncludeTinyMce extends AbstractHelper
         /** @var \Zend\View\Helper\HeadScript $headScript */
         $headScript = $view->headScript();
 
-        $headScript->prependFile(
-            '/modules/rcm-tinymce-js/tinymce/tinymce.min.js'
+        $headScript->appendFile(
+            '/modules/rcm-tinymce-js/tinymce/tinymce.js'
         );
 
     }
