@@ -563,7 +563,7 @@ var RcmAdminService = {
                 }
             }
 
-            self.pluginObject = new RcmAdminService.RcmPluginEditJs(id, pluginContainer);
+            self.pluginObject = new RcmAdminService.RcmPluginEditJs(id, pluginContainer, name);
             return self.pluginObject;
         }
 
@@ -616,18 +616,18 @@ var RcmAdminService = {
      * @param pluginContainer
      * @constructor
      */
-    RcmPluginEditJs: function (id, pluginContainer) {
+    RcmPluginEditJs: function (id, pluginContainer, name) {
 
         var self = this;
         self.id = id;
         //self.pluginContainer = pluginContainer;
 
         self.initEdit = function () {
-            console.log('initEdit: no edit js object found - using default for: ' + self.id);
+            //console.log('initEdit: no edit js object found for '+name+' - using default for: ' + self.id);
         };
 
         self.getSaveData = function () {
-            console.log('getSaveData: no edit js object found - using default for: ' + self.id);
+            //console.log('getSaveData: no edit js object found '+name+' - using default for: ' + self.id);
             return {};
         };
     },

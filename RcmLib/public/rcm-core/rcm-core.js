@@ -79,7 +79,7 @@ var rcm = new function () {
 
             self.moduleDepenencies.push(moduleName);
         }
-    };
+    }
 
     /**
      *
@@ -94,7 +94,7 @@ var rcm = new function () {
         }
 
         return true;
-    };
+    }
 
     /**
      *
@@ -177,7 +177,7 @@ var rcm = new function () {
                  */
             }
         );
-    };
+    }
 
     /**
      * From old scripts
@@ -235,7 +235,7 @@ var rcm = new function () {
 
             window.console = self.console;
         }
-    };
+    }
 
     // construct
     self.initConsole();
