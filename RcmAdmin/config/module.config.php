@@ -53,14 +53,36 @@ return array(
                     'Copy To' => array(
                         'label' => 'Copy To...',
                         'uri' => '#',
+                        'rcmOnly' => true,
                         'pages' => array(
                             'Page' => array(
-                                'label' => 'Template',
-                                'route' => 'RcmAdmin\Page\CreateTemplateFromPage',
-                                'class' => 'RcmAdminMenu RcmFormDialog',
-                                'title' => 'Copy To Template',
+                                'label'  => 'Template',
+                                'route'  => 'RcmAdmin\Page\CreateTemplateFromPage',
+                                'class'  => 'RcmAdminMenu RcmFormDialog',
+                                'title'  => 'Copy To Template',
+                                'params' => array(
+                                    'rcmPageName' => ':rcmPageName',
+                                    'rcmPageType' => ':rcmPageType',
+                                    'rcmPageRevision' => ':rcmPageRevision'
+                                ),
+                                'acl'    => array(
+                                    'providerId' => 'Rcm\Acl\ResourceProvider',
+                                    'resource' => 'sites.:siteId.pages.create'
+                                )
                             ),
                         ),
+                    ),
+
+                    'Drafts' => array(
+                        'label' => 'Drafts',
+                        'uri' => '#',
+                        'rcmIncludeDrafts' => true,
+                    ),
+
+                    'Restore' => array(
+                        'label' => 'Restore',
+                        'uri' => '#',
+                        'rcmIncludePublishedRevisions' => true
                     ),
                 ),
             ),
@@ -97,9 +119,9 @@ return array(
                 ),
             ),
             'RcmAdmin\Page\CreateTemplateFromPage' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/rcm-admin/page/create-template-from-page',
+                    'route' => '/rcm-admin/page/create-template-from-page/:rcmPageType/:rcmPageName/:rcmPageRevision',
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\PageController',
                         'action' => 'createPageFromTemplate',
