@@ -239,11 +239,13 @@ var RcmAdminService = {
         };
     },
 
-    getPage: function () {
+    getPage: function (onBuilt) {
 
         if (!RcmAdminService.page) {
 
-            RcmAdminService.page = new RcmAdminService.RcmPage(document, jQuery('body').find('#sitewrapper'))
+            RcmAdminService.page = new RcmAdminService.RcmPage(document, jQuery('body').find('#sitewrapper'));
+
+            RcmAdminService.page.build(onBuilt);
         }
         return RcmAdminService.page
     },
@@ -293,8 +295,6 @@ var RcmAdminService = {
 
             self.editMode = (self.editing.length > 0)
 
-            self.disableEvents();
-
             self.events.trigger('editingStateChange', {editMode: self.editMode, editing: self.editing});
 
             return self.editMode;
@@ -309,17 +309,6 @@ var RcmAdminService = {
 
             window.location = window.location.pathname;
         }
-
-        self.disableEvents = function () {
-            //Disable normal events
-            self.elm.find('*').unbind();
-            var donDoIt = function () {
-                return false;
-            };
-            self.elm.find('button').click(donDoIt);
-            self.elm.find('a').click(donDoIt);
-            self.elm.find('form').submit(donDoIt)
-        };
 
         self.buildData = function (onBuilt) {
 
@@ -391,22 +380,24 @@ var RcmAdminService = {
 
         self.canEdit = function (editing) {
 
-            if (editing.indexOf(self.data.type) > -1) {
-
-                return true;
-            }
-
-            return false;
+            return (editing.indexOf(self.data.type) > -1);
         }
 
         self.onEditChange = function (args) {
 
-            self.editMode = self.canEdit(args.editing)
+            self.editMode = self.canEdit(args.editing);
+
             // @debug - testing
-            //if(self.editMode){
+            // if (self.editMode) {
             //    self.elm.prepend('<div style="position: relative; top: 0px; left: 0px; border: #FF0000 solid 1px;">EDITING CONTAINER:'+self.data.type+'</div>');
-            //}
+            // }
+
         };
+
+        self.onBuilt = function () {
+
+            self.page.events.on('editingStateChange', self.onEditChange);
+        }
 
         self.buildData = function (onBuilt) {
 
@@ -456,10 +447,12 @@ var RcmAdminService = {
                 function (rcmContainer) {
                     self.buildPlugins(
                         function (container) {
-                            self.page.events.on('editingStateChange', self.onEditChange);
+
                             if (typeof onBuilt === 'function') {
                                 onBuilt(self);
                             }
+
+                            self.onBuilt();
                         }
                     );
                 }
@@ -482,6 +475,9 @@ var RcmAdminService = {
         self.elm = elm;
         self.order = index;
         //self.editMode = false;
+        self.viewEnabled = true;
+
+        /* Good browsers */
 
         self.pluginObject = null;
 
@@ -501,20 +497,32 @@ var RcmAdminService = {
             // float
         };
 
+        self.setOrginalStyle = function (style) {
+            if (typeof style !== 'string') {
+                style = '';
+            }
+
+            self.orginalStyle = style;
+        }
+
         self.initEdit = function (onInitted) {
 
             var pluginObject = self.getPluginObject()
 
-            if (self.canEdit() && pluginObject.initEdit) {
+            if (self.canEdit()) {
 
-                // @debug - testing
-                //self.elm.prepend('<div style="position: relative; top: 0px; left: 0px; border: #ffff00 solid 1px;">EDITING:'+self.data.name+'</div>');
+                self.enableView(
+                    function (plugin) {
+                        if (pluginObject.initEdit) {
 
-                pluginObject.initEdit();
-            }
+                            pluginObject.initEdit();
+                        }
 
-            if (typeof onInitted === 'function') {
-                onInitted(self);
+                        if (typeof onInitted === 'function') {
+                            onInitted(self);
+                        }
+                    }
+                );
             }
         };
 
@@ -529,16 +537,19 @@ var RcmAdminService = {
 
             var pluginObject = self.getPluginObject()
 
-            if (self.canEdit() && pluginObject.getSaveData) {
+            if (self.canEdit()) {
 
-                var saveData = self.getPluginObject.getSaveData();
+                if (pluginObject.getSaveData) {
 
-                // @todo - get html editor data and merge with saveData
-                self.data.saveData = saveData;
-            }
+                    var saveData = self.getPluginObject.getSaveData();
 
-            if (typeof onSaved === 'function') {
-                onSaved(self);
+                    // @todo - get html editor data and merge with saveData
+                    self.data.saveData = saveData;
+                }
+
+                if (typeof onSaved === 'function') {
+                    onSaved(self);
+                }
             }
         };
 
@@ -584,11 +595,56 @@ var RcmAdminService = {
             return self.pluginObject;
         }
 
+        self.disableView = function (onDisabled) {
+
+            if(!self.viewEnabled){
+
+                if (typeof onDisabled === 'function') {
+                    onDisabled(self);
+                }
+
+                return;
+            }
+
+            //Disable normal events
+            self.elm.find('*').unbind();
+            var donDoIt = function () {
+                return false;
+            };
+            self.elm.find('button').click(donDoIt);
+            self.elm.find('a').click(donDoIt);
+            self.elm.find('form').submit(donDoIt);
+
+            self.elm.addClass('rcmPluginLocked');
+
+            self.viewEnabled = false;
+
+            if (typeof onDisabled === 'function') {
+                onDisabled(self);
+            }
+        }
+
+        self.enableView = function (onEnabled) {
+
+            self.elm.removeClass('rcmPluginLocked');
+
+            // @debug - testing
+            //self.elm.prepend('<div style="position: relative; top: 0px; left: 0px; border: #ffff00 solid 1px;">EDITING:'+self.data.name+'</div>');
+
+            if (typeof onEnabled === 'function') {
+                onEnabled(self);
+            }
+        }
+
         self.onEditChange = function (args) {
 
             self.editMode = self.canEdit(args.editing);
 
-            self.initEdit();
+            self.disableView(
+                function (plugin) {
+                    self.initEdit();
+                }
+            );
         };
 
         self.buildData = function (onBuilt) {

@@ -15,7 +15,11 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginUrlName) {
     var pluginBaseUrl = '/api/admin/instance-configs/'
         + instanceId;
 
+    /**
+     * @deprecated - this is done in the RcmAdminService
+     */
     this.disableEvents = function () {
+
         //Disable normal events
         container.find('*').unbind();
         var donDoIt = function () {
