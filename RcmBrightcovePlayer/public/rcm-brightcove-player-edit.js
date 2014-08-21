@@ -46,6 +46,12 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
 
                 container.dblclick(me.showEditDialog);
 
+
+                // This was moved from a down below
+
+                //window['rcmEdit'].refreshEditors(container);
+                rcm.angularCompile(container);
+
                 //Add right click menu
                 $.contextMenu({
                     selector: rcm.getPluginContainerSelector(instanceId),
@@ -63,8 +69,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
             }
         );
 
-        //window['rcmEdit'].refreshEditors(container);
-        rcm.angularCompile(container);
+
 
     };
 
