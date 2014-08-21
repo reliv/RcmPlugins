@@ -47,7 +47,8 @@ $this->headLink()->appendStylesheet(
                 // Requires Angular and rcmLib/public/html-editor/html-editor.js
                 // and a parent angular controller
                 ?>
-                <div html-editor-toolbar html-editor-toolbar-toggle="false" html-editor-toolbar-default-skin="lightgray"></div>
+                <div html-editor-toolbar html-editor-toolbar-toggle="false"
+                     html-editor-toolbar-default-skin="lightgray"></div>
             </div>
 
             <div style="clear: both;"></div>
@@ -57,4 +58,5 @@ $this->headLink()->appendStylesheet(
         </div>
     </div>
 </div>
+<?= $this->availablePluginsList() ?>
 <!-- </panel> -->

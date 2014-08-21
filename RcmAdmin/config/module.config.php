@@ -185,6 +185,7 @@ return array(
                     'modules/rcm-admin/js/admin/rcm-admin.js',
                     'modules/rcm-admin/js/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/ajax-plugin-edit-helper.js',
+                    'modules/rcm-admin/js/available-plugins-menu.js',
                     'modules/rcm-admin/js/bootstrap-alert-confirm.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
@@ -212,6 +213,7 @@ return array(
         'invokables' => array(
             'formPageLayout' => 'RcmAdmin\View\Helper\FormPageLayout',
             'displayErrors' => 'RcmAdmin\View\Helper\DisplayErrors',
+            'availablePluginsList' => 'RcmAdmin\View\Helper\AvailablePluginsList',
         )
     ),
     'form_elements' => array(

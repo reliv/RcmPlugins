@@ -72,3 +72,18 @@ div.rcmPanelEditorToolbar {
 .form-control {
     padding: 0;
 }
+
+.availablePluginsMenu img{
+    height: 40px;
+    width: 40px;
+}
+
+.availablePluginsMenu{
+    width: 200px;
+    height: 800px;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index: 1000;
+
+}
