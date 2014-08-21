@@ -23,10 +23,10 @@ angular.module(
         ]
     )
 /**
- * rcmAdmin.rcmAdminMenu
+ * rcmAdmin.rcmAdminMenuActions
  */
     .directive(
-        'rcmAdminMenu',
+        'rcmAdminMenuActions',
         [
             'rcmAdminService',
             function (rcmAdminService) {
