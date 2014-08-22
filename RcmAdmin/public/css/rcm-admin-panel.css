@@ -76,14 +76,17 @@ div.rcmPanelEditorToolbar {
 .availablePluginsMenu img{
     height: 40px;
     width: 40px;
+    margin-right: 1em;
 }
 
 .availablePluginsMenu{
-    width: 200px;
-    height: 800px;
+    width: 250px;
     position:fixed;
-    top:0;
-    left:0;
+    left:50px;
     z-index: 1000;
+}
 
+.availablePluginsMenu #availablePluginsGroup{
+    overflow-y: scroll;
+    max-height: 600px;
 }

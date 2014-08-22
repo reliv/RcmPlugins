@@ -1,8 +1,8 @@
 $(function () {
-    var menu = $('<div class="availablePluginsMenu panel">');
+    var menu = $('<div class="availablePluginsMenu panel panel-default">');
     $('body').prepend(menu);
     menu.css('top', $('.rcmAdminPanelWrapper').height());
-    menu.append('<h1>Available Plugins</h1>');
+    menu.append('<h1 class="panel-heading">Available Plugins</h1>');
     var accordion = $('<div class="panel-group" id="availablePluginsGroup">');
     menu.append(accordion);
     var categoryIndex = 0;
