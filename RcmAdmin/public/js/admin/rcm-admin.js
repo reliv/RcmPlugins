@@ -210,6 +210,9 @@ rcm.addAngularModule('rcmAdmin');
 var RcmAdminService = {
 
     page: null,
+    config: {
+
+    },
 
     RcmEvents: function () {
 
@@ -297,18 +300,19 @@ var RcmAdminService = {
 
             self.events.trigger('editingStateChange', {editMode: self.editMode, editing: self.editing});
 
+            console.log('EditMode change:',self.editing);
             return self.editMode;
         };
 
         self.save = function () {
             // loop containers and fire saves... aggregate data and sent to server
 
-        }
+        };
 
         self.cancel = function () {
 
             window.location = window.location.pathname;
-        }
+        };
 
         self.buildData = function (onBuilt) {
 
@@ -376,12 +380,12 @@ var RcmAdminService = {
             if (typeof onSaved === 'function') {
                 onSaved(self);
             }
-        }
+        };
 
         self.canEdit = function (editing) {
 
             return (editing.indexOf(self.data.type) > -1);
-        }
+        };
 
         self.onEditChange = function (args) {
 
@@ -397,7 +401,7 @@ var RcmAdminService = {
         self.onBuilt = function () {
 
             self.page.events.on('editingStateChange', self.onEditChange);
-        }
+        };
 
         self.buildData = function (onBuilt) {
 
@@ -503,6 +507,15 @@ var RcmAdminService = {
             }
 
             self.orginalStyle = style;
+        };
+
+        self.getType = function(){
+
+            if (self.data.isSitewide) {
+                return 'sitewide';
+            }
+
+            return self.container.data.type;
         }
 
         self.initEdit = function (onInitted) {
@@ -557,15 +570,9 @@ var RcmAdminService = {
 
             var editing = self.container.page.editing;
 
-            if (self.data.isSitewide) {
-                if (editing.indexOf('sitewide') > -1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+            var type = self.getType();
 
-            return self.container.canEdit(editing);
+            return (editing.indexOf(type) > -1);
         };
 
         self.getPluginObject = function () {
@@ -593,11 +600,11 @@ var RcmAdminService = {
 
             self.pluginObject = new RcmAdminService.RcmPluginEditJs(id, pluginContainer, name);
             return self.pluginObject;
-        }
+        };
 
         self.disableView = function (onDisabled) {
 
-            if(!self.viewEnabled){
+            if (!self.viewEnabled) {
 
                 if (typeof onDisabled === 'function') {
                     onDisabled(self);
@@ -605,6 +612,8 @@ var RcmAdminService = {
 
                 return;
             }
+
+            self.elm.addClass('rcmPluginLocked');
 
             //Disable normal events
             self.elm.find('*').unbind();
@@ -615,18 +624,42 @@ var RcmAdminService = {
             self.elm.find('a').click(donDoIt);
             self.elm.find('form').submit(donDoIt);
 
-            self.elm.addClass('rcmPluginLocked');
+            var unlock = function () {
+                console.log('unlock');
+                self.container.page.setEditingOn(
+                    self.getType()
+                );
+            }
+
+            self.elm.dblclick(unlock);
+            jQuery.contextMenu(
+                {
+                    selector: '.rcmLockOverlay',
+
+                    //Here are the right click menu options
+                    items: {
+                        unlockMe: {
+                            name: 'Unlock',
+                            icon: 'delete',
+                            callback: unlock
+                        }
+                    }
+                }
+            );
 
             self.viewEnabled = false;
 
             if (typeof onDisabled === 'function') {
                 onDisabled(self);
             }
-        }
+        };
 
         self.enableView = function (onEnabled) {
 
             self.elm.removeClass('rcmPluginLocked');
+            self.container.elm.dblclick(function () {
+                return false;
+            });
 
             // @debug - testing
             //self.elm.prepend('<div style="position: relative; top: 0px; left: 0px; border: #ffff00 solid 1px;">EDITING:'+self.data.name+'</div>');
@@ -634,7 +667,7 @@ var RcmAdminService = {
             if (typeof onEnabled === 'function') {
                 onEnabled(self);
             }
-        }
+        };
 
         self.onEditChange = function (args) {
 
