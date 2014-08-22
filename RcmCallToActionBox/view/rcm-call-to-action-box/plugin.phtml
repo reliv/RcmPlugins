@@ -1,10 +1,16 @@
 <a href="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
     <img src="<?= $this->escapeHtml($this->instanceConfig['imageSrc']) ?>">
-    <?= $this->rcmTextEdit('top', 'Discover', 'div', ['class' => 'top']) ?>
+    <?=
+    $this->rcmTextEdit(
+        'top',
+        'Discover',
+        'div',
+        ['class' => 'top']
+    ) ?>
     <?=
     $this->rcmTextEdit(
         'bottom',
-        'Discover th greatness and grandeur of the call to action box plugin',
+        'Discover the greatness and grandeur of the call to action box plugin',
         'div',
         ['class' => 'bottom']
     ) ?>

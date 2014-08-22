@@ -8,7 +8,13 @@ $this->rcmJsLibIncludeCoreJs();
 //needed for form-double-submit-protect.js
 ?>
 
-<?= $this->rcmTextEdit('loginHeader', 'Login', 'h1') ?>
+<?=
+$this->rcmTextEdit(
+    'loginHeader',
+    'Login',
+    'h1'
+)
+?>
 
 <div class="error">
     <?= isset($error) ? $this->escapeHtml($error) : '' ?>
@@ -39,14 +45,15 @@ $this->rcmJsLibIncludeCoreJs();
 
     <br>
     <br>
-
-    <?=
-    $this->rcmTextEdit(
-        'loginSubmitCopy',
-        'login',
-        'button',
-        array('type' => 'submit', 'class' => 'btn btn-primary')
-    ) ?>
+    <button class="btn btn-primary">
+        <?=
+        $this->rcmTextEdit(
+            'loginSubmitCopy',
+            'login',
+            'span',
+            array('type' => 'submit')
+        ) ?>
+    </button>
 </form>
 <br>
 <br>
