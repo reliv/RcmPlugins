@@ -30,7 +30,17 @@ foreach ($elements as &$element) {
 }
 
 // Assuming the "contact/process" route exists...
-$form->setAttribute('action', $this->url('RcmAdmin\Page\New'));
+$form->setAttribute(
+    'action',
+    $this->url(
+        'RcmAdmin\Page\CreateTemplateFromPage',
+        array(
+            'rcmPageName' => $this->rcmPageName,
+            'rcmPageType' => $this->rcmPageType,
+            'rcmPageRevision' => $this->rcmPageRevision,
+        )
+    )
+);
 
 // Set the method attribute for the form
 $form->setAttribute('method', 'post');

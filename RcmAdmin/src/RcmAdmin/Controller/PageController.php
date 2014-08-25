@@ -19,6 +19,7 @@
  */
 namespace RcmAdmin\Controller;
 
+use Rcm\Exception\PageNotFoundException;
 use Rcm\Http\Response;
 use Rcm\Service\PageManager;
 use RcmUser\User\Entity\User;
@@ -123,8 +124,8 @@ class PageController extends AbstractActionController
                 $this->pageManager->copyPage(
                     $validatedData['page-template'],
                     $validatedData['url'],
-                    $validatedData['title'],
-                    $this->rcmUserGetCurrentUser()->getName()
+                    $this->rcmUserGetCurrentUser()->getName(),
+                    $validatedData['title']
                 );
             }
 
@@ -153,6 +154,19 @@ class PageController extends AbstractActionController
             return $response;
         }
 
+        $sourcePage = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageName', 'index');
+
+        $sourcePageRevision = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageRevision', null);
+
+        $sourcePageType = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageType', 'n');
+
+
         /** @var \RcmAdmin\Form\CreateTemplateFromPageForm $form */
         $form = $this->getServiceLocator()
             ->get('FormElementManager')
@@ -169,11 +183,32 @@ class PageController extends AbstractActionController
         if ($request->isPost() && $form->isValid()) {
             $validatedData = $form->getData();
 
-            echo 'Valid';
-            exit;
+            $page = $this->pageManager->getPageByName($sourcePage, $sourcePageType);
+
+            if (empty($page)) {
+                throw new PageNotFoundException('Unable to locate source page to copy');
+            }
+
+            $pageId = $page->getPageId();
+
+            $this->pageManager->copyPage(
+                $pageId,
+                $validatedData['template-name'],
+                $this->rcmUserGetCurrentUser()->getName(),
+                null,
+                $sourcePageRevision,
+                't'
+            );
+
+            $this->view->setVariable('newPageUrl', $this->urlToPage($validatedData['template-name'], 't'));
+            $this->view->setTemplate('rcm-admin/page/success');
+            return $this->view;
         }
 
         $this->view->setVariable('form', $form);
+        $this->view->setVariable('rcmPageName', $sourcePage);
+        $this->view->setVariable('rcmPageRevision', $sourcePageRevision);
+        $this->view->setVariable('rcmPageType', $sourcePageType);
         return $this->view;
 
     }

@@ -77,8 +77,9 @@ class IncludeTwitterBootstrap extends AbstractHelper
 
         $headLink = $view->headLink();
 
+        // NOTE: IE8 does not like minifyied version
         $headLink->prependStylesheet(
-            '/modules/rcm-twitter-bootstrap/css/bootstrap.min.css'
+            '/modules/rcm-twitter-bootstrap/css/bootstrap.css'
         );
 
         /** not required *

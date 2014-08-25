@@ -30,8 +30,12 @@ angular.module(
                         // get strategyName
                         var strategyName = 'DEFAULT';
 
-                        if (elm[0].classList[1]) {
-                            strategyName = elm[0].classList[1];
+                        var classAttr = elm.attr('class')
+                        if (classAttr) {
+                            var classes = classAttr.split(" ");
+                            if(classes[1]){
+                                strategyName = classes[1];
+                            }
                         }
 
                         var strategy = {

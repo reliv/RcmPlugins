@@ -58,13 +58,15 @@ angular.module(
                             if (!strategy.name) {
                                 strategy.name = defaultStrategy;
                             }
-
                             $compile(self.dialogElm)(self.dialogScope);
+
                             $compile(self.dialogElm.contents())(self.dialogScope);
 
                             setTimeout(function () {
-                                self.dialogScope.$apply();
-                                self.onOpenDialog(self.dialogScope, self.dialogElm);
+                                self.dialogScope.$apply(
+                                    self.onOpenDialog(self.dialogScope, self.dialogElm)
+                                );
+
                             });
                         }
 
@@ -178,8 +180,6 @@ angular.module(
                 var thisCompile = function (tElement, tAttrs) {
 
                     var thisLink = function (scope, elm, attrs, ctrl) {
-
-                        self = this;
 
                         rcmDialogService.dialogElm = elm;
                         rcmDialogService.dialogScope = scope;
