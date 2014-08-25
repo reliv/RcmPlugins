@@ -42,14 +42,17 @@ return array(
                         'label' => 'Edit',
                         'uri' => '#',
                         'pages' => array(
+                            'AddRemoveArrangePlugins' => array(
+                                'label' => 'Add/Remove/Arrange Plugins',
+                                'uri' => '#',
+                            ),
                             'PageProperties' => array(
                                 'label' => 'Page Properties',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
                                 'uri' => '/modules/rcm-admin/page-properties.html',
                             ),
-                        ),
+                        )
                     ),
-
                     'Copy To' => array(
                         'label' => 'Copy To...',
                         'uri' => '#',
