@@ -58,7 +58,8 @@ angular.module(
 
                     scope.rcmAdminPage = rcmAdminService.getPage();
 
-                    elm.on('click', null, null, function () {
+                    elm.unbind();
+                    elm.bind('click', null, function () {
 
                         scope.rcmAdminPage.build(
                             function (page) {
