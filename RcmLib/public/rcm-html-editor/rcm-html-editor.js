@@ -577,7 +577,7 @@ angular.module('RcmHtmlEditor', [])
             'rcmHtmlEditorFactory',
             function (guid, htmlEditorOptions, rcmHtmlEditorService, rcmHtmlEditorFactory) {
 
-                return function (scope, elm, attrs, ngModel, config) {
+                return function (scope, elm, attrs, ngModel, config, onComplete) {
 
                     // generate an ID if not present
                     if (!attrs.id) {
@@ -599,6 +599,10 @@ angular.module('RcmHtmlEditor', [])
                     var onBuilt = function (rcmHtmlEditor, rcmHtmlEditorService) {
 
                         rcmHtmlEditorService.loading(id, false, 'rcmHtmlEditorInit.onBuilt: ');
+
+                        if(typeof onComplete === 'function'){
+                            onComplete(rcmHtmlEditor, rcmHtmlEditorService);
+                        }
                     }
 
                     rcmHtmlEditorFactory.build(id, scope, elm, attrs, ngModel, settings, onBuilt);
@@ -613,13 +617,17 @@ angular.module('RcmHtmlEditor', [])
             'rcmHtmlEditorFactory',
             function (rcmHtmlEditorService, rcmHtmlEditorFactory) {
 
-                return function (id) {
+                return function (id, onComplete) {
 
                     if (id) {
 
                         var onDestroyed = function (rcmHtmlEditorService) {
                             // clean up loading
                             rcmHtmlEditorService.loading(id, false, 'rcmHtmlEditorDestroy');
+
+                            if(typeof onComplete === 'function'){
+                                onComplete(rcmHtmlEditorService);
+                            }
                         }
 
                         rcmHtmlEditorFactory.destroy(id, onDestroyed);

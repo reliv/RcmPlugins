@@ -216,7 +216,6 @@ return array(
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
                 ),
-
             ),
         ),
     ),
