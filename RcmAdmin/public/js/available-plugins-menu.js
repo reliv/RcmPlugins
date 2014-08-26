@@ -1,7 +1,7 @@
 var RcmAvailablePluginsMenu = {
 
     build: function () {
-        console.log('poop');
+
         $(function () {
             var menu = $('<div class="availablePluginsMenu panel panel-default">');
             $('body').prepend(menu);
