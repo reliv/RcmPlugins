@@ -100,3 +100,7 @@ div.rcmPanelEditorToolbar {
     overflow-y: scroll;
     max-height: 600px;
 }
+
+.availablePluginsMenu h1.panel-heading{
+    cursor: move;
+}
