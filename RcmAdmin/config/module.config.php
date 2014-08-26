@@ -238,7 +238,7 @@ return array(
         'invokables' => array(
             'formPageLayout' => 'RcmAdmin\View\Helper\FormPageLayout',
             'displayErrors' => 'RcmAdmin\View\Helper\DisplayErrors',
-            'availablePluginsList' => 'RcmAdmin\View\Helper\AvailablePluginsList',
+            'availablePluginsList' => 'RcmAdmin\View\Helper\AvailablePluginsJsList',
         )
     ),
     'form_elements' => array(
