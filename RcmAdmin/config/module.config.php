@@ -44,7 +44,8 @@ return array(
                         'pages' => array(
                             'AddRemoveArrangePlugins' => array(
                                 'label' => 'Add/Remove/Arrange Plugins',
-                                'uri' => '#',
+                                'class' => 'rcmAdminEditButton',
+                                'uri' => "javascript:RcmAdminService.rcmAdminEditButtonAction('arrange');",
                             ),
                             'PageProperties' => array(
                                 'label' => 'Page Properties',

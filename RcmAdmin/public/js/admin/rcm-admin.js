@@ -58,41 +58,14 @@ angular.module(
 
                     scope.rcmAdminPage = rcmAdminService.getPage();
 
+                    var editingState = attrs.rcmAdminEditButton;
+
                     elm.unbind();
                     elm.bind('click', null, function () {
 
-                        scope.rcmAdminPage.build(
-                            function (page) {
-
-                                var editingState = attrs.rcmAdminEditButton;
-
-                                if (!editingState) {
-                                    editingState = 'page';
-                                }
-
-                                if (editingState == 'arrange') {
-                                    //scope.rcmAdminPage.arrange();
-                                    scope.rcmAdminPage.setEditingOn('page');
-                                    scope.rcmAdminPage.setEditingOn('layout');
-                                    scope.rcmAdminPage.setEditingOn('sitewide');
-                                    RcmAvailablePluginsMenu.build();
-                                    scope.$apply();
-                                    return;
-                                }
-
-                                if (editingState == 'cancel') {
-                                    scope.rcmAdminPage.cancel();
-                                    scope.$apply();
-                                    return;
-                                }
-
-                                if (editingState == 'save') {
-                                    scope.rcmAdminPage.save();
-                                    scope.$apply();
-                                    return;
-                                }
-
-                                scope.rcmAdminPage.setEditingOn(editingState);
+                        rcmAdminService.rcmAdminEditButtonAction(
+                            editingState,
+                            function(){
                                 scope.$apply();
                             }
                         );
@@ -167,6 +140,45 @@ var RcmAdminService = {
         }
     },
 
+    rcmAdminEditButtonAction: function (editingState, onComplete) {
+
+        var page = RcmAdminService.getPage();
+        page.build(
+            function (page) {
+
+                if (!editingState) {
+                    editingState = 'page';
+                }
+
+                if (editingState == 'arrange') {
+                    //scope.rcmAdminPage.arrange();
+                    page.setEditingOn('page');
+                    page.setEditingOn('layout');
+                    page.setEditingOn('sitewide');
+                    RcmAvailablePluginsMenu.build();
+                    return;
+                }
+
+                if (editingState == 'cancel') {
+                    page.cancel();
+                    return;
+                }
+
+                if (editingState == 'save') {
+                    page.save();
+                    return;
+                }
+
+                page.setEditingOn(editingState);
+
+                if(typeof onComplete === 'function'){
+
+                    onComplete();
+                }
+            }
+        );
+    },
+
     RcmElmParser: {
 
         getPageElm: function () {
@@ -192,6 +204,7 @@ var RcmAdminService = {
         }
     },
 
+
     getHtmlEditorLink: function (rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
         return function (scope, elm, attrs, ngModel, config) {
@@ -212,7 +225,7 @@ var RcmAdminService = {
 
                     if (newValue != oldValue) {
 
-                        if(!scope.rcmAdminPage.plugins[pluginId]){
+                        if (!scope.rcmAdminPage.plugins[pluginId]) {
                             return;
                         }
 
@@ -223,14 +236,14 @@ var RcmAdminService = {
                                 attrs,
                                 ngModel,
                                 config,
-                                function(rcmHtmlEditor, rcmHtmlEditorService){
+                                function (rcmHtmlEditor, rcmHtmlEditorService) {
                                     //scope.$apply()
                                 }
                             );
                         } else {
                             rcmHtmlEditorDestroy(
                                 attrs.id,
-                                function(rcmHtmlEditorService){
+                                function (rcmHtmlEditorService) {
                                     //scope.$apply()
                                 }
                             );
