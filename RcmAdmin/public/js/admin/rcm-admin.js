@@ -38,13 +38,9 @@ angular.module(
                     );
                 };
 
-                var controller = function ($scope, $element) {
-                };
-
                 return {
                     restrict: 'A',
-                    link: thisLink,
-                    controller: controller
+                    link: thisLink
                 }
             }
         ]
@@ -154,7 +150,7 @@ var RcmAdminService = {
      */
     config: {
         unlockMessages: {
-            sitewide: "Unlock Site-Wide Plugins?\n\nPlease Note: Any changes you make to a Site-Wide plugin will be published and made live when you save your changes.",
+            sitewide: "Unlock Site-Wide Plugins?<br/><br/>Please Note: Any changes you make to a Site-Wide plugin will be published and made live when you save your changes.",
             page: "Unlock Page Plugins?",
             layout: "Unlock Layout Plugins?"
         }
@@ -193,11 +189,11 @@ var RcmAdminService = {
 
             var pluginId = elm.attr('html-editor-plugin-id');
 
-//            if (scope.rcmAdminPage.editMode && scope.rcmAdminPage.plugins[pluginId].editMode) {
-//                rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
-//            } else {
-//                rcmHtmlEditorDestroy(attrs.id);
-//            }
+            //if (scope.rcmAdminPage.editMode && scope.rcmAdminPage.plugins[pluginId].editMode) {
+            //    rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
+            //} else {
+            //    rcmHtmlEditorDestroy(attrs.id);
+            //}
 
             scope.$watch(
                 'rcmAdminPage.editing',
@@ -493,12 +489,6 @@ var RcmAdminService = {
         self.onEditChange = function (args) {
 
             self.editMode = self.canEdit(args.editing);
-
-            // @debug - testing
-            // if (self.editMode) {
-            //    self.elm.prepend('<div style="position: relative; top: 0px; left: 0px; border: #FF0000 solid 1px;">EDITING CONTAINER:'+self.data.type+'</div>');
-            // }
-
         };
 
         /**
@@ -757,12 +747,14 @@ var RcmAdminService = {
             // unlock
             var unlock = function () {
 
-                var r = confirm(RcmAdminService.config.unlockMessages[self.getType()]);
-                if (r == true) {
-                    self.container.page.setEditingOn(
-                        self.getType()
-                    );
-                }
+                jQuery().confirm(
+                    RcmAdminService.config.unlockMessages[self.getType()],
+                    function () {
+                        self.container.page.setEditingOn(
+                            self.getType()
+                        );
+                    }
+                );
             };
 
             // context menu and double click
@@ -801,9 +793,6 @@ var RcmAdminService = {
             self.elm.unbind('dblclick');
 
             jQuery.contextMenu('destroy', '[data-rcmPluginInstanceId=' + self.data.instanceId + ']');
-
-            // @debug - testing
-            //self.elm.prepend('<div style="position: relative; top: 0px; left: 0px; border: #ffff00 solid 1px;">EDITING:'+self.data.name+'</div>');
 
             if (typeof onEnabled === 'function') {
                 onEnabled(self);
