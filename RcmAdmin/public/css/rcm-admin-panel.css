@@ -1,4 +1,12 @@
-.rcmAdminPanelWrapper{
+.rcmPluginLocked {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; /* IE 8 */
+    filter: alpha(opacity=30); /* IE 5-7 */
+    -moz-opacity: 0.3; /* Netscape */
+    -khtml-opacity: 0.3; /* Safari 1.x */
+    opacity: 0.3;
+}
+
+.rcmAdminPanelWrapper {
     min-height: 96px;
     width: 100%;
     z-index: 1000;
@@ -6,7 +14,8 @@
 
 .rcmAdminPanelWrapper .rcmAdminPanelFixed {
     background-color: #FFFFFF;
-    position: fixed; left: 0;
+    position: fixed;
+    left: 0;
     -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.10);
     -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.10);
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.10);
@@ -22,10 +31,12 @@
     width: 100%;
 }
 
-.rcmAdminPanelWrapper .rcmAdminPanelShadow{
+.rcmAdminPanelWrapper .rcmAdminPanelShadow {
     width: 100%;
     height: 5px;
-    position: absolute; left: 0; bottom: -5px;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
     z-index: 500;
     display: none;
 }

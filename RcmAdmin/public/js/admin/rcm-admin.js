@@ -28,22 +28,19 @@ angular.module(
     .directive(
         'rcmAdminMenuActions',
         [
+            '$compile',
             'rcmAdminService',
-            function (rcmAdminService) {
+            function ($compile, rcmAdminService) {
 
                 var thisLink = function (scope, elm, attrs) {
-
-                };
-
-                var controller = function ($scope, $element) {
-
-                    $scope.rcmAdminPage = rcmAdminService.getPage();
+                    scope.rcmAdminPage = rcmAdminService.getPage(
+                        $compile(elm.contents())(scope)
+                    );
                 };
 
                 return {
                     restrict: 'A',
-                    link: thisLink,
-                    controller: controller
+                    link: thisLink
                 }
             }
         ]
@@ -54,9 +51,8 @@ angular.module(
     .directive(
         'rcmAdminEditButton',
         [
-            '$compile',
             'rcmAdminService',
-            function ($compile, rcmAdminService) {
+            function (rcmAdminService) {
 
                 var thisLink = function (scope, elm, attrs) {
 
@@ -90,7 +86,6 @@ angular.module(
                             }
                         );
                     });
-
                 };
 
                 return {
@@ -111,40 +106,8 @@ angular.module(
             'rcmHtmlEditorDestroy',
             function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
-                var config = {};
-
-                var thisCompile = function (tElem, attrs) {
-
-                    var thisLink = function (scope, elm, attrs, ngModel) {
-
-                        scope.rcmAdminPage = rcmAdminService.getPage();
-
-                        if (scope.rcmAdminPage.editMode) {
-                            rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
-                        } else {
-                            rcmHtmlEditorDestroy(attrs.id);
-                        }
-
-                        scope.$watch(
-                            'rcmAdminPage.editing',
-                            function (newValue, oldValue) {
-
-                                if (newValue != oldValue) {
-                                    if (scope.rcmAdminPage.editing.length > 0) {
-                                        rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
-                                    } else {
-                                        rcmHtmlEditorDestroy(attrs.id);
-                                    }
-                                }
-                            },
-                            true
-                        );
-                    };
-                    return thisLink;
-                }
-
                 return {
-                    compile: thisCompile,
+                    link: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy),
                     scope: {},
                     restrict: 'A',
                     require: '?ngModel'
@@ -163,40 +126,8 @@ angular.module(
             'rcmHtmlEditorDestroy',
             function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
-                var config = {};
-
-                var thisCompile = function (tElem, attrs) {
-
-                    var thisLink = function (scope, elm, attrs, ngModel) {
-
-                        scope.rcmAdminPage = rcmAdminService.getPage();
-
-                        if (scope.rcmAdminPage.editMode) {
-                            rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
-                        } else {
-                            rcmHtmlEditorDestroy(attrs.id);
-                        }
-
-                        scope.$watch(
-                            'rcmAdminPage.editing',
-                            function (newValue, oldValue) {
-
-                                if (newValue != oldValue) {
-                                    if (scope.rcmAdminPage.editing.length > 0) {
-                                        rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
-                                    } else {
-                                        rcmHtmlEditorDestroy(attrs.id);
-                                    }
-                                }
-                            },
-                            true
-                        );
-                    };
-
-                    return thisLink;
-                }
                 return {
-                    compile: thisCompile,
+                    link: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy),
                     scope: {},
                     restrict: 'A',
                     require: '?ngModel'
@@ -209,8 +140,101 @@ rcm.addAngularModule('rcmAdmin');
 /* <RcmAdminService> */
 var RcmAdminService = {
 
+    /**
+     * page
+     */
     page: null,
 
+    /**
+     * config
+     */
+    config: {
+        unlockMessages: {
+            sitewide: "Unlock Site-Wide Plugins?<br/><br/>Please Note: Any changes you make to a Site-Wide plugin will be published and made live when you save your changes.",
+            page: "Unlock Page Plugins?",
+            layout: "Unlock Layout Plugins?"
+        }
+    },
+
+    RcmElmParser: {
+
+        getPageElm: function () {
+            return jQuery('body').find('#sitewrapper');
+        },
+        getContainerElms: function (elm) {
+            return elm.find('[data-containerId]');
+        },
+        getContainerId: function (elm) {
+            return elm.attr('data-containerId');
+        },
+        getPluginId: function (elm) {
+            return elm.attr('data-rcmPluginInstanceId');
+        },
+
+        getRichEditorElms: function (elm) {
+            var editors = elm.find('[data-richEdit]');
+            return editors;
+        },
+
+        getTextEditorElms: function (elm) {
+            return elm.find('[data-textEdit]');
+        }
+    },
+
+    getHtmlEditorLink: function (rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
+
+        return function (scope, elm, attrs, ngModel, config) {
+
+            scope.rcmAdminPage = RcmAdminService.getPage();
+
+            var pluginId = elm.attr('html-editor-plugin-id');
+
+            //if (scope.rcmAdminPage.editMode && scope.rcmAdminPage.plugins[pluginId].editMode) {
+            //    rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
+            //} else {
+            //    rcmHtmlEditorDestroy(attrs.id);
+            //}
+
+            scope.$watch(
+                'rcmAdminPage.editing',
+                function (newValue, oldValue) {
+
+                    if (newValue != oldValue) {
+
+                        if(!scope.rcmAdminPage.plugins[pluginId]){
+                            return;
+                        }
+
+                        if (scope.rcmAdminPage.editing.length > 0 && scope.rcmAdminPage.plugins[pluginId].canEdit()) {
+                            rcmHtmlEditorInit(
+                                scope,
+                                elm,
+                                attrs,
+                                ngModel,
+                                config,
+                                function(rcmHtmlEditor, rcmHtmlEditorService){
+                                    //scope.$apply()
+                                }
+                            );
+                        } else {
+                            rcmHtmlEditorDestroy(
+                                attrs.id,
+                                function(rcmHtmlEditorService){
+                                    //scope.$apply()
+                                }
+                            );
+                        }
+                    }
+                },
+                true
+            );
+        }
+    },
+
+    /**
+     * RcmEvents
+     * @constructor
+     */
     RcmEvents: function () {
 
         var self = this;
@@ -239,16 +263,32 @@ var RcmAdminService = {
         };
     },
 
-    getPage: function () {
+    /**
+     * getPage
+     * @param onBuilt
+     * @returns {null}
+     */
+    getPage: function (onBuilt) {
 
         if (!RcmAdminService.page) {
 
-            RcmAdminService.page = new RcmAdminService.RcmPage(document, jQuery('body').find('#sitewrapper'))
+            RcmAdminService.page = new RcmAdminService.RcmPage(
+                document,
+                RcmAdminService.RcmElmParser.getPageElm(),
+                onBuilt
+            );
         }
         return RcmAdminService.page
     },
 
-    RcmPage: function (document, elm) {
+    /**
+     * RcmPage
+     * @param document
+     * @param elm
+     * @param onInitted
+     * @constructor
+     */
+    RcmPage: function (document, elm, onInitted) {
 
         var self = this;
         self.document = document;
@@ -256,7 +296,7 @@ var RcmAdminService = {
         self.events = new RcmAdminService.RcmEvents();
         self.editing = []; // page, layout, sitewide
         self.editMode = false;
-        self.containerAttr = 'data-containerId';
+
         self.data = {
             url: '',
             title: '',
@@ -266,16 +306,26 @@ var RcmAdminService = {
         };
 
         self.containers = {};
+        self.plugins = {};
 
+        /**
+         * setEditingOn
+         * @param type
+         * @returns viod
+         */
         self.setEditingOn = function (type) {
 
             if (self.editing.indexOf(type) < 0) {
                 self.editing.push(type);
+                self.onEditChange();
             }
-
-            return self.isEditing();
         };
 
+        /**
+         * setEditingOff
+         * @param type
+         * @returns viod
+         */
         self.setEditingOff = function (type) {
 
             if (self.editing.indexOf(type) > -1) {
@@ -284,43 +334,41 @@ var RcmAdminService = {
                     self.editing.indexOf(type),
                     1
                 )
-            }
 
-            return self.isEditing();
+                self.onEditChange();
+            }
         };
 
-        self.isEditing = function () {
+        /**
+         * onEditChange
+         */
+        self.onEditChange = function () {
 
             self.editMode = (self.editing.length > 0)
 
-            self.disableEvents();
-
             self.events.trigger('editingStateChange', {editMode: self.editMode, editing: self.editing});
-
-            return self.editMode;
         };
 
+        /**
+         * save
+         */
         self.save = function () {
             // loop containers and fire saves... aggregate data and sent to server
 
-        }
+        };
 
+        /**
+         * cancel
+         */
         self.cancel = function () {
 
             window.location = window.location.pathname;
-        }
-
-        self.disableEvents = function () {
-            //Disable normal events
-            self.elm.find('*').unbind();
-            var donDoIt = function () {
-                return false;
-            };
-            self.elm.find('button').click(donDoIt);
-            self.elm.find('a').click(donDoIt);
-            self.elm.find('form').submit(donDoIt)
         };
 
+        /**
+         * buildData
+         * @param onBuilt
+         */
         self.buildData = function (onBuilt) {
 
             self.data.title = jQuery(document).find("head > title").text();
@@ -333,21 +381,29 @@ var RcmAdminService = {
             }
         };
 
+        /**
+         * buildContainers
+         * @param onBuilt
+         */
         self.buildContainers = function (onBuilt) {
 
-            var containers = self.elm.find("[" + self.containerAttr + "]");
+            var containers = RcmAdminService.RcmElmParser.getContainerElms(self.elm);
 
-            self.containers = {};
+            var containerElm = null;
+            var containerId = null;
 
             jQuery.each(
                 containers,
                 function (key, value) {
-                    var tempContainer = new RcmAdminService.RcmContainer(self, jQuery(value));
-                    tempContainer.build(
-                        function (container) {
-                            self.containers[key] = container;
-                        }
-                    );
+
+                    containerElm = jQuery(value);
+                    containerId = RcmAdminService.RcmElmParser.getContainerId(containerElm);
+
+                    if (!self.containers[containerId]) {
+
+                        self.containers[containerId] = new RcmAdminService.RcmContainer(self, containerElm);
+                        self.containers[containerId].build();
+                    }
                 }
             );
 
@@ -356,20 +412,43 @@ var RcmAdminService = {
             }
         };
 
+        /**
+         * build
+         * @param onBuilt
+         */
         self.build = function (onBuilt) {
+
             self.buildData(
                 function (rcmPage) {
                     self.buildContainers(onBuilt);
                 }
             );
         };
+
+        /**
+         * init
+         * @param onInitted
+         */
+        self.init = function (onInitted) {
+
+            self.build(onInitted);
+        };
+
+        self.init(onInitted);
     },
 
+    /**
+     * RcmContainer
+     * @param page
+     * @param elm
+     * @constructor
+     */
     RcmContainer: function (page, elm) {
 
         var self = this;
 
         self.page = page;
+        self.id = null;
         self.elm = elm;
         self.editMode = false;
 
@@ -381,33 +460,41 @@ var RcmAdminService = {
 
         self.plugins = [];
 
+        /**
+         * save
+         * @param onSaved
+         */
         self.save = function (onSaved) {
             // loop plugins and fire saves...
 
             if (typeof onSaved === 'function') {
                 onSaved(self);
             }
-        }
-
-        self.canEdit = function (editing) {
-
-            if (editing.indexOf(self.data.type) > -1) {
-
-                return true;
-            }
-
-            return false;
-        }
-
-        self.onEditChange = function (args) {
-
-            self.editMode = self.canEdit(args.editing)
-            // @debug - testing
-            //if(self.editMode){
-            //    self.elm.prepend('<div style="position: relative; top: 0px; left: 0px; border: #FF0000 solid 1px;">EDITING CONTAINER:'+self.data.type+'</div>');
-            //}
         };
 
+        /**
+         * canEdit
+         * @param editing
+         * @returns {boolean}
+         */
+        self.canEdit = function (editing) {
+
+            return (editing.indexOf(self.data.type) > -1);
+        };
+
+        /**
+         * onEditChange
+         * @param args
+         */
+        self.onEditChange = function (args) {
+
+            self.editMode = self.canEdit(args.editing);
+        };
+
+        /**
+         * buildData
+         * @param onBuilt
+         */
         self.buildData = function (onBuilt) {
 
             self.data.id = self.elm.attr('data-containerId');
@@ -425,23 +512,31 @@ var RcmAdminService = {
             }
         };
 
+        /**
+         * buildPlugins
+         * @param onBuilt
+         */
         self.buildPlugins = function (onBuilt) {
 
-            // @todo will this require more garbage collection?
-            delete self.plugins;
-            self.plugins = [];
-
             var plugins = self.elm.find("[data-rcmpluginname]");
+
+            var pluginElm = null;
+            var pluginId = null;
 
             jQuery.each(
                 plugins,
                 function (key, value) {
-                    var tempPlugin = new RcmAdminService.RcmPlugin(self, jQuery(value), key);
-                    tempPlugin.build(
-                        function (plugin) {
-                            self.plugins[key] = plugin;
-                        }
-                    );
+
+                    pluginElm = jQuery(value);
+                    pluginId = RcmAdminService.RcmElmParser.getPluginId(pluginElm);
+
+                    // @todo clean this up
+                    if (!self.plugins[pluginId]) {
+                        self.plugins[pluginId] = new RcmAdminService.RcmPlugin(self, jQuery(value), key);
+                        self.plugins[pluginId].build();
+
+                        self.page.plugins[pluginId] = self.plugins[pluginId];
+                    }
                 }
             );
 
@@ -450,13 +545,18 @@ var RcmAdminService = {
             }
         };
 
+        /**
+         * build
+         * @param onBuilt
+         */
         self.build = function (onBuilt) {
 
             self.buildData(
                 function (rcmContainer) {
+
                     self.buildPlugins(
                         function (container) {
-                            self.page.events.on('editingStateChange', self.onEditChange);
+
                             if (typeof onBuilt === 'function') {
                                 onBuilt(self);
                             }
@@ -465,10 +565,20 @@ var RcmAdminService = {
                 }
             );
         };
+
+        /**
+         * init
+         */
+        self.init = function () {
+
+            self.page.events.on('editingStateChange', self.onEditChange);
+        };
+
+        self.init();
     },
 
     /**
-     *
+     * RcmPlugin
      * @param container
      * @param elm
      * @param index
@@ -481,8 +591,7 @@ var RcmAdminService = {
         self.container = container;
         self.elm = elm;
         self.order = index;
-        //self.editMode = false;
-
+        self.editMode = null;
         self.pluginObject = null;
 
         self.data = {
@@ -501,62 +610,102 @@ var RcmAdminService = {
             // float
         };
 
+        /**
+         * getType
+         * @returns string
+         */
+        self.getType = function () {
+
+            if (self.data.isSitewide) {
+                return 'sitewide';
+            }
+
+            return self.container.data.type;
+        }
+
+        /**
+         * initEdit
+         * @param onInitted
+         */
         self.initEdit = function (onInitted) {
 
             var pluginObject = self.getPluginObject()
 
-            if (self.canEdit() && pluginObject.initEdit) {
+            if (self.canEdit()) {
 
-                // @debug - testing
-                //self.elm.prepend('<div style="position: relative; top: 0px; left: 0px; border: #ffff00 solid 1px;">EDITING:'+self.data.name+'</div>');
+                self.enableView(
+                    function (plugin) {
+                        if (pluginObject.initEdit) {
 
-                pluginObject.initEdit();
-            }
+                            pluginObject.initEdit();
+                        }
 
-            if (typeof onInitted === 'function') {
-                onInitted(self);
+                        if (typeof onInitted === 'function') {
+                            onInitted(self);
+                        }
+                    }
+                );
             }
         };
 
+        /**
+         * cancelEdit
+         * @param onCanceled
+         */
         self.cancelEdit = function (onCanceled) {
 
-            if (typeof onCanceled === 'function') {
-                onCanceled(self);
+            if (!self.canEdit()) {
+                self.disableView(
+                    function (plugin) {
+                        if (typeof onCanceled === 'function') {
+                            onCanceled(self);
+                        }
+                    }
+                );
             }
         };
 
+        /**
+         * save
+         * @param onSaved
+         */
         self.save = function (onSaved) {
 
             var pluginObject = self.getPluginObject()
 
-            if (self.canEdit() && pluginObject.getSaveData) {
+            if (self.canEdit()) {
 
-                var saveData = self.getPluginObject.getSaveData();
+                if (pluginObject.getSaveData) {
 
-                // @todo - get html editor data and merge with saveData
-                self.data.saveData = saveData;
-            }
+                    var saveData = self.getPluginObject.getSaveData();
 
-            if (typeof onSaved === 'function') {
-                onSaved(self);
+                    // @todo - get html editor data and merge with saveData
+                    self.data.saveData = saveData;
+                }
+
+                if (typeof onSaved === 'function') {
+                    onSaved(self);
+                }
             }
         };
 
+        /**
+         * canEdit
+         * @returns boolean
+         */
         self.canEdit = function () {
 
             var editing = self.container.page.editing;
 
-            if (self.data.isSitewide) {
-                if (editing.indexOf('sitewide') > -1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+            var type = self.getType();
 
-            return self.container.canEdit(editing);
+            return (editing.indexOf(type) > -1);
         };
 
+        /**
+         * getPluginObject
+         * @returns RcmPluginEditJs
+         */
         self.getPluginObject = function () {
 
             if (self.pluginObject) {
@@ -582,20 +731,122 @@ var RcmAdminService = {
 
             self.pluginObject = new RcmAdminService.RcmPluginEditJs(id, pluginContainer, name);
             return self.pluginObject;
-        }
-
-        self.onEditChange = function (args) {
-
-            self.editMode = self.canEdit(args.editing);
-
-            self.initEdit();
         };
 
+        /**
+         * disableView
+         * @param onDisabled
+         */
+        self.disableView = function (onDisabled) {
+
+            self.disableLinks();
+
+            // Add CSS
+            self.elm.addClass('rcmPluginLocked');
+
+            // unlock
+            var unlock = function () {
+
+                jQuery().confirm(
+                    RcmAdminService.config.unlockMessages[self.getType()],
+                    function () {
+                        self.container.page.setEditingOn(
+                            self.getType()
+                        );
+                    }
+                );
+            };
+
+            // context menu and double click
+            self.elm.dblclick(unlock);
+            //self.elm.click(unlock);
+
+            jQuery.contextMenu(
+                {
+                    selector: '[data-rcmPluginInstanceId=' + self.data.instanceId + ']',
+
+                    //Here are the right click menu options
+                    items: {
+                        unlockMe: {
+                            name: 'Unlock',
+                            icon: 'delete',
+                            callback: unlock
+                        }
+                    }
+                }
+            );
+
+            if (typeof onDisabled === 'function') {
+                onDisabled(self);
+            }
+        };
+
+        /**
+         * enableView
+         * @param onEnabled
+         */
+        self.enableView = function (onEnabled) {
+
+            self.disableLinks();
+
+            self.elm.removeClass('rcmPluginLocked');
+            self.elm.unbind('dblclick');
+
+            jQuery.contextMenu('destroy', '[data-rcmPluginInstanceId=' + self.data.instanceId + ']');
+
+            if (typeof onEnabled === 'function') {
+                onEnabled(self);
+            }
+        };
+
+        /**
+         * disableLinks
+         */
+        self.disableLinks = function () {
+
+            // Disable normal events
+            self.elm.find('*').unbind();
+            var donDoIt = function () {
+                return false;
+            };
+            self.elm.find('button').click(donDoIt);
+            self.elm.find('a').click(donDoIt);
+            self.elm.find('form').submit(donDoIt);
+        }
+
+        /**
+         * onEditChange
+         * @param args
+         */
+        self.onEditChange = function (args) {
+
+            var editMode = self.canEdit(args.editing);
+
+            if (self.editMode !== editMode) {
+
+                self.editMode = editMode;
+
+                if (self.editMode) {
+
+                    self.initEdit();
+
+                } else {
+
+                    self.cancelEdit();
+                }
+            }
+        };
+
+        /**
+         * buildData
+         * @param onBuilt
+         */
         self.buildData = function (onBuilt) {
 
             self.data.containerId = self.container.data.id;
 
             self.data.instanceId = self.elm.attr('data-rcmPluginInstanceId');
+
             self.data.isSitewide = (self.elm.attr('data-rcmSiteWidePlugin') == '1');
             self.data.name = self.elm.attr('data-rcmPluginName');
             self.data.rank = self.order;
@@ -608,23 +859,66 @@ var RcmAdminService = {
                 self.data.size = self.elm.width() + ',' + self.elm.height();
             }
 
-            self.container.page.events.on('editingStateChange', self.onEditChange);
-
             if (typeof onBuilt === 'function') {
                 onBuilt(self);
             }
         };
 
+        /**
+         * buildEditors
+         * @param onBuilt
+         */
+        self.buildEditors = function (onBuilt) {
+
+            var richEditors = RcmAdminService.RcmElmParser.getRichEditorElms(self.elm);
+
+            richEditors.each(
+                function (index) {
+                    this.setAttribute('html-editor-plugin-id', self.data.instanceId);
+                }
+            );
+
+            var textEditors = RcmAdminService.RcmElmParser.getTextEditorElms(self.elm);
+
+            textEditors.each(
+                function (index) {
+                    this.setAttribute('html-editor-plugin-id', self.data.instanceId);
+                }
+            );
+
+            if (typeof onBuilt === 'function') {
+                onBuilt(self);
+            }
+        }
+
+        /**
+         * build
+         * @param onBuilt
+         */
         self.build = function (onBuilt) {
 
             self.buildData(
                 function (plugin) {
-                    if (typeof onBuilt === 'function') {
-                        onBuilt(self);
-                    }
+                    self.buildEditors(
+                        function (plugin) {
+                            if (typeof onBuilt === 'function') {
+                                onBuilt(self);
+                            }
+                        }
+                    )
                 }
             );
         };
+
+        /**
+         * init
+         */
+        self.init = function () {
+
+            self.container.page.events.on('editingStateChange', self.onEditChange);
+        };
+
+        self.init();
     },
 
     /**
@@ -640,24 +934,13 @@ var RcmAdminService = {
         //self.pluginContainer = pluginContainer;
 
         self.initEdit = function () {
-            //console.log('initEdit: no edit js object found for '+name+' - using default for: ' + self.id);
+            //console.warn('initEdit: no edit js object found for '+name+' - using default for: ' + self.id);
         };
 
         self.getSaveData = function () {
-            //console.log('getSaveData: no edit js object found '+name+' - using default for: ' + self.id);
+            //console.warn('getSaveData: no edit js object found '+name+' - using default for: ' + self.id);
             return {};
         };
-    },
-
-    RcmPluginHtmlEditor: function () {
-
-        var self = this;
-
-        /**
-         * @type RcmPlugin
-         */
-        self.plugin;
-
     }
 };
 /* </RcmAdminService> */
