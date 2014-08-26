@@ -33,7 +33,7 @@ use Zend\View\Helper\AbstractHelper;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class AvailablePluginsList extends AbstractHelper implements ServiceLocatorAwareInterface
+class AvailablePluginsJsList extends AbstractHelper implements ServiceLocatorAwareInterface
 {
     protected $serviceLocator;
 
