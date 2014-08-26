@@ -93,7 +93,6 @@ div.rcmPanelEditorToolbar {
 .availablePluginsMenu{
     width: 250px;
     position:fixed;
-    left:50px;
     z-index: 1000;
 }
 
