@@ -182,7 +182,7 @@ var RcmAdminService = {
     RcmElmParser: {
 
         getPageElm: function () {
-            return jQuery('body').find('#sitewrapper');
+            return jQuery('body');
         },
         getContainerElms: function (elm) {
             return elm.find('[data-containerId]');
@@ -367,7 +367,7 @@ var RcmAdminService = {
          * onEditChange
          */
         self.onEditChange = function () {
-
+            console.log(self.containers)
             self.editMode = (self.editing.length > 0)
 
             self.events.trigger('editingStateChange', {editMode: self.editMode, editing: self.editing});
