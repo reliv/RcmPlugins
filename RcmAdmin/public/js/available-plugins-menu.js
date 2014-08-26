@@ -6,9 +6,18 @@ var RcmAvailablePluginsMenu = {
             var menu = $('<div class="availablePluginsMenu panel panel-default"></div>');
             $('body').prepend(menu);
             menu.css('top', $('.rcmAdminPanelWrapper').height());
-            menu.append('<h1 class="panel-heading">Available Plugins</h1>');
+            var header = $('<h1 class="panel-heading">Available Plugins</h1>');
+            header.mouseover(function(){
+                menu.draggable();
+            });
+            header.mouseout(function(){
+                menu.draggable("destroy");
+             });
+            menu.append(header);
+
             var accordion = $('<div class="panel-group" id="availablePluginsGroup">');
             menu.append(accordion);
+            menu.draggable();
             var categoryIndex = 0;
             $.each(window.rcmAvailablePlugins, function (category, plugins) {
                 var collapseId = 'availablePluginsCollapse' + categoryIndex;
