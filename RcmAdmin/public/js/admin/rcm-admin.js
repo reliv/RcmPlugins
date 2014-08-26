@@ -71,12 +71,11 @@ angular.module(
                                 }
 
                                 if (editingState == 'arrange') {
-//                                    scope.rcmAdminPage.arrange();
-                                    console.log('beans');
+                                    //scope.rcmAdminPage.arrange();
                                     scope.rcmAdminPage.setEditingOn('page');
                                     scope.rcmAdminPage.setEditingOn('layout');
                                     scope.rcmAdminPage.setEditingOn('sitewide');
-//                                    RcmAvailablePluginsMenu.build();
+                                    RcmAvailablePluginsMenu.build();
                                     scope.$apply();
                                     return;
                                 }
