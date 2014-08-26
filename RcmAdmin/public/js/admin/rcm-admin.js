@@ -70,6 +70,17 @@ angular.module(
                                     editingState = 'page';
                                 }
 
+                                if (editingState == 'arrange') {
+//                                    scope.rcmAdminPage.arrange();
+                                    console.log('beans');
+                                    scope.rcmAdminPage.setEditingOn('page');
+                                    scope.rcmAdminPage.setEditingOn('layout');
+                                    scope.rcmAdminPage.setEditingOn('sitewide');
+//                                    RcmAvailablePluginsMenu.build();
+                                    scope.$apply();
+                                    return;
+                                }
+
                                 if (editingState == 'cancel') {
                                     scope.rcmAdminPage.cancel();
                                     scope.$apply();
