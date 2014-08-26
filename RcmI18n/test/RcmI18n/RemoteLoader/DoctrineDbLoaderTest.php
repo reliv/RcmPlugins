@@ -28,8 +28,8 @@ class DoctrineDbLoaderTest extends \PHPUnit_Framework_TestCase
         );
         $entityMgr = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()->getMock();
-        $entityMgr->expects($this->any())->method('createQuery')->willReturn(
-            $query
+        $entityMgr->expects($this->any())->method('createQuery')->will(
+            $this->returnValue($query)
         );
         $unit = new DoctrineDbLoader($entityMgr);
         $textDomain = $unit->load('en_US');

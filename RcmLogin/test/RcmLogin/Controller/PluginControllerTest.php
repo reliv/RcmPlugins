@@ -119,9 +119,9 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
         $this->buildMocks($result, $user);
 
         $controller
-            = new PluginController($this->mockPluginStorageMgr, $this->mockConfig, $this->mockRcmUserService);
+            = new PluginController( $this->mockConfig, $this->mockRcmUserService);
 
-        $result = $controller->renderInstance('testId');
+        $result = $controller->renderInstance(1,[]);
 
         // @todo this controller has some bits tat need to be refactored before unit testing
         // $this->assertTrue(is_array($result), 'Array not returned');
