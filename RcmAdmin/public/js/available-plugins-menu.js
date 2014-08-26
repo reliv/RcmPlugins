@@ -9,7 +9,6 @@ var RcmAvailablePluginsMenu = {
             var header = $('<h1 class="panel-heading">Available Plugins</h1>');
             header.mouseover(function(){
                 menu.draggable();
-
             });
             header.mouseout(function(){
                 menu.draggable("destroy");
