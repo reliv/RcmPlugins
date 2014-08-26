@@ -42,14 +42,17 @@ return array(
                         'label' => 'Edit',
                         'uri' => '#',
                         'pages' => array(
+                            'AddRemoveArrangePlugins' => array(
+                                'label' => 'Add/Remove/Arrange Plugins',
+                                'uri' => '#',
+                            ),
                             'PageProperties' => array(
                                 'label' => 'Page Properties',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
                                 'uri' => '/modules/rcm-admin/page-properties.html',
                             ),
-                        ),
+                        )
                     ),
-
                     'Copy To' => array(
                         'label' => 'Copy To...',
                         'uri' => '#',
@@ -207,6 +210,7 @@ return array(
                     'modules/rcm-admin/js/admin/rcm-admin.js',
                     'modules/rcm-admin/js/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/ajax-plugin-edit-helper.js',
+                    'modules/rcm-admin/js/available-plugins-menu.js',
                     'modules/rcm-admin/js/bootstrap-alert-confirm.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
@@ -233,6 +237,7 @@ return array(
         'invokables' => array(
             'formPageLayout' => 'RcmAdmin\View\Helper\FormPageLayout',
             'displayErrors' => 'RcmAdmin\View\Helper\DisplayErrors',
+            'availablePluginsList' => 'RcmAdmin\View\Helper\AvailablePluginsList',
         )
     ),
     'form_elements' => array(
