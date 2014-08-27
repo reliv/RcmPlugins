@@ -93,11 +93,14 @@ div.rcmPanelEditorToolbar {
 .availablePluginsMenu{
     width: 250px;
     position:fixed;
-    left:50px;
     z-index: 1000;
 }
 
 .availablePluginsMenu #availablePluginsGroup{
     overflow-y: scroll;
     max-height: 600px;
+}
+
+.availablePluginsMenu h1.panel-heading{
+    cursor: move;
 }
