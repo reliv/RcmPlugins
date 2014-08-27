@@ -29,7 +29,7 @@
         modal.find('.ok').click(function () {
             $('.modal-backdrop').remove();
             $('#alertModal').remove();
-             modal.modal('hide');
+            modal.modal('hide');
             if (typeof(okCallBack) == 'function') {
                 okCallBack();
             }
@@ -47,34 +47,35 @@
         if (typeof(title) == 'undefined') {
             title = 'Confirm';
         }
-        var modal = $(
-            '<div id="alertModal" class="modal fade bootstrapConfirm">' +
-                '<div class="modal-dialog">' +
-                '<div class="modal-content">' +
-                '<div class="modal-header">' +
-                '<button type="button" class="close" data-dismiss="modal">' +
-                '<span class="sr-only">Close</span>' +
-                '</button>' +
-                '<h1 class="modal-title">' + title + '</h1></div>' +
-                ' <div class="modal-body"><p>' + text + '</p></div> ' +
-                '<div class="modal-footer">' +
-                ' <button type="button" class="btn btn-default cancel">Cancel</button> ' +
-                ' <button type="button" class="btn btn-primary ok">Ok</button> ' +
-                '</div>  </div><!-- /.modal-content --> ' +
-                ' </div><!-- /.modal-dialog -->' +
-                '</div><!-- /.modal -->');
-        modal.modal('show');
-        modal.find('.cancel').click(function () {
-            $('.modal-backdrop').remove();
-            $('#alertModal').remove();
-            modal.modal('hide');
-            cancelCallBack();
-        });
-        modal.find('.ok').click(function () {
-            $('.modal-backdrop').remove();
-            $('#alertModal').remove();
-            modal.modal('hide');
-            okCallBack();
-        });
+
+        var config = {
+            message: '<div class="modal-body"><p>' + text + '</p></div>',
+            title: '<h1 class="modal-title">' + title + '</h1>',
+            buttons: {
+                cancel: {
+                    label: "Cancel",
+                    className: "btn-default",
+                    callback: function () {
+                    }
+                },
+                ok: {
+                    label: "Ok",
+                    className: "btn-primary",
+                    callback: function () {
+                    }
+                }
+            }
+
+        };
+
+        if (typeof cancelCallBack === 'function') {
+            config.buttons.cancel.callback = cancelCallBack;
+        }
+
+        if (typeof okCallBack == 'function') {
+            config.buttons.ok.callback = okCallBack;
+        }
+
+        bootbox.dialog(config);
     };
 })(jQuery);

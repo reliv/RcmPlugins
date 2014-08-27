@@ -182,7 +182,7 @@ var RcmAdminService = {
     RcmElmParser: {
 
         getPageElm: function () {
-            return jQuery('body').find('#sitewrapper');
+            return jQuery('body');
         },
         getContainerElms: function (elm) {
             return elm.find('[data-containerId]');
