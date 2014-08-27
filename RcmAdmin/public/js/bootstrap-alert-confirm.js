@@ -44,12 +44,18 @@
      * @param {String} [title] optional the title bar text
      */
     $.fn.confirm = function (text, okCallBack, cancelCallBack, title) {
-        if (typeof(title) == 'undefined') {
+
+        if (!title) {
             title = 'Confirm';
         }
 
+        var message = title;
+        if(text){
+            message = '<div class="modal-body"><p>' + text + '</p></div>';
+        }
+
         var config = {
-            message: '<div class="modal-body"><p>' + text + '</p></div>',
+            message: message,
             title: '<h1 class="modal-title">' + title + '</h1>',
             buttons: {
                 cancel: {
