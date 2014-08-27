@@ -65,7 +65,7 @@ angular.module(
 
                         rcmAdminService.rcmAdminEditButtonAction(
                             editingState,
-                            function(){
+                            function () {
                                 scope.$apply();
                             }
                         );
@@ -134,9 +134,18 @@ var RcmAdminService = {
      */
     config: {
         unlockMessages: {
-            sitewide: "Unlock Site-Wide Plugins?<br/><br/>Please Note: Any changes you make to a Site-Wide plugin will be published and made live when you save your changes.",
-            page: "Unlock Page Plugins?",
-            layout: "Unlock Layout Plugins?"
+            sitewide: {
+                title: "Unlock Site-Wide Plugins?",
+                message: "Please Note: Any changes you make to a Site-Wide plugin will be published and made live when you save your changes."
+            },
+            page: {
+                title: "Unlock Page Plugins?",
+                message: null
+            },
+            layout: {
+                title: "Unlock Layout Plugins?",
+                message: null
+            }
         }
     },
 
@@ -171,7 +180,7 @@ var RcmAdminService = {
 
                 page.setEditingOn(editingState);
 
-                if(typeof onComplete === 'function'){
+                if (typeof onComplete === 'function') {
 
                     onComplete();
                 }
@@ -557,10 +566,11 @@ var RcmAdminService = {
                     // @todo clean this up
                     if (!self.plugins[pluginId]) {
                         self.plugins[pluginId] = new RcmAdminService.RcmPlugin(self, jQuery(value), key);
-                        self.plugins[pluginId].build();
-
-                        self.page.plugins[pluginId] = self.plugins[pluginId];
                     }
+
+                    self.plugins[pluginId].order = key;
+                    self.plugins[pluginId].build();
+                    self.page.plugins[pluginId] = self.plugins[pluginId];
                 }
             );
 
@@ -772,12 +782,14 @@ var RcmAdminService = {
             var unlock = function () {
 
                 jQuery().confirm(
-                    RcmAdminService.config.unlockMessages[self.getType()],
+                    RcmAdminService.config.unlockMessages[self.getType()].message,
                     function () {
                         self.container.page.setEditingOn(
                             self.getType()
                         );
-                    }
+                    },
+                    null,
+                    RcmAdminService.config.unlockMessages[self.getType()].title
                 );
             };
 
