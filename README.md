@@ -1,4 +1,4 @@
 core-plugins
 ============
 
-test new repo for plugins 
+test new repo for plugins test
