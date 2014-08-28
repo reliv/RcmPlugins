@@ -165,6 +165,7 @@ var RcmAdminService = {
                     page.setEditingOn('layout');
                     page.setEditingOn('sitewide');
                     RcmAvailablePluginsMenu.build();
+                    RcmPluginDrag.initDrag();
                     return;
                 }
 
