@@ -65,6 +65,7 @@ var RcmAvailablePluginsMenu = {
                         var outerContainer = $('<div class="rcmPlugin">');
                         outerContainer.addClass(name);
                         outerContainer.attr('data-rcmPluginInstanceId', newInstanceId);
+                        outerContainer.attr('data-rcmPluginName', name);
                         outerContainer.appendTo(initialState);
 
                         var innerContainer = $('<div class="rcmPluginContainer">');

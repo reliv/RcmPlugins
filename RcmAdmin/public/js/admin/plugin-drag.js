@@ -28,14 +28,14 @@ RcmPluginDrag = {
             });
         });
     },
-    /**
-     * Disable dragging on plugins
-     */
-    stopPluginsDraggable: function () {
-        $("#rcmLayoutAccordion").find(".rcmPluginDrag").each(function (v, e) {
-            $(e).draggable("destroy");
-        });
-    },
+//    /**
+//     * Disable dragging on plugins
+//     */
+//    stopPluginsDraggable: function () {
+//        $("#rcmLayoutAccordion").find(".rcmPluginDrag").each(function (v, e) {
+//            $(e).draggable("destroy");
+//        });
+//    },
     /**
      * Callback for Draggable - Helper
      *
