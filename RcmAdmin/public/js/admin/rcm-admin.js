@@ -188,30 +188,7 @@ var RcmAdminService = {
         );
     },
 
-    RcmElmParser: {
 
-        getPageElm: function () {
-            return jQuery('body');
-        },
-        getContainerElms: function (elm) {
-            return elm.find('[data-containerId]');
-        },
-        getContainerId: function (elm) {
-            return elm.attr('data-containerId');
-        },
-        getPluginId: function (elm) {
-            return elm.attr('data-rcmPluginInstanceId');
-        },
-
-        getRichEditorElms: function (elm) {
-            var editors = elm.find('[data-richEdit]');
-            return editors;
-        },
-
-        getTextEditorElms: function (elm) {
-            return elm.find('[data-textEdit]');
-        }
-    },
 
     getHtmlEditorLink: function (rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
@@ -313,6 +290,31 @@ var RcmAdminService = {
         return RcmAdminService.page
     },
 
+    RcmElmParser: {
+
+        getPageElm: function () {
+            return jQuery('body');
+        },
+        getContainerElms: function (elm) {
+            return elm.find('[data-containerId]');
+        },
+        getContainerId: function (elm) {
+            return elm.attr('data-containerId');
+        },
+        getPluginId: function (elm) {
+            return elm.attr('data-rcmPluginInstanceId');
+        },
+
+        getRichEditorElms: function (elm) {
+            var editors = elm.find('[data-richEdit]');
+            return editors;
+        },
+
+        getTextEditorElms: function (elm) {
+            return elm.find('[data-textEdit]');
+        }
+    },
+
     RcmPageModel: {
 
         getElm: function (onComplete) {
@@ -354,33 +356,47 @@ var RcmAdminService = {
                 onComplete(elms)
             }
 
-            return elms
+            return elms;
         },
 
-        getElm: function (id, onComplete) {
+        getElm: function (containerId, onComplete) {
 
             var pageElm = RcmAdminService.RcmPageModel.getElm();
 
-            var elm = pageElm.find("[data-containerId='" + id + "']");
+            var elm = pageElm.find("[data-containerId='" + containerId + "']");
 
             if (typeof onComplete === 'function') {
                 onComplete(elm[0])
             }
 
-            return elm[0]
+            return elm[0];
         },
 
-        getData: function (onComplete) {
+        getId: function(containerElm, onComplete){
+
+            containerElm.attr('data-containerId');
+
+            if (typeof onComplete === 'function') {
+                onComplete(id)
+            }
+
+            return id;
+        },
+
+        getData: function (containerId, onComplete) {
 
             var data = {};
-            data.id = self.elm.attr('data-containerId');
 
-            data.revision = self.elm.attr('data-containerRevision');
+            var elm = RcmAdminService.RcmContainerModel.getElm(containerId);
 
-            if (self.elm.attr('data-isPageContainer') == 'Y') {
-                self.data.type = 'page';
+            data.id = containerId;
+
+            data.revision = elm.attr('data-containerRevision');
+
+            if (elm.attr('data-isPageContainer') == 'Y') {
+                data.type = 'page';
             } else {
-                self.data.type = 'layout';
+                data.type = 'layout';
             }
 
             if (typeof onComplete === 'function') {
@@ -566,11 +582,7 @@ var RcmAdminService = {
          */
         self.buildData = function (onBuilt) {
 
-            self.data.title = jQuery(document).find("head > title").text();
-            self.data.url = jQuery(location).attr('href');
-            self.data.description = jQuery('meta[name="description"]').attr('content');
-            self.data.keywords = jQuery('meta[name="keywords"]').attr('content');
-
+            RcmAdminService.RcmPageModel.getData();
             if (typeof onBuilt === 'function') {
                 onBuilt(self);
             }
@@ -582,7 +594,7 @@ var RcmAdminService = {
          */
         self.buildContainers = function (onBuilt) {
 
-            var containers = RcmAdminService.RcmElmParser.getContainerElms(self.elm);
+            var containers = RcmAdminService.RcmContainerModel.getElms();
 
             var containerElm = null;
             var containerId = null;
