@@ -67,7 +67,7 @@ class IncludeTwitterBootstrap extends AbstractHelper
         $headScript = $view->headScript();
 
         $headScript->appendFile(
-            '/modules/rcm-twitter-bootstrap/js/bootstrap.js'
+            '/modules/rcm-twitter-bootstrap/bootstrap/js/bootstrap.js'
         );
     }
 
@@ -79,12 +79,12 @@ class IncludeTwitterBootstrap extends AbstractHelper
 
         // NOTE: IE8 does not like minifyied version
         $headLink->prependStylesheet(
-            '/modules/rcm-twitter-bootstrap/css/bootstrap.css'
+            '/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css'
         );
 
         /** not required *
          * $headLink->prependStylesheet(
-         * '/modules/rcm-twitter-bootstrap/css/bootstrap.css.map'
+         * '/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css.map'
          * );
          * /* */
     }

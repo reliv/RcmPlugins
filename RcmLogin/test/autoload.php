@@ -15,20 +15,22 @@
  * @link      https://github.com/reliv
  */
 
-
 $autoload = '';
 
-
-if (file_exists(__DIR__ . '/../../../../autoload.php')) {
-    //Get the composer autoloader from vendor folder as a standalone module
-    $autoload = __DIR__ . '/../../../../autoload.php';
-} elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    //Get the composer autoloader from vendor folder as a standalone module
-    $autoload = __DIR__ . '/../vendor/autoload.php';
-} elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
-    //Get the composer autoloader when you're in the vendor folder
-    $autoload = __DIR__ . '/../../../autoload.php';
+/**
+ * Look backwards till wer find the vendor folder. On jenkins it lives in a
+ * different path which makes this needed
+ */
+$dots = '';
+for ($i = 1; $i < 20; $i++) {
+    $dots .= '../';
+    if (file_exists(__DIR__ . '/' . $dots . 'vendor/autoload.php')) {
+        //Get the composer autoloader from vendor folder as a standalone module
+        $autoload = __DIR__ . '/' . $dots . 'vendor/autoload.php';
+        break;
+    }
 }
+
 if (empty($autoload)) {
     trigger_error(
         'Please make sure to run composer install before running unit tests',

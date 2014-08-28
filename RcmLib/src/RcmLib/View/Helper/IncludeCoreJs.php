@@ -2,7 +2,8 @@
 
 namespace RcmLib\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use
+    Zend\View\Helper\AbstractHelper;
 
 /**
  * Class IncludeCoreJs
@@ -54,12 +55,17 @@ class IncludeCoreJs extends AbstractHelper
             . '/modules/rcm-angular-js/ocLazyLoad/dist/ocLazyLoad.js'
         );
         /* <TwitterBootstrap> */
-        $view->headMeta()->setHttpEquiv("X-UA-Compatible", "IE=edge");
-
-        $view->headLink()->prependStylesheet('/modules/rcm-twitter-bootstrap/css/bootstrap.css');
+        $view->headLink()->prependStylesheet(
+            '/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css'
+        );
 
         $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-twitter-bootstrap/js/bootstrap.js'
+            $view->basePath()
+            . '/modules/rcm-twitter-bootstrap/bootstrap/js/bootstrap.js'
+        );
+
+        $headScript()->appendFile(
+            '/modules/rcm-twitter-bootstrap/bootbox/bootbox.min.js'
         );
         /* <TwitterBootstrap> */
         $headScript()->prependFile(
@@ -71,12 +77,6 @@ class IncludeCoreJs extends AbstractHelper
             . '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js'
         );
 
-        $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-lib/respond/respond.min.js'
-        );
-        $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-lib/html5shiv/html5shiv.js'
-        );
         $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-lib/es5-shim-master/es5-shim.min.js'
         );
