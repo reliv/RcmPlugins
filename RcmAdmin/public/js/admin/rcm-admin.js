@@ -498,20 +498,19 @@ var RcmAdminService = {
 
             richEditors.each(
                 function (index) {
-                    elms['richEditors:' + index] = this;
+                    elms[jQuery(this).attr('data-richEdit')] = this;
                 }
             );
 
             textEditors.each(
                 function (index) {
-                    elms['richEditors:' + index] = this;
+                    elms[jQuery(this).attr('data-textEdit')] = this;
                 }
             );
 
             if (typeof onComplete === 'function') {
                 onComplete(elms)
             }
-            ;
 
             return elms;
         }
@@ -590,8 +589,8 @@ var RcmAdminService = {
 
             jQuery.each(
                 self.plugins,
-                function(key, plugin){
-                    data.plugins[key] = plugin.getData();
+                function (key, plugin) {
+                    data.plugins[key] = plugin.getSaveData();
                 }
             );
             console.log(data);
@@ -679,7 +678,6 @@ var RcmAdminService = {
                     );
                 }
             );
-
 
             if (typeof onComplete === 'function') {
                 onComplete(self);
@@ -822,6 +820,22 @@ var RcmAdminService = {
             return data;
         };
 
+        self.getEditorData = function () {
+
+            var editors = self.getEditorElms();
+
+            var data = {};
+
+            jQuery.each(
+                editors,
+                function(key, elm){
+                    data[key] = jQuery(elm).html();
+                }
+            );
+
+            return data;
+        };
+
         /**
          * getSaveData
          * @param onSaved
@@ -832,22 +846,21 @@ var RcmAdminService = {
 
             var pluginObject = self.getPluginObject();
 
-            if (self.canEdit()) {
+            if (pluginObject.getSaveData) {
 
-                if (pluginObject.getSaveData) {
+                var saveData = pluginObject.getSaveData();
 
-                    var saveData = self.getPluginObject.getSaveData();
-
-                    // @todo - get html editor data and merge with saveData
-                    data.saveData = saveData;
-                }
-
-                if (typeof onComplete === 'function') {
-                    onComplete(self);
-                }
-
-                return data;
+                // @todo - get html editor data and merge with saveData
+                data.saveData = saveData;
             }
+
+            data.editorData = self.getEditorData();
+
+            if (typeof onComplete === 'function') {
+                onComplete(self);
+            }
+
+            return data;
         };
 
         /**
