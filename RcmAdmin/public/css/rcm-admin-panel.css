@@ -7,10 +7,31 @@
 }
 
 .rcmAdminPanelWrapper {
-    min-height: 96px;
+    /*min-height: 96px;*/
     width: 100%;
     z-index: 1000;
+    position: relative;
 }
+
+@media screen and (min-width: 0) {
+    .rcmAdminPanelWrapper {
+        height: 10em;
+    }
+}
+
+@media screen and (min-width: 666px) {
+    .rcmAdminPanelWrapper {
+        height: 8em;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .rcmAdminPanelWrapper {
+        height: 6em;
+    }
+}
+
+
 
 .rcmAdminPanelWrapper .rcmAdminPanelFixed {
     background-color: #FFFFFF;
@@ -23,13 +44,13 @@
     z-index: 1000;
 }
 
-.rcmAdminPanelWrapper .rcmAdminPanelInner {
-    background-color: #f3f3f3;
-    border: 1px solid #9e9e9e;
-    margin: 0 auto;
-    min-height: 94px;
-    width: 100%;
-}
+/*.rcmAdminPanelWrapper .rcmAdminPanelInner {*/
+    /*background-color: #f3f3f3;*/
+    /*border: 1px solid #9e9e9e;*/
+    /*margin: 0 auto;*/
+    /*min-height: 94px;*/
+    /*width: 100%;*/
+/*}*/
 
 .rcmAdminPanelWrapper .rcmAdminPanelShadow {
     width: 100%;
