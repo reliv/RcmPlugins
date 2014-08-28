@@ -11,12 +11,7 @@
     width: 100%;
     z-index: 1000;
     position: relative;
-}
-
-@media screen and (min-width: 0) {
-    .rcmAdminPanelWrapper {
-        height: 10em;
-    }
+    height: 10em;
 }
 
 @media screen and (min-width: 666px) {
