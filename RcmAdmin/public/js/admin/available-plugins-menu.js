@@ -11,19 +11,14 @@ var RcmAvailablePluginsMenu = {
                 var menu = RcmAvailablePluginsMenu.menu;
                 $('body').prepend(menu);
                 menu.css('top', $('.rcmAdminPanelWrapper').height());
-                var header = $('<h1 class="panel-heading">Available Plugins</h1>');
-                header.mouseover(function () {
-                    menu.draggable();
-                });
-                header.mouseout(function () {
-                    menu.draggable("destroy");
-                });
+                var header = $('<h1 class="panel-heading">Available Plugins</h1>')
                 menu.append(header);
 
                 var accordion = $('<div class="panel-group" id="availablePluginsGroup">');
                 menu.append(accordion);
-                menu.draggable();
+                menu.draggable({ cancel: '.panel-group' });
                 var categoryIndex = 0;
+                var newInstanceId = 0;
                 $.each(window.rcmAvailablePlugins, function (category, plugins) {
                     var collapseId = 'availablePluginsCollapse' + categoryIndex;
 
@@ -51,6 +46,7 @@ var RcmAvailablePluginsMenu = {
                     collapse.append(collapseBody);
 
                     $.each(plugins, function (name, pluginInfo) {
+                        newInstanceId--;
                         var plugin = $('<div class="rcmPluginDrag panel-inner"></div>');
                         plugin.appendTo(collapseBody);
                         plugin.data('pluginName', name);
@@ -61,6 +57,20 @@ var RcmAvailablePluginsMenu = {
                         var displayName = $('<span></span>');
                         displayName.appendTo(plugin);
                         displayName.html(pluginInfo.displayName);
+
+                        var initialState = $('<div class="initialState"></div>');
+                        initialState.css('display', 'none');
+                        initialState.appendTo(plugin);
+
+                        var outerContainer = $('<div class="rcmPlugin">');
+                        outerContainer.addClass(name);
+                        outerContainer.attr('data-rcmPluginInstanceId', newInstanceId);
+                        outerContainer.attr('data-rcmPluginName', name);
+                        outerContainer.appendTo(initialState);
+
+                        var innerContainer = $('<div class="rcmPluginContainer">');
+                        innerContainer.appendTo(outerContainer);
+
                     });
                     categoryIndex++;
                 });

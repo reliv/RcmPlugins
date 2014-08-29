@@ -58,6 +58,7 @@ class TranslatorFactory implements FactoryInterface
                 $factory
             );
         }
+        $translator->setLocale(\Locale::getDefault());
         return new \Zend\Mvc\I18n\Translator($translator);
     }
 }
