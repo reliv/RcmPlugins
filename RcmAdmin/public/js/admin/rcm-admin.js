@@ -662,8 +662,10 @@ var RcmAdminService = {
 
             var id = RcmAdminService.RcmPluginModel.getId(elm);
 
+            var page = RcmAdminService.getPage();
+
             var menu = '' +
-                '<div id="rcmLayoutEditHelper'+id+'">' +
+                '<div id="rcmLayoutEditHelper' + id + '">' +
                 '<span class="rcmSortableHandle rcmLayoutEditHelper" title="Move Plugin"></span>' +
                 '<span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu">' +
                 '<ul>' +
@@ -688,7 +690,8 @@ var RcmAdminService = {
                 }
             );
             elm.find(".rcmDeletePluginMenuItem").click(function (e) {
-                me.layoutEditor.deleteConfirm(this);
+                // me.layoutEditor.deleteConfirm(this);
+                page.removePlugin(id);
                 e.preventDefault();
             });
             elm.find(".rcmSiteWidePluginMenuItem").click(function (e) {
@@ -711,10 +714,10 @@ var RcmAdminService = {
             //@todo - remove elements
             var id = RcmAdminService.RcmPluginModel.getId(elm);
 
-            jQuery('[id="rcmLayoutEditHelper'+id+'"]').remove();
+            jQuery('[id="rcmLayoutEditHelper' + id + '"]').remove();
 
             elm.hover(
-                function(){
+                function () {
                     return false;
                 }
             );
@@ -906,11 +909,14 @@ var RcmAdminService = {
          */
         self.removePlugin = function (pluginId) {
 
-            self.plugins[pluginId].remove(
-                function(plugin){
-                    delete(self.plugins[pluginId]);
-                }
-            );
+            if (self.plugins[pluginId]) {
+
+                self.plugins[pluginId].remove(
+                    function (plugin) {
+                        delete(self.plugins[pluginId]);
+                    }
+                );
+            }
         };
 
         /**
@@ -952,20 +958,21 @@ var RcmAdminService = {
 
                             self.addPlugin(containerId, pluginId, pkey);
 
-                            pluginsRemove.push(containerId+':'+pluginId);
+                            pluginsRemove.push(pluginId);
                         }
                     );
                 }
             );
 
-            // remove if no longer in dom
+            // remove if no longer in DOM
             jQuery.each(
                 self.plugins,
                 function (prkey, prvalue) {
-
+                    if (pluginsRemove.indexOf(prvalue.id) < 0){
+                        self.removePlugin(prvalue.id);
+                    }
                 }
             );
-
 
             if (typeof onComplete === 'function') {
                 onComplete(self);
