@@ -296,9 +296,8 @@ RcmPluginDrag = {
                 //e.preventDefault();
             });
             //me.rcmPlugins.initPluginEditMode(newDiv);
-            //RcmPluginDrag.addPluginToolbar(newDiv);
 
-            RcmAdminService.RcmPluginViewModel.enableArrange(jQuery(newDiv));
+            RcmAdminService.getPage().registerObjects();
         }
         //Make sure the new plugin is sizable
         RcmPluginDrag.makePluginsResizable();

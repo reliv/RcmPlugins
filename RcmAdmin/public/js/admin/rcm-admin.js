@@ -90,7 +90,7 @@ angular.module(
             function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
                 return {
-                    link: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy, 'richedit'),
+                    compile: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy, 'richedit'),
                     scope: {},
                     restrict: 'A',
                     require: '?ngModel'
@@ -109,9 +109,8 @@ angular.module(
             'rcmHtmlEditorDestroy',
             function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
-
                 return {
-                    link: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy, 'textedit'),
+                    compile: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy, 'textedit'),
                     scope: {},
                     restrict: 'A',
                     require: '?ngModel'
@@ -227,41 +226,45 @@ var RcmAdminService = {
      */
     getHtmlEditorLink: function (rcmHtmlEditorInit, rcmHtmlEditorDestroy, directiveId) {
 
-        var page = RcmAdminService.getPage();
+        return function (tElem) {
+            console.log('getHtmlEditorLink-c');
+            var page = RcmAdminService.getPage();
 
-        return function (scope, elm, attrs, ngModel, config) {
+            return function (scope, elm, attrs, ngModel, config) {
 
-            scope.rcmAdminPage = page;
+                scope.rcmAdminPage = page;
 
-            var pluginId = elm.attr('html-editor-plugin-id');
+                var pluginId = elm.attr('html-editor-plugin-id');
 
-            var localId = attrs[directiveId];
+                var localId = attrs[directiveId];
 
-            var toggleEditors = function () {
+                var toggleEditors = function () {
 
-                if (!scope.rcmAdminPage.plugins[pluginId]) {
-                    return;
+                    console.log(page.plugins);
+                    if (!page.plugins[pluginId]) {
+                        return;
+                    }
+
+                    if (page.plugins[pluginId].canEdit()) {
+
+                        rcmHtmlEditorInit(
+                            scope,
+                            elm,
+                            attrs,
+                            ngModel,
+                            config
+                        );
+                    } else {
+                        rcmHtmlEditorDestroy(
+                            attrs.id
+                        );
+                    }
+                };
+
+                if (pluginId) {
+
+                    toggleEditors();
                 }
-
-                if (scope.rcmAdminPage.plugins[pluginId].canEdit()) {
-
-                    rcmHtmlEditorInit(
-                        scope,
-                        elm,
-                        attrs,
-                        ngModel,
-                        config
-                    );
-                } else {
-                    rcmHtmlEditorDestroy(
-                        attrs.id
-                    );
-                }
-            };
-
-            if (pluginId) {
-
-                toggleEditors();
             }
         }
     },
@@ -894,6 +897,8 @@ var RcmAdminService = {
             if (!self.plugins[pluginId]) {
 
                 self.plugins[pluginId] = new RcmAdminService.RcmPlugin(self, pluginId, self.containers[containerId]);
+
+                console.log('addPlugin:', self.plugins[pluginId]);
             }
 
             self.plugins[pluginId].container = self.containers[containerId];
@@ -968,7 +973,7 @@ var RcmAdminService = {
             jQuery.each(
                 self.plugins,
                 function (prkey, prvalue) {
-                    if (pluginsRemove.indexOf(prvalue.id) < 0){
+                    if (pluginsRemove.indexOf(prvalue.id) < 0) {
                         self.removePlugin(prvalue.id);
                     }
                 }
@@ -1402,6 +1407,7 @@ var RcmAdminService = {
                 function (plugin) {
                     // initial state
                     if (self.canEdit(self.page.editing)) {
+
                         self.initEdit();
                     }
 
