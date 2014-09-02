@@ -724,6 +724,7 @@ var RcmAdminService = {
         self.events = RcmAdminService.RcmEventManager;
         self.editing = []; // page, layout, sitewide
         self.editMode = false;
+        self.arrangeMode = false;
 
         self.containers = {};
         self.plugins = {};
@@ -766,7 +767,7 @@ var RcmAdminService = {
 
             self.editMode = (self.editing.length > 0);
 
-            self.events.trigger('editingStateChange', {editMode: self.editMode, editing: self.editing});
+            self.events.trigger('editingStateChange', self);
         };
 
         /**
@@ -995,6 +996,7 @@ var RcmAdminService = {
         self.order = 0;
         self.editMode = null;
         self.pluginObject = null;
+        self.isInitted = false;
 
         /**
          * getType
@@ -1187,15 +1189,20 @@ var RcmAdminService = {
             self.viewModel.enableEdit(
                 self.getElm(),
                 function (elm) {
-                    if (pluginObject.initEdit) {
+                    if (!self.isInitted) {
 
-                        pluginObject.initEdit();
-                    }
+                        if (pluginObject.initEdit) {
 
-                    self.pluginReady();
+                            pluginObject.initEdit();
 
-                    if (typeof onInitted === 'function') {
-                        onInitted(self);
+                        }
+
+                        self.pluginReady();
+
+                        self.isInitted = true;
+                        if (typeof onInitted === 'function') {
+                            onInitted(self);
+                        }
                     }
                 }
             );
@@ -1251,9 +1258,9 @@ var RcmAdminService = {
          * onEditChange
          * @param args
          */
-        self.onEditChange = function (args) {
+        self.onEditChange = function (page) {
 
-            var editMode = self.canEdit(args.editing);
+            var editMode = self.canEdit(page.editing);
 
             if (self.editMode !== editMode) {
 
@@ -1298,7 +1305,10 @@ var RcmAdminService = {
 
             self.prepareEditors(
                 function (plugin) {
-                    // @todo - initial state triggers
+                    // initial state triggers
+                    // self.onEditChange(self.page);
+                    self.onArrangeStateChange(page.arrangeMode);
+
                     if (typeof onComplete === 'function') {
                         onComplete(plugin);
                     }
