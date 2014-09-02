@@ -12,8 +12,8 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginHandler) {
     var me = this;
 
     var pluginBaseUrl = '/api/admin/instance-configs/'
-        //+ pluginHandler.getName()
-        //+ '/'
+        + pluginHandler.getName()
+        + '/'
         + pluginHandler.getId();
 
     me.ajaxGetInstanceConfigs = function (callback) {
