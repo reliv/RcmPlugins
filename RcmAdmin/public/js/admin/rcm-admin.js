@@ -147,6 +147,23 @@ var RcmAdminService = {
         }
     },
 
+    angularCompile: function (elm, fn) {
+
+        var compile = angular.element(elm).injector().get('$compile');
+
+        var scope = angular.element(elm).scope();
+
+        compile(elm.contents())(scope);
+
+        if (scope.$$phase || scope.$root.$$phase) {
+            if (typeof fn === 'function') {
+                fn();
+            } else {
+                scope.$apply(fn);
+            }
+        }
+    },
+
     /**
      * rcmAdminEditButtonAction - Actions for links and AngularJS directives
      * @todo might require $apply
@@ -206,57 +223,36 @@ var RcmAdminService = {
         return function (scope, elm, attrs, ngModel, config) {
 
             scope.rcmAdminPage = page;
-//scope.rcmAdminPage.events.on(
-//    'pluginReady:' + attrs.id,
-//    function(plugin){
-//        console.log('event');
-//        var pluginElm = plugin.getElm();
-//        //rcm.angularCompile(pluginElm);
-//        scope.$apply();
-//    }
-//);
 
             var pluginId = elm.attr('html-editor-plugin-id');
 
-            //if(!attrs.id){
-            //
-            //var localId = attrs[directiveId];
-            //var editorId = 'plugin:'+pluginId+'|editor:'+localId;
-            //attrs.$set('id', editorId)
-            //}
+            var localId = attrs[directiveId];
+
+            var toggleEditors = function () {
+
+                if (!scope.rcmAdminPage.plugins[pluginId]) {
+                    return;
+                }
+
+                if (scope.rcmAdminPage.plugins[pluginId].canEdit()) {
+
+                    rcmHtmlEditorInit(
+                        scope,
+                        elm,
+                        attrs,
+                        ngModel,
+                        config
+                    );
+                } else {
+                    rcmHtmlEditorDestroy(
+                        attrs.id
+                    );
+                }
+            };
 
             if (pluginId) {
 
-                var toggleEditors = function () {
-
-                    if (!scope.rcmAdminPage.plugins[pluginId]) {
-                        return;
-                    }
-
-                    if (scope.rcmAdminPage.plugins[pluginId].canEdit()) {
-                        rcmHtmlEditorInit(
-                            scope,
-                            elm,
-                            attrs,
-                            ngModel,
-                            config
-                        );
-                    } else {
-                        rcmHtmlEditorDestroy(
-                            attrs.id
-                        );
-                    }
-                };
-
-                scope.rcmAdminPage.events.on(
-                    'pluginReady:' + pluginId,
-                    function (data) {
-                        //console.log('pluginReady:' + pluginId + ' editor:' +localId);
-                        toggleEditors();
-                        scope.$apply();
-
-                    }
-                );
+                toggleEditors();
             }
         }
     },
@@ -284,11 +280,11 @@ var RcmAdminService = {
      * @param onComplete
      * @returns {*}
      */
-    getPlugin: function (id, onComplete){
+    getPlugin: function (id, onComplete) {
 
         var page = RcmAdminService.getPage(
-            function(page) {
-                if(typeof onComplete === 'function'){
+            function (page) {
+                if (typeof onComplete === 'function') {
                     onComplete(page.plugins[id]);
                 }
             }
@@ -325,6 +321,19 @@ var RcmAdminService = {
                     }
                 );
             }
+        },
+
+        hasEvents: function (event) {
+
+            if (!this.events[event]) {
+                return false;
+            }
+
+            if (this.events[event].length > 0) {
+                return true;
+            }
+
+            return false;
         }
     },
 
@@ -638,6 +647,7 @@ var RcmAdminService = {
                             data.plugins[key] = plugin.getSaveData();
                         }
                     );
+
                     //console.log(data);
                 }
             );
@@ -1124,27 +1134,30 @@ var RcmAdminService = {
             }
         };
 
-        self.updateView = function(onComplete){
+        /**
+         * updateView
+         * @param onComplete
+         */
+        self.updateView = function (onComplete) {
 
-            self.prepareEditors(
-                function (plugin) {
-                    self.pluginReady();
-                    if (typeof onComplete === 'function') {
-                        onComplete(plugin);
-                    }
-                }
-            );
+            self.pluginReady(onComplete);
         };
 
         /**
          * pluginReady - trigger post plugin ready actions/ DOM parsing
          */
-        self.pluginReady = function (){
+        self.pluginReady = function (onComplete) {
 
             self.prepareEditors(
                 function (plugin) {
-                    //console.log('trigger->pluginReady:' + self.id);
+
+                    RcmAdminService.angularCompile(self.getElm());
+
                     self.page.events.trigger('pluginReady:' + self.id, self);
+
+                    if (typeof onComplete === 'function') {
+                        onComplete(plugin);
+                    }
                 }
             );
 
