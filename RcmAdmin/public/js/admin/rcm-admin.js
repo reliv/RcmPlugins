@@ -147,6 +147,11 @@ var RcmAdminService = {
         }
     },
 
+    /**
+     * angularCompile
+     * @param elm
+     * @param fn
+     */
     angularCompile: function (elm, fn) {
 
         var compile = angular.element(elm).injector().get('$compile');
@@ -186,7 +191,11 @@ var RcmAdminService = {
                     page.setEditingOn('layout');
                     page.setEditingOn('sitewide');
                     RcmAvailablePluginsMenu.build();
+
+                    page.arrange(true);
+
                     RcmPluginDrag.initDrag();
+
                     return;
                 }
 
@@ -538,7 +547,6 @@ var RcmAdminService = {
 
             return pluginContainerElm;
         },
-
         getEditorElms: function (containerId, pluginId, onComplete) {
 
             var elm = RcmAdminService.RcmPluginModel.getElm(containerId, pluginId);
@@ -565,6 +573,137 @@ var RcmAdminService = {
             }
 
             return elms;
+        }
+    },
+
+    RcmPluginViewModel: {
+
+        /**
+         * disableEdit
+         * @param onComplete
+         */
+        disableEdit: function (elm, type, onComplete) {
+
+            var id = RcmAdminService.RcmPluginModel.getId(elm);
+
+            var page = RcmAdminService.getPage();
+
+            var unlock = function () {
+
+                jQuery().confirm(
+                    RcmAdminService.config.unlockMessages[type].message,
+                    function () {
+                        page.setEditingOn(type);
+                    },
+                    null,
+                    RcmAdminService.config.unlockMessages[type].title
+                );
+            };
+
+            // Add CSS
+            elm.addClass('rcmPluginLocked');
+
+            // context menu and double click
+            elm.dblclick(unlock);
+            //elm.click(unlock);
+
+            jQuery.contextMenu(
+                {
+                    selector: '[data-rcmPluginInstanceId=' + id + ']',
+
+                    //Here are the right click menu options
+                    items: {
+                        unlockMe: {
+                            name: 'Unlock',
+                            icon: 'delete',
+                            callback: unlock
+                        }
+                    }
+                }
+            );
+
+            RcmAdminService.RcmPluginViewModel.disableLinks(elm, onComplete);
+        },
+
+        /**
+         * enableEdit
+         * @param onComplete
+         */
+        enableEdit: function (elm, onComplete) {
+
+            var id = RcmAdminService.RcmPluginModel.getId(elm);
+
+            elm.removeClass('rcmPluginLocked');
+            elm.unbind('dblclick');
+
+            jQuery.contextMenu('destroy', '[data-rcmPluginInstanceId=' + id + ']');
+
+            RcmAdminService.RcmPluginViewModel.disableLinks(elm, onComplete);
+        },
+
+        /**
+         * enableEdit
+         * @param onComplete
+         */
+        enableArrange: function (elm, onComplete) {
+
+            elm.prepend("<span class='rcmSortableHandle rcmLayoutEditHelper' title='Move Plugin' />");
+
+            var pullDownMenu = '<span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu"><ul><li><a href="#"></a><ul><li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li><li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li></ul></li></ul></span>'
+            elm.prepend(pullDownMenu);
+            elm.hover(
+                function () {
+                    jQuery(this).find(".rcmLayoutEditHelper").each(function () {
+                        jQuery(this).show();
+                    });
+                },
+                function () {
+                    jQuery(this).find(".rcmLayoutEditHelper").each(function () {
+                        jQuery(this).hide();
+                    })
+                }
+            );
+            elm.find(".rcmDeletePluginMenuItem").click(function (e) {
+                me.layoutEditor.deleteConfirm(this);
+                e.preventDefault();
+            });
+            elm.find(".rcmSiteWidePluginMenuItem").click(function (e) {
+                me.layoutEditor.makeSiteWide(jQuery(this).parents(".rcmPlugin"));
+                e.preventDefault();
+            });
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
+
+        },
+
+        /**
+         * disableArrange
+         * @param elm
+         * @param onComplete
+         */
+        disableArrange: function (elm, onComplete) {
+            // @todo
+        },
+
+        /**
+         * disableLinks
+         */
+        disableLinks: function (elm, onComplete) {
+
+            // Disable normal events
+            elm.find('*').unbind();
+            var donDoIt = function () {
+                return false;
+            };
+            elm.find('button').click(donDoIt);
+            elm.find('a').click(donDoIt);
+            elm.find('form').submit(donDoIt);
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
         }
     },
 
@@ -628,6 +767,22 @@ var RcmAdminService = {
             self.editMode = (self.editing.length > 0);
 
             self.events.trigger('editingStateChange', {editMode: self.editMode, editing: self.editing});
+        };
+
+        /**
+         * arrange
+         * @param state
+         */
+        self.arrange = function (state) {
+
+            if (typeof state === 'undefined') {
+                // default is on
+                state = true;
+            }
+
+            self.arrangeMode = (state === true);
+
+            self.events.trigger('arrangeStateChange', self.arrangeMode);
         };
 
         /**
@@ -830,6 +985,7 @@ var RcmAdminService = {
         var self = this;
 
         self.model = RcmAdminService.RcmPluginModel;
+        self.viewModel = RcmAdminService.RcmPluginViewModel;
         self.containerModel = RcmAdminService.RcmContainerModel;
 
         self.page = page;
@@ -877,7 +1033,7 @@ var RcmAdminService = {
          * getName
          * @returns {*|string}
          */
-        self.getName = function(){
+        self.getName = function () {
 
             var pluginElm = self.getElm();
 
@@ -931,7 +1087,6 @@ var RcmAdminService = {
 
                 var saveData = pluginObject.getSaveData();
 
-                // @todo - get html editor data and merge with saveData
                 data.saveData = saveData;
             }
 
@@ -1029,21 +1184,21 @@ var RcmAdminService = {
 
             var pluginObject = self.getPluginObject()
 
-            if (self.canEdit()) {
+            self.viewModel.enableEdit(
+                self.getElm(),
+                function (elm) {
+                    if (pluginObject.initEdit) {
 
-                self.enableView(
-                    function (plugin) {
-                        if (pluginObject.initEdit) {
-
-                            pluginObject.initEdit();
-                        }
-
-                        if (typeof onInitted === 'function') {
-                            onInitted(self);
-                        }
+                        pluginObject.initEdit();
                     }
-                );
-            }
+
+                    self.pluginReady();
+
+                    if (typeof onInitted === 'function') {
+                        onInitted(self);
+                    }
+                }
+            );
         };
 
         /**
@@ -1052,110 +1207,15 @@ var RcmAdminService = {
          */
         self.cancelEdit = function (onCanceled) {
 
-            if (!self.canEdit()) {
-                self.disableView(
-                    function (plugin) {
-                        if (typeof onCanceled === 'function') {
-                            onCanceled(self);
-                        }
-                    }
-                );
-            }
-        };
-
-        /**
-         * unlock
-         */
-        self.unlock = function () {
-
-            jQuery().confirm(
-                RcmAdminService.config.unlockMessages[self.getType()].message,
-                function () {
-                    self.container.page.setEditingOn(
-                        self.getType()
-                    );
-                },
-                null,
-                RcmAdminService.config.unlockMessages[self.getType()].title
-            );
-        };
-
-        /**
-         * disableView
-         * @param onDisabled
-         */
-        self.disableView = function (onComplete) {
-
-            var elm = self.getElm();
-
-            // Add CSS
-            elm.addClass('rcmPluginLocked');
-
-            // context menu and double click
-            elm.dblclick(self.unlock);
-            //elm.click(unlock);
-
-            jQuery.contextMenu(
-                {
-                    selector: '[data-rcmPluginInstanceId=' + self.id + ']',
-
-                    //Here are the right click menu options
-                    items: {
-                        unlockMe: {
-                            name: 'Unlock',
-                            icon: 'delete',
-                            callback: self.unlock
-                        }
+            self.viewModel.disableEdit(
+                self.getElm(),
+                self.getType(),
+                function (elm) {
+                    if (typeof onCanceled === 'function') {
+                        onCanceled(self);
                     }
                 }
             );
-
-            if (typeof onComplete === 'function') {
-                onComplete(self);
-            }
-            self.disableLinks();
-        };
-
-        /**
-         * enableView
-         * @param onEnabled
-         */
-        self.enableView = function (onComplete) {
-
-            var elm = self.getElm();
-
-            elm.removeClass('rcmPluginLocked');
-            elm.unbind('dblclick');
-
-            jQuery.contextMenu('destroy', '[data-rcmPluginInstanceId=' + self.id + ']');
-
-            if (typeof onComplete === 'function') {
-                onComplete(self);
-            }
-            self.disableLinks();
-        };
-
-        /**
-         * disableLinks
-         */
-        self.disableLinks = function (onComplete) {
-
-            var elm = self.getElm();
-
-            // Disable normal events
-            elm.find('*').unbind();
-            var donDoIt = function () {
-                return false;
-            };
-            elm.find('button').click(donDoIt);
-            elm.find('a').click(donDoIt);
-            elm.find('form').submit(donDoIt);
-
-            self.pluginReady();
-
-            if (typeof onComplete === 'function') {
-                onComplete(self);
-            }
         };
 
         /**
@@ -1211,14 +1271,34 @@ var RcmAdminService = {
         };
 
         /**
+         * onArrangeStateChange
+         * @param state
+         */
+        self.onArrangeStateChange = function (state) {
+
+            if (state) {
+                self.viewModel.enableArrange(
+                    self.getElm()
+                );
+            } else {
+                self.viewModel.disableArrange(
+                    self.getElm()
+                );
+            }
+        };
+
+        /**
          * init
          */
         self.init = function (onComplete) {
 
-            self.container.page.events.on('editingStateChange', self.onEditChange);
+            self.page.events.on('editingStateChange', self.onEditChange);
+
+            self.page.events.on('arrangeStateChange', self.onArrangeStateChange);
 
             self.prepareEditors(
                 function (plugin) {
+                    // @todo - initial state triggers
                     if (typeof onComplete === 'function') {
                         onComplete(plugin);
                     }
