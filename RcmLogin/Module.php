@@ -19,6 +19,7 @@ namespace RcmLogin;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\MvcEvent;
+use Zend\Console\Request as ConsoleRequest;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -131,6 +132,15 @@ class Module
      */
     public function onBootstrap(MvcEvent $event)
     {
+
+        $serviceManager = $event->getApplication()->getServiceManager();
+
+        $request = $serviceManager->get('request');
+
+        if ($request instanceof ConsoleRequest) {
+            return;
+        }
+
         $application = $event->getApplication();
         $eventManager = $application->getEventManager();
         $eventManager->attach(

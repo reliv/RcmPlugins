@@ -66,7 +66,7 @@ class DoctrineDbLoader implements RemoteLoaderInterface
         $textDomain = new TextDomain();
 
         foreach ($messages as &$message) {
-            $textDomain[$message['defaultText']] = $message['text'];
+            $textDomain[$message['defaultText']] = utf8_encode($message['text']);
         }
 
         return $textDomain;

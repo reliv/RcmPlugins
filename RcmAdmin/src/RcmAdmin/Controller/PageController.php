@@ -19,11 +19,11 @@
  */
 namespace RcmAdmin\Controller;
 
+use Rcm\Exception\InvalidArgumentException;
 use Rcm\Exception\PageNotFoundException;
 use Rcm\Http\Response;
 use Rcm\Service\PageManager;
 use RcmUser\User\Entity\User;
-use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -46,7 +46,7 @@ use Zend\View\Model\ViewModel;
  *
  * @method boolean rcmUserIsAllowed($resource, $action, $providerId) Is User Allowed
  * @method User rcmUserGetCurrentUser() Get Current User Object
- * @method string urlToPage($pageName, $pageType) Get Url To a Page
+ * @method string urlToPage($pageName, $pageType='n', $pageRevision=null) Get Url To a Page
  */
 class PageController extends AbstractActionController
 {
@@ -210,6 +210,43 @@ class PageController extends AbstractActionController
         $this->view->setVariable('rcmPageRevision', $sourcePageRevision);
         $this->view->setVariable('rcmPageType', $sourcePageType);
         return $this->view;
+    }
 
+    public function publishPageRevisionAction()
+    {
+        if (!$this->rcmUserIsAllowed(
+            'sites.' . $this->siteId . '.pages',
+            'create',
+            'Rcm\Acl\ResourceProvider'
+        )) {
+            $response = new Response();
+            $response->setStatusCode('401');
+
+            return $response;
+        }
+
+        $pageName = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageName', 'index');
+
+        $pageRevision = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageRevision', null);
+
+        $pageType = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageType', 'n');
+
+        if (!is_numeric($pageRevision)) {
+            throw new InvalidArgumentException(
+                'Invalid Page Revision Id.'
+            );
+        }
+
+        $this->pageManager->publishPageRevision($pageRevision);
+
+        return $this->redirect()->toUrl(
+            $this->urlToPage($pageName, $pageType)
+        );
     }
 }
