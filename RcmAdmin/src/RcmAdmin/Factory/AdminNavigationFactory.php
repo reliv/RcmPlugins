@@ -247,11 +247,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         foreach ($drafts as $draft) {
             $return[] = array(
                 'label'  => $draft->getCreatedDate()->format("r").' - '.$draft->getAuthor(),
-                'route'  => 'contentManagerWithPageType',
+                'route'  => 'RcmAdmin\Page\PublishPageRevision',
                 'params' => array(
-                    'page' => $this->page->getName(),
-                    'pageType' => $this->page->getPageType(),
-                    'revision' => $draft->getRevisionId()
+                    'rcmPageName' => $this->page->getName(),
+                    'rcmPageType' => $this->page->getPageType(),
+                    'rcmPageRevision' => $draft->getRevisionId()
                 )
             );
         }
