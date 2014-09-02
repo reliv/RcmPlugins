@@ -865,6 +865,26 @@ var RcmAdminService = {
         };
 
         /**
+         * getId
+         * @returns {*}
+         */
+        self.getId = function () {
+
+            return self.id;
+        };
+
+        /**
+         * getName
+         * @returns {*|string}
+         */
+        self.getName = function(){
+
+            var pluginElm = self.getElm();
+
+            return self.model.getName(pluginElm);
+        };
+
+        /**
          * getData
          * @returns {*}
          */
@@ -877,6 +897,10 @@ var RcmAdminService = {
             return data;
         };
 
+        /**
+         * getEditorData
+         * @returns {{}}
+         */
         self.getEditorData = function () {
 
             var editors = self.getEditorElms();

@@ -22,7 +22,7 @@ $.ajax({
 /**
  * requires AjaxPluginEditHelper which should be included by rcm-admin
  */
-var RcmEventListDisplayEdit = function (instanceId, container) {
+var RcmEventListDisplayEdit = function (instanceId, container, pluginHandler) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -43,7 +43,7 @@ var RcmEventListDisplayEdit = function (instanceId, container) {
      */
     var defaultData;
 
-    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, 'rcm-event-list-display');
+    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, pluginHandler);
 
     var eventManager = new RcmEventManager(
         container.find('dataContainer').attr('data-eventCategoryId')

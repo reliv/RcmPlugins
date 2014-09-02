@@ -24,7 +24,7 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
     var sortMode = false;
     var embedMsg = 'Place Embed Code Below:<br>';
     var ajaxEditHelper = new AjaxPluginEditHelper(
-        instanceId, container, 'rcm-distributor-app'
+        instanceId, container, pluginHandler
     );
 
     /**

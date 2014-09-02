@@ -21,7 +21,7 @@
  * @param {jQuery} container
  * @constructor
  */
-var RcmLoginEdit = function (instanceId, container) {
+var RcmLoginEdit = function (instanceId, container, pluginHandler) {
 
     var me = this;
 
@@ -38,14 +38,14 @@ var RcmLoginEdit = function (instanceId, container) {
     var defaultData;
 
     var ajaxEditHelper = new AjaxPluginEditHelper(
-        instanceId, container, 'rcm-login'
+        instanceId, container, pluginHandler
     );
 
     /**
      * Called by content management system to make this plugin user-editable
      */
     this.initEdit = function () {
-        ajaxEditHelper.disableEvents();
+
         ajaxEditHelper.ajaxGetInstanceConfigs(me.completeEditInit);
     };
 
