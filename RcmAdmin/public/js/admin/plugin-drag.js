@@ -34,7 +34,7 @@ RcmPluginDrag = {
     /**
      * Disable dragging on plugins
      *
-    stopPluginsDraggable: function () {
+     stopPluginsDraggable: function () {
         $("#rcmLayoutAccordion").find(".rcmPluginDrag").each(function (v, e) {
             $(e).draggable("destroy");
         });
@@ -50,7 +50,7 @@ RcmPluginDrag = {
     pluginDraggableHelper: function (container) {
         var pluginContainer = $(container).find(".rcmPlugin");
         var pluginData = RcmPluginDrag.getPluginContainerInfo(pluginContainer);
-        if (pluginData.isSiteWide != 'Y') {
+        if (pluginData.instanceId < 0) {//greater than 0 not sitewide instance
             $(pluginContainer).attr(
                 'data-rcmPluginInstanceId',
                 pluginData.instanceId * 10
@@ -227,7 +227,7 @@ RcmPluginDrag = {
     /**
      * Makes plugins sortable.
      *
-    stopPluginsSortable: function () {
+     stopPluginsSortable: function () {
         $(".rcmContainer").each(function (v, e) {
             $(e).sortable("destroy");
         });
@@ -309,7 +309,7 @@ RcmPluginDrag = {
      *
      * @param container
      *
-    deletePlugin: function (container) {
+     deletePlugin: function (container) {
         var pluginData = RcmPluginDrag.getPluginContainerInfo(container);
         if (pluginData.isSiteWide == 'Y') {
             $('#' + pluginData.displayName).show();
