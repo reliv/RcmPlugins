@@ -112,3 +112,7 @@ div.rcmPanelEditorToolbar {
 .availablePluginsMenu h1.panel-heading{
     cursor: move;
 }
+
+.availablePluginsMenu .siteWideAlreadyOnPage{
+    display:none;
+}
