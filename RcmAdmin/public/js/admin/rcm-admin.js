@@ -90,7 +90,7 @@ angular.module(
             function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
                 return {
-                    link: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy, 'richedit'),
+                    compile: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy, 'richedit'),
                     scope: {},
                     restrict: 'A',
                     require: '?ngModel'
@@ -109,9 +109,8 @@ angular.module(
             'rcmHtmlEditorDestroy',
             function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
-
                 return {
-                    link: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy, 'textedit'),
+                    compile: rcmAdminService.getHtmlEditorLink(rcmHtmlEditorInit, rcmHtmlEditorDestroy, 'textedit'),
                     scope: {},
                     restrict: 'A',
                     require: '?ngModel'
@@ -227,41 +226,44 @@ var RcmAdminService = {
      */
     getHtmlEditorLink: function (rcmHtmlEditorInit, rcmHtmlEditorDestroy, directiveId) {
 
-        var page = RcmAdminService.getPage();
+        return function (tElem) {
 
-        return function (scope, elm, attrs, ngModel, config) {
+            var page = RcmAdminService.getPage();
 
-            scope.rcmAdminPage = page;
+            return function (scope, elm, attrs, ngModel, config) {
 
-            var pluginId = elm.attr('html-editor-plugin-id');
+                scope.rcmAdminPage = page;
 
-            var localId = attrs[directiveId];
+                var pluginId = elm.attr('html-editor-plugin-id');
 
-            var toggleEditors = function () {
+                var localId = attrs[directiveId];
 
-                if (!scope.rcmAdminPage.plugins[pluginId]) {
-                    return;
+                var toggleEditors = function () {
+
+                    if (!page.plugins[pluginId]) {
+                        return;
+                    }
+
+                    if (page.plugins[pluginId].canEdit()) {
+
+                        rcmHtmlEditorInit(
+                            scope,
+                            elm,
+                            attrs,
+                            ngModel,
+                            config
+                        );
+                    } else {
+                        rcmHtmlEditorDestroy(
+                            attrs.id
+                        );
+                    }
+                };
+
+                if (pluginId) {
+
+                    toggleEditors();
                 }
-
-                if (scope.rcmAdminPage.plugins[pluginId].canEdit()) {
-
-                    rcmHtmlEditorInit(
-                        scope,
-                        elm,
-                        attrs,
-                        ngModel,
-                        config
-                    );
-                } else {
-                    rcmHtmlEditorDestroy(
-                        attrs.id
-                    );
-                }
-            };
-
-            if (pluginId) {
-
-                toggleEditors();
             }
         }
     },
@@ -488,6 +490,19 @@ var RcmAdminService = {
             return elm;
         },
 
+        deleteElm: function (containerId, pluginId, onComplete) {
+
+            var elm = RcmAdminService.RcmPluginModel.getElm(containerId, pluginId);
+
+            elm.remove();
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm)
+            }
+
+            return elm;
+        },
+
         getId: function (pluginElm, onComplete) {
 
             var id = pluginElm.attr('data-rcmPluginInstanceId');
@@ -647,10 +662,23 @@ var RcmAdminService = {
          */
         enableArrange: function (elm, onComplete) {
 
-            elm.prepend("<span class='rcmSortableHandle rcmLayoutEditHelper' title='Move Plugin' />");
+            var id = RcmAdminService.RcmPluginModel.getId(elm);
 
-            var pullDownMenu = '<span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu"><ul><li><a href="#"></a><ul><li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li><li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li></ul></li></ul></span>'
-            elm.prepend(pullDownMenu);
+            var page = RcmAdminService.getPage();
+
+            var menu = '' +
+                '<div id="rcmLayoutEditHelper' + id + '">' +
+                '<span class="rcmSortableHandle rcmLayoutEditHelper" title="Move Plugin"></span>' +
+                '<span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu">' +
+                '<ul>' +
+                '<li><a href="#"></a><ul><li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
+                '<li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
+                '</ul>' +
+                '</span>' +
+                '</div>';
+
+            elm.prepend(menu);
+
             elm.hover(
                 function () {
                     jQuery(this).find(".rcmLayoutEditHelper").each(function () {
@@ -664,7 +692,8 @@ var RcmAdminService = {
                 }
             );
             elm.find(".rcmDeletePluginMenuItem").click(function (e) {
-                me.layoutEditor.deleteConfirm(this);
+                // me.layoutEditor.deleteConfirm(this);
+                page.removePlugin(id);
                 e.preventDefault();
             });
             elm.find(".rcmSiteWidePluginMenuItem").click(function (e) {
@@ -684,7 +713,20 @@ var RcmAdminService = {
          * @param onComplete
          */
         disableArrange: function (elm, onComplete) {
-            // @todo
+            //@todo - remove elements
+            var id = RcmAdminService.RcmPluginModel.getId(elm);
+
+            jQuery('[id="rcmLayoutEditHelper' + id + '"]').remove();
+
+            elm.hover(
+                function () {
+                    return false;
+                }
+            );
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
         },
 
         /**
@@ -754,7 +796,7 @@ var RcmAdminService = {
                 self.editing.splice(
                     self.editing.indexOf(type),
                     1
-                )
+                );
 
                 self.onEditChange();
             }
@@ -803,8 +845,6 @@ var RcmAdminService = {
                             data.plugins[key] = plugin.getSaveData();
                         }
                     );
-
-                    //console.log(data);
                 }
             );
         };
@@ -844,6 +884,50 @@ var RcmAdminService = {
         };
 
         /**
+         * addPlugin
+         * @param containerId
+         * @param pluginId
+         * @param order
+         */
+        self.addPlugin = function (containerId, pluginId, order) {
+
+            if (!self.plugins[pluginId]) {
+
+                self.plugins[pluginId] = new RcmAdminService.RcmPlugin(
+                    self,
+                    pluginId,
+                    self.containers[containerId]
+                );
+
+                self.plugins[pluginId].init();
+            }
+
+            self.plugins[pluginId].container = self.containers[containerId];
+
+            self.plugins[pluginId].order = order;
+
+            return self.plugins[pluginId];
+        };
+
+        /**
+         * removePlugin
+         * @param containerId
+         * @param pluginId
+         * @param order
+         */
+        self.removePlugin = function (pluginId) {
+
+            if (self.plugins[pluginId]) {
+
+                self.plugins[pluginId].remove(
+                    function (plugin) {
+                        delete(self.plugins[pluginId]);
+                    }
+                );
+            }
+        };
+
+        /**
          * registerObjects
          * @param onComplete
          */
@@ -854,6 +938,7 @@ var RcmAdminService = {
             var containerElm = null;
             var containerId = null;
 
+            var pluginsRemove = [];
             var pluginElms = [];
             var pluginElm = null;
             var pluginId = null;
@@ -879,23 +964,29 @@ var RcmAdminService = {
                             pluginElm = jQuery(pvalue);
                             pluginId = self.pluginModel.getId(pluginElm);
 
-                            if (!self.plugins[pluginId]) {
+                            self.addPlugin(containerId, pluginId, pkey);
 
-                                self.plugins[pluginId] = new RcmAdminService.RcmPlugin(self, pluginId, self.containers[containerId]);
-                            }
-
-                            self.plugins[pluginId].container = self.containers[containerId];
-
-                            self.plugins[pluginId].order = pkey;
+                            pluginsRemove.push(pluginId);
                         }
                     );
+                }
+            );
+
+            // remove if no longer in DOM
+            jQuery.each(
+                self.plugins,
+                function (prkey, prvalue) {
+                    if (pluginsRemove.indexOf(prvalue.id) < 0) {
+                        self.removePlugin(prvalue.id);
+                    }
                 }
             );
 
             if (typeof onComplete === 'function') {
                 onComplete(self);
             }
-        }
+        };
+
 
         /**
          * init
@@ -981,7 +1072,7 @@ var RcmAdminService = {
      * @param id
      * @constructor
      */
-    RcmPlugin: function (page, id, container, onInitted) {
+    RcmPlugin: function (page, id, container) {
 
         var self = this;
 
@@ -1178,6 +1269,19 @@ var RcmAdminService = {
             return (editing.indexOf(type) > -1);
         };
 
+        self.remove = function (onComplete) {
+            self.viewModel.disableArrange(
+                self.getElm(),
+                function () {
+                    self.model.deleteElm(self.container.id, self.id);
+
+                    if (typeof onComplete === 'function') {
+                        onComplete(self);
+                    }
+                }
+            );
+        };
+
         /**
          * initEdit
          * @param onInitted
@@ -1194,7 +1298,6 @@ var RcmAdminService = {
                         if (pluginObject.initEdit) {
 
                             pluginObject.initEdit();
-
                         }
 
                         self.pluginReady();
@@ -1242,9 +1345,9 @@ var RcmAdminService = {
             self.prepareEditors(
                 function (plugin) {
 
-                    RcmAdminService.angularCompile(self.getElm());
+                    RcmAdminService.angularCompile(plugin.getElm());
 
-                    self.page.events.trigger('pluginReady:' + self.id, self);
+                    self.page.events.trigger('pluginReady:' + plugin.id, plugin);
 
                     if (typeof onComplete === 'function') {
                         onComplete(plugin);
@@ -1295,6 +1398,24 @@ var RcmAdminService = {
         };
 
         /**
+         * onInitComplete
+         */
+        self.onInitComplete = function(onComplete) {
+
+            // initial state
+            if (self.canEdit(self.page.editing)) {
+
+                self.initEdit();
+            }
+
+            self.onArrangeStateChange(self.page.arrangeMode);
+
+            if (typeof onComplete === 'function') {
+                onComplete(plugin);
+            }
+        };
+
+        /**
          * init
          */
         self.init = function (onComplete) {
@@ -1305,18 +1426,11 @@ var RcmAdminService = {
 
             self.prepareEditors(
                 function (plugin) {
-                    // initial state triggers
-                    // self.onEditChange(self.page);
-                    self.onArrangeStateChange(page.arrangeMode);
 
-                    if (typeof onComplete === 'function') {
-                        onComplete(plugin);
-                    }
+                    self.onInitComplete(onComplete);
                 }
             );
         };
-
-        self.init(onInitted);
     },
 
     /**
