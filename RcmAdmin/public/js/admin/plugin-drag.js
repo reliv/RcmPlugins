@@ -311,7 +311,6 @@ RcmPluginDrag = {
             //Existing plugin received
             var plugin = $(ui.item);
             pluginData = RcmPluginDrag.getPluginContainerInfo(plugin);
-            console.log(pluginData);
             if (pluginData.isSiteWide && !isPageContainer) {
                 $(ui.sender).sortable('cancel');
                 $().alert(badMsg);
