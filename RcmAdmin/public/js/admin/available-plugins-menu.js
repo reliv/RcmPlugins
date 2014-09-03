@@ -4,6 +4,14 @@ var RcmAvailablePluginsMenu = {
 
     build: function () {
 
+        var page = RcmAdminService.getPage(
+            function(page) {
+                RcmAvailablePluginsMenu.onRegisterObjects(page.plugins);
+            }
+        );
+
+        page.events.on('registerObjects', RcmAvailablePluginsMenu.onRegisterObjects);
+
         if (!RcmAvailablePluginsMenu.menu) {
 
             $(function () {
@@ -48,11 +56,11 @@ var RcmAvailablePluginsMenu = {
                     $.each(plugins, function (displayNameStr, pluginInfo) {
                         newInstanceId--;
                         var instanceId = newInstanceId;
-                        console.log(pluginInfo.siteWide);
+                        //console.log(pluginInfo.siteWide);
                         if (pluginInfo.siteWide) {
                             instanceId = pluginInfo.instanceId;
                         }
-                        console.log(pluginInfo);
+                        //console.log(pluginInfo);
                         var plugin = $('<div class="rcmPluginDrag panel-inner"></div>');
                         plugin.appendTo(collapseBody);
                         plugin.data('pluginName', pluginInfo.name);
@@ -86,6 +94,13 @@ var RcmAvailablePluginsMenu = {
             RcmAvailablePluginsMenu.menu.remove();
             RcmAvailablePluginsMenu.menu = null;
         }
+    },
+
+    onRegisterObjects: function(plugins) {
+
+        // @todo - remove any site-wides from the plugins menu that are already in the list
+        // @todo - NOTE: each plugin has a method getType() which will return: sitewide, page or layout
+        console.log('onRegisterObjects', plugins)
     }
 };
 
