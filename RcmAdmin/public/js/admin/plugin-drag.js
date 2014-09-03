@@ -112,6 +112,7 @@ RcmPluginDrag = {
      * @param pluginContainer
      */
     getInstanceSuccessCallback: function (data, helper, pluginContainer) {
+
         if (data.js != undefined && data.js != '') {
             RcmPluginDrag.loadPluginJs(data.js);
         }
