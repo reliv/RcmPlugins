@@ -13,12 +13,7 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-var RcmSocialButtonsEdit = function (instanceId, container) {
-
-    /**
-     * Always refers to this object unlike the 'this' JS variable;
-     * @type {RcmSocialButtonsEdit}
-     */
+var RcmSocialButtonsEdit = function (instanceId, container, pluginHelper) {
     var me = this;
 
     /**
@@ -38,25 +33,7 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
 
         me.disableShareThis();
 
-        $.getJSON(
-            '/api/admin/instance-configs' + instanceId,
-            function (returnedData) {
-                availableButtons = returnedData;
-                if (me.haveDataAndAvailableButtons()) {
-                    me.completeInitEdit();
-                }
-            }
-        );
-
-        $.getJSON(
-            '/api/admin/instance-configs' + instanceId,
-            function success(returnedData) {
-                data = returnedData;
-                if (me.haveDataAndAvailableButtons()) {
-                    me.completeInitEdit();
-                }
-            }
-        );
+        pluginHelper.getInstanceConfig(me.completeInitEdit);
     };
 
     me.haveDataAndAvailableButtons = function () {
@@ -66,7 +43,8 @@ var RcmSocialButtonsEdit = function (instanceId, container) {
     /**
      * Completes the edit init after we get our data via ajax
      */
-    me.completeInitEdit = function () {
+    me.completeInitEdit = function (instanceConfig) {
+        data = instanceConfig;
         //Double clicking will show properties dialog
         container.delegate('.rcmSocialButtonsWrapper', 'dblclick', function (e) {
             e.preventDefault();

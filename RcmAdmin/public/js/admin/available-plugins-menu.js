@@ -3,6 +3,7 @@ var RcmAvailablePluginsMenu = {
     menu: null,
 
     hideShowSiteWides: function (plugins) {
+//JAMES!        console.log('hideShowSiteWides', plugins);
         //Ensures site-wides that are already on the page are hidden in list
         $.each($('.availablePluginsMenu .rcmPluginDrag.siteWide'), function () {
             var pluginDragWrapper = $(this);

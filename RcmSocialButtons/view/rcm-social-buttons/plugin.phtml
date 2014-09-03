@@ -25,7 +25,7 @@ $this->headScript()->appendFile(
    data-rcmShareThisKey="<?= $this->instanceConfig['shareThisKey'] ?>"></a>
 
 <div class="rcmSocialButtonsWrapper">
-    <?php foreach ($this->instanceConfig['buttons'] as &$button): ?>
+    <?php foreach ($this->instanceConfig['buttons'] as $button): ?>
         <span class='st_<?= $button . $this->instanceConfig['style'] ?>'>
         </span>
     <?php endforeach ?>
