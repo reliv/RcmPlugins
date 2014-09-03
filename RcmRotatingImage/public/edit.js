@@ -15,14 +15,14 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-var RcmRotatingImageEdit = function (instanceId, container) {
+var RcmRotatingImageEdit = function (instanceId, container, pluginHandler) {
 
     var me = this;
 
     var instanceConfig;
 
     var ajaxEditHelper = new AjaxPluginEditHelper(
-        instanceId, container, 'rcm-rotating-image'
+        instanceId, container, pluginHandler
     );
 
     /**

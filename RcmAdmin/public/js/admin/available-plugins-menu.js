@@ -45,11 +45,17 @@ var RcmAvailablePluginsMenu = {
                     var collapseBody = $('<div class="panel-body"></div>');
                     collapse.append(collapseBody);
 
-                    $.each(plugins, function (name, pluginInfo) {
+                    $.each(plugins, function (displayNameStr, pluginInfo) {
                         newInstanceId--;
+                        var instanceId = newInstanceId;
+                        console.log(pluginInfo.siteWide);
+                        if (pluginInfo.siteWide) {
+                            instanceId = pluginInfo.instanceId;
+                        }
+                        console.log(pluginInfo);
                         var plugin = $('<div class="rcmPluginDrag panel-inner"></div>');
                         plugin.appendTo(collapseBody);
-                        plugin.data('pluginName', name);
+                        plugin.data('pluginName', pluginInfo.name);
 
                         var icon = $('<img>');
                         icon.attr('src', pluginInfo.icon);
@@ -63,9 +69,9 @@ var RcmAvailablePluginsMenu = {
                         initialState.appendTo(plugin);
 
                         var outerContainer = $('<div class="rcmPlugin">');
-                        outerContainer.addClass(name);
-                        outerContainer.attr('data-rcmPluginInstanceId', newInstanceId);
-                        outerContainer.attr('data-rcmPluginName', name);
+                        outerContainer.addClass(pluginInfo.name);
+                        outerContainer.attr('data-rcmPluginInstanceId', instanceId);
+                        outerContainer.attr('data-rcmPluginName', pluginInfo.name);
                         outerContainer.appendTo(initialState);
 
                         var innerContainer = $('<div class="rcmPluginContainer">');

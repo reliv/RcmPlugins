@@ -25,7 +25,7 @@ angular.module('RcmHtmlEditor', [])
                 forced_root_block: '',
 
                 inline: true,
-                encoding : "raw",
+                encoding: "raw",
                 fixed_toolbar_container: self.fixed_toolbar_container,
                 language: self.language,
 
@@ -50,7 +50,7 @@ angular.module('RcmHtmlEditor', [])
                 forced_root_block: '',
 
                 inline: true,
-                encoding : "raw",
+                encoding: "raw",
                 fixed_toolbar_container: self.fixed_toolbar_container,
                 language: self.language,
 
@@ -74,7 +74,7 @@ angular.module('RcmHtmlEditor', [])
                 forced_root_block: '',
 
                 inline: true,
-                encoding : "raw",
+                encoding: "raw",
                 fixed_toolbar_container: self.fixed_toolbar_container,
                 language: self.language,
 
@@ -103,6 +103,31 @@ angular.module('RcmHtmlEditor', [])
                 var RcmHtmlEditorService = function () {
 
                     var self = this;
+                    self.events = {};
+                    self.eventManager = {
+
+                        on: function (event, method) {
+
+                            if (!self.events[event]) {
+                                self.events[event] = [];
+                            }
+
+                            self.events[event].push(method);
+                        },
+
+                        trigger: function (event, args) {
+
+                            if (self.events[event]) {
+                                jQuery.each(
+                                    self.events[event],
+                                    function (index, value) {
+                                        value(args);
+                                    }
+                                );
+                            }
+                        }
+                    };
+
                     self.isEditing = false;
                     self.toolbarLoading = false;
                     self.editorsLoading = [];
@@ -156,19 +181,51 @@ angular.module('RcmHtmlEditor', [])
                             if (self.editorsLoading.indexOf(editorId) < 0) {
                                 self.editorsLoading.push(editorId);
                             }
+
                         } else {
 
                             if (self.editorsLoading.indexOf(editorId) > -1) {
-
                                 self.editorsLoading.splice(
                                     self.editorsLoading.indexOf(editorId),
                                     1
-                                )
+                                );
                             }
                         }
 
                         self.toolbarLoading = self.editorsLoading.length > 0;
                     }
+
+                    self.eventManager.on(
+                        'RcmHtmlEditor.onInit',
+                        function (rcmHtmlEditor) {
+
+                            self.loading(rcmHtmlEditor.id, false, 'rcmHtmlEditor: ');
+
+                            self.updateState(
+                                function () {
+                                    // will show default toolbar on init
+                                    if (rcmHtmlEditor.settings.fixed_toolbar) {
+
+                                        self.showFixedToolbar = true;
+                                    }
+                                }
+                            );
+                        }
+                    );
+
+                    self.eventManager.on(
+                        'RcmHtmlEditor.onDestroy',
+                        function (rcmHtmlEditor) {
+
+                            self.loading(rcmHtmlEditor.id, false, 'rcmHtmlEditor.onDestroy: ');
+
+                            self.updateState(
+                                function () {
+                                    self.deleteEditor(rcmHtmlEditor.id);
+                                }
+                            );
+                        }
+                    );
                 };
 
                 var rcmHtmlEditorService = new RcmHtmlEditorService();
@@ -295,7 +352,15 @@ angular.module('RcmHtmlEditor', [])
 
                 var self = this;
 
-                self.build = function (id, scope, elm, attrs, ngModel, settings, onBuilt) {
+                self.build = function (id, scope, elm, attrs, ngModel, settings) {
+
+                    if (rcmHtmlEditorService.editors[id]) {
+
+                        return;
+                    }
+
+                    // this is to hide the default toolbar before init
+                    rcmHtmlEditorService.loading(id, true, 'rcmHtmlEditorInit');
 
                     rcmHtmlEditorService.editors[id] = new RcmHtmlEditor(id);
 
@@ -304,16 +369,15 @@ angular.module('RcmHtmlEditor', [])
                         elm,
                         attrs,
                         ngModel,
-                        settings,
-                        onBuilt
+                        settings
                     );
                 }
 
-                self.destroy = function (id, onDestroyed) {
+                self.destroy = function (id) {
 
                     if (rcmHtmlEditorService.editors[id]) {
 
-                        rcmHtmlEditorService.editors[id].destroy(onDestroyed);
+                        rcmHtmlEditorService.editors[id].destroy();
                     }
                 }
 
@@ -338,8 +402,9 @@ angular.module('RcmHtmlEditor', [])
                     self.settings = {};
                     self.tinyInstance;
                     self.tagName = "";
+                    self.initTimeout;
 
-                    self.init = function (scope, elm, attrs, ngModel, settings, onInitComplete) {
+                    self.init = function (scope, elm, attrs, ngModel, settings) {
 
                         self.scope = scope;
                         self.elm = elm;
@@ -347,9 +412,57 @@ angular.module('RcmHtmlEditor', [])
                         self.settings = settings;
                         self.attrs = attrs;
 
-                        self.buildEditor(onInitComplete);
-                    }
+                        // is dom has changed, init may not complete
+                        self.initTimeout = setTimeout(
+                            function () {
+                                self.onInitTimout();
+                            },
+                            2000
+                        );
 
+                        self.buildEditor();
+                    };
+
+                    /**
+                     * onInit
+                     */
+                    self.onInit = function () {
+
+                        rcmHtmlEditorService.eventManager.trigger('RcmHtmlEditor.onInit', self);
+                        clearTimeout(self.initTimeout);
+                    };
+
+                    /**
+                     * onInitTimout
+                     */
+                    self.onInitTimout = function () {
+
+                        rcmHtmlEditorService.eventManager.trigger('RcmHtmlEditor.onInitTimeout', self);
+                        //console.warn('RcmHtmlEditor: ' + id + ' failed to init.');
+                        self.destroy();
+                    };
+
+                    /**
+                     * onDestroy
+                     */
+                    self.onDestroy = function () {
+
+                        rcmHtmlEditorService.eventManager.trigger('RcmHtmlEditor.onDestroy', self);
+                        clearTimeout(self.initTimeout);
+                    };
+
+                    /**
+                     * onApply
+                     */
+                    self.onApply = function () {
+
+                        rcmHtmlEditorService.eventManager.trigger('RcmHtmlEditor.onApply', self);
+                    };
+
+                    /**
+                     * getTagName
+                     * @returns {string}
+                     */
                     self.getTagName = function () {
 
                         if ((self.elm && self.elm[0]) && !self.tagName) {
@@ -357,8 +470,12 @@ angular.module('RcmHtmlEditor', [])
                         }
 
                         return self.tagName;
-                    }
+                    };
 
+                    /**
+                     * getElmValue
+                     * @returns {*}
+                     */
                     self.getElmValue = function () {
 
                         if (self.isFormControl()) {
@@ -367,8 +484,12 @@ angular.module('RcmHtmlEditor', [])
                         }
 
                         return self.elm.html();
-                    }
+                    };
 
+                    /**
+                     * isFormControl
+                     * @returns {boolean}
+                     */
                     self.isFormControl = function () {
 
                         if (self.getTagName() == "TEXTAREA") {
@@ -377,19 +498,36 @@ angular.module('RcmHtmlEditor', [])
                         }
 
                         return false;
-                    }
+                    };
 
+                    /**
+                     * updateView
+                     */
                     self.updateView = function () {
 
                         if (self.ngModel) {
                             self.ngModel.$setViewValue(self.getElmValue());
                         }
+
+                        self.apply();
+                    };
+
+                    /**
+                     * apply
+                     */
+                    self.apply = function() {
+
                         if (!self.scope.$root.$$phase) {
                             self.scope.$apply();
                         }
+
+                        self.onApply();
                     };
 
-                    self.buildEditor = function (onBuilt) {
+                    /**
+                     * buildEditor
+                     */
+                    self.buildEditor = function () {
 
                         self.settings.setup = function (ed) {
                             var args;
@@ -407,30 +545,8 @@ angular.module('RcmHtmlEditor', [])
                                     self.ngModel.$setPristine();
                                 }
 
-                                rcmHtmlEditorService.updateState(
-                                    function () {
-                                        rcmHtmlEditorService.loading(self.id, false, 'init');
-
-                                        // will show default toolbar on init
-                                        if (ed.settings.fixed_toolbar) {
-
-                                            rcmHtmlEditorService.showFixedToolbar = true;
-                                        }
-
-                                        // could cause issue if fires early
-                                        if (!self.scope.$root.$$phase) {
-                                            self.scope.$apply(
-                                                function () {
-
-                                                    if (typeof onBuilt === 'function') {
-                                                        onBuilt(self, rcmHtmlEditorService);
-                                                    }
-                                                }
-                                            );
-                                        }
-
-                                    }
-                                );
+                                self.onInit();
+                                self.apply();
                             });
                             //
                             ed.on('postrender', function (args) {
@@ -521,18 +637,21 @@ angular.module('RcmHtmlEditor', [])
 
                         self.elm.on('$destroy', function () {
 
-                            self.destroy(null, 'RcmHtmlEditor.elm.$on($destroy');
+                            self.destroy();
                         })
 
                         self.scope.$on('$destroy', function () {
 
                             // this can cause issues with editors that are on the page dynamically
                             // might be caused by element being destroyed and scope is part on elm.
-                            // self.destroy(null, 'RcmHtmlEditor.scope.$on($destroy)');
+                            // self.destroy();
                         });
                     };
 
-                    self.destroy = function (onDestroyed, msg) {
+                    /**
+                     * destroy
+                     */
+                    self.destroy = function () {
 
                         if (!self.tinyInstance) {
                             self.tinyInstance = tinymce.get(self.id);
@@ -541,17 +660,15 @@ angular.module('RcmHtmlEditor', [])
                             self.tinyInstance.remove();
                         }
 
-                        rcmHtmlEditorService.updateState(
-                            function (rcmHtmlEditorService) {
-                                rcmHtmlEditorService.deleteEditor(id);
+                        self.onDestroy();
 
-                                if (typeof onDestroyed === 'function') {
-                                    onDestroyed(rcmHtmlEditorService);
-                                }
-                            }
-                        );
-                    }
+                        self.apply();
+                    };
 
+                    /**
+                     * hasTinyMce
+                     * @returns {boolean}
+                     */
                     self.hasTinyMce = function () {
 
                         var tinyInstance = tinymce.get(self.id);
@@ -561,7 +678,7 @@ angular.module('RcmHtmlEditor', [])
                         }
 
                         return false;
-                    }
+                    };
                 };
 
                 return RcmHtmlEditor;
@@ -577,16 +694,14 @@ angular.module('RcmHtmlEditor', [])
             'rcmHtmlEditorFactory',
             function (guid, htmlEditorOptions, rcmHtmlEditorService, rcmHtmlEditorFactory) {
 
-                return function (scope, elm, attrs, ngModel, config, onComplete) {
+                return function (scope, elm, attrs, ngModel, config) {
 
                     // generate an ID if not present
                     if (!attrs.id) {
                         attrs.$set('id', guid());
                     }
-                    var id = attrs.id;
 
-                    // this is to hide the default toolbar before init
-                    rcmHtmlEditorService.loading(id, true, 'rcmHtmlEditorInit');
+                    var id = attrs.id;
 
                     // get settings from attr or config
                     var settings = htmlEditorOptions.buildHtmlOptions(
@@ -596,16 +711,7 @@ angular.module('RcmHtmlEditor', [])
                         config
                     );
 
-                    var onBuilt = function (rcmHtmlEditor, rcmHtmlEditorService) {
-
-                        rcmHtmlEditorService.loading(id, false, 'rcmHtmlEditorInit.onBuilt: ');
-
-                        if(typeof onComplete === 'function'){
-                            onComplete(rcmHtmlEditor, rcmHtmlEditorService);
-                        }
-                    }
-
-                    rcmHtmlEditorFactory.build(id, scope, elm, attrs, ngModel, settings, onBuilt);
+                    rcmHtmlEditorFactory.build(id, scope, elm, attrs, ngModel, settings);
                 }
             }
         ]
@@ -617,20 +723,10 @@ angular.module('RcmHtmlEditor', [])
             'rcmHtmlEditorFactory',
             function (rcmHtmlEditorService, rcmHtmlEditorFactory) {
 
-                return function (id, onComplete) {
+                return function (id) {
 
                     if (id) {
-
-                        var onDestroyed = function (rcmHtmlEditorService) {
-                            // clean up loading
-                            rcmHtmlEditorService.loading(id, false, 'rcmHtmlEditorDestroy');
-
-                            if(typeof onComplete === 'function'){
-                                onComplete(rcmHtmlEditorService);
-                            }
-                        }
-
-                        rcmHtmlEditorFactory.destroy(id, onDestroyed);
+                        rcmHtmlEditorFactory.destroy(id);
                     }
                 }
             }
@@ -681,8 +777,8 @@ angular.module('RcmHtmlEditor', [])
 
                 var self = this;
 
-                var loadSkin = function(skin, loadedCallback, errorCallback) {
-                    var skinUrl =  tinymce.baseURL + '/skins/' + skin;
+                var loadSkin = function (skin, loadedCallback, errorCallback) {
+                    var skinUrl = tinymce.baseURL + '/skins/' + skin;
 
                     var skinUiCss = '';
                     // Load special skin for IE7
@@ -709,15 +805,15 @@ angular.module('RcmHtmlEditor', [])
                     rcmHtmlEditorService.fixedToolbarToggle = (tAttr.htmlEditorToolbarToggle == 'true');
 
                     // fixedToolbarToggle requires TinyMCE CSS to be loaded on the page or it will not be displayed correctly
-                    if(!rcmHtmlEditorService.fixedToolbarToggle){
+                    if (!rcmHtmlEditorService.fixedToolbarToggle) {
 
-                        var skin = (tAttr.htmlEditorToolbarDefaultSkin) ? tAttr.htmlEditorToolbarDefaultSkin :'lightgray';
+                        var skin = (tAttr.htmlEditorToolbarDefaultSkin) ? tAttr.htmlEditorToolbarDefaultSkin : 'lightgray';
 
                         rcmHtmlEditorService.fixedToolbarDefaultSkin = skin;
 
                         var originalStyle = tElm.attr('style');
 
-                        if(typeof originalStyle === 'undefined') {
+                        if (typeof originalStyle === 'undefined') {
                             originalStyle = '';
                         }
 
@@ -725,8 +821,12 @@ angular.module('RcmHtmlEditor', [])
 
                         loadSkin(
                             rcmHtmlEditorService.fixedToolbarDefaultSkin,
-                            function(){tElm.attr('style', originalStyle);},
-                            function(){tElm.attr('style', originalStyle);}
+                            function () {
+                                tElm.attr('style', originalStyle);
+                            },
+                            function () {
+                                tElm.attr('style', originalStyle);
+                            }
                         );
                     }
 
@@ -737,21 +837,9 @@ angular.module('RcmHtmlEditor', [])
                 }
 
                 self.restrict = 'A';
-                //self.templateUrl = 'rcm-html-editor-fake-default.html'; // /modules/rcm-lib/rcm-html-editor/rcm-html-editor-debug.html
+                //self.templateUrl = '/modules/rcm-lib/rcm-html-editor/rcm-html-editor-debug.html';
                 self.template = '<div class="htmlEditorToolbar" ng-cloak><div class="loading" ng-show="rcmHtmlEditorService.toolbarLoading"> Loading... </div><div ng-hide="rcmHtmlEditorService.toolbarLoading"><div class="mce-fake" ng-show="(rcmHtmlEditorService.showFixedToolbar || !rcmHtmlEditorService.fixedToolbarToggle) && !rcmHtmlEditorService.isEditing" ><div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation"><div class="mce-container-body mce-abs-layout"><div class="mce-toolbar-grp mce-container mce-panel mce-first mce-last"><div class="mce-container-body mce-stack-layout"><div class="mce-container mce-toolbar mce-first mce-last mce-stack-layout-item"><div class="mce-container-body mce-flow-layout"><div id="mcefake_33" class="mce-container mce-first mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_33-body"><div id="mcefake_0" class="mce-widget mce-btn mce-disabled mce-first mce-last" tabindex="-1" aria-labelledby="mcefake_0" role="button" aria-label="Source code"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-code"></i></button></div></div></div><div id="mcefake_34" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_34-body"><div id="mcefake_1" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_1" role="button" aria-label="Undo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-undo"></i></button></div><div id="mcefake_2" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_2" role="button" aria-label="Redo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-redo"></i></button></div></div></div><div id="mcefake_35" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_35-body"><div id="mcefake_3" class="mce-widget mce-btn mce-disabled mce-menubtn mce-first mce-last" tabindex="-1" aria-labelledby="mcefake_3" role="button" aria-haspopup="true"><button id="mcefake_3-open" role="presentation" type="button" tabindex="-1"><span> Formats </span><i class="mce-caret"></i></button></div></div></div><div id="mcefake_36" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_36-body"><div id="mcefake_4" class="mce-widget mce-btn mce-disabled mce-colorbutton mce-first mce-last" role="button" tabindex="-1" aria-haspopup="true" aria-label="Text color"><button role="presentation" hidefocus="1" type="button" tabindex="-1"><i class="mce-ico mce-i-forecolor"></i><span id="mcefake_4-preview" class="mce-preview"></span></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"><i class="mce-caret"></i></button></div></div></div><div id="mcefake_37" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_37-body"><div id="mcefake_5" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_5" role="button" aria-label="Bold" aria-pressed="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bold"></i></button></div><div id="mcefake_6" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_6" role="button" aria-label="Italic"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-italic"></i></button></div><div id="mcefake_7" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_7" role="button" aria-label="Underline"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-underline"></i></button></div><div id="mcefake_8" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_8" role="button" aria-label="Strikethrough"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-strikethrough"></i></button></div><div id="mcefake_9" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_9" role="button" aria-label="Subscript"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-subscript"></i></button></div><div id="mcefake_10" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_10" role="button" aria-label="Superscript"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-superscript"></i></button></div><div id="mcefake_11" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_11" role="button" aria-label="Clear formatting"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-removeformat"></i></button></div></div></div><div id="mcefake_38" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_38-body"><div id="mcefake_12" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_12" role="button" aria-label="Align left"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignleft"></i></button></div><div id="mcefake_13" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_13" role="button" aria-label="Align center"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-aligncenter"></i></button></div><div id="mcefake_14" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_14" role="button" aria-label="Align right"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignright"></i></button></div><div id="mcefake_15" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_15" role="button" aria-label="Justify"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignjustify"></i></button></div></div></div><div id="mcefake_39" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_39-body"><div id="mcefake_16" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_16" role="button" aria-label="Bullet list"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bullist"></i></button></div><div id="mcefake_17" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_17" role="button" aria-label="Numbered list"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-numlist"></i></button></div><div id="mcefake_18" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_18" role="button" aria-label="Decrease indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-outdent"></i></button></div><div id="mcefake_19" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_19" role="button" aria-label="Increase indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-indent"></i></button></div></div></div><div id="mcefake_40" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_40-body"><div id="mcefake_20" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_20" role="button" aria-label="Cut"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-cut"></i></button></div><div id="mcefake_21" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_21" role="button" aria-label="Copy"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-copy"></i></button></div><div id="mcefake_22" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_22" role="button" aria-pressed="false" aria-label="Paste as text"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-pastetext"></i></button></div></div></div><div id="mcefake_41" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_41-body"><div id="mcefake_23" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_23" role="button" aria-label="Insert/edit image"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-image"></i></button></div><div id="mcefake_24" class="mce-widget mce-btn mce-disabled mce-menubtn" tabindex="-1" aria-labelledby="mcefake_24" role="button" aria-label="Table" aria-haspopup="true"><button id="mcefake_24-open" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-table"></i><span></span><i class="mce-caret"></i></button></div><div id="mcefake_25" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_25" role="button" aria-label="Horizontal line"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-hr"></i></button></div><div id="mcefake_26" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_26" role="button" aria-label="Special character"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-charmap"></i></button></div></div></div><div id="mcefake_42" class="mce-container mce-last mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_42-body"><div id="mcefake_27" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_27" role="button" aria-label="Insert/edit link"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-link"></i></button></div><div id="mcefake_28" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_28" role="button" aria-label="Remove link"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-unlink"></i></button></div><div id="mcefake_29" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_29" role="button" aria-label="Anchor"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-anchor"></i></button></div></div></div></div></div></div></div></div></div></div><div id="externalToolbarWrapper"></div></div></div>';
                 return self;
             }
         ]
     );
-    /* causing issues in IE8
-    .run([
-             "$templateCache",
-             function ($templateCache) {
-                 $templateCache.put(
-                     'rcm-html-editor-fake-default.html',
-                     '<div class="htmlEditorToolbar" ng-cloak><div class="loading" ng-show="rcmHtmlEditorService.toolbarLoading"> Loading... </div><div ng-hide="rcmHtmlEditorService.toolbarLoading"><div class="mce-fake" ng-show="(rcmHtmlEditorService.showFixedToolbar || !rcmHtmlEditorService.fixedToolbarToggle) && !rcmHtmlEditorService.isEditing" ><div class="mce-tinymce mce-tinymce-inline mce-container mce-panel" role="presentation"><div class="mce-container-body mce-abs-layout"><div class="mce-toolbar-grp mce-container mce-panel mce-first mce-last"><div class="mce-container-body mce-stack-layout"><div class="mce-container mce-toolbar mce-first mce-last mce-stack-layout-item"><div class="mce-container-body mce-flow-layout"><div id="mcefake_33" class="mce-container mce-first mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_33-body"><div id="mcefake_0" class="mce-widget mce-btn mce-disabled mce-first mce-last" tabindex="-1" aria-labelledby="mcefake_0" role="button" aria-label="Source code"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-code"></i></button></div></div></div><div id="mcefake_34" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_34-body"><div id="mcefake_1" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_1" role="button" aria-label="Undo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-undo"></i></button></div><div id="mcefake_2" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_2" role="button" aria-label="Redo" aria-disabled="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-redo"></i></button></div></div></div><div id="mcefake_35" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_35-body"><div id="mcefake_3" class="mce-widget mce-btn mce-disabled mce-menubtn mce-first mce-last" tabindex="-1" aria-labelledby="mcefake_3" role="button" aria-haspopup="true"><button id="mcefake_3-open" role="presentation" type="button" tabindex="-1"><span> Formats </span><i class="mce-caret"></i></button></div></div></div><div id="mcefake_36" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_36-body"><div id="mcefake_4" class="mce-widget mce-btn mce-disabled mce-colorbutton mce-first mce-last" role="button" tabindex="-1" aria-haspopup="true" aria-label="Text color"><button role="presentation" hidefocus="1" type="button" tabindex="-1"><i class="mce-ico mce-i-forecolor"></i><span id="mcefake_4-preview" class="mce-preview"></span></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"><i class="mce-caret"></i></button></div></div></div><div id="mcefake_37" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_37-body"><div id="mcefake_5" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_5" role="button" aria-label="Bold" aria-pressed="true"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bold"></i></button></div><div id="mcefake_6" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_6" role="button" aria-label="Italic"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-italic"></i></button></div><div id="mcefake_7" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_7" role="button" aria-label="Underline"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-underline"></i></button></div><div id="mcefake_8" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_8" role="button" aria-label="Strikethrough"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-strikethrough"></i></button></div><div id="mcefake_9" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_9" role="button" aria-label="Subscript"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-subscript"></i></button></div><div id="mcefake_10" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_10" role="button" aria-label="Superscript"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-superscript"></i></button></div><div id="mcefake_11" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_11" role="button" aria-label="Clear formatting"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-removeformat"></i></button></div></div></div><div id="mcefake_38" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_38-body"><div id="mcefake_12" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_12" role="button" aria-label="Align left"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignleft"></i></button></div><div id="mcefake_13" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_13" role="button" aria-label="Align center"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-aligncenter"></i></button></div><div id="mcefake_14" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_14" role="button" aria-label="Align right"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignright"></i></button></div><div id="mcefake_15" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_15" role="button" aria-label="Justify"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignjustify"></i></button></div></div></div><div id="mcefake_39" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_39-body"><div id="mcefake_16" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_16" role="button" aria-label="Bullet list"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bullist"></i></button></div><div id="mcefake_17" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_17" role="button" aria-label="Numbered list"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-numlist"></i></button></div><div id="mcefake_18" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_18" role="button" aria-label="Decrease indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-outdent"></i></button></div><div id="mcefake_19" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_19" role="button" aria-label="Increase indent"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-indent"></i></button></div></div></div><div id="mcefake_40" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_40-body"><div id="mcefake_20" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_20" role="button" aria-label="Cut"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-cut"></i></button></div><div id="mcefake_21" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_21" role="button" aria-label="Copy"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-copy"></i></button></div><div id="mcefake_22" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_22" role="button" aria-pressed="false" aria-label="Paste as text"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-pastetext"></i></button></div></div></div><div id="mcefake_41" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_41-body"><div id="mcefake_23" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_23" role="button" aria-label="Insert/edit image"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-image"></i></button></div><div id="mcefake_24" class="mce-widget mce-btn mce-disabled mce-menubtn" tabindex="-1" aria-labelledby="mcefake_24" role="button" aria-label="Table" aria-haspopup="true"><button id="mcefake_24-open" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-table"></i><span></span><i class="mce-caret"></i></button></div><div id="mcefake_25" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_25" role="button" aria-label="Horizontal line"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-hr"></i></button></div><div id="mcefake_26" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_26" role="button" aria-label="Special character"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-charmap"></i></button></div></div></div><div id="mcefake_42" class="mce-container mce-last mce-flow-layout-item mce-btn-group" role="group"><div id="mcefake_42-body"><div id="mcefake_27" class="mce-widget mce-btn mce-disabled mce-first" tabindex="-1" aria-labelledby="mcefake_27" role="button" aria-label="Insert/edit link"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-link"></i></button></div><div id="mcefake_28" class="mce-widget mce-btn mce-disabled" tabindex="-1" aria-labelledby="mcefake_28" role="button" aria-label="Remove link"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-unlink"></i></button></div><div id="mcefake_29" class="mce-widget mce-btn mce-disabled mce-last" tabindex="-1" aria-labelledby="mcefake_29" role="button" aria-label="Anchor"><button role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-anchor"></i></button></div></div></div></div></div></div></div></div></div></div><div id="externalToolbarWrapper"></div></div></div>'
-
-                 );
-             }
-         ]);
-        */

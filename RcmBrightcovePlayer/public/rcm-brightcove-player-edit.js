@@ -14,7 +14,7 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-var RcmBrightcovePlayerEdit = function (instanceId, container) {
+var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -33,7 +33,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
      */
     var defaultInstanceConfig;
 
-    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, 'rcm-brightcove-player');
+    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, pluginHandler);
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -49,8 +49,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container) {
 
                 // This was moved from a down below
 
-                //window['rcmEdit'].refreshEditors(container);
-                rcm.angularCompile(container);
+                pluginHandler.updateView();
 
                 //Add right click menu
                 $.contextMenu({

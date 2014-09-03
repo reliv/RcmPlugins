@@ -132,6 +132,17 @@ return array(
                     ),
                 ),
             ),
+
+            'RcmAdmin\Page\PublishPageRevision' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcm-admin/page/publish-page-revision/:rcmPageType/:rcmPageName/:rcmPageRevision',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\PageController',
+                        'action' => 'publishPageRevision',
+                    ),
+                ),
+            ),
         ),
     ),
     'rcmAdmin' => array(

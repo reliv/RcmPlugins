@@ -4,31 +4,17 @@
  *
  * @constructor
  */
-var AjaxPluginEditHelper = function (instanceId, container, pluginUrlName) {
+var AjaxPluginEditHelper = function (instanceId, container, pluginHandler) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
-     * @type {RcmDistributorApp}
      */
     var me = this;
 
     var pluginBaseUrl = '/api/admin/instance-configs/'
-        + instanceId;
-
-    /**
-     * @deprecated - this is done in the RcmAdminService
-     */
-    this.disableEvents = function () {
-
-        //Disable normal events
-        container.find('*').unbind();
-        var donDoIt = function () {
-            return false;
-        };
-        container.find('button').click(donDoIt);
-        container.find('a').click(donDoIt);
-        container.find('form').submit(donDoIt)
-    };
+        + pluginHandler.getName()
+        + '/'
+        + pluginHandler.getId();
 
     me.ajaxGetInstanceConfigs = function (callback) {
         container.hide();//Hide while loading to prevent weirdness
@@ -36,10 +22,12 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginUrlName) {
             pluginBaseUrl,
             function (result) {
                 container.show();
-                //window['rcmEdit'].refreshEditors(container);
-                rcm.angularCompile(container);
+
                 //result.instanceConfig, result.defaultInstanceConfig
                 callback(result.instanceConfig, result.defaultInstanceConfig);
+
+                // MIGHT REMOVE!!!!!!
+                pluginHandler.updateView();
             }
         );
     };
@@ -127,19 +115,19 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginUrlName) {
 
         //Add right click menu
         $.contextMenu({
-            selector: rcm.getPluginContainerSelector(instanceId),
-            //Here are the right click menu options
-            items: {
-                edit: {
-                    name: 'Edit Properties',
-                    icon: 'edit',
-                    callback: function () {
-                        showMainPropertiesCallback();
-                    }
-                }
+                          selector: rcm.getPluginContainerSelector(instanceId),
+                          //Here are the right click menu options
+                          items: {
+                              edit: {
+                                  name: 'Edit Properties',
+                                  icon: 'edit',
+                                  callback: function () {
+                                      showMainPropertiesCallback();
+                                  }
+                              }
 
-            }
-        });
+                          }
+                      });
     }
 };
 /* </AjaxPluginEditHelper|ajax-plugin-edit-helper> */
