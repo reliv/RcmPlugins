@@ -227,7 +227,7 @@ var RcmAdminService = {
     getHtmlEditorLink: function (rcmHtmlEditorInit, rcmHtmlEditorDestroy, directiveId) {
 
         return function (tElem) {
-            console.log('getHtmlEditorLink-c');
+
             var page = RcmAdminService.getPage();
 
             return function (scope, elm, attrs, ngModel, config) {
@@ -240,7 +240,6 @@ var RcmAdminService = {
 
                 var toggleEditors = function () {
 
-                    console.log(page.plugins);
                     if (!page.plugins[pluginId]) {
                         return;
                     }
@@ -846,8 +845,6 @@ var RcmAdminService = {
                             data.plugins[key] = plugin.getSaveData();
                         }
                     );
-
-                    //console.log(data);
                 }
             );
         };
@@ -896,14 +893,20 @@ var RcmAdminService = {
 
             if (!self.plugins[pluginId]) {
 
-                self.plugins[pluginId] = new RcmAdminService.RcmPlugin(self, pluginId, self.containers[containerId]);
+                self.plugins[pluginId] = new RcmAdminService.RcmPlugin(
+                    self,
+                    pluginId,
+                    self.containers[containerId]
+                );
 
-                console.log('addPlugin:', self.plugins[pluginId]);
+                self.plugins[pluginId].init();
             }
 
             self.plugins[pluginId].container = self.containers[containerId];
 
             self.plugins[pluginId].order = order;
+
+            return self.plugins[pluginId];
         };
 
         /**
@@ -1069,7 +1072,7 @@ var RcmAdminService = {
      * @param id
      * @constructor
      */
-    RcmPlugin: function (page, id, container, onInitted) {
+    RcmPlugin: function (page, id, container) {
 
         var self = this;
 
@@ -1342,9 +1345,9 @@ var RcmAdminService = {
             self.prepareEditors(
                 function (plugin) {
 
-                    RcmAdminService.angularCompile(self.getElm());
+                    RcmAdminService.angularCompile(plugin.getElm());
 
-                    self.page.events.trigger('pluginReady:' + self.id, self);
+                    self.page.events.trigger('pluginReady:' + plugin.id, plugin);
 
                     if (typeof onComplete === 'function') {
                         onComplete(plugin);
@@ -1395,6 +1398,24 @@ var RcmAdminService = {
         };
 
         /**
+         * onInitComplete
+         */
+        self.onInitComplete = function(onComplete) {
+
+            // initial state
+            if (self.canEdit(self.page.editing)) {
+
+                self.initEdit();
+            }
+
+            self.onArrangeStateChange(self.page.arrangeMode);
+
+            if (typeof onComplete === 'function') {
+                onComplete(plugin);
+            }
+        };
+
+        /**
          * init
          */
         self.init = function (onComplete) {
@@ -1405,22 +1426,11 @@ var RcmAdminService = {
 
             self.prepareEditors(
                 function (plugin) {
-                    // initial state
-                    if (self.canEdit(self.page.editing)) {
 
-                        self.initEdit();
-                    }
-
-                    self.onArrangeStateChange(self.page.arrangeMode);
-
-                    if (typeof onComplete === 'function') {
-                        onComplete(plugin);
-                    }
+                    self.onInitComplete(onComplete);
                 }
             );
         };
-
-        self.init(onInitted);
     },
 
     /**
