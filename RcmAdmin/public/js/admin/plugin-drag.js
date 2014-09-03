@@ -209,14 +209,7 @@ RcmPluginDrag = {
                     RcmPluginDrag.pluginSortableStart(ui);
                 },
                 stop: function (event, ui) {
-                    $('html').removeClass('rcmDraggingPlugins');
-                    var initialInstance = $(ui.item).find(".initialState");
-                    if (!$(initialInstance).is('.initialState')) {
-                        /* Let the editor know that dragging has stopped */
-                        //me.rcmPlugins.initRichEdits(
-                        //    ui.item, me.getPluginContainerInfo(ui.item)
-                        //);
-                    }
+                    RcmPluginDrag.pluginSortableStop(ui);
                 },
                 cancel: '[data-textedit]'
             }
@@ -272,6 +265,17 @@ RcmPluginDrag = {
             //);
             //me.editor.startDrag(richEdit);
         }
+    },
+
+    /**
+     * pluginSortableStop
+     * @param ui
+     */
+    pluginSortableStop: function (ui) {
+
+        $('html').removeClass('rcmDraggingPlugins');
+
+        RcmAdminService.getPage().registerObjects();
     },
     /**
      * Tells the sortable objects what to do with a new plugin.

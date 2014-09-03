@@ -281,6 +281,10 @@ var RcmAdminService = {
                 RcmAdminService.RcmPageModel.getElm(),
                 onBuilt
             );
+        } else {
+            if(typeof onBuilt === 'function'){
+                onBuilt(RcmAdminService.page);
+            }
         }
         return RcmAdminService.page
     },
@@ -588,6 +592,27 @@ var RcmAdminService = {
             }
 
             return elms;
+        },
+        getInstanceConfig: function(containerId, pluginId, onComplete) {
+
+            var elm = RcmAdminService.RcmPluginModel.getElm(containerId, pluginId);
+
+            var url = '/api/admin/instance-configs/'
+                + RcmAdminService.RcmPluginModel.getName(elm)
+                + '/'
+                + RcmAdminService.RcmPluginModel.getId(elm);
+
+            //Hide while loading
+            elm.hide();
+
+            jQuery.getJSON(
+                url,
+                function (result) {
+                    elm.show();
+
+                    onComplete(result.instanceConfig, result.defaultInstanceConfig);
+                }
+            );
         }
     },
 
@@ -845,6 +870,8 @@ var RcmAdminService = {
                             data.plugins[key] = plugin.getSaveData();
                         }
                     );
+
+                    console.log(data);
                 }
             );
         };
@@ -982,6 +1009,8 @@ var RcmAdminService = {
                 }
             );
 
+            self.events.trigger('registerObjects', self.plugins);
+
             if (typeof onComplete === 'function') {
                 onComplete(self);
             }
@@ -990,7 +1019,7 @@ var RcmAdminService = {
 
         /**
          * init
-         * @param onInitted
+         * @param onComplete
          */
         self.init = function (onComplete) {
 
@@ -1089,6 +1118,9 @@ var RcmAdminService = {
         self.pluginObject = null;
         self.isInitted = false;
 
+        self.instanceConfig = null;
+        self.defaultInstanceConfig = null;
+
         /**
          * getType
          * @returns string
@@ -1131,6 +1163,27 @@ var RcmAdminService = {
             var pluginElm = self.getElm();
 
             return self.model.getName(pluginElm);
+        };
+
+        /**
+         * getInstanceConfig
+         * @param onComplete
+         */
+        self.getInstanceConfig = function(onComplete) {
+
+            self.model.getInstanceConfig(
+                self.container.id,
+                self.id,
+                function(instanceConfig, defaultInstanceConfig){
+
+                    self.instanceConfig = instanceConfig;
+                    self.defaultInstanceConfig = defaultInstanceConfig;
+
+                    if (typeof onComplete === 'function') {
+                        onComplete(instanceConfig, defaultInstanceConfig);
+                    }
+                }
+            );
         };
 
         /**
@@ -1269,6 +1322,10 @@ var RcmAdminService = {
             return (editing.indexOf(type) > -1);
         };
 
+        /**
+         * remove
+         * @param onComplete
+         */
         self.remove = function (onComplete) {
             self.viewModel.disableArrange(
                 self.getElm(),

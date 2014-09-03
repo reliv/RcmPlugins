@@ -17,19 +17,8 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginHandler) {
         + pluginHandler.getId();
 
     me.ajaxGetInstanceConfigs = function (callback) {
-        container.hide();//Hide while loading to prevent weirdness
-        $.getJSON(
-            pluginBaseUrl,
-            function (result) {
-                container.show();
 
-                //result.instanceConfig, result.defaultInstanceConfig
-                callback(result.instanceConfig, result.defaultInstanceConfig);
-
-                // MIGHT REMOVE!!!!!!
-                pluginHandler.updateView();
-            }
-        );
+        pluginHandler.getInstanceConfig(callback);
     };
 
     /**
