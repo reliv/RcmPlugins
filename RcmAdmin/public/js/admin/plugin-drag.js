@@ -306,7 +306,7 @@ RcmPluginDrag = {
             }
             var newDiv = dragDiv.clone(false);
             $(newItem).replaceWith($(newDiv));
-            RcmAdminService.getPage().registerObjects();
+
         } else {
             //Existing plugin received
             var plugin = $(ui.item);
@@ -317,6 +317,7 @@ RcmPluginDrag = {
                 return;
             }
         }
+        RcmAdminService.getPage().registerObjects();
         //Make sure the new plugin is sizable
         RcmPluginDrag.makePluginsResizable();
     },
