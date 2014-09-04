@@ -1,4 +1,4 @@
-<div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
+<!--<div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
     <ul class="titleWrap">
         <?php foreach ($this->instanceConfig['containers'] as $tab) {
             if (empty($tab['type'])) {
@@ -36,3 +36,8 @@
         $('#rcmTabs_<?=  $this->instanceId; ?>').tabs();
     })
 </script>
+-->
+<div class="body" XXXid="rcmTab_<?= $this->instanceId ?>_<?= $tab['id'] ?>"
+     data-richedit="tab_content_<?= $tab['id'] ?>">
+    <?= $this->instanceConfig['tab_content_' . $tab['id']] ?>
+</div>
