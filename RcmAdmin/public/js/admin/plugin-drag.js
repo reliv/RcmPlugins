@@ -80,7 +80,7 @@ RcmPluginDrag = {
         var pluginData = RcmPluginDrag.getPluginContainerInfo(pluginContainer);
         var url = '/rcm-admin-get-instance/' + pluginData.pluginName + '/' + pluginData.instanceId;
         //        var url = '/fakePluginInhstanceTrash';
-        $.getJSON(
+        $.get(
             url,
             function (data) {
                 RcmPluginDrag.getInstanceSuccessCallback(data, helper, pluginContainer)
@@ -112,25 +112,9 @@ RcmPluginDrag = {
      * @param pluginContainer
      */
     getInstanceSuccessCallback: function (data, helper, pluginContainer) {
-
-        if (data.js != undefined && data.js != '') {
-            RcmPluginDrag.loadPluginJs(data.js);
-        }
-        $(helper).html(data.display);
-        $(pluginContainer).find(".rcmPluginContainer").html(data.display);
+        $(helper).html(data);
+        $(pluginContainer).find(".rcmPluginContainer").html(data);
         RcmPluginDrag.setHelperWidth(helper, pluginContainer);
-    },
-
-    /**
-     * Load a plugins edit script.
-     *
-     * @param jsPath
-     */
-    loadPluginJs: function (jsPath) {
-        var scriptAlreadyLoadedCheck = $('script[src="' + jsPath + '"]');
-        if (scriptAlreadyLoadedCheck.length < 1) {
-            $.getScript(jsPath);
-        }
     },
 
     /**
@@ -293,8 +277,8 @@ RcmPluginDrag = {
         //Find the actual plugin instance
         var initialInstance = $(ui.item).find(".initialState");
         var isPageContainer = $(container).attr('data-isPageContainer') == 'Y';
-        var badMsg ='Site-wide plugins can only be added to the inner page,' +
-                ' not the outer layout.';
+        var badMsg = 'Site-wide plugins can only be added to the inner page,' +
+            ' not the outer layout.';
         var pluginData;
         if ($(initialInstance).is('.initialState')) {
             //New plugin received
@@ -367,7 +351,7 @@ RcmPluginDrag = {
         }
         var pluginData = {
             pluginName: $(pluginContainer).attr('data-rcmPluginName'),
-            isSiteWide: $(pluginContainer).attr('data-rcmSiteWidePlugin'),
+            isSiteWide: $(pluginContainer).attr('data-rcmSiteWidePlugin') == 1,
             instanceId: $(pluginContainer).attr('data-rcmPluginInstanceId'),
             displayName: $(pluginContainer).attr('data-rcmPluginDisplayName')
         };

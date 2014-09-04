@@ -40,6 +40,8 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
      * @param instanceConfig
      */
     this.completeInitEdit = function (instanceConfig) {
+        tabs.tabs();//needed for dragging new plugin on page
+
         me.addRightClick(
             rcm.getPluginContainerSelector(instanceId) + ' .title', true
         );

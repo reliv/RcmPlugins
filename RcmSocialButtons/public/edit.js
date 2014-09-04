@@ -44,7 +44,8 @@ var RcmSocialButtonsEdit = function (instanceId, container, pluginHelper) {
      * Completes the edit init after we get our data via ajax
      */
     me.completeInitEdit = function (instanceConfig) {
-        data = instanceConfig;
+        data = instanceConfig
+        availableButtons = window.RcmSocialButtonsAvailableButtonsForEdit;
         //Double clicking will show properties dialog
         container.delegate('.rcmSocialButtonsWrapper', 'dblclick', function (e) {
             e.preventDefault();
