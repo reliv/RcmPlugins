@@ -7,7 +7,7 @@
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmAutoshipEdit
+ * @package   RcmLogin
  * @author    Inna Davis <author@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
