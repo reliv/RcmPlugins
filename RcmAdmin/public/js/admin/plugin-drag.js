@@ -80,7 +80,7 @@ RcmPluginDrag = {
         var pluginData = RcmPluginDrag.getPluginContainerInfo(pluginContainer);
         var url = '/rcm-admin-get-instance/' + pluginData.pluginName + '/' + pluginData.instanceId;
         //        var url = '/fakePluginInhstanceTrash';
-        $.getJSON(
+        $.get(
             url,
             function (data) {
                 RcmPluginDrag.getInstanceSuccessCallback(data, helper, pluginContainer)
@@ -112,25 +112,9 @@ RcmPluginDrag = {
      * @param pluginContainer
      */
     getInstanceSuccessCallback: function (data, helper, pluginContainer) {
-
-        if (data.js != undefined && data.js != '') {
-            RcmPluginDrag.loadPluginJs(data.js);
-        }
-        $(helper).html(data.display);
-        $(pluginContainer).find(".rcmPluginContainer").html(data.display);
+        $(helper).html(data);
+        $(pluginContainer).find(".rcmPluginContainer").html(data);
         RcmPluginDrag.setHelperWidth(helper, pluginContainer);
-    },
-
-    /**
-     * Load a plugins edit script.
-     *
-     * @param jsPath
-     */
-    loadPluginJs: function (jsPath) {
-        var scriptAlreadyLoadedCheck = $('script[src="' + jsPath + '"]');
-        if (scriptAlreadyLoadedCheck.length < 1) {
-            $.getScript(jsPath);
-        }
     },
 
     /**
