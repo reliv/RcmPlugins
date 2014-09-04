@@ -66,7 +66,8 @@ angular.module(
                             editingState,
                             function () {
                                 scope.$apply();
-                            }
+                            },
+                            attrs
                         );
                     });
                 };
@@ -174,7 +175,7 @@ var RcmAdminService = {
      * @param editingState
      * @param onComplete
      */
-    rcmAdminEditButtonAction: function (editingState, onComplete) {
+    rcmAdminEditButtonAction: function (editingState, onComplete, attrs) {
 
         var page = RcmAdminService.getPage();
         page.refresh(
@@ -205,6 +206,11 @@ var RcmAdminService = {
 
                 if (editingState == 'save') {
                     page.save();
+                    return;
+                }
+
+                if (editingState == 'publish') {
+                    window.location = attrs.publushUrl;
                     return;
                 }
 
