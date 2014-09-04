@@ -277,8 +277,8 @@ RcmPluginDrag = {
         //Find the actual plugin instance
         var initialInstance = $(ui.item).find(".initialState");
         var isPageContainer = $(container).attr('data-isPageContainer') == 'Y';
-        var badMsg ='Site-wide plugins can only be added to the inner page,' +
-                ' not the outer layout.';
+        var badMsg = 'Site-wide plugins can only be added to the inner page,' +
+            ' not the outer layout.';
         var pluginData;
         if ($(initialInstance).is('.initialState')) {
             //New plugin received
@@ -351,7 +351,7 @@ RcmPluginDrag = {
         }
         var pluginData = {
             pluginName: $(pluginContainer).attr('data-rcmPluginName'),
-            isSiteWide: $(pluginContainer).attr('data-rcmSiteWidePlugin'),
+            isSiteWide: $(pluginContainer).attr('data-rcmSiteWidePlugin') == 1,
             instanceId: $(pluginContainer).attr('data-rcmPluginInstanceId'),
             displayName: $(pluginContainer).attr('data-rcmPluginDisplayName')
         };
