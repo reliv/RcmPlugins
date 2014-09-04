@@ -376,7 +376,7 @@ var RcmAdminService = {
 
         getElm: function (onComplete) {
 
-            var elm = jQuery('body');
+            var elm = jQuery('#rcmBody');
 
             if (typeof onComplete === 'function') {
                 onComplete(elm)
