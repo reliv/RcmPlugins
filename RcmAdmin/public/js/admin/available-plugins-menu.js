@@ -2,16 +2,24 @@ var RcmAvailablePluginsMenu = {
 
     menu: null,
 
+    hideShowSiteWides: function (plugins) {
+//JAMES!        console.log('hideShowSiteWides', plugins);
+        //Ensures site-wides that are already on the page are hidden in list
+        $.each($('.availablePluginsMenu .rcmPluginDrag.siteWide'), function () {
+            var pluginDragWrapper = $(this);
+            pluginDragWrapper.removeClass('siteWideAlreadyOnPage');
+            var wrapperId = pluginDragWrapper.attr('data-instanceId');
+            $.each(plugins, function (handlerId) {
+                if (handlerId == wrapperId) {
+                    pluginDragWrapper.addClass('siteWideAlreadyOnPage');
+                    return false;
+                }
+                return true;
+            });
+        });
+    },
+
     build: function () {
-
-        var page = RcmAdminService.getPage(
-            function(page) {
-                RcmAvailablePluginsMenu.onRegisterObjects(page.plugins);
-            }
-        );
-
-        page.events.on('registerObjects', RcmAvailablePluginsMenu.onRegisterObjects);
-
         if (!RcmAvailablePluginsMenu.menu) {
 
             $(function () {
@@ -57,13 +65,15 @@ var RcmAvailablePluginsMenu = {
                         newInstanceId--;
                         var instanceId = newInstanceId;
                         //console.log(pluginInfo.siteWide);
-                        if (pluginInfo.siteWide) {
-                            instanceId = pluginInfo.instanceId;
-                        }
                         //console.log(pluginInfo);
                         var plugin = $('<div class="rcmPluginDrag panel-inner"></div>');
                         plugin.appendTo(collapseBody);
                         plugin.data('pluginName', pluginInfo.name);
+                        if (pluginInfo.siteWide) {
+                            instanceId = pluginInfo.instanceId;
+                            plugin.addClass('siteWide');
+                            plugin.attr('data-instanceId', instanceId);
+                        }
 
                         var icon = $('<img>');
                         icon.attr('src', pluginInfo.icon);
@@ -80,6 +90,11 @@ var RcmAvailablePluginsMenu = {
                         outerContainer.addClass(pluginInfo.name);
                         outerContainer.attr('data-rcmPluginInstanceId', instanceId);
                         outerContainer.attr('data-rcmPluginName', pluginInfo.name);
+                        outerContainer.attr(
+                            'data-rcmSiteWidePlugin',
+                            pluginInfo.siteWide ? 1 : 0
+
+                        );
                         outerContainer.appendTo(initialState);
 
                         var innerContainer = $('<div class="rcmPluginContainer">');
@@ -89,18 +104,20 @@ var RcmAvailablePluginsMenu = {
                     categoryIndex++;
                 });
             });
+            var page = RcmAdminService.getPage(
+                function (page) {
+                    RcmAvailablePluginsMenu.hideShowSiteWides(page.plugins);
+                }
+            );
+
+            page.events.on(
+                'registerObjects', RcmAvailablePluginsMenu.hideShowSiteWides
+            );
         } else {
 
             RcmAvailablePluginsMenu.menu.remove();
             RcmAvailablePluginsMenu.menu = null;
         }
-    },
-
-    onRegisterObjects: function(plugins) {
-
-        // @todo - remove any site-wides from the plugins menu that are already in the list
-        // @todo - NOTE: each plugin has a method getType() which will return: sitewide, page or layout
-        console.log('onRegisterObjects', plugins)
     }
 };
 
