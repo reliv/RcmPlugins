@@ -112,7 +112,6 @@ RcmPluginDrag = {
      * @param pluginContainer
      */
     getInstanceSuccessCallback: function (data, helper, pluginContainer) {
-        console.log(data);
         $(helper).html(data);
         $(pluginContainer).find(".rcmPluginContainer").html(data);
         RcmPluginDrag.setHelperWidth(helper, pluginContainer);
@@ -292,7 +291,7 @@ RcmPluginDrag = {
             }
             var newDiv = dragDiv.clone(false);
             $(newItem).replaceWith($(newDiv));
-            RcmAdminService.getPage().registerObjects();
+
         } else {
             //Existing plugin received
             var plugin = $(ui.item);
@@ -303,6 +302,7 @@ RcmPluginDrag = {
                 return;
             }
         }
+        RcmAdminService.getPage().registerObjects();
         //Make sure the new plugin is sizable
         RcmPluginDrag.makePluginsResizable();
     },

@@ -66,7 +66,8 @@ angular.module(
                             editingState,
                             function () {
                                 scope.$apply();
-                            }
+                            },
+                            attrs
                         );
                     });
                 };
@@ -174,7 +175,7 @@ var RcmAdminService = {
      * @param editingState
      * @param onComplete
      */
-    rcmAdminEditButtonAction: function (editingState, onComplete) {
+    rcmAdminEditButtonAction: function (editingState, onComplete, attrs) {
 
         var page = RcmAdminService.getPage();
         page.refresh(
@@ -205,6 +206,11 @@ var RcmAdminService = {
 
                 if (editingState == 'save') {
                     page.save();
+                    return;
+                }
+
+                if (editingState == 'publish') {
+                    window.location = attrs.publushUrl;
                     return;
                 }
 
@@ -719,6 +725,8 @@ var RcmAdminService = {
             elm.find(".rcmDeletePluginMenuItem").click(function (e) {
                 // me.layoutEditor.deleteConfirm(this);
                 page.removePlugin(id);
+
+                page.registerObjects();
                 e.preventDefault();
             });
             elm.find(".rcmSiteWidePluginMenuItem").click(function (e) {
@@ -933,6 +941,8 @@ var RcmAdminService = {
 
             self.plugins[pluginId].order = order;
 
+            self.events.trigger('addPlugin', pluginId);
+
             return self.plugins[pluginId];
         };
 
@@ -949,6 +959,7 @@ var RcmAdminService = {
                 self.plugins[pluginId].remove(
                     function (plugin) {
                         delete(self.plugins[pluginId]);
+                        self.events.trigger('removePlugin', pluginId);
                     }
                 );
             }
@@ -956,6 +967,8 @@ var RcmAdminService = {
 
         /**
          * registerObjects
+         * - Update object list based on DOM state
+         * - should be called after DOM update
          * @param onComplete
          */
         self.registerObjects = function (onComplete) {
