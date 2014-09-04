@@ -20,6 +20,9 @@ $this->headScript()->appendFile(
     'text/javascript'
 );
 ?>
+<script type="application/javascript">
+    var RcmSocialButtonsAvailableButtonsForEdit = <?=json_encode($availableButtons)?>;
+</script>
 
 <a class="rcmShareThisKey"
    data-rcmShareThisKey="<?= $this->instanceConfig['shareThisKey'] ?>"></a>

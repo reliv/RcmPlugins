@@ -5,6 +5,8 @@ $this->headLink()->appendStylesheet(
     'screen,print'
 );
 
+$layout = $this->layout();
+
 ?>
 <!-- <panel> -->
 <div class="rcmAdminPanelWrapper" ng-cloak>
@@ -17,36 +19,63 @@ $this->headLink()->appendStylesheet(
                 ); ?>
                 <div class="rcmPanelRightButtons" data-rcm-admin-menu-actions>
                     <div ng-show="rcmAdminPage.editMode">
-                        <button
-                            class="btn btn-primary btn-xs"
-                            rcm-admin-edit-button="save"
-                            type="button"
-                            >
-                            <span
-                                class="glyphicon glyphicon-ok"
-                                ></span>
-                            Save Draft
-                        </button>
-                        <button
-                            class="btn btn-xs"
-                            rcm-admin-edit-button="cancel"
-                            type="button"
-                            >
-                            <span
-                                class="glyphicon glyphicon-remove"
-                                ></span>
-                            Cancel
-                        </button>
+                        <div class="btn-group">
+                            <button
+                                class="btn btn-primary btn-xs"
+                                rcm-admin-edit-button="save"
+                                type="button"
+                                >
+                                <span
+                                    class="glyphicon glyphicon glyphicon glyphicon-ok"
+                                    ></span>
+                                Save Draft
+                            </button>
+                            <button
+                                class="btn btn-xs"
+                                rcm-admin-edit-button="cancel"
+                                type="button"
+                                >
+                                <span
+                                    class="glyphicon glyphicon glyphicon-remove"
+                                    ></span>
+                                Cancel
+                            </button>
+                        </div>
                     </div>
+
                     <div ng-hide="rcmAdminPage.editMode">
-                        <button
-                            class="btn btn-primary btn-xs"
-                            rcm-admin-edit-button="page"
-                            type="button"
-                            >
-                            <span class="glyphicon glyphicon-edit"></span>
-                            Edit
-                        </button>
+                        <div class="btn-group">
+                        <?php if ($layout->rcmDraft === true) : ?>
+
+                                <button
+                                    class="btn btn-primary btn-xs"
+                                    rcm-admin-edit-button="publish"
+                                    type="button"
+                                    publish-url="<?= $this->url(
+                                        'RcmAdmin\Page\PublishPageRevision',
+                                        array(
+                                            'rcmPageRevision' => $layout->pageInfo['revision']['revisionId'],
+                                            'rcmPageType' => $layout->pageInfo['pageType'],
+                                            'rcmPageName' => $layout->pageInfo['name'],
+                                        )
+                                    ); ?>"
+                                >
+                                    <span class="glyphicon glyphicon-check"></span>
+                                    Publish
+                                </button>
+
+                        <?php endif; ?>
+
+
+                            <button
+                                class="btn btn-warning btn-xs"
+                                rcm-admin-edit-button="page"
+                                type="button"
+                                >
+                                <span class="glyphicon glyphicon-edit"></span>
+                                Edit
+                            </button>
+                        </div>
                     </div>
                 </div>
 

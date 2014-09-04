@@ -36,14 +36,14 @@ class PluginController
     extends BaseController
     implements PluginInterface
 {
-    function availableButtonsAdminAjaxAction()
+    function renderInstance($instanceId, $instanceConfig)
     {
         $config = $this->getServiceLocator()->get('config');
-        $availableButtons
-            = json_encode(
+        $view = parent::renderInstance($instanceId, $instanceConfig);
+        $view->setVariable(
+            'availableButtons',
             $config['rcmPlugin']['RcmSocialButtons']['availableButtons']
         );
-        header('Content-type: application/json');
-        exit($availableButtons);
+        return $view;
     }
 }
