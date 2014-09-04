@@ -210,7 +210,7 @@ var RcmAdminService = {
                 }
 
                 if (editingState == 'publish') {
-                    window.location = attrs.publushUrl;
+                    window.location = attrs.publishUrl;
                     return;
                 }
 
