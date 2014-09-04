@@ -40,9 +40,16 @@ class ProxyController
         );
 
         /** @var \Rcm\Service\PluginManager $pluginManager */
-        $pluginManager = $this->serviceLocator->get('\Rcm\Service\PluginManager');
+        $pluginManager = $this->serviceLocator->get(
+            '\Rcm\Service\PluginManager'
+        );
 
-        $instanceConfig = $pluginManager->getInstanceConfig($instanceId);
+        if ($instanceId > 0) {
+            $instanceConfig = $pluginManager->getInstanceConfig($instanceId);
+        } else {
+            $instanceConfig = $pluginManager
+                ->getDefaultInstanceConfig('RcmRssFeed');
+        }
 
         $feedUrl = $instanceConfig['rssFeedUrl'];
 
