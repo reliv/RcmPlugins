@@ -33,6 +33,17 @@ $this->headScript()->appendFile(
     . '/modules/rcm-jquery/jquery-context-menu/jquery.ui.position.js'
 );
 
+$layout = $this->layout();
+$pageData = array(
+    'rcmPageRevision' => $layout->pageInfo['revision']['revisionId'],
+    'rcmPageType' => $layout->pageInfo['pageType'],
+    'rcmPageName' => $layout->pageInfo['name'],
+);
+
+$this->headMeta()->setProperty(
+    'rcm:page',
+    json_encode($pageData)
+);
 ?>
 
 <?= $this->render('rcm-admin/admin/partial/panel/panel.phtml'); ?>

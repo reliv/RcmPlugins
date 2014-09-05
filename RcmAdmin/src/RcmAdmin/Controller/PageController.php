@@ -19,13 +19,22 @@
  */
 namespace RcmAdmin\Controller;
 
-use Rcm\Exception\InvalidArgumentException;
-use Rcm\Exception\PageNotFoundException;
-use Rcm\Http\Response;
-use Rcm\Service\PageManager;
-use RcmUser\User\Entity\User;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use
+    Rcm\Exception\InvalidArgumentException;
+use
+    Rcm\Exception\PageNotFoundException;
+use
+    Rcm\Http\Response;
+use
+    Rcm\Service\PageManager;
+use
+    RcmUser\User\Entity\User;
+use
+    Zend\Mvc\Controller\AbstractActionController;
+use
+    Zend\View\Model\JsonModel;
+use
+    Zend\View\Model\ViewModel;
 
 /**
  * Admin Page Controller for the CMS
@@ -46,7 +55,7 @@ use Zend\View\Model\ViewModel;
  *
  * @method boolean rcmUserIsAllowed($resource, $action, $providerId) Is User Allowed
  * @method User rcmUserGetCurrentUser() Get Current User Object
- * @method string urlToPage($pageName, $pageType='n', $pageRevision=null) Get Url To a Page
+ * @method string urlToPage($pageName, $pageType = 'n', $pageRevision = null) Get Url To a Page
  */
 class PageController extends AbstractActionController
 {
@@ -87,7 +96,8 @@ class PageController extends AbstractActionController
             'sites.' . $this->siteId . '.pages',
             'create',
             'Rcm\Acl\ResourceProvider'
-        )) {
+        )
+        ) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -129,25 +139,44 @@ class PageController extends AbstractActionController
                 );
             }
 
-            $this->view->setVariable('newPageUrl', $this->urlToPage($validatedData['url'], 'n'));
+            $this->view->setVariable(
+                'newPageUrl',
+                $this->urlToPage(
+                    $validatedData['url'],
+                    'n'
+                )
+            );
             $this->view->setTemplate('rcm-admin/page/success');
             return $this->view;
 
         } elseif ($request->isPost() && !$form->isValid()) {
-            $this->view->setVariable('errors', $form->getMessages());
+            $this->view->setVariable(
+                'errors',
+                $form->getMessages()
+            );
         }
 
-        $this->view->setVariable('form', $form);
+        $this->view->setVariable(
+            'form',
+            $form
+        );
         return $this->view;
     }
 
+    /**
+     * createPageFromTemplateAction
+     *
+     * @return Response|ViewModel
+     * @throws \Rcm\Exception\PageNotFoundException
+     */
     public function createPageFromTemplateAction()
     {
         if (!$this->rcmUserIsAllowed(
             'sites.' . $this->siteId . '.pages',
             'create',
             'Rcm\Acl\ResourceProvider'
-        )) {
+        )
+        ) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -156,15 +185,24 @@ class PageController extends AbstractActionController
 
         $sourcePage = $this->getEvent()
             ->getRouteMatch()
-            ->getParam('rcmPageName', 'index');
+            ->getParam(
+                'rcmPageName',
+                'index'
+            );
 
         $sourcePageRevision = $this->getEvent()
             ->getRouteMatch()
-            ->getParam('rcmPageRevision', null);
+            ->getParam(
+                'rcmPageRevision',
+                null
+            );
 
         $sourcePageType = $this->getEvent()
             ->getRouteMatch()
-            ->getParam('rcmPageType', 'n');
+            ->getParam(
+                'rcmPageType',
+                'n'
+            );
 
 
         /** @var \RcmAdmin\Form\CreateTemplateFromPageForm $form */
@@ -183,7 +221,10 @@ class PageController extends AbstractActionController
         if ($request->isPost() && $form->isValid()) {
             $validatedData = $form->getData();
 
-            $page = $this->pageManager->getPageByName($sourcePage, $sourcePageType);
+            $page = $this->pageManager->getPageByName(
+                $sourcePage,
+                $sourcePageType
+            );
 
             if (empty($page)) {
                 throw new PageNotFoundException('Unable to locate source page to copy');
@@ -200,25 +241,50 @@ class PageController extends AbstractActionController
                 't'
             );
 
-            $this->view->setVariable('newPageUrl', $this->urlToPage($validatedData['template-name'], 't'));
+            $this->view->setVariable(
+                'newPageUrl',
+                $this->urlToPage(
+                    $validatedData['template-name'],
+                    't'
+                )
+            );
             $this->view->setTemplate('rcm-admin/page/success');
             return $this->view;
         }
 
-        $this->view->setVariable('form', $form);
-        $this->view->setVariable('rcmPageName', $sourcePage);
-        $this->view->setVariable('rcmPageRevision', $sourcePageRevision);
-        $this->view->setVariable('rcmPageType', $sourcePageType);
+        $this->view->setVariable(
+            'form',
+            $form
+        );
+        $this->view->setVariable(
+            'rcmPageName',
+            $sourcePage
+        );
+        $this->view->setVariable(
+            'rcmPageRevision',
+            $sourcePageRevision
+        );
+        $this->view->setVariable(
+            'rcmPageType',
+            $sourcePageType
+        );
         return $this->view;
     }
 
+    /**
+     * publishPageRevisionAction
+     *
+     * @return Response|\Zend\Http\Response
+     * @throws \Rcm\Exception\InvalidArgumentException
+     */
     public function publishPageRevisionAction()
     {
         if (!$this->rcmUserIsAllowed(
             'sites.' . $this->siteId . '.pages',
             'create',
             'Rcm\Acl\ResourceProvider'
-        )) {
+        )
+        ) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -227,15 +293,24 @@ class PageController extends AbstractActionController
 
         $pageName = $this->getEvent()
             ->getRouteMatch()
-            ->getParam('rcmPageName', 'index');
+            ->getParam(
+                'rcmPageName',
+                'index'
+            );
 
         $pageRevision = $this->getEvent()
             ->getRouteMatch()
-            ->getParam('rcmPageRevision', null);
+            ->getParam(
+                'rcmPageRevision',
+                null
+            );
 
         $pageType = $this->getEvent()
             ->getRouteMatch()
-            ->getParam('rcmPageType', 'n');
+            ->getParam(
+                'rcmPageType',
+                'n'
+            );
 
         if (!is_numeric($pageRevision)) {
             throw new InvalidArgumentException(
@@ -246,7 +321,10 @@ class PageController extends AbstractActionController
         $this->pageManager->publishPageRevision($pageRevision);
 
         return $this->redirect()->toUrl(
-            $this->urlToPage($pageName, $pageType)
+            $this->urlToPage(
+                $pageName,
+                $pageType
+            )
         );
 
         /* Ajax request.  Makes publish take Twice as long, and
@@ -256,5 +334,88 @@ class PageController extends AbstractActionController
 //        $view = new JsonModel();
 //        $view->setVariable('redirect', $this->urlToPage($pageName, $pageType));
 //        return $view;
+    }
+
+    /**
+     * savePageAction
+     *
+     * @return Response|\Zend\Http\Response
+     */
+    public function savePageAction()
+    {
+        if (!$this->rcmUserIsAllowed(
+            'sites.' . $this->siteId . '.pages',
+            'edit',
+            'Rcm\Acl\ResourceProvider'
+        )
+        ) {
+            $response = new Response();
+            $response->setStatusCode('401');
+
+            return $response;
+        }
+
+        // @todo - might validate these against the data coming in
+        $pageName = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam(
+                'rcmPageName',
+                null
+            );
+
+        $pageRevision = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam(
+                'rcmPageRevision',
+                null
+            );
+
+        $pageType = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam(
+                'rcmPageType',
+                null
+            );
+
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+
+            $data = $request->getPost();
+
+            // <TEMP_ERROR>
+            $response = new Response();
+            $response->setStatusCode('501');
+
+            return $response;
+            // </TEMP_ERROR>
+
+            $result = $this->pageManager->savePage($data);
+
+            return $this->getJsonResponse($result);
+        }
+
+        $response = new Response();
+        $response->setStatusCode('404');
+
+        return $response;
+    }
+
+    /**
+     * getJsonResponse
+     *
+     * @param $data $data
+     *
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    public function getJsonResponse($data)
+    {
+        $view = new JsonModel();
+        $view->setTerminal(true);
+
+        $response = $this->getResponse();
+        $response->setContent(json_encode($data));
+
+        return $response;
     }
 }

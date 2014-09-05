@@ -143,6 +143,16 @@ return array(
                     ),
                 ),
             ),
+            'RcmAdmin\Page\SavePage' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcm-admin/page/save-page/:rcmPageType/:rcmPageName/:rcmPageRevision',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\PageController',
+                        'action' => 'savePage',
+                    ),
+                ),
+            ),
         ),
     ),
     'rcmAdmin' => array(
