@@ -141,6 +141,12 @@ class PageController extends AbstractActionController
         return $this->view;
     }
 
+    /**
+     * createPageFromTemplateAction
+     *
+     * @return Response|ViewModel
+     * @throws \Rcm\Exception\PageNotFoundException
+     */
     public function createPageFromTemplateAction()
     {
         if (!$this->rcmUserIsAllowed(
@@ -212,6 +218,12 @@ class PageController extends AbstractActionController
         return $this->view;
     }
 
+    /**
+     * publishPageRevisionAction
+     *
+     * @return Response|\Zend\Http\Response
+     * @throws \Rcm\Exception\InvalidArgumentException
+     */
     public function publishPageRevisionAction()
     {
         if (!$this->rcmUserIsAllowed(
@@ -244,6 +256,53 @@ class PageController extends AbstractActionController
         }
 
         $this->pageManager->publishPageRevision($pageRevision);
+
+        return $this->redirect()->toUrl(
+            $this->urlToPage($pageName, $pageType)
+        );
+    }
+
+    /**
+     * savePageAction
+     *
+     * @return Response|\Zend\Http\Response
+     */
+    public function savePageAction()
+    {
+        if (!$this->rcmUserIsAllowed(
+            'sites.' . $this->siteId . '.pages',
+            'edit',
+            'Rcm\Acl\ResourceProvider'
+        )) {
+            $response = new Response();
+            $response->setStatusCode('401');
+
+            return $response;
+        }
+
+        $pageName = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageName', null);
+
+        $pageRevision = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageRevision', null);
+
+        $pageType = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam('rcmPageType', null);
+
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+            $this->pageManager->savePage();
+
+            $data = $request->getPost();
+
+            var_dump($data);
+
+            return;
+        }
 
         return $this->redirect()->toUrl(
             $this->urlToPage($pageName, $pageType)
