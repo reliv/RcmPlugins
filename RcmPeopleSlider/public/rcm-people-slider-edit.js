@@ -14,12 +14,6 @@
  * @version   GIT: <git_id>
  */
 var RcmPeopleSliderEdit = function (instanceId, container, pluginHandler) {
-
-    /**
-     * Always refers to this object unlike the 'this' JS variable;
-     *
-     * @type {RcmPeopleSliderEdit}
-     */
     var me = this;
 
     /**

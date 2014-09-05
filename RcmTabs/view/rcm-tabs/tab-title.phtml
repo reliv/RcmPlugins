@@ -1,7 +1,8 @@
 <li class="title" data-tabId="<?= $tab['id'] ?>"
     data-tabType="<?= $tab['type'] ?>">
-    <a data-textedit="tab_title_<?= $tab['id'] ?>"
-       href="#rcmTab_<?= $this->instanceId ?>_<?= $tab['id'] ?>">
-        <?= $this->instanceConfig['tab_title_' . $tab['id']] ?>
+    <a href="#rcmTab_<?= $this->instanceId ?>_<?= $tab['id'] ?>">
+        <div data-textedit="tab_title_<?= $tab['id'] ?>">
+            <?= $this->instanceConfig['tab_title_' . $tab['id']] ?>
+        </div>
     </a>
 </li>
