@@ -1,33 +1,23 @@
-.rcmPluginLocked {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; /* IE 8 */
-    filter: alpha(opacity=30); /* IE 5-7 */
-    -moz-opacity: 0.3; /* Netscape */
-    -khtml-opacity: 0.3; /* Safari 1.x */
-    opacity: 0.3;
-}
-
-.rcmAdminPanelWrapper {
+.rcmAdminPanelSpacer {
     width: 100%;
     z-index: 1000;
     position: relative;
-    height: 10em;
+    height: 9em;
 }
 
 @media screen and (min-width: 666px) {
-    .rcmAdminPanelWrapper {
-        height: 8em;
+    .rcmAdminPanelSpacer {
+        height: 7em;
     }
 }
 
 @media screen and (min-width: 1200px) {
-    .rcmAdminPanelWrapper {
-        height: 6em;
+    .rcmAdminPanelSpacer {
+        height: 5em;
     }
 }
 
-
-
-.rcmAdminPanelWrapper .rcmAdminPanelFixed {
+.rcmAdminPanelWrapper {
     background-color: #FFFFFF;
     position: fixed;
     left: 0;
@@ -35,19 +25,9 @@
     -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.10);
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.10);
     width: 100%;
-    z-index: 1000;
+    z-index: 1001;
 }
 
-
-.rcmAdminPanelWrapper .rcmAdminPanelShadow {
-    width: 100%;
-    height: 5px;
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    z-index: 500;
-    display: none;
-}
 
 .rcmAdminPanelNav {
     background-color: #FFFFFF;
@@ -60,11 +40,9 @@
 
 .rcmAdminPanelNav div.rcmPanelRightButtons {
     float: right;
-    padding: 2px 2em 2px 2px;
 }
 
 div.rcmPanelEditorToolbar {
-    float: left;
     padding: 0px;
     position: relative;
     width: 100%;
@@ -92,27 +70,27 @@ div.rcmPanelEditorToolbar {
     padding: 0;
 }
 
-.availablePluginsMenu img{
-    height: 40px;
-    width: 40px;
-    margin-right: 1em;
+
+#rcmRevisionList {
+    position: absolute;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 75px;
+    right: 0;
+    text-align: center;
 }
 
-.availablePluginsMenu{
-    width: 250px;
-    position:fixed;
-    z-index: 1000;
+#rcmRevisionList button {
+    width: 300px;
+    text-align: left;
 }
 
-.availablePluginsMenu #availablePluginsGroup{
-    overflow-y: scroll;
-    max-height: 600px;
+#rcmRevisionList button .caret {
+    float: right;
+    margin-top: 7px;
 }
 
-.availablePluginsMenu h1.panel-heading{
-    cursor: move;
-}
-
-.availablePluginsMenu .siteWideAlreadyOnPage{
-    display:none;
+#rcmRevisionList .dropdown-menu {
+    min-width: 300px;
 }

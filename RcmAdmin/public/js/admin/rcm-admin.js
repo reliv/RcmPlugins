@@ -44,6 +44,52 @@ angular.module(
             }
         ]
     )
+
+/**
+ * rcmAdmin.post
+ */
+    .directive(
+        'rcmMenuPost',
+        [
+            'rcmAdminService',
+            function (rcmAdminService) {
+
+                var thisLink = function (scope, elm, attrs) {
+
+                    elm.unbind();
+                    elm.bind('click', null, function (e) {
+                        e.preventDefault();
+
+                        var linkHref = '';
+
+                        if (attrs.publishUrl === undefined) {
+                            linkHref = elm.find('a').attr('href');
+                        } else {
+                            linkHref = attrs.publishUrl;
+                        }
+
+                        jQuery('body').append('<form id="stupidPostSubmit" method="post" action="'+linkHref+'">');
+                        jQuery('#stupidPostSubmit').submit();
+
+                        /* Ajax request.  Makes publish take Twice as long, and
+                         * fails silently when problems arise.  Recommended not
+                         * to use, but kept here to settle any disputes.
+                        */
+//                        jQuery.post(elm.find('a').attr('href'), function(data) {
+//                            if (data.redirect != undefined) {
+//                                window.location = data.redirect;
+//                            }
+//                        });
+                    });
+                };
+
+                return {
+                    restrict: 'C',
+                    link: thisLink
+                }
+            }
+        ]
+    )
 /**
  * rcmAdmin.rcmAdminEditButton
  */
@@ -66,8 +112,7 @@ angular.module(
                             editingState,
                             function () {
                                 scope.$apply();
-                            },
-                            attrs
+                            }
                         );
                     });
                 };
@@ -176,7 +221,7 @@ var RcmAdminService = {
      * @param editingState
      * @param onComplete
      */
-    rcmAdminEditButtonAction: function (editingState, onComplete, attrs) {
+    rcmAdminEditButtonAction: function (editingState, onComplete) {
 
         var page = RcmAdminService.getPage();
         page.refresh(
@@ -207,11 +252,6 @@ var RcmAdminService = {
 
                 if (editingState == 'save') {
                     page.save();
-                    return;
-                }
-
-                if (editingState == 'publish') {
-                    window.location = attrs.publishUrl;
                     return;
                 }
 

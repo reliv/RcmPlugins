@@ -239,6 +239,9 @@ return array(
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
                     'modules/rcm-admin/css/cm-admin.css',
+                    'modules/rcm-admin/css/layout-editor.css',
+                    'modules/rcm-admin/css/rcm-admin-panel.css',
+                    'modules/rcm-admin/css/rcm-admin-navigation.css',
                 ),
             ),
         ),
