@@ -248,5 +248,13 @@ class PageController extends AbstractActionController
         return $this->redirect()->toUrl(
             $this->urlToPage($pageName, $pageType)
         );
+
+        /* Ajax request.  Makes publish take Twice as long, and
+         * fails silently when problems arise.  Recommended not
+         * to use, but kept here to settle any disputes.
+        */
+//        $view = new JsonModel();
+//        $view->setVariable('redirect', $this->urlToPage($pageName, $pageType));
+//        return $view;
     }
 }

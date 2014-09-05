@@ -1,0 +1,48 @@
+<div id="rcmRevisionList">
+    <div class="dropdown">
+        <button class="btn-xs btn-default dropdown-toggle" type="button" id="revisionsList" data-toggle="dropdown">
+            <?= $this->headTitle()->renderTitle(); ?> - <?= $layout->shortRevList['current']; ?>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="revisionsList">
+            <?php
+                if (!empty($layout->shortRevList['Live'])) {
+            ?>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="<?= $layout->shortRevList['Live']['href']; ?>"
+                    >
+                        Published Revision
+                    </a>
+                </li>
+            <?php
+                }
+            ?>
+
+            <?php
+                if (!empty($layout->shortRevList['Staged'])) {
+            ?>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="<?= $layout->shortRevList['Staged']['href']; ?>"
+                            >
+                            Published Revision
+                        </a>
+                    </li>
+            <?php
+                }
+            ?>
+
+            <?php
+                if (!empty($layout->shortRevList['Draft'])) {
+            ?>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" href="<?= $layout->shortRevList['Draft']['href']; ?>"
+                            >
+                            Last Saved Draft - <?= $layout->shortRevList['Draft']['author']; ?>
+                        </a>
+                    </li>
+            <?php
+                }
+            ?>
+        </ul>
+    </div>
+</div>

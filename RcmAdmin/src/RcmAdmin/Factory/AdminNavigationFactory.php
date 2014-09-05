@@ -248,6 +248,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             $return[] = array(
                 'label'  => $draft->getCreatedDate()->format("r").' - '.$draft->getAuthor(),
                 'route'  => 'RcmAdmin\Page\PublishPageRevision',
+                'class'  => 'rcmMenuPost',
                 'params' => array(
                     'rcmPageName' => $this->page->getName(),
                     'rcmPageType' => $this->page->getPageType(),
