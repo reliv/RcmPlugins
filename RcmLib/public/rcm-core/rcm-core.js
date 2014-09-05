@@ -11,7 +11,6 @@ var rcm = new function () {
     self.scope;
 
     /**
-     *
      * @param moduleName AngularJS Module name
      * @param ezloadConfig
      * EXAMPLE:

@@ -1,0 +1,161 @@
+/* Menu */
+.availablePluginsMenu img{
+    height: 40px;
+    width: 40px;
+    margin-right: 1em;
+}
+
+.availablePluginsMenu{
+    width: 250px;
+    position:fixed;
+    z-index: 1000;
+}
+
+.availablePluginsMenu #availablePluginsGroup{
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
+.availablePluginsMenu h1.panel-heading{
+    cursor: move;
+}
+
+.availablePluginsMenu .siteWideAlreadyOnPage{
+    display:none;
+}
+
+
+/* Layout Editor - Plugins */
+.rcmLayoutImage {
+    float: left;
+    padding-right: 5px;
+}
+
+.rcmLayoutTitle {
+    display: table-cell;
+    vertical-align: middle;
+    height: 40px;
+    cursor: pointer;
+}
+
+.rcmPluginSortPlaceHolder {
+    float: left;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+/* Plugin Menu Overlays*/
+.rcmLayoutEditHelper {
+    border: 1px dotted grey;
+    border-radius: 5px 5px 0 0;
+    border-bottom: none;
+    position: absolute;
+    z-index: 10000;
+    top: -14px;
+    display: none;
+    height: 16px;
+    width: 15px;
+}
+
+.rcmSortableHandle {
+    left: -2px;
+    cursor: move;
+    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat 0px -82px;
+    width: 9px;
+    height: 9px;
+}
+
+.rcmSettingPlugin {
+    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat -145px -146px;
+    right: 16px;
+}
+
+/* Plugin Menu Overlays Drop Down */
+/* Container Menu */
+.rcmContainerMenu {
+    right: -2px;
+    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat -194px -115px;
+}
+
+.rcmContainerMenu, .rcmContainerMenu ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    line-height: 1;
+    overflow: visible !important;
+}
+
+.rcmContainerMenu a {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    color: black;
+}
+
+.rcmContainerMenu li {
+    padding-right: 20px;
+    padding-top: 10px;
+    float: left;
+}
+
+.rcmContainerMenu ul li ul li:hover {
+    background: #FFFFFF;
+    color: #000000;
+}
+
+.rcmContainerMenu li ul li {
+    padding: 5px 30px 5px 5px;
+    float: none;
+}
+
+.rcmContainerMenu li ul li a {
+    font-weight: normal;
+    color: #FFFFFF;
+}
+
+.rcmContainerMenu li ul li:hover a {
+    font-weight: normal;
+    color: #000000;
+}
+
+.rcmContainerMenu li ul {
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #000000;
+    padding: 2px;
+    left: -999em;
+    z-index: 950;
+    opacity: 0.7;
+}
+
+.rcmContainerMenu li:hover ul, .rcmContainerMenu li.sfhover ul {
+    left: -120px;
+    top: 10px;
+}
+
+.rcmContainerMenu li ul li {
+    width: 130px;
+    padding: 0 0 5px 0;
+    float: left;
+}
+
+/* Container Drag Targets */
+html.rcmEditingPlugins .rcmPlugin:hover {
+    border: 2px dotted grey;
+}
+
+html.rcmDraggingPlugins .rcmContainer {
+    border: 2px dotted grey;
+}
+
+html.rcmDraggingPlugins .rcmPlugin {
+    border-color: transparent;
+}
+
+/* Unknown */
+.layoutPluginContainerIcon {
+    height: 40px;
+}
