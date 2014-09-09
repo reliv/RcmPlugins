@@ -27,7 +27,7 @@ var brightcovePlayerApi = function (instanceId) {
 
     me.loadVideoById = function (videoId) {
         me.modVP.loadVideoByID(videoId);
-        getDownloadURL(videoId, me.setDownloadUrl);
+        RcmBrightcoveApiService.getDownloadURL(videoId, me.setDownloadUrl);
     };
 
     me.cueVideoById = function (videoId) {
@@ -38,7 +38,7 @@ var brightcovePlayerApi = function (instanceId) {
             // onTemplateReady hasn't been called yet so we set this property to be used when it does get called 
             loadVideoIdWhenReady = videoId;
         }
-        getDownloadURL(videoId, me.setDownloadUrl);
+        RcmBrightcoveApiService.getDownloadURL(videoId, me.setDownloadUrl);
     };
 
     me.setDownloadUrl = function (url) {

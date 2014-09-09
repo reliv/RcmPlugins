@@ -8,24 +8,32 @@ $this->headScript()->appendFile(
 
 $this->headScript()->appendFile(
     $this->basePath()
-    . '/modules/rcm-brightcove-player/rcm-brightcove-functions.js',
+    . '/modules/rcm-brightcove-player/rcm-brightcove-api-service.js',
     'text/javascript'
 );
 
-$this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-brightcove-player/player.js',
-    'text/javascript'
-);
+//$this->headScript()->appendFile(
+//    $this->basePath() . '/modules/rcm-brightcove-player/player.js',
+//    'text/javascript'
+//);
 
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-brightcove-player/style.css'
 );
-
-
 ?>
+<!-- TESTING: src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"-->
+<script
+    language="JavaScript"
+    type="text/javascript"
+    src="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"
+    >
+</script>
 <script>
-    var bgReadToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['readToken']; ?>';
-    var bgUrlToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['urlToken']; ?>';
+    RcmBrightcoveApiService.bgReadToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['readToken']; ?>';
+    RcmBrightcoveApiService.bgUrlToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['urlToken']; ?>';
+
+    RcmBrightcovePlayerService.addConfig(<?= $instanceId ?>, <?= json_encode($instanceConfig); ?>);
+
 </script>
 <?php
 
@@ -36,7 +44,7 @@ if (($instanceConfig['type']) == 'single-embed') {
 }
 ?>
 <div style="display:none">
-    <div ng-controller="PlayerEditCtrl"
+    <div XXXng-controller="PlayerEditCtrl"
          ng-init="init(<?php echo str_replace(
              '"',
              "'",
@@ -54,7 +62,6 @@ if (($instanceConfig['type']) == 'single-embed') {
                         data-selection="{{selectedItem.id}}"
                         ng-options="item as item.name for item in items">
                     </select>
-
 
                 </div>
                 <div class="selection"

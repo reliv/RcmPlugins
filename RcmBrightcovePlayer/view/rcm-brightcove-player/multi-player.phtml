@@ -1,36 +1,36 @@
+<!-- <brightcovePlayerMulti> -->
+MULTI
 <script type="text/javascript">
 
-    function myTemplateLoaded<?php echo $this->instanceId; ?>(evt) {
-        bgPlayerApi<?php echo $this->instanceId; ?>.myTemplateLoaded(evt);
-    }
+<!--    function myTemplateLoaded--><?php //echo $this->instanceId; ?><!--(evt) {-->
+<!--        bgPlayerApi--><?php //echo $this->instanceId; ?><!--.myTemplateLoaded(evt);-->
+<!--    }-->
+<!---->
+<!--    function onTemplateReady--><?php //echo $this->instanceId; ?><!--(evt) {-->
+<!--        bgPlayerApi--><?php //echo $this->instanceId; ?><!--.onTemplateReady(evt);-->
+<!--    }-->
 
-    function onTemplateReady<?php echo $this->instanceId; ?>(evt) {
-        bgPlayerApi<?php echo $this->instanceId; ?>.onTemplateReady(evt);
-    }
+<!--    var bgPlayerApi--><?//= $this->instanceId; ?><!-- = new brightcovePlayerApi(--><?//= $this->instanceId; ?><!--);-->
 </script>
-<script type="text/javascript">
-    var bgPlayerApi<?= $this->instanceId; ?> = new brightcovePlayerApi(<?= $this->instanceId; ?>);
-</script>
+
 <div class="hide-vid">
-    <div style="float: right;"><a
-            id="RcmBrightcovePlayerDownloadLink<?= $instanceId ?>"
-            data-textEdit="download"><?= $this->instanceConfig['download']; ?></a>
+    <div style="float: right;">
+        <a rcm-brightcove-player-download-link="<?= $instanceId ?>"></a>
     </div>
     <br>
     <br>
-    <div ng-controller="playerTabsCtrl"
-         ng-init="init(<?=
-         json_encode(
-             $instanceConfig['playlistIds']
-         ); ?>,<?php echo $this->instanceId; ?>)">
-        <script type="text/javascript"
-                src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"></script>
+
+<!--    <div ng-controller="playerTabsCtrl"-->
+<!--         ng-init="init(--><?//=
+//         json_encode($instanceConfig['playlistIds']); ?><!--,-->
+<!--         --><?php //echo $this->instanceId; ?><!--)"-->
+<!--        >-->
+<div playerTabsCtrl="<?= $instanceId ?>">
         <div id="downloadLink"></div>
         <div data-hbo-tabs id="rcm-brightcove-player-tabs">
             <div id="player" align="center">
                 <!-- Start of Brightcove Player -->
-                <script language="JavaScript" type="text/javascript"
-                        src="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"></script>
+
                 <object id="myExperience" class="BrightcoveExperience">
                     <param name="bgcolor" value="#FFFFFF"/>
                     <param name="width" value="672"/>
@@ -52,10 +52,10 @@
                 </object>
             </div>
 
-
             <ul>
-                <li ng-repeat="(key,playlist) in playlists"><a
-                        href="#tabs-{{key}}">{{playlist.name}}</a></li>
+                <li ng-repeat="(key,playlist) in playlists">
+                    <a href="#tabs-{{key}}">{{playlist.name}}</a>
+                </li>
             </ul>
 
             <div
@@ -64,6 +64,7 @@
                 ng-repeat="(key,playlist) in playlists"
                 >
                 <div ng-repeat="video in playlist.videos">
+
                     <a href="javascript:void(0);"
                        ng-click="videoClick()"
                        class="videoArea"
@@ -77,16 +78,16 @@
                             </tr>
                             <tr>
                                 <td>
-                                <span class="title">
-                                    <p style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">
-                                        {{video.name}}</p></span>
+                                    <span class="title">
+                                        <p style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">
+                                            {{video.name}}</p></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                <span class="description"><p
-                                        style="text-decoration: none;font-size: 10px;">
-                                        {{video.shortDescription}}</p></span>
+                                    <span class="description"><p
+                                            style="text-decoration: none;font-size: 10px;">
+                                            {{video.shortDescription}}</p></span>
                                 </td>
                             </tr>
                         </table>
@@ -96,5 +97,5 @@
         </div>
     </div>
 </div>
-
+<!-- </brightcovePlayerMulti> -->
 

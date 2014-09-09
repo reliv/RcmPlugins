@@ -30,7 +30,8 @@
     margin-top: 10px;
 }
 
-.RcmBrightcovePlayer #video {
+.RcmBrightcovePlayer .video {
+
     width: 672px;
     height: 378px;
     margin: 5px;

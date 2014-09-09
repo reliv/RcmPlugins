@@ -39,17 +39,20 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
      * Called by content management system to make this plugin user-editable
      */
     this.initEdit = function () {
+        console.log('RcmBrightcovePlayerEdit.initEdit');
+
         ajaxEditHelper.ajaxGetInstanceConfigs(
             function (returnedData, returnedDefaultData) {
+
+                console.log('RcmBrightcovePlayerEdit.initEdit.ajaxGetInstanceConfigs');
                 instanceConfig = returnedData;
+                console.log(instanceConfig);
                 defaultInstanceConfig = returnedDefaultData;
 
                 container.dblclick(me.showEditDialog);
 
-
                 // This was moved from a down below
-
-                pluginHandler.updateView();
+                //pluginHandler.updateView();
 
                 //Add right click menu
                 $.contextMenu({
@@ -67,9 +70,6 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
                 });
             }
         );
-
-
-
     };
 
     /**
@@ -90,7 +90,6 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
         $(".hide-vid").hide();
 
         var form = container.find('form');
-
 
         $(function () {
             $("ul.droptrue").sortable({
