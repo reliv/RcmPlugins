@@ -6,9 +6,9 @@
                 rcm-admin-edit-button="save"
                 type="button"
                 >
-                                <span
-                                    class="glyphicon glyphicon glyphicon glyphicon-ok"
-                                    ></span>
+                <span
+                    class="glyphicon glyphicon glyphicon glyphicon-ok"
+                    ></span>
                 Save Draft
             </button>
             <button
@@ -16,9 +16,9 @@
                 rcm-admin-edit-button="cancel"
                 type="button"
                 >
-                                <span
-                                    class="glyphicon glyphicon glyphicon-remove"
-                                    ></span>
+                <span
+                    class="glyphicon glyphicon glyphicon-remove"
+                    ></span>
                 Cancel
             </button>
         </div>
@@ -31,7 +31,8 @@
                 <button
                     class="btn btn-primary btn-xs rcmMenuPost"
                     type="button"
-                    publish-url="<?= $this->url(
+                    publish-url="<?=
+                    $this->url(
                         'RcmAdmin\Page\PublishPageRevision',
                         array(
                             'rcmPageRevision' => $layout->pageInfo['revision']['revisionId'],
