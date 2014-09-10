@@ -4,6 +4,8 @@ var RcmBrightcoveApiService = {
 
     bgUrlToken: null,
 
+    downloadUrls: [],
+
     items: [],
     /*
      function requestVideoList
@@ -79,8 +81,15 @@ var RcmBrightcoveApiService = {
      * @param videoId
      * @param callback
      */
-    getDownloadURL: function (videoId, callback) {
-        console.log('getDownloadURL: '+videoId);
+    getDownloadURL: function (videoId, callback, refresh) {
+
+        // only go to the server once for videos
+        if (RcmBrightcoveApiService.downloadUrls[videoId] && !refresh) {
+
+            callback(RcmBrightcoveApiService.downloadUrls[videoId]);
+            return;
+        }
+
         var data = $.ajax(
             {
                 type: 'POST',
@@ -91,7 +100,7 @@ var RcmBrightcoveApiService = {
                     var renditions = data.renditions;
 
                     biggestFrameWidth = 0;
-                    biggestUrl = '';
+                    downloadUrl = null;
 
                     $.each(renditions, function () {
                         if (this.frameWidth > biggestFrameWidth) {
@@ -100,11 +109,12 @@ var RcmBrightcoveApiService = {
                         }
                     });
 
-                    callback(biggestUrl);
+                    RcmBrightcoveApiService.downloadUrls[videoId] = biggestUrl;
+
+                    callback(RcmBrightcoveApiService.downloadUrls[videoId]);
                 }
             }
         );
-
     }
 }
 

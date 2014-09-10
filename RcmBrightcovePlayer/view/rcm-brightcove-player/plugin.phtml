@@ -21,11 +21,11 @@ $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-brightcove-player/style.css'
 );
 ?>
-<!-- TESTING: src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"-->
+<!-- TESTING: -->
 <script
-    language="JavaScript"
     type="text/javascript"
-    src="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"
+    XXXsrc="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"
+    src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"
     >
 </script>
 <script>
@@ -33,7 +33,6 @@ $this->headLink()->appendStylesheet(
     RcmBrightcoveApiService.bgUrlToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['urlToken']; ?>';
 
     RcmBrightcovePlayerService.addConfig(<?= $instanceId ?>, <?= json_encode($instanceConfig); ?>);
-
 </script>
 <?php
 
