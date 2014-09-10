@@ -969,7 +969,7 @@ var RcmAdminService = {
                                 self.loading = false;
                                 //console.log("done: ", msg);
                                 //self.events.trigger('alert', {type:'success',message: 'Page saved'});
-                                window.location = window.location.pathname;
+                                //window.location = window.location.pathname;
                             }
                         ).fail(
                             function (msg) {
@@ -1342,14 +1342,16 @@ var RcmAdminService = {
 
                 var pluginObject = self.getPluginObject();
 
+                data.saveData = self.getEditorData();
+
                 if (pluginObject.getSaveData) {
 
                     var saveData = pluginObject.getSaveData();
 
-                    data.saveData = saveData;
+                    jQuery.extend(data.saveData, saveData);
                 }
 
-                data.editorData = self.getEditorData();
+
 
                 if (typeof onComplete === 'function') {
                     onComplete(self);

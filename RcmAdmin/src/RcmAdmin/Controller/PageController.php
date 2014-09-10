@@ -377,20 +377,34 @@ class PageController extends AbstractActionController
                 null
             );
 
+        /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
 
         if ($request->isPost()) {
 
-            $data = $request->getPost();
+            /** @var \Zend\Stdlib\Parameters $data */
+            $data = $request->getPost()->toArray();
 
             // <TEMP_ERROR>
             $response = new Response();
             $response->setStatusCode('501');
 
-            return $response;
+
+            $return = $this->pageManager->getSiteManager()->savePage(
+                $pageName,
+                $pageRevision,
+                $pageType,
+                $data
+            );
+
+            $return = print_r($return, true);
+
             // </TEMP_ERROR>
 
-            $result = $this->pageManager->savePage($data);
+            $response->setContent($return);
+
+
+            return $response;
 
             return $this->getJsonResponse($result);
         }
