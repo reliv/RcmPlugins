@@ -243,7 +243,6 @@ return array(
                     'modules/rcm-admin/css/layout-editor.css',
                     'modules/rcm-admin/css/rcm-admin-panel.css',
                     'modules/rcm-admin/css/rcm-admin-navigation.css',
-
                 ),
             ),
         ),
