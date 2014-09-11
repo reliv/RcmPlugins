@@ -18,6 +18,8 @@ var RcmBrightcoveApiService = {
             return;
         }
 
+        RcmBrightcoveApiService.items = [];
+
         function processSearchVideoResponse(data) {
 
             RcmBrightcoveApiService.items = RcmBrightcoveApiService.items.concat(data.items);
@@ -96,20 +98,20 @@ var RcmBrightcoveApiService = {
                 url: 'https://api.brightcove.com/services/library?command=find_video_by_id&video_id=' + videoId + '&video_fields=FLVURL,renditions&token=' + RcmBrightcoveApiService.bgUrlToken + '&media_delivery=HTTP',
                 dataType: 'jsonp',
                 success: function (data) {
-                    console.log('getDownloadURL.success',data);
+
                     var renditions = data.renditions;
 
-                    biggestFrameWidth = 0;
-                    downloadUrl = null;
+                    var biggestFrameWidth = 0;
+                    var downloadUrl = null;
 
                     $.each(renditions, function () {
                         if (this.frameWidth > biggestFrameWidth) {
                             biggestFrameWidth = this.frameWidth;
-                            biggestUrl = this.url;
+                            downloadUrl = this.url;
                         }
                     });
 
-                    RcmBrightcoveApiService.downloadUrls[videoId] = biggestUrl;
+                    RcmBrightcoveApiService.downloadUrls[videoId] = downloadUrl;
 
                     callback(RcmBrightcoveApiService.downloadUrls[videoId]);
                 }

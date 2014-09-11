@@ -40,15 +40,19 @@ if (($instanceConfig['type']) == 'single-embed') {
     require('multi-player.phtml');
 }
 ?>
+
+
 <div style="display:none">
-    <div XXXng-controller="PlayerEditCtrl"
-         ng-init="init(<?php echo str_replace(
-             '"',
-             "'",
-             json_encode($instanceConfig)
-         ); ?> )">
-        <form style="display:none" title="Brightcove Player Editor" novalidate
-              class="RcmBrightcovePlayer">
+    <div rcm-brightcove-player-edit="<?= $instanceId ?>"
+         rcm-brightcove-player-edit-config="<?=
+         htmlentities(json_encode($instanceConfig))
+         ?>"
+        >
+        <form style="display:none"
+              title="Brightcove Player Editor"
+              novalidate
+              class="RcmBrightcovePlayer"
+            >
 
             <div>
                 <div ng-show="true">
