@@ -24,15 +24,13 @@ $this->headLink()->appendStylesheet(
 <!-- TESTING: -->
 <script
     type="text/javascript"
-    XXXsrc="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"
-    src="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"
+    src="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"
+    XXXsrc="/modules/rcm-brightcove-player/vendor/brightcove/BrightcoveExperiences.js"
     >
 </script>
 <script>
     RcmBrightcoveApiService.bgReadToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['readToken']; ?>';
     RcmBrightcoveApiService.bgUrlToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['urlToken']; ?>';
-
-    RcmBrightcovePlayerService.addConfig(<?= $instanceId ?>, <?= json_encode($instanceConfig); ?>);
 </script>
 <?php
 

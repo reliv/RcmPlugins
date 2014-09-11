@@ -1,10 +1,12 @@
 <!-- <brightcovePlayerSingle> -->
-<script type="text/javascript">
-
-</script>
 <div class="hide-vid" style="border:0">
     <div style="float: right;" rcm-brightcove-player-download-link="<?= $instanceId ?>"></div>
     <div style="clear: both"></div>
-    <div class="video" id="brightcoveObject" rcm-brightcove-player="<?= $instanceId ?>"></div>
+    <div  class="video"
+        id="brightcoveObject"
+        rcm-brightcove-player="<?= $instanceId ?>"
+        rcm-brightcove-player-config="<?= htmlentities(json_encode($instanceConfig)) ?>"
+        >
+        </div>
 </div>
 <!-- </brightcovePlayerSingle> -->
