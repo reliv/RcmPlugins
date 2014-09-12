@@ -235,6 +235,7 @@ return array(
                     'modules/rcm-admin/js/admin/available-plugins-menu.js',
                     'modules/rcm-admin/js/admin/bootstrap-alert-confirm.js',
                     'modules/rcm-admin/js/admin/plugin-drag.js',
+                    'modules/rcm-admin/js/admin/session.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',

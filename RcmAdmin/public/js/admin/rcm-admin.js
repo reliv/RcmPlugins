@@ -177,6 +177,15 @@ var RcmAdminService = {
          */
         config: {
             saveUrl: '/rcm-admin/page/save-page',
+            loadingMessages: {
+                _default: {
+                    title: 'Loading',
+                    message: 'Please wait...'
+                },
+                save: {
+                    message: 'Saving page...'
+                }
+            },
             unlockMessages: {
                 sitewide: {
                     title: "Unlock Site-Wide Plugins?",
@@ -333,6 +342,59 @@ var RcmAdminService = {
             $().alert(alert.message.responseText, null, alert.message.statusText);
         },
 
+        /**
+         *
+         */
+        loadingDialog: {
+            dialog: null,
+            timout: null
+        },
+
+        /**
+         * loadingDisplay
+         * @param loadingData {loading: int, loadingMessage: {title: 'string', message: 'string'}}
+         */
+        loadingDisplay: function (loadingData) {
+
+            var timout = 250;
+
+            if (RcmAdminService.loadingDialog.timout) {
+
+                clearTimeout(RcmAdminService.loadingDialog.timout);
+            }
+
+            if (loadingData.loading) {
+
+                // wait a bit so we dont get flashing message
+                RcmAdminService.loadingDialog.timout = setTimeout(
+
+                    function () {
+                        if (RcmAdminService.loadingDialog.dialog) {
+
+                            RcmAdminService.loadingDialog.dialog.modal('show');
+                        } else {
+                            RcmAdminService.loadingDialog.dialog = bootbox.dialog(
+                                {
+                                    message: '<div class="modal-body"><p>' + loadingData.loadingMessage.message + '</p></div>',
+                                    title: '<h1 class="modal-title">' + loadingData.loadingMessage.title + '</h1>',
+                                    buttons: {}
+                                }
+                            );
+                        }
+                    },
+                    timout
+                );
+
+            } else {
+
+                if (RcmAdminService.loadingDialog.dialog) {
+
+                    RcmAdminService.loadingDialog.dialog.modal('hide');
+                }
+            }
+
+            console.log('Loading: ' + loadingData.loading + ' ' + loadingData.loadingMessage.title + ' ' + loadingData.loadingMessage.message);
+        },
 
         /**
          * getPage
@@ -351,6 +413,11 @@ var RcmAdminService = {
                 RcmAdminService.page.events.on(
                     'alert',
                     RcmAdminService.alertDisplay
+                );
+
+                RcmAdminService.page.events.on(
+                    'loadingStateChange',
+                    RcmAdminService.loadingDisplay
                 );
 
             } else {
@@ -444,7 +511,7 @@ var RcmAdminService = {
 
             getElm: function (onComplete) {
 
-                var elm = jQuery('#rcmBody');
+                var elm = jQuery('body');
 
                 if (typeof onComplete === 'function') {
                     onComplete(elm)
@@ -777,7 +844,9 @@ var RcmAdminService = {
                     '<span class="rcmSortableHandle rcmLayoutEditHelper" title="Move Plugin"></span>' +
                     '<span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu">' +
                     '<ul>' +
-                    '<li><a href="#"></a><ul><li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
+                    '<li><a href="#"></a><ul>' +
+                    '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
+                    '<li><a href="#" class="rcmRemoveSizePluginMenuItem">Remove custom size</a> </li>' +
                     '<li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
                     '</ul>' +
                     '</span>' +
@@ -813,6 +882,23 @@ var RcmAdminService = {
                     onComplete(elm);
                 }
 
+                if(elm.attr('data-rcmPluginResized')=='N'){
+                    elm.find(".rcmRemoveSizePluginMenuItem").hide();
+                }
+                elm.find(".rcmRemoveSizePluginMenuItem").click(function (e) {
+                    elm.attr('data-rcmPluginResized', 'N');
+                    elm.css('height','');
+                    elm.css('width','');
+                    elm.find(".rcmRemoveSizePluginMenuItem").hide();
+                });
+                elm.resizable(
+                    {
+                        stop: function () {
+                            elm.find(".rcmRemoveSizePluginMenuItem").show();
+                            elm.attr('data-rcmPluginResized', 'Y');
+                        }
+                    }
+                );
             },
 
             /**
@@ -879,7 +965,40 @@ var RcmAdminService = {
             self.containers = {};
             self.plugins = {};
 
-            self.loading = false;
+            self.loading = 0;
+            self.loadingMessage = null;
+
+            /**
+             * setLoading
+             * @param loading
+             */
+            self.setLoading = function (loading, loadingMessage) {
+
+                if (loading) {
+
+                    self.loading++;
+
+                    if (!self.loadingMessage) {
+                        self.loadingMessage = RcmAdminService.config.loadingMessages._default;
+                    }
+
+                    if (!self.loadingMessage.title) {
+                        self.loadingMessage.title = RcmAdminService.config.loadingMessages._default.title;
+                    }
+
+                    if (!self.loadingMessage.message) {
+                        self.loadingMessage.message = RcmAdminService.config.loadingMessages._default.message;
+                    }
+
+                } else {
+
+                    if (self.loading > 0) {
+                        self.loading--;
+                    }
+                }
+
+                self.events.trigger('loadingStateChange', {loading: self.loading, loadingMessage: self.loadingMessage});
+            };
 
             /**
              * setEditingOn
@@ -946,7 +1065,7 @@ var RcmAdminService = {
                 self.registerObjects(
                     function (page) {
 
-                        self.loading = true;
+                        self.setLoading(true, RcmAdminService.config.loadingMessages.save);
                         var data = self.getData();
                         // loop containers and fire saves... aggregate data and sent to server
                         data.plugins = {};
@@ -966,20 +1085,20 @@ var RcmAdminService = {
                             }
                         ).done(
                             function (msg) {
-                                self.loading = false;
+                                self.setLoading(false);
                                 //console.log("done: ", msg);
                                 //self.events.trigger('alert', {type:'success',message: 'Page saved'});
                                 //window.location = window.location.pathname;
                             }
                         ).fail(
                             function (msg) {
+                                self.setLoading(false);
                                 //console.error("error: ", msg);
                                 self.events.trigger('alert', {type: 'warning', message: msg});
                             }
                         );
                     }
-                )
-                ;
+                );
             };
 
             /**
@@ -1342,7 +1461,7 @@ var RcmAdminService = {
 
                 var pluginObject = self.getPluginObject();
 
-                data.saveData = self.getEditorData();
+                data.saveData = {};
 
                 if (pluginObject.getSaveData) {
 
@@ -1351,7 +1470,9 @@ var RcmAdminService = {
                     jQuery.extend(data.saveData, saveData);
                 }
 
+                var editorData = self.getEditorData();
 
+                jQuery.extend(data.saveData, editorData);
 
                 if (typeof onComplete === 'function') {
                     onComplete(self);
