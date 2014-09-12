@@ -2,81 +2,38 @@
 <div class="hide-vid">
     <div style="float: right;"
          rcm-brightcove-player-download-link="<?= $instanceId ?>"
+         rcm-brightcove-player-download-link-config="<?=
+         htmlentities(json_encode($instanceConfig))
+         ?>"
         >
     </div>
     <div style="clear: both"></div>
     <br/>
 
-    <div rcm-brightcove-player-tabs="<?= $instanceId ?>"
-         rcm-brightcove-player-tabs-config="<?=
-         htmlentities(json_encode($instanceConfig))
-         ?>"
-        >
+    <div class="ui-tabs ui-widget ui-widget-content ui-corner-all">
         <div id="downloadLink"></div>
 
-        <pre>XXX{{playlists.length | json}}</pre>
+        <div class="video"
+             id="brightcoveObject"
+             rcm-brightcove-player="<?= $instanceId ?>"
+             rcm-brightcove-player-config="<?=
+             htmlentities(json_encode($instanceConfig))
+             ?>"
+            >
+        </div>
 
-        <div XXXdata-hbo-tabs class="rcm-brightcove-player-tabs-wrapper">
+        <div rcm-brightcove-player-tabs="<?= $instanceId ?>"
+             rcm-brightcove-player-tabs-config="<?=
+             htmlentities(json_encode($instanceConfig))
+             ?>"
+            >
 
-            <div class="video"
-                 id="brightcoveObject"
-                 rcm-brightcove-player="<?= $instanceId ?>"
-                 rcm-brightcove-player-config="<?=
-                 htmlentities(json_encode($instanceConfig))
-                 ?>"
-                >
-            </div>
+            <div class="rcm-brightcove-player-tabs-wrapper">
 
-            <ul class="rcmBrightcovePlayerTabs">
-                <li XXXng-repeat="(key,playlist) in playlists">
-                    {{playlist.videos.length | json}}
-                    <a href="#tabs-{{key}}">{{playlist.name}}</a>
-                </li>
-            </ul>
+                <ul class="rcmBrightcovePlayerTabs"></ul>
 
-            <div class="rcmBrightcovePlayerTabsContent"
-                 XXXng-repeat="(tkey,tplaylist) in playlists">
+                <div class="rcmBrightcovePlayerTabsContent"></div>
 
-                {{tplaylist.videos.length | json}}
-                <div class="videoAreaWrap"
-                     id="tabs-{{tkey}}"
-
-                    >
-                    <div ng-repeat="video in tplaylist.videos">
-
-                        <a href="javascript:void(0);"
-                           ng-click="videoClick(video.id)"
-                           class="videoArea"
-                            >
-                            <table>
-                                <tr>
-                                    <td style="text-align: left;">
-                                        <img ng-src="{{video.thumbnailURL}}"
-                                             width="135px" height="70px"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="title">
-                                            <p style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">
-                                                {{video.name}}
-                                            </p>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="description">
-                                            <p style="text-decoration: none;font-size: 10px;">
-                                                {{video.shortDescription}}
-                                            </p>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -147,6 +147,17 @@ var rcm = new function () {
                     }
                 };
 
+                self.safeApply = function(scope, fn){
+                    var phase = scope.$root.$$phase;
+                    if (phase == '$apply' || phase == '$digest') {
+                        if (fn && (typeof(fn) === 'function')) {
+                            fn();
+                        }
+                    } else {
+                        scope.$apply(fn);
+                    }
+                }
+
                 self.angularSafeApply = function (fn) {
                     self.rootScope.safeApply(fn);
                 }
@@ -158,7 +169,8 @@ var rcm = new function () {
                     angular.element(document).injector().invoke(function ($compile) {
                         var scope = angular.element(content).scope();
                         $compile(content)(scope);
-                        self.rootScope.safeApply(fn);
+                        self.safeApply(scope, fn);
+                        //self.rootScope.safeApply(fn);
                     });
                 }
                 /*

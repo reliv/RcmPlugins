@@ -11,6 +11,15 @@ angular.module('rcmBrightcovePlayer', [])
 
                 var instanceId = attrs.rcmBrightcovePlayerDownloadLink;
 
+                var instanceConfig = attrs.rcmBrightcovePlayerDownloadLinkConfig;
+
+                scope.playerController = RcmBrightcovePlayerService.getPlayerController(
+                    instanceId,
+                    instanceConfig,
+                    function () {
+                    }
+                );
+
                 if (!registeredEvent) {
 
                     RcmBrightcovePlayerService.eventManager.on(
@@ -20,10 +29,6 @@ angular.module('rcmBrightcovePlayer', [])
                                 scope.$apply();
                             }
                         }
-                    );
-
-                    scope.playerController = RcmBrightcovePlayerService.getPlayerController(
-                        instanceId
                     );
 
                     registeredEvent = true;
@@ -48,13 +53,15 @@ angular.module('rcmBrightcovePlayer', [])
 
                         var objectElm = tElm.children(":first");
 
-                        var playerController = RcmBrightcovePlayerService.buildPlayerController(
+                        var playerController = RcmBrightcovePlayerService.getPlayerController(
                             instanceId,
                             instanceConfig,
-                            function () {
-                                console.log('rcmBrightcovePlayer build complete');
+                            function (playerCtrl) {
+                                console.log('rcmBrightcovePlayer.getPlayerController.onCoplete', playerCtrl);
                             }
                         );
+
+                        console.log('rcmBrightcovePlayer.compile',playerController);
 
                         objectElm.attr('id', playerController.experienceId);
 
@@ -102,135 +109,182 @@ angular.module('rcmBrightcovePlayer', [])
         ]
     )
     .directive(
-    'rcmBrightcovePlayerTabs',
-    function () {
+        'rcmBrightcovePlayerTabs',
+        [
+            '$compile',
+            function ($compile) {
 
-        var registeredEvent = false;
+                var registeredEvent = false;
 
-        var updateTabs = function (elm, playlists, onComplete) {
+                var updateTabs = function (scope, elm, playlists, onComplete) {
 
-            console.log('updateTabs');
+                    var tabWrapperElm = elm.find('.rcm-brightcove-player-tabs-wrapper');
 
-            var tabWrapperElm = elm.find('.rcm-brightcove-player-tabs-wrapper');
+                    var rcmBrightcovePlayerTabs = tabWrapperElm.find('.rcmBrightcovePlayerTabs');
+                    var rcmBrightcovePlayerTabsContent = tabWrapperElm.find('.rcmBrightcovePlayerTabs');
+                    rcmBrightcovePlayerTabs.html('');
 
-            var rcmBrightcovePlayerTabs = tabWrapperElm.find('.rcmBrightcovePlayerTabs');
-            var rcmBrightcovePlayerTabsContent = tabWrapperElm.find('.rcmBrightcovePlayerTabs');
-            rcmBrightcovePlayerTabs.html('');
-
-            rcmBrightcovePlayerTabsContent.html('');
-
-            jQuery.each(
-                playlists,
-                function (key, playlist) {
-                    rcmBrightcovePlayerTabs.append(
-                        '<li><a href="#tabs-' + key + '">' + playlist.name + '</a></li>'
-                    );
-
-                    var tabContent = jQuery('<div class="videoAreaWrap" id="tabs-' + key + '" ></div>');
+                    rcmBrightcovePlayerTabsContent.html('');
 
                     jQuery.each(
-                        playlist.videos,
-                        function (pkey, video) {
-                            tabContent.append(
-                                ' <div ng-repeat="video in tplaylist.videos">' +
-                                    '  <a href="javascript:void(0);" ng-click="videoClick(video.id)" class="videoArea" >' +
-                                    '    <table>' +
-                                    '     <tr>' +
-                                    '      <td style="text-align: left;">' +
-                                    '       <img src="' + video.thumbnailURL + '" width="135px" height="70px"/>' +
-                                    '       </td>' +
-                                    '      </tr>' +
-                                    '      <tr>' +
-                                    '       <td>' +
-                                    '        <span class="title">' +
-                                    '         <p style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">' + video.name + '</p>' +
-                                    '        </span>' +
-                                    '       </td>' +
-                                    '       </tr>' +
-                                    '       <tr>' +
-                                    '        <td>' +
-                                    '         <span class="description">' +
-                                    '          <p style="text-decoration: none;font-size: 10px;">' + video.shortDescription + '</p>' +
-                                    '         </span>' +
-                                    '        </td>' +
-                                    '       </tr>' +
-                                    '      </table>' +
-                                    '   </a>' +
-                                    ' </div>'
+                        playlists,
+                        function (key, playlist) {
+                            rcmBrightcovePlayerTabs.append(
+                                '<li><a href="#tabs-' + key + '">' + playlist.name + '</a></li>'
                             );
+
+                            var tabContent = jQuery('<div class="videoAreaWrap" id="tabs-' + key + '" ></div>');
+
+                            jQuery.each(
+                                playlist.videos,
+                                function (pkey, video) {
+                                    tabContent.append(
+                                        '<div>' +
+                                            '  <a href="javascript:void(0);" ng-click="videoClick(' + video.id + ')" class="videoArea" >' +
+                                            '    <table>' +
+                                            '     <tr>' +
+                                            '      <td style="text-align: left;">' +
+                                            '       <img src="' + video.thumbnailURL + '" width="135px" height="70px"/>' +
+                                            '       </td>' +
+                                            '      </tr>' +
+                                            '      <tr>' +
+                                            '       <td>' +
+                                            '        <span class="title">' +
+                                            '         <p style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">' + video.name + '</p>' +
+                                            '        </span>' +
+                                            '       </td>' +
+                                            '       </tr>' +
+                                            '       <tr>' +
+                                            '        <td>' +
+                                            '         <span class="description">' +
+                                            '          <p style="text-decoration: none;font-size: 10px;">' + video.shortDescription + '</p>' +
+                                            '         </span>' +
+                                            '        </td>' +
+                                            '       </tr>' +
+                                            '      </table>' +
+                                            '   </a>' +
+                                            '</div>'
+                                    );
+                                }
+                            );
+
+                            tabWrapperElm.append(tabContent);
                         }
                     );
 
-                    tabWrapperElm.append(tabContent);
-                }
-            );
+                    tabWrapperElm.tabs();
 
-            tabWrapperElm.tabs();
+                    $compile(tabWrapperElm.contents())(scope);
 
-            if(typeof onComplete === 'function'){
-                onComplete();
-            }
-        };
+                    if (typeof onComplete === 'function') {
+                        onComplete();
+                    }
+                };
 
-        var link = function (scope, elm, attrs) {
+                var controller = function ($scope) {
 
-            var instanceId = attrs.rcmBrightcovePlayerTabs;
+                    $scope.testme = 'test';
 
-            var instanceConfig = JSON.parse(attrs.rcmBrightcovePlayerTabsConfig);
+                    $scope.videoClick = function (videoId) {
 
-            scope.testme = 'test';
+                        $scope.playerController.loadVideoById(videoId);
+                    };
+                };
 
-            // disable click until player is ready
-            scope.videoClick = function (videoId) {
+                var compile = function (tElem, tAttr) {
 
-                return false;
-            };
+                    return function (scope, elm, attrs, controller, transcludeFn) {
 
-            if (!registeredEvent) {
+                        scope.instanceId = attrs.rcmBrightcovePlayerTabs;
 
-                RcmBrightcovePlayerService.eventManager.on(
-                    'playlistsBuilt',
-                    function (playerCtrl) {
+                        scope.instanceConfig = JSON.parse(attrs.rcmBrightcovePlayerTabsConfig);
 
-                        scope.playlists = playerCtrl.playlists;
+                        scope.playerController = RcmBrightcovePlayerService.getPlayerController(
+                            scope.instanceId,
+                            scope.instanceConfig,
+                            function () {
+                            }
+                        );
 
-                        console.log('rcmBrightcovePlayerTabs.on.playlistsBuilt', scope.playlists.length);
+                        if (!registeredEvent) {
 
-                        if (instanceId == playerCtrl.instanceId) {
+                            var updateEvent = function (playerCtrl) {
 
-                            scope.videoClick = function (videoId) {
+                                scope.playlists = playerCtrl.playlists;
 
-                                playerCtrl.loadVideoById(videoId);
-                            };
-                            setTimeout(
-                                function () {
-                                    updateTabs(elm, scope.playlists, onComplete);
-                                    scope.$apply();
+                                if (scope.instanceId == playerCtrl.instanceId) {
+                                    setTimeout(
+                                        function () {
+                                            updateTabs(
+                                                scope,
+                                                elm,
+                                                playerCtrl.playlists
+                                            );
+                                        }
+                                    );
                                 }
+                            };
+
+                            RcmBrightcovePlayerService.eventManager.on(
+                                'playlistsBuilt',
+                                updateEvent
                             );
+
+                            registeredEvent = true;
                         }
                     }
-                );
-                registeredEvent = true;
+                };
+
+                var template = '' +
+                    '<div class="rcm-brightcove-player-tabs-wrapper">' +
+                    ' <ul class="rcmBrightcovePlayerTabs">' +
+                    '  <li ng-repeat="(key,playlist) in playlists">' +
+                    '   {{playlist.videos.length | json}}' +
+                    '   <a href="#tabs-{{key}}">{{playlist.name}}</a>' +
+                    '  </li>' +
+                    ' </ul>' +
+                    ' <div class="rcmBrightcovePlayerTabsContent"></div>' +
+                    '  <div class="videoAreaWrap" ng-repeat="(tkey,tplaylist) in playlists" id="tabs-{{tkey}}">' +
+                    '   <div ng-repeat="video in tplaylist.videos">' +
+                    '    <a href="javascript:void(0);" ng-click="videoClick(video.id)" class="videoArea">' +
+                    '     <table>' +
+                    '      <tr>' +
+                    '       <td style="text-align: left;">' +
+                    '        <img ng-src="{{video.thumbnailURL}}" width="135px" height="70px"/>' +
+                    '       </td>' +
+                    '      </tr>' +
+                    '      <tr>' +
+                    '       <td>' +
+                    '        <span class="title">' +
+                    '         <p style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">' +
+                    '         {{video.name}}' +
+                    '         </p>' +
+                    '        </span>' +
+                    '       </td>' +
+                    '      </tr>' +
+                    '      <tr>' +
+                    '       <td>' +
+                    '        <span class="description">' +
+                    '         <p style="text-decoration: none;font-size: 10px;">' +
+                    '         {{video.shortDescription}}' +
+                    '         </p>' +
+                    '        </span>' +
+                    '       </td>' +
+                    '      </tr>' +
+                    '     </table>' +
+                    '    </a>' +
+                    '   </div>' +
+                    '  </div>' +
+                    '</div>'
+
+                return {
+                    compile: compile,
+                    controller: controller,
+                    restrict: 'A', //template: template
+                };
             }
-        };
-
-        var compile = function (tElem, tAttr) {
-
-
-            return link;
-        };
-
-        var controller = function ($scope) {
-            $scope.testme = 'test2';
-        };
-
-        return {
-            link: link,
-            restrict: 'A'
-        };
-    }
-)
+        ]
+    );
 
 
 /**
@@ -238,6 +292,8 @@ angular.module('rcmBrightcovePlayer', [])
  * @type {{}}
  */
 var RcmBrightcovePlayerService = {
+
+    defaultInstanceConfig: {},
 
     playerControllers: {},
 
@@ -268,15 +324,36 @@ var RcmBrightcovePlayerService = {
         }
     },
 
-    buildPlayerController: function (instanceId, instanceConfig, onComplete) {
+    buildInstanceConfig: function (instanceId, instanceConfig){
+
+        console.log(instanceConfig);
+        if(!instanceConfig){
+            instanceConfig = RcmBrightcovePlayerService.defaultInstanceConfig;
+        }
+
+        console.log(instanceConfig);
 
         instanceConfig.playerConfig = RcmBrightcovePlayerService.playerConfig;
 
-        var existing = RcmBrightcovePlayerService.getPlayerController(instanceId, onComplete);
+        RcmBrightcovePlayerService.configs[instanceId] = instanceConfig;
 
-        if (existing) {
+        return RcmBrightcovePlayerService.configs[instanceId];
+    },
 
-            return existing;
+    getPlayerController: function (instanceId, instanceConfig, onComplete) {
+
+        instanceConfig = RcmBrightcovePlayerService.buildInstanceConfig(instanceId, instanceConfig);
+
+        if (RcmBrightcovePlayerService.playerControllers[instanceId]) {
+
+            RcmBrightcovePlayerService.playerControllers[instanceId].setInstanceConfig(instanceConfig);
+
+            if (typeof onComplete === 'function') {
+
+                onComplete(RcmBrightcovePlayerService.playerControllers[instanceId]);
+            }
+
+            return RcmBrightcovePlayerService.playerControllers[instanceId];
         }
 
         if (instanceConfig.type == 'multi-embed') {
@@ -287,23 +364,12 @@ var RcmBrightcovePlayerService = {
             RcmBrightcovePlayerService.playerControllers[instanceId] = new RcmBrightcovePlayerSingle(instanceId, instanceConfig, onComplete);
         }
 
-        return RcmBrightcovePlayerService.playerControllers[instanceId];
-    },
+        if (typeof onComplete === 'function') {
 
-    getPlayerController: function (instanceId, onComplete) {
-
-        if (RcmBrightcovePlayerService.playerControllers[instanceId]) {
-
-            if (typeof onComplete === 'function') {
-
-                onComplete(RcmBrightcovePlayerService.playerControllers[instanceId]);
-            }
-
-            return RcmBrightcovePlayerService.playerControllers[instanceId];
+            onComplete(RcmBrightcovePlayerService.playerControllers[instanceId]);
         }
 
-        console.warn('RcmBrightcovePlayerService: Config for ' + instanceId + ' not registered, use addConfig before get.')
-        return null;
+        return RcmBrightcovePlayerService.playerControllers[instanceId];
     },
 
     playerConfig: {
@@ -337,13 +403,17 @@ var RcmBrightcovePlayerSingle = function (instanceId, instanceConfig, onComplete
         }
     };
 
+    self.setInstanceConfig = function(instanceConfig) {
+
+        self.instanceConfig = instanceConfig;
+
+        RcmBrightcovePlayerService.eventManager.trigger('setInstanceConfig', self);
+    }
+
     self.onTemplateLoad = function (experienceID) {
-        console.log('RcmBrightcovePlayerSingle.onTemplateLoad')
     };
 
     self.onTemplateReady = function (evt) {
-        console.log('RcmBrightcovePlayerSingle.onTemplateReady')
-
     };
 
     self.init = function (onComplete) {
@@ -387,8 +457,14 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
 
     self.playlists = [];
 
+    self.setInstanceConfig = function(instanceConfig) {
+
+        self.instanceConfig = instanceConfig;
+
+        RcmBrightcovePlayerService.eventManager.trigger('setInstanceConfig', self);
+    }
+
     self.onTemplateLoad = function (experienceID) {
-        console.log('onTemplateLoad: ' + experienceID);
 
         self.player = brightcove.api.getExperience(experienceID);
         self.APIModules = brightcove.api.modules.APIModules;
@@ -407,12 +483,9 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
 
     self.onTemplateReady = function (evt) {
 
-        console.log('onTemplateReady: ');
     };
 
     self.loadVideoById = function (videoId, callback) {
-
-        console.log('loadVideoById', videoId);
 
         self.videoPlayer.loadVideoByID(videoId);
 
@@ -420,8 +493,6 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
     };
 
     self.cueVideoById = function (videoId, callback) {
-
-        console.log('cueVideoById: ' + videoId);
 
         if (self.templateReady) {
 
@@ -469,8 +540,6 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
 
         if (self.downloadUrl !== url) {
 
-            console.log(self.downloadUrl + ' !== ' + url);
-
             self.downloadUrl = url;
             RcmBrightcovePlayerService.eventManager.trigger('downloadUrlChange', self);
         }
@@ -478,7 +547,6 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
 
     self.prepareData = function (data, callback) {
 
-        console.log('prepareData', data.items);
         self.playlists = data.items;
         // set videoId to play fo first video
         self.videoId = self.playlists[0].videos[0].id;
