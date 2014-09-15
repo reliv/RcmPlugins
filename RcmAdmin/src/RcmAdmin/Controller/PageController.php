@@ -27,6 +27,7 @@ use
     Rcm\Http\Response;
 use
     Rcm\Service\PageManager;
+use Rcm\Service\SiteManager;
 use
     RcmUser\User\Entity\User;
 use
@@ -59,6 +60,9 @@ use
  */
 class PageController extends AbstractActionController
 {
+    /** @var \Rcm\Service\SiteManager */
+    protected $siteManager;
+
     /** @var \Rcm\Service\PageManager */
     protected $pageManager;
 
@@ -70,14 +74,15 @@ class PageController extends AbstractActionController
     /**
      * Constructor
      *
-     * @param PageManager $pageManager Rcm Page Manager
+     * @param SiteManager $siteManager Rcm Page Manager
      * @param integer     $siteId      RcmUser Acl Data Service
      */
     public function __construct(
-        PageManager $pageManager,
+        SiteManager $siteManager,
         $siteId
     ) {
-        $this->pageManager = $pageManager;
+        $this->siteManager = $siteManager;
+        $this->pageManager = $siteManager->getPageManager();
         $this->siteId = $siteId;
         $this->view = new ViewModel();
 
@@ -390,7 +395,7 @@ class PageController extends AbstractActionController
             $response->setStatusCode('501');
 
 
-            $return = $this->pageManager->getSiteManager()->savePage(
+            $return = $this->siteManager->savePage(
                 $pageName,
                 $pageRevision,
                 $pageType,
