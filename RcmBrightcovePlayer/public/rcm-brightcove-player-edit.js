@@ -116,7 +116,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
      * @return {Object}
      */
     this.getSaveData = function () {
-        console.log('getSaveData',instanceId,instanceConfig);
+
         return instanceConfig;
     };
 
@@ -153,7 +153,6 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
                 buttons: {
                     Cancel: function () {
                         $(this).dialog("close");
-                        console.log('close', this);
                     },
                     "OK": function () {
 

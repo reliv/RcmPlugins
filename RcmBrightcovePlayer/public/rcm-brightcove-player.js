@@ -57,11 +57,8 @@ angular.module('rcmBrightcovePlayer', [])
                             instanceId,
                             instanceConfig,
                             function (playerCtrl) {
-                                console.log('rcmBrightcovePlayer.getPlayerController.onCoplete', playerCtrl);
                             }
                         );
-
-                        console.log('rcmBrightcovePlayer.compile',playerController);
 
                         objectElm.attr('id', playerController.experienceId);
 
@@ -280,7 +277,7 @@ angular.module('rcmBrightcovePlayer', [])
                 return {
                     compile: compile,
                     controller: controller,
-                    restrict: 'A', //template: template
+                    restrict: 'A' //template: template
                 };
             }
         ]
@@ -326,12 +323,9 @@ var RcmBrightcovePlayerService = {
 
     buildInstanceConfig: function (instanceId, instanceConfig){
 
-        console.log(instanceConfig);
         if(!instanceConfig){
             instanceConfig = RcmBrightcovePlayerService.defaultInstanceConfig;
         }
-
-        console.log(instanceConfig);
 
         instanceConfig.playerConfig = RcmBrightcovePlayerService.playerConfig;
 
