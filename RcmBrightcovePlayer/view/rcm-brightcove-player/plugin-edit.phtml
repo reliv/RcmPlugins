@@ -1,0 +1,59 @@
+<div style="display:none">
+    <div rcm-brightcove-player-edit="<?= $instanceId ?>"
+         rcm-brightcove-player-edit-config="<?=
+         htmlentities(json_encode($instanceConfig))
+         ?>"
+        >
+        <form style="display:none"
+              title="Brightcove Player Editor"
+              novalidate
+              class="RcmBrightcovePlayer"
+            >
+
+            <div>
+                <div>
+                    <select
+                        name="selection"
+                        ng-model="selectedItem"
+                        ng-init="selectedItem = selectedItem"
+                        data-selection="{{selectedItem.id}}"
+                        ng-options="item.id as item.name for item in items">
+                    </select>
+                </div>
+                <div class="selection"
+                     ng-show="selectedItem == 'single-embed'"
+                    >
+
+                    <br/>Choose video:<br/>
+                    <select
+                        name="video"
+                        ng-model="selectedVideos"
+                        ng-options="video.name for video in videos">
+                    </select>
+
+                    <br/>
+
+                    <div class="singleVideo" style="display:none;">
+                        {{selectedVideos.id}}
+                    </div>
+                    <br/>
+                    <img ng-src="{{selectedVideos.thumbnailURL}}"/>
+                    <br/>
+                </div>
+                <div class="selection" ng-show="selectedItem == 'multi-embed'">
+                    <br/><br/>
+
+                    <div rcm-brightcove-player-edit-multi-select></div>
+                </div>
+            </div>
+            <br/>
+    </div>
+    <div style="clear:both;"></div>
+    </form>
+</div>
+
+
+
+
+
+

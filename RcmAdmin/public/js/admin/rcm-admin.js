@@ -393,7 +393,7 @@ var RcmAdminService = {
                 }
             }
 
-            console.log('Loading: ' + loadingData.loading + ' ' + loadingData.loadingMessage.title + ' ' + loadingData.loadingMessage.message);
+            //console.log('Loading: ' + loadingData.loading + ' ' + loadingData.loadingMessage.title + ' ' + loadingData.loadingMessage.message);
         },
 
         /**
@@ -692,10 +692,18 @@ var RcmAdminService = {
 
                 data.sitewideName = elm.attr('data-rcmPluginDisplayName');
 
-                var resized = (elm.attr('data-rcmPluginResized') == 'Y');
+                // @todo This needs to be fixed
+                data.resized = (elm.attr('data-rcmPluginResized') == 'Y');
 
-                if (resized) {
-                    data.size = elm.width() + ',' + elm.height();
+                if (data.resized) {
+                    data.width = elm.width();
+                    data.height = elm.height();
+                }
+
+                data.float = elm.css('float');
+
+                if(!data.float){
+                    data.float = 'left';
                 }
 
                 if (typeof onComplete === 'function') {
@@ -844,7 +852,9 @@ var RcmAdminService = {
                     '<span class="rcmSortableHandle rcmLayoutEditHelper" title="Move Plugin"></span>' +
                     '<span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu">' +
                     '<ul>' +
-                    '<li><a href="#"></a><ul><li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
+                    '<li><a href="#"></a><ul>' +
+                    '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
+                    '<li><a href="#" class="rcmRemoveSizePluginMenuItem">Remove custom size</a> </li>' +
                     '<li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
                     '</ul>' +
                     '</span>' +
@@ -880,6 +890,23 @@ var RcmAdminService = {
                     onComplete(elm);
                 }
 
+                if(elm.attr('data-rcmPluginResized')=='N'){
+                    elm.find(".rcmRemoveSizePluginMenuItem").hide();
+                }
+                elm.find(".rcmRemoveSizePluginMenuItem").click(function (e) {
+                    elm.attr('data-rcmPluginResized', 'N');
+                    elm.css('height','');
+                    elm.css('width','');
+                    elm.find(".rcmRemoveSizePluginMenuItem").hide();
+                });
+                elm.resizable(
+                    {
+                        stop: function () {
+                            elm.find(".rcmRemoveSizePluginMenuItem").show();
+                            elm.attr('data-rcmPluginResized', 'Y');
+                        }
+                    }
+                );
             },
 
             /**
@@ -1057,6 +1084,8 @@ var RcmAdminService = {
                                 data.plugins[key] = plugin.getSaveData();
                             }
                         );
+
+                        //console.log(data);
 
                         jQuery.ajax(
                             {
