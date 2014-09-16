@@ -42,38 +42,6 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
      */
     this.initEdit = function () {
 
-//        playerController = RcmBrightcovePlayerService.getPlayerController(
-//            instanceId,
-//            function (playerCtrl) {
-//
-//                instanceConfig = playerCtrl.instanceConfig;
-//
-//                defaultInstanceConfig = instanceConfig;
-//
-//                container.dblclick(me.showEditDialog);
-//
-//                // This was moved from a down below
-//                pluginHandler.updateView();
-//
-//                //Add right click menu
-//                $.contextMenu(
-//                    {
-//                        selector: rcm.getPluginContainerSelector(instanceId),
-//                        //Here are the right click menu options
-//                        items: {
-//                            edit: {
-//                                name: 'Edit Properties',
-//                                icon: 'edit',
-//                                callback: function () {
-//                                    me.showEditDialog();
-//                                }
-//                            }
-//                        }
-//                    }
-//                );
-//            }
-//        );
-
         ajaxEditHelper.ajaxGetInstanceConfigs(
             function (returnedData, returnedDefaultData) {
 
