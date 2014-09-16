@@ -1,51 +1,20 @@
-<script type="text/javascript">
-
-    getDownloadURL(
-        <?= json_encode($instanceConfig['videoId']); ?>,
-        function (url) {
-            $('#RcmBrightcovePlayerDownloadLink<?= $instanceId ?>').attr('href', url);
-        }
-    );
-</script>
+<!-- <brightcovePlayerSingle> -->
 <div class="hide-vid" style="border:0">
-    <div style="float: right;"><a
-            id="RcmBrightcovePlayerDownloadLink<?= $instanceId ?>"
-            data-textEdit="download"><?= $this->instanceConfig['download']; ?></a>
+    <div style="float: right;"
+         rcm-brightcove-player-download-link="<?= $instanceId ?>"><?= $instanceConfig['download'] ?></div>
+    <div style="clear: both"></div>
+    <div class="video"
+         id="brightcoveObject"
+         rcm-brightcove-player="<?= $instanceId ?>"
+         rcm-brightcove-player-config="<?= htmlentities(
+             json_encode($instanceConfig)
+         ) ?>"
+        >
+        <div style="position: relative; width: 100%; padding-bottom: 100%;">
+            <div style="background-color: #000000;  color: #CCCCCC; position: absolute; width: 100%; height: 56%;">
+                VIDEO PLAYER
+            </div>
+        </div>
     </div>
-    <br>
-
-    <!-- Start of Brightcove Player -->
-
-    <div style="display:none"></div>
-
-    <!--
-    By use of this code snippet, I agree to the Brightcove Publisher T and C
-    found at https://accounts.brightcove.com/en/terms-and-conditions/.
-    -->
-    <br>
-    <script language="JavaScript" type="text/javascript"
-            src="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"></script>
-    <div id="brightcoveObject">
-        <object id="myExperience<?= $instanceConfig['videoId'] ?>"
-                class="BrightcoveExperience">
-            <param name="bgcolor" value="#FFFFFF"/>
-            <param name="width" value="672"/>
-            <param name="height" value="378"/>
-            <param name="playerID" value="2660464878001"/>
-            <param name="playerKey"
-                   value="AQ~~,AAABWA8lTok~,NLWj-wltGTxQtoAwLzwEdE62BFMU_8At"/>
-            <param name="isVid" value="true"/>
-            <param name="isUI" value="true"/>
-            <param name="dynamicStreaming" value="true"/>
-            <param name="mute" value="true"/>
-            <param name="secureConnections" value="true"/>
-            <param name="secureHTMLConnections" value="true"/>
-            <param name="@videoPlayer"
-                   value="<?= $instanceConfig['videoId'] ?>"/>
-        </object>
-    </div>
-    <br><br><br><br>
-
-    <!-- End of Brightcove Player -->
-
 </div>
+<!-- </brightcovePlayerSingle> -->
