@@ -1087,19 +1087,22 @@ var RcmAdminService = {
 
                         //console.log(data);
 
-                        jQuery.ajax(
-                            {
-                                type: "POST",
-                                url: RcmAdminService.config.saveUrl + '/' + data.type + '/' + data.name + '/' + data.revision,
-                                data: data
-                            }
-                        ).done(
+                        jQuery.post(
+                            RcmAdminService.config.saveUrl + '/' + data.type + '/' + data.name + '/' + data.revision,
+                            data,
                             function (msg) {
                                 self.setLoading(false);
                                 //console.log("done: ", msg);
                                 //self.events.trigger('alert', {type:'success',message: 'Page saved'});
-                                window.location = window.location.pathname;
-                            }
+                                if (msg.redirect) {
+                                    window.location = msg.redirect;
+                                } else {
+                                    console.log("done: ", msg.redirect);
+                                    self.events.trigger('alert', {type: 'warning', message: msg});
+                                }
+
+                            },
+                            'json'
                         ).fail(
                             function (msg) {
                                 self.setLoading(false);
@@ -1477,7 +1480,7 @@ var RcmAdminService = {
 
                     var saveData = pluginObject.getSaveData();
 
-                    data.saveData = saveData;
+                    jQuery.extend(data.saveData, saveData);
                 }
 
                 var editorData = self.getEditorData();

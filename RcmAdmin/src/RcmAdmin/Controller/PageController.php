@@ -27,6 +27,7 @@ use
     Rcm\Http\Response;
 use
     Rcm\Service\PageManager;
+use Rcm\Service\SiteManager;
 use
     RcmUser\User\Entity\User;
 use
@@ -59,6 +60,9 @@ use
  */
 class PageController extends AbstractActionController
 {
+    /** @var \Rcm\Service\SiteManager */
+    protected $siteManager;
+
     /** @var \Rcm\Service\PageManager */
     protected $pageManager;
 
@@ -70,14 +74,15 @@ class PageController extends AbstractActionController
     /**
      * Constructor
      *
-     * @param PageManager $pageManager Rcm Page Manager
+     * @param SiteManager $siteManager Rcm Page Manager
      * @param integer     $siteId      RcmUser Acl Data Service
      */
     public function __construct(
-        PageManager $pageManager,
+        SiteManager $siteManager,
         $siteId
     ) {
-        $this->pageManager = $pageManager;
+        $this->siteManager = $siteManager;
+        $this->pageManager = $siteManager->getPageManager();
         $this->siteId = $siteId;
         $this->view = new ViewModel();
 
@@ -377,22 +382,29 @@ class PageController extends AbstractActionController
                 null
             );
 
+        /** @var \Zend\Http\Request $request */
         $request = $this->getRequest();
 
         if ($request->isPost()) {
 
-            $data = $request->getPost();
+            /** @var \Zend\Stdlib\Parameters $data */
+            $data = $request->getPost()->toArray();
 
-            // <TEMP_ERROR>
-            $response = new Response();
-            $response->setStatusCode('501');
+            $result = $this->siteManager->savePage(
+                $pageName,
+                $pageRevision,
+                $pageType,
+                $data,
+                $this->rcmUserGetCurrentUser()->getName()
+            );
 
-            return $response;
-            // </TEMP_ERROR>
+            if (empty($result)) {
+                $return['redirect'] = $this->urlToPage($pageName, $pageType, $pageRevision);
+            } else {
+                $return['redirect'] = $this->urlToPage($pageName, $pageType, $result);
+            }
 
-            $result = $this->pageManager->savePage($data);
-
-            return $this->getJsonResponse($result);
+            return $this->getJsonResponse($return);
         }
 
         $response = new Response();
