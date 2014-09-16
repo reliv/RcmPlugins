@@ -468,8 +468,6 @@ var RcmBrightcovePlayerService = {
 
         instanceConfig = RcmBrightcovePlayerService.buildInstanceConfig(instanceId, instanceConfig);
 
-        console.log('getPlayerController',instanceId, instanceConfig);
-
         if (RcmBrightcovePlayerService.playerControllers[instanceId]) {
 
             RcmBrightcovePlayerService.playerControllers[instanceId].setInstanceConfig(instanceConfig);
@@ -539,7 +537,6 @@ var RcmBrightcovePlayerSingle = function (instanceId, instanceConfig, onComplete
     }
 
     self.onTemplateLoad = function (experienceID) {
-        console.log('RcmBrightcovePlayerSingle.onTemplateLoad');
     };
 
     self.onTemplateReady = function (evt) {
