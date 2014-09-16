@@ -52,6 +52,11 @@ return array(
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
                                 'uri' => '/modules/rcm-admin/page-properties.html',
                             ),
+                            'PagePermissions' => array(
+                                'label' => 'Page Permissions',
+                                'class' => 'RcmAdminMenu RcmBlankDialog',
+                                'uri' => '/modules/rcm-admin/page-permissions.html',
+                            ),
                         )
                     ),
                     'Copy To' => array(
