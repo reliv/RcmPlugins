@@ -390,28 +390,21 @@ class PageController extends AbstractActionController
             /** @var \Zend\Stdlib\Parameters $data */
             $data = $request->getPost()->toArray();
 
-            // <TEMP_ERROR>
-            $response = new Response();
-            $response->setStatusCode('501');
-
-
-            $return = $this->siteManager->savePage(
+            $result = $this->siteManager->savePage(
                 $pageName,
                 $pageRevision,
                 $pageType,
-                $data
+                $data,
+                $this->rcmUserGetCurrentUser()->getName()
             );
 
-            $return = print_r($return, true);
+            if (empty($result)) {
+                $return['redirect'] = $this->urlToPage($pageName, $pageType, $pageRevision);
+            } else {
+                $return['redirect'] = $this->urlToPage($pageName, $pageType, $result);
+            }
 
-            // </TEMP_ERROR>
-
-            $response->setContent($return);
-
-
-            return $response;
-
-            return $this->getJsonResponse($result);
+            return $this->getJsonResponse($return);
         }
 
         $response = new Response();
