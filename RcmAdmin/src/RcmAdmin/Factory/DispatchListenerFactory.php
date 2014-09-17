@@ -47,10 +47,6 @@ class DispatchListenerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var \RcmAdmin\Controller\AdminPanelController $adminPanel */
-        $adminPanel
-            = $serviceLocator->get('RcmAdmin\Controller\AdminPanelController');
-
-        return new DispatchListener($adminPanel);
+        return new DispatchListener($serviceLocator);
     }
 }

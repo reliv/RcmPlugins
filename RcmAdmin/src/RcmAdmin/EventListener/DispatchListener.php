@@ -21,6 +21,7 @@ namespace RcmAdmin\EventListener;
 
 use RcmAdmin\Controller\AdminPanelController;
 use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -39,8 +40,8 @@ use Zend\View\Model\ViewModel;
  */
 class DispatchListener
 {
-    /** @var \RcmAdmin\Controller\AdminPanelController */
-    protected $adminPanelController;
+    /** @var ServiceLocatorInterface */
+    protected $serviceLocator;
 
     /**
      * Constructor
@@ -48,9 +49,9 @@ class DispatchListener
      * @param AdminPanelController $adminPanelController Admin Panel Controller
      */
     public function __construct(
-        AdminPanelController $adminPanelController
+        ServiceLocatorInterface $serviceLocator
     ) {
-        $this->adminPanelController = $adminPanelController;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -62,7 +63,17 @@ class DispatchListener
      */
     public function getAdminPanel(MvcEvent $event)
     {
-        $adminWrapper = $this->adminPanelController->getAdminWrapperAction();
+        $matchRoute = $event->getRouteMatch();
+
+        if (empty($matchRoute)){
+            return null;
+        }
+
+        /** @var \RcmAdmin\Controller\AdminPanelController $adminPanelController */
+        $adminPanelController
+            = $this->serviceLocator->get('RcmAdmin\Controller\AdminPanelController');
+
+        $adminWrapper = $adminPanelController->getAdminWrapperAction();
 
         if (!$adminWrapper instanceof ViewModel) {
             return;
