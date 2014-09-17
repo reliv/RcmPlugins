@@ -111,9 +111,10 @@ angular.module(
 
             var thisLink = function (scope, elm, attrs) {
 
-                scope.loading = true;
+                scope.loading = (rcmAdminService.RcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
 
                 if (!eventsRegistered) {
+
                     rcmAdminService.RcmEventManager.on(
                         'RcmAdminService.RcmLoading.start',
                         function () {
