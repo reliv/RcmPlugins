@@ -34,10 +34,12 @@ $this->headScript()->appendFile(
 );
 
 $layout = $this->layout();
+
 $pageData = array(
     'rcmPageRevision' => $layout->pageInfo['revision']['revisionId'],
     'rcmPageType' => $layout->pageInfo['pageType'],
     'rcmPageName' => $layout->pageInfo['name'],
+    'rcmSiteId' => $layout->pageInfo['siteId'],
 );
 
 $this->headMeta()->setProperty(
