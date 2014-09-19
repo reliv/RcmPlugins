@@ -1,7 +1,10 @@
 <!-- <brightcovePlayerSingle> -->
 <div class="hide-vid" style="border:0">
     <div style="float: right;"
-         rcm-brightcove-player-download-link="<?= $instanceId ?>"><?= $instanceConfig['download'] ?></div>
+         rcm-brightcove-player-download-link="<?= $instanceId ?>"
+         rcm-brightcove-player-download-link-config="<?= htmlentities(
+             json_encode($instanceConfig)
+         ) ?>"><?= $instanceConfig['download'] ?></div>
     <div style="clear: both"></div>
     <div class="video"
          id="brightcoveObject"

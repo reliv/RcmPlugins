@@ -178,8 +178,23 @@ angular.module('RcmHtmlEditor', [])
 
                         if (loading) {
 
+                            var firstLoading = false;
+
+                            if(self.editorsLoading.length == 0){
+
+                                firstLoading = true;
+                            }
+
                             if (self.editorsLoading.indexOf(editorId) < 0) {
                                 self.editorsLoading.push(editorId);
+                                self.toolbarLoading = (self.editorsLoading.length > 0);
+
+                                if(firstLoading){
+                                    self.eventManager.trigger(
+                                        'rcmHtmlEditorService.loading.start',
+                                        {editorId: editorId, loading: self.editorsLoading}
+                                    );
+                                }
                             }
 
                         } else {
@@ -189,10 +204,17 @@ angular.module('RcmHtmlEditor', [])
                                     self.editorsLoading.indexOf(editorId),
                                     1
                                 );
+                                self.toolbarLoading = (self.editorsLoading.length > 0);
+
+                                if(!self.toolbarLoading){
+
+                                    self.eventManager.trigger(
+                                        'rcmHtmlEditorService.loading.end',
+                                        {editorId: editorId, loading: self.editorsLoading}
+                                    );
+                                }
                             }
                         }
-
-                        self.toolbarLoading = self.editorsLoading.length > 0;
                     }
 
                     self.eventManager.on(
