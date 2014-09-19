@@ -65,29 +65,27 @@ return array(
                         'rcmOnly' => true,
                         'pages' => array(
                             'Page' => array(
-                                'label'  => 'Template',
-                                'route'  => 'RcmAdmin\Page\CreateTemplateFromPage',
-                                'class'  => 'RcmAdminMenu RcmFormDialog',
-                                'title'  => 'Copy To Template',
+                                'label' => 'Template',
+                                'route' => 'RcmAdmin\Page\CreateTemplateFromPage',
+                                'class' => 'RcmAdminMenu RcmFormDialog',
+                                'title' => 'Copy To Template',
                                 'params' => array(
                                     'rcmPageName' => ':rcmPageName',
                                     'rcmPageType' => ':rcmPageType',
                                     'rcmPageRevision' => ':rcmPageRevision'
                                 ),
-                                'acl'    => array(
+                                'acl' => array(
                                     'providerId' => 'Rcm\Acl\ResourceProvider',
                                     'resource' => 'sites.:siteId.pages.create'
                                 )
                             ),
                         ),
                     ),
-
                     'Drafts' => array(
                         'label' => 'Drafts',
                         'uri' => '#',
                         'rcmIncludeDrafts' => true,
                     ),
-
                     'Restore' => array(
                         'label' => 'Restore',
                         'uri' => '#',
@@ -137,7 +135,6 @@ return array(
                     ),
                 ),
             ),
-
             'RcmAdmin\Page\PublishPageRevision' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
@@ -155,6 +152,18 @@ return array(
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\PageController',
                         'action' => 'savePage',
+                    ),
+                ),
+            ),
+            'RcmAdmin\Page\GetPermissions' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/api/admin/page/permissions/[:id]',
+                    'constraints' => array(
+                        'id' => '[a-zA-Z0-9_-]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\PageViewPermissionsController',
                     ),
                 ),
             ),
@@ -280,13 +289,40 @@ return array(
         'factories' => array(
             'RcmAdmin\Form\NewPageForm' => 'RcmAdmin\Factory\NewPageFormFactory',
             'RcmAdmin\Form\CreateTemplateFromPageForm'
-                => 'RcmAdmin\Factory\CreateTemplateFromPageFormFactory',
+            => 'RcmAdmin\Factory\CreateTemplateFromPageFormFactory',
         ),
     ),
     'controllers' => array(
         'factories' => array(
             'RcmAdmin\Controller\PageController'
             => 'RcmAdmin\Factory\PageControllerFactory',
+        ),
+        'invokables' => array(
+            'RcmAdmin\Controller\PageViewPermissionsController' =>
+                'RcmAdmin\Controller\PageViewPermissionsController',
         )
-    )
+    ),
+    'RcmUser' => array(
+        'Acl\Config' => array(
+
+            'ResourceProviders' => array(
+
+                'RcmAdmin' => 'RcmAdmin\Provider\RcmUserAclResourceProvider',
+                'RcmAdmin' => array(
+                    'page-permissions' => array(
+                        'resourceId' => 'page-permissions',
+                        'parentResourceId' => null,
+                        'privileges' => array(
+                            'read',
+                            'edit',
+                            'update',
+                            'create',
+                        ),
+                        'name' => 'Page permissions resource',
+                        'description' => 'Page permissions resource',
+                    ),
+                ),
+            ),
+        ),
+    ),
 );
