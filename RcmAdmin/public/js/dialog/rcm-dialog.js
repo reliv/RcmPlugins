@@ -5,45 +5,45 @@ var RcmDialog = {
     defaultStrategy: 'rcmBlankDialog',
 
     /**
-     * buildStrategy
+     * buildDialog
      */
-    buildStrategy: function (id, title, url, name, actions) {
+    buildDialog: function (id, title, url, strategyName, actions) {
 
-        var strategy = new RcmDialog.strategy();
+        var dialog = new RcmDialog.dialog();
 
-        if (name) {
-            strategy.name = name;
+        if (strategyName) {
+            dialog.strategyName = strategyName;
         } else {
-            strategy.name = new RcmDialog.strategy();
+            dialog.strategyName = new RcmDialog.defaultStrategy;
         }
 
         if (id) {
-            strategy.id = id;
+            dialog.id = id;
         } else {
-            strategy.id = url;
+            dialog.id = url;
         }
 
-        strategy.loading = true;
+        dialog.loading = true;
 
-        strategy.title = title;
-        strategy.url = url;
+        dialog.title = title;
+        dialog.url = url;
 
         if (actions) {
-            strategy.actions = actions;
+            dialog.actions = actions;
         }
 
-        return strategy;
+        return dialog;
     },
 
     /**
-     * strategy
+     * dialog
      */
-    strategy: function () {
+    dialog: function () {
 
         var self = this;
         self.id = 0;
         self.loading = true;
-        self.name = null;
+        self.strategyName = null;
         self.title = '';
         self.url = '';
         self.actions = {
@@ -55,17 +55,17 @@ var RcmDialog = {
     },
 
     /**
-     * strategies
+     * dialogs
      */
-    strategies: {},
+    dialogs: {},
 
     /**
-     * addStrategy
-     * @param strategy
+     * addDialog
+     * @param addDialog
      */
-    addStrategy: function (strategy) {
+    addDialog: function (dialog) {
 
-        RcmDialog.strategies[strategy.id] = strategy;
+        RcmDialog.dialogs[dialog.id] = dialog;
     },
 
     /**
@@ -86,7 +86,7 @@ var RcmDialog = {
             // @todo
             self.dialogElm = null; // set by watcher instead of requiring dialog to trigger
             self.dialogScope = null;
-            self.strategy = new RcmDialog.strategy();
+            self.dialog = new RcmDialog.dialog();
 
             /**
              *
@@ -104,16 +104,16 @@ var RcmDialog = {
 
             /**
              *
-             * @param strategy
+             * @param dialog
              * @param scope
              */
-            self.openDialog = function (strategy, scope, $compile) {
+            self.openDialog = function (dialog, scope, $compile) {
 
                 var open = function () {
 
                     self.openState = 'open';
                     self.loading = true;
-                    self.strategy = strategy;
+                    self.dialog = dialog;
 
                     $compile(self.dialogElm)(self.dialogScope);
 
@@ -265,7 +265,7 @@ angular.module(
                     rcmDialogService.dialogScope = scope;
 
                     scope.rcmDialogService = rcmDialogService;
-                    var strategyName = rcmDialogService.strategy.name;
+                    var strategyName = rcmDialogService.dialog.strategyName;
 
                     scope.directive = strategyName;
 
@@ -273,7 +273,7 @@ angular.module(
 
                         var directiveName = strategyName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
-                        elm.find(':first-child').attr(directiveName, angular.toJson(rcmDialogService.strategy));
+                        elm.find(':first-child').attr(directiveName, angular.toJson(rcmDialogService.dialog));
                     }
                 };
 
@@ -307,7 +307,7 @@ angular.module(
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
                     scope.rcmDialogService = rcmDialogService;
-                    scope.dialogTemplate = rcmDialogService.strategy.url;
+                    scope.dialogTemplate = rcmDialogService.dialog.url;
                     scope.loading = false;
                 };
 
@@ -339,10 +339,10 @@ angular.module(
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
                     scope.rcmDialogService = rcmDialogService;
-                    scope.url = rcmDialogService.strategy.url;
-                    scope.title = rcmDialogService.strategy.title;
-                    if (rcmDialogService.strategy.save) {
-                        scope.save = $parse(rcmDialogService.strategy.save);
+                    scope.url = rcmDialogService.dialog.url;
+                    scope.title = rcmDialogService.dialog.title;
+                    if (rcmDialogService.dialog.actions.save) {
+                        scope.save = rcmDialogService.dialog.actions.save;
                     }
                     scope.loading = false;
                 };
@@ -406,7 +406,7 @@ angular.module(
                     {
                         async: false,
                         //cache: false,
-                        url: rcmDialogService.strategy.url,
+                        url: rcmDialogService.dialog.url,
                         dataType: 'html',
                         success: function () {
 
@@ -472,9 +472,9 @@ angular.module(
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
-                    scope.save = rcmDialogService.strategy.saveAction;
+                    scope.save = rcmDialogService.dialog.actions.save;
 
-                    $http({method: 'GET', url: rcmDialogService.strategy.url}).
+                    $http({method: 'GET', url: rcmDialogService.dialog.url}).
                         success(function (data, status, headers, config) {
                                     var contentBody = elm.find(".modal-body");
                                     contentBody.html(data);
@@ -485,7 +485,7 @@ angular.module(
                               });
 
                     scope.dialogTemplate = 'RcmStandardDialogTemplate';
-                    scope.title = rcmDialogService.strategy.title;
+                    scope.title = rcmDialogService.dialog.title;
                     scope.loading = false;
                 };
 
@@ -516,7 +516,7 @@ angular.module(
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
-                    $http({method: 'GET', url: rcmDialogService.strategy.url}).
+                    $http({method: 'GET', url: rcmDialogService.dialog.url}).
                         success(function (data, status, headers, config) {
 
                                     var contentBody = elm.find(".modal-body");
@@ -536,7 +536,7 @@ angular.module(
 
 
                     scope.dialogTemplate = 'RcmStandardDialogTemplate';
-                    scope.title = rcmDialogService.strategy.title;
+                    scope.title = rcmDialogService.dialog.title;
                     scope.loading = false;
                 };
 

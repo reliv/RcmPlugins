@@ -40,14 +40,14 @@ angular.module(
                             }
                         }
 
-                        var strategy = RcmDialog.buildStrategy(
-                            htlmLink.attr('href'),
+                        var dialog = RcmDialog.buildDialog(
+                            htlmLink.attr('href'), //id
                             htlmLink.attr('title'),
                             htlmLink.attr('href'),
                             strategyName
                         );
 
-                        rcmDialogService.openDialog(strategy, scope, $compile);
+                        rcmDialogService.openDialog(dialog, scope, $compile);
                     });
 
                 };
