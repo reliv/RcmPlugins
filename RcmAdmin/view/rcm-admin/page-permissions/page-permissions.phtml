@@ -1,3 +1,4 @@
+
 <div class="pagePermission">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -12,9 +13,6 @@
                     <form>
                         <div class="form-group">
                             <select class="form-control" multiple>
-                                <option value="">
-                                    Please select
-                                </option>
                                 <?php foreach ($roles as $role): ?>
                                     <?php if(in_array($role,$rolesHasRules)) :?>
                                 <option selected="selected" value="">

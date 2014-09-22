@@ -55,7 +55,7 @@ return array(
                             'PagePermissions' => array(
                                 'label' => 'Page Permissions',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
-                                'route' => 'RcmAdmin\Page\PagePermission',
+                                'route' => 'RcmAdmin\Page\PagePermissions',
                                 'params' => array(
                                     'rcmPageName' => ':rcmPageName',
                                     'rcmPageType' => ':rcmPageType',
@@ -159,15 +159,13 @@ return array(
                     ),
                 ),
             ),
-            'RcmAdmin\Page\PagePermission' => array(
+            'RcmAdmin\Page\PagePermissions' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/api/admin/page/permissions/[:id]',
-                    'constraints' => array(
-                        'id' => '[a-zA-Z0-9_-]+',
-                    ),
+                    'route' => '/rcm-admin/page-permissions/:rcmPageType/:rcmPageName',
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\PagePermissionsController',
+                        'action' => 'pagePermissions',
                     ),
                 ),
             ),
@@ -313,9 +311,11 @@ return array(
             => 'RcmAdmin\Factory\PageControllerFactory',
         ),
         'invokables' => array(
+            'RcmAdmin\Controller\PagePermissionsController'
+            =>   'RcmAdmin\Controller\PagePermissionsController',
             'RcmAdmin\Controller\PageViewPermissionsController' =>
                 'RcmAdmin\Controller\PageViewPermissionsController',
-        )
+        ),
     ),
     'RcmUser' => array(
         'Acl\Config' => array(
