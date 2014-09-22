@@ -55,7 +55,11 @@ return array(
                             'PagePermissions' => array(
                                 'label' => 'Page Permissions',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
-                                'uri' => '/modules/rcm-admin/page-permissions.html',
+                                'route' => 'RcmAdmin\Page\PagePermission',
+                                'params' => array(
+                                    'rcmPageName' => ':rcmPageName',
+                                    'rcmPageType' => ':rcmPageType',
+                                ),
                             ),
                         )
                     ),
