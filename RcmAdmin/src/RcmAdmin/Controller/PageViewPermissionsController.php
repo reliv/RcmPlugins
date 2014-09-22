@@ -57,8 +57,10 @@ class PageViewPermissionsController extends AbstractRestfulController
 
         $resourceId = 'sites.' . $this->siteId . '.pages.' . $pageName;
 
-        if(!$this->isValidResourceId($resourceId)){
+        if(!$this->isValidResourceId($resourceId))
+        {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
+
             return;
         }
 
