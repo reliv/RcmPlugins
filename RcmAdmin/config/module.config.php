@@ -55,7 +55,11 @@ return array(
                             'PagePermissions' => array(
                                 'label' => 'Page Permissions',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
-                                'uri' => '/modules/rcm-admin/page-permissions.html',
+                                'route' => 'RcmAdmin\Page\PagePermission',
+                                'params' => array(
+                                    'rcmPageName' => ':rcmPageName',
+                                    'rcmPageType' => ':rcmPageType',
+                                ),
                             ),
                         )
                     ),
@@ -155,6 +159,16 @@ return array(
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\PageController',
                         'action' => 'savePage',
+                    ),
+                ),
+            ),
+            'RcmAdmin\Page\PagePermission' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcm-admin/page-permissions/:rcmPageType/:rcmPageName',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\PagePermissionsController',
+                        'action' => 'pagePermissions',
                     ),
                 ),
             ),
@@ -287,6 +301,10 @@ return array(
         'factories' => array(
             'RcmAdmin\Controller\PageController'
             => 'RcmAdmin\Factory\PageControllerFactory',
+        ),
+        'invokables' => array(
+           'RcmAdmin\Controller\PagePermissionsController'
+            =>   'RcmAdmin\Controller\PagePermissionsController'
         )
     )
 );
