@@ -48,8 +48,12 @@ var RcmDialog = {
         self.url = '';
         self.actions = {
             save: function () {
+                console.log('SAVE: ', self);
             },
             close: function () {
+
+                // @todo - I should be able to get the dialog elm here instead on DOM search
+                jQuery('#AdminDialogWindow').modal('hide');
             }
         };
     },
@@ -88,6 +92,8 @@ var RcmDialog = {
             self.dialogScope = null;
             self.dialog = new RcmDialog.dialog();
 
+            var $compile = angular.element(document).injector().get('$compile');
+
             /**
              *
              * @param onInitComplete
@@ -107,13 +113,16 @@ var RcmDialog = {
              * @param dialog
              * @param scope
              */
-            self.openDialog = function (dialog, scope, $compile) {
+            self.openDialog = function (dialog) {
+
+                RcmDialog.addDialog(dialog);
 
                 var open = function () {
 
                     self.openState = 'open';
                     self.loading = true;
-                    self.dialog = dialog;
+                    // @todo - This will get out of sync
+                    self.dialog = RcmDialog.dialogs[dialog.id];
 
                     $compile(self.dialogElm)(self.dialogScope);
 
@@ -125,14 +134,26 @@ var RcmDialog = {
                         );
 
                     });
-                }
+                };
 
-                if (!self.dialogScope || !self.dialogElm) {
+                if (self.openState !== 'closed') {
 
-                    self.init(open)
+                    setTimeout(
+                        function () {
+                            open();
+                        },
+                        500
+                    );
+
                 } else {
 
-                    open();
+                    if (!self.dialogScope || !self.dialogElm) {
+
+                        self.init(open)
+                    } else {
+
+                        open();
+                    }
                 }
             };
 
@@ -216,7 +237,7 @@ var RcmDialog = {
                         function (event) {
                             self.openState = 'closed';
                             elm.remove(); // prevent multiple instances of modal
-                            scope.$destroy()// prevent multiple instances of modal
+                            scope.$destroy();// prevent multiple instances of modal
                         }
                     );
                 }
@@ -341,8 +362,11 @@ angular.module(
                     scope.rcmDialogService = rcmDialogService;
                     scope.url = rcmDialogService.dialog.url;
                     scope.title = rcmDialogService.dialog.title;
+
                     if (rcmDialogService.dialog.actions.save) {
-                        scope.save = rcmDialogService.dialog.actions.save;
+                        scope.save = function () {
+                            RcmDialog.dialogs[rcmDialogService.dialog.id].actions.save();
+                        };
                     }
                     scope.loading = false;
                 };
@@ -472,7 +496,9 @@ angular.module(
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
-                    scope.save = rcmDialogService.dialog.actions.save;
+                    scope.save = function () {
+                        RcmDialog.dialogs[rcmDialogService.dialog.id].actions.save();
+                    };
 
                     $http({method: 'GET', url: rcmDialogService.dialog.url}).
                         success(function (data, status, headers, config) {

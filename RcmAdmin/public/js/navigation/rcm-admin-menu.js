@@ -16,9 +16,8 @@ angular.module(
         'RcmAdminMenu',
         [
             '$log',
-            '$compile',
             'rcmDialogService',
-            function ($log, $compile, rcmDialogService) {
+            function ($log, rcmDialogService) {
 
                 var thisLink = function (scope, elm, attrs) {
 
@@ -47,7 +46,7 @@ angular.module(
                             strategyName
                         );
 
-                        rcmDialogService.openDialog(dialog, scope, $compile);
+                        rcmDialogService.openDialog(dialog);
                     });
 
                 };
