@@ -186,7 +186,6 @@ return array(
         ),
     ),
     'rcmAdmin' => array(
-
         'createBlankPagesErrors' => array(
             'missingItems'
             => 'Please make sure to include a Page Name and select the'
