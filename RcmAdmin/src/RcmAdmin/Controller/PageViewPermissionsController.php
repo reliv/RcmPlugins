@@ -15,11 +15,11 @@ class PageViewPermissionsController extends AbstractRestfulController
      * @var \Rcm\Acl\ResourceProvider $resourceProvider
      */
     protected $resourceProvider;
+
     /**
      * @var \RcmUser\Acl\Service\AclDataService $aclDataService
      */
     protected $aclDataService;
-
 
     /**
      * Update an existing resource
@@ -51,8 +51,8 @@ class PageViewPermissionsController extends AbstractRestfulController
         if (!$this->rcmUserIsAllowed('page-permissions','edit', 'RcmAdmin'))
         {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
-            return;
 
+            return;
         }
 
         $resourceId = 'sites.' . $this->siteId . '.pages.' . $pageName;
@@ -72,6 +72,13 @@ class PageViewPermissionsController extends AbstractRestfulController
 
     }
 
+    /**
+     * deletePermissions
+     *
+     * @param $resourceId
+     *
+     * @return void
+     */
     public function deletePermissions($resourceId)
     {
         $rules = $this->aclDataService->getRulesByResource($resourceId)->getData();
@@ -84,6 +91,14 @@ class PageViewPermissionsController extends AbstractRestfulController
         }
     }
 
+    /**
+     * addPermissions
+     *
+     * @param $roles
+     * @param $resourceId
+     *
+     * @return void
+     */
     public function addPermissions($roles, $resourceId)
     {
         if (empty($roles)) {
@@ -98,14 +113,31 @@ class PageViewPermissionsController extends AbstractRestfulController
         $this->addPermission('guest', $resourceId, 'deny');
     }
 
+    /**
+     * addPermission
+     *
+     * @param $roleId
+     * @param $resourceId
+     *
+     * @return void
+     */
     public function addPermission($roleId, $resourceId)
     {
-
         $this->aclDataService->createRule(
             $this->getAclRule($roleId, $resourceId)
         );
     }
 
+    /**
+     * getAclRule
+     *
+     * @param        $roleId
+     * @param        $resourceId
+     * @param string $allowDeny
+     *
+     * @return AclRule
+     * @throws \RcmUser\Exception\RcmUserException
+     */
     protected function getAclRule($roleId, $resourceId, $allowDeny = 'allow')
     {
         $rule = new AclRule();
@@ -117,12 +149,16 @@ class PageViewPermissionsController extends AbstractRestfulController
         return $rule;
     }
 
+    /**
+     * isValidResourceId
+     *
+     * @param $resourceId
+     *
+     * @return bool
+     */
     public function isValidResourceId($resourceId)
     {
-
         $resource = $this->resourceProvider->getResource($resourceId);
-
-        var_dump($resource);
 
         return true;
     }
