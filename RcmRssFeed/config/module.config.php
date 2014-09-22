@@ -43,13 +43,27 @@ return array(
                 'options' => array(
                     'route' => '/rcm-rss-proxy',
                     'defaults' => array(
-                        'controller' => 'rcmRssFeedProxyController',
+                        'controller' => 'RcmRssFeed\Controller\ProxyController',
                         'action' => 'rssProxy',
                     ),
                 ),
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmRssFeed\Cache' => '\RcmRssFeed\Factory\RssCacheFactory'
+        )
+    ),
+
+    'controllers' => array(
+        'factories' => array(
+            'RcmRssFeed\Controller\ProxyController'
+                => '\RcmRssFeed\Factory\ProxyControllerFactory',
+            'RcmRssFeed' => '\RcmRssFeed\Factory\PluginControllerFactory',
+        ),
+    ),
+
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(

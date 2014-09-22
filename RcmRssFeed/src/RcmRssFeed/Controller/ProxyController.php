@@ -8,25 +8,25 @@
  */
 namespace RcmRssFeed\Controller;
 
-use Rcm\Plugin\BaseController;
-use RcmInstanceConfig\Service\PluginStorageMgr;
 use Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
+use Zend\Mvc\Controller\AbstractActionController;
 
 class ProxyController
-    extends BaseController
+    extends AbstractActionController
 {
 
     protected $userMgr;
     protected $cacheMgr;
+    protected $siteId;
 
     function __construct(
         $config,
+        $siteId,
         \Zend\Cache\Storage\StorageInterface $cacheMgr
     ) {
-        parent::__construct($config);
-        //$this->userMgr = $userMgr;
         $this->cacheMgr = $cacheMgr;
+        $this->siteId = $siteId;
     }
 
     public function rssProxyAction()
@@ -55,6 +55,7 @@ class ProxyController
 
         if ($this->cacheMgr->hasItem($feedUrl)) {
             $viewRssData = $this->cacheMgr->getItem($feedUrl);
+            $this->sendJson($viewRssData);
         }
 
         if (!empty($overrideFeedUrl) && $overrideFeedUrl != 'null') {
@@ -64,7 +65,13 @@ class ProxyController
              * Only admins can override the url. This prevents people from using
              * our proxy to DDOS other sites.
              */
-            if (is_a($permissions, '\Rcm\Entity\AdminPermissions')) {
+            $allowed = $this->rcmUserIsAllowed(
+                'sites.' . $this->siteId,
+                'admin',
+                'Rcm\Acl\ResourceProvider'
+            );
+
+            if ($allowed) {
                 $feedUrl = $overrideFeedUrl;
             }
         }

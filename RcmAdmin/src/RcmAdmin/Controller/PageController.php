@@ -323,7 +323,7 @@ class PageController extends AbstractActionController
             );
         }
 
-        $this->pageManager->publishPageRevision($pageRevision);
+        $this->pageManager->publishPageRevision($pageName, $pageRevision, $pageType);
 
         return $this->redirect()->toUrl(
             $this->urlToPage(
@@ -331,14 +331,6 @@ class PageController extends AbstractActionController
                 $pageType
             )
         );
-
-        /* Ajax request.  Makes publish take Twice as long, and
-         * fails silently when problems arise.  Recommended not
-         * to use, but kept here to settle any disputes.
-        */
-//        $view = new JsonModel();
-//        $view->setVariable('redirect', $this->urlToPage($pageName, $pageType));
-//        return $view;
     }
 
     /**
