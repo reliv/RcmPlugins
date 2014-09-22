@@ -55,7 +55,7 @@ class PageViewPermissionsController extends AbstractRestfulController
             return;
         }
 
-        $resourceId = 'sites.' . $this->siteId . '.pages.' . $pageName;
+        $resourceId = 'sites.' . $this->siteId . '.pages.' . $pageType .'.'. $pageName;
 
         if(!$this->isValidResourceId($resourceId))
         {

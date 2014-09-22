@@ -159,12 +159,24 @@ return array(
                     ),
                 ),
             ),
-            'RcmAdmin\Page\GetPermissions' => array(
+            'RcmAdmin\Page\PagePermission' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
                     'route' => '/api/admin/page/permissions/[:id]',
                     'constraints' => array(
                         'id' => '[a-zA-Z0-9_-]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\PagePermissionsController',
+                    ),
+                ),
+            ),
+            'RcmAdmin\Page\GetPermissions' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/api/admin/page/permissions/[:id]',
+                    'constraints' => array(
+                        'id' => '[a-zA-Z0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\PageViewPermissionsController',
@@ -174,7 +186,6 @@ return array(
         ),
     ),
     'rcmAdmin' => array(
-
         'createBlankPagesErrors' => array(
             'missingItems'
             => 'Please make sure to include a Page Name and select the'
