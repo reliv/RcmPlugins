@@ -167,7 +167,7 @@ return array(
                 'options' => array(
                     'route' => '/rcm-admin/page-permissions/:rcmPageType/:rcmPageName',
                     'defaults' => array(
-                        'controller' => 'RcmAdmin\Controller\PagePermissions',
+                        'controller' => 'RcmAdmin\Controller\PagePermissionsController',
                         'action' => 'pagePermissions',
                     ),
                 ),
@@ -303,8 +303,8 @@ return array(
             => 'RcmAdmin\Factory\PageControllerFactory',
         ),
         'invokables' => array(
-           'RcmAdmin\Controller\PagePermissions'
-            =>   'RcmAdmin\Controller\PagePermissions'
+           'RcmAdmin\Controller\PagePermissionsController'
+            =>   'RcmAdmin\Controller\PagePermissionsController'
         )
     )
 );
