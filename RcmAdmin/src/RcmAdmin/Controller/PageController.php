@@ -323,7 +323,7 @@ class PageController extends AbstractActionController
             );
         }
 
-        $this->pageManager->publishPageRevision($pageRevision);
+        $this->pageManager->publishPageRevision($pageName, $pageType, $pageRevision);
 
         return $this->redirect()->toUrl(
             $this->urlToPage(
