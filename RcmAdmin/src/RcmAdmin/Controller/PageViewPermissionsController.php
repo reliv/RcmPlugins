@@ -106,8 +106,6 @@ class PageViewPermissionsController extends AbstractRestfulController
 
         return new JsonModel(array($resourceId));
 
-        // @TODO
-
     }
 
     /**
