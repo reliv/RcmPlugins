@@ -84,11 +84,9 @@ class PageViewPermissionsController extends AbstractRestfulController
         $validPage = $this->pageManager->isPageValid($pageName, $pageType);
 
         if (!$validPage) {
-            echo 'validPage = ' . $validPage;
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
 
             return;
-
         }
 
         //CREATE RESOURCE ID
