@@ -26,17 +26,11 @@ return array(
                 'label' => 'Page',
                 'uri' => '#',
                 'pages' => array(
-                    'New' => array(
-                        'label' => 'New',
-                        'uri' => '#',
-                        'pages' => array(
-                            'Page' => array(
-                                'label' => 'Page',
-                                'route' => 'RcmAdmin\Page\New',
-                                'class' => 'RcmAdminMenu RcmFormDialog',
-                                'title' => 'New Page',
-                            ),
-                        ),
+                    'New Page' => array(
+                        'label' => 'New Page',
+                        'route' => 'RcmAdmin\Page\New',
+                        'class' => 'RcmAdminMenu RcmFormDialog',
+                        'title' => 'New Page',
                     ),
                     'Edit' => array(
                         'label' => 'Edit',
