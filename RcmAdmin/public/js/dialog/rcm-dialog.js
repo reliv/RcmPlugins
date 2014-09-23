@@ -4,6 +4,29 @@ var RcmDialog = {
 
     defaultStrategy: 'rcmBlankDialog',
 
+    rcmDialogElm: null,
+    rcmDialogScope: null,
+
+    /**
+     * dialogs
+     */
+    dialogs: {},
+
+    /**
+     * compile
+     */
+    compile: function () {
+
+        if (RcmDialog.rcmDialogElm) {
+
+            console.log('RcmDialog.compile');
+
+            var $compile = angular.element(RcmDialog.rcmDialogElm).injector().get('$compile');
+
+            $compile(RcmDialog.rcmDialogElm)(RcmDialog.rcmDialogScope);
+        }
+    },
+
     /**
      * buildDialog
      */
@@ -32,6 +55,8 @@ var RcmDialog = {
             dialog.actions = actions;
         }
 
+        RcmDialog.addDialog(dialog);
+
         return dialog;
     },
 
@@ -46,22 +71,90 @@ var RcmDialog = {
         self.strategyName = null;
         self.title = '';
         self.url = '';
-        self.actions = {
-            save: function () {
-                console.log('SAVE: ', self);
-            },
-            close: function () {
+        self.elm = null;
+        self.openState = 'init';
 
-                // @todo - I should be able to get the dialog elm here instead on DOM search
-                jQuery('#AdminDialogWindow').modal('hide');
+        self.actions = {
+            close: function () {
+                self.close();
             }
         };
-    },
 
-    /**
-     * dialogs
-     */
-    dialogs: {},
+        self.setElm = function (elm) {
+
+            self.elm = elm;
+            self.syncEvents();
+
+            // If open was called before the elm is set, then we should open now
+            if (self.openState === 'open') {
+                self.open();
+            }
+        };
+
+        self.getDirectiveName = function () {
+
+            return self.strategyName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        };
+
+        self.open = function () {
+
+            RcmDialog.compile();
+
+            self.openState = 'open';
+            self.loading = true;
+
+            console.log('dialog.open', self.elm);
+            if (self.elm) {
+                self.elm.modal('show');
+            }
+        };
+
+        self.close = function () {
+
+            self.openState = 'close';
+
+            if (self.elm) {
+                self.elm.modal('hide');
+            }
+        };
+
+        self.syncEvents = function () {
+
+            if (self.elm.modal) {
+
+                self.elm.on(
+                    'show.bs.modal',
+                    function (event) {
+                        self.openState = 'opening';
+                    }
+                );
+
+                self.elm.on(
+                    'shown.bs.modal',
+                    function (event) {
+                        self.openState = 'opened';
+                    }
+                );
+
+                self.elm.on(
+                    'hide.bs.modal',
+                    function (event) {
+                        self.openState = 'closing';
+                    }
+                );
+
+                self.elm.on(
+                    'hidden.bs.modal',
+                    function (event) {
+                        self.openState = 'closed';
+                        self.elm.remove();
+                        //scope.$destroy();
+                        self.elm = null;
+                    }
+                );
+            }
+        }
+    },
 
     /**
      * addDialog
@@ -69,186 +162,20 @@ var RcmDialog = {
      */
     addDialog: function (dialog) {
 
+        console.log('RcmDialog.addDialog');
+
         RcmDialog.dialogs[dialog.id] = dialog;
     },
 
     /**
-     * getService
-     * @returns {null}
+     * getDialog
+     * @param dialogId
+     * @returns {*}
      */
-    getService: function () {
+    getDialog: function (dialogId) {
 
-        if (RcmDialog.service) {
-            return RcmDialog.service
-        }
-
-        var Service = function () {
-
-            var self = this;
-            self.loading = false;
-            self.openState = 'closed'; // open, opening, opened, close, closing, closed
-            // @todo
-            self.dialogElm = null; // set by watcher instead of requiring dialog to trigger
-            self.dialogScope = null;
-            self.dialog = new RcmDialog.dialog();
-
-            var $compile = angular.element(document).injector().get('$compile');
-
-            /**
-             *
-             * @param onInitComplete
-             */
-            self.init = function (onInitComplete) {
-
-                self.openState = 'init';
-
-                if (typeof onInitComplete === 'function') {
-
-                    onInitComplete();
-                }
-            };
-
-            /**
-             *
-             * @param dialog
-             * @param scope
-             */
-            self.openDialog = function (dialog) {
-
-                RcmDialog.addDialog(dialog);
-
-                var open = function () {
-
-                    self.openState = 'open';
-                    self.loading = true;
-                    // @todo - This will get out of sync
-                    self.dialog = RcmDialog.dialogs[dialog.id];
-
-                    $compile(self.dialogElm)(self.dialogScope);
-
-                    $compile(self.dialogElm.contents())(self.dialogScope);
-
-                    setTimeout(function () {
-                        self.dialogScope.$apply(
-                            self.onOpenDialog(self.dialogScope, self.dialogElm)
-                        );
-
-                    });
-                };
-
-                if (self.openState !== 'closed') {
-
-                    setTimeout(
-                        function () {
-                            open();
-                        },
-                        500
-                    );
-
-                } else {
-
-                    if (!self.dialogScope || !self.dialogElm) {
-
-                        self.init(open)
-                    } else {
-
-                        open();
-                    }
-                }
-            };
-
-            /**
-             *
-             * @param scope
-             * @param elm
-             * @param attrs
-             * @param ctrl
-             */
-            self.onOpenDialog = function (scope, elm, attrs, ctrl) {
-
-                self.openState = 'opening';
-
-                /* jQuery IU Modal */
-                self.syncEvents(scope, elm);
-                elm.modal('show');
-
-                scope.$broadcast('rcmDialogOpen');
-            };
-
-            /**
-             * closeDialog
-             * @param scope
-             */
-            self.closeDialog = function (scope) {
-
-                self.openState = 'close';
-            };
-
-            /**
-             * onCloseDialog
-             * @param scope
-             * @param elm
-             * @param attrs
-             * @param ctrl
-             */
-            self.onCloseDialog = function (scope, elm, attrs, ctrl) {
-
-                self.openState = 'closing';
-
-                /* jQuery IU Modal */
-                //self.syncEvents(scope, elm);
-                elm.modal('hide');
-
-                scope.$broadcast('rcmDialogClose');
-            };
-
-            /**
-             * syncEvents
-             * @param scope
-             * @param elm
-             */
-            self.syncEvents = function (scope, elm) {
-
-                if (elm.modal) {
-
-                    elm.on(
-                        'show.bs.modal',
-                        function (event) {
-                            self.openState = 'opening';
-                        }
-                    );
-
-                    elm.on(
-                        'shown.bs.modal',
-                        function (event) {
-                            self.openState = 'opened';
-                        }
-                    );
-
-                    elm.on(
-                        'hide.bs.modal',
-                        function (event) {
-                            self.openState = 'closing';
-                        }
-                    );
-
-                    elm.on(
-                        'hidden.bs.modal',
-                        function (event) {
-                            self.openState = 'closed';
-                            elm.remove(); // prevent multiple instances of modal
-                            scope.$destroy();// prevent multiple instances of modal
-                        }
-                    );
-                }
-            }
-        };
-
-        RcmDialog.service = new Service();
-
-        return RcmDialog.service;
+        return RcmDialog.dialogs[dialogId];
     }
-
 }
 
 /**
@@ -264,7 +191,7 @@ angular.module(
         '$compile',
         function ($compile) {
 
-            return RcmDialog.getService();
+            return RcmDialog;
         }
     ]
 )
@@ -275,27 +202,62 @@ angular.module(
     'rcmDialog',
     [
         '$compile',
-        'rcmDialogService',
-        function ($compile, rcmDialogService) {
+        function ($compile) {
+
+            var modalTemplate = '<div class="modal fade"' +
+                'id="TEMP"' +
+                'tabindex="-1"' +
+                'role="dialog"' +
+                'aria-labelledby="myModalLabel"' +
+                'aria-hidden="true"></div>';
 
             var thisCompile = function (tElement, tAttrs) {
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
-                    rcmDialogService.dialogElm = elm;
-                    rcmDialogService.dialogScope = scope;
+                    var id = null;
+                    var newModal = null;
+                    var newDirectiveStrat = null;
 
-                    scope.rcmDialogService = rcmDialogService;
-                    var strategyName = rcmDialogService.dialog.strategyName;
+                    RcmDialog.rcmDialogElm = elm;
+                    RcmDialog.rcmDialogScope = scope;
 
-                    scope.directive = strategyName;
+                    console.log('rcmDialog.link', RcmDialog.dialogs);
 
-                    if (strategyName) {
+                    angular.forEach(
+                        RcmDialog.dialogs,
+                        function (dialog, key) {
 
-                        var directiveName = strategyName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+                            id = dialog.strategyName + ':' + dialog.id; //.replace(/(:|\.|\[|\])/g, "\\$1")
 
-                        elm.find(':first-child').attr(directiveName, angular.toJson(rcmDialogService.dialog));
-                    }
+                            if(!dialog.elm) {
+                                // @todo REMOVE TEST
+                                dialog.title = dialog.title + ' ' + dialog.strategyName;
+                                newModal = jQuery(modalTemplate);
+                                newModal.attr('id', id);
+                                newDirectiveStrat = jQuery('<div ' + dialog.getDirectiveName() + '="' + dialog.id + '"></div>');
+                                newModal.append(newDirectiveStrat);
+
+                                newModal.modal(
+                                    {
+                                        show: false
+                                    }
+                                );
+
+                                dialog.setElm(newModal);
+
+                                newModal.on(
+                                    'show.bs.modal',
+                                    function (event) {
+                                        dialog.openState = 'opening';
+                                        $compile(dialog.elm.contents())(scope);
+                                    }
+                                );
+
+                                elm.append(newModal);
+                            }
+                        }
+                    );
                 };
 
                 return thisLink;
@@ -303,11 +265,7 @@ angular.module(
 
             return {
                 restrict: 'A',
-                compile: thisCompile,
-                controller: function ($scope) {
-                    this.scope = $scope;
-                },
-                template: '<div>-{{directive}}-</div>'
+                compile: thisCompile
             }
         }
     ]
@@ -320,16 +278,21 @@ angular.module(
     'rcmBlankDialog',
     [
         '$compile',
-        'rcmDialogService',
-        function ($compile, rcmDialogService) {
+        function ($compile) {
 
             var thisCompile = function (tElement, tAttrs, transclude) {
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
-                    scope.rcmDialogService = rcmDialogService;
-                    scope.dialogTemplate = rcmDialogService.dialog.url;
-                    scope.loading = false;
+                    var dialogId = attrs.rcmBlankDialog;
+
+                    var dialog = RcmDialog.getDialog(dialogId);
+
+                    scope.loading = dialog.loading = false;
+
+                    scope.dialogTemplate = dialog.url;
+
+                    scope.$apply();
                 };
 
                 return thisLink;
@@ -352,20 +315,24 @@ angular.module(
     [
         '$compile',
         '$parse',
-        'rcmDialogService',
-        function ($compile, $parse, rcmDialogService) {
+        function ($compile, $parse) {
 
             var thisCompile = function (tElement, tAttrs, transclude) {
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
-                    scope.rcmDialogService = rcmDialogService;
-                    scope.url = rcmDialogService.dialog.url;
-                    scope.title = rcmDialogService.dialog.title;
+                    var dialogId = attrs.rcmBlankIframeDialog;
 
-                    if (rcmDialogService.dialog.actions.save) {
+                    var dialog = RcmDialog.getDialog(dialogId);
+
+                    scope.loading = dialog.loading = false;
+
+                    scope.url = dialog.url;
+                    scope.title = dialog.title;
+
+                    if (dialog.actions.save) {
                         scope.save = function () {
-                            RcmDialog.dialogs[rcmDialogService.dialog.id].actions.save();
+                            RcmDialog.dialogs[dialog.id].actions.save();
                         };
                     }
                     scope.loading = false;
@@ -391,7 +358,7 @@ angular.module(
                 '        <div class="modal-footer">' +
                 '            <button type="button" class="btn btn-default" data-dismiss="modal">Close' +
                 '            </button>' +
-                '            <button type="button" class="btn btn-primary saveBtn" ng-click="save()" ng-show="save">Save' +
+                '            <button ng-show="save" type="button" class="btn btn-primary saveBtn" ng-click="save()" ng-show="save">Save' +
                 '            </button>' +
                 '        </div>' +
                 '    </div>' +
@@ -414,15 +381,15 @@ angular.module(
         '$log',
         '$compile',
         '$http',
-        'rcmDialogService',
-        function ($log, $compile, $http, rcmDialogService) {
+        function ($log, $compile, $http) {
 
             var startTime = new Date().getTime();
-            var self = this;
 
-            self.restrict = 'A';
+            var thisCompile = function (elm, attrs) {
 
-            self.compile = function (elm, attrs) {
+                var dialogId = attrs.rcmBlankSyncDialog;
+
+                var dialog = RcmDialog.getDialog(dialogId);
 
                 startTime = new Date().getTime();
 
@@ -430,7 +397,7 @@ angular.module(
                     {
                         async: false,
                         //cache: false,
-                        url: rcmDialogService.dialog.url,
+                        url: dialog.url,
                         dataType: 'html',
                         success: function () {
 
@@ -440,7 +407,6 @@ angular.module(
                 ).responseText;
 
                 elm.html(content);
-
 
                 // hide for late compile
                 var orgStyle = elm.attr('style');
@@ -467,17 +433,16 @@ angular.module(
                     },
                     post: function (scope, elm, attrs, controller, transcludeFn) {
 
+                        scope.loading = dialog.loading = false;
                     }
                 }
             };
 
-            self.controller = function ($scope, $element) {
-
-            };
-
-            self.template = '<div></div>';
-
-            return self;
+            return {
+                restrict: 'A',
+                compile: thisCompile,
+                template: '<div></div>'
+            }
         }
     ]
 )
@@ -489,18 +454,21 @@ angular.module(
     [
         '$compile',
         '$http',
-        'rcmDialogService',
-        function ($compile, $http, rcmDialogService) {
+        function ($compile, $http) {
 
             var thisCompile = function (tElement, tAttrs, transclude) {
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
+                    var dialogId = attrs.rcmStandardDialog;
+
+                    var dialog = RcmDialog.getDialog(dialogId);
+
                     scope.save = function () {
-                        RcmDialog.dialogs[rcmDialogService.dialog.id].actions.save();
+                        dialog.actions.save();
                     };
 
-                    $http({method: 'GET', url: rcmDialogService.dialog.url}).
+                    $http({method: 'GET', url: dialog.url}).
                         success(function (data, status, headers, config) {
                                     var contentBody = elm.find(".modal-body");
                                     contentBody.html(data);
@@ -510,8 +478,7 @@ angular.module(
 
                               });
 
-                    scope.dialogTemplate = 'RcmStandardDialogTemplate';
-                    scope.title = rcmDialogService.dialog.title;
+                    scope.title = dialog.title;
                     scope.loading = false;
                 };
 
@@ -521,7 +488,26 @@ angular.module(
             return {
                 restrict: 'A',
                 compile: thisCompile,
-                template: '<div ng-include="dialogTemplate">--{{dialogTemplate}}--</div>'
+                template: '' +
+                '<div id="RcmStandardDialogTemplateIn" style="display: block;" ng-hide="loading">' +
+                ' <div class="modal-dialog">' +
+                '  <div class="modal-content">' +
+                '   <div class="modal-header">' +
+                '    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+                '    <h1 class="modal-title" id="myModalLabel">{{title}}</h1>' +
+                '   </div>' +
+                '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
+                '   <div class="modal-footer">' +
+                '    <button type="button" class="btn btn-default" data-dismiss="modal" data-ng-click="close()" >' +
+                '     Close' +
+                '    </button>' +
+                '    <button ng-show="save" type="button" class="btn btn-primary saveBtn" data-ng-click="save()" >' +
+                '     Save' +
+                '    </button>' +
+                '   </div>' +
+                '  </div>' +
+                ' </div>' +
+                '</div>'
             }
         }
     ]
@@ -534,15 +520,20 @@ angular.module(
     [
         '$compile',
         '$http',
-        'rcmDialogService',
-        function ($compile, $http, rcmDialogService) {
+        function ($compile, $http) {
 
             var thisCompile = function (tElement, tAttrs, transclude) {
 
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
-                    $http({method: 'GET', url: rcmDialogService.dialog.url}).
+                    var dialogId = attrs.rcmFormDialog;
+
+                    var dialog = RcmDialog.getDialog(dialogId);
+
+                    scope.loading = dialog.loading;
+
+                    $http({method: 'GET', url: dialog.url}).
                         success(function (data, status, headers, config) {
 
                                     var contentBody = elm.find(".modal-body");
@@ -555,15 +546,14 @@ angular.module(
                                         var actionUrl = form.attr('action');
                                         contentBody.load(actionUrl, data);
                                     })
+                                    dialog.loading = false;
                                 }).
                         error(function (data, status, headers, config) {
-
+                                  dialog.loading = false;
                               });
 
-
-                    scope.dialogTemplate = 'RcmStandardDialogTemplate';
-                    scope.title = rcmDialogService.dialog.title;
-                    scope.loading = false;
+                    scope.title = dialog.title;
+                    scope.loading = dialog.loading = false;
                 };
 
                 return thisLink;
@@ -572,79 +562,29 @@ angular.module(
             return {
                 restrict: 'A',
                 compile: thisCompile,
-                template: '<div ng-include="dialogTemplate">--{{dialogTemplate}}--</div>'
+                template: '' +
+                '<div id="RcmFormDialogIn" style="display: block;" ng-hide="loading">' +
+                ' <div class="modal-dialog">' +
+                '  <div class="modal-content">' +
+                '   <div class="modal-header">' +
+                '    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+                '    <h1 class="modal-title" id="myModalLabel">{{title}}</h1>' +
+                '   </div>' +
+                '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
+                '   <div class="modal-footer">' +
+                '    <button type="button" class="btn btn-default" data-dismiss="modal" data-ng-click="close()" >' +
+                '     Close' +
+                '    </button>' +
+                '    <button type="button" class="btn btn-primary saveBtn" >' +
+                '     Save' +
+                '    </button>' +
+                '   </div>' +
+                '  </div>' +
+                ' </div>' +
+                '</div>'
             }
         }
     ]
 )
-
-/* TEST ALT PATTERN: WORKS! /////*
- .directive(
- 'rcmDialogTest',
- [
- '$compile',
- '$http',
- 'rcmDialogService',
- function ($compile, $http, rcmDialogService) {
-
- return {
- restrict: 'A',
- controller: function ($scope, $element) {
-
- var clicker = '<a ng-click="click(1)" href="#">Click me</a>';
-
- var cnt = 0;
-
- $scope.click = function (arg) {
-
- //var startTime = new Date().getTime();
-
- $http.get('/modules/rcm-shopping-cart/list-categories.html')
- .success(
- function (data) {
- cnt++;
- var html = clicker + cnt + data;
-
- $scope.html = html;
- }
- )
- .error(
- function (data) {
- $scope.html = 'ERROR';
- }
- );
- }
- $scope.html = clicker;
- },
- template: '<div>' +
- '<textarea ng-model="html"></textarea>' +
- '<div rcm-dialog-content="html"></div>' +
- '</div>'
- }
- }
- ]
- )
- .directive(
- 'rcmDialogContent',
- [
- '$compile',
- '$ocLazyLoad',
- function ($compile, $ocLazyLoad) {
- return {
- restrict: 'A',
- replace: true,
- link: function (scope, elm, attrs) {
-
- scope.$watch(attrs.rcmDialogContent, function (html) {
- elm.html(html);
-
- $compile(elm.contents())(scope);
- });
- }
- };
- }
- ]
- )
- //* //////////////////////////// */
 /** </RcmDialog> */
 rcm.addAngularModule('RcmDialog');
