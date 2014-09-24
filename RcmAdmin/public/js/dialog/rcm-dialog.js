@@ -4,9 +4,6 @@ var RcmDialog = {
 
     defaultStrategy: 'rcmBlankDialog',
 
-    rcmDialogElm: null,
-    rcmDialogScope: null,
-
     /**
      * dialogs
      */
@@ -232,7 +229,6 @@ angular.module(
         function ($compile) {
 
             var rcmDialogElm = null;
-            var rcmDialogScope = null;
 
             var modalTemplate = '<div class="modal fade"' +
                 'id="TEMP"' +
@@ -289,7 +285,6 @@ angular.module(
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
                     rcmDialogElm = elm;
-                    rcmDialogScope = scope;
                 };
 
                 return thisLink;
@@ -368,6 +363,7 @@ angular.module(
                         };
                     }
                     scope.loading = false;
+                    scope.$apply();
                 };
 
                 return thisLink;
@@ -512,6 +508,8 @@ angular.module(
 
                     scope.title = dialog.title;
                     scope.loading = false;
+
+                    scope.$apply();
                 };
 
                 return thisLink;
@@ -586,6 +584,8 @@ angular.module(
 
                     scope.title = dialog.title;
                     scope.loading = dialog.loading = false;
+
+                    scope.$apply();
                 };
 
                 return thisLink;
