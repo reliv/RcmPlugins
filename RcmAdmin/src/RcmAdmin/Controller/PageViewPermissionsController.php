@@ -2,10 +2,10 @@
 
 namespace RcmAdmin\Controller;
 
+use Rcm\Http\Response;
 use RcmUser\Acl\Entity\AclRule;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
-use Rcm\Http\Response;
 
 class PageViewPermissionsController extends AbstractRestfulController
 {
@@ -22,6 +22,11 @@ class PageViewPermissionsController extends AbstractRestfulController
     protected $aclDataService;
 
     /**
+     * @var \Rcm\Service\PageManager
+     */
+    protected $pageManager;
+
+    /**
      * Update an existing resource
      *
      * @param  string $id   $pageName
@@ -31,11 +36,18 @@ class PageViewPermissionsController extends AbstractRestfulController
      */
     public function update($id, $data)
     {
-        $roles = $data;
-
-        $this->siteId = $this->getServiceLocator()->get(
-            'Rcm\Service\SiteManager'
-        )->getCurrentSiteId();
+        /*
+        {"data":{
+          "siteId":"1",
+          "pageType": "n",
+          "pageName": "my-profile",
+          "roles": [
+          ]
+        }}
+        */
+//        $this->siteId = $this->getServiceLocator()->get(
+//            'Rcm\Service\SiteManager'
+//        )->getCurrentSiteId();
 
         $this->aclDataService = $this->getServiceLocator()->get(
             'RcmUser\Acl\AclDataService'
@@ -44,33 +56,55 @@ class PageViewPermissionsController extends AbstractRestfulController
         $this->resourceProvider = $this->getServiceLocator()->get(
             'Rcm\Acl\ResourceProvider'
         );
+        $this->pageManager = $this->getServiceLocator()->get(
+            'Rcm\Service\PageManager'
+        );
 
-        $pageName = $id;
+        $siteId = $data->siteId;
+
+        $pageName = $data->pageName;
+
+        $pageType = $data->pageType;
+
+        $roles = $data->roles;
+
+//        $roles = $data;
+//        $pageName = $id;
+//        $siteId = '1';
+//        $pageType = 'n';
 
         //ACCESS CHECK
-        if (!$this->rcmUserIsAllowed('page-permissions','edit', 'RcmAdmin'))
-        {
+        if (!$this->rcmUserIsAllowed('page-permissions', 'edit', 'RcmAdmin')) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
 
             return;
         }
 
-        $resourceId = 'sites.' . $this->siteId . '.pages.' . $pageType .'.'. $pageName;
+        //IS PAGE VALID?
+        $validPage = $this->pageManager->isPageValid($pageName, $pageType);
 
-        if(!$this->isValidResourceId($resourceId))
-        {
+        if (!$validPage) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
 
             return;
         }
 
+        //CREATE RESOURCE ID
+        $resourceId = 'sites.' . $siteId . '.pages.' . 'n' . '.' . $pageName;
+
+        if (!$this->isValidResourceId($resourceId)) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
+
+            return;
+        }
+
+        //DELETE ALL PERMISSIONS
         $this->deletePermissions($resourceId);
+
 
         $this->addPermissions($roles, $resourceId);
 
         return new JsonModel(array($resourceId));
-
-       // @TODO
 
     }
 
@@ -83,7 +117,8 @@ class PageViewPermissionsController extends AbstractRestfulController
      */
     public function deletePermissions($resourceId)
     {
-        $rules = $this->aclDataService->getRulesByResource($resourceId)->getData();
+        $rules = $this->aclDataService->getRulesByResource($resourceId)
+            ->getData();
         /** @var \RcmUser\Acl\Entity\AclRole $role */
         foreach ($rules as $rule) {
 
