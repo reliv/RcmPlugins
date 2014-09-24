@@ -13,17 +13,31 @@ var RcmDialog = {
     dialogs: {},
 
     /**
-     * compile
+     * eventManager
      */
-    compile: function () {
+    eventManager: {
 
-        if (RcmDialog.rcmDialogElm) {
+        events: {},
 
-            console.log('RcmDialog.compile');
+        on: function (event, id, method) {
 
-            var $compile = angular.element(RcmDialog.rcmDialogElm).injector().get('$compile');
+            if (!this.events[event]) {
+                this.events[event] = {};
+            }
 
-            $compile(RcmDialog.rcmDialogElm)(RcmDialog.rcmDialogScope);
+            this.events[event][id] = method;
+        },
+
+        trigger: function (event, args) {
+
+            if (this.events[event]) {
+                jQuery.each(
+                    this.events[event],
+                    function (index, value) {
+                        value(args);
+                    }
+                );
+            }
         }
     },
 
@@ -74,6 +88,8 @@ var RcmDialog = {
         self.elm = null;
         self.openState = 'init';
 
+        self.preOpened = false;
+
         self.actions = {
             close: function () {
                 self.close();
@@ -86,7 +102,7 @@ var RcmDialog = {
             self.syncEvents();
 
             // If open was called before the elm is set, then we should open now
-            if (self.openState === 'open') {
+            if (self.preOpened) {
                 self.open();
             }
         };
@@ -98,22 +114,35 @@ var RcmDialog = {
 
         self.open = function () {
 
-            RcmDialog.compile();
+            RcmDialog.eventManager.trigger(
+                'dialog.open',
+                self
+            );
 
-            self.openState = 'open';
-            self.loading = true;
+            // Set flag if elm is not ready
+            if(!self.elm){
+                self.preOpened = true;
+            }
 
-            console.log('dialog.open', self.elm);
-            if (self.elm) {
+            if (self.elm && self.openState !== 'open') {
+
+                self.openState = 'open';
+                self.loading = true;
+
                 self.elm.modal('show');
             }
         };
 
         self.close = function () {
 
-            self.openState = 'close';
+            RcmDialog.eventManager.trigger(
+                'dialog.close',
+                self
+            );
 
-            if (self.elm) {
+            if (self.elm  && self.openState !== 'closed') {
+
+                self.openState = 'close';
                 self.elm.modal('hide');
             }
         };
@@ -162,8 +191,6 @@ var RcmDialog = {
      */
     addDialog: function (dialog) {
 
-        console.log('RcmDialog.addDialog');
-
         RcmDialog.dialogs[dialog.id] = dialog;
     },
 
@@ -204,6 +231,9 @@ angular.module(
         '$compile',
         function ($compile) {
 
+            var rcmDialogElm = null;
+            var rcmDialogScope = null;
+
             var modalTemplate = '<div class="modal fade"' +
                 'id="TEMP"' +
                 'tabindex="-1"' +
@@ -211,53 +241,55 @@ angular.module(
                 'aria-labelledby="myModalLabel"' +
                 'aria-hidden="true"></div>';
 
+            var updateElm = function(dialog) {
+
+                var id = null;
+                var newModal = null;
+                var newDirectiveStrat = null;
+
+                id = dialog.strategyName + ':' + dialog.id; //.replace(/(:|\.|\[|\])/g, "\\$1")
+
+                if (!dialog.elm) {
+
+                    newModal = jQuery(modalTemplate);
+                    newModal.attr('id', id);
+                    newDirectiveStrat = jQuery('<div ' + dialog.getDirectiveName() + '="' + dialog.id + '"></div>');
+                    newModal.append(newDirectiveStrat);
+
+                    newModal.modal(
+                        {
+                            show: false
+                        }
+                    );
+
+                    dialog.setElm(newModal);
+
+                    newModal.on(
+                        'show.bs.modal',
+                        function (event) {
+                            dialog.openState = 'opening';
+                            $compile(dialog.elm.contents())(dialog.elm.scope());
+                        }
+                    );
+
+                    rcmDialogElm.append(newModal);
+                }
+            };
+
+            RcmDialog.eventManager.on(
+                'dialog.open',
+                'rcmDialog',
+                function (dialog) {
+                    updateElm(dialog);
+                }
+            );
+
             var thisCompile = function (tElement, tAttrs) {
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
-                    var id = null;
-                    var newModal = null;
-                    var newDirectiveStrat = null;
-
-                    RcmDialog.rcmDialogElm = elm;
-                    RcmDialog.rcmDialogScope = scope;
-
-                    console.log('rcmDialog.link', RcmDialog.dialogs);
-
-                    angular.forEach(
-                        RcmDialog.dialogs,
-                        function (dialog, key) {
-
-                            id = dialog.strategyName + ':' + dialog.id; //.replace(/(:|\.|\[|\])/g, "\\$1")
-
-                            if(!dialog.elm) {
-                                // @todo REMOVE TEST
-                                dialog.title = dialog.title + ' ' + dialog.strategyName;
-                                newModal = jQuery(modalTemplate);
-                                newModal.attr('id', id);
-                                newDirectiveStrat = jQuery('<div ' + dialog.getDirectiveName() + '="' + dialog.id + '"></div>');
-                                newModal.append(newDirectiveStrat);
-
-                                newModal.modal(
-                                    {
-                                        show: false
-                                    }
-                                );
-
-                                dialog.setElm(newModal);
-
-                                newModal.on(
-                                    'show.bs.modal',
-                                    function (event) {
-                                        dialog.openState = 'opening';
-                                        $compile(dialog.elm.contents())(scope);
-                                    }
-                                );
-
-                                elm.append(newModal);
-                            }
-                        }
-                    );
+                    rcmDialogElm = elm;
+                    rcmDialogScope = scope;
                 };
 
                 return thisLink;
