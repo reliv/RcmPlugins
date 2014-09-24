@@ -4,9 +4,6 @@ var RcmDialog = {
 
     defaultStrategy: 'rcmBlankDialog',
 
-    rcmDialogElm: null,
-    rcmDialogScope: null,
-
     /**
      * dialogs
      */
