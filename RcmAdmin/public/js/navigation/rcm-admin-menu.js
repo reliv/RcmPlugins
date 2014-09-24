@@ -16,8 +16,7 @@ angular.module(
         'RcmAdminMenu',
         [
             '$log',
-            'rcmDialogService',
-            function ($log, rcmDialogService) {
+            function ($log) {
 
                 var thisLink = function (scope, elm, attrs) {
 
@@ -28,9 +27,10 @@ angular.module(
                         event.preventDefault();
 
                         // get strategyName
-                        var strategyName = 'DEFAULT';
+                        var strategyName = null;
 
-                        var classAttr = elm.attr('class')
+                        var classAttr = elm.attr('class');
+
                         if (classAttr) {
                             var classes = classAttr.split(" ");
                             if(classes[1]){
@@ -38,14 +38,14 @@ angular.module(
                             }
                         }
 
-                        var strategy = {
-                            loading: true,
-                            name: strategyName,
-                            title: htlmLink.attr('title'),
-                            url: htlmLink.attr('href')
-                        }
+                        var dialog = RcmDialog.buildDialog(
+                            htlmLink.attr('href'), //id
+                            htlmLink.attr('title'),
+                            htlmLink.attr('href'),
+                            strategyName
+                        );
 
-                        rcmDialogService.openDialog(strategy, scope);
+                        dialog.open();
                     });
 
                 };

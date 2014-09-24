@@ -106,10 +106,12 @@ return array(
                 'uri' => '#',
                 'pages' => array(
                     'RolesAndAccess' => array(
+                        //'class'  => 'RcmAdminMenu RcmBlankIframeDialog',
                         'label' => 'Roles and Access',
                         'uri' => '/admin/rcmuser-acl',
                     ),
                     'UserManagement' => array(
+                        //'class'  => 'RcmAdminMenu RcmBlankIframeDialog',
                         'label' => 'User Management',
                         'uri' => '/admin/rcmuser-users',
                     ),

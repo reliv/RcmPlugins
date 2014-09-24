@@ -1,13 +1,4 @@
 <div oc-lazy-load="{name: 'rcmLocales', files: ['/modules/rcm-i18n/rcmTranslationsCtrl.js', '/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js']}">
-    <!--<script type="text/javascript"-->
-            <!--src="/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js"></script>-->
-    <!--<script type="text/javascript"-->
-            <!--src="/modules/rcm-tinymce-js/tinymce/tinymce.min.js"></script>-->
-    <!--<script type="text/javascript"-->
-    <!--src="/modules/rcm-lib/rcm-html-editor/rcm-html-editor.js"></script>-->
-    <!--<script src="/modules/rcm-angular-js/angular-base64/angular-base64.js"></script>-->
-    <!--<script type="text/javascript"-->
-    <!--src="/modules/rcm-i18n/rcmTranslationsCtrl.js"></script>-->
     <link href="/modules/rcm-i18n/styles.css"
           media="screen"
           rel="stylesheet" type="text/css">
@@ -77,7 +68,8 @@
                                          html-editor-type="simpleText"
                                          html-editor-size="small"
                                          ng-change="message.dirty = true"
-                                         ng-model="message.text"></div>
+                                         ng-model="message.text">{{message.text}}</div>
+
                                 </td>
                                 <td style="vertical-align: top">
                                     <button ng-class="{invisible: !message.dirty}"
