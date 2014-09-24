@@ -46,6 +46,9 @@ class AdminNavigationFactory extends AbstractNavigationFactory
     /** @var \Rcm\Service\SiteManager */
     protected $siteManager;
 
+    /** @var  \Rcm\Service\PageManager */
+    protected $pageManager;
+
     /** @var  \Rcm\Entity\Page */
     protected $page = null;
 
@@ -61,7 +64,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         $this->siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
 
         /** @var  \Rcm\Service\PageManager $pageManager */
-        $pageManager = $serviceLocator->get('Rcm\Service\PageManager');
+        $this->pageManager = $this->siteManager->getPageManager();
 
         $application = $serviceLocator->get('Application');
 
@@ -73,7 +76,12 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         $pageTypeMatch = $routeMatch->getParam('pageType', 'n');
 
         if (!empty($pageMatch)) {
-            $this->page = $pageManager->getPageByName($pageMatch, $pageTypeMatch);
+            $this->page = $this->pageManager->getRevisionInfo(
+                $pageMatch,
+                $this->pageRevision,
+                $pageTypeMatch,
+                true
+            );
         }
 
         return parent::createService($serviceLocator);
@@ -169,7 +177,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
 
             $resource = str_replace(
                 array(':siteId',':pageName'),
-                array($this->siteManager->getCurrentSiteId(), $this->page->getName()),
+                array($this->siteManager->getCurrentSiteId(), $this->page['name']),
                 $resource
             );
 
@@ -198,11 +206,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         }
 
         if (!empty($page['rcmIncludeDrafts'])) {
-            $page['pages'] = $this->getDraftRevisionList();
+            $page['pages'] = $this->getRevisionList(false);
         }
 
         if (!empty($page['rcmIncludePublishedRevisions'])) {
-            $page['pages'] = $this->getPublishedRevisionList();
+            $page['pages'] = $this->getRevisionList(true);
         }
 
     }
@@ -212,47 +220,34 @@ class AdminNavigationFactory extends AbstractNavigationFactory
      *
      * @return array
      */
-    protected function getDraftRevisionList()
+    protected function getRevisionList($published=false)
     {
         $return = array();
 
-        $drafts = $this->page->getDraftRevisionList(10);
+        $drafts = $this->pageManager->getRevisionList(
+            $this->page['name'],
+            $this->page['pageType'],
+            $published,
+            10
+        );
 
-        /** @var \Rcm\Entity\Revision $draft */
-        foreach ($drafts as $draft) {
-            $return[] = array(
-                'label'  => $draft->getCreatedDate()->format("r").' - '.$draft->getAuthor(),
-                'route'  => 'contentManagerWithPageType',
-                'params' => array(
-                    'page' => $this->page->getName(),
-                    'pageType' => $this->page->getPageType(),
-                    'revision' => $draft->getRevisionId()
-                )
-            );
+        if (empty($drafts)) {
+            return $return;
         }
 
-        return $return;
-    }
-
-    /*
-     * Get Published Revision List
-     */
-    protected function getPublishedRevisionList()
-    {
-        $return = array();
-
-        $drafts = $this->page->getPublishedRevisionList(10);
-
         /** @var \Rcm\Entity\Revision $draft */
-        foreach ($drafts as $draft) {
+        foreach ($drafts['revisions'] as $draft) {
+            if ($this->page['revision']['revisionId'] == $draft['revisionId']) {
+                continue;
+            }
+
             $return[] = array(
-                'label'  => $draft->getCreatedDate()->format("r").' - '.$draft->getAuthor(),
-                'route'  => 'RcmAdmin\Page\PublishPageRevision',
-                'class'  => 'rcmMenuPost',
+                'label'  => $draft['createdDate']->format("r").' - '.$draft['author'],
+                'route'  => 'contentManagerWithPageType',
                 'params' => array(
-                    'rcmPageName' => $this->page->getName(),
-                    'rcmPageType' => $this->page->getPageType(),
-                    'rcmPageRevision' => $draft->getRevisionId()
+                    'page' => $this->page['name'],
+                    'pageType' => $this->page['pageType'],
+                    'revision' => $draft['revisionId']
                 )
             );
         }
@@ -271,12 +266,6 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             return;
         }
 
-        $revision = $this->page->getCurrentRevision()->getRevisionId();
-
-        if (!empty($this->pageRevision)) {
-            $revision = $this->pageRevision;
-        }
-
         $find = array(
             ':rcmPageName',
             ':rcmPageType',
@@ -284,9 +273,9 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         );
 
         $replace = array(
-            $this->page->getName(),
-            $this->page->getPageType(),
-            $revision
+            $this->page['name'],
+            $this->page['pageType'],
+            $this->page['revision']['revisionId']
         );
 
         $item = str_replace($find, $replace, $item);
