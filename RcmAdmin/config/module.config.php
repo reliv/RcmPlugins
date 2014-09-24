@@ -174,7 +174,7 @@ return array(
                 'options' => array(
                     'route' => '/api/admin/page/permissions/[:id]',
                     'constraints' => array(
-                        'id' => '[a-zA-Z0-9]+',
+                        'id' => '[a-zA-Z0-9_-]+',
                     ),
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\PageViewPermissionsController',
@@ -263,6 +263,7 @@ return array(
                     'modules/rcm-admin/js/admin/bootstrap-alert-confirm.js',
                     'modules/rcm-admin/js/admin/plugin-drag.js',
                     'modules/rcm-admin/js/admin/session.js',
+                    'modules/rcm-admin/js/permissions/page-permissions.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',

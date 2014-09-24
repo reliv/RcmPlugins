@@ -97,17 +97,11 @@ class PagePermissionsController extends AbstractActionController
             $roleIds[] = $roleId;
         }
 
-        $view->setVariable('roles', $roleIds);
-        $view->setVariable('rolesHasRules', $rolesHasRule);
-
-        $view->setVariable(
-            'rcmPageName',
-            $sourcePageName
-        );
-        $view->setVariable(
-            'rcmPageType',
-            $pageType
-        );
+        $view->setVariable('siteId',$currentSiteId);
+        $view->setVariable('pageType',$pageType);
+        $view->setVariable('pageName',$sourcePageName);
+        $view->setVariable('rolesHasRules',$rolesHasRule);
+        $view->setVariable('allRoles', $roleIds);
 
         return $view;
 

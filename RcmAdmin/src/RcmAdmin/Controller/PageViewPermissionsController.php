@@ -46,6 +46,12 @@ class PageViewPermissionsController extends AbstractRestfulController
         );
 
         $pageName = $id;
+        $pageType = $this->getEvent()
+            ->getRouteMatch()
+            ->getParam(
+                'rcmPageType',
+                'n'
+            );
 
         //ACCESS CHECK
         if (!$this->rcmUserIsAllowed('page-permissions','edit', 'RcmAdmin'))

@@ -1,41 +1,49 @@
+<div oc-lazy-load="{name: 'pagePermissions'}">
+    <div class="pagePermission">
+        <div rcm-page-permissions
+             rcm-page-permissions-site-id="<?= $siteId ?>"
+             rcm-page-permissions-page-type="<?= $pageType ?>"
+             rcm-page-permissions-page-name="<?= $pageName ?>"
+             class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;</button>
+                    <h1 class="modal-title" id="myModalLabel">Page
+                        Permissions</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="wrapperPagePerm">
+                        <h2>Who can view this page?</h2><br>
 
-<div class="pagePermission">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">&times;</button>
-                <h1 class="modal-title" id="myModalLabel">Page Permissions</h1>
-            </div>
-            <div class="modal-body">
-                <div class="wrapperPagePerm">
-                    <h2>Who can view this page?</h2><br>
-                    <form>
-                        <div class="form-group">
-                            <select class="form-control" multiple>
-                                <?php foreach ($roles as $role): ?>
-                                    <?php if(in_array($role,$rolesHasRules)) :?>
-                                <option selected="selected" value="">
-                                    <?= $role ?>
-                                </option>
-                                    <?php else :?>
-                                        <option value="">
+                        <form>
+                            <div class="form-group">{{selected.roles | json}}
+                                <select ng-model="selected.roles" multiple="multiple"
+                                        class="form-control">
+                                    <?php foreach ($allRoles as $role): ?>
+                                        <option
+                                            value="<?= $role ?>" <?=
+                                        (in_array(
+                                            $role,
+                                            $rolesHasRules
+                                        )) ? 'class="selected"' : '' ?>>
                                             <?= $role ?>
                                         </option>
-                                     <?php endif;?>
-                                <?php endforeach ?>
-                            </select>
-                        </div>
-                    </form>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal">Close
-                </button>
-                <button type="button" ng-click="save()"
-                        class="btn btn-primary saveBtn" data-dismiss="modal">Save
-                </button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">Close
+                    </button>
+                    <button type="button" ng-click="savePermissions()"
+                            class="btn btn-primary saveBtn"
+                            data-dismiss="modal">Save
+                    </button>
+                </div>
             </div>
         </div>
     </div>
