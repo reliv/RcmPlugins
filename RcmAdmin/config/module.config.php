@@ -176,7 +176,7 @@ return array(
                 'options' => array(
                     'route' => '/api/admin/page/permissions/[:id]',
                     'constraints' => array(
-                        'id' => '[a-zA-Z0-9]+',
+                        'id' => '[a-zA-Z0-9_-]+',
                     ),
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\PageViewPermissionsController',
