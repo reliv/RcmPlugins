@@ -118,12 +118,5 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($result), 'Did not return array.');
     }
-
-    public function testDoLogout()
-    {
-        $this->buildMocks();
-        $module = new Module();
-        $module->doLogout($this->mockMvcEvent);
-    }
 }
  
