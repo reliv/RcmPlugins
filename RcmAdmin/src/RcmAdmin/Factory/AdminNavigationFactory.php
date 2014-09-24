@@ -52,6 +52,9 @@ class AdminNavigationFactory extends AbstractNavigationFactory
     /** @var  \Rcm\Entity\Page */
     protected $page = null;
 
+    /** @var  \Rcm\Acl\CmsPermissionChecks */
+    protected $cmsPermissionChecks;
+
     protected $pageRevision = null;
 
     /**
@@ -61,6 +64,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $this->rcmUserService = $serviceLocator->get('RcmUser\Service\RcmUserService');
+        $this->cmsPermissionChecks = $serviceLocator->get('Rcm\Acl\CmsPermissionsChecks');
         $this->siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
 
         /** @var  \Rcm\Service\PageManager $pageManager */
@@ -80,7 +84,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
                 $pageMatch,
                 $this->pageRevision,
                 $pageTypeMatch,
-                true
+                $this->cmsPermissionChecks->shouldShowRevisions(
+                    $this->siteManager->getCurrentSiteId(),
+                    $pageTypeMatch,
+                    $pageMatch
+                )
             );
         }
 
