@@ -1,9 +1,6 @@
 <div oc-lazy-load="{name: 'pagePermissions'}">
     <div class="pagePermission">
-        <div rcm-page-permissions
-             rcm-page-permissions-site-id="<?= $siteId ?>"
-             rcm-page-permissions-page-type="<?= $pageType ?>"
-             rcm-page-permissions-page-name="<?= $pageName ?>"
+        <div rcm-page-permissions-data="<?php echo urlencode(json_encode($data))?>"
              class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -15,24 +12,12 @@
                 <div class="modal-body">
                     <div class="wrapperPagePerm">
                         <h2>Who can view this page?</h2><br>
-
-                        <form>
-                            <div class="form-group">{{selected.roles | json}}
-                                <select ng-model="selected.roles" multiple="multiple"
-                                        class="form-control">
-                                    <?php foreach ($allRoles as $role): ?>
-                                        <option
-                                            value="<?= $role ?>" <?=
-                                        (in_array(
-                                            $role,
-                                            $rolesHasRules
-                                        )) ? 'class="selected"' : '' ?>>
-                                            <?= $role ?>
-                                        </option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                        </form>
+                        <div
+                            multi-select
+                            input-model="roles"
+                            tick-property="ticked"
+                            >
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

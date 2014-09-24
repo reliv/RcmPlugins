@@ -264,6 +264,8 @@ return array(
                     'modules/rcm-admin/js/admin/plugin-drag.js',
                     'modules/rcm-admin/js/admin/session.js',
                     'modules/rcm-admin/js/permissions/page-permissions.js',
+                    'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js'
+
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
@@ -271,6 +273,7 @@ return array(
                     'modules/rcm-admin/css/layout-editor.css',
                     'modules/rcm-admin/css/rcm-admin-panel.css',
                     'modules/rcm-admin/css/rcm-admin-navigation.css',
+                    'modules/rcm-admin/css/permissions.css'
                 ),
             ),
         ),
