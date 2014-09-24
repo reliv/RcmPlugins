@@ -67,6 +67,8 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         $this->cmsPermissionChecks = $serviceLocator->get('Rcm\Acl\CmsPermissionsChecks');
         $this->siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
 
+        $config = $serviceLocator->get('config');
+
         /** @var  \Rcm\Service\PageManager $pageManager */
         $this->pageManager = $this->siteManager->getPageManager();
 
@@ -74,6 +76,10 @@ class AdminNavigationFactory extends AbstractNavigationFactory
 
         /** @var RouteMatch $routeMatch */
         $routeMatch  = $application->getMvcEvent()->getRouteMatch();
+
+        if (!in_array($routeMatch->getMatchedRouteName(), $config['Rcm']['RcmCmsPageRouteNames'])) {
+            return parent::createService($serviceLocator);
+        }
 
         $pageMatch = $routeMatch->getParam('page', 'index');
         $this->pageRevision = $routeMatch->getParam('revision', null);
@@ -188,6 +194,20 @@ class AdminNavigationFactory extends AbstractNavigationFactory
                 array($this->siteManager->getCurrentSiteId(), $this->page['name']),
                 $resource
             );
+
+            if (!empty($this->page)) {
+                $resource = str_replace(
+                    array(':siteId',':pageName'),
+                    array($this->siteManager->getCurrentSiteId(), $this->page['name']),
+                    $resource
+                );
+            } else {
+                $resource = str_replace(
+                    array(':siteId'),
+                    array($this->siteManager->getCurrentSiteId()),
+                    $resource
+                );
+            }
 
             if (!$this->rcmUserService->isAllowed($resource, $privilege, $providerId)) {
                 return false;
