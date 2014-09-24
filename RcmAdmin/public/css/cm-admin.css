@@ -43,11 +43,12 @@
     background-color: green;
     border-radius: 20px 20px 20px 20px;
     color: #FFFFFF;
-    font-size: 24px;
-    height: 20px;
-    line-height: 16px;
     margin-left: 5px;
     margin-top: 15px;
+    padding: 2px 6px 2px 8px;
     cursor: pointer;
     float: left;
+}
+.adminAddButton .glyphicon {
+    color: #FFFFFF;
 }

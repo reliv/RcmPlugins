@@ -104,10 +104,9 @@ angular.module(
 
                 var getLoading = function (scope) {
 
-                    scope.loading = (rcmAdminService.RcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
-                    // @todo safe apply
-                    scope.$apply();
-                };
+                scope.loading = (rcmAdminService.RcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
+                rcm.safeApply(scope);
+            };
 
                 var thisLink = function (scope, elm, attrs) {
 
@@ -678,6 +677,7 @@ var RcmAdminService = {
             data.name = pageInfo.rcmPageName;
             data.type = pageInfo.rcmPageType;
             data.revision = pageInfo.rcmPageRevision;
+            data.siteId = pageInfo.rcmSiteId;
 
             if (typeof onComplete === 'function') {
                 onComplete(data)

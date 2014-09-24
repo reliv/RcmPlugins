@@ -156,11 +156,11 @@ var rcm = new function () {
                     } else {
                         scope.$apply(fn);
                     }
-                }
+                };
 
                 self.angularSafeApply = function (fn) {
                     self.rootScope.safeApply(fn);
-                }
+                };
 
                 self.angularCompile = function (elm, fn) {
 
@@ -172,7 +172,7 @@ var rcm = new function () {
                         self.safeApply(scope, fn);
                         //self.rootScope.safeApply(fn);
                     });
-                }
+                };
                 /*
                  self.scope.$on('ocLazyLoad.moduleLoaded', function (e, module) {
                  console.log('module loaded', module);
