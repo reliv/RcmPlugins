@@ -82,11 +82,13 @@ return array(
                     'Drafts' => array(
                         'label' => 'Drafts',
                         'uri' => '#',
+                        'class' => 'drafts',
                         'rcmIncludeDrafts' => true,
                     ),
                     'Restore' => array(
                         'label' => 'Restore',
                         'uri' => '#',
+                        'class' => 'restore',
                         'rcmIncludePublishedRevisions' => true
                     ),
                 ),
@@ -308,7 +310,7 @@ return array(
         ),
         'invokables' => array(
             'RcmAdmin\Controller\PagePermissionsController'
-            =>   'RcmAdmin\Controller\PagePermissionsController',
+            => 'RcmAdmin\Controller\PagePermissionsController',
             'RcmAdmin\Controller\PageViewPermissionsController' =>
                 'RcmAdmin\Controller\PageViewPermissionsController',
         ),
