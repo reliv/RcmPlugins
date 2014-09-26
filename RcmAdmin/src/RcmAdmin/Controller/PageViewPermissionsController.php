@@ -71,8 +71,10 @@ class PageViewPermissionsController extends AbstractRestfulController
 //        $siteId = '1';
 //        $pageType = 'n';
 
+        //CREATE RESOURCE ID
+        $resourceId = 'sites.' . $siteId . '.pages.' . 'n' . '.' . $pageName;
         //ACCESS CHECK
-        if (!$this->rcmUserIsAllowed('page-permissions', 'edit', 'RcmAdmin')) {
+        if (!$this->rcmUserIsAllowed($resourceId, 'admin', 'RcmAdmin')) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
 
             return;
@@ -87,8 +89,7 @@ class PageViewPermissionsController extends AbstractRestfulController
             return;
         }
 
-        //CREATE RESOURCE ID
-        $resourceId = 'sites.' . $siteId . '.pages.' . 'n' . '.' . $pageName;
+
 
         if (!$this->isValidResourceId($resourceId)) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
@@ -143,7 +144,12 @@ class PageViewPermissionsController extends AbstractRestfulController
 
             $this->addPermission($roleId, $resourceId);
         }
- 
+
+        if(count($roles) > 0) {
+            $this->aclDataService->createRule(
+                $this->getAclRule($roleId, $resourceId, 'deny')
+            );
+        }
     }
 
     /**
@@ -156,15 +162,11 @@ class PageViewPermissionsController extends AbstractRestfulController
      */
     public function addPermission($roleId, $resourceId)
     {
-       if($roleId == 'guest' && $resourceId == null) {
-           $this->aclDataService->createRule(
-               $this->getAclRule($roleId, $resourceId, 'deny')
-           );
-       } else {
+
            $this->aclDataService->createRule(
                $this->getAclRule($roleId, $resourceId)
            );
-       }
+
     }
 
     /**
