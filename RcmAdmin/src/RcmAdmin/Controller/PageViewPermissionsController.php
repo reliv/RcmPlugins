@@ -143,7 +143,7 @@ class PageViewPermissionsController extends AbstractRestfulController
 
             $this->addPermission($roleId, $resourceId);
         }
-
+ 
     }
 
     /**
