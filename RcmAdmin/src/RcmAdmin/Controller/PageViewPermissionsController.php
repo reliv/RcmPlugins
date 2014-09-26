@@ -143,8 +143,7 @@ class PageViewPermissionsController extends AbstractRestfulController
 
             $this->addPermission($roleId, $resourceId);
         }
-
-        $this->addPermission('guest', $resourceId, 'deny');
+ 
     }
 
     /**
@@ -157,7 +156,7 @@ class PageViewPermissionsController extends AbstractRestfulController
      */
     public function addPermission($roleId, $resourceId)
     {
-       if($roleId == 'guest' && $resourceId != null) {
+       if($roleId == 'guest' && $resourceId == null) {
            $this->aclDataService->createRule(
                $this->getAclRule($roleId, $resourceId, 'deny')
            );
