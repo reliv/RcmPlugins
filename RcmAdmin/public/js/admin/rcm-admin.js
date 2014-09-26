@@ -244,28 +244,6 @@ var RcmAdminService = {
     },
 
     /**
-     * angularCompile
-     * @param elm
-     * @param fn
-     */
-    angularCompile: function (elm, fn) {
-
-        var compile = angular.element(elm).injector().get('$compile');
-
-        var scope = angular.element(elm).scope();
-
-        compile(elm.contents())(scope);
-
-        if (scope.$$phase || scope.$root.$$phase) {
-            if (typeof fn === 'function') {
-                fn();
-            } else {
-                scope.$apply(fn);
-            }
-        }
-    },
-
-    /**
      * rcmAdminEditButtonAction - Actions for links and AngularJS directives
      * @todo might require $apply
      * @param editingState
@@ -316,6 +294,29 @@ var RcmAdminService = {
     },
 
     /**
+     * angularCompile - only use this if you need to compile after dom change!!!!!
+     * @param elm
+     * @param fn
+     */
+    angularCompile: function (elm, fn) {
+
+        var compile = angular.element(elm).injector().get('$compile');
+
+        var scope = angular.element(elm).scope();
+
+        compile(elm.contents())(scope);
+
+        if (scope.$$phase || scope.$root.$$phase) {
+
+            scope.$apply(fn);
+        } else {
+
+            if (typeof fn === 'function') {
+                fn();
+            }
+        }
+    },
+    /**
      * getHtmlEditorLink - creates an angular friendly method
      * @param rcmHtmlEditorInit
      * @param rcmHtmlEditorDestroy
@@ -331,11 +332,13 @@ var RcmAdminService = {
 
                 scope.rcmAdminPage = page;
 
-                var pluginId = elm.attr('html-editor-plugin-id');
-
                 var localId = attrs[directiveId];
 
                 var toggleEditors = function () {
+
+                    var pluginId = elm.attr('html-editor-plugin-id');
+
+                    // if (pluginId)
 
                     if (!page.plugins[pluginId]) {
                         return;
@@ -351,16 +354,23 @@ var RcmAdminService = {
                             config
                         );
                     } else {
+
                         rcmHtmlEditorDestroy(
                             attrs.id
                         );
                     }
                 };
 
-                if (pluginId) {
+                page.events.on(
+                    'editingStateChange',
+                    toggleEditors
+                );
 
-                    toggleEditors();
-                }
+
+                page.events.on(
+                    'updateView',
+                    toggleEditors
+                );
             }
         }
     },
@@ -1263,19 +1273,16 @@ var RcmAdminService = {
                         }
                     );
 
-                    //console.log(data);
-
                     jQuery.post(
                         RcmAdminService.config.saveUrl + '/' + data.type + '/' + data.name + '/' + data.revision,
                         data,
                         function (msg) {
                             self.setLoading(false);
-                            //console.log("done: ", msg);
                             //self.events.trigger('alert', {type:'success',message: 'Page saved'});
                             if (msg.redirect) {
                                 window.location = msg.redirect;
                             } else {
-                                console.log("done: ", msg.redirect);
+
                                 self.events.trigger('alert', {
                                     type: 'warning',
                                     message: msg
@@ -1287,7 +1294,6 @@ var RcmAdminService = {
                     ).fail(
                         function (msg) {
                             self.setLoading(false);
-                            //console.error("error: ", msg);
                             self.events.trigger('alert', {
                                 type: 'warning',
                                 message: msg
@@ -1765,6 +1771,8 @@ var RcmAdminService = {
                 }
             );
 
+            self.page.events.trigger('prepareEditors', self);
+
             if (typeof onComplete === 'function') {
                 onComplete(self);
             }
@@ -1847,12 +1855,31 @@ var RcmAdminService = {
         };
 
         /**
-         * updateView
+         * updateView - ONLY use this if needed - will cause issues with ng-repaet and possibly other
+         * @todo - option for elm
          * @param onComplete
          */
-        self.updateView = function (onComplete) {
+        self.updateView = function (elm, onComplete) {
 
-            self.pluginReady(onComplete);
+            self.prepareEditors(
+                function (plugin) {
+
+                    if (!elm) {
+                        elm = plugin.getElm()
+                    }
+
+                    RcmAdminService.angularCompile(
+                        elm,
+                        function () {
+                            self.page.events.trigger('updateView', plugin);
+                        }
+                    );
+
+                    if (typeof onComplete === 'function') {
+                        onComplete(plugin);
+                    }
+                }
+            );
         };
 
         /**
@@ -1863,9 +1890,7 @@ var RcmAdminService = {
             self.prepareEditors(
                 function (plugin) {
 
-                    RcmAdminService.angularCompile(plugin.getElm());
-
-                    self.page.events.trigger('pluginReady:' + plugin.id, plugin);
+                    self.page.events.trigger('pluginReady', plugin);
 
                     if (typeof onComplete === 'function') {
                         onComplete(plugin);
