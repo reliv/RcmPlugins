@@ -1,9 +1,5 @@
 <div style="display:none">
-    <div rcm-brightcove-player-edit="<?= $instanceId ?>"
-         rcm-brightcove-player-edit-config="<?=
-         htmlentities(json_encode($instanceConfig))
-         ?>"
-        >
+    <div rcm-brightcove-player-edit="<?= $instanceId ?>">
         <form style="display:none"
               title="Brightcove Player Editor"
               novalidate
@@ -12,35 +8,24 @@
 
             <div>
                 <div>
-                    <select
-                        name="selection"
-                        ng-model="selectedItem"
-                        ng-init="selectedItem = selectedItem"
-                        data-selection="{{selectedItem.id}}"
-                        ng-options="item.id as item.name for item in items">
+                    <select name="type">
+                        <option value="single-embed">
+                            Single Video Player
+                        </option>
+                        <option value="multi-embed">
+                            Multi-Video Player With Tabs
+                        </option>
                     </select>
                 </div>
-                <div class="selection"
-                     ng-show="selectedItem == 'single-embed'"
-                    >
+                <div class="single-embed-options">
 
                     <br/>Choose video:<br/>
-                    <select
-                        name="video"
-                        ng-model="selectedVideos"
-                        ng-options="video.name for video in videos">
-                    </select>
-
-                    <br/>
-
-                    <div class="singleVideo" style="display:none;">
-                        {{selectedVideos.id}}
-                    </div>
-                    <br/>
-                    <img ng-src="{{selectedVideos.thumbnailURL}}"/>
+                    <select name="video"></select>
+                    <img class="thumbnailPreview"/>
+<!--                    <img ng-src="{{selectedVideo.thumbnailURL}}"/>-->
                     <br/>
                 </div>
-                <div class="selection" ng-show="selectedItem == 'multi-embed'">
+                <div class="multi-embed-options">
                     <br/><br/>
 
                     <div rcm-brightcove-player-edit-multi-select></div>

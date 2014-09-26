@@ -21,60 +21,52 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
      */
     var me = this;
 
-    /**
-     * Settings from db
-     * @type {Object}
-     */
-    var instanceConfig;
-
-    /**
-     * Default settings from config json file
-     * @type {Object}
-     */
-    var defaultInstanceConfig;
-
-    var playerController = {};
-
-    var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, pluginHandler);
+    var form = container.find('form');
+    var type;
+    var typeSelect = form.find('select[name=type]');
+    var videoSelect = form.find('select[name=video]');
+    var renderCorrectOptionForm = function () {
+        type = typeSelect.val();
+        form.find('.single-embed-options').hide();
+        form.find('.multi-embed-options').hide();
+        form.find('.' + type + '-options').show();
+    };
 
     /**
      * Called by content management system to make this plugin user-editable
      */
     this.initEdit = function () {
+        container.dblclick(me.showEditDialog);
 
-        ajaxEditHelper.ajaxGetInstanceConfigs(
-            function (returnedData, returnedDefaultData) {
-
-                instanceConfig = returnedData;
-
-                defaultInstanceConfig = returnedDefaultData;
-
-                RcmBrightcovePlayerService.dedefaultInstanceConfig = defaultInstanceConfig;
-
-                container.dblclick(me.showEditDialog);
-
-                // This was moved from a down below
-                pluginHandler.updateView();
-
-                //Add right click menu
-                $.contextMenu(
-                    {
-                        selector: rcm.getPluginContainerSelector(instanceId),
-                        //Here are the right click menu options
-                        items: {
-                            edit: {
-                                name: 'Edit Properties',
-                                icon: 'edit',
-                                callback: function () {
-                                    me.showEditDialog();
-                                }
-                            }
+        //Add right click menu
+        $.contextMenu(
+            {
+                selector: rcm.getPluginContainerSelector(instanceId),
+                //Here are the right click menu options
+                items: {
+                    edit: {
+                        name: 'Edit Properties',
+                        icon: 'edit',
+                        callback: function () {
+                            me.showEditDialog();
                         }
                     }
-                );
+                }
             }
         );
 
+        RcmBrightcoveApiService.requestVideoList(
+            function (items) {
+                $.each(items, function () {
+                    var option = $('<option></option>');
+                    option.val(this.id);
+                    option.html(this.name);
+                    videoSelect.append(option)
+                });
+            }
+        );
+
+        typeSelect.change(renderCorrectOptionForm);
     };
 
     /**
@@ -84,8 +76,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
      * @return {Object}
      */
     this.getSaveData = function () {
-
-        return instanceConfig;
+        return RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig;
     };
 
     /**
@@ -93,9 +84,6 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
      */
     this.showEditDialog = function () {
 
-        //$(".hide-vid").hide();
-
-        var form = container.find('form');
 
         $(function () {
             $("ul.droptrue").sortable(
@@ -114,6 +102,10 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
             $("#sortable1, #sortable2").disableSelection();
         });
 
+        type = RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig.type;
+        typeSelect.val(type);
+        videoSelect.val(RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['videoId']);
+        renderCorrectOptionForm();
         form.dialog(
             {
                 width: '660px',
@@ -124,28 +116,23 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
                     },
                     "OK": function () {
 
-                        var selection = form.find("[name=selection]").attr("data-selection");
+                        RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['type'] = type;
 
-                        instanceConfig['type'] = selection;
-
-                        if (selection == 'single-embed') {
-
-                            var getVideoId = form.find(".singleVideo").html();
-
-                            instanceConfig['videoId'] = $.trim(getVideoId);
+                        if (type == 'single-embed') {
+                            RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['videoId']
+                                = videoSelect.val();
 
                         } else {
 
-                            instanceConfig['playlistIds'] = [];
+                            RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['playlistIds'] = [];
 
                             var lis = form.find('ul.playlist-list li');
 
                             $.each(lis, function () {
                                 var playlistId = $(this).attr('data-id');
-                                instanceConfig['playlistIds'].push(parseInt(playlistId));
+                                RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['playlistIds'].push(parseInt(playlistId));
                             });
                         }
-
                         $(this).dialog("close");
                     }
                 }
@@ -158,53 +145,32 @@ angular.module('rcmBrightcovePlayerEdit', [])
     .directive(
     'rcmBrightcovePlayerEdit',
     function () {
-
         var link = function (scope, elm, attrs) {
-
-            // var instanceId = attrs.rcmBrightcovePlayerEdit;
-            var instanceConfig = JSON.parse(attrs.rcmBrightcovePlayerEditConfig);
-
+            //@TODO MOVE EVERYTHING IN THIS DIRECTIVE TO THE JQUERY CONTROLLER ABOVE AND REMOVE THIS DIRECTIVE
+            var instanceId = attrs.rcmBrightcovePlayerEdit;
             scope.videos = [];
             scope.selectedVideos = null;
 
-            function fillDropdownList(items) {
+            RcmBrightcoveApiService.requestPlaylist(
+                function (data) {
+                    var allOfPlaylists = {};
+                    jQuery.extend(allOfPlaylists, data.items);
+                    var selectedIds = RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['playlistIds'];
+                    scope.unselectedPlaylist = [];
+                    scope.selectedPlaylist = [];
+                    jQuery.each(allOfPlaylists, function () {
 
-                scope.videos = items;
-                scope.selectedVideos = scope.videos[0];
-                scope.$apply();
-            };
-
-            RcmBrightcoveApiService.requestVideoList(fillDropdownList);
-
-            function processMultiselectResponse(data) {
-
-                var allOfPlaylists = {};
-                jQuery.extend(allOfPlaylists, data.items);
-                var selectedIds = instanceConfig['playlistIds'];
-                scope.unselectedPlaylist = [];
-                scope.selectedPlaylist = [];
-                jQuery.each(allOfPlaylists, function () {
-
-                    var pos = $.inArray(this.id, selectedIds);
-                    if (pos == -1) {
-                        scope.unselectedPlaylist.push(this);
-                    } else {
-                        scope.selectedPlaylist.push(this);
-                    }
-                });
-
-                scope.$apply();
-            };
-
-            RcmBrightcoveApiService.requestPlaylist(processMultiselectResponse);
-
-            scope.selectedItem = instanceConfig.type;
-
-            scope.items = [
-                { id: 'single-embed', name: 'single embed' },
-                { id: 'multi-embed', name: 'tabbed video player' }
-            ];
-        }
+                        var pos = $.inArray(this.id.toString(), selectedIds);
+                        if (pos == -1) {
+                            scope.unselectedPlaylist.push(this);
+                        } else {
+                            scope.selectedPlaylist.push(this);
+                        }
+                    });
+                    scope.$apply();
+                }
+            );
+        };
 
         return {
             link: link
@@ -223,7 +189,7 @@ angular.module('rcmBrightcovePlayerEdit', [])
             },
             template: '' +
                 '<div>' +
-                '<ul id="sortable1" class="droptrue connectedSortable" >' +
+                '<ul id="sortable1" class="droptrue connectedSortable" style="height:200px">' +
                 '<span style="padding: 5px;">' +
                 '        <strong>Unselected Playlists</strong>' +
                 '    </span>' +
@@ -237,7 +203,7 @@ angular.module('rcmBrightcovePlayerEdit', [])
                 '        {{playlist.name}}' +
                 '    </li>' +
                 '</ul>' +
-                '<ul id="sortable2" class="droptrue playlist-list">' +
+                '<ul id="sortable2" class="droptrue playlist-list" style="height:200px">' +
                 '    <span style="padding: 5px;">' +
                 '        <strong>Selected Playlists</strong>' +
                 '    </span>' +
@@ -251,7 +217,7 @@ angular.module('rcmBrightcovePlayerEdit', [])
                 '    </li>' +
                 '</ul>' +
                 '</div>' +
-                '</div>'
+                '</div><div style="clear:both"></div>'
         }
     }
 );
