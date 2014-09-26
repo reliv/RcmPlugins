@@ -31,6 +31,12 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
         form.find('.multi-embed-options').hide();
         form.find('.' + type + '-options').show();
     };
+    var renderVidPreview = function () {
+        if (videos[videoSelect.val()]) {
+            form.find('img.thumbnailPreview').attr('src', videos[videoSelect.val()].thumbnailURL);
+        }
+    };
+    var videos = [];
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -57,6 +63,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
 
         RcmBrightcoveApiService.requestVideoList(
             function (items) {
+                videos = items;
                 $.each(items, function () {
                     var option = $('<option></option>');
                     option.val(this.id);
@@ -66,6 +73,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
             }
         );
 
+        videoSelect.change(renderVidPreview);
         typeSelect.change(renderCorrectOptionForm);
     };
 
@@ -105,6 +113,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
         type = RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig.type;
         typeSelect.val(type);
         videoSelect.val(RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['videoId']);
+        renderVidPreview();
         renderCorrectOptionForm();
         form.dialog(
             {
