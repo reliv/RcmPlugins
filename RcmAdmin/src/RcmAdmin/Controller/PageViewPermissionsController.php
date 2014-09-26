@@ -150,7 +150,7 @@ class PageViewPermissionsController extends AbstractRestfulController
                 $this->getAclRule($roleId, $resourceId, 'deny')
             );
         }
-    }
+    }  
 
     /**
      * addPermission
