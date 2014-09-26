@@ -117,7 +117,7 @@ var RcmDialog = {
             );
 
             // Set flag if elm is not ready
-            if(!self.elm){
+            if (!self.elm) {
                 self.preOpened = true;
             }
 
@@ -137,7 +137,7 @@ var RcmDialog = {
                 self
             );
 
-            if (self.elm  && self.openState !== 'closed') {
+            if (self.elm && self.openState !== 'closed') {
 
                 self.openState = 'close';
                 self.elm.modal('hide');
@@ -237,7 +237,7 @@ angular.module(
                 'aria-labelledby="myModalLabel"' +
                 'aria-hidden="true"></div>';
 
-            var updateElm = function(dialog) {
+            var updateElm = function (dialog) {
 
                 var id = null;
                 var newModal = null;
@@ -492,9 +492,9 @@ angular.module(
 
                     var dialog = RcmDialog.getDialog(dialogId);
 
-                    scope.save = function () {
-                        dialog.actions.save();
-                    };
+                    if(dialog.actions.save){
+                        scope.save = dialog.actions.save;
+                    }
 
                     $http({method: 'GET', url: dialog.url}).
                         success(function (data, status, headers, config) {
@@ -503,7 +503,8 @@ angular.module(
                                     $compile(contentBody)(scope);
                                 }).
                         error(function (data, status, headers, config) {
-
+                                  var msg = "Sorry but there was an error: ";
+                                  scope.error(msg + status);
                               });
 
                     scope.title = dialog.title;
@@ -526,6 +527,7 @@ angular.module(
                 '    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
                 '    <h1 class="modal-title" id="myModalLabel">{{title}}</h1>' +
                 '   </div>' +
+                '   <div class="alert alert-warning" role="alert" ng-show="error">{{error}}</div>' +
                 '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
                 '   <div class="modal-footer">' +
                 '    <button type="button" class="btn btn-default" data-dismiss="modal" data-ng-click="close()" >' +

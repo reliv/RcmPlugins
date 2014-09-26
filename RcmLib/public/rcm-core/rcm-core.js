@@ -103,20 +103,20 @@ var rcm = new function () {
 
         var angularModule = angular.module('rcm', self.moduleDepenencies)
             .config(
-                [
-                    '$ocLazyLoadProvider',
-                    function ($ocLazyLoadProvider) {
-                        $ocLazyLoadProvider.config(
-                            {
-                                //asyncLoader: requirejs,
-                                debug: true,
-                                events: true,
-                                loadedModules: ['rcm']
-                            }
-                        );
-                    }
-                ]
-            );
+            [
+                '$ocLazyLoadProvider',
+                function ($ocLazyLoadProvider) {
+                    $ocLazyLoadProvider.config(
+                        {
+                            //asyncLoader: requirejs,
+                            debug: true,
+                            events: true,
+                            loadedModules: ['rcm']
+                        }
+                    );
+                }
+            ]
+        );
 
         angular.element(document).ready(
             function () {
@@ -147,7 +147,7 @@ var rcm = new function () {
                     }
                 };
 
-                self.safeApply = function(scope, fn){
+                self.safeApply = function (scope, fn) {
                     var phase = scope.$root.$$phase;
                     if (phase == '$apply' || phase == '$digest') {
                         if (fn && (typeof(fn) === 'function')) {
@@ -164,14 +164,18 @@ var rcm = new function () {
 
                 self.angularCompile = function (elm, fn) {
 
+                    console.warn('rcm.angularCompile can cause problems for other angular directives!');
+
                     var content = elm.contents();
 
-                    angular.element(document).injector().invoke(function ($compile) {
-                        var scope = angular.element(content).scope();
-                        $compile(content)(scope);
-                        self.safeApply(scope, fn);
-                        //self.rootScope.safeApply(fn);
-                    });
+                    angular.element(document).injector().invoke(
+                        function ($compile) {
+                            var scope = angular.element(content).scope();
+                            $compile(content)(scope);
+                            self.safeApply(scope, fn);
+                            //self.rootScope.safeApply(fn);
+                        }
+                    );
                 };
                 /*
                  self.scope.$on('ocLazyLoad.moduleLoaded', function (e, module) {
@@ -197,7 +201,7 @@ var rcm = new function () {
      */
     self.getPluginContainerSelector = function (instanceId) {
 
-        return('[data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
+        return ('[data-rcmPluginInstanceId="' + instanceId + '"] .rcmPluginContainer');
     };
 
     /**

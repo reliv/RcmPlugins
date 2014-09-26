@@ -105,7 +105,7 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
     };
 
     this.addTab = function (type) {
-        var newId = me.getGreatestTabId() + 1;
+        var newId = parseInt(me.getGreatestTabId()) + 1;
 
         me.addTabTitle(newId, type);
 
@@ -117,7 +117,7 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
                 me.addRawHtmlTab(newId);
                 break;
         }
-
+        me.pluginHandler.updateView();
         me.refresh();
     };
 
@@ -143,7 +143,6 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
             '<p>Lorem ipsum</p>' +
             '</div>'
         ));
-        me.pluginHandler.updateView();
     };
 
     this.addRawHtmlTab = function (newId) {
