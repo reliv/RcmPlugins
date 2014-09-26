@@ -147,9 +147,9 @@ class PageViewPermissionsController extends AbstractRestfulController
 
         if(count($roles) > 0) {
             $this->aclDataService->createRule(
-                $this->getAclRule($roleId, $resourceId, 'deny')
+                $this->getAclRule('guest', $resourceId, 'deny')
             );
-        } 
+        }
     }
 
     /**
