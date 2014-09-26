@@ -1,6 +1,9 @@
 <div oc-lazy-load="{name: 'pagePermissions'}">
     <div class="pagePermissions">
-        <div rcm-page-permissions rcm-page-permissions-data="<?php echo $this->escapeHtmlAttr(json_encode($data))?>" class="modal-dialog">
+        <div rcm-page-permissions
+             rcm-page-permissions-data="<?php echo $this->escapeHtmlAttr(
+                 json_encode($data)
+             ) ?>" class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"
@@ -10,18 +13,18 @@
                 </div>
                 <div class="modal-body">
                     <div class="permissionsBody">
-                    <div class="wrapperPagePerm">
-                        <h2>Who can view this page?</h2><br>
-                        <div multi-select
-                            input-model="roles"
-                            output-model="selectedItems"
-                            button-label="name"
-                            item-label="name"
-                            tick-property="ticked"
-                            >
+                        <div class="wrapperPagePerm">
+                            <h2>Who can view this page?</h2><br>
+                            <div multi-select
+                                 input-model="roles"
+                                 output-model="selectedItems"
+                                 button-label="name"
+                                 item-label="name"
+                                 tick-property="ticked"
+                                >
+                            </div>
                         </div>
-                     </div>
-                     </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
