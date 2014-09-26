@@ -86,11 +86,12 @@ class PagePermissionsController extends AbstractActionController
         //getting list of all dynamically created roles
         $allRoles = $aclDataService->getAllRoles()->getData();
 
-
         $roleIds = array();
         $rolesHasRules = array();
         foreach ($rules as $setRuleFor) {
-            $rolesHasRules[] = $setRuleFor->getRoleId();
+            if($setRuleFor->getRule() == 'allow') {
+                $rolesHasRules[] = $setRuleFor->getRoleId();
+            }
         }
 
         foreach ($allRoles as $role) {

@@ -99,10 +99,9 @@ class PageViewPermissionsController extends AbstractRestfulController
         //DELETE ALL PERMISSIONS
         $this->deletePermissions($resourceId);
 
-
         $this->addPermissions($roles, $resourceId);
 
-        return new JsonModel(array($resourceId));
+        return new JsonModel(array());
 
     }
 
@@ -140,9 +139,9 @@ class PageViewPermissionsController extends AbstractRestfulController
             return;
         }
 
-        foreach ($roles as $role) {
-            $roleId = $this->aclDataService->getRoleByRoleId($role);
-            $this->addPermission($role, $roleId);
+        foreach ($roles as $roleId) {
+
+            $this->addPermission($roleId, $resourceId);
         }
 
         $this->addPermission('guest', $resourceId, 'deny');
@@ -158,9 +157,15 @@ class PageViewPermissionsController extends AbstractRestfulController
      */
     public function addPermission($roleId, $resourceId)
     {
-        $this->aclDataService->createRule(
-            $this->getAclRule($roleId, $resourceId)
-        );
+       if($roleId == 'guest' && $resourceId != null) {
+           $this->aclDataService->createRule(
+               $this->getAclRule($roleId, $resourceId, 'deny')
+           );
+       } else {
+           $this->aclDataService->createRule(
+               $this->getAclRule($roleId, $resourceId)
+           );
+       }
     }
 
     /**
