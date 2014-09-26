@@ -255,6 +255,7 @@ return array(
                     'modules/rcm-admin/js/dialog/rcm-dialog.js',
                     'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
                     'modules/rcm-admin/js/admin/rcm-admin.js',
+                    'modules/rcm-admin/js/admin/rcm-edit.js',
                     'modules/rcm-admin/js/jquery/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/admin/ajax-plugin-edit-helper.js',
                     'modules/rcm-admin/js/admin/available-plugins-menu.js',
@@ -262,9 +263,8 @@ return array(
                     'modules/rcm-admin/js/admin/plugin-drag.js',
                     'modules/rcm-admin/js/admin/session.js',
                     'modules/rcm-admin/js/permissions/page-permissions.js',
-                    'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js'
-
-//                    'modules/rcm-admin/js/dialog/rcm-popout-window.js',
+                    'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js',
+                    'modules/rcm-admin/js/dialog/rcm-popout-window.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
