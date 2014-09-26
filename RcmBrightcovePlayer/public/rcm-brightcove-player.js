@@ -316,7 +316,6 @@ var RcmBrightcovePlayerService = {
         } else {
             RcmBrightcovePlayerService.playerControllers[instanceId] = new RcmBrightcovePlayerSingle(instanceId, instanceConfig);
         }
-        RcmBrightcovePlayerService.playerControllers[instanceId].create = brightcove.createExperiences;
         RcmBrightcovePlayerService.playerControllers[instanceId].playerConfig = RcmBrightcovePlayerService.playerConfig;
     },
 

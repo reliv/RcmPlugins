@@ -29,7 +29,11 @@ var RcmBrightcoveApiService = {
             if (newNum < data['total_count']) {
                 requestPage(nextPage);
             } else {
-                callback(RcmBrightcoveApiService.items);
+                var sortedItems = {};
+                $.each(RcmBrightcoveApiService.items, function () {
+                    sortedItems[this.id] = this;
+                });
+                callback(sortedItems);
             }
         }
 
@@ -101,7 +105,7 @@ var RcmBrightcoveApiService = {
 
                     var renditions = data.renditions;
 
-                    if(!data.renditions){
+                    if (!data.renditions) {
                         return;//blank video
                     }
 
