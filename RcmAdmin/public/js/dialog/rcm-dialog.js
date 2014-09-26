@@ -109,6 +109,16 @@ var RcmDialog = {
             return self.strategyName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
         };
 
+        self.setAction = function (actionName, method) {
+
+            self.actions[actionName] = method;
+
+            RcmDialog.eventManager.trigger(
+                'dialog.setAction',
+                self
+            );
+        };
+
         self.open = function () {
 
             RcmDialog.eventManager.trigger(
@@ -305,7 +315,8 @@ angular.module(
     'rcmBlankDialog',
     [
         '$compile',
-        function ($compile) {
+        '$templateCache',
+        function ($compile, $templateCache) {
 
             var thisCompile = function (tElement, tAttrs, transclude) {
 
@@ -313,11 +324,11 @@ angular.module(
 
                     var dialogId = attrs.rcmBlankDialog;
 
-                    var dialog = RcmDialog.getDialog(dialogId);
+                    scope.dialog = RcmDialog.getDialog(dialogId);
 
-                    scope.loading = dialog.loading = false;
+                    $templateCache.remove(scope.dialog.url);
 
-                    scope.dialogTemplate = dialog.url;
+                    scope.loading = scope.dialog.loading = false;
 
                     scope.$apply();
                 };
@@ -328,7 +339,8 @@ angular.module(
             return {
                 restrict: 'A',
                 compile: thisCompile,
-                template: '<div ng-include="dialogTemplate">--{{dialogTemplate}}--</div>'
+                scope: [],
+                template: '<div ng-include="dialog.url">--{{dialog.url}}--</div>'
             }
         }
     ]
@@ -350,19 +362,8 @@ angular.module(
 
                     var dialogId = attrs.rcmBlankIframeDialog;
 
-                    var dialog = RcmDialog.getDialog(dialogId);
-
-                    scope.loading = dialog.loading = false;
-
-                    scope.url = dialog.url;
-                    scope.title = dialog.title;
-
-                    if (dialog.actions.save) {
-                        scope.save = function () {
-                            RcmDialog.dialogs[dialog.id].actions.save();
-                        };
-                    }
-                    scope.loading = false;
+                    scope.dialog = RcmDialog.getDialog(dialogId);
+                    scope.dialog.loading = false;
                     scope.$apply();
                 };
 
@@ -372,21 +373,22 @@ angular.module(
             return {
                 restrict: 'A',
                 compile: thisCompile,
+                scope: [],
                 template: '' +
-                '<div id="RcmStandardDialogTemplateIn" style="display: block;" ng-hide="loading">' +
+                '<div id="RcmStandardDialogTemplateIn" style="display: block;" ng-hide="dialog.loading">' +
                 '<div class="modal-dialog">' +
                 '    <div class="modal-content">' +
                 '        <div class="modal-header">' +
-                '            <button type="button" class="close" data-dismiss="modal"' +
-                '            aria-hidden="true">&times;</button>' +
-                '            <h1 class="modal-title" id="myModalLabel">{{title}}</h1>' +
+                '            <button type="button" class="close" XXXdata-dismiss="modal" aria-hidden="true" data-ng-click="dialog.actions.close()">&times;</button>' +
+                '            <h1 class="modal-title" id="myModalLabel">{{dialog.title}}</h1>' +
                 '        </div>' +
-                '        <div class="modal-body" style="height: 400px"><iframe src="{{url}}" style="width: 100%; height: 400px"></iframe>' +
+                '        <div class="modal-body" style="height: 400px">' +
+                '            <iframe src="{{dialog.url}}" style="width: 100%; height: 400px"></iframe>' +
                 '        </div>' +
                 '        <div class="modal-footer">' +
-                '            <button type="button" class="btn btn-default" data-dismiss="modal">Close' +
+                '            <button type="button" class="btn btn-default" XXXdata-dismiss="modal" ng-click="dialog.actions.close()">Close' +
                 '            </button>' +
-                '            <button ng-show="save" type="button" class="btn btn-primary saveBtn" ng-click="save()" ng-show="save">Save' +
+                '            <button ng-show="dialog.actions.save" type="button" class="btn btn-primary saveBtn" ng-click="dialog.actions.save()">Save' +
                 '            </button>' +
                 '        </div>' +
                 '    </div>' +
@@ -447,6 +449,8 @@ angular.module(
 
                     pre: function (scope, elm, attrs, controller, transcludeFn) {
 
+                        scope.dialog = dialog;
+
                         // @todo this is a hack to wait for any dependencies to load and then re-compile
                         var totalTime = (new Date().getTime() - startTime) * 2;
 
@@ -461,7 +465,7 @@ angular.module(
                     },
                     post: function (scope, elm, attrs, controller, transcludeFn) {
 
-                        scope.loading = dialog.loading = false;
+                        scope.dialog.loading = false;
                     }
                 }
             };
@@ -481,8 +485,9 @@ angular.module(
     'rcmStandardDialog',
     [
         '$compile',
+        '$timeout',
         '$http',
-        function ($compile, $http) {
+        function ($compile, $timeout, $http) {
 
             var thisCompile = function (tElement, tAttrs, transclude) {
 
@@ -490,13 +495,9 @@ angular.module(
 
                     var dialogId = attrs.rcmStandardDialog;
 
-                    var dialog = RcmDialog.getDialog(dialogId);
+                    scope.dialog = RcmDialog.getDialog(dialogId);
 
-                    if(dialog.actions.save){
-                        scope.save = dialog.actions.save;
-                    }
-
-                    $http({method: 'GET', url: dialog.url}).
+                    $http({method: 'GET', url: scope.dialog.url}).
                         success(function (data, status, headers, config) {
                                     var contentBody = elm.find(".modal-body");
                                     contentBody.html(data);
@@ -507,8 +508,7 @@ angular.module(
                                   scope.error(msg + status);
                               });
 
-                    scope.title = dialog.title;
-                    scope.loading = false;
+                    scope.dialog.loading = false;
 
                     scope.$apply();
                 };
@@ -519,21 +519,22 @@ angular.module(
             return {
                 restrict: 'A',
                 compile: thisCompile,
+                scope: [],
                 template: '' +
-                '<div id="RcmStandardDialogTemplateIn" style="display: block;" ng-hide="loading">' +
+                '<div id="RcmStandardDialogTemplateIn" style="display: block;" ng-hide="dialog.loading">' +
                 ' <div class="modal-dialog">' +
                 '  <div class="modal-content">' +
                 '   <div class="modal-header">' +
-                '    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-                '    <h1 class="modal-title" id="myModalLabel">{{title}}</h1>' +
+                '    <button type="button" class="close" XXXdata-dismiss="modal" aria-hidden="true" data-ng-click="dialog.actions.close()">&times;</button>' +
+                '    <h1 class="modal-title" id="myModalLabel">{{dialog.title}}</h1>' +
                 '   </div>' +
                 '   <div class="alert alert-warning" role="alert" ng-show="error">{{error}}</div>' +
                 '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
                 '   <div class="modal-footer">' +
-                '    <button type="button" class="btn btn-default" data-dismiss="modal" data-ng-click="close()" >' +
+                '    <button type="button" class="btn btn-default" XXXdata-dismiss="modal" data-ng-click="dialog.actions.close()" >' +
                 '     Close' +
                 '    </button>' +
-                '    <button ng-show="save" type="button" class="btn btn-primary saveBtn" data-ng-click="save()" >' +
+                '    <button ng-show="dialog.actions.save" type="button" class="btn btn-primary saveBtn" data-ng-click="dialog.actions.save()" >' +
                 '     Save' +
                 '    </button>' +
                 '   </div>' +
@@ -556,36 +557,44 @@ angular.module(
 
             var thisCompile = function (tElement, tAttrs, transclude) {
 
-
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
                     var dialogId = attrs.rcmFormDialog;
 
-                    var dialog = RcmDialog.getDialog(dialogId);
+                    scope.dialog = RcmDialog.getDialog(dialogId);
 
-                    scope.loading = dialog.loading;
+                    scope.dialog.setAction(
+                        'save',
+                        function () {
 
-                    $http({method: 'GET', url: dialog.url}).
+                            scope.dialog.loading = true;
+                            var content = elm.find(".modal-body");
+                            var form = elm.find('form');
+                            var data = form.serializeArray();
+                            var actionUrl = form.attr('action');
+                            content.load(
+                                actionUrl,
+                                data,
+                                function (response, status, xhr) {
+                                    scope.dialog.loading = false;
+                                }
+                            );
+                        }
+                    );
+
+                    $http({method: 'GET', url: scope.dialog.url}).
                         success(function (data, status, headers, config) {
 
                                     var contentBody = elm.find(".modal-body");
                                     contentBody.html(data);
                                     $compile(contentBody)(scope);
 
-                                    elm.find(".saveBtn").click(function (event) {
-                                        var form = elm.find('form');
-                                        var data = form.serializeArray();
-                                        var actionUrl = form.attr('action');
-                                        contentBody.load(actionUrl, data);
-                                    })
-                                    dialog.loading = false;
+                                    scope.dialog.loading = false;
                                 }).
                         error(function (data, status, headers, config) {
-                                  dialog.loading = false;
-                              });
+                                  scope.dialog.loading = false;
 
-                    scope.title = dialog.title;
-                    scope.loading = dialog.loading = false;
+                              });
 
                     scope.$apply();
                 };
@@ -596,20 +605,21 @@ angular.module(
             return {
                 restrict: 'A',
                 compile: thisCompile,
+                scope: [],
                 template: '' +
-                '<div id="RcmFormDialogIn" style="display: block;" ng-hide="loading">' +
+                '<div id="RcmFormDialogIn" style="display: block;" ng-hide="dialog.loading">' +
                 ' <div class="modal-dialog">' +
                 '  <div class="modal-content">' +
                 '   <div class="modal-header">' +
-                '    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-                '    <h1 class="modal-title" id="myModalLabel">{{title}}</h1>' +
+                '    <button type="button" class="close" XXXdata-dismiss="modal" aria-hidden="true" data-ng-click="dialog.actions.close()">&times;</button>' +
+                '    <h1 class="modal-title" id="myModalLabel">{{dialog.title}}</h1>' +
                 '   </div>' +
                 '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
                 '   <div class="modal-footer">' +
-                '    <button type="button" class="btn btn-default" data-dismiss="modal" data-ng-click="close()" >' +
+                '    <button type="button" class="btn btn-default" XXXdata-dismiss="modal" data-ng-click="dialog.actions.close()">' +
                 '     Close' +
                 '    </button>' +
-                '    <button type="button" class="btn btn-primary saveBtn" >' +
+                '    <button type="button" class="btn btn-primary saveBtn" data-ng-click="dialog.actions.save()" >' +
                 '     Save' +
                 '    </button>' +
                 '   </div>' +
