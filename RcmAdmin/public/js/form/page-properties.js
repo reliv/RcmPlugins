@@ -9,8 +9,8 @@ angular.module('rcmAdminPage', [])
         var self = this;
         //getting title, description and keywords from dom to our form
         $scope.title = $('title').html();
-        $scope.description = $('description').html();
-        $scope.keywords = $('keywords').html();
+        $scope.description = $('meta[name="description"]').attr('content');
+        $scope.keywords = $('meta[name="keywords"]').attr('content');
         //save function
         $scope.save = function () {
 
