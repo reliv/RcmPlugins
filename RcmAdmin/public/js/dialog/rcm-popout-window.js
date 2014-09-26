@@ -22,21 +22,6 @@ RcmPopoutWindow = function (
     language
     ) {
 
-    //if (language) {
-    //    pagePath = pagePath + '/' + language;
-    //}
-    //
-    //var dialog = RcmDialog.buildDialog(
-    //    pagePath, //id
-    //    title,
-    //    pagePath,
-    //    'rcmStandardDialog'
-    //);
-    //
-    //dialog.open();
-    //
-    //return dialog;
-
     console.log(pagePath);
 
     if (windowName == undefined || windowName == null || windowName == '') {
@@ -56,8 +41,6 @@ RcmPopoutWindow = function (
 
     $(popoutWidowDiv).load(pagePath + language, data, function (response, status, xhr) {
 
-        console.log(xhr);
-
         if (status == "error") {
             var msg = "Sorry but there was an error: ";
             $(popoutWidowDiv).html(msg + xhr.status + " " + xhr.statusText);
@@ -76,8 +59,8 @@ RcmPopoutWindow = function (
             height: height,
             width: width,
             open: function (event, ui) {
-                $('.ui-dialog').css('z-index',2000);
-                $('.ui-widget-overlay').css('z-index',2000);
+                $('.ui-dialog').css('z-index',3000);
+                $('.ui-widget-overlay').css('z-index',3000);
             }
         }
     );
