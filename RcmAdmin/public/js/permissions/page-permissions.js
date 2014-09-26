@@ -3,32 +3,35 @@
  */
 rcm.addAngularModule('pagePermissions');
 
-angular.module('pagePermissions',[])
+angular.module('pagePermissions',['multi-select'])
     .directive('rcmPagePermissions', ['$log', '$http',
         function ($log, $http) {
-
             var thisLink = function (scope, element, attrs) {
-                scope.initialRolesData = JSON.parse(attrs.rcmPagePermissionsData);
-                console.log(scope.initialRolesData);
-              // var rolesSelected = element.find('select option:selected').text();
+              var data = JSON.parse(attrs.rcmPagePermissionsData);
 
-//                scope.selected = [];
-//                    console.log(scope.selected);
-//                    var permissions = [
-//                        {
-//                            siteId: attrs.rcmPagePermissionsSiteId,
-//                            pageType: attrs.rcmPagePermissionsPageType,
-//                            pageName: attrs.rcmPagePermissionsPageName,
-//                            roles: scope.selected
-//                        }
-//                    ];
+               scope.roles = data.roles;
+                //preparing data to include only selected roles
+                var prepareData = function(){
+                    //getting read of ticked parameter and creating array of names only
+                    var roles = [];
+                    angular.forEach(scope.selectedItems, function (value) {
+                        roles.push(value['name']);
+                    });
+                    return {
+                    siteId: data.siteId,
+                    pageType: data.pageType,
+                    pageName: data.pageName,
+                    roles: roles
+                    }
+
+                };
 
                 scope.savePermissions = function () {
-
+                    var newData = prepareData();
                     $http({
                         method: 'PUT',
-                        url: 'api/admin/page/permissions/' + attrs.rcmPagePermissionsPageName,
-                        data: 'hi'
+                        url: 'api/admin/page/permissions/' + newData.pageName,
+                        data: newData
                     }).
                         success(function (data, status, headers, config) {
                         })
@@ -37,7 +40,6 @@ angular.module('pagePermissions',[])
                         });
                 }
             };
-
 
             return {link: thisLink}
         }

@@ -275,7 +275,8 @@ return array(
                     'modules/rcm-admin/css/layout-editor.css',
                     'modules/rcm-admin/css/rcm-admin-panel.css',
                     'modules/rcm-admin/css/rcm-admin-navigation.css',
-                    'modules/rcm-admin/css/permissions.css'
+                    'modules/rcm-admin/css/permissions.css',
+                    'modules/rcm-angular-js/angular-multi-select/angular-multi-select.css'
                 ),
             ),
         ),

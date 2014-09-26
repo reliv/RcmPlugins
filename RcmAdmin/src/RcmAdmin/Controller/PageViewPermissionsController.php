@@ -49,6 +49,7 @@ class PageViewPermissionsController extends AbstractRestfulController
 //            'Rcm\Service\SiteManager'
 //        )->getCurrentSiteId();
 
+
         $this->aclDataService = $this->getServiceLocator()->get(
             'RcmUser\Acl\AclDataService'
         );
@@ -60,13 +61,10 @@ class PageViewPermissionsController extends AbstractRestfulController
             'Rcm\Service\PageManager'
         );
 
-        $siteId = $data->siteId;
-
-        $pageName = $data->pageName;
-
-        $pageType = $data->pageType;
-
-        $roles = $data->roles;
+        $siteId = $data['siteId'];
+        $pageName = $data['pageName'];
+        $pageType = $data['pageType'];
+        $roles = $data['roles'];
 
 //        $roles = $data;
 //        $pageName = $id;
