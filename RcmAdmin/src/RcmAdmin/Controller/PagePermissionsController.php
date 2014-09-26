@@ -88,17 +88,32 @@ class PagePermissionsController extends AbstractActionController
 
 
         $roleIds = array();
-        $rolesHasRule = array();
+        $rolesHasRules = array();
         foreach ($rules as $setRuleFor) {
-            $rolesHasRule[] = $setRuleFor->getRoleId();
-        }
-        foreach ($allRoles as $role) {
-            $roleId = $role->getRoleId();
-            $roleIds[] = $roleId;
+            $rolesHasRules[] = $setRuleFor->getRoleId();
         }
 
-        $view->setVariable('roles', $roleIds);
-        $view->setVariable('rolesHasRules', $rolesHasRule);
+        foreach ($allRoles as $role) {
+            $roleId = $role->getRoleId();
+            if (in_array($roleId,$rolesHasRules)) {
+                $ticked = true;
+            } else {
+                $ticked = false;
+            }
+            $roleIds[] = [
+                'name' => $roleId,
+                'ticked' => $ticked
+            ];
+        }
+
+        $data = array(
+            'siteId' => $currentSiteId,
+            'pageType' => $pageType,
+            'pageName' => $sourcePageName,
+            'roles' => $roleIds
+        );
+
+        $view->setVariable('data',$data);
 
         $view->setVariable(
             'rcmPageName',
