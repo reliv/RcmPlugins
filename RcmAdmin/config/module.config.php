@@ -321,27 +321,4 @@ return array(
                 'RcmAdmin\Controller\PageViewPermissionsController',
         ),
     ),
-    'RcmUser' => array(
-        'Acl\Config' => array(
-
-            'ResourceProviders' => array(
-
-                'RcmAdmin' => 'RcmAdmin\Provider\RcmUserAclResourceProvider',
-                'RcmAdmin' => array(
-                    'page-permissions' => array(
-                        'resourceId' => 'page-permissions',
-                        'parentResourceId' => null,
-                        'privileges' => array(
-                            'read',
-                            'edit',
-                            'update',
-                            'create',
-                        ),
-                        'name' => 'Page permissions resource',
-                        'description' => 'Page permissions resource',
-                    ),
-                ),
-            ),
-        ),
-    ),
 );
