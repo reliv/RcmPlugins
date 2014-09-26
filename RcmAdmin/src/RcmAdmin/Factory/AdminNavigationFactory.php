@@ -272,6 +272,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             $return[] = array(
                 'label'  => $draft['createdDate']->format("r").' - '.$draft['author'],
                 'route'  => 'contentManagerWithPageType',
+                'class' => 'revision',
                 'params' => array(
                     'page' => $this->page['name'],
                     'pageType' => $this->page['pageType'],
