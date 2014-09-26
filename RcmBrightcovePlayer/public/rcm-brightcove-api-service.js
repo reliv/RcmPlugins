@@ -101,6 +101,10 @@ var RcmBrightcoveApiService = {
 
                     var renditions = data.renditions;
 
+                    if(!data.renditions){
+                        return;//blank video
+                    }
+
                     var biggestFrameWidth = 0;
                     var downloadUrl = null;
 

@@ -31,6 +31,7 @@ $this->headLink()->appendStylesheet(
     <script>
         RcmBrightcoveApiService.bgReadToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['readToken']; ?>';
         RcmBrightcoveApiService.bgUrlToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['urlToken']; ?>';
+        RcmBrightcovePlayerService.instantiatePlayerController(<?= htmlentities($instanceId)?>, <?=json_encode($instanceConfig)?>);
     </script>
     <?php
 

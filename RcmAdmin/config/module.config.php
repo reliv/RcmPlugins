@@ -26,17 +26,11 @@ return array(
                 'label' => 'Page',
                 'uri' => '#',
                 'pages' => array(
-                    'New' => array(
-                        'label' => 'New',
-                        'uri' => '#',
-                        'pages' => array(
-                            'Page' => array(
-                                'label' => 'Page',
-                                'route' => 'RcmAdmin\Page\New',
-                                'class' => 'RcmAdminMenu RcmFormDialog',
-                                'title' => 'New Page',
-                            ),
-                        ),
+                    'New Page' => array(
+                        'label' => 'New Page',
+                        'route' => 'RcmAdmin\Page\New',
+                        'class' => 'RcmAdminMenu RcmFormDialog',
+                        'title' => 'New Page',
                     ),
                     'Edit' => array(
                         'label' => 'Edit',
@@ -88,11 +82,13 @@ return array(
                     'Drafts' => array(
                         'label' => 'Drafts',
                         'uri' => '#',
+                        'class' => 'drafts',
                         'rcmIncludeDrafts' => true,
                     ),
                     'Restore' => array(
                         'label' => 'Restore',
                         'uri' => '#',
+                        'class' => 'restore',
                         'rcmIncludePublishedRevisions' => true
                     ),
                 ),
@@ -265,7 +261,10 @@ return array(
                     'modules/rcm-admin/js/admin/bootstrap-alert-confirm.js',
                     'modules/rcm-admin/js/admin/plugin-drag.js',
                     'modules/rcm-admin/js/admin/session.js',
-                    'modules/rcm-admin/js/dialog/rcm-popout-window.js',
+                    'modules/rcm-admin/js/permissions/page-permissions.js',
+                    'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js'
+
+//                    'modules/rcm-admin/js/dialog/rcm-popout-window.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
@@ -273,6 +272,8 @@ return array(
                     'modules/rcm-admin/css/layout-editor.css',
                     'modules/rcm-admin/css/rcm-admin-panel.css',
                     'modules/rcm-admin/css/rcm-admin-navigation.css',
+                    'modules/rcm-admin/css/permissions.css',
+                    'modules/rcm-angular-js/angular-multi-select/angular-multi-select.css'
                 ),
             ),
         ),
@@ -315,7 +316,7 @@ return array(
         ),
         'invokables' => array(
             'RcmAdmin\Controller\PagePermissionsController'
-            =>   'RcmAdmin\Controller\PagePermissionsController',
+            => 'RcmAdmin\Controller\PagePermissionsController',
             'RcmAdmin\Controller\PageViewPermissionsController' =>
                 'RcmAdmin\Controller\PageViewPermissionsController',
         ),

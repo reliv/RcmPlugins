@@ -11,13 +11,8 @@ angular.module('rcmBrightcovePlayer', [])
 
                 var instanceId = attrs.rcmBrightcovePlayerDownloadLink;
 
-                var instanceConfig = JSON.parse(attrs.rcmBrightcovePlayerDownloadLinkConfig);
-
                 var playerController = RcmBrightcovePlayerService.getPlayerController(
-                    instanceId,
-                    instanceConfig,
-                    function () {
-                    }
+                    instanceId
                 );
 
                 return function (scope, elm, attrs) {
@@ -50,97 +45,14 @@ angular.module('rcmBrightcovePlayer', [])
         '$compile',
         function ($compile) {
 
-            /* @todo - we need to revist this to mak things display on edit
-            var getTemplate = function (scope, playerController) {
-
-                var template = '<div>' +
-                    '<!-- Start of Brightcove Player -->' +
-                    '<object id="' + playerController.experienceId + '" class="BrightcoveExperience">' +
-                    ' <param name="bgcolor" value="#FFFFFF"/>' +
-                    ' <param name="width" value="' + playerController.instanceConfig.playerConfig.width + '"/>' +
-                    ' <param name="height" value="' + playerController.instanceConfig.playerConfig.height + '"/>' +
-                    ' <param name="playerID" value="' + playerController.instanceConfig.playerConfig.playerID + '"/>' +
-                    ' <param name="playerKey" value="' + playerController.instanceConfig.playerConfig.playerKey + '" />' +
-                    ' <param name="isVid" value="true"/>' +
-                    ' <param name="isUI" value="true"/>' +
-                    ' <param name="dynamicStreaming" value="true"/>' +
-                    ' <param name="mute" value="true"/>' +
-                    ' <param name="secureConnections" value="true"/>' +
-                    ' <param name="secureHTMLConnections" value="true"/>' +
-                    ' <param name="wmode" value="opaque"/>' +
-                    ' <param name="includeAPI" value="true" />';
-
-
-                if (playerController.videoId) {
-                    //template.concat('<param name="@videoPlayer" value="' + playerController.videoId + '"/>');
-                }
-
-                if (playerController.onTemplateLoad) {
-                    template.concat('<param name="templateLoadHandler" value="RcmBrightcovePlayerService.getPlayerController(\'' + playerController.instanceId + '\').onTemplateLoad"/>');
-                }
-
-                if (playerController.onTemplateReady) {
-                    template.concat('<param name="templateReadyHandler" value="RcmBrightcovePlayerService.getPlayerController(\'' + playerController.instanceId + '\').onTemplateReady"/>');
-                }
-
-                template.concat('</object>' +
-                                '<!-- End of Brightcove Player -->' +
-                                '</div>');
-
-                return template;
-            };
-
-            var getAngularTemplate = function (scope, playerController) {
-
-                scope.playerController = playerController;
-
-                var template = '<!-- Start of Brightcove Player -->' +
-                    '<object id="' + playerController.experienceId + '" class="BrightcoveExperience">' +
-                    ' <param name="bgcolor" value="#FFFFFF"/>' +
-                    ' <param name="width" value="{{playerController.instanceConfig.playerConfig.width}}"/>' +
-                    ' <param name="height" value="{{playerController.instanceConfig.playerConfig.height}}"/>' +
-                    ' <param name="playerID" value="{{playerController.instanceConfig.playerConfig.playerID}}"/>' +
-                    ' <param name="playerKey" value="{{playerController.instanceConfig.playerConfig.playerKey}}" />' +
-                    ' <param name="isVid" value="true"/>' +
-                    ' <param name="isUI" value="true"/>' +
-                    ' <param name="dynamicStreaming" value="true"/>' +
-                    ' <param name="mute" value="true"/>' +
-                    ' <param name="secureConnections" value="true"/>' +
-                    ' <param name="secureHTMLConnections" value="true"/>' +
-                    ' <param name="wmode" value="opaque"/>' +
-                    ' <param name="includeAPI" value="true" />';
-
-                if (scope.playerController.videoId) {
-                    //template.concat('<param name="@videoPlayer" value="' + scope.playerController.videoId + '"/>');
-                }
-
-                if (playerController.onTemplateLoad) {
-                    template.concat('<param name="templateLoadHandler" value="RcmBrightcovePlayerService.getPlayerController(\'' + scope.playerController.instanceId + '\').onTemplateLoad"/>');
-                }
-
-                if (playerController.onTemplateReady) {
-                    template.concat('<param name="templateReadyHandler" value="RcmBrightcovePlayerService.getPlayerController(\'' + scope.playerController.instanceId + '\').onTemplateReady"/>');
-                }
-
-                template.concat('</object>' +
-                                '<!-- End of Brightcove Player -->');
-
-                return jQuery(template);
-            };
-            */
-
             return {
                 compile: function (tElm, tAttrs) {
                     var instanceId = tAttrs.rcmBrightcovePlayer;
-                    var instanceConfig = JSON.parse(tAttrs.rcmBrightcovePlayerConfig);
 
                     var objectElm = tElm.children(":first");
 
                     var playerController = RcmBrightcovePlayerService.getPlayerController(
-                        instanceId,
-                        instanceConfig,
-                        function (playerCtrl) {
-                        }
+                        instanceId
                     );
 
                     objectElm.attr('id', playerController.experienceId);
@@ -158,53 +70,9 @@ angular.module('rcmBrightcovePlayer', [])
                     }
 
                     return function (scope, elm, attrs) {
-
                         scope.playerController = playerController;
                     };
 
-                    /**
-                    return function (scope, elm, attrs) {
-
-                        var instanceId = attrs.rcmBrightcovePlayer;
-                        var instanceConfig = JSON.parse(attrs.rcmBrightcovePlayerConfig);
-
-                        console.log('compile',instanceId, instanceConfig);
-
-                        var playerController = RcmBrightcovePlayerService.getPlayerController(
-                            instanceId,
-                            instanceConfig,
-                            function (playerCtrl) {
-
-                                console.log(playerCtrl);
-                                var template = getTemplate(scope, playerCtrl)
-
-                                //scope.$apply(
-                                //    function () {
-                                        var linkFn = $compile(template);
-
-                                        var content = linkFn(scope);
-
-                                        console.log(content);
-
-                                        elm.replaceWith(content);
-
-                                        playerCtrl.create();
-                                //    }
-                                //);
-                            }
-                        );
-
-
-                        //scope.$apply(
-                        //    function () {
-                        //        $compile(tElm)(scope);
-                        //        console.log('apply', elm.html());
-                        //        scope.playerController.create();
-                        //    }
-                        //);
-
-                    }
-                     */
                 },
 
                 restrict: 'A',
@@ -212,10 +80,10 @@ angular.module('rcmBrightcovePlayer', [])
                 template: '<!-- Start of Brightcove Player -->' +
                 '<object id="myExperienceXXX" class="BrightcoveExperience">' +
                 ' <param name="bgcolor" value="#FFFFFF"/>' +
-                ' <param name="width" value="{{playerController.instanceConfig.playerConfig.width}}"/>' +
-                ' <param name="height" value="{{playerController.instanceConfig.playerConfig.height}}"/>' +
-                ' <param name="playerID" value="{{playerController.instanceConfig.playerConfig.playerID}}"/>' +
-                ' <param name="playerKey" value="{{playerController.instanceConfig.playerConfig.playerKey}}" />' +
+                ' <param name="width" value="{{playerController.playerConfig.width}}"/>' +
+                ' <param name="height" value="{{playerController.playerConfig.height}}"/>' +
+                ' <param name="playerID" value="{{playerController.playerConfig.playerID}}"/>' +
+                ' <param name="playerKey" value="{{playerController.playerConfig.playerKey}}" />' +
                 ' <param name="isVid" value="true"/>' +
                 ' <param name="isUI" value="true"/>' +
                 ' <param name="dynamicStreaming" value="true"/>' +
@@ -322,13 +190,8 @@ angular.module('rcmBrightcovePlayer', [])
 
                     scope.instanceId = attrs.rcmBrightcovePlayerTabs;
 
-                    scope.instanceConfig = JSON.parse(attrs.rcmBrightcovePlayerTabsConfig);
-
                     scope.playerController = RcmBrightcovePlayerService.getPlayerController(
-                        scope.instanceId,
-                        scope.instanceConfig,
-                        function () {
-                        }
+                        scope.instanceId
                     );
 
                     if (!registeredEvent) {
@@ -418,8 +281,6 @@ angular.module('rcmBrightcovePlayer', [])
  */
 var RcmBrightcovePlayerService = {
 
-    defaultInstanceConfig: {},
-
     playerControllers: {},
 
     configs: {},
@@ -449,52 +310,17 @@ var RcmBrightcovePlayerService = {
         }
     },
 
-    buildInstanceConfig: function (instanceId, instanceConfig) {
-
-        if (!instanceConfig) {
-            instanceConfig = RcmBrightcovePlayerService.defaultInstanceConfig;
+    instantiatePlayerController: function (instanceId, instanceConfig) {
+        if (instanceConfig.type == 'multi-embed') {
+            RcmBrightcovePlayerService.playerControllers[instanceId] = new RcmBrightcovePlayerMulti(instanceId, instanceConfig);
+        } else {
+            RcmBrightcovePlayerService.playerControllers[instanceId] = new RcmBrightcovePlayerSingle(instanceId, instanceConfig);
         }
-
-        instanceConfig.playerConfig = RcmBrightcovePlayerService.playerConfig;
-
-        RcmBrightcovePlayerService.configs[instanceId] = instanceConfig;
-
-        return RcmBrightcovePlayerService.configs[instanceId];
+        RcmBrightcovePlayerService.playerControllers[instanceId].create = brightcove.createExperiences;
+        RcmBrightcovePlayerService.playerControllers[instanceId].playerConfig = RcmBrightcovePlayerService.playerConfig;
     },
 
-    getPlayerController: function (instanceId, instanceConfig, onComplete) {
-
-        instanceId = instanceId.toString();
-
-        instanceConfig = RcmBrightcovePlayerService.buildInstanceConfig(instanceId, instanceConfig);
-
-        if (RcmBrightcovePlayerService.playerControllers[instanceId]) {
-
-            RcmBrightcovePlayerService.playerControllers[instanceId].setInstanceConfig(instanceConfig);
-
-            if (typeof onComplete === 'function') {
-
-                onComplete(RcmBrightcovePlayerService.playerControllers[instanceId]);
-            }
-
-            return RcmBrightcovePlayerService.playerControllers[instanceId];
-        }
-
-        if (instanceConfig.type == 'multi-embed') {
-
-            RcmBrightcovePlayerService.playerControllers[instanceId] = new RcmBrightcovePlayerMulti(instanceId, instanceConfig, onComplete);
-            RcmBrightcovePlayerService.playerControllers[instanceId].create = brightcove.createExperiences;
-        } else {
-
-            RcmBrightcovePlayerService.playerControllers[instanceId] = new RcmBrightcovePlayerSingle(instanceId, instanceConfig, onComplete);
-            RcmBrightcovePlayerService.playerControllers[instanceId].create = brightcove.createExperiences;
-        }
-
-        if (typeof onComplete === 'function') {
-
-            onComplete(RcmBrightcovePlayerService.playerControllers[instanceId]);
-        }
-
+    getPlayerController: function (instanceId) {
         return RcmBrightcovePlayerService.playerControllers[instanceId];
     },
 
