@@ -1,4 +1,5 @@
 /**
+ * @deprecated
  * rcmEdit.adminPopoutWindow replacement
  * @param pagePath
  * @param height
@@ -45,8 +46,6 @@ RcmPopoutWindow = function (
             var msg = "Sorry but there was an error: ";
             $(popoutWidowDiv).html(msg + xhr.status + " " + xhr.statusText);
         }
-
-
 
         if (successCallback && typeof successCallback === 'function') {
             successCallback.call(popoutWidowDiv);
