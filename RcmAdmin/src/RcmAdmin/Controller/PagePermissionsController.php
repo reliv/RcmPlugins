@@ -17,6 +17,7 @@
 
 namespace RcmAdmin\Controller;
 
+use Aws\CloudFront\Exception\Exception;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
