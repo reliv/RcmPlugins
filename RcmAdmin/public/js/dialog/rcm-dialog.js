@@ -242,7 +242,7 @@ angular.module(
 
             var modalTemplate = '<div class="modal fade"' +
                 'id="TEMP"' +
-                'tabindex="-1"' +
+                //'tabindex="-1"' + // This causes issues
                 'role="dialog"' +
                 'aria-labelledby="myModalLabel"' +
                 'aria-hidden="true"></div>';
