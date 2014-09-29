@@ -265,6 +265,7 @@ return array(
                     'modules/rcm-admin/js/permissions/page-permissions.js',
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js',
                     'modules/rcm-admin/js/dialog/rcm-popout-window.js',
+                    'modules/rcm-admin/js/admin/rcm-save-ajax-admin-window.js'
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
