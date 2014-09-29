@@ -143,7 +143,7 @@ class PageViewPermissionsController extends AbstractRestfulController
         foreach ($roles as $roleId) {
 
             $this->addPermission($roleId, $resourceId);
-        } 
+        }
 
         if(count($roles) > 0) {
             $this->aclDataService->createRule(
