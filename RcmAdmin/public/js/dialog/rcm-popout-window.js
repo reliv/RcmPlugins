@@ -1,4 +1,5 @@
 /**
+ * @deprecated
  * rcmEdit.adminPopoutWindow replacement
  * @param pagePath
  * @param height
