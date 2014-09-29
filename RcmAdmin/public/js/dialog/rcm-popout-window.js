@@ -47,8 +47,6 @@ RcmPopoutWindow = function (
             $(popoutWidowDiv).html(msg + xhr.status + " " + xhr.statusText);
         }
 
-
-
         if (successCallback && typeof successCallback === 'function') {
             successCallback.call(popoutWidowDiv);
         }
