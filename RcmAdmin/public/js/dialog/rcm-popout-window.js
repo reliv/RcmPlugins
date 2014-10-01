@@ -23,8 +23,6 @@ RcmPopoutWindow = function (
     language
     ) {
 
-    console.log(pagePath);
-
     if (windowName == undefined || windowName == null || windowName == '') {
         windowName = 'rcmAdminPagePopoutWindow'
     }
