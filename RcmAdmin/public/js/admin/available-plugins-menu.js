@@ -3,7 +3,6 @@ var RcmAvailablePluginsMenu = {
     menu: null,
 
     hideShowSiteWides: function (plugins) {
-//JAMES!        console.log('hideShowSiteWides', plugins);
         //Ensures site-wides that are already on the page are hidden in list
         $.each($('.availablePluginsMenu .rcmPluginDrag.siteWide'), function () {
             var pluginDragWrapper = $(this);
@@ -64,8 +63,6 @@ var RcmAvailablePluginsMenu = {
                     $.each(plugins, function (displayNameStr, pluginInfo) {
                         newInstanceId--;
                         var instanceId = newInstanceId;
-                        //console.log(pluginInfo.siteWide);
-                        //console.log(pluginInfo);
                         var plugin = $('<div class="rcmPluginDrag panel-inner"></div>');
                         plugin.appendTo(collapseBody);
                         plugin.data('pluginName', pluginInfo.name);
