@@ -163,9 +163,9 @@ class PageViewPermissionsController extends AbstractRestfulController
     public function addPermission($roleId, $resourceId)
     {
 
-          $this->aclDataService->createRule(
-              $this->getAclRule($roleId, $resourceId)
-          );
+        $this->aclDataService->createRule(
+            $this->getAclRule($roleId, $resourceId)
+        );
 
     }
 
