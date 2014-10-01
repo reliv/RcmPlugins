@@ -36,7 +36,11 @@ angular.module('pagePermissions', ['multi-select'])
                         success(function (data, status, headers, config) {
                         })
                         .error(function (data, status, headers, config) {
-                            alert('Couldn\'t save list of permissions');
+                            jQuery().alert(
+                                'Couldn\'t save list of permissions!',
+                                null,
+                                'An error occured while saving'
+                            );
                         });
                 }
             };

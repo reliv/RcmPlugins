@@ -5,4 +5,21 @@
 .rcmRssFeedLine a {
     font-weight: bold;
     text-decoration: none;
+    color: #000000;
+}
+
+.rcmRssFeedReaderMainContainer h2 {
+    position: relative;
+    overflow: hidden;
+}
+.rcmRssFeedReaderMainContainer h2:after {
+    display: inline-block;
+    content: "";
+    height: 1px;
+    background: #b2b2b2;
+    position: absolute;
+    width: 80%;
+    top: 50%;
+    margin-top: -1px;
+    margin-left: 20px;
 }
