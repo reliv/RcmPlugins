@@ -45,10 +45,6 @@ class PageViewPermissionsController extends AbstractRestfulController
           ]
         }}
         */
-//        $this->siteId = $this->getServiceLocator()->get(
-//            'Rcm\Service\SiteManager'
-//        )->getCurrentSiteId();
-
 
         $this->aclDataService = $this->getServiceLocator()->get(
             'RcmUser\Acl\AclDataService'
@@ -66,13 +62,9 @@ class PageViewPermissionsController extends AbstractRestfulController
         $pageType = $data['pageType'];
         $roles = $data['roles'];
 
-//        $roles = $data;
-//        $pageName = $id;
-//        $siteId = '1';
-//        $pageType = 'n';
-
         //CREATE RESOURCE ID
         $resourceId = 'sites.' . $siteId . '.pages.' . 'n' . '.' . $pageName;
+        //  if (!$this->rcmUserIsAllowed(sites.{id}.admin, 'edit', 'RcmAdmin')) {
         //ACCESS CHECK
         if (!$this->rcmUserIsAllowed($resourceId, 'admin', 'RcmAdmin')) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
@@ -89,15 +81,20 @@ class PageViewPermissionsController extends AbstractRestfulController
             return;
         }
 
-
-
         if (!$this->isValidResourceId($resourceId)) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
 
             return;
         }
 
+        $allRoles = $this->aclDataService->getAllRolesData();
+//        var_dump($allRoles);
+
+//validate roles.  do they exist?
         //DELETE ALL PERMISSIONS
+//        foreach ($roles as $role){
+//
+//        }
         $this->deletePermissions($resourceId);
 
         $this->addPermissions($roles, $resourceId);
@@ -111,7 +108,7 @@ class PageViewPermissionsController extends AbstractRestfulController
      *
      * @param $resourceId
      *
-     * @return void
+     * @return boolean
      */
     public function deletePermissions($resourceId)
     {
@@ -122,7 +119,9 @@ class PageViewPermissionsController extends AbstractRestfulController
 
             $result = $this->aclDataService->deleteRule($rule);
 
-            //@TODO if(!r$result->isSuccess() then ????)
+            if(!$result->isSuccess() ){
+                throw new \Exception("Unable to delete rule.");
+            }
         }
     }
 
@@ -163,9 +162,9 @@ class PageViewPermissionsController extends AbstractRestfulController
     public function addPermission($roleId, $resourceId)
     {
 
-           $this->aclDataService->createRule(
-               $this->getAclRule($roleId, $resourceId)
-           );
+        $this->aclDataService->createRule(
+            $this->getAclRule($roleId, $resourceId)
+        );
 
     }
 
