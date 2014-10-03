@@ -447,7 +447,6 @@ var inputImageEventsDelegated = false;
          *
          * @param {String} description title to show user
          * @param {String} value the current value
-         * @param {Object} pluginHandler pluginHandler object
          *
          * @return String
          */
