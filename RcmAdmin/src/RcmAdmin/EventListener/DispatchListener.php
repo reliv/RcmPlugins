@@ -73,6 +73,8 @@ class DispatchListener
         $adminPanelController
             = $this->serviceLocator->get('RcmAdmin\Controller\AdminPanelController');
 
+        $adminPanelController->setEvent($event);
+
         $adminWrapper = $adminPanelController->getAdminWrapperAction();
 
         if (!$adminWrapper instanceof ViewModel) {
