@@ -116,7 +116,7 @@ class AdminPanelController extends AbstractActionController
         );
         //getting all set rules by resource Id
         $rules = $aclDataService->getRulesByResource($resourceId)->getData();
-        $restrictions = null;
+        
         if(count($rules) > 0) {
             $restrictions = true;
         } else {
