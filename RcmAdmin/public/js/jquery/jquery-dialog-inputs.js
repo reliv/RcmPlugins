@@ -39,7 +39,6 @@ var inputImageEventsDelegated = false;
     };
 
 
-
     /**
      * Displays a file picker window that is connected to an input box.
      *
@@ -448,40 +447,27 @@ var inputImageEventsDelegated = false;
          *
          * @param {String} description title to show user
          * @param {String} value the current value
-         * @param {Object} [toolBarConfig] tool bar config for ckEditor
          *
          * @return String
          */
-        richEdit: function (description, value, toolBarConfig) {
-
+        richEdit: function (description, value) {
             if (value == undefined || value == '' || value == null) {
                 value = '<p>&nbsp;</p>';
             }
 
-            if (typeof(toolBarConfig) == 'undefined') {
-                toolBarConfig = {
-                    toolbar: richEditToolbars.defaults
-                };
-            } else if (typeof(richEditToolbars[toolBarConfig]) != 'undefined') {
-                toolBarConfig = {
-                    toolbar: richEditToolbars[toolBarConfig]
-                };
-            }
-
             var id = $.fn.generateUUID();
-            var div = $('<div id="' + id + '" contenteditable="true">' + value + '</div>');
+            var div = $('<div id="' + id + '" data-rcm-html-edit>' + value + '</div>');
             var p = $(
-                '<p class="dialogElement" data-dialogCkEditId="' + id + '">' +
+                '<p class="dialogElement" data-dialogRichEditId="' + id + '">' +
                     '<label>' + description + '</label><br>' +
                     '</p>'
             );
             p.append(div);
             p.append('<br>');
-            // This terrible timeout hack is needed because the new version of
-            // ckEditor only works on elements that are in the DOM
             setTimeout(
                 function () {
-                    CKEDITOR.replace(id, toolBarConfig);
+                    RcmAdminService.angularCompile(p, function () {
+                    });
                 },
                 100
             );
@@ -579,9 +565,9 @@ var inputImageEventsDelegated = false;
                 } else {
                     //For ck editor inputs
 
-                    var ckEditId = dialogElement.attr('data-dialogckeditid');
-                    if (typeof(ckEditId) != 'undefined') {
-                        return CKEDITOR.instances[ckEditId].getData();
+                    var editId = dialogElement.attr('data-dialogRichEditId');
+                    if (typeof(editId) != 'undefined') {
+                        return $('#' + editId).html();
                     }
                 }
             } else {
@@ -596,10 +582,9 @@ var inputImageEventsDelegated = false;
 
                     return this;
                 } else {
-                    //For ck editor inputs
-                    var ckEditId = dialogElement.attr('data-dialogckeditid');
-                    if (typeof(ckEditId) != 'undefined') {
-                        return CKEDITOR.instances[ckEditId].setData(newVal);
+                    var editId = dialogElement.attr('data-dialogRichEditId');
+                    if (typeof(editId) != 'undefined') {
+                        return $('#' + editId).html();
                     }
 
                     return this;
