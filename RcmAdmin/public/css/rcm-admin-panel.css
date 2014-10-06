@@ -94,3 +94,10 @@ div.rcmPanelEditorToolbar {
 #rcmRevisionList .dropdown-menu {
     min-width: 300px;
 }
+.rcmPanelRightButtons .glyphicon.glyphicon-lock {
+    font-size: 1.5em;
+    padding: 3px 5px 0 5px;
+}
+.rcmPanelRightButtons .unlock {
+    padding: 3px 5px 0 5px;
+}

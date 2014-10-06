@@ -36,20 +36,6 @@ class PageViewPermissionsController extends AbstractRestfulController
      */
     public function update($id, $data)
     {
-        /*
-        {"data":{
-          "siteId":"1",
-          "pageType": "n",
-          "pageName": "my-profile",
-          "roles": [
-          ]
-        }}
-        */
-//        $this->siteId = $this->getServiceLocator()->get(
-//            'Rcm\Service\SiteManager'
-//        )->getCurrentSiteId();
-
-
         $this->aclDataService = $this->getServiceLocator()->get(
             'RcmUser\Acl\AclDataService'
         );
@@ -61,23 +47,55 @@ class PageViewPermissionsController extends AbstractRestfulController
             'Rcm\Service\PageManager'
         );
 
-        $siteId = $data['siteId'];
-        $pageName = $data['pageName'];
-        $pageType = $data['pageType'];
-        $roles = $data['roles'];
+        if (!is_array($data)) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->getResponse();
+        }
 
-//        $roles = $data;
-//        $pageName = $id;
-//        $siteId = '1';
-//        $pageType = 'n';
+        $currentSiteId = $this->getServiceLocator()->get(
+                'Rcm\Service\SiteManager'
+            )->getCurrentSiteId();
 
+        if (is_numeric($data['siteId']) && ($currentSiteId == $data['siteId'])) {
+            $siteId = $data['siteId'];
+        } else {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->getResponse();
+        }
+
+        if (is_string($data['pageName'])) {
+
+            $pageName = $data['pageName'];
+
+        } else {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->getResponse();
+        }
+
+        if (is_string($data['pageType']) && strlen($data['pageType']) == '1') {
+
+            $pageType = $data['pageType'];
+
+        } else {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->getResponse();
+        }
+
+        if (is_array($data['roles'])) {
+
+            $roles = $data['roles'];
+
+        } else {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->getResponse();
+
+        }
         //CREATE RESOURCE ID
         $resourceId = 'sites.' . $siteId . '.pages.' . 'n' . '.' . $pageName;
         //ACCESS CHECK
         if (!$this->rcmUserIsAllowed($resourceId, 'admin', 'RcmAdmin')) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
-
-            return;
+            return $this->getResponse();
         }
 
         //IS PAGE VALID?
@@ -85,20 +103,21 @@ class PageViewPermissionsController extends AbstractRestfulController
 
         if (!$validPage) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
-
-            return;
+            return $this->getResponse();
         }
 
-
-
         if (!$this->isValidResourceId($resourceId)) {
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
-
-            return;
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->getResponse();
         }
 
         //DELETE ALL PERMISSIONS
-        $this->deletePermissions($resourceId);
+        $deleteAllPermissions = $this->deletePermissions($resourceId);
+
+        if (!$deleteAllPermissions) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
+            return $this->getResponse();
+        }
 
         $this->addPermissions($roles, $resourceId);
 
@@ -111,7 +130,7 @@ class PageViewPermissionsController extends AbstractRestfulController
      *
      * @param $resourceId
      *
-     * @return void
+     * @return boolean
      */
     public function deletePermissions($resourceId)
     {
@@ -122,8 +141,12 @@ class PageViewPermissionsController extends AbstractRestfulController
 
             $result = $this->aclDataService->deleteRule($rule);
 
-            //@TODO if(!r$result->isSuccess() then ????)
+            if (!$result->isSuccess()) {
+                return false;
+            }
         }
+
+        return true;
     }
 
     /**
@@ -141,11 +164,10 @@ class PageViewPermissionsController extends AbstractRestfulController
         }
 
         foreach ($roles as $roleId) {
-
             $this->addPermission($roleId, $resourceId);
         }
 
-        if(count($roles) > 0) {
+        if (count($roles) > 0) {
             $this->aclDataService->createRule(
                 $this->getAclRule('guest', $resourceId, 'deny')
             );
@@ -162,11 +184,9 @@ class PageViewPermissionsController extends AbstractRestfulController
      */
     public function addPermission($roleId, $resourceId)
     {
-
-           $this->aclDataService->createRule(
-               $this->getAclRule($roleId, $resourceId)
-           );
-
+        $this->aclDataService->createRule(
+            $this->getAclRule($roleId, $resourceId)
+        );
     }
 
     /**

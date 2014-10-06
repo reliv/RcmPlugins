@@ -29,7 +29,6 @@
     <div ng-hide="rcmAdminPage.editMode">
         <div class="btn-group">
             <?php if ($layout->rcmDraft === true) : ?>
-
                 <button
                     class="btn btn-primary btn-xs rcmMenuPost publishBtn"
                     type="button"
@@ -46,10 +45,7 @@
                     <span class="glyphicon glyphicon-check"></span>
                     Publish
                 </button>
-
             <?php endif; ?>
-
-
             <button
                 class="btn btn-warning btn-xs"
                 rcm-admin-edit-button="page"
@@ -59,6 +55,11 @@
                 <span class="glyphicon glyphicon-edit"></span>
                 Edit
             </button>
+            <?php if(isset($restrictions) && $restrictions == true) : ?>
+                <span class="glyphicon glyphicon-lock"></span>
+            <?php else:?>
+                <span class="unlock"><img src="modules/rcm-admin/img/glyphicons_unlock.png" width="14px" height="16px"></span>
+            <?php endif;?>
         </div>
     </div>
 </div>
