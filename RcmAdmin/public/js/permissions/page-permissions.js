@@ -34,6 +34,14 @@ angular.module('pagePermissions', ['multi-select'])
                         data: newData
                     }).
                         success(function (data, status, headers, config) {
+                            if(newData.roles.length > 0) {
+                                $('#unlockPermissions').hide();
+                                $('#lockPermissions').show();
+                            } else {
+                                $('#lockPermissions').hide();
+                                $('#unlockPermissions').show();
+                            }
+
                         })
                         .error(function (data, status, headers, config) {
                             jQuery().alert(

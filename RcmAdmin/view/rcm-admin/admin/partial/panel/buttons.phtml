@@ -1,4 +1,4 @@
-<div class="rcmPanelRightButtons" data-rcm-admin-menu-actions>
+<div class="rcmPanelRightButtons"  data-rcm-admin-menu-actions>
     <div ng-show="rcmAdminPage.editMode">
         <div class="btn-group">
             <button
@@ -55,13 +55,17 @@
                 <span class="glyphicon glyphicon-edit"></span>
                 Edit
             </button>
-            <?php if(isset($restrictions) && $restrictions == true) : ?>
+            <div id="lockPermissions"
+                 style="<?= (!isset($restrictions)) ? 'display:none'
+                     : '' ?>">
                 <span class="glyphicon glyphicon-lock"></span>
-            <?php else:?>
-                <span class="unlock"><img src="modules/rcm-admin/img/glyphicons_unlock.png" width="14px" height="16px"></span>
-            <?php endif;?>
+            </div>
+            <div id="unlockPermissions"
+                 style="<?= (isset($restrictions) && $restrictions == true)
+                     ? 'display:none' : '' ?>"><span class="unlock">
+                        <img src="modules/rcm-admin/img/glyphicons_unlock.png" width="14px" height="16px"></span>
+            </div>
         </div>
     </div>
 </div>
-
 <div style="clear: both;"></div>
