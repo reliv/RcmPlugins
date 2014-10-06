@@ -1,0 +1,23 @@
+<link href="/modules/rcm-admin/css/manage-sites.css"
+      media="screen"
+      rel="stylesheet" type="text/css">
+<div ng-controller="rcmManageSites">
+    <table class="table panel panel-default">
+        <tr>
+            <th>Site Id</th>
+            <th>Primary Domain
+            <th></th>
+        </tr>
+        <tr ng-repeat="site in sites">
+            <td>{{site.siteId}}</td>
+            <td>{{site.domain}}</td>
+            <td>
+                <button ng-show="site.active"
+                        ng-click="disableSite(site)"
+                        class="btn btn-default">
+                    Disable Site
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
