@@ -84,7 +84,5 @@ class DispatchListener
         /** @var \Zend\View\Model\ViewModel $viewModel */
         $layout = $event->getViewModel();
         $layout->addChild($adminWrapper, 'rcmAdminPanel');
-
-        return;
     }
 }
