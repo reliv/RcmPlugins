@@ -70,9 +70,9 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
         template: 
             '<span class="multiSelect inlineBlock">' +        
-                '<button type="button" class="button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton();" ng-bind-html="varButtonLabel">' +
-                '</button>' +                              
-                '<div class="checkboxLayer">' +                        
+//                '<button type="button" class="button multiSelectButton" ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton();" ng-bind-html="varButtonLabel">' +
+//                '</button>' + /* idavis changed to customize page persmissions*/
+                '<div class="checkboxLayer">' +
                     '<form>' + 
                         '<div class="helperContainer" ng-if="displayHelper( \'filter\' ) || displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
                             '<div class="line" ng-if="displayHelper( \'all\' ) || displayHelper( \'none\' ) || displayHelper( \'reset\' )">' +
@@ -551,7 +551,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // close if ESC key is pressed.
                 if ( e.keyCode === 27 ) {
-                    angular.element( $scope.checkBoxLayer ).removeClass( 'show' );                    
+                    angular.element( $scope.checkBoxLayer ).removeClass( 'show' );
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
                     angular.element( document ).unbind( 'click', $scope.externalClickListener );
                     angular.element( document ).unbind( 'keydown', $scope.keyboardListener );                                                                            
@@ -569,7 +569,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 // close
                 if ( angular.element( $scope.checkBoxLayer ).hasClass( 'show' )) {                                          
-                    angular.element( $scope.checkBoxLayer ).removeClass( 'show' );                    
+                    angular.element( $scope.checkBoxLayer ).removeClass( 'show' );
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );                    
                     angular.element( document ).unbind( 'click', $scope.externalClickListener );
                     angular.element( document ).unbind( 'keydown', $scope.keyboardListener );                                    
@@ -586,7 +586,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                     helperItems = [];
                     helperItemsLength = 0;
 
-                    angular.element( $scope.checkBoxLayer ).addClass( 'show' );                         
+                    angular.element( $scope.checkBoxLayer ).addClass( 'show' );
                     angular.element( clickedEl ).addClass( 'buttonClicked' );                                        
                     angular.element( document ).bind( 'click', $scope.externalClickListener );
                     angular.element( document ).bind( 'keydown', $scope.keyboardListener );  

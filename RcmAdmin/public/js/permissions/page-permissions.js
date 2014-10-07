@@ -8,7 +8,6 @@ angular.module('pagePermissions', ['multi-select'])
         function ($log, $http) {
             var thisLink = function (scope, element, attrs) {
                 var data = JSON.parse(attrs.rcmPagePermissionsData);
-
                 scope.roles = data.roles;
                 //preparing data to include only selected roles
                 var prepareData = function () {
@@ -34,6 +33,14 @@ angular.module('pagePermissions', ['multi-select'])
                         data: newData
                     }).
                         success(function (data, status, headers, config) {
+                            if(newData.roles.length > 0) {
+                                $('#unlockPermissions').hide();
+                                $('#lockPermissions').show();
+                            } else {
+                                $('#lockPermissions').hide();
+                                $('#unlockPermissions').show();
+                            }
+
                         })
                         .error(function (data, status, headers, config) {
                             jQuery().alert(
