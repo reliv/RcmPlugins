@@ -81,8 +81,6 @@ class AdminPanelController extends AbstractActionController
             return null;
         }
 
-
-
         $view = new ViewModel();
         if($this->checkRestrictedPage() == true) {
             $view->setVariable('restrictions',true);
