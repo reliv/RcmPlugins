@@ -16,6 +16,8 @@
 .multiSelect .line {
     max-height: 34px;   
     overflow: hidden;
+    margin-right: 50px;
+    margin-bottom: 2px;
 }
 
 /* ! create a "column" */
@@ -89,9 +91,12 @@
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);    
-    min-width:278px;
-    display: none !important;
-    margin-right: 30px;
+    min-width:400px;
+    /*display: none !important;*/ /* idavis changed to customize page persmissions*/
+    margin-right: 20px;
+    margin-left: 20px;
+    width:90%;/* idavis added to customize page persmissions*/
+
 }
 
 /* container of helper elements */
@@ -139,13 +144,15 @@
     border: 1px solid #ccc;
     height: 26px;
     font-size: 14px;
-    width:100%;    
+    /*width:100%;    */
     padding-left:7px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */    
     color: #888;
     margin: 0px 0px 8px 0px;
+    float: right; /* idavis added to customize page persmissions*/
+    padding-bottom: 4px;   /* idavis added to customize page persmissions*/
 }
 
 /* helper elements on hover & focus */
@@ -176,6 +183,8 @@
 
 /* item labels */
 .multiSelect .multiSelectItem {
+    width: 90%; /* idavis added to customize page persmissions*/
+    margin-left: 20px;  /* idavis added to customize page persmissions*/
     display: block;
     padding: 3px;
     color: #444;       
@@ -187,7 +196,7 @@
     user-select: none;      
     border: 1px solid transparent;
     position: relative;
-    min-width:278px;
+    min-width:400px;  /* idavis added to customize page persmissions*/
 }
 
 /* Item labels: selected - Enable this if you want to apply styling on selected items */
