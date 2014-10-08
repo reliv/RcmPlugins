@@ -92,7 +92,7 @@
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);    
     min-width:400px;
-    /*display: none !important;*/ /* idavis changed to customize page persmissions*/
+    display: none !important;
     margin-right: 20px;
     margin-left: 20px;
     width:90%;/* idavis added to customize page persmissions*/
@@ -136,6 +136,12 @@
     line-height: 1.4;
     right : 2px;
     top: 2px;
+}
+
+@-moz-document url-prefix() {
+    .multiSelect .clearButton {
+        margin: 2px 2px 0;
+    }
 }
 
 /* filter */
