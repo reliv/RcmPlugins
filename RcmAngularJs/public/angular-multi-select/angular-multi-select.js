@@ -541,7 +541,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 clickedEl = element.children()[0];
 
                 // Just to make sure.. had a bug where key events were recorded twice
-                angular.element( document ).unbind( 'click', $scope.externalClickListener );
+               // angular.element( document ).unbind( 'click', $scope.externalClickListener );
                 angular.element( document ).unbind( 'keydown', $scope.keyboardListener );
 
                 // clear filter
@@ -552,7 +552,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 if ( e.keyCode === 27 ) {
                     angular.element( $scope.checkBoxLayer ).removeClass( 'show' );
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );
-                    angular.element( document ).unbind( 'click', $scope.externalClickListener );
+                    //angular.element( document ).unbind( 'click', $scope.externalClickListener );
                     angular.element( document ).unbind( 'keydown', $scope.keyboardListener );
 
                     // clear the focused element;
@@ -570,7 +570,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
                 if ( angular.element( $scope.checkBoxLayer ).hasClass( 'show' )) {
                     angular.element( $scope.checkBoxLayer ).removeClass( 'show' );
                     angular.element( clickedEl ).removeClass( 'buttonClicked' );
-                    angular.element( document ).unbind( 'click', $scope.externalClickListener );
+                    //angular.element( document ).unbind( 'click', $scope.externalClickListener );
                     angular.element( document ).unbind( 'keydown', $scope.keyboardListener );
 
                     // clear the focused element;
@@ -587,7 +587,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                     angular.element( $scope.checkBoxLayer ).addClass( 'show' );
                     angular.element( clickedEl ).addClass( 'buttonClicked' );
-                    angular.element( document ).bind( 'click', $scope.externalClickListener );
+                   // angular.element( document ).bind( 'click', $scope.externalClickListener );
                     angular.element( document ).bind( 'keydown', $scope.keyboardListener );
 
                     // to get the initial tab index, depending on how many helper elements we have.
