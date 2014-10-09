@@ -11,19 +11,6 @@ angular.module('pagePermissions', ['multi-select'])
                 setTimeout(function(){  $('.multiSelectButton').trigger('click');}, 1);
                 $('.multiSelectButton').hide();
                 var rolesCount = data.roles.length;
-                var allTruthyRoles = [];
-                angular.forEach(data.roles, function (value) {
-                    if (value['ticked'] == true) {
-                        allTruthyRoles.push(value['ticked']);
-                    }
-                });
-
-                if(allTruthyRoles == rolesCount) {
-                    $("#lockPermissionsNonEdit").hide();
-                    $("#unlockPermissionsNonEdit").show();
-                    $("#lockPermissionsEditMode").hide();
-                    $("#unlockPermissionsEditMode").show();
-                }
                 scope.roles = data.roles;
 
                  //preparing data to include only selected roles
