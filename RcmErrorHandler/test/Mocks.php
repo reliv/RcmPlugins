@@ -22,64 +22,23 @@ require_once __DIR__ . '/autoload.php';
 class Mocks extends \PHPUnit_Framework_TestCase
 {
 
-    public function getMockExceptionHandler()
+    public function getHandler()
     {
         /** @var \RcmErrorHandler\Handler\ExceptionHandler mockExceptionHandler */
-        $mockExceptionHandler = $this->getMockBuilder(
-            '\RcmErrorHandler\Handler\ExceptionHandler'
+        $mock = $this->getMockBuilder(
+            '\RcmErrorHandler\Handler\Handler'
         )
             ->disableOriginalConstructor()
             ->getMock();
-        $mockExceptionHandler->expects(
+        $mock->expects(
             $this->any()
         )
-            ->method('getException')
+            ->method('getFormatter')
             ->will(
-                $this->returnValue(new \Exception('TEST'))
+                $this->returnValue(null)
             );
-        return $mockExceptionHandler;
+        return $mock;
     }
-
-    public function getMockErrorHandler()
-    {
-        /** @var \RcmErrorHandler\Handler\ErrorHandler mockErrorHandler */
-        $mockErrorHandler = $this->getMockBuilder(
-            '\RcmErrorHandler\Handler\ErrorHandler'
-        )
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockErrorHandler->expects(
-            $this->any()
-        )
-            ->method('getErrstr')
-            ->will(
-                $this->returnValue('TEST')
-            );
-        $mockErrorHandler->expects(
-            $this->any()
-        )
-            ->method('getErrno')
-            ->will(
-                $this->returnValue(999)
-            );
-        $mockErrorHandler->expects(
-            $this->any()
-        )
-            ->method('getErrfile')
-            ->will(
-                $this->returnValue('\mock\test.php')
-            );
-        $mockErrorHandler->expects(
-            $this->any()
-        )
-            ->method('getErrline')
-            ->will(
-                $this->returnValue(333)
-            );
-
-        return $mockErrorHandler;
-    }
-
 
     public function getMockBacktrace()
     {
