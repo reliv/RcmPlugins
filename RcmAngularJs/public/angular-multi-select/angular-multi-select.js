@@ -632,7 +632,7 @@ angular.module( 'multi-select', ['ng'] ).directive( 'multiSelect' , [ '$sce', '$
 
                 angular.element( $scope.checkBoxLayer.previousSibling ).removeClass( 'buttonClicked' );
                 angular.element( $scope.checkBoxLayer ).removeClass( 'show' );
-                angular.element( document ).unbind( 'click', $scope.externalClickListener );
+                //angular.element( document ).unbind( 'click', $scope.externalClickListener );
                 angular.element( document ).unbind( 'keydown', $scope.keyboardListener );
 
                 // close callback                

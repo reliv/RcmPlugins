@@ -103,7 +103,6 @@ class AdminPanelController extends AbstractActionController
         $routeMatch = $this->getEvent()->getRouteMatch();
 
         $sourcePageName = $routeMatch->getParam('page', 'index');
-        $pageRevision = $routeMatch->getParam('revision', null);
         $pageType = $routeMatch->getParam('pageType', 'n');
 
         $resourceId = 'sites.' . $currentSiteId . '.pages.' . $pageType . '.'
@@ -114,10 +113,15 @@ class AdminPanelController extends AbstractActionController
         );
         //getting all set rules by resource Id
         $rules = $aclDataService->getRulesByResource($resourceId)->getData();
-        
-        if(count($rules) > 0) {
+        //getting list of all dynamically created roles
+        $allRoles = $aclDataService->getAllRoles()->getData();
+        //if all aal rolea rea selected than means no restrictions on page
+        if(count($rules) > 0 && count($rules) != count($allRoles)) {
             $restrictions = true;
-        } else {
+        } elseif(count($rules) == count($allRoles)) {
+            $restrictions = false;
+        }
+        else {
             $restrictions = false;
         }
 
