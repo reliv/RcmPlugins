@@ -31,8 +31,7 @@
 
 .rcmAdminPanelNav {
     background-color: #FFFFFF;
-    border-bottom: 1px solid #00A3E6;
-    width: 100%;
+    border-bottom: 1px solid black;
     position: relative;
     z-index: 1030;
     font-size: 11px;
@@ -93,4 +92,24 @@ div.rcmPanelEditorToolbar {
 
 #rcmRevisionList .dropdown-menu {
     min-width: 300px;
+}
+.rcmPanelRightButtons .glyphicon.glyphicon-lock {
+    font-size: 1.5em;
+    padding: 3px 5px 0 5px;
+}
+.rcmPanelRightButtons .unlock {
+    padding: 3px 5px 0 5px;
+}
+
+.rcmPanelRightButtons #unlockPermissionsNonEdit{
+    float:right;
+}
+.rcmPanelRightButtons #lockPermissionsNonEdit {
+    float:right;
+}
+.rcmPanelRightButtons #unlockPermissionsEditMode{
+    float:right;
+}
+.rcmPanelRightButtons #lockPermissionsEditMode {
+    float:right;
 }

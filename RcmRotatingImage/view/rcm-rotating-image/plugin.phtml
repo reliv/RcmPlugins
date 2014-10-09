@@ -14,19 +14,20 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-$this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-rotating-image/script.js',
-    'text/javascript'
-);
+
 ?>
 <div>
+    <script type="text/javascript" src="/modules/rcm-rotating-image/script.js" ></script>
     <a>
-    <div class="images">
-        <?php foreach ($instanceConfig['images'] as &$image) : ?>
-            <img src="<?= $image['src'] ?>" data-src="<?= $image['src'] ?>"
-                 data-href="<?= $image['href'] ?>"
-                 alt="<?= $image['href']?>">
-        <?php endforeach; ?>
-    </div>
+        <div class="images">
+            <?php foreach ($instanceConfig['images'] as &$image) : ?>
+                <img
+                     style="display:none"
+                     data-src="<?= $image['src'] ?>"
+                     data-href="<?= $image['href'] ?>"
+                     alt="<?= $image['href'] ?>">
+            <?php endforeach; ?>
+        </div>
     </a>
 </div>
+

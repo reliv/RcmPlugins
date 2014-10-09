@@ -1,4 +1,4 @@
-<div class="rcmPanelRightButtons" data-rcm-admin-menu-actions>
+<div class="rcmPanelRightButtons"  data-rcm-admin-menu-actions>
     <div ng-show="rcmAdminPage.editMode">
         <div class="btn-group">
             <button
@@ -23,13 +23,21 @@
                     ></span>
                 Cancel
             </button>
+            <div id="lockPermissionsEditMode"
+                 style="<?= (!isset($restrictions)) ? 'display:none'
+                     : '' ?>">
+                <span class="glyphicon glyphicon-lock"></span>
+            </div>
+            <div id="unlockPermissionsEditMode"
+                 style="<?= (isset($restrictions) && $restrictions == true)
+                     ? 'display:none' : '' ?>"><span class="unlock">
+                        <img src="modules/rcm-admin/img/glyphicons_unlock.png" width="14px" height="16px"></span>
+            </div>
         </div>
     </div>
-
     <div ng-hide="rcmAdminPage.editMode">
         <div class="btn-group">
             <?php if ($layout->rcmDraft === true) : ?>
-
                 <button
                     class="btn btn-primary btn-xs rcmMenuPost publishBtn"
                     type="button"
@@ -46,10 +54,7 @@
                     <span class="glyphicon glyphicon-check"></span>
                     Publish
                 </button>
-
             <?php endif; ?>
-
-
             <button
                 class="btn btn-warning btn-xs"
                 rcm-admin-edit-button="page"
@@ -59,8 +64,19 @@
                 <span class="glyphicon glyphicon-edit"></span>
                 Edit
             </button>
+            <div id="lockPermissionsNonEdit"
+                 style="<?= (!isset($restrictions)) ? 'display:none'
+                     : '' ?>">
+                <span class="glyphicon glyphicon-lock"></span>
+            </div>
+            <div id="unlockPermissionsNonEdit"
+                 style="<?= (isset($restrictions) && $restrictions == true)
+                     ? 'display:none' : '' ?>"><span class="unlock">
+
+                        <img src="/modules/rcm-admin/img/glyphicons_unlock.png" width="14px" height="16px"></span>
+
+            </div>
         </div>
     </div>
 </div>
-
 <div style="clear: both;"></div>

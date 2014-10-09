@@ -8,9 +8,12 @@ angular.module('pagePermissions', ['multi-select'])
         function ($log, $http) {
             var thisLink = function (scope, element, attrs) {
                 var data = JSON.parse(attrs.rcmPagePermissionsData);
-
+                setTimeout(function(){  $('.multiSelectButton').trigger('click');}, 1);
+                $('.multiSelectButton').hide();
+                var rolesCount = data.roles.length;
                 scope.roles = data.roles;
-                //preparing data to include only selected roles
+
+                 //preparing data to include only selected roles
                 var prepareData = function () {
                     //getting read of ticked parameter and creating array of names only
                     var roles = [];
@@ -26,6 +29,7 @@ angular.module('pagePermissions', ['multi-select'])
 
                 };
 
+
                 scope.savePermissions = function () {
                     var newData = prepareData();
                     $http({
@@ -34,6 +38,23 @@ angular.module('pagePermissions', ['multi-select'])
                         data: newData
                     }).
                         success(function (data, status, headers, config) {
+                            if(newData.roles.length > 0 && rolesCount != newData.roles.length) {
+                                $("#unlockPermissionsNonEdit").hide();
+                                $("#lockPermissionsNonEdit").show();
+                                $("#unlockPermissionsEditMode").hide();
+                                $("#lockPermissionsEditMode").show();
+                            } else if(rolesCount == newData.roles.length)
+                            {
+                                $("#lockPermissionsNonEdit").hide();
+                                $("#unlockPermissionsNonEdit").show();
+                                $("#lockPermissionsEditMode").hide();
+                                $("#unlockPermissionsEditMode").show();
+                            } else {
+                                $("#lockPermissionsNonEdit").hide();
+                                $("#unlockPermissionsNonEdit").show();
+                                $("#lockPermissionsEditMode").hide();
+                                $("#unlockPermissionsEditMode").show();
+                            }
                         })
                         .error(function (data, status, headers, config) {
                             jQuery().alert(

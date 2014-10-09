@@ -42,10 +42,8 @@ return array(
     'navigation' => array(
         'RcmAdminMenu' => array(
             'Site' => array(
-                'label' => 'Site',
-                'uri' => '#',
                 'pages' => array(
-                    'Page' => array(
+                    'Translations' => array(
                         'label' => 'Translations',
                         'class' => 'RcmAdminMenu RcmBlankDialog Translations',
                         'uri' => '/modules/rcm-i18n/message-editor.html',

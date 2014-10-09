@@ -16,6 +16,8 @@
 .multiSelect .line {
     max-height: 34px;   
     overflow: hidden;
+    margin-right: 50px;
+    margin-bottom: 2px;
 }
 
 /* ! create a "column" */
@@ -85,19 +87,28 @@
     background-color: #fff;
     position: absolute;
     z-index: 999;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);    
-    min-width:278px;
+    /*border: 1px solid rgba(0, 0, 0, 0.15);*/
+    /*border-radius: 4px;*/
+    /*-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);*/
+    /*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);*/
+    min-width:400px;
     display: none !important;
-    margin-right: 30px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width:90%;/* idavis added to customize page persmissions*/
+
 }
 
 /* container of helper elements */
 .multiSelect .helperContainer {
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
     padding: 8px 8px 0px 8px;
+    position: fixed;
+    z-index: 10;
+    top: 60px;
+    bottom: 348px;
+    width: 85%;
+    background-color: white;
 }
 
 /* helper buttons (select all, none, reset); */
@@ -133,19 +144,27 @@
     top: 2px;
 }
 
+@-moz-document url-prefix() {
+    .multiSelect .clearButton {
+        margin: 2px 2px 0;
+    }
+}
+
 /* filter */
 .multiSelect .inputFilter {
     border-radius: 2px; 
     border: 1px solid #ccc;
     height: 26px;
     font-size: 14px;
-    width:100%;    
+    /*width:100%;    */
     padding-left:7px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */    
     color: #888;
     margin: 0px 0px 8px 0px;
+    float: right; /* idavis added to customize page persmissions*/
+    padding-bottom: 4px;   /* idavis added to customize page persmissions*/
 }
 
 /* helper elements on hover & focus */
@@ -166,7 +185,8 @@
 /* container of multi select items */
 .multiSelect .checkBoxContainer {
     display: inline-block;
-    padding: 8px;   
+    padding: 8px;
+    position: relative;
 }
 
 /* ! to show / hide the checkbox layer above */
@@ -176,6 +196,8 @@
 
 /* item labels */
 .multiSelect .multiSelectItem {
+    width: 90%; /* idavis added to customize page persmissions*/
+    margin-left: 20px;  /* idavis added to customize page persmissions*/
     display: block;
     padding: 3px;
     color: #444;       
@@ -185,9 +207,9 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;      
-    border: 1px solid transparent;
+   /* border: 1px solid transparent;*/
     position: relative;
-    min-width:278px;
+    min-width:400px;  /* idavis added to customize page persmissions*/
 }
 
 /* Item labels: selected - Enable this if you want to apply styling on selected items */
