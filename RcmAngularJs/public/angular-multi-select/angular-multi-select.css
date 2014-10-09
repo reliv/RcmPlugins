@@ -87,10 +87,10 @@
     background-color: #fff;
     position: absolute;
     z-index: 999;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);    
+    /*border: 1px solid rgba(0, 0, 0, 0.15);*/
+    /*border-radius: 4px;*/
+    /*-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);*/
+    /*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);*/
     min-width:400px;
     display: none !important;
     margin-right: 20px;
@@ -101,8 +101,14 @@
 
 /* container of helper elements */
 .multiSelect .helperContainer {
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
     padding: 8px 8px 0px 8px;
+    position: fixed;
+    z-index: 10;
+    top: 60px;
+    bottom: 348px;
+    width: 85%;
+    background-color: white;
 }
 
 /* helper buttons (select all, none, reset); */
@@ -179,7 +185,8 @@
 /* container of multi select items */
 .multiSelect .checkBoxContainer {
     display: inline-block;
-    padding: 8px;   
+    padding: 8px;
+    position: relative;
 }
 
 /* ! to show / hide the checkbox layer above */
@@ -200,7 +207,7 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;      
-    border: 1px solid transparent;
+   /* border: 1px solid transparent;*/
     position: relative;
     min-width:400px;  /* idavis added to customize page persmissions*/
 }
