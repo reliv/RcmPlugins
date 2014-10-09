@@ -9,7 +9,7 @@ angular.module('pagePermissions', ['multi-select'])
             var thisLink = function (scope, element, attrs) {
                 var data = JSON.parse(attrs.rcmPagePermissionsData);
                 scope.roles = data.roles;
-                setTimeout(function(){  $('.multiSelectButton').trigger('click');}, 100);
+                setTimeout(function(){  $('.multiSelectButton').trigger('click');}, 1);
                 $('.multiSelectButton').hide();
                  //preparing data to include only selected roles
                 var prepareData = function () {
@@ -29,6 +29,7 @@ angular.module('pagePermissions', ['multi-select'])
 
                 scope.savePermissions = function () {
                     var newData = prepareData();
+                    var page = RcmAdminService.getPage();
                     $http({
                         method: 'PUT',
                         url: 'api/admin/page/permissions/' + newData.pageName,
@@ -36,13 +37,16 @@ angular.module('pagePermissions', ['multi-select'])
                     }).
                         success(function (data, status, headers, config) {
                             if(newData.roles.length > 0) {
-                                $('#unlockPermissions').hide();
-                                $('#lockPermissions').show();
+                                $("#unlockPermissionsNonEdit").hide();
+                                $("#lockPermissionsNonEdit").show();
+                                $("#unlockPermissionsEditMode").hide();
+                                $("#lockPermissionsEditMode").show();
                             } else {
-                                $('#lockPermissions').hide();
-                                $('#unlockPermissions').show();
+                                $("#lockPermissionsNonEdit").hide();
+                                $("#unlockPermissionsNonEdit").show();
+                                $("#lockPermissionsEditMode").hide();
+                                $("#unlockPermissionsEditMode").show();
                             }
-
                         })
                         .error(function (data, status, headers, config) {
                             jQuery().alert(
