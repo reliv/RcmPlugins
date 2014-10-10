@@ -41,8 +41,6 @@ class Module implements AutoloaderProviderInterface
 
     public function onBootstrap(MvcEvent $e)
     {
-        //ini_set('display_errors', 0);
-        error_reporting();
         $application = $e->getApplication();
         $em = $application->getEventManager();
         $sm = $application->getServiceManager();
@@ -77,7 +75,9 @@ class Module implements AutoloaderProviderInterface
             );
         }
 
-        if($config->get('listener')) {
+        $listener = $config->get('listener', array());
+
+        if(count($listener) > 0) {
 
             $factory->buildListeners($em);
         }
