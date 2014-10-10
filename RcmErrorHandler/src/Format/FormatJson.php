@@ -89,6 +89,7 @@ class FormatJson extends FormatBase
     }
 
     /**
+     * @codeCoverageIgnore
      * displayString
      *
      * @param GenericError       $error
@@ -102,6 +103,7 @@ class FormatJson extends FormatBase
     }
 
     /**
+     * @codeCoverageIgnore
      * displayBasicString
      *
      * @param GenericError       $error
@@ -115,6 +117,7 @@ class FormatJson extends FormatBase
     }
 
     /**
+     * @codeCoverageIgnore
      * displayTraceString
      *
      * @param GenericError       $error
@@ -128,6 +131,7 @@ class FormatJson extends FormatBase
     }
 
     /**
+     * @codeCoverageIgnore
      * display
      *
      * @param string             $content

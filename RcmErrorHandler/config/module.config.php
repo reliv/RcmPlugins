@@ -12,13 +12,13 @@ return array(
         ),
 
         'listener' => array(
-            /** EXAMPLE *
+            /** EXAMPLE **
             '\RcmJira\ErrorListener' => array(
-                'event' => 'RcmErrorHandler::ErrorHandler',
+                'event' => 'RcmErrorHandler::All',
                 'options' => array(
-                    'endpoint' => 'https://devjira.reliv.com',
-                    'username' => 'relivdomains',
-                    'password' => 'relivjames01',
+                    'endpoint' => 'https://jira.example.com',
+                    'username' => 'myUsername',
+                    'password' => 'myPassword',
                     'projectKey' => 'REF',
                     'enterIssueIfNotStatus' => array(
                         'closed',
@@ -28,7 +28,7 @@ return array(
             ),
 
             '\RcmErrorHandler\Log\ErrorListener' => array(
-                'event' => 'RcmErrorHandler::ErrorHandler',
+                'event' => 'RcmErrorHandler::All',
                 // \Zend\Log\Logger Options
                 'options' => array(
                     'writers' => array(
@@ -36,7 +36,7 @@ return array(
                             'name' => 'stream',
                             'priority' => null,
                             'options' => array(
-                                'stream' => '/www/_logs/rcm.log'
+                                'stream' => '/www/logs/example.log'
                             ),
                         )
                     ),
