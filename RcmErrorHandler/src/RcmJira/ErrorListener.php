@@ -23,6 +23,28 @@ use RcmJira\Exception\JiraListenerException;
  */
 class ErrorListener extends HandlerListenerBase
 {
+
+    /**
+     * @var \RcmErrorHandler\Model\Config
+     */
+    public $options;
+
+    /**
+     * @var JiraLogger $logger
+     */
+    protected $logger;
+
+    /**
+     * @param \RcmErrorHandler\Model\Config $options
+     */
+    public function __construct(
+        \RcmErrorHandler\Model\Config $options,
+        JiraLogger $logger
+    ) {
+        $this->options = $options;
+        $this->logger = $logger;
+    }
+
     /**
      * update
      *
@@ -46,7 +68,7 @@ class ErrorListener extends HandlerListenerBase
 
         $formatter = new FormatBase();
 
-        $logger = new JiraLogger($this->options->getAll());
+        $logger = $this->logger;
 
         $extras = array(
             'file' => $firstError->getFile(),

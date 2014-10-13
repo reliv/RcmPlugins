@@ -158,7 +158,7 @@ class RcmErrorHandlerFactory
      *
      * @return void
      */
-    public function buildListeners($eventManager)
+    public function buildListeners($eventManager, $serviceLocator)
     {
         $config = $this->getConfig();
 
@@ -170,17 +170,18 @@ class RcmErrorHandlerFactory
 
         foreach ($listenersConfig as $class => $listenerConfig) {
 
-            $obj = new $class(
-                new Config($listenerConfig['options'])
-            );
+            if($serviceLocator->has($class)) {
 
-            $eventManager->attach(
-                $listenerConfig['event'],
-                array(
-                    $obj,
-                    'update'
-                )
-            );
+                $obj = $serviceLocator->get($class);
+
+                $eventManager->attach(
+                    $listenerConfig['event'],
+                    array(
+                        $obj,
+                        'update'
+                    )
+                );
+            }
         }
     }
 } 

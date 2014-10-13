@@ -27,8 +27,6 @@ class HandlerTest extends Mocks {
     public function test(){
 
         $hander = new Handler($this->getMockConfig(), $this->getMockMvcEvent());
-
-        //$formater = $hander->getFormatter();
     }
 }
  

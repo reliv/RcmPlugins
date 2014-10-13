@@ -7,6 +7,7 @@ use RcmErrorHandler\Model\GenericError;
 
 
 /**
+ * @codeCoverageIgnore - This has too many low level bits to test
  * Class HandlerAdapter
  *
  * LongDescHere

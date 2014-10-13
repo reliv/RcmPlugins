@@ -181,6 +181,7 @@ class FormatJson extends FormatBase
     }
 
     /**
+     * @codeCoverageIgnore
      * setResponseHeaders
      *
      * @return void

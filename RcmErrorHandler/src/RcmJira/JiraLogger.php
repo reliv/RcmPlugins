@@ -62,10 +62,12 @@ class JiraLogger implements LoggerInterface
     protected $api = null;
 
     /**
-     * @param array $jiraOptions
+     * @param \chobie\Jira\Api $api
+     * @param array            $jiraOptions
      */
-    public function __construct($jiraOptions = array())
+    public function __construct(\chobie\Jira\Api $api, $jiraOptions = array())
     {
+        $this->api = $api;
         $this->options = $jiraOptions;
     }
 
@@ -243,17 +245,6 @@ class JiraLogger implements LoggerInterface
      */
     protected function getApi()
     {
-        if (!$this->api) {
-
-            $this->api = new \chobie\Jira\Api(
-                $this->getOption('endpoint'),
-                new \chobie\Jira\Api\Authentication\Basic(
-                    $this->getOption('username'),
-                    $this->getOption('password')
-                )
-            );
-        }
-
         return $this->api;
     }
 
@@ -273,7 +264,7 @@ class JiraLogger implements LoggerInterface
 
         if ($this->hasApiError($result)) {
 
-            $message = 'An error occured while talking to JIRA: ' .
+            $message = 'An error occured while talking to JIRA (search): ' .
                 implode(' ', $result->getResult()['errorMessages']);
 
             throw new JiraLoggerException($message);
@@ -302,7 +293,8 @@ class JiraLogger implements LoggerInterface
         $projectKey = $this->getOption('projectKey', 'REF');
 
         return "project = '" . $this->jqlEscape($projectKey) . "' " .
-        "AND (" . $closedJql . ') AND (Summary ~ "\"' . $this->jqlEscape($summary)
+        $closedJql .
+        'AND (Summary ~ "\"' . $this->jqlEscape($summary)
         . '\"") ' .
         "ORDER BY createdDate DESC";
     }
@@ -314,14 +306,21 @@ class JiraLogger implements LoggerInterface
      */
     protected function getStatusQuery()
     {
-        $statuses = $this->getOption('enterIssueIfNotStatus', array());
+        $statuses = $this->getOption('enterIssueIfNotStatus', null);
+
+        if(!$statuses){
+
+            return '';
+        }
 
         foreach ($statuses as &$status) {
 
             $status = "status != '" . $this->jqlEscape($status) . "'";
         }
 
-        return implode(' and ', $statuses);
+        $closedJql = 'AND (' . implode(' and ', $statuses) . ') ';
+
+        return $closedJql;
     }
 
     /**
@@ -340,7 +339,7 @@ class JiraLogger implements LoggerInterface
 
         if ($this->hasApiError($result)) {
 
-            $message = 'An error occured while talking to JIRA: ' .
+            $message = 'An error occured while talking to JIRA (addComment): ' .
                 implode(' ', $result->getResult()['errorMessages']);
 
             throw new JiraLoggerException($message);
@@ -375,7 +374,7 @@ class JiraLogger implements LoggerInterface
 
         if ($this->hasApiError($result)) {
 
-            $message = 'An error occured while talking to JIRA: ' .
+            $message = 'An error occured while talking to JIRA (createIssue): ' .
                 implode(' ', $result->getResult()['errorMessages']);
 
             throw new JiraLoggerException($message);
