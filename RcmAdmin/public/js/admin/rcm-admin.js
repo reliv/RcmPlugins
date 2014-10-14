@@ -841,7 +841,7 @@ var RcmAdminService = {
 
             data.instanceId = elm.attr('data-rcmPluginInstanceId');
 
-            data.isSitewide = (elm.attr('data-rcmSiteWidePlugin') == '1');
+            data.isSitewide = (elm.attr('data-rcmSiteWidePlugin') == '1' || elm.attr('data-rcmSiteWidePlugin') == 'Y');
             data.name = elm.attr('data-rcmPluginName');
 
             data.sitewideName = elm.attr('data-rcmPluginDisplayName');

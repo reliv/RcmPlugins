@@ -23,12 +23,12 @@
                     ></span>
                 Cancel
             </button>
-            <div id="lockPermissions"
+            <div id="lockPermissionsEditMode"
                  style="<?= (!isset($restrictions)) ? 'display:none'
                      : '' ?>">
                 <span class="glyphicon glyphicon-lock"></span>
             </div>
-            <div id="unlockPermissions"
+            <div id="unlockPermissionsEditMode"
                  style="<?= (isset($restrictions) && $restrictions == true)
                      ? 'display:none' : '' ?>"><span class="unlock">
                         <img src="modules/rcm-admin/img/glyphicons_unlock.png" width="14px" height="16px"></span>
@@ -64,15 +64,17 @@
                 <span class="glyphicon glyphicon-edit"></span>
                 Edit
             </button>
-            <div id="lockPermissions"
+            <div id="lockPermissionsNonEdit"
                  style="<?= (!isset($restrictions)) ? 'display:none'
                      : '' ?>">
                 <span class="glyphicon glyphicon-lock"></span>
             </div>
-            <div id="unlockPermissions"
+            <div id="unlockPermissionsNonEdit"
                  style="<?= (isset($restrictions) && $restrictions == true)
                      ? 'display:none' : '' ?>"><span class="unlock">
-                        <img src="modules/rcm-admin/img/glyphicons_unlock.png" width="14px" height="16px"></span>
+
+                        <img src="/modules/rcm-admin/img/glyphicons_unlock.png" width="14px" height="16px"></span>
+
             </div>
         </div>
     </div>
