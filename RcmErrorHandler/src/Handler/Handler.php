@@ -7,6 +7,7 @@ use RcmErrorHandler\Model\GenericError;
 
 
 /**
+ * @codeCoverageIgnore - This has too many low level bits to test
  * Class HandlerAdapter
  *
  * LongDescHere
@@ -269,7 +270,7 @@ class Handler
 
         $this->notify(self::EVENT_EXCEPTION, $error);
 
-        return $this->throwException($error);
+        return $this->throwException($error, $exception);
     }
 
     /**
@@ -279,7 +280,7 @@ class Handler
      *
      * @return bool
      */
-    public function throwException(GenericError $error)
+    public function throwException(GenericError $error, \Exception $exception)
     {
         /** @var \RcmErrorHandler\Format\FormatInterface $formatter */
         $formatter = $this->getFormatter();
@@ -297,19 +298,22 @@ class Handler
             }
         }
 
-        return $this->throwDefaultException();
+        $this->throwDefaultException($exception);
     }
 
     /**
      * throwDefaultException
      *
+     * @param \Exception $exception
+     *
      * @return bool
+     * @throws \Exception
      */
-    public function throwDefaultException()
+    public function throwDefaultException(\Exception $exception)
     {
         restore_exception_handler();
 
-        return false;
+        throw $exception;
     }
 
     /**
@@ -361,7 +365,7 @@ class Handler
     public function handleEventException(
         \Zend\Mvc\MvcEvent $event
     ) {
-        $exception = $this->event->getParam('exception');
+        $exception = $event->getParam('exception');
 
         if (!$exception) {
             return;
@@ -371,7 +375,7 @@ class Handler
 
         $this->notify(self::EVENT_EXCEPTION, $error);
 
-        return $this->throwException($error);
+        return $this->throwException($error, $exception);
     }
 
     /**

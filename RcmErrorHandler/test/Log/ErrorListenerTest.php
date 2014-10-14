@@ -26,7 +26,9 @@ class ErrorListenerTest extends Mocks {
 
     public function test(){
 
-        $listener = new ErrorListener($this->getMockLogListenerConfig());
+        $logger = $this->getMockLogger();
+
+        $listener = new ErrorListener($this->getMockLogListenerConfig(), $logger);
 
         $listener->update($this->getMockMvcEvent(0));
 

@@ -45,10 +45,7 @@ class Module implements AutoloaderProviderInterface
         $em = $application->getEventManager();
         $sm = $application->getServiceManager();
 
-        $configRoot = $sm->get('Config');
-        $configArray = $configRoot['RcmErrorHandler'];
-
-        $config = new Config($configArray);
+        $config = $sm->get('\RcmErrorHandler\Config');
 
         $factory = new RcmErrorHandlerFactory($config, $e);
 
@@ -75,11 +72,7 @@ class Module implements AutoloaderProviderInterface
             );
         }
 
-        $listener = $config->get('listener', array());
+        $factory->buildListeners($em, $sm);
 
-        if(count($listener) > 0) {
-
-            $factory->buildListeners($em);
-        }
     }
 }

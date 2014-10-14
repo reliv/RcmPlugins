@@ -25,13 +25,23 @@ class GenericErrorTest extends \PHPUnit_Framework_TestCase {
 
     public function test(){
 
+        $genericError1 = new GenericError(
+            'MESSAGE1',
+            0,
+            E_ERROR,
+            'FILE1',
+            1,
+            null
+        );
+
         $genericError = new GenericError(
             'MESSAGE',
             0,
             E_ERROR,
             'FILE',
             1,
-            null
+            GenericError::DEFAULT_TYPE,
+            $genericError1
         );
 
         $message = $genericError->getMessage();
@@ -60,11 +70,11 @@ class GenericErrorTest extends \PHPUnit_Framework_TestCase {
 
         $previous = $genericError->getPrevious();
 
-        $this->assertEquals(null, $previous);
+        $this->assertEquals($genericError1, $previous);
 
         $first = $genericError->getFirst();
 
-        $this->assertEquals($genericError, $first);
+        $this->assertEquals($genericError1, $first);
 
         $errors = $genericError->getErrors($genericError);
 

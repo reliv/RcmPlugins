@@ -4,6 +4,7 @@ namespace RcmErrorHandler\Log;
 
 use RcmErrorHandler\EventManager\HandlerListenerBase;
 use Zend\Log\Logger;
+use Zend\Log\LoggerInterface;
 
 /**
  * Class ErrorListener
@@ -22,6 +23,26 @@ use Zend\Log\Logger;
  */
 class ErrorListener extends HandlerListenerBase
 {
+    /**
+     * @var \RcmErrorHandler\Model\Config
+     */
+    public $options;
+
+    /**
+     * @var LoggerInterface $logger
+     */
+    protected $logger;
+
+    /**
+     * @param \RcmErrorHandler\Model\Config $options
+     */
+    public function __construct(
+        \RcmErrorHandler\Model\Config $options,
+        LoggerInterface $logger
+    ) {
+        $this->options = $options;
+        $this->logger = $logger;
+    }
     /**
      * update
      *
@@ -43,7 +64,7 @@ class ErrorListener extends HandlerListenerBase
         /** @var \RcmErrorHandler\Model\Config $config */
         // $config = $event->getParam('config');
 
-        $logger = new Logger($this->options->getAll());
+        $logger = $this->logger;
 
         $message = ' | type: ' . $firstError->getType() .
             ' | message: ' . $firstError->getMessage() .

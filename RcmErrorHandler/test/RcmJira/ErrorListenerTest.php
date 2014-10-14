@@ -26,13 +26,13 @@ class ErrorListenerTest extends Mocks {
 
     public function test(){
 
-        /*
-        $listener = new ErrorListener($this->getMockLogListenerConfig());
+        $logger = $this->getMockJiraLogger();
+
+        $listener = new ErrorListener($this->getMockLogListenerConfig(), $logger);
 
         $listener->update($this->getMockMvcEvent(0));
 
         $listener->update($this->getMockMvcEvent(E_NOTICE));
-        */
     }
 }
  

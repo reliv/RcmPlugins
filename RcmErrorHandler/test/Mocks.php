@@ -338,4 +338,175 @@ class Mocks extends \PHPUnit_Framework_TestCase
 
         );
     }
+
+    public function getMockLogger()
+    {
+
+        $mock = $this->getMockBuilder(
+            '\Zend\Log\Logger'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mock->expects(
+            $this->any()
+        )
+            ->method('log')
+            ->will(
+                $this->returnValue($mock)
+            );
+
+        return $mock;
+    }
+
+    public function getMockJiraLogger()
+    {
+
+        $mock = $this->getMockBuilder(
+            '\RcmJira\JiraLogger'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mock->expects(
+            $this->any()
+        )
+            ->method('log')
+            ->will(
+                $this->returnValue($mock)
+            );
+
+        return $mock;
+    }
+
+    public function getMockJiraApi(
+        $mockResultSearch,
+        $mockResultAddComment,
+        $mockResultCreateIssue
+    ) {
+        $mock = $this->getMockBuilder(
+            '\chobie\Jira\Api'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('search')
+            ->will(
+                $this->returnValue($mockResultSearch)
+            );
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('addComment')
+            ->will(
+                $this->returnValue($mockResultAddComment)
+            );
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('createIssue')
+            ->will(
+                $this->returnValue($mockResultCreateIssue)
+            );
+
+
+        return $mock;
+    }
+
+    public function getMockApiResult($mockApiIssue = null)
+    {
+
+        $mockApiIssues = array();
+        $issueCnt = 0;
+        if ($mockApiIssue) {
+            $mockApiIssues = array(
+                $mockApiIssue
+            );
+
+            $issueCnt = 1;
+        }
+
+        $mock = $this->getMockBuilder(
+            '\chobie\Jira\Api\Result'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('getResult')
+            ->will(
+                $this->returnValue(array())
+            );
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('getIssuesCount')
+            ->will(
+                $this->returnValue($issueCnt)
+            );
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('getIssues')
+            ->will(
+                $this->returnValue($mockApiIssues)
+            );
+
+        return $mock;
+    }
+
+    public function getMockApiResultErr()
+    {
+
+        $mock = $this->getMockBuilder(
+            '\chobie\Jira\Api\Result'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('getResult')
+            ->will(
+                $this->returnValue(
+                    array(
+                        'errors' => array(),
+                        'errorMessages' => array(
+                            'some',
+                            'error'
+                        ),
+                    )
+                )
+            );
+
+        return $mock;
+    }
+
+    public function getMockApiIssue()
+    {
+
+        $mock = $this->getMockBuilder(
+            '\chobie\Jira\Issue'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('getKey')
+            ->will(
+                $this->returnValue('TESTREF')
+            );
+
+        return $mock;
+    }
 } 
