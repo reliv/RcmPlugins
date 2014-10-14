@@ -8,14 +8,19 @@
             <th>Primary Domain
             <th></th>
         </tr>
-        <tr ng-repeat="site in sites">
+        <tr style="vertical-align: middle;" ng-repeat="site in sites track by $index">
             <td>{{site.siteId}}</td>
             <td>{{site.domain}}</td>
             <td>
-                <button ng-show="site.active"
+                <button ng-show="site.active == 'A'"
                         ng-click="disableSite(site)"
-                        class="btn btn-default">
-                    Disable Site
+                        class="btn btn btn-danger btn-sm">
+                    <div style="color:#ffffff;">Disable Site</div>
+                </button>
+                <button ng-show="site.active == 'D'"
+                        ng-click="disableSite(site)"
+                        class="btn btn btn-primary btn-sm">
+                    <div style="color:#ffffff;">Enable Site</div>
                 </button>
             </td>
         </tr>
