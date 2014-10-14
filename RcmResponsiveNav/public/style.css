@@ -1,0 +1,86 @@
+.RcmNavigation, .RcmNavigation ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    line-height: 1;
+    overflow: visible !important;
+}
+
+.RcmNavigation a {
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    color: black;
+}
+
+.RcmNavigation li {
+    padding-right: 20px;
+    padding-top: 10px;
+    float: left;
+}
+
+.RcmNavigation li:hover {
+    background: transparent;
+}
+
+.RcmNavigation li ul li {
+    padding: 5px;
+    float: none;
+}
+
+.RcmNavigation li ul li a {
+    font-weight: normal;
+    color: #000000;
+}
+
+.RcmNavigation li ul li.heading, .RcmNavigation li ul li.bold {
+    font-weight: bold;
+}
+
+.RcmNavigation li ul li.heading {
+    background-color: #666;
+    padding: 5px;
+}
+
+.RcmNavigation li ul li.heading a {
+    color: white;
+    font-weight: bold;
+}
+
+.RcmNavigation li ul li:hover {
+    background-color: #F8971D;
+}
+
+.RcmNavigation li .popup {
+    position: absolute;
+    border: 1px solid black;
+    background-color: white;
+    padding: 2px;
+    left: -999em;
+    z-index: 950;
+}
+
+.RcmNavigation li:hover .popup, .RcmNavigation li.sfhover .popup {
+    left: auto;
+}
+
+/* Disable hover on locked plugins */
+.rcmPluginLocked.RcmNavigation li:hover .popup, .rcmPluginLocked.RcmNavigation li.sfhover .popup {
+    left: -999em;
+}
+
+.RcmNavigation .column, #rcmContainer_1 .column {
+    width: 250px;
+    padding: 0 0 10px 0;
+    float: left;
+}
+
+.RcmNavigation li .columnCount_2, #rcmContainer_1_0 .RcmNavigation li .columnCount_2 {
+    width: 502px;
+}
+
+.RcmNavigation .columnCount_2 .column_1, #rcmContainer_1 .columnCount_2 .column_1 {
+    border-right: 1px solid black;
+}
