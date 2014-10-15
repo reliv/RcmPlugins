@@ -188,7 +188,7 @@ class JiraLogger implements LoggerInterface
      */
     public function log($priority, $message, $extra = array())
     {
-        $summary = $this->getPriorityString($priority) . ': ' . $message;
+        $summary = $this->prepareSummary($this->getPriorityString($priority) . ': ' . $message);
 
         $existingIssueKey = $this->getIssueKey($summary);
 
@@ -265,7 +265,8 @@ class JiraLogger implements LoggerInterface
         if ($this->hasApiError($result)) {
 
             $message = 'An error occured while talking to JIRA (search): ' .
-                implode(' ', $result->getResult()['errorMessages']);
+                implode(' ', $result->getResult()['errorMessages']) . ' '.
+                implode(' ', $result->getResult()['errors']);
 
             throw new JiraLoggerException($message);
         }
@@ -340,7 +341,8 @@ class JiraLogger implements LoggerInterface
         if ($this->hasApiError($result)) {
 
             $message = 'An error occured while talking to JIRA (addComment): ' .
-                implode(' ', $result->getResult()['errorMessages']);
+                implode(' ', $result->getResult()['errorMessages']) . ' '.
+                implode(' ', $result->getResult()['errors']);
 
             throw new JiraLoggerException($message);
         }
@@ -375,7 +377,8 @@ class JiraLogger implements LoggerInterface
         if ($this->hasApiError($result)) {
 
             $message = 'An error occured while talking to JIRA (createIssue): ' .
-                implode(' ', $result->getResult()['errorMessages']);
+                implode(' ', $result->getResult()['errorMessages']) . ' '.
+                implode(' ', $result->getResult()['errors']);
 
             throw new JiraLoggerException($message);
         }
@@ -429,6 +432,15 @@ class JiraLogger implements LoggerInterface
     protected function jqlEscape($param)
     {
         return addslashes($param);
+    }
+
+    protected function prepareSummary($summary){
+
+        $summary = substr($summary, 0, 255);
+
+        $summary = str_replace(array("\r", "\n"), '', $summary);
+
+        return $summary;
     }
 
     /**
