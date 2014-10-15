@@ -72,12 +72,7 @@ class MessagesController extends AbstractRestfulController
      */
     public function update($defaultText, $data)
     {
-        if (!$this->rcmUserIsAllowed(
-            'translations',
-            'update',
-            'RcmI18nTranslations'
-        )
-        ) {
+        if (!$this->rcmIsAllowed('translations', 'update')) {
             $response = $this->getResponse();
             $response->setStatusCode(Response::STATUS_CODE_401);
             $response->setContent($response->renderStatusLine());

@@ -31,7 +31,7 @@ class MessagesControllerTest extends \PHPUnit_Framework_TestCase
     {
 
         $messagesController = new MessagesControllerWrapper();
-        $messagesController->testRcmUserIsAllowedResult = false;
+        $messagesController->testRcmIsAllowedResult = false;
 
         $result = $messagesController->update(
             'DEFAULT',
@@ -55,11 +55,11 @@ class MessagesControllerTest extends \PHPUnit_Framework_TestCase
 class MessagesControllerWrapper extends MessagesController
 {
 
-    public $testRcmUserIsAllowedResult = false;
+    public $testRcmIsAllowedResult = false;
 
-    public function rcmUserIsAllowed()
+    public function rcmIsAllowed()
     {
 
-        return $this->testRcmUserIsAllowedResult;
+        return $this->testRcmIsAllowedResult;
     }
 }

@@ -61,15 +61,12 @@ class ProxyController
         if (!empty($overrideFeedUrl) && $overrideFeedUrl != 'null') {
             //$permissions = $this->userMgr->getLoggedInAdminPermissions();
             $permissions = null;
+
             /**
              * Only admins can override the url. This prevents people from using
              * our proxy to DDOS other sites.
              */
-            $allowed = $this->rcmUserIsAllowed(
-                'sites.' . $this->siteId,
-                'admin',
-                'Rcm\Acl\ResourceProvider'
-            );
+            $allowed = $this->rcmIsAllowed('sites.' . $this->siteId, 'admin');
 
             if ($allowed) {
                 $feedUrl = $overrideFeedUrl;
