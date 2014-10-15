@@ -54,7 +54,7 @@ use
  * @method Response redirectToPage($pageName, $pageType) Redirect to CMS
  *                                                                  Page
  *
- * @method boolean rcmUserIsAllowed($resource, $action, $providerId) Is User Allowed
+ * @method boolean rcmIsAllowed($resource, $action) Is User Allowed
  * @method User rcmUserGetCurrentUser() Get Current User Object
  * @method string urlToPage($pageName, $pageType = 'n', $pageRevision = null) Get Url To a Page
  */
@@ -97,12 +97,7 @@ class PageController extends AbstractActionController
     public function newAction()
     {
 
-        if (!$this->rcmUserIsAllowed(
-            'sites.' . $this->siteId . '.pages',
-            'create',
-            'Rcm\Acl\ResourceProvider'
-        )
-        ) {
+        if (!$this->rcmIsAllowed('sites.' . $this->siteId . '.pages', 'create')) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -176,12 +171,7 @@ class PageController extends AbstractActionController
      */
     public function createPageFromTemplateAction()
     {
-        if (!$this->rcmUserIsAllowed(
-            'sites.' . $this->siteId . '.pages',
-            'create',
-            'Rcm\Acl\ResourceProvider'
-        )
-        ) {
+        if (!$this->rcmIsAllowed('sites.' . $this->siteId . '.pages', 'create')) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -284,12 +274,7 @@ class PageController extends AbstractActionController
      */
     public function publishPageRevisionAction()
     {
-        if (!$this->rcmUserIsAllowed(
-            'sites.' . $this->siteId . '.pages',
-            'create',
-            'Rcm\Acl\ResourceProvider'
-        )
-        ) {
+        if (!$this->rcmIsAllowed('sites.' . $this->siteId . '.pages', 'create')) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -340,12 +325,7 @@ class PageController extends AbstractActionController
      */
     public function savePageAction()
     {
-        if (!$this->rcmUserIsAllowed(
-            'sites.' . $this->siteId . '.pages',
-            'edit',
-            'Rcm\Acl\ResourceProvider'
-        )
-        ) {
+        if (!$this->rcmIsAllowed('sites.' . $this->siteId . '.pages', 'edit')) {
             $response = new Response();
             $response->setStatusCode('401');
 
