@@ -4,12 +4,12 @@ return array(
         'overrideExceptions' => true,
         'overrideErrors' => true,
         'format' => array(
-            /*
+            /* Will over-ride system default if used *
             '_default' => array(
                 'class' => '\RcmErrorHandler\Format\FormatDefault',
                 'options' => array(),
             ),
-            */
+            /* */
             'application/json' => array(
                 'class' => '\RcmErrorHandler\Format\FormatJson',
                 'options' => array(),
