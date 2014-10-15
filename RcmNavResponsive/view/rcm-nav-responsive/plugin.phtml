@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Visitor-facing plugin template
+ *
+ * Visitor-facing plugin template
+ *
+ * PHP version 5.3
+ *
+ * LICENSE: No License yet
+ *
+ * @category  Reliv
+ * @author    Rod McNew <rmcnew@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   GIT: <git_id>
+ */
+$this->headLink()->appendStylesheet(
+    $this->basePath()
+    . '/modules/rcm-nav-responsive/vendor/superfish/superfish.css'
+);
+$this->headLink()->appendStylesheet(
+    $this->basePath()
+    . '/modules/rcm-nav-responsive/style.css'
+);
+$this->headScript()->appendFile(
+    $this->basePath()
+    . '/modules/rcm-nav-responsive/vendor/superfish/superfish.js',
+    'text/javascript'
+);
+$this->headScript()->appendFile(
+    $this->basePath()
+    . '/modules/rcm-nav-responsive/vendor/superfish/jQueryMigrate.js',
+    'text/javascript'
+);
+?>
+<nav>
+    <ul class="sf-menu header_menu sf-js-enabled">
+        <?php foreach ($instanceConfig['children'] as $link): ?>
+            <li>
+                <a class="sf-with-ul"
+                   href="<?= $this->escapeHtmlAttr($link['href']) ?>">
+                    <?= $this->escapeHtml($link['text']) ?>
+                </a>
+                <ul class="submenu">
+                    <?php foreach ($link['children'] as $childLink): ?>
+                        <li>
+                            <a href="<?= $this->escapeHtmlAttr(
+                                $childLink['href']
+                            ) ?>">
+                                <?= $this->escapeHtml($childLink['text']) ?>
+                            </a>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</nav>
