@@ -1,7 +1,7 @@
 /**
- * RcmNavigation
+ * RcmNavResponsive
  *
- * JS for editing RcmNavigation
+ * JS for editing RcmNavResponsive
  *
  * PHP version 5.3
  *
@@ -13,12 +13,12 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-var RcmNavigationEdit = function (instanceId, container) {
+var RcmNavResponsiveEdit = function (instanceId, container) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
      *
-     * @type {RcmNavigationEdit}
+     * @type {RcmNavResponsiveEdit}
      */
     var me = this;
 

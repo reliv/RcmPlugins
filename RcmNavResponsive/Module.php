@@ -14,7 +14,7 @@
  * @version   GIT: <git_id>
  */
 
-namespace RcmNavigation;
+namespace RcmNavResponsive;
 
 use Rcm\Plugin\BaseController;
 
@@ -55,7 +55,7 @@ class Module
     {
         return array(
             'factories' => array(
-                'RcmNavigation' => function ($serviceMgr) {
+                'RcmNavResponsive' => function ($serviceMgr) {
                         return new BaseController(
                             $serviceMgr->get('config'),
                             __DIR__

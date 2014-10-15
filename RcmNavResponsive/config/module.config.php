@@ -21,12 +21,12 @@ return array(
 
 
     'rcmPlugin' => array(
-        'RcmNavigation' => array(
+        'RcmNavResponsive' => array(
             'type' => 'Common',
-            'display' => 'Navigation Menu',
-            'tooltip' => 'Navigation menu that can display sub-menus when users mouse-over the main menu.',
+            'display' => 'Responsive Navigation',
+            'tooltip' => 'Customizable hover-based navigation menu the converts to a drop-down box on smaller screens.',
             'icon' => '',
-            'editJs' => '/modules/rcm-navigation/edit.js',
+            'editJs' => '/modules/rcm-nav-responsive/edit.js',
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php'
         ),
@@ -39,11 +39,11 @@ return array(
     'asset_manager' => array(
         'resolver_configs' => array(
             'aliases' => array(
-                'modules/rcm-navigation/' => __DIR__ . '/../public/',
+                'modules/rcm-nav-responsive/' => __DIR__ . '/../public/',
             ),
             'collections' => array(
                 'modules/rcm-admin/js/rcm-admin.js' => array(
-                    'modules/rcm-navigation/edit.js',
+                    'modules/rcm-nav-responsive/edit.js',
                 ),
             ),
         ),
