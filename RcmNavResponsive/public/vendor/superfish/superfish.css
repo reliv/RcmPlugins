@@ -12,7 +12,12 @@ footer nav{
     margin: 9px 0 0px;
 }
 .sf-menu{display:block;}
-.sf-menu ul {position:absolute; top:-999px; display:none; z-index:999;}
+.sf-menu ul {
+    position:absolute;
+    top:-999px;
+    display:none;
+    z-index:999;
+}
 .sf-menu a {display:block;}
 .sf-menu li:hover ul,.sf-menu li.sfHover ul {z-index:999;}
 ul.sf-menu li:hover li ul,ul.sf-menu li.sfHover li ul {top:-999px; display:none;z-index:999}
@@ -28,7 +33,7 @@ ul.sf-menu>li>a>.sf-sub-indicator{
     position:absolute;
     width:5px;
     height:6px;
-    background: url(../images/indicator.png) 0 0 no-repeat;
+    /*background: url(../images/indicator.png) 0 0 no-repeat;*/
     top:33px;
     left:50%;
     margin-left: -2px;
@@ -137,7 +142,7 @@ ul.sf-menu>li.current>a strong, ul.sf-menu>li.sfHover>a strong, ul.sf-menu>li>a:
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 .sf-menu>li>ul>li>a>span {
-    background: url(../images/subindicator.png) 0 0 no-repeat;
+    /*background: url(../images/subindicator.png) 0 0 no-repeat;*/
     display: block;
     position: absolute;
     width: 4px;
@@ -219,6 +224,7 @@ ul.sf-menu>li.current>a strong, ul.sf-menu>li.sfHover>a strong, ul.sf-menu>li>a:
         z-index: 1000;
     }
     nav{min-height: 30px;}
-
-
+}
+.sf-menu li{
+    list-style: none;
 }
