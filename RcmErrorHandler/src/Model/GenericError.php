@@ -60,6 +60,11 @@ class GenericError
     protected $previous = null;
 
     /**
+     * @var array | null $trace
+     */
+    protected $trace = null;
+
+    /**
      * @param              $message
      * @param int          $code
      * @param int          $severity
@@ -67,6 +72,7 @@ class GenericError
      * @param int          $line
      * @param string       $type
      * @param GenericError $previous
+     * @param null         $trace
      */
     public function __construct(
         $message,
@@ -75,7 +81,8 @@ class GenericError
         $file = __FILE__,
         $line = __LINE__,
         $type = GenericError::DEFAULT_TYPE,
-        GenericError $previous = null
+        GenericError $previous = null,
+        $trace = null
     ) {
 
         // @todo Create setters for this logic
@@ -90,6 +97,7 @@ class GenericError
         $this->line = $line;
         $this->type = $type;
         $this->previous = $previous;
+        $this->trace = $trace;
     }
 
     /**
@@ -206,11 +214,14 @@ class GenericError
      */
     public function getTrace($options = 3, $limit = 0)
     {
-        $backTrace = debug_backtrace(
-            $options, //DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS,
-            $limit
-        );
+        if(empty($this->trace)) {
+            $this->trace = debug_backtrace(
+                $options,
+                //DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS,
+                $limit
+            );
+        }
 
-        return $backTrace;
+        return $this->trace;
     }
 } 

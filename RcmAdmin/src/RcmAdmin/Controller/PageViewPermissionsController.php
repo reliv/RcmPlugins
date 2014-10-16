@@ -7,6 +7,21 @@ use RcmUser\Acl\Entity\AclRule;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
+/**
+ * PageViewPermissionsController
+ *
+ * LongDescHere
+ *
+ * PHP version 5
+ *
+ * @category  Reliv
+ * @package   RcmAdmin\Controller
+ * @author    author Brian Janish <bjanish@relivinc.com>
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: 1.0
+ * @link      https://github.com/reliv
+ */
 class PageViewPermissionsController extends AbstractRestfulController
 {
     protected $siteId;
@@ -93,7 +108,7 @@ class PageViewPermissionsController extends AbstractRestfulController
         //CREATE RESOURCE ID
         $resourceId = 'sites.' . $siteId . '.pages.' . 'n' . '.' . $pageName;
         //ACCESS CHECK
-        if (!$this->rcmUserIsAllowed($resourceId, 'admin', 'RcmAdmin')) {
+        if (!$this->rcmIsAllowed($resourceId, 'admin')) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
             return $this->getResponse();
         }
