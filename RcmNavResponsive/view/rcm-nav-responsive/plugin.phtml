@@ -73,6 +73,9 @@ $this->headScript()->appendFile(
     </ul>
 </nav>
 <select>
+    <option selected value="#">
+        <?= $this->translate('Select a page:') ?>
+    </option>
     <?php foreach ($instanceConfig['children'] as $link): ?>
         <option value="<?= $this->escapeHtmlAttr($link['href']) ?>">
             <?= $this->escapeHtml($link['text']) ?>
