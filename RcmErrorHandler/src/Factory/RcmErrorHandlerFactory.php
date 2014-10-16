@@ -64,7 +64,6 @@ class RcmErrorHandlerFactory
      */
     public function getHandler()
     {
-
         if (!$this->handler) {
 
             $this->handler = new Handler(
@@ -152,6 +151,13 @@ class RcmErrorHandlerFactory
         );
     }
 
+    /**
+     * buildListeners
+     *
+     * @param $eventManager
+     *
+     * @return void
+     */
     public function buildListeners($eventManager)
     {
         $config = $this->getConfig();

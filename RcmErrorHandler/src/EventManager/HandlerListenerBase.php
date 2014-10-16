@@ -39,10 +39,9 @@ class HandlerListenerBase implements HandlerListenerInterface
      *
      * @param \Zend\EventManager\Event $event
      *
-     * @return mixed|void
+     * @return void
      */
     public function update(\Zend\EventManager\Event $event)
     {
-        return;
     }
 } 

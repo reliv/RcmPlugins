@@ -2,8 +2,6 @@
 
 namespace RcmErrorHandler\Model;
 
-use RcmErrorHandler\Format\FormatInterface;
-
 /**
  * Class GenericError
  *
@@ -83,10 +81,6 @@ class GenericError
         // @todo Create setters for this logic
         if (!is_string($type)) {
             $type = GenericError::DEFAULT_TYPE;
-        }
-
-        if (!($previous instanceof GenericError)) {
-            $previous == null;
         }
 
         $this->message = $message;
@@ -190,10 +184,6 @@ class GenericError
      */
     public function getErrors(GenericError $error, $errors = array())
     {
-        if (!$error) {
-            $error = $this;
-        }
-
         array_unshift($errors, $error);
 
         $prevError = $error->getPrevious();

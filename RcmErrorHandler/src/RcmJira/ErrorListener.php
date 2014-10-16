@@ -28,7 +28,7 @@ class ErrorListener extends HandlerListenerBase
      *
      * @param \Zend\EventManager\Event $event
      *
-     * @return mixed|void
+     * @return void
      * @throws JiraListenerException
      */
     public function update(\Zend\EventManager\Event $event)

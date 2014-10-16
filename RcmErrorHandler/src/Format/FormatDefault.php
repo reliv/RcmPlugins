@@ -77,7 +77,7 @@ class FormatDefault extends FormatBase
         $limit = 0
     ) {
 
-        $backtrace = $error->getTrace();
+        $backtrace = $error->getTrace($options);
         $ret = array();
 
         $output = '
@@ -96,7 +96,9 @@ class FormatDefault extends FormatBase
         ';
 
         foreach ($backtrace as $i => $call) {
-            if ($i > $limit) {
+
+            if ($i > ($limit - 1) && $limit !== 0) {
+                $output .= '.';
                 continue;
             }
 
