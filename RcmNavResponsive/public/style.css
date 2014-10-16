@@ -1,0 +1,22 @@
+.RcmNavResponsive .rcmPluginContainer{
+    overflow: visible !important;
+}
+.RcmNavResponsive select {
+    font: 14px/20px Verdana, Arial, Helvetica, sans-serif;
+    color: #101010;
+    width: 100%;
+    left: 0%;
+    position: relative;
+    margin: 0 auto;
+    float: none;
+    outline: none;
+    border: 2px solid #13a;
+    margin-top: -1px;
+    border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    -webkit-border-radius: 0px !important;
+    /* height: 40px !important; */
+    position: relative;
+    outline: none !important;
+    z-index: 1000;
+}

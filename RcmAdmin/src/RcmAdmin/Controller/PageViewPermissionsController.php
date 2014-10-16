@@ -108,7 +108,7 @@ class PageViewPermissionsController extends AbstractRestfulController
         //CREATE RESOURCE ID
         $resourceId = 'sites.' . $siteId . '.pages.' . 'n' . '.' . $pageName;
         //ACCESS CHECK
-        if (!$this->rcmUserIsAllowed($resourceId, 'admin', 'RcmAdmin')) {
+        if (!$this->rcmIsAllowed($resourceId, 'admin')) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
             return $this->getResponse();
         }

@@ -154,7 +154,11 @@ class Handler
             $errfile,
             $errline,
             $this->getErrorType($errno),
-            $prev
+            $prev,
+            debug_backtrace(
+                DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS,
+                25
+            )
         );
 
         $this->notify(self::EVENT_ERROR, $error);
@@ -348,7 +352,8 @@ class Handler
             $exception->getFile(),
             $exception->getLine(),
             $this->getExceptionType($exception),
-            $prev
+            $prev,
+            $exception->getTrace()
         );
 
         return $error;
