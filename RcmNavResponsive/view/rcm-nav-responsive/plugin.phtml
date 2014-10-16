@@ -40,8 +40,13 @@ $this->headScript()->appendFile(
 );
 ?>
 <script>
-    jQuery(function () {
-        jQuery('.RcmNavResponsive ul.sf-menu').superfish({speed: 1});
+    $(function () {
+        $('.RcmNavResponsive ul.sf-menu').superfish({speed: 1});
+        $('.RcmNavResponsive select').change(
+            function () {
+                window.location.href = $(this).val();
+            }
+        );
     });
 </script>
 <nav>
@@ -69,12 +74,12 @@ $this->headScript()->appendFile(
 </nav>
 <select>
     <?php foreach ($instanceConfig['children'] as $link): ?>
-        <option data-href="<?= $this->escapeHtmlAttr($link['href']) ?>">
+        <option value="<?= $this->escapeHtmlAttr($link['href']) ?>">
             <?= $this->escapeHtml($link['text']) ?>
         </option>
         <?php foreach ($link['children'] as $childLink): ?>
             <option
-                data-href="<?= $this->escapeHtmlAttr($childLink['href']) ?>">
+                value="<?= $this->escapeHtmlAttr($childLink['href']) ?>">
                 - <?= $this->escapeHtml($childLink['text']) ?>
             </option>
         <?php endforeach ?>
