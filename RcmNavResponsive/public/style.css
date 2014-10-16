@@ -1,6 +1,7 @@
-.RcmNavResponsive .rcmPluginContainer{
+.RcmNavResponsive .rcmPluginContainer {
     overflow: visible !important;
 }
+
 .RcmNavResponsive select {
     font: 14px/20px Verdana, Arial, Helvetica, sans-serif;
     color: #101010;
@@ -19,4 +20,18 @@
     position: relative;
     outline: none !important;
     z-index: 1000;
+}
+
+.RcmNavResponsive select {
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .RcmNavResponsive nav {
+        display: none;
+    }
+
+    .RcmNavResponsive select {
+        display: block;
+    }
 }
