@@ -34,7 +34,17 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      *
      * @type {Object}
      */
-    var imgTag = container.find('img');
+    var imgTag = container.find('.rollImg');
+
+    /**
+     *  Gets background image url
+     *
+     * @returns {String}
+     */
+    var getBackgroundImageUrl = function () {
+        return imgTag.css('background-image').replace('url(', '')
+            .replace(')', '');
+    };
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -68,10 +78,9 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      * @return {Object}
      */
     me.getSaveData = function () {
-
         return {
             'href': aTags.attr('href'),
-            'imageSrc': imgTag.attr('src')
+            'imageSrc': getBackgroundImageUrl()
         }
     };
 
@@ -79,8 +88,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      */
     me.showEditDialog = function () {
-
-        var srcInput = $.dialogIn('image', 'Image', imgTag.attr('src'));
+        var srcInput = $.dialogIn('image', 'Image', getBackgroundImageUrl());
         var hrefInput = $.dialogIn('url', 'Link Url', aTags.attr('href'));
 
         var form = $('<form></form>')
@@ -97,7 +105,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
                     Ok: function () {
 
                         //Get user-entered data from form
-                        imgTag.attr('src', srcInput.val());
+                        imgTag.css('background-image', 'url(' + srcInput.val() + ')');
                         aTags.attr('href', hrefInput.val());
 
                         $(this).dialog('close');
