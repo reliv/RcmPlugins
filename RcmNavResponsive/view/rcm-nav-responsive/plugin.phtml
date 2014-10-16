@@ -17,7 +17,7 @@
  */
 $this->headLink()->appendStylesheet(
     $this->basePath()
-    . '/modules/rcm-nav-responsive/vendor/superfish/superfish.css'
+    . '/modules/rcm-nav-responsive/vendor/superfish/dist/css/superfish.css'
 );
 $this->headLink()->appendStylesheet(
     $this->basePath()
@@ -25,17 +25,32 @@ $this->headLink()->appendStylesheet(
 );
 $this->headScript()->appendFile(
     $this->basePath()
-    . '/modules/rcm-nav-responsive/vendor/superfish/superfish.js',
+    . '/modules/rcm-nav-responsive/vendor/jquery.mobilemenu.js',
     'text/javascript'
 );
 $this->headScript()->appendFile(
     $this->basePath()
-    . '/modules/rcm-nav-responsive/vendor/superfish/jQueryMigrate.js',
+    . '/modules/rcm-nav-responsive/vendor/superfish/dist/js/hoverIntent.js',
+    'text/javascript'
+);
+$this->headScript()->appendFile(
+    $this->basePath()
+    . '/modules/rcm-nav-responsive/vendor/superfish/dist/js/superfish.min.js',
     'text/javascript'
 );
 ?>
+<script>
+    $(function () {
+        $('.RcmNavResponsive ul.sf-menu').superfish({speed: 1});
+        $('.RcmNavResponsive select').change(
+            function () {
+                window.location.href = $(this).val();
+            }
+        );
+    });
+</script>
 <nav>
-    <ul class="sf-menu header_menu sf-js-enabled">
+    <ul class="sf-menu">
         <?php foreach ($instanceConfig['children'] as $link): ?>
             <li>
                 <a class="sf-with-ul"
@@ -45,9 +60,9 @@ $this->headScript()->appendFile(
                 <ul class="submenu">
                     <?php foreach ($link['children'] as $childLink): ?>
                         <li>
-                            <a href="<?= $this->escapeHtmlAttr(
-                                $childLink['href']
-                            ) ?>">
+                            <a href="<?=
+                            $this->escapeHtmlAttr($childLink['href'])
+                            ?>">
                                 <?= $this->escapeHtml($childLink['text']) ?>
                             </a>
                         </li>
@@ -57,3 +72,16 @@ $this->headScript()->appendFile(
         <?php endforeach ?>
     </ul>
 </nav>
+<select>
+    <?php foreach ($instanceConfig['children'] as $link): ?>
+        <option value="<?= $this->escapeHtmlAttr($link['href']) ?>">
+            <?= $this->escapeHtml($link['text']) ?>
+        </option>
+        <?php foreach ($link['children'] as $childLink): ?>
+            <option
+                value="<?= $this->escapeHtmlAttr($childLink['href']) ?>">
+                - <?= $this->escapeHtml($childLink['text']) ?>
+            </option>
+        <?php endforeach ?>
+    <?php endforeach ?>
+</select>
