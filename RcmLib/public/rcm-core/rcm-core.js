@@ -10,7 +10,7 @@
  * Requires oc-lazy-load due to late loading of resources
  * - in modules that are loaded using AJAX, include the tag per the doc
  *   at https://github.com/ocombe/ocLazyLoad
- * - Including modules with dependencies using ocLazyLoad is not supported
+ * - Including modules with dependencies VIA AJAX using ocLazyLoad is NOT supported
  */
 var rcm = new function () {
 
