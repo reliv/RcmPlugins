@@ -1,3 +1,17 @@
+/**
+ * rcm is a base library to help with the issues with Angular when Angular is not
+ *   in charge of all domain changes.  It is NOT a perfect solution, so use these
+ *   only as required.
+ *   - helps with exposing Angular methods and properties
+ *   - helps with AJAX loading of Angular scripts
+ *   - helps with loading Angular modules without using bootstrap
+ *   - helps with console.log issues in IE 8 and lower
+ *
+ * Requires oc-lazy-load due to late loading of resources
+ * - in modules that are loaded using AJAX, include the tag per the doc
+ *   at https://github.com/ocombe/ocLazyLoad
+ * - Including modules with dependencies using ocLazyLoad is not supported
+ */
 var rcm = new function () {
 
     var self = this;
