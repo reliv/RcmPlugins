@@ -28,6 +28,7 @@ var RcmNavResponsiveEdit = function (instanceId, container) {
      * @type {String}
      */
     var newLinkTemplate = '<li><a href="">Untitled Link</a></li>';
+    var newMenuTemplate = '<ul><li><a href="">Untitled Link</a></li><ul>';
 
     var mainUl = container.find('ul.sf-menu');
 
@@ -58,7 +59,7 @@ var RcmNavResponsiveEdit = function (instanceId, container) {
                 href: bigA.attr('href'),
                 children: []
             };
-            $.each(bigLink.find('ul').children(), function () {
+            $.each(bigLi.find('ul').children(), function () {
                 var littleA = $(this).find('a');
                 bigLink.children.push(
                     {
@@ -73,17 +74,15 @@ var RcmNavResponsiveEdit = function (instanceId, container) {
     };
 
     /**
-     * Ensure everything is editable, especially after recent changes
-     */
-    self.refresh = function () {
-        self.removeEditElements();
-        self.addEditElements();
-    };
-
-    /**
      * Add the elements we need for editing to the DOM
      */
     self.addEditElements = function () {
+
+        //Remove right click menu
+        $.contextMenu(
+            'destroy',
+            containerSelector + ' li'
+        );
 
         //Add right click menu
         $.contextMenu({
@@ -114,6 +113,10 @@ var RcmNavResponsiveEdit = function (instanceId, container) {
                     callback: function () {
                         var newLi = $(newLinkTemplate);
                         $(this).after(newLi);
+                        if(newLi.parent().parent().prop('tagName')!='LI'){
+                            //If not a sub-link, add a sub-menu
+                            newLi.append($(newMenuTemplate));
+                        }
                         self.showEditDialog(newLi, true);
                     }
                 },
@@ -149,11 +152,18 @@ var RcmNavResponsiveEdit = function (instanceId, container) {
             }
         });
 
+
+        try {
+            //Prevent links from being arrangeable
+            container.find('ul').sortable('destroy');
+        } catch(e){
+            //do nothing, getting here just means we weren't in edit mode before
+        }
         //Make links arrangeable
         container.find('ul').sortable(
             {
                 update: function () {
-                    self.refresh()
+                    self.addEditElements()
                 },
                 connectWith: containerSelector + ' ul'
             }
@@ -186,7 +196,7 @@ var RcmNavResponsiveEdit = function (instanceId, container) {
                         // Remove the new li that was created if the user clicks
                         // cancel
                         li.remove();
-                        self.refresh();
+                        self.addEditElements();
                     }
                 },
                 buttons: {
@@ -198,8 +208,8 @@ var RcmNavResponsiveEdit = function (instanceId, container) {
                         a.html(text.val());
                         a.attr('href', href.val());
                         okClicked = true;
-                        $(button).dialog("close");
-                        self.refresh();
+                        $(this).dialog("close");
+                        self.addEditElements();
                     }
                 }
             });
