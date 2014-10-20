@@ -49,17 +49,13 @@ $this->headScript()->appendFile(
         <?php foreach ($instanceConfig['children'] as $link): ?>
             <li>
                 <a class="sf-with-ul"
-                   href="<?= $this->escapeHtmlAttr($link['href']) ?>">
-                    <?= $this->escapeHtml($link['text']) ?>
-                </a>
+                   href="<?= $this->escapeHtmlAttr($link['href']) ?>"><?= $this->escapeHtml($link['text']) ?></a>
                 <ul class="submenu">
                     <?php foreach ($link['children'] as $childLink): ?>
                         <li>
                             <a href="<?=
                             $this->escapeHtmlAttr($childLink['href'])
-                            ?>">
-                                <?= $this->escapeHtml($childLink['text']) ?>
-                            </a>
+                            ?>"><?= $this->escapeHtml($childLink['text']) ?></a>
                         </li>
                     <?php endforeach ?>
                 </ul>
