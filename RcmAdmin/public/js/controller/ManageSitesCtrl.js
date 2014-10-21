@@ -1,8 +1,11 @@
 angular.module('rcmAdmin').controller(
     'rcmManageSites',
     function ($scope, $log, $http) {
+        var siteData = RcmAdminService.RcmPageModel.getData();
+        $scope.currentSiteId = siteData.siteId;
         var self = this;
         $scope.sites = [];
+
         $scope.disableSite = function (site) {
             $().confirm(
                 'Disable this site?<br><br>' +
@@ -18,17 +21,16 @@ angular.module('rcmAdmin').controller(
                     }
                     $http({
                         method: 'PUT',
-                        url: '/api/admin/sites/' + site.siteId + '/' + site.active
+                        url: '/api/admin/sites/' + site.siteId, //+ '/' + site.active
+                        data: site
                     }).
                         success(function (data) {
-                            //alert(data);
                             $scope.sites = data;
+                            //Refresh site list
                             self.getSites();
                         });
-
                 }
             )
-
         };
         self.getSites = function () {
             $http({
@@ -38,6 +40,7 @@ angular.module('rcmAdmin').controller(
                 success(function (data) {
                     $scope.sites = data;
                 });
+
         };
         self.getSites();
     }
