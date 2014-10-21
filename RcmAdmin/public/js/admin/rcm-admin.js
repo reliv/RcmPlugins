@@ -1121,7 +1121,7 @@ var RcmAdminService = {
         disableLinks: function (elm, onComplete) {
 
             // Disable normal events
-            elm.find('*').unbind();
+//            elm.find('*').unbind();//This was removed to get superfish nav to work in edit mode
             var donDoIt = function () {
                 return false;
             };

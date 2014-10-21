@@ -25,11 +25,6 @@ $this->headLink()->appendStylesheet(
 );
 $this->headScript()->appendFile(
     $this->basePath()
-    . '/modules/rcm-nav-responsive/vendor/jquery.mobilemenu.js',
-    'text/javascript'
-);
-$this->headScript()->appendFile(
-    $this->basePath()
     . '/modules/rcm-nav-responsive/vendor/superfish/dist/js/hoverIntent.js',
     'text/javascript'
 );
@@ -54,17 +49,13 @@ $this->headScript()->appendFile(
         <?php foreach ($instanceConfig['children'] as $link): ?>
             <li>
                 <a class="sf-with-ul"
-                   href="<?= $this->escapeHtmlAttr($link['href']) ?>">
-                    <?= $this->escapeHtml($link['text']) ?>
-                </a>
+                   href="<?= $this->escapeHtmlAttr($link['href']) ?>"><?= $this->escapeHtml($link['text']) ?></a>
                 <ul class="submenu">
                     <?php foreach ($link['children'] as $childLink): ?>
                         <li>
                             <a href="<?=
                             $this->escapeHtmlAttr($childLink['href'])
-                            ?>">
-                                <?= $this->escapeHtml($childLink['text']) ?>
-                            </a>
+                            ?>"><?= $this->escapeHtml($childLink['text']) ?></a>
                         </li>
                     <?php endforeach ?>
                 </ul>
@@ -73,6 +64,9 @@ $this->headScript()->appendFile(
     </ul>
 </nav>
 <select>
+    <option selected value="#">
+        <?= $this->translate('Select a page:') ?>
+    </option>
     <?php foreach ($instanceConfig['children'] as $link): ?>
         <option value="<?= $this->escapeHtmlAttr($link['href']) ?>">
             <?= $this->escapeHtml($link['text']) ?>
