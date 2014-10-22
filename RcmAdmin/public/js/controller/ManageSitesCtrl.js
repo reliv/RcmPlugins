@@ -21,7 +21,7 @@ angular.module('rcmAdmin').controller(
                     }
                     $http({
                         method: 'PUT',
-                        url: '/api/admin/sites/' + site.siteId, //+ '/' + site.active
+                        url: '/api/admin/sites/' + site.siteId,
                         data: site
                     }).
                         success(function (data) {
