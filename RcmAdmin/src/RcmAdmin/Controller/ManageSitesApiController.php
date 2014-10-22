@@ -13,7 +13,7 @@
  * @link      https://github.com/reliv
  */
 
-namespace Rcm\Controller;
+namespace RcmAdmin\Controller;
 
 use Rcm\Entity\Domain;
 use Rcm\Entity\Site;
