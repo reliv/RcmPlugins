@@ -135,6 +135,15 @@ return array(
                     ),
                 ),
             ),
+            'ManageSitesApiController' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/api/admin/sites[/:id]',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\ManageSitesApiController',
+                    )
+                ),
+            ),
             'RcmAdmin\Page\CreateTemplateFromPage' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(

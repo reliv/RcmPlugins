@@ -41,4 +41,18 @@ return array(
             ),
         ),
     ),
+
+    'controllers' => array(
+        'factories' => array(
+            'RcmRecommendedProducts'
+            => 'RcmRecommendedProducts\Factory\PluginControllerFactory',
+        ),
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmRecommendedProducts'
+            =>'RcmRecommendedProducts\Factory\BaseControllerFactory',
+        )
+
+    )
 );
