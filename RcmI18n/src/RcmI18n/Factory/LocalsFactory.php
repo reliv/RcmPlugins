@@ -25,7 +25,7 @@ class LocalesFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         return new Locales(
-            $serviceLocator->get('Rcm\Service\SiteManager')
+            $serviceLocator->get('Doctrine\ORM\EntityManager')->getRepository('\Rcm\Entity\Site')
         );
     }
 }

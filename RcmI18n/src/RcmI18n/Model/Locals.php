@@ -2,7 +2,7 @@
 
 namespace RcmI18n\Model;
 
-use Rcm\Service\SiteManager;
+use Rcm\Repository\Site;
 
 
 /**
@@ -25,15 +25,18 @@ class Locales
     /**
      * Constructor
      *
-     * @param SiteManager $siteManager Rcm Site Manager
+     * @param Site $siteRepo Rcm Site Repo
      */
-    function __construct(SiteManager $siteManager)
+    function __construct(Site $siteRepo)
     {
         $list = [];
-        foreach ($siteManager->getAllActiveSites() as $site) {
+
+        /** @var \Rcm\Entity\Site $site */
+        foreach ($siteRepo->getSites(true) as $site) {
             $list[] = $site->getLanguage()->getIso6391()
                 . '_' . $site->getCountry()->getIso2();
         }
+
         $this->locales = array_values(array_unique($list));
     }
 
