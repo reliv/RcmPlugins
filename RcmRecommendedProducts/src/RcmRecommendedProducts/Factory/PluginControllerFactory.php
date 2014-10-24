@@ -51,9 +51,12 @@ class PluginControllerFactory implements FactoryInterface {
 
         $config = $serviceLocator->get('config');
 
+        $orderMgr = $serviceLocator->get('rcmOrderMgr');
+
         return new PluginController(
             $config,
-            $productModel
+            $productModel,
+            $orderMgr
         );
     }
 }

@@ -27,6 +27,7 @@ return array(
             'icon' => '',
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php'
+
         ),
     ),
     'view_manager' => array(
@@ -41,18 +42,17 @@ return array(
             ),
         ),
     ),
-
     'controllers' => array(
         'factories' => array(
             'RcmRecommendedProducts'
             => 'RcmRecommendedProducts\Factory\PluginControllerFactory',
         ),
     ),
-    'service_manager' => array(
-        'factories' => array(
-            'RcmRecommendedProducts'
-            =>'RcmRecommendedProducts\Factory\BaseControllerFactory',
-        )
-
-    )
+//    'service_manager' => array(
+//        'factories' => array(
+//            'RcmRecommendedProducts'
+//            =>'RcmRecommendedProducts\Factory\BaseControllerFactory',
+//        )
+//
+//    )
 );
