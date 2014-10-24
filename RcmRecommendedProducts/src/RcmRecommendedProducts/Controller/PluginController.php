@@ -19,6 +19,8 @@ namespace RcmRecommendedProducts\Controller;
 
 use Rcm\Plugin\PluginInterface;
 use Rcm\Plugin\BaseController;
+use RcmShoppingCart\Entity\Sku;
+use RcmShoppingCart\Model\OrderMgr;
 use RcmShoppingCart\Model\ProductModel;
 
 /**
@@ -40,24 +42,29 @@ class PluginController
     /**
      * __construct
      *
-     * @param null             $config           config
+     * @param null $config config
      */
     public function __construct(
         $config,
-        ProductModel $productModel
+        ProductModel $productModel,
+        OrderMgr $orderMgr
 
     ) {
         parent::__construct($config);
         $this->productModel = $productModel;
+        $this->orderMgr = $orderMgr;
     }
 
     public function renderInstance($instanceId, $instanceConfig)
     {
-        $defaultProductId = $instanceConfig['productId'];
-        $product = $this->productModel->getProductById($defaultProductId);
-        var_dump($product);
+        $productId = (int)$instanceConfig['productId'];
+        $product = $this->productModel->getProductById($productId);
+        $skuNumber = (int)$instanceConfig['skuNumber'];
+        $sku = $product->getSkuByNumber($skuNumber);
+
         $productName = $product->getName();
-        $thumbImage = $product->getThumbImage();
+        $mainImage = $sku->getMainImage()->getImageSrc();
+
             $view = parent::renderInstance(
                 $instanceId,
                 $instanceConfig
@@ -66,7 +73,7 @@ class PluginController
             $view->setVariables(
                 array(
                     'prodName' => $productName,
-                    'thumbImage' => $thumbImage
+                    'mainImage' => $mainImage
                 )
             );
 
