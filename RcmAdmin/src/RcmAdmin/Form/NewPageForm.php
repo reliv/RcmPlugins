@@ -18,8 +18,10 @@
  */
 namespace RcmAdmin\Form;
 
+use Rcm\Entity\Site;
 use Rcm\Service\LayoutManager;
 use Rcm\Service\PageManager;
+use Rcm\Validator\MainLayout;
 use Zend\Form\ElementInterface;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
@@ -39,6 +41,8 @@ use Zend\InputFilter\InputFilter;
  */
 class NewPageForm extends Form implements ElementInterface
 {
+    /** @var \Rcm\Entity\Site */
+    protected $currentSite;
 
     /** @var \Rcm\Service\PageManager */
     protected $pageManager;
@@ -46,18 +50,27 @@ class NewPageForm extends Form implements ElementInterface
     /** @var \Rcm\Service\LayoutManager */
     protected $layoutManager;
 
+    /** @var \Rcm\Validator\MainLayout */
+    protected $layoutValidator;
+
     /**
      * Constructor
      *
-     * @param PageManager   $pageManager   Rcm Page Manager
-     * @param LayoutManager $layoutManager Rcm Page Manager
+     * @param Site            $currentSite     Rcm Site
+     * @param PageManager     $pageManager     Rcm Page Manager
+     * @param LayoutManager   $layoutManager   Rcm Page Manager
+     * @param LayoutValidator $layoutValidator Zend Layout Validator
      */
     public function __construct(
-        PageManager $pageManager,
-        LayoutManager $layoutManager
+        Site          $currentSite,
+        PageManager   $pageManager,
+        LayoutManager $layoutManager,
+        MainLayout    $layoutValidator
     ) {
+        $this->currentSite = $currentSite;
         $this->pageManager = $pageManager;
         $this->layoutManager = $layoutManager;
+        $this->layoutValidator = $layoutValidator;
 
         parent::__construct();
     }
@@ -165,8 +178,7 @@ class NewPageForm extends Form implements ElementInterface
                 'name' => 'main-layout',
                 'options' => array(
                     'label' => 'Main Layout',
-                    'layouts' => $this->layoutManager->getSiteThemeLayoutsConfig(
-                        ),
+                    'layouts' => $this->layoutManager->getSiteThemeLayoutsConfig($this->currentSite),
                 ),
                 'type' => 'mainLayout',
             )
@@ -180,7 +192,7 @@ class NewPageForm extends Form implements ElementInterface
                     array('name' => 'StringTrim'),
                 ),
                 'validators' => array(
-                    $this->layoutManager->getMainLayoutValidator(),
+                    $this->layoutValidator,
                 ),
             )
         );
