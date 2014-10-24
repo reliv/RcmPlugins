@@ -23,8 +23,9 @@ return array(
         'RcmRecommendedProducts' => array(
             'type' => 'Content Templates',
             'display' => 'Recommended Products',
-            'tooltip' => 'Recommended products with responsive design',
+            'tooltip' => '',
             'icon' => '',
+            'editJs' => '/modules/rcm-recommended-products/rcm-recommended-products-edit.js',
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php'
 
