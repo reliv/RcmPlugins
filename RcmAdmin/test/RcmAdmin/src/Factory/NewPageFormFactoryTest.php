@@ -50,6 +50,11 @@ class NewPageFormFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateService()
     {
+        $mockCurrentSite = $this
+            ->getMockBuilder('\Rcm\Entity\Site')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $mockPageManager = $this
             ->getMockBuilder('\Rcm\Service\PageManager')
             ->disableOriginalConstructor()
@@ -61,6 +66,11 @@ class NewPageFormFactoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $serviceManager = new ServiceManager();
+
+        $serviceManager->setService(
+            'Rcm\Service\CurrentSite',
+            $mockCurrentSite
+        );
 
         $serviceManager->setService(
             'Rcm\Service\PageManager',
