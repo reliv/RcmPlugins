@@ -34,10 +34,10 @@ class AdminPanelControllerFactory implements FactoryInterface
             'RcmUser\Service\RcmUserService'
         );
 
-        /** @var \Rcm\Service\SiteManager $siteManager */
-        $siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
+        /** @var \Rcm\Entity\Site $currentSite */
+        $currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
 
-        $siteId = $siteManager->getCurrentSiteId();
+        $siteId = $currentSite->getSiteId();
 
         return new AdminPanelController(
             $adminPanelConfig,
