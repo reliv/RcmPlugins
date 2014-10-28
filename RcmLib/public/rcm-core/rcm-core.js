@@ -12,7 +12,7 @@
  *   at https://github.com/ocombe/ocLazyLoad
  * - Including modules with dependencies VIA AJAX using ocLazyLoad is NOT supported
  */
-var rcm = new function () {
+var RcmCore = function () {
 
     var self = this;
 
@@ -270,3 +270,5 @@ var rcm = new function () {
     self.initConsole();
     self.init(document);
 };
+
+var rcm = new RcmCore();
