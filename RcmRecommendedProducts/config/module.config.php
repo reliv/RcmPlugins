@@ -31,9 +31,37 @@ return array(
 
         ),
     ),
+    'controllers' => array(
+        'factories' => array(
+            'RcmRecommendedProducts'
+            => 'RcmRecommendedProducts\Factory\PluginControllerFactory',
+        ),
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmRecommendedProductsDisplay'
+            =>'RcmRecommendedProducts\Factory\RcmRecommendedProductsDisplayControllerFactory',
+        )
+
+    ),
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+    ),
+    'router' => array(
+        'routes' => array(
+            'rcmRecommendedProductsList' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcm-recommended-list-refresh/[:productId]',
+                    'defaults' => array(
+                        'controller'
+                        => 'RcmRecommendedProductsDisplayController',
+                        'action' => 'refreshProductList',
+                    ),
+                ),
+            ),
         ),
     ),
     'asset_manager' => array(
@@ -41,19 +69,14 @@ return array(
             'aliases' => array(
                 'modules/rcm-recommended-products/' => __DIR__ . '/../public/',
             ),
+            'collections' => array(
+                // required for admin edit //
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-recommended-products/rcm-recommended-products-edit.js',
+                ),
+            ),
         ),
+
     ),
-    'controllers' => array(
-        'factories' => array(
-            'RcmRecommendedProducts'
-            => 'RcmRecommendedProducts\Factory\PluginControllerFactory',
-        ),
-    ),
-//    'service_manager' => array(
-//        'factories' => array(
-//            'RcmRecommendedProducts'
-//            =>'RcmRecommendedProducts\Factory\BaseControllerFactory',
-//        )
-//
-//    )
+
 );

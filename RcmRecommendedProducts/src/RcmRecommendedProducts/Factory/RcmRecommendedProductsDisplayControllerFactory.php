@@ -1,6 +1,6 @@
 <?php
  /**
- * PluginControllerFactory.php
+ * RcmRecommendedProductsDisplayControllerFactory.php
  *
  * LongDescHere
  *
@@ -17,13 +17,12 @@
 
 namespace RcmRecommendedProducts\Factory;
 
-use RcmRecommendedProducts\Controller\PluginController;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 
 /**
- * PluginControllerFactory
+ * RcmRecommendedProductsDisplayControllerFactory
  *
  * LongDescHere
  *
@@ -31,30 +30,29 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @category  Reliv
  * @package   RcmRecommendedProducts\Factory
- * @author    authorFirstAndLast <author@relivinc.com>
+ * @author    Inna Davis <idavis@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
 
-class PluginControllerFactory implements FactoryInterface {
+class RcmRecommendedProductsDisplayControllerFactory implements FactoryInterface
+{
+    /**
+     * createService
+     *
+     * @param ServiceLocatorInterface $controllerMgr
+     *
+     * @return mixed
+     */
     public function createService(ServiceLocatorInterface $controllerMgr)
     {
         /** @var \Zend\Mvc\Controller\ControllerManager $cm For IDE */
         $cm = $controllerMgr;
-
         /** @var ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $cm->getServiceLocator();
+        $serviceMgr = $cm->getServiceLocator();
 
-        $productModel = $serviceLocator->get('rcmShoppingCartProductModel');
-
-        $config = $serviceLocator->get('config');
-
-        return new PluginController(
-            $config,
-            $productModel
-        );
+        return $serviceMgr->get('RcmRecommendedProducts');
     }
 }
- 

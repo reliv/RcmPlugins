@@ -46,36 +46,54 @@ class PluginController
      */
     public function __construct(
         $config,
-        ProductModel $productModel,
-        OrderMgr $orderMgr
+        ProductModel $productModel
 
     ) {
         parent::__construct($config);
         $this->productModel = $productModel;
-        $this->orderMgr = $orderMgr;
     }
 
     public function renderInstance($instanceId, $instanceConfig)
     {
+        return $this->getRecommendedProductsList($instanceId, $instanceConfig);
+    }
+
+    public function getRecommendedProductsList($instanceId, $instanceConfig)
+    {
         $productId = (int)$instanceConfig['productId'];
         $product = $this->productModel->getProductById($productId);
-        $skuNumber = (int)$instanceConfig['skuNumber'];
-        $sku = $product->getSkuByNumber($skuNumber);
+        $productDetailedPage = $product->getDetailedPage();
+        $prodUrl = '/p/' . $productDetailedPage;
+        $sku = $product->getDefaultSku();
 
         $productName = $product->getName();
         $mainImage = $sku->getMainImage()->getImageSrc();
 
-            $view = parent::renderInstance(
-                $instanceId,
-                $instanceConfig
-            );
+        $view = parent::renderInstance(
+            $instanceId,
+            $instanceConfig
+        );
 
-            $view->setVariables(
-                array(
-                    'prodName' => $productName,
-                    'mainImage' => $mainImage
-                )
-            );
+        $view->setVariables(
+            array(
+                'prodName' => $productName,
+                'mainImage' => $mainImage,
+                'prodUrl' => $prodUrl
+            )
+        );
+        return $view;
+    }
+
+    public function refreshProductListAction()
+    {
+        $instanceId = $this->getEvent()->getRouteMatch()->getParam(
+            'instanceId'
+        );
+        $prodId = $this->getEvent()->getRouteMatch()->getParam('productId');
+
+        $view = $this->getRecommendedProductsList($instanceId, $prodId);
+
+        $view->setVariable('skipJs', true);
 
         return $view;
     }
