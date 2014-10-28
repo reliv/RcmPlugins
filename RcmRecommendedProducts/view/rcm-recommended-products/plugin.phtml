@@ -4,18 +4,18 @@ $this->headLink()->appendStylesheet(
     . '/modules/rcm-recommended-products/style.css'
 );
 ?>
-<div class="recommended">
+<div class="rcmRecommendedProductsList">
     <div class="recommendedProductImage"><img src="<?= $this->escapeHtml($mainImage) ?>"></div>
     <div class="prodName">
     <?=
     $this->rcmTextEdit(
         'top',
-        'Reliv Now',
+        $prodName,
         'div',
         ['class' => 'top']
     ) ?>
     </div>
-    <form action="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
+    <form action="<?= $this->escapeHtml($prodUrl) ?>">
     <button class="btn btn-primary">
       <?= $this->translate('Order Now') ?>
     </button>
