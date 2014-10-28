@@ -94,21 +94,28 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
 
     me.buildPersonDetails = function (personId, person) {
         var dataPersonId = ' data-personId="' + personId + '"';
+
+        var imageTag = ''
+
+        if (person.largeImage && person.largeImage != 'undefined') {
+            //We don't put anything in src so images only load later
+            imageTag = '<img ' +
+            'class="largeImage" ' +
+            'data-delayedSrc="' + person.largeImage + '">'
+        }
+
         return $(
             '<table class="personDetails"'
-                + dataPersonId + ' style="display:none;"' + '>' +
-                '<tr>' +
-                '<td><div class="longDesc" data-rcm-html-edit>' +
-                person.longDesc +
-                '</div></td>' +
-                '<td>' +
-                //We don't put anything in src so images only load later
-                '<img ' +
-                'class="largeImage" ' +
-                'data-delayedSrc="' + person.largeImage + '">' +
-                '</td>' +
-                '</tr>' +
-                '</table>'
+            + dataPersonId + ' style="display:none;"' + '>' +
+            '<tr>' +
+            '<td><div class="longDesc" data-rcm-html-edit>' +
+            person.longDesc +
+            '</div></td>' +
+            '<td>' +
+            imageTag +
+            '</td>' +
+            '</tr>' +
+            '</table>'
         );
     };
 
@@ -121,13 +128,14 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     me.buildPersonPreview = function (personId, person) {
         return $(
             '<a href="?id=' + personId + '" ' +
-                'class="person" ' +
-                'data-personId="' + personId + '">' +
-                '<img class="smallImage" src="' + person.smallImage + '">' +
-                '<div class="shortDesc" data-rcm-html-edit>' +
-                person.shortDesc +
-                '</div>' +
-                '</a>');
+            'class="person" ' +
+            'data-personId="' + personId + '">' +
+            '<img class="smallImage" src="' + person.smallImage + '">' +
+            '<div class="shortDesc" data-rcm-html-edit>' +
+            person.shortDesc +
+            '</div>' +
+            '</a>'
+        );
     };
 
     me.handlePersonClick = function (event) {
