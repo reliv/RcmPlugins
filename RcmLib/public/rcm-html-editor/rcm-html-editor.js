@@ -30,7 +30,7 @@ angular.module('RcmHtmlEditor', [])
                 language: self.language,
 
                 menubar: false,
-                plugins: "anchor, charmap, code, hr, image, link, paste, table, textcolor, colorpicker",
+                plugins: "anchor, charmap, code, hr, image, link, paste, table, textcolor, colorpicker, elfinder",
                 relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
@@ -55,7 +55,7 @@ angular.module('RcmHtmlEditor', [])
                 language: self.language,
 
                 menubar: false,
-                plugins: "anchor, charmap, code, hr, image, link, paste, table, textcolor, colorpicker",
+                plugins: "anchor, charmap, code, hr, image, link, paste, table, textcolor, colorpicker, elfinder",
                 relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
@@ -79,7 +79,7 @@ angular.module('RcmHtmlEditor', [])
                 language: self.language,
 
                 menubar: false,
-                plugins: "anchor, charmap, code, hr, image, link, paste, table",
+                plugins: "anchor, charmap, code, hr, image, link, paste, table, elfinder",
                 relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
