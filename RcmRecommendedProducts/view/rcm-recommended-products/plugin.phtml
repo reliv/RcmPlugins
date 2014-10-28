@@ -1,2 +1,23 @@
-hello
-<?= $prodName ?>
+<?php
+$this->headLink()->appendStylesheet(
+    $this->basePath()
+    . '/modules/rcm-recommended-products/style.css'
+);
+?>
+<div class="rcmRecommendedProductsList">
+    <div class="recommendedProductImage"><img src="<?= $this->escapeHtml($mainImage) ?>"></div>
+    <div class="prodName">
+    <?=
+    $this->rcmTextEdit(
+        'top',
+        $prodName,
+        'div',
+        ['class' => 'top']
+    ) ?>
+    </div>
+    <form action="<?= $this->escapeHtml($prodUrl) ?>">
+    <button class="btn btn-primary">
+      <?= $this->translate('Order Now') ?>
+    </button>
+    </form>
+</div>
