@@ -101,7 +101,7 @@ var RcmRecommendedProductsEdit = function (instanceId, container, pluginHandler)
         $(container).find(".RcmRecommendedProducts").find(".rcmRecommendedProductsList");
         $.get('/rcm-recommended-list-refresh/' + instanceId + '/' + productId, function (data) {
             $(".rcmRecommendedProductsList").replaceWith(data);
-            console.log(data);
+
         })
     }
 
