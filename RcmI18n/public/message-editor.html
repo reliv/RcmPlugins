@@ -2,7 +2,7 @@
     <link href="/modules/rcm-i18n/styles.css"
           media="screen"
           rel="stylesheet" type="text/css">
-    <div class="translations">
+    <div class="rcmI18n">
         <div ng-controller="rcmTranslations" class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -55,12 +55,13 @@
                                 <th style="width:10em"></th>
                             </tr>
                             <tr ng-repeat="message in messages | filter:messageQuery">
-                                <td style="padding-top: 14px;">
+                                <td class="col-default-text">
                                     {{message.defaultText}}
                                 </td>
-                                <td>
+                                <td class="col-messages">
                                     <div id="htmlEditorToolbar-{{message.id}}">
                                     </div>
+                                    <div style="clear: both"><!-- Clear so the focus works properly--></div>
                                     <div style="padding: 6px 0 6px 0"
                                          id="{{message.id}}"
                                          data-rcm-html-edit
@@ -68,10 +69,11 @@
                                          html-editor-type="simpleText"
                                          html-editor-size="small"
                                          ng-change="message.dirty = true"
-                                         ng-model="message.text">{{message.text}}</div>
+                                         ng-model="message.text"></div>
 
                                 </td>
-                                <td style="vertical-align: top">
+
+                                <td class="col-button">
                                     <button ng-class="{invisible: !message.dirty}"
                                             id="button-{{message.id}}"
                                             ng-click="saveText(message)"
