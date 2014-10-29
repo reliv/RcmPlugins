@@ -106,7 +106,10 @@ var RcmDialog = {
 
         self.getDirectiveName = function () {
 
-            return self.strategyName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+            return self.strategyName.replace(
+                /([a-z])([A-Z])/g,
+                '$1-$2'
+            ).toLowerCase();
         };
 
         self.setAction = function (actionName, method) {
@@ -242,7 +245,7 @@ angular.module(
 
             var modalTemplate = '<div class="modal fade"' +
                 'id="TEMP"' +
-                //'tabindex="-1"' + // This causes issues
+                    //'tabindex="-1"' + // This causes issues
                 'role="dialog"' +
                 'aria-labelledby="myModalLabel"' +
                 'aria-hidden="true"></div>';
@@ -466,6 +469,7 @@ angular.module(
                     post: function (scope, elm, attrs, controller, transcludeFn) {
 
                         scope.dialog.loading = false;
+                        // @todo may need scope.$apply()
                     }
                 }
             };
@@ -498,15 +502,19 @@ angular.module(
                     scope.dialog = RcmDialog.getDialog(dialogId);
 
                     $http({method: 'GET', url: scope.dialog.url}).
-                        success(function (data, status, headers, config) {
-                                    var contentBody = elm.find(".modal-body");
-                                    contentBody.html(data);
-                                    $compile(contentBody)(scope);
-                                }).
-                        error(function (data, status, headers, config) {
-                                  var msg = "Sorry but there was an error: ";
-                                  scope.error(msg + status);
-                              });
+                        success(
+                        function (data, status, headers, config) {
+                            var contentBody = elm.find(".modal-body");
+                            contentBody.html(data);
+                            $compile(contentBody)(scope);
+                        }
+                    ).
+                        error(
+                        function (data, status, headers, config) {
+                            var msg = "Sorry but there was an error: ";
+                            scope.error(msg + status);
+                        }
+                    );
 
                     scope.dialog.loading = false;
 
@@ -566,35 +574,49 @@ angular.module(
                     scope.dialog.setAction(
                         'save',
                         function () {
-
                             scope.dialog.loading = true;
+                            // @todo may need scope.$apply()
                             var content = elm.find(".modal-body");
                             var form = elm.find('form');
-                            var data = form.serializeArray();
                             var actionUrl = form.attr('action');
-                            content.load(
-                                actionUrl,
-                                data,
-                                function (response, status, xhr) {
+
+                            jQuery.post(actionUrl, form.serialize())
+                                .fail(
+                                function () {
                                     scope.dialog.loading = false;
+                                    scope.$apply();
+                                }
+                            )
+                                .always(
+                                function (data) {
+
+                                    content.html(data);
+                                    scope.dialog.loading = false;
+                                    $compile(content)(scope);
+                                    scope.$apply();
                                 }
                             );
                         }
                     );
 
                     $http({method: 'GET', url: scope.dialog.url}).
-                        success(function (data, status, headers, config) {
+                        success(
+                        function (data, status, headers, config) {
 
-                                    var contentBody = elm.find(".modal-body");
-                                    contentBody.html(data);
-                                    $compile(contentBody)(scope);
+                            var contentBody = elm.find(".modal-body");
+                            contentBody.html(data);
+                            scope.dialog.loading = false;
+                            $compile(contentBody)(scope);
+                            // @todo may need scope.$apply()
+                        }
+                    ).
+                        error(
+                        function (data, status, headers, config) {
 
-                                    scope.dialog.loading = false;
-                                }).
-                        error(function (data, status, headers, config) {
-                                  scope.dialog.loading = false;
-
-                              });
+                            scope.dialog.loading = false;
+                            // @todo may need scope.$apply()
+                        }
+                    );
 
                     scope.$apply();
                 };
@@ -611,12 +633,12 @@ angular.module(
                 ' <div class="modal-dialog">' +
                 '  <div class="modal-content">' +
                 '   <div class="modal-header">' +
-                '    <button type="button" class="close" XXXdata-dismiss="modal" aria-hidden="true" data-ng-click="dialog.actions.close()">&times;</button>' +
+                '    <button type="button" class="close" aria-hidden="true" data-ng-click="dialog.actions.close()">&times;</button>' +
                 '    <h1 class="modal-title" id="myModalLabel">{{dialog.title}}</h1>' +
                 '   </div>' +
                 '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
                 '   <div class="modal-footer">' +
-                '    <button type="button" class="btn btn-default" XXXdata-dismiss="modal" data-ng-click="dialog.actions.close()">' +
+                '    <button type="button" class="btn btn-default" data-ng-click="dialog.actions.close()">' +
                 '     Close' +
                 '    </button>' +
                 '    <button type="button" class="btn btn-primary saveBtn" data-ng-click="dialog.actions.save()" >' +
