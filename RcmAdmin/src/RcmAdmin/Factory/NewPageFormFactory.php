@@ -71,7 +71,7 @@ class NewPageFormFactory implements FactoryInterface
         $layoutValidator = $serviceLocator->get('Rcm\Validator\MainLayout');
 
         /** @var \Rcm\Validator\Page $pageValidator */
-        $pageValidator = $serviceLocator->get('Rcm\Validator\MainLayout');
+        $pageValidator = $serviceLocator->get('Rcm\Validator\Page');
 
         /** @var \Rcm\Validator\PageTemplate $templateValidator */
         $templateValidator = $serviceLocator->get('Rcm\Validator\PageTemplate');

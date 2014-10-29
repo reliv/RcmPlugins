@@ -147,10 +147,10 @@ return array(
             'RcmAdmin\Page\CreateTemplateFromPage' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/rcm-admin/page/create-template-from-page/:rcmPageType/:rcmPageName/:rcmPageRevision',
+                    'route' => '/rcm-admin/page/create-template-from-page/:rcmPageType/:rcmPageName[/[:rcmPageRevision]]',
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\PageController',
-                        'action' => 'createPageFromTemplate',
+                        'action' => 'createTemplateFromPage',
                     ),
                 ),
             ),

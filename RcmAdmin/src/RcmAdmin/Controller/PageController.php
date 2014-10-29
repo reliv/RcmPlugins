@@ -24,7 +24,6 @@ use Rcm\Exception\InvalidArgumentException;
 use Rcm\Exception\PageNotFoundException;
 use Rcm\Http\Response;
 use Rcm\Repository\Page as PageRepo;
-use Rcm\Service\SiteManager;
 use RcmUser\User\Entity\User;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -122,8 +121,15 @@ class PageController extends AbstractActionController
                     $this->currentSite
                 );
             } elseif (!empty($validatedData['page-template'])) {
+                /** @var \Rcm\Entity\Page $page */
+                $page = $this->pageRepo->findOneBy(array('pageId' => $validatedData['page-template'], 'pageType' => 't'));
+
+                if (empty($page)) {
+                    throw new PageNotFoundException('No template found for page id: '.$validatedData['page-template']);
+                }
+
                 $this->pageRepo->copyPage(
-                    $validatedData['page-template'],
+                    $page,
                     $validatedData['url'],
                     $this->rcmUserGetCurrentUser()->getName(),
                     $this->currentSite,
@@ -156,12 +162,12 @@ class PageController extends AbstractActionController
     }
 
     /**
-     * createPageFromTemplateAction
+     * createTemplateFromPageAction
      *
      * @return Response|ViewModel
      * @throws \Rcm\Exception\PageNotFoundException
      */
-    public function createPageFromTemplateAction()
+    public function createTemplateFromPageAction()
     {
         if (!$this->rcmIsAllowed('sites.' . $this->currentSite->getSiteId() . '.pages', 'create')) {
             $response = new Response();
@@ -331,7 +337,7 @@ class PageController extends AbstractActionController
             ->getRouteMatch()
             ->getParam(
                 'rcmPageName',
-                null
+                'index'
             );
 
         $pageRevision = $this->getEvent()
@@ -345,7 +351,7 @@ class PageController extends AbstractActionController
             ->getRouteMatch()
             ->getParam(
                 'rcmPageType',
-                null
+                'n'
             );
 
         /** @var \Zend\Http\Request $request */

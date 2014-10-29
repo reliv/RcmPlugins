@@ -193,7 +193,7 @@ class NewPageForm extends Form implements ElementInterface
                 'name' => 'main-layout',
                 'options' => array(
                     'label' => 'Main Layout',
-                    'layouts' => $this->layoutManager->getSiteThemeLayoutsConfig($this->currentSite),
+                    'layouts' => $this->layoutManager->getSiteThemeLayoutsConfig($this->currentSite->getTheme()),
                 ),
                 'type' => 'mainLayout',
             )

@@ -20,6 +20,7 @@ namespace RcmAdmin\Controller;
 
 use Rcm\Acl\CmsPermissionChecks;
 use Rcm\Entity\Site;
+use RcmUser\Acl\Service\AclDataService;
 use RcmUser\Service\RcmUserService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -54,6 +55,9 @@ class AdminPanelController extends AbstractActionController
     /** @var \Rcm\Acl\CmsPermissionChecks */
     protected $cmsPermissionChecks;
 
+    /** @var AclDataService  */
+    protected $aclDataService;
+
     /**
      * Constructor
      *
@@ -61,17 +65,20 @@ class AdminPanelController extends AbstractActionController
      * @param RcmUserService      $userService         RmcUser User Service
      * @param Site                $currentSite         Rcm Site Id
      * @param CmsPermissionChecks $cmsPermissionChecks Rcm Service for CMS permissions
+     * @param AclDataService      $aclDataService      Rcm User Acl Data Service
      */
     public function __construct(
         Array          $adminPanelConfig,
         RcmUserService $userService,
         Site           $currentSite,
-        CmsPermissionChecks $cmsPermissionChecks
+        CmsPermissionChecks $cmsPermissionChecks,
+        AclDataService $aclDataService
     ) {
         $this->adminPanelConfig = $adminPanelConfig;
         $this->userService = $userService;
         $this->currentSite = $currentSite;
         $this->cmsPermissionChecks = $cmsPermissionChecks;
+        $this->aclDataService = $aclDataService;
     }
 
     /**
@@ -108,9 +115,8 @@ class AdminPanelController extends AbstractActionController
         $resourceId = 'sites.' . $this->currentSite->getSiteId() . '.pages.' . $pageType . '.'
             . $sourcePageName;
 
-        $aclDataService = $this->getServiceLocator()->get(
-            'RcmUser\Acl\AclDataService'
-        );
+        $aclDataService = $this->aclDataService;
+
         //getting all set rules by resource Id
         $rules = $aclDataService->getRulesByResource($resourceId)->getData();
         //getting list of all dynamically created roles

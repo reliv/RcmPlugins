@@ -40,11 +40,15 @@ class AdminPanelControllerFactory implements FactoryInterface
         /** @var \Rcm\Acl\CmsPermissionChecks $cmsPermissionChecks */
         $cmsPermissionChecks = $serviceLocator->get('Rcm\Acl\CmsPermissionsChecks');
 
+        /** @var \RcmUser\Acl\Service\AclDataService $aclDataService */
+        $aclDataService = $serviceLocator->get('RcmUser\Acl\AclDataService');
+
         return new AdminPanelController(
             $adminPanelConfig,
             $rcmUserService,
             $currentSite,
-            $cmsPermissionChecks
+            $cmsPermissionChecks,
+            $aclDataService
         );
     }
 }
