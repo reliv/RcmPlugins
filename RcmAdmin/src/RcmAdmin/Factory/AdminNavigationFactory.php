@@ -43,11 +43,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
     /** @var  \RcmUser\Service\RcmUserService */
     protected $rcmUserService;
 
-    /** @var \Rcm\Service\SiteManager */
-    protected $siteManager;
+    /** @var \Rcm\Entity\Site */
+    protected $currentSite;
 
-    /** @var  \Rcm\Service\PageManager */
-    protected $pageManager;
+    /** @var  \Rcm\Repository\Page */
+    protected $pageRepo;
 
     /** @var  \Rcm\Entity\Page */
     protected $page = null;
@@ -65,12 +65,15 @@ class AdminNavigationFactory extends AbstractNavigationFactory
     {
         $this->rcmUserService = $serviceLocator->get('RcmUser\Service\RcmUserService');
         $this->cmsPermissionChecks = $serviceLocator->get('Rcm\Acl\CmsPermissionsChecks');
-        $this->siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
+        $this->currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
 
         $config = $serviceLocator->get('config');
 
-        /** @var  \Rcm\Service\PageManager $pageManager */
-        $this->pageManager = $this->siteManager->getPageManager();
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+
+        /** @var \Rcm\Repository\Page $pageRepo */
+        $this->pageRepo = $entityManager->getRepository('\Rcm\Entity\Page');
 
         $application = $serviceLocator->get('Application');
 
@@ -86,16 +89,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         $pageTypeMatch = $routeMatch->getParam('pageType', 'n');
 
         if (!empty($pageMatch)) {
-            $this->page = $this->pageManager->getRevisionInfo(
-                $pageMatch,
-                $this->pageRevision,
-                $pageTypeMatch,
-                $this->cmsPermissionChecks->shouldShowRevisions(
-                    $this->siteManager->getCurrentSiteId(),
-                    $pageTypeMatch,
-                    $pageMatch
-                )
-            );
+            $this->page = $this->pageRepo->findOneBy(array('name' => $pageMatch, 'pageType' => $pageTypeMatch));
         }
 
         return parent::createService($serviceLocator);
@@ -149,8 +143,6 @@ class AdminNavigationFactory extends AbstractNavigationFactory
                 }
             }
 
-
-
             if (isset($page['pages'])) {
                 $page['pages'] = $this->injectComponents($page['pages'], $routeMatch, $router, $request);
             }
@@ -191,20 +183,20 @@ class AdminNavigationFactory extends AbstractNavigationFactory
 
             $resource = str_replace(
                 array(':siteId',':pageName'),
-                array($this->siteManager->getCurrentSiteId(), $this->page['name']),
+                array($this->currentSite->getSiteId(), $this->page->getName()),
                 $resource
             );
 
             if (!empty($this->page)) {
                 $resource = str_replace(
                     array(':siteId',':pageName'),
-                    array($this->siteManager->getCurrentSiteId(), $this->page['name']),
+                    array($this->currentSite->getSiteId(), $this->page->getName()),
                     $resource
                 );
             } else {
                 $resource = str_replace(
                     array(':siteId'),
-                    array($this->siteManager->getCurrentSiteId()),
+                    array($this->currentSite->getSiteId()),
                     $resource
                 );
             }
@@ -252,9 +244,10 @@ class AdminNavigationFactory extends AbstractNavigationFactory
     {
         $return = array();
 
-        $drafts = $this->pageManager->getRevisionList(
-            $this->page['name'],
-            $this->page['pageType'],
+        $drafts = $this->pageRepo->getRevisionList(
+            $this->currentSite->getSiteId(),
+            $this->page->getName(),
+            $this->page->getPageType(),
             $published,
             10
         );
@@ -265,7 +258,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
 
         /** @var \Rcm\Entity\Revision $draft */
         foreach ($drafts['revisions'] as $draft) {
-            if ($this->page['revision']['revisionId'] == $draft['revisionId']) {
+            if ($this->pageRevision == $draft['revisionId']) {
                 continue;
             }
 
@@ -274,8 +267,8 @@ class AdminNavigationFactory extends AbstractNavigationFactory
                 'route'  => 'contentManagerWithPageType',
                 'class' => 'revision',
                 'params' => array(
-                    'page' => $this->page['name'],
-                    'pageType' => $this->page['pageType'],
+                    'page' => $this->page->getName(),
+                    'pageType' => $this->page->getPageType(),
                     'revision' => $draft['revisionId']
                 )
             );
@@ -302,9 +295,9 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         );
 
         $replace = array(
-            $this->page['name'],
-            $this->page['pageType'],
-            $this->page['revision']['revisionId']
+            $this->page->getName(),
+            $this->page->getPageType(),
+            $this->pageRevision
         );
 
         $item = str_replace($find, $replace, $item);

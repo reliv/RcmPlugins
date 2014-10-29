@@ -18,6 +18,8 @@
  */
 namespace RcmAdmin\Controller;
 
+use Rcm\Acl\CmsPermissionChecks;
+use Rcm\Entity\Site;
 use RcmUser\Service\RcmUserService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -35,6 +37,8 @@ use Zend\View\Model\ViewModel;
  * @license   License.txt New BSD License
  * @version   Release: 1.0
  * @link      http://github.com/reliv
+ *
+ * @method boolean rcmIsSiteAdmin(Site $site)  Is Site Administrator
  */
 class AdminPanelController extends AbstractActionController
 {
@@ -44,24 +48,30 @@ class AdminPanelController extends AbstractActionController
     /** @var \RcmUser\Service\RcmUserService */
     protected $userService;
 
-    /** @var integer */
-    protected $siteId;
+    /** @var \Rcm\Entity\Site */
+    protected $currentSite;
+
+    /** @var \Rcm\Acl\CmsPermissionChecks */
+    protected $cmsPermissionChecks;
 
     /**
      * Constructor
      *
-     * @param array          $adminPanelConfig Admin Config
-     * @param RcmUserService $userService      RmcUser User Service
-     * @param integer        $siteId           Rcm Site Id
+     * @param array               $adminPanelConfig    Admin Config
+     * @param RcmUserService      $userService         RmcUser User Service
+     * @param Site                $currentSite         Rcm Site Id
+     * @param CmsPermissionChecks $cmsPermissionChecks Rcm Service for CMS permissions
      */
     public function __construct(
         Array          $adminPanelConfig,
         RcmUserService $userService,
-        $siteId
+        Site           $currentSite,
+        CmsPermissionChecks $cmsPermissionChecks
     ) {
         $this->adminPanelConfig = $adminPanelConfig;
         $this->userService = $userService;
-        $this->siteId = $siteId;
+        $this->currentSite = $currentSite;
+        $this->cmsPermissionChecks = $cmsPermissionChecks;
     }
 
     /**
@@ -71,11 +81,7 @@ class AdminPanelController extends AbstractActionController
      */
     public function getAdminWrapperAction()
     {
-        $allowed = $this->userService->isAllowed(
-            'sites.' . $this->siteId,
-            'admin',
-            'Rcm\Acl\ResourceProvider'
-        );
+        $allowed = $this->cmsPermissionChecks->siteAdminCheck($this->currentSite);
 
         if (!$allowed) {
             return null;
@@ -92,20 +98,14 @@ class AdminPanelController extends AbstractActionController
     }
 
     public function checkRestrictedPage() {
-
-        $siteManager = $this->getServiceLocator()->get(
-            'Rcm\Service\SiteManager'
-        );
-
-        $currentSiteId = $siteManager->getCurrentSiteId();
-
         /** @var RouteMatch $routeMatch */
         $routeMatch = $this->getEvent()->getRouteMatch();
 
         $sourcePageName = $routeMatch->getParam('page', 'index');
         $pageType = $routeMatch->getParam('pageType', 'n');
 
-        $resourceId = 'sites.' . $currentSiteId . '.pages.' . $pageType . '.'
+        /** @todo Move resource to external modal */
+        $resourceId = 'sites.' . $this->currentSite->getSiteId() . '.pages.' . $pageType . '.'
             . $sourcePageName;
 
         $aclDataService = $this->getServiceLocator()->get(

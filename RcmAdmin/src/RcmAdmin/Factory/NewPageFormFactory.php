@@ -58,8 +58,11 @@ class NewPageFormFactory implements FactoryInterface
         /** @var \Rcm\Entity\Site $currentSite */
         $currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
 
-        /** @var \Rcm\Service\PageManager $pageManager */
-        $pageManager = $serviceLocator->get('Rcm\Service\PageManager');
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+
+        /** @var \Rcm\Repository\Page $pageRepo */
+        $pageRepo = $entityManager->getRepository('\Rcm\Entity\Page');
 
         /** @var \Rcm\Service\LayoutManager $layoutManager */
         $layoutManager = $serviceLocator->get('Rcm\Service\LayoutManager');
@@ -67,11 +70,19 @@ class NewPageFormFactory implements FactoryInterface
         /** @var \Rcm\Validator\MainLayout $layoutValidator */
         $layoutValidator = $serviceLocator->get('Rcm\Validator\MainLayout');
 
+        /** @var \Rcm\Validator\Page $pageValidator */
+        $pageValidator = $serviceLocator->get('Rcm\Validator\MainLayout');
+
+        /** @var \Rcm\Validator\PageTemplate $templateValidator */
+        $templateValidator = $serviceLocator->get('Rcm\Validator\PageTemplate');
+
         return new NewPageForm(
             $currentSite,
-            $pageManager,
+            $pageRepo,
             $layoutManager,
-            $layoutValidator
+            $layoutValidator,
+            $pageValidator,
+            $templateValidator
         );
     }
 }

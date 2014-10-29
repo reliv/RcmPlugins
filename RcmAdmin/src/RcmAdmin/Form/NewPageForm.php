@@ -19,9 +19,11 @@
 namespace RcmAdmin\Form;
 
 use Rcm\Entity\Site;
+use Rcm\Repository\Page;
+use Rcm\Validator\Page as PageValidator;
 use Rcm\Service\LayoutManager;
-use Rcm\Service\PageManager;
 use Rcm\Validator\MainLayout;
+use Rcm\Validator\PageTemplate;
 use Zend\Form\ElementInterface;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
@@ -44,8 +46,8 @@ class NewPageForm extends Form implements ElementInterface
     /** @var \Rcm\Entity\Site */
     protected $currentSite;
 
-    /** @var \Rcm\Service\PageManager */
-    protected $pageManager;
+    /** @var \Rcm\Repository\Page */
+    protected $pageRepo;
 
     /** @var \Rcm\Service\LayoutManager */
     protected $layoutManager;
@@ -53,24 +55,36 @@ class NewPageForm extends Form implements ElementInterface
     /** @var \Rcm\Validator\MainLayout */
     protected $layoutValidator;
 
+    /** @var \Rcm\Validator\Page */
+    protected $pageValidator;
+
+    /** @var  \Rcm\Validator\PageTemplate */
+    protected $templateValidator;
+
     /**
      * Constructor
      *
-     * @param Site            $currentSite     Rcm Site
-     * @param PageManager     $pageManager     Rcm Page Manager
-     * @param LayoutManager   $layoutManager   Rcm Page Manager
-     * @param LayoutValidator $layoutValidator Zend Layout Validator
+     * @param Site          $currentSite       Rcm Site
+     * @param Page          $pageRepo          Rcm Page Repository
+     * @param LayoutManager $layoutManager     Rcm Page Manager
+     * @param MainLayout    $layoutValidator   Zend Layout Validator
+     * @param PageValidator $pageValidator     Zend Page Validator
+     * @param PageTemplate  $templateValidator Zend Page Template Validator
      */
     public function __construct(
         Site          $currentSite,
-        PageManager   $pageManager,
+        Page          $pageRepo,
         LayoutManager $layoutManager,
-        MainLayout    $layoutValidator
+        MainLayout    $layoutValidator,
+        PageValidator $pageValidator,
+        PageTemplate  $templateValidator
     ) {
-        $this->currentSite = $currentSite;
-        $this->pageManager = $pageManager;
-        $this->layoutManager = $layoutManager;
-        $this->layoutValidator = $layoutValidator;
+        $this->currentSite       = $currentSite;
+        $this->pageRepo          = $pageRepo;
+        $this->layoutManager     = $layoutManager;
+        $this->layoutValidator   = $layoutValidator;
+        $this->pageValidator     = $pageValidator;
+        $this->templateValidator = $templateValidator;
 
         parent::__construct();
     }
@@ -83,7 +97,8 @@ class NewPageForm extends Form implements ElementInterface
      */
     public function init()
     {
-        $pageList = $this->pageManager->getPageListByType('t');
+        $pageList = $this->pageRepo->getAllPageIdsAndNamesBySiteThenType($this->currentSite->getSiteId(), 't');
+
         $pageList['blank'] = 'Blank Page (Experts Only)';
 
         $filter = new InputFilter();
@@ -113,7 +128,7 @@ class NewPageForm extends Form implements ElementInterface
                     ),
                 ),
                 'validators' => array(
-                    $this->pageManager->getPageValidator(),
+                    $this->pageValidator,
                 ),
             )
         );
@@ -167,7 +182,7 @@ class NewPageForm extends Form implements ElementInterface
                     array('name' => 'StringTrim'),
                 ),
                 'validators' => array(
-                    $this->pageManager->getTemplateValidator(),
+                    $this->templateValidator,
                 ),
             )
         );

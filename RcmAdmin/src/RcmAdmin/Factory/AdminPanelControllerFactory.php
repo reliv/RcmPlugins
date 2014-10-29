@@ -37,12 +37,14 @@ class AdminPanelControllerFactory implements FactoryInterface
         /** @var \Rcm\Entity\Site $currentSite */
         $currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
 
-        $siteId = $currentSite->getSiteId();
+        /** @var \Rcm\Acl\CmsPermissionChecks $cmsPermissionChecks */
+        $cmsPermissionChecks = $serviceLocator->get('Rcm\Acl\CmsPermissionsChecks');
 
         return new AdminPanelController(
             $adminPanelConfig,
             $rcmUserService,
-            $siteId
+            $currentSite,
+            $cmsPermissionChecks
         );
     }
 }
