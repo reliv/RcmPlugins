@@ -85,7 +85,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                         method: 'PUT',//method put to update selected locale
                         url: '/rcmi18n/messages/'
                         + encodeURIComponent($scope.selectedLocale)
-                        + '/' + encodeURIComponent(message['defaultText']),
+                        + '/' + encodeURIComponent(message['messageId']),
                         data: message
 
                     }

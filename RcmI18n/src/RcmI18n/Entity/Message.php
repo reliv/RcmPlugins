@@ -41,7 +41,7 @@ use Zend\Stdlib\ArrayObject;
  *     indexes={@ORM\Index(name="locale", columns={"locale"})}),
  * )
  */
-class Message implements \IteratorAggregate
+class Message implements \IteratorAggregate, \JsonSerializable
 {
     /**
      * @var int Auto-Incremented Key - NOT TO BE USED BY ANYTHING BUT THE DB!
@@ -73,6 +73,27 @@ class Message implements \IteratorAggregate
      */
     protected $text;
 
+    /**
+     * getMessageId
+     *
+     * @return int
+     */
+    public function getMessageId()
+    {
+        return $this->messageId;
+    }
+
+    /**
+     * setMessageId
+     *
+     * @param $messageId
+     *
+     * @return void
+     */
+    public function setMessageId($messageId)
+    {
+        $this->messageId = $messageId;
+    }
 
     /**
      * @param string $defaultText
@@ -131,5 +152,15 @@ class Message implements \IteratorAggregate
     {
         $a = new ArrayObject(get_object_vars($this));
         return $a->getIterator();
+    }
+
+    /**
+     * jsonSerialize
+     *
+     * @return array|mixed
+     */
+    public function jsonSerialize ()
+    {
+        return get_class_vars($this);
     }
 } 
