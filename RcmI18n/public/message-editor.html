@@ -55,10 +55,10 @@
                                 <th style="width:10em"></th>
                             </tr>
                             <tr ng-repeat="message in messages | filter:messageQuery">
-                                <td style="padding-top: 14px;">
+                                <td class="col-default-text">
                                     {{message.defaultText}}
                                 </td>
-                                <td>
+                                <td class="col-messages">
                                     <div id="htmlEditorToolbar-{{message.id}}">
                                     </div>
                                     <div style="padding: 6px 0 6px 0"
@@ -71,7 +71,8 @@
                                          ng-model="message.text"></div>
 
                                 </td>
-                                <td style="vertical-align: top">
+
+                                <td class="col-button">
                                     <button ng-class="{invisible: !message.dirty}"
                                             id="button-{{message.id}}"
                                             ng-click="saveText(message)"
