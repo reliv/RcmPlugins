@@ -1,4 +1,4 @@
-.loading {
+.rcmI18n .loading {
     display: none;
 
     -webkit-animation: spin 1s linear infinite;
@@ -26,53 +26,53 @@
 }
 
 /* </loader> */
-.loading.active {
+.rcmI18n .loading.active {
     display: inline-block;
     width: auto; /* fix for unknown width elements */
     font-size: 22px;
 }
 
-.rcmHtmlEditorService.toolbarLoading.active {
+.rcmI18n .rcmHtmlEditorService.toolbarLoading.active {
     display: inline-block;
     width: auto; /* fix for unknown width elements */
     font-size: 22px;
 }
 
-.loadBar div {
+.rcmI18n .loadBar div {
     width: 5%;
     margin: 0 auto;
     margin-top: 20px;
 }
 /* fixes the bug in bootstrap form-control height is different in FF and in Chrome */
 @-moz-document url-prefix() {
-    .form-control  {
+    .rcmI18n .form-control  {
         height: 20px;
     }
 }
 /* fixes the bug in bootstrap form-control input is too wide in Firefox, makes search icon disappear  */
 @-moz-document url-prefix() {
-    .input-group .form-control  {
+    .rcmI18n .input-group .form-control  {
     width: 90%;
 }
 }
-.fixed {
+.rcmI18n .fixed {
     margin-top: 15px;
     padding: 0 15px 0 15px;
 }
 
-.modal-header.fixed {
+.rcmI18n .modal-header.fixed {
     height: 5em;
 }
 
-.invisible {
+.rcmI18n .invisible {
     visibility: hidden;
 }
 
-.titleTranslations {
+.rcmI18n .titleTranslations {
     background-color: #F5F5F5;
 }
 
-.defaultMes td {
+.rcmI18n .defaultMes td {
     padding-top: 25px;
     padding-bottom: 25px;
 }
@@ -80,13 +80,13 @@
 @media (max-width:520px) {
 
 
-    .responsiveStyle {width: 200px;
+    .rcmI18n .responsiveStyle {width: 200px;
         height: 40px;}
 
 }
 
 @media (max-width:500px) {
-    .fixed label {
+    .rcmI18n .fixed label {
         float:left;
     }
 }

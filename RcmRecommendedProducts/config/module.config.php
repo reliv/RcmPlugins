@@ -23,23 +23,12 @@ return array(
         'RcmRecommendedProducts' => array(
             'type' => 'Content Templates',
             'display' => 'Recommended Products',
-            'tooltip' => 'Recommended products with responsive design',
+            'tooltip' => '',
             'icon' => '',
+            'editJs' => '/modules/rcm-recommended-products/rcm-recommended-products-edit.js',
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php'
 
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
-            __DIR__ . '/../view',
-        ),
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
-                'modules/rcm-recommended-products/' => __DIR__ . '/../public/',
-            ),
         ),
     ),
     'controllers' => array(
@@ -48,11 +37,46 @@ return array(
             => 'RcmRecommendedProducts\Factory\PluginControllerFactory',
         ),
     ),
-//    'service_manager' => array(
-//        'factories' => array(
-//            'RcmRecommendedProducts'
-//            =>'RcmRecommendedProducts\Factory\BaseControllerFactory',
-//        )
-//
-//    )
+    'service_manager' => array(
+        'factories' => array(
+            'RcmRecommendedProductsDisplay'
+            =>'RcmRecommendedProducts\Factory\RcmRecommendedProductsDisplayControllerFactory',
+        )
+
+    ),
+    'view_manager' => array(
+        'template_path_stack' => array(
+            __DIR__ . '/../view',
+        ),
+    ),
+    'router' => array(
+        'routes' => array(
+            'rcmRecommendedProductsList' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/rcm-recommended-list-refresh/[:productId]',
+                    'defaults' => array(
+                        'controller'
+                        => 'RcmRecommendedProductsDisplayController',
+                        'action' => 'refreshProductList',
+                    ),
+                ),
+            ),
+        ),
+    ),
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'aliases' => array(
+                'modules/rcm-recommended-products/' => __DIR__ . '/../public/',
+            ),
+            'collections' => array(
+                // required for admin edit //
+                'modules/rcm-admin/js/rcm-admin.js' => array(
+                    'modules/rcm-recommended-products/rcm-recommended-products-edit.js',
+                ),
+            ),
+        ),
+
+    ),
+
 );
