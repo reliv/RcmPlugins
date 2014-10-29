@@ -5,6 +5,21 @@
     -moz-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;
 }
+.rcmI18n #transMesages table {
+}
+.rcmI18n #transMesages .col-default-text {
+    padding-top: 14px;
+    max-width: 20em;
+    width: 20em;
+}
+.rcmI18n #transMesages .col-messages {
+    max-width: 20em;
+    width: 20em;
+}
+.rcmI18n #transMesages .col-button {
+    vertical-align: top;
+    max-width: 10em;
+}
 
 @-moz-keyframes spin {
     100% {
