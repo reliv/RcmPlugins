@@ -37,8 +37,8 @@ class LocaleController extends AbstractRestfulController
                         ->get('RcmI18n\Model\Locales')->getLocales()
                 ,
                 'currentSiteLocale' => $this->getServiceLocator()->get(
-                        'Rcm\Service\SiteManager'
-                    )->getCurrentSiteLocale()
+                        'Rcm\Service\CurrentSite'
+                    )->getLocale()
             ]
         );
     }

@@ -42,15 +42,19 @@ class AvailablePluginsJsList extends AbstractHelper implements ServiceLocatorAwa
         /** @var \Zend\View\Renderer\PhpRenderer $renderer */
         $view = $this->getView();
         $headScript = $view->headScript();
-        $plugins = $this->getServiceLocator()->getServiceLocator()
+
+        $plugins = $this->getServiceLocator()
             ->get('Rcm\Service\PluginManager')
             ->listAvailablePluginsByType();
-        $plugins['Site Wide'] = $this->getServiceLocator()->getServiceLocator()
-            ->get('Rcm\Service\SiteManager')
+
+        $plugins['Site Wide'] = $this->getServiceLocator()
+            ->get('Rcm\Service\CurrentSite')
             ->listAvailableSiteWidePlugins();
+
         $headScript->appendScript(
             'var rcmAvailablePlugins=' . json_encode($plugins)
         );
+
         $headScript->appendFile(
             '/modules/rcm-shopping-cart/js/models/RcmOrderMgr.js',
             'text/javascript'
@@ -74,6 +78,6 @@ class AvailablePluginsJsList extends AbstractHelper implements ServiceLocatorAwa
      */
     public function getServiceLocator()
     {
-        return $this->serviceLocator;
+        return $this->serviceLocator->getServiceLocator();
     }
 } 

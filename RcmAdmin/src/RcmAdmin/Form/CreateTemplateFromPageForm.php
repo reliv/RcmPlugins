@@ -18,7 +18,8 @@
  */
 namespace RcmAdmin\Form;
 
-use Rcm\Service\PageManager;
+use Rcm\Repository\Page;
+use Rcm\Validator\Page as PageValidator;
 use Zend\Form\ElementInterface;
 use Zend\Form\Form;
 use Zend\InputFilter\InputFilter;
@@ -39,18 +40,24 @@ use Zend\InputFilter\InputFilter;
 class CreateTemplateFromPageForm extends Form implements ElementInterface
 {
 
-    /** @var \Rcm\Service\PageManager */
-    protected $pageManager;
+    /** @var \Rcm\Repository\Page */
+    protected $pageRepo;
+
+    /** @var \Rcm\Validator\Page */
+    protected $pageValidator;
 
     /**
      * Constructor
      *
-     * @param PageManager $pageManager Rcm Page Manager
+     * @param Page $pageRepo Rcm Page Repository
+     * @param PageValidator $pageValidator     Zend Page Validator
      */
     public function __construct(
-        PageManager $pageManager
+        Page $pageRepo,
+        PageValidator $pageValidator
     ) {
-        $this->pageManager = $pageManager;
+        $this->pageRepo      = $pageRepo;
+        $this->pageValidator = $pageValidator;
 
         parent::__construct();
     }
@@ -90,7 +97,7 @@ class CreateTemplateFromPageForm extends Form implements ElementInterface
                     ),
                 ),
                 'validators' => array(
-                    $this->pageManager->getPageValidator(),
+                    $this->pageValidator,
                 ),
             )
         );

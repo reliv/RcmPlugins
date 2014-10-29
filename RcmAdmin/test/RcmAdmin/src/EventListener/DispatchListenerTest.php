@@ -21,6 +21,8 @@ namespace RcmAdminTest\EventListener;
 
 use RcmAdmin\EventListener\DispatchListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Router\Http\RouteMatch;
+use Zend\ServiceManager\ServiceManager;
 use Zend\View\Model\ViewModel;
 
 require_once __DIR__ . '/../../../autoload.php';
@@ -61,7 +63,11 @@ class DispatchListenerTest extends \PHPUnit_Framework_TestCase
         /** @var \RcmAdmin\Controller\AdminPanelController $mockController */
         $mockController = $this->mockController;
 
-        $this->listener = new DispatchListener($mockController);
+        $serviceManager = new ServiceManager();
+
+        $serviceManager->setService('RcmAdmin\Controller\AdminPanelController', $mockController);
+
+        $this->listener = new DispatchListener($serviceManager);
     }
 
     /**
@@ -88,6 +94,8 @@ class DispatchListenerTest extends \PHPUnit_Framework_TestCase
         $layoutViewMock = new ViewModel();
 
         $event = new MvcEvent();
+        $routeMatch = new RouteMatch(array());
+        $event->setRouteMatch($routeMatch);
         $event->setViewModel($layoutViewMock);
 
         $mockAdminPanel = new ViewModel();
@@ -128,6 +136,8 @@ class DispatchListenerTest extends \PHPUnit_Framework_TestCase
         $layoutViewMock = new ViewModel();
 
         $event = new MvcEvent();
+        $routeMatch = new RouteMatch(array());
+        $event->setRouteMatch($routeMatch);
         $event->setViewModel($layoutViewMock);
 
         $this->mockController->expects($this->once())
