@@ -2,16 +2,16 @@
 
 if ($this->testType == 'default') {
 
-    /* From RcmAngularJs Module */
-    $this->rcmIncludeTinyMceJs();
-    $this->rcmJsLibIncludeHtmlEditor();
-
-    $headLink = $this->headLink();
-
-    /* Fixes issues with toolbar wrapping */
-    $headLink->appendStylesheet(
-        '/modules/rcm-lib/rcm-html-editor/rcm-html-editor.css'
-    );
+    /* NOTE RCM Should include these by dfaulteFrom RcmAngularJs Module */
+    //$this->rcmIncludeTinyMceJs();
+    //$this->rcmJsLibIncludeHtmlEditor();
+    //
+    //$headLink = $this->headLink();
+    //
+    ///* Fixes issues with toolbar wrapping */
+    //$headLink->appendStylesheet(
+    //    '/modules/rcm-lib/rcm-html-editor/rcm-html-editor.css'
+    //);
 
     ?>
 
@@ -19,82 +19,82 @@ if ($this->testType == 'default') {
         angular.module('RcmHtmlEditor')
             /* @EXAMPLE */
             .controller(
-                'RcmHtmlEditorTestController',
-                [
-                    '$scope',
-                    '$timeout',
-                    'rcmHtmlEditorService',
-                    function ($scope, $timeout, rcmHtmlEditorService) {
+            'RcmHtmlEditorTestController',
+            [
+                '$scope',
+                '$timeout',
+                'rcmHtmlEditorService',
+                function ($scope, $timeout, rcmHtmlEditorService) {
 
-                        $scope.myModel = {
-                            a: "My Test Text",
-                            b: "Other Test Text",
-                            c: "More Test Text",
-                            d: "More Great Test Text",
-                            e: "tttttttttt",
-                            list: [
-                                'one',
-                                'two',
-                                'three',
-                                'four'
-                            ]
-                        }
-
-                        $scope.rcmHtmlEditorService = rcmHtmlEditorService;
-
-                        $scope.index = 3;
-
-                        $scope.remove = function () {
-
-                            $scope.myModel.list.splice(1, 1);
-                        }
-
-                        $scope.add = function () {
-
-                            $scope.index++;
-                            $scope.myModel.list.push('NEW-' + $scope.index);
-
-                            //$scope.$evalAsync(
-                            //    function ($scope) {
-                            //        $scope.index++;
-                            //        $scope.myModel.list.push('NEW-' + $scope.index);
-                            //    }
-                            //)
-
-                            //$timeout(
-                            //    function () {
-                            //        $scope.index++;
-                            //        $scope.myModel.list.push('NEW-' + $scope.index);
-                            //    }
-                            //)
-                        }
-
-                        // EXAMPLE of adding custom options using attribute
-                        $scope.tinymceOptions = {
-                            optionsName: 'fromScope',
-                            force_br_newlines: false,
-                            force_p_newlines: false,
-                            forced_root_block: '',
-
-                            inline: true,
-                            fixed_toolbar_container: '#externalToolbarWrapper',
-
-                            menubar: false,
-                            plugins: "anchor, charmap, code, image, link, paste, spellchecker, template",
-                            relative_urls: true,
-                            document_base_url: '/',
-                            statusbar: false,
-
-                            toolbar: [
-                                // "code | undo redo | spellchecker | " +
-                                "bold italic underline strikethrough subscript superscript removeformat | "
-                                // "outdent indent | cut copy paste pastetext | " +
-                                // "image charmap template | link unlink anchor"
-                            ]
-                        };
+                    $scope.myModel = {
+                        a: "My Test Text",
+                        b: "Other Test Text",
+                        c: "More Test Text",
+                        d: "More Great Test Text",
+                        e: "tttttttttt",
+                        list: [
+                            'one',
+                            'two',
+                            'three',
+                            'four'
+                        ]
                     }
-                ]
-            );
+
+                    $scope.rcmHtmlEditorService = rcmHtmlEditorService;
+
+                    $scope.index = 3;
+
+                    $scope.remove = function () {
+
+                        $scope.myModel.list.splice(1, 1);
+                    }
+
+                    $scope.add = function () {
+
+                        $scope.index++;
+                        $scope.myModel.list.push('NEW-' + $scope.index);
+
+                        //$scope.$evalAsync(
+                        //    function ($scope) {
+                        //        $scope.index++;
+                        //        $scope.myModel.list.push('NEW-' + $scope.index);
+                        //    }
+                        //)
+
+                        //$timeout(
+                        //    function () {
+                        //        $scope.index++;
+                        //        $scope.myModel.list.push('NEW-' + $scope.index);
+                        //    }
+                        //)
+                    }
+
+                    // EXAMPLE of adding custom options using attribute
+                    $scope.tinymceOptions = {
+                        optionsName: 'fromScope',
+                        force_br_newlines: false,
+                        force_p_newlines: false,
+                        forced_root_block: '',
+
+                        inline: true,
+                        fixed_toolbar_container: '#externalToolbarWrapper',
+
+                        menubar: false,
+                        plugins: "anchor, charmap, code, image, link, paste, spellchecker, template, elfinder",
+                        relative_urls: true,
+                        document_base_url: '/',
+                        statusbar: false,
+
+                        toolbar: [
+                            // "code | undo redo | spellchecker | " +
+                            "bold italic underline strikethrough subscript superscript removeformat | "
+                            // "outdent indent | cut copy paste pastetext | " +
+                            // "image charmap template | link unlink anchor"
+                        ]
+                    };
+                }
+            ]
+        );
     </script>
 
     <style type="text/css">
@@ -122,7 +122,7 @@ if ($this->testType == 'default') {
 
             <div>
                 <p><b>rcmHtmlEditorService</b></p>
-                <pre>{{rcmHtmlEditorService | json}}</pre>
+                <pre>{{rcmHtmlEditorService.editorsLoading | json}}</pre>
             </div>
             <br/>
             <br/>
@@ -152,12 +152,14 @@ if ($this->testType == 'default') {
                     </div>
                 </div>
 
-                <div class="example">
+
+                <div class="examplexx">
                     <p><b>EXAMPLE Attribute options div:</b></p>
 
                     <div id="htmlEditorToolbar-myEditor1">
                         <!-- NOTICE how this id maps to the edit area id -->
                     </div>
+                    <div style="clear: both"><!-- Clear so the focus works properly--></div>
                     <div
                         data-rcm-html-edit="somethingText"
                         html-editor-attached-toolbar
@@ -168,23 +170,24 @@ if ($this->testType == 'default') {
                         >
                         OPTIONS ATTR
                     </div>
+
                 </div>
 
                 <div class="example">
                     <p><b>EXAMPLE Attribute options span:</b></p>
-                <span
-                    data-rcm-html-edit="somethingText"
-                    html-editor-attached-toolbar
-                    html-editor-options="tinymceOptions"
-                    html-editor-size="small"
-                    id="myEditor2"
-                    ng-model="myModel.b"
-                    >
-                    OPTIONS ATTR
-                </span>
-                <span id="htmlEditorToolbar-myEditor2">
-                    <!-- NOTICE how this id maps to the edit area id -->
-                </span>
+                    <span
+                        data-rcm-html-edit="somethingText"
+                        html-editor-attached-toolbar
+                        html-editor-options="tinymceOptions"
+                        html-editor-size="small"
+                        id="myEditor2"
+                        ng-model="myModel.b"
+                        >
+                        OPTIONS ATTR
+                    </span>
+                    <span id="htmlEditorToolbar-myEditor2">
+                        <!-- NOTICE how this id maps to the edit area id -->
+                    </span>
                 </div>
 
                 <div class="example">
@@ -222,7 +225,9 @@ if ($this->testType == 'default') {
                     </div>
 
 
-                    <div ng-repeat="item in myModel.list" ng-init="outerIndex = $index" class="item">
+                    <div ng-repeat="item in myModel.list"
+                         ng-init="outerIndex = $index"
+                         class="item">
                         <p><b>List Item #{{outerIndex}} = {{item}}:</b>
                         </p>
 
@@ -263,43 +268,45 @@ if ($this->testType == 'default') {
 
         //tn1 = new tinymce();
         /* */
-        tinymce.init({
-                         force_br_newlines: false,
-                         force_p_newlines: false,
-                         forced_root_block: '',
+        tinymce.init(
+            {
+                force_br_newlines: false,
+                force_p_newlines: false,
+                forced_root_block: '',
 
-                         inline: true,
-                         fixed_toolbar_container: '#externalToolbarWrapper',
+                inline: true,
+                fixed_toolbar_container: '#externalToolbarWrapper',
 
-                         menubar: false,
-                         plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
-                         relative_urls: true,
-                         document_base_url: baseUrl,
-                         statusbar: false,
-                         selector: "[data-richEdit],[data-textEdit]", //"div.editor",
+                menubar: false,
+                plugins: "anchor, charmap, code, hr, image, link, paste, spellchecker, template, table",
+                relative_urls: true,
+                document_base_url: baseUrl,
+                statusbar: false,
+                selector: "[data-richEdit],[data-textEdit]", //"div.editor",
 
-                         setup: function (theEditor) {
-                             /* hide/show toolbar on focus div.mce-toolbar-grp *
-                              theEditor.on('focus', function () {
-                              $('#externalToolbarWrapper').find("div.mce-panel").show();
-                              });
-                              theEditor.on('blur', function () {
-                              $('#externalToolbarWrapper').find("div.mce-panel").show();
-                              });
-                              theEditor.on("init", function() {
-                              $('#externalToolbarWrapper').find("div.mce-panel").show();
-                              });
-                              //*/
-                         },
-
-                         toolbar: [
-                             "code | undo redo | spellchecker | styleselect | " +
-                                 "bold italic underline strikethrough subscript superscript removeformat | " +
-                                 "alignleft aligncenter alignright alignjustify | " +
-                                 "bullist numlist outdent indent | cut copy paste pastetext | " +
-                                 "image table hr charmap template | link unlink anchor"
-                         ]
+                setup: function (theEditor) {
+                    /* hide/show toolbar on focus div.mce-toolbar-grp *
+                     theEditor.on('focus', function () {
+                     $('#externalToolbarWrapper').find("div.mce-panel").show();
                      });
+                     theEditor.on('blur', function () {
+                     $('#externalToolbarWrapper').find("div.mce-panel").show();
+                     });
+                     theEditor.on("init", function() {
+                     $('#externalToolbarWrapper').find("div.mce-panel").show();
+                     });
+                     //*/
+                },
+
+                toolbar: [
+                    "code | undo redo | spellchecker | styleselect | " +
+                    "bold italic underline strikethrough subscript superscript removeformat | " +
+                    "alignleft aligncenter alignright alignjustify | " +
+                    "bullist numlist outdent indent | cut copy paste pastetext | " +
+                    "image table hr charmap template | link unlink anchor"
+                ]
+            }
+        );
         //*/
 
         testDefaultOutput = function (elm) {
@@ -312,7 +319,10 @@ if ($this->testType == 'default') {
         <br/>
         <br/>
 
-        <div>Model Value: "<span id="defaultOutput"></span>"</div>
+        <div>Model Value: "
+            <span id="defaultOutput"></span>
+            "
+        </div>
         <br/>
 
         <form method="post">
@@ -322,15 +332,22 @@ if ($this->testType == 'default') {
             <div class="editor">CLASS</div>
             <br/>
 
-            <div data-richEdit="something" onblur="testDefaultOutput(this)">richEdit</div>
+            <div data-richEdit="something"
+                 onblur="testDefaultOutput(this)">richEdit
+            </div>
             <br/>
 
-            <div data-richEdit="somethingElse" onblur="testDefaultOutput(this)">richEdit2</div>
+            <div data-richEdit="somethingElse"
+                 onblur="testDefaultOutput(this)">richEdit2
+            </div>
             <br/>
 
-            <div data-textEdit="somethingText" onblur="testDefaultOutput(this)">textEdit</div>
+            <div data-textEdit="somethingText"
+                 onblur="testDefaultOutput(this)">textEdit
+            </div>
             <br/>
-            <label data-richEdit="something" onblur="testDefaultOutput(this)">richEdit label</label>
+            <label data-richEdit="something"
+                   onblur="testDefaultOutput(this)">richEdit label</label>
             <br/>
             <button disabled="disabled" onclick="return false;">
                 <div data-richEdit="something">richEdit button</div>

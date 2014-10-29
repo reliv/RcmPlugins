@@ -51,13 +51,14 @@ class MessagesController extends AbstractRestfulController
                     break;
                 }
             }
-            //utf8_encode belows stops json_encode from dieing in some cases
+
             $translations[] = [
                 'locale' => $locale,
-                'defaultText' => utf8_encode($defaultText),
-                'text' => utf8_encode($text)
+                'defaultText' => $defaultText,
+                'text' => $text
             ];
         }
+
         return new JsonModel($translations);
     }
 
@@ -85,7 +86,7 @@ class MessagesController extends AbstractRestfulController
         $locale = $this->params()->fromRoute('locale');
 
         //Fixes an issue with odd apostrophe chars
-        $defaultText = utf8_decode($defaultText);
+        $defaultText = $defaultText;
 
         /**
          * White-list local and default test to make sure nothing funny is
