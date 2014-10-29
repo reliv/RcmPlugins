@@ -56,11 +56,18 @@ class CreateTemplateFromPageFormFactory implements FactoryInterface
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
         $serviceLocator = $formElementMgr->getServiceLocator();
 
-        /** @var \Rcm\Service\PageManager $pageManager */
-        $pageManager = $serviceLocator->get('Rcm\Service\PageManager');
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+
+        /** @var \Rcm\Repository\Page $pageRepo */
+        $pageRepo = $entityManager->getRepository('\Rcm\Entity\Page');
+
+        /** @var \Rcm\Validator\Page $pageValidator */
+        $pageValidator = $serviceLocator->get('Rcm\Validator\Page');
 
         return new CreateTemplateFromPageForm(
-            $pageManager
+            $pageRepo,
+            $pageValidator
         );
     }
 }

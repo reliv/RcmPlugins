@@ -19,6 +19,8 @@
 
 namespace RcmAdmin\EventListener;
 
+use Rcm\Entity\Page;
+use Rcm\Entity\Revision;
 use RcmAdmin\Controller\AdminPanelController;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -83,6 +85,13 @@ class DispatchListener
 
         /** @var \Zend\View\Model\ViewModel $viewModel */
         $layout = $event->getViewModel();
+
+        /* Add on for non CMS pages */
+        $fakePage = new Page();
+
+        $layout->setVariable('page', $fakePage);
+        $layout->setVariable('site', $this->serviceLocator->get('Rcm\Service\CurrentSite'));
+
         $layout->addChild($adminWrapper, 'rcmAdminPanel');
     }
 }

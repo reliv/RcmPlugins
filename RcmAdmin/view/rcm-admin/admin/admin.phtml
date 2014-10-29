@@ -35,11 +35,21 @@ $this->headScript()->appendFile(
 
 $layout = $this->layout();
 
+/** @var \Rcm\Entity\Page $page */
+$page = $layout->page;
+
+/** @var \Rcm\Entity\Site $site */
+$site = $layout->site;
+
+if (empty($page->getPageId())) {
+    return;
+}
+
 $pageData = array(
-    'rcmPageRevision' => $layout->pageInfo['revision']['revisionId'],
-    'rcmPageType' => $layout->pageInfo['pageType'],
-    'rcmPageName' => $layout->pageInfo['name'],
-    'rcmSiteId' => $layout->pageInfo['siteId'],
+    'rcmPageRevision' => $page->getCurrentRevision()->getRevisionId(),
+    'rcmPageType' => $page->getPageType(),
+    'rcmPageName' => $page->getName(),
+    'rcmSiteId' => $site->getSiteId(),
 );
 
 $this->headMeta()->setProperty(

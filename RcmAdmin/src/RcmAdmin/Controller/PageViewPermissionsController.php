@@ -37,9 +37,9 @@ class PageViewPermissionsController extends AbstractRestfulController
     protected $aclDataService;
 
     /**
-     * @var \Rcm\Service\PageManager
+     * @var \Rcm\Repository\Page
      */
-    protected $pageManager;
+    protected $pageRepo;
 
     /**
      * Update an existing resource
@@ -58,20 +58,22 @@ class PageViewPermissionsController extends AbstractRestfulController
         $this->resourceProvider = $this->getServiceLocator()->get(
             'Rcm\Acl\ResourceProvider'
         );
-        $this->pageManager = $this->getServiceLocator()->get(
-            'Rcm\Service\PageManager'
-        );
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+
+        $this->pageRepo = $entityManager->getRepository('\Rcm\Entity\Page');
 
         if (!is_array($data)) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return $this->getResponse();
         }
 
-        $currentSiteId = $this->getServiceLocator()->get(
-                'Rcm\Service\SiteManager'
-            )->getCurrentSiteId();
+        /** @var \Rcm\Entity\Site $currentSite */
+        $currentSite = $this->getServiceLocator()->get(
+                'Rcm\Service\CurrentSite'
+        );
 
-        if (is_numeric($data['siteId']) && ($currentSiteId == $data['siteId'])) {
+        if (is_numeric($data['siteId']) && ($currentSite->getSiteId() == $data['siteId'])) {
             $siteId = $data['siteId'];
         } else {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
@@ -114,7 +116,7 @@ class PageViewPermissionsController extends AbstractRestfulController
         }
 
         //IS PAGE VALID?
-        $validPage = $this->pageManager->isPageValid($pageName, $pageType);
+        $validPage = $this->pageRepo->isValid($currentSite, $pageName, $pageType);
 
         if (!$validPage) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
