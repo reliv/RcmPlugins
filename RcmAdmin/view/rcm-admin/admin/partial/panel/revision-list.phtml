@@ -1,6 +1,10 @@
 <?php
 /** @var \Rcm\Entity\Page $page */
 $page = $layout->page;
+
+if (!$page->getPageId()) {
+    return;
+}
 ?>
 <div id="rcmRevisionList">
     <div class="dropdown">

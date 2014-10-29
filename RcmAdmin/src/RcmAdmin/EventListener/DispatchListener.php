@@ -85,13 +85,6 @@ class DispatchListener
 
         /** @var \Zend\View\Model\ViewModel $viewModel */
         $layout = $event->getViewModel();
-
-        /* Add on for non CMS pages */
-        $fakePage = new Page();
-
-        $layout->setVariable('page', $fakePage);
-        $layout->setVariable('site', $this->serviceLocator->get('Rcm\Service\CurrentSite'));
-
         $layout->addChild($adminWrapper, 'rcmAdminPanel');
     }
 }

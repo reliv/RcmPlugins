@@ -41,10 +41,6 @@ $page = $layout->page;
 /** @var \Rcm\Entity\Site $site */
 $site = $layout->site;
 
-if (empty($page->getPageId())) {
-    return;
-}
-
 $pageData = array(
     'rcmPageRevision' => $page->getCurrentRevision()->getRevisionId(),
     'rcmPageType' => $page->getPageType(),

@@ -4,6 +4,10 @@
 /** @var \Rcm\Entity\Page $page */
 $page = $layout->page;
 
+if (empty($page->getPageId())) {
+    return;
+}
+
 /** @var \Rcm\Entity\Site $site */
 $site = $layout->site;
 ?>
