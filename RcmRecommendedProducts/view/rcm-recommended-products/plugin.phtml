@@ -15,7 +15,13 @@ $this->headLink()->appendStylesheet(
     </div>
     <div class="orderNow">
         <button class="btn btn-primary">
-            <?= $this->translate('Order Now') ?>
+            <?=
+            $this->rcmTextEdit(
+                'orderNow',
+                'Order Now',
+                'div',
+                ['class' => 'orderNow']
+            ) ?>
         </button>
     </a>
     </div>
