@@ -26,7 +26,7 @@ var RcmAvailablePluginsMenu = {
                 var menu = RcmAvailablePluginsMenu.menu;
                 $('body').prepend(menu);
                 menu.css('top', $('.rcmAdminPanelWrapper').height());
-                var header = $('<h1 class="panel-heading">Available Plugins</h1>')
+                var header = $('<h1 class="panel-heading">Available Plugins</h1>');
                 menu.append(header);
 
                 var accordion = $('<div class="panel-group" id="availablePluginsGroup">');

@@ -55,11 +55,12 @@ class PagePermissionsController extends AbstractActionController
         //fixes rendering site's header and footer in the dialog
         $view->setTerminal(true);
 
-        $siteManager = $this->getServiceLocator()->get(
-            'Rcm\Service\SiteManager'
+        /** @var \Rcm\Entity\Site $currentSite */
+        $currentSite = $this->getServiceLocator()->get(
+            'Rcm\Service\CurrentSite'
         );
 
-        $currentSiteId = $siteManager->getCurrentSiteId();
+        $currentSiteId = $currentSite->getSiteId();
 
         $sourcePageName = $this->getEvent()
             ->getRouteMatch()

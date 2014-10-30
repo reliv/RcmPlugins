@@ -17,7 +17,6 @@ namespace RcmAdmin\Controller;
 
 use Rcm\Entity\Domain;
 use Rcm\Entity\Site;
-use Rcm\Exception\DomainNotFoundException;
 use Rcm\Http\Response;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -35,6 +34,8 @@ use Zend\View\Model\JsonModel;
  * @license   License.txt New BSD License
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
+ *
+ * @method boolean rcmIsAllowed($resourceId, $privilege = null, $providerId = 'Rcm\Acl\ResourceProvider')
  */
 class ManageSitesApiController extends AbstractRestfulController
 {
@@ -46,26 +47,27 @@ class ManageSitesApiController extends AbstractRestfulController
     public function getList()
     {
         //ACCESS CHECK
-        if (!$this->rcmUserIsAllowed(
+        /** @todo Move to external modal */
+        if (!$this->rcmIsAllowed(
             'sites',
-            'admin',
-            'Rcm\Acl\ResourceProvider'
+            'admin'
         )
         ) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
             return $this->getResponse();
         }
-        /**
-         * @var $siteManager \Rcm\Service\SiteManager
-         */
-        $siteManager = $this->getServiceLocator()->get(
-            'Rcm\Service\SiteManager'
-        );
 
-        $sitesObjects = $siteManager->getAllSites();
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
+
+        /** @var \Rcm\Repository\Site $siteRepo */
+        $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
+
+        $sitesObjects = $siteRepo->getSites(false);
 
         $sites = [];
 
+        /** @var \Rcm\Entity\Site $site */
         foreach ($sitesObjects as $site) {
             $domain = null; //'[no domains found for this site]';
 
@@ -89,37 +91,36 @@ class ManageSitesApiController extends AbstractRestfulController
      * @param mixed $data
      *
      * @return mixed|JsonModel
-     * @throws Exception
+     * @throws \Exception
      */
     public function update($siteId, $data)
     {
         //ACCESS CHECK
-        if (!$this->rcmUserIsAllowed(
+        if (!$this->rcmIsAllowed(
             'sites',
-            'admin',
-            'Rcm\Acl\ResourceProvider'
-        )
-        ) {
+            'admin'
+        )) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
             return $this->getResponse();
         }
 
         if (!is_array($data)) {
-            throw new Exception('Invalid data format');
+            throw new \Exception('Invalid data format');
         }
-        /**
-         * @var $siteManager \Rcm\Service\SiteManager
-         */
-        $siteManager = $this->getServiceLocator()->get(
-            'Rcm\Service\SiteManager'
-        );
 
-        if (!$siteManager->isValidSiteId($siteId)) {
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
+
+        /** @var \Rcm\Repository\Site $siteRepo */
+        $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
+
+        if (!$siteRepo->isValidSiteId($siteId)) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return $this->getResponse();
         }
 
-        $site = $siteManager->getSiteById($siteId);
+        /** @var \Rcm\Entity\Site $site */
+        $site = $siteRepo->findOneBy(array('siteId' => $siteId));
 
         if ($data['active'] == 'D') {
             $site->setStatus('D');
@@ -128,10 +129,8 @@ class ManageSitesApiController extends AbstractRestfulController
             $site->setStatus('A');
         }
 
-        $em = $siteManager->getSiteRepo()->getDoctrine();
-
-        $em->persist($site);
-        $em->flush();
+        $entityManager->persist($site);
+        $entityManager->flush();
 
         $data = $this->getSiteArray($site);
 
@@ -148,28 +147,26 @@ class ManageSitesApiController extends AbstractRestfulController
     public function create($data)
     {
         /* ACCESS CHECK */
-        if (!$this->rcmUserIsAllowed('sites', 'admin', 'Rcm\Acl\ResourceProvider')) {
+        if (!$this->rcmIsAllowed('sites', 'admin')) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
             return $this->getResponse();
         }
         /* */
 
-        $siteManager = $this->getServiceLocator()->get(
-            'Rcm\Service\SiteManager'
-        );
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
 
-        $siteRepo = $siteManager->getSiteRepo();
+        /** @var \Rcm\Repository\Site $siteRepo */
+        $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
 
         /** @var \Rcm\Entity\Site $site */
         $site = $siteRepo->find($data['siteId']);
 
         if ($site) {
-
             // clone
             $newSite = clone($site);
 
         } else {
-
             // new site
             $newSite = new Site();
         }
@@ -185,10 +182,8 @@ class ManageSitesApiController extends AbstractRestfulController
         }
 
         if (!empty($data['domain'])) {
-
-            $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
             /** @var \Rcm\Entity\Domain $newDomain */
-            $newDomain = $em->getRepository('\Rcm\Entity\Domain')->findOneBy(array('domain' => $data['domain']));
+            $newDomain = $entityManager->getRepository('\Rcm\Entity\Domain')->findOneBy(array('domain' => $data['domain']));
 
             if (empty($newDomain)) {
 
@@ -202,9 +197,9 @@ class ManageSitesApiController extends AbstractRestfulController
             $newSite->setDomain($newDomain);
         }
 
-        $siteRepo->getDoctrine()->persist($newSite);
+        $entityManager->persist($newSite);
 
-        $siteRepo->getDoctrine()->flush();
+        $entityManager->flush();
 
         $data = $this->getSiteArray($newSite);
 

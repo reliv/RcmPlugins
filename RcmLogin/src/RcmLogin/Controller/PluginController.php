@@ -44,11 +44,6 @@ class PluginController
      */
     protected $rcmUserService;
 
-    /**
-     * @var \Rcm\Service\SiteManager $siteManager
-     */
-    protected $siteManager;
-
     function __construct(
         $config,
         RcmUserService $rcmUserService

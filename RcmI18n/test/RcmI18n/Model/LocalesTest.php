@@ -52,12 +52,12 @@ class LocalesTest extends \PHPUnit_Framework_TestCase
         $site = new Site();
         $site->setCountry($country);
         $site->setLanguage($lang);
-        $mockSiteManager = $this->getMockBuilder('\Rcm\Service\SiteManager')
+        $mockSiteRepo = $this->getMockBuilder('\Rcm\Repository\Site')
             ->disableOriginalConstructor()->getMock();
-        $mockSiteManager->expects($this->any())
-            ->method('getAllActiveSites')
-            ->will($this->returnValue([$site]));
-        $this->unit = new Locales($mockSiteManager);
+        $mockSiteRepo->expects($this->any())
+            ->method('getSites')
+            ->will($this->returnValue(array($site)));
+        $this->unit = new Locales($mockSiteRepo);
     }
 
     public function testConstructAndGetLocales()

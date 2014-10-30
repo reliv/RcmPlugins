@@ -19,6 +19,8 @@
 
 namespace RcmAdmin\EventListener;
 
+use Rcm\Entity\Page;
+use Rcm\Entity\Revision;
 use RcmAdmin\Controller\AdminPanelController;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorInterface;
