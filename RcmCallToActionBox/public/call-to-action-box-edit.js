@@ -42,8 +42,10 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      * @returns {String}
      */
     var getBackgroundImageUrl = function () {
-        return imgTag.css('background-image').replace('url(', '')
-            .replace(')', '');
+        return imgTag.css('background-image')
+            .replace('url(', '')
+            .replace(')', '')
+            .replace('"','');
     };
 
     /**
@@ -88,6 +90,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      */
     me.showEditDialog = function () {
+        console.log(getBackgroundImageUrl());
         var srcInput = $.dialogIn('image', 'Image', getBackgroundImageUrl());
         var hrefInput = $.dialogIn('url', 'Link Url', aTags.attr('href'));
 
