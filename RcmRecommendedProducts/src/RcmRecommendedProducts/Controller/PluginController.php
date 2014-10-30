@@ -17,6 +17,7 @@
  */
 namespace RcmRecommendedProducts\Controller;
 
+use Aws\CloudFront\Exception\Exception;
 use Rcm\Plugin\PluginInterface;
 use Rcm\Plugin\BaseController;
 use RcmShoppingCart\Entity\Sku;
@@ -60,7 +61,11 @@ class PluginController
 
     public function getRecommendedProductsList($instanceId, $instanceConfig)
     {
-        $productId = (int)$instanceConfig['productId'];
+        if(!empty($instanceConfig['productId'])) {
+            $productId = (int)$instanceConfig['productId'];
+        } else {
+            throw new Exception('There is no product Id in default instance config');
+        }
         $product = $this->productModel->getProductById($productId);
         $productDetailedPage = $product->getDetailedPage();
         $prodUrl = '/p/' . $productDetailedPage;
@@ -81,19 +86,17 @@ class PluginController
                 'prodUrl' => $prodUrl
             )
         );
+        $view->setTerminal(true);
         return $view;
     }
 
     public function refreshProductListAction()
     {
-        $instanceId = $this->getEvent()->getRouteMatch()->getParam(
-            'instanceId'
-        );
         $prodId = $this->getEvent()->getRouteMatch()->getParam('productId');
 
-        $view = $this->getRecommendedProductsList($instanceId, $prodId);
+        $instanceConfig = array('productId' => $prodId);
 
-        $view->setVariable('skipJs', true);
+        $view = $this->getRecommendedProductsList(0, $instanceConfig);
 
         return $view;
     }

@@ -39,22 +39,29 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 
 class PluginControllerFactory implements FactoryInterface {
-    public function createService(ServiceLocatorInterface $controllerMgr)
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var \Zend\Mvc\Controller\ControllerManager $cm For IDE */
-        $cm = $controllerMgr;
 
-        /** @var ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $cm->getServiceLocator();
-
-        $productModel = $serviceLocator->get('rcmShoppingCartProductModel');
-
-        $config = $serviceLocator->get('config');
-
-        return new PluginController(
-            $config,
-            $productModel
+        $controller = new PluginController(
+            $serviceLocator->get('config'),
+            $serviceLocator->get('rcmShoppingCartProductModel')
         );
+
+        return $controller;
+//        /** @var \Zend\Mvc\Controller\ControllerManager $cm For IDE */
+//        $cm = $controllerMgr;
+//
+//        /** @var ServiceLocatorInterface $serviceLocator */
+//        $serviceLocator = $cm->getServiceLocator();
+//
+//        $productModel = $serviceLocator->get('rcmShoppingCartProductModel');
+//
+//        $config = $serviceLocator->get('config');
+//
+//        return new PluginController(
+//            $config,
+//            $productModel
+//        );
     }
 }
  
