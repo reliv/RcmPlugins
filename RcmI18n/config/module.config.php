@@ -98,6 +98,10 @@ return array(
                     'RcmI18n' => 'RcmI18n'
                 )
             )
+            /**
+             * NOTE: SOME KIND OF DOCTRINE UTF8 SETTING IS REQUIRED HERE OR
+             * FRENCH CHARACTERS WILL NOT DISPLAY CORRECTLY IN BROWSERS
+             */
         ),
     ),
     'controllers' => array(

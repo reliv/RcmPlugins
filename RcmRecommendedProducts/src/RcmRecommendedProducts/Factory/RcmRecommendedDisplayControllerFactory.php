@@ -37,7 +37,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @link      https://github.com/reliv
  */
 
-class RcmRecommendedProductsDisplayControllerFactory implements FactoryInterface
+class RcmRecommendedDisplayControllerFactory implements FactoryInterface
 {
     /**
      * createService

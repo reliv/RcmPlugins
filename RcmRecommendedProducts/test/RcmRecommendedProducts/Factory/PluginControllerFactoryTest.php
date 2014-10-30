@@ -73,11 +73,8 @@ class PluginControllerFactoryTest extends \PHPUnit_Framework_TestCase {
             $config
         );
 
-        $cm = new ControllerManager();
-        $cm->setServiceLocator($serviceManager);
-
         $factory = new PluginControllerFactory();
-        $object = $factory->createService($cm);
+        $object = $factory->createService($serviceManager);
 
         $this->assertTrue($object instanceof PluginController);
     }
