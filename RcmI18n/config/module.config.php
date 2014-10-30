@@ -77,6 +77,14 @@ return array(
         )
     ),
     'doctrine' => array(
+        'connection' => array(
+            'orm_default' => array(
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' => array(
+                    'charset' => 'UTF8'
+                ),
+            )
+        ),
         'driver' => array(
             'RcmI18n' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
