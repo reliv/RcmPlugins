@@ -35,42 +35,48 @@ class MessagesController extends AbstractRestfulController
 
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         $locale = $this->params()->fromRoute('locale');
-        $defaultMessages
-            = $messages = $em->getRepository('RcmI18n\Entity\Message')
+
+        $defaultMessages = $em->getRepository('RcmI18n\Entity\Message')
             ->findBy(array('locale' => 'en_US'));
         $localeMessages = $em->getRepository('RcmI18n\Entity\Message')
             ->findBy(array('locale' => $locale));
 
         $translations = array();
         foreach ($defaultMessages as $defaultMessage) {
+
+            /** @var \RcmI18n\Entity\Message $defaultMessage */
             $defaultText = $defaultMessage->getDefaultText();
+            $messageId = $defaultMessage->getMessageId();
             $text = null;
             foreach ($localeMessages as $localeMessage) {
+
                 if ($localeMessage->getDefaultText() == $defaultText) {
                     $text = $localeMessage->getText();
                     break;
                 }
             }
-            //utf8_encode belows stops json_encode from dieing in some cases
+
             $translations[] = [
                 'locale' => $locale,
-                'defaultText' => utf8_encode($defaultText),
-                'text' => utf8_encode($text)
+                'defaultText' => $defaultText,
+                'messageId' => $messageId,
+                'text' => $text
             ];
         }
+
         return new JsonModel($translations);
     }
 
     /**
      * Update translations
      *
-     * @param mixed $defaultText Text that need to be translated
+     * @param mixed $id          Id of text that need to be translated
      * @param mixed $data        Data
      *
      * @return mixed|\Zend\Stdlib\ResponseInterface|JsonModel
      * @throws \Exception
      */
-    public function update($defaultText, $data)
+    public function update($id, $data)
     {
         if (!$this->rcmIsAllowed('translations', 'update')) {
             $response = $this->getResponse();
@@ -84,16 +90,13 @@ class MessagesController extends AbstractRestfulController
 
         $locale = $this->params()->fromRoute('locale');
 
-        //Fixes an issue with odd apostrophe chars
-        $defaultText = utf8_decode($defaultText);
-
         /**
          * White-list local and default test to make sure nothing funny is
          * making its way to the DB. All default text's used must already exist
          * in the en_US locale
          */
         $usMessage = $messageRepo->findOneBy(
-            array('locale' => 'en_US', 'defaultText' => $defaultText)
+            array('locale' => 'en_US', 'defaultText' => $data['defaultText'])
         );
         if (!$this->getServiceLocator()->get('RcmI18n\Model\Locales')
             ->localeIsValid($locale)
@@ -109,7 +112,7 @@ class MessagesController extends AbstractRestfulController
         $cleanText = $this->rcmHtmlPurify($data['text']);
 
         $message = $messageRepo->findOneBy(
-            array('locale' => $locale, 'defaultText' => $defaultText)
+            array('locale' => $locale, 'messageId' => $id)
         );
 
         if ($message instanceof Message) {
@@ -117,14 +120,14 @@ class MessagesController extends AbstractRestfulController
         } else {
             $message = new Message();
             $message->setLocale($locale);
-            $message->setDefaultText($defaultText);
+            $message->setDefaultText($usMessage->getDefaultText());
             $message->setText($cleanText);
 
             $em->persist($message);
         }
         $em->flush();
 
-        return new JsonModel();
+        return new JsonModel($message);
     }
 
     public function buildBadRequestResponse($message)

@@ -55,17 +55,55 @@ class NewPageFormFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockPageManager = $this
-            ->getMockBuilder('\Rcm\Service\PageManager')
+        $mockEntityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $mockPageRepo= $this
+            ->getMockBuilder('\Rcm\Repository\Page')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mockEntityManager->expects($this->any())
+            ->method('getRepository')
+            ->will($this->returnValue($mockPageRepo));
 
         $mockLayoutManager = $this
             ->getMockBuilder('\Rcm\Service\LayoutManager')
             ->disableOriginalConstructor()
             ->getMock();
 
+        $mockMainLayoutValidator = $this
+            ->getMockBuilder('\Rcm\Validator\MainLayout')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mockPageValidator = $this
+            ->getMockBuilder('\Rcm\Validator\Page')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mockPageTemplateValidator = $this
+            ->getMockBuilder('\Rcm\Validator\PageTemplate')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $serviceManager = new ServiceManager();
+
+        $serviceManager->setService(
+            'Rcm\Validator\PageTemplate',
+            $mockPageTemplateValidator
+        );
+
+        $serviceManager->setService(
+            'Rcm\Validator\Page',
+            $mockPageValidator
+        );
+
+        $serviceManager->setService(
+            'Rcm\Validator\MainLayout',
+            $mockMainLayoutValidator
+        );
 
         $serviceManager->setService(
             'Rcm\Service\CurrentSite',
@@ -73,8 +111,8 @@ class NewPageFormFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $serviceManager->setService(
-            'Rcm\Service\PageManager',
-            $mockPageManager
+            'Doctrine\ORM\EntityManager',
+            $mockEntityManager
         );
 
         $serviceManager->setService(

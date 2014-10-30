@@ -55,14 +55,18 @@ class PageControllerFactory implements FactoryInterface
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
         $serviceLocator = $controllerMgr->getServiceLocator();
 
-        /** @var \Rcm\Service\SiteManager $siteManager */
-        $siteManager = $serviceLocator->get('Rcm\Service\SiteManager');
+        /** @var \Rcm\Entity\Site $currentSite */
+        $currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
 
-        $siteId = $siteManager->getCurrentSiteId();
+        /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
+        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+
+        /** @var \Rcm\Repository\Page $pageRepo */
+        $pageRepo = $entityManager->getRepository('\Rcm\Entity\Page');
 
         return new PageController(
-            $siteManager,
-            $siteId
+            $currentSite,
+            $pageRepo
         );
     }
 }

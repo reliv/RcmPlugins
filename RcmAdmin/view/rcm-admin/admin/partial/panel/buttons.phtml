@@ -1,3 +1,16 @@
+
+<?php
+
+/** @var \Rcm\Entity\Page $page */
+$page = $layout->page;
+
+if (empty($page->getPageId())) {
+    return;
+}
+
+/** @var \Rcm\Entity\Site $site */
+$site = $layout->site;
+?>
 <div class="rcmPanelRightButtons"  data-rcm-admin-menu-actions>
     <div ng-show="rcmAdminPage.editMode">
         <div class="btn-group">
@@ -37,7 +50,7 @@
     </div>
     <div ng-hide="rcmAdminPage.editMode">
         <div class="btn-group">
-            <?php if ($layout->rcmDraft === true) : ?>
+            <?php if ($page->getCurrentRevision()->wasPublished() !== true) : ?>
                 <button
                     class="btn btn-primary btn-xs rcmMenuPost publishBtn"
                     type="button"
@@ -45,9 +58,9 @@
                     $this->url(
                         'RcmAdmin\Page\PublishPageRevision',
                         array(
-                            'rcmPageRevision' => $layout->pageInfo['revision']['revisionId'],
-                            'rcmPageType' => $layout->pageInfo['pageType'],
-                            'rcmPageName' => $layout->pageInfo['name'],
+                            'rcmPageRevision' => $page->getCurrentRevision()->getRevisionId(),
+                            'rcmPageType' => $page->getPageType(),
+                            'rcmPageName' => $page->getName(),
                         )
                     ); ?>"
                     >
