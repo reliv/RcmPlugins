@@ -8,7 +8,8 @@ $this->headLink()->appendStylesheet(
 <div class="rcmRecommendedProductsList">
     <a href="<?= $this->escapeHtml($prodUrl) ?>">
     <div class="recommendedProductImage"><img
-            src="<?= $this->escapeHtml($mainImage) ?>"></div>
+            src="<?= $this->escapeHtml($mainImage) ?>">
+    </div>
     <div class="prodName">
         <?= $prodName ?>
     </div>
@@ -17,6 +18,6 @@ $this->headLink()->appendStylesheet(
             <?= $this->translate('Order Now') ?>
         </button>
     </a>
-</div>
+    </div>
 </div>
 
