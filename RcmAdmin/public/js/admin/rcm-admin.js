@@ -1104,10 +1104,6 @@ var RcmAdminService = {
                 }
             );
 
-            if (typeof onComplete === 'function') {
-                onComplete(elm);
-            }
-
             if (elm.attr('data-rcmPluginResized') == 'N') {
                 elm.find(".rcmRemoveSizePluginMenuItem").hide();
             }
@@ -1119,6 +1115,22 @@ var RcmAdminService = {
                     elm.find(".rcmRemoveSizePluginMenuItem").hide();
                 }
             );
+
+            RcmAdminService.RcmPluginViewModel.enableResize(elm);
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
+        },
+
+        enableResize: function(elm, onComplete) {
+
+            try {
+                elm.resizable('destroy');
+            } catch(e) {
+                // nothing
+            }
+
             elm.resizable(
                 {
                     stop: function () {
@@ -1127,6 +1139,10 @@ var RcmAdminService = {
                     }
                 }
             );
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
         },
 
         /**
@@ -1765,7 +1781,7 @@ var RcmAdminService = {
             self.pluginObject = new RcmAdminService.RcmPluginEditJs(
                 id,
                 pluginContainer,
-                name
+                self
             );
 
             return self.pluginObject;
