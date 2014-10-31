@@ -31,18 +31,16 @@ return array(
 
         ),
     ),
-    'controllers' => array(
-        'factories' => array(
-            'RcmRecommendedProducts'
-            => 'RcmRecommendedProducts\Factory\PluginControllerFactory',
-        ),
-    ),
     'service_manager' => array(
         'factories' => array(
-            'RcmRecommendedProductsDisplay'
-            =>'RcmRecommendedProducts\Factory\RcmRecommendedProductsDisplayControllerFactory',
-        )
-
+            'RcmRecommendedProducts' => 'RcmRecommendedProducts\Factory\PluginControllerFactory',
+        ),
+    ),
+    'controllers' => array(
+        'factories' => array(
+            'RcmRecommendedProductsController'
+            => 'RcmRecommendedProducts\Factory\RcmRecommendedDisplayControllerFactory',
+        ),
     ),
     'view_manager' => array(
         'template_path_stack' => array(
@@ -57,7 +55,7 @@ return array(
                     'route' => '/rcm-recommended-list-refresh/[:productId]',
                     'defaults' => array(
                         'controller'
-                        => 'RcmRecommendedProductsDisplayController',
+                        => 'RcmRecommendedProductsController',
                         'action' => 'refreshProductList',
                     ),
                 ),

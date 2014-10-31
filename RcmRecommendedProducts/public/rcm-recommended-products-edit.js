@@ -19,6 +19,7 @@ var RcmRecommendedProductsEdit = function (instanceId, container, pluginHandler)
     var me = this;
 
     var instanceConfig;
+
     var products = {};
 
     /**
@@ -86,7 +87,6 @@ var RcmRecommendedProductsEdit = function (instanceId, container, pluginHandler)
                         $(this).dialog("close");
                     },
                     Ok: function () {
-
                     me.refreshRecommendedProductsList(productInput.val());
                     instanceConfig.productId = productInput.val();
 
@@ -98,9 +98,9 @@ var RcmRecommendedProductsEdit = function (instanceId, container, pluginHandler)
     };
 
     me.refreshRecommendedProductsList = function (productId) {
-        $(container).find(".RcmRecommendedProducts").find(".rcmRecommendedProductsList");
-        $.get('/rcm-recommended-list-refresh/' + instanceId + '/' + productId, function (data) {
-            $(".rcmRecommendedProductsList").replaceWith(data);
+        $(container).find(".RcmRecommendedProductsList");
+        $.get('/rcm-recommended-list-refresh/' + productId, function (data) {
+            (container).find(".rcmRecommendedProductsList").replaceWith(data);
 
         })
     }
