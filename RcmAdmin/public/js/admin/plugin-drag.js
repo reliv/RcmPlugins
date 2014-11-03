@@ -302,7 +302,17 @@ RcmPluginDrag = {
                 return;
             }
         }
-        RcmAdminService.getPage().registerObjects();
+
+        var page = RcmAdminService.getPage();
+        page.registerObjects(
+            function(){
+                var plugin = page.getPlugin(pluginData.instanceId);
+                // @todo This might cause some issues with ng-repeat,
+                //       updateView compiles the elm
+                plugin.updateView();
+            }
+        );
+
         //Make sure the new plugin is sizable
         RcmPluginDrag.makePluginsResizable();
     },
