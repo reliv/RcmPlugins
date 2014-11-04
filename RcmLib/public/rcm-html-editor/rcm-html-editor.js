@@ -19,6 +19,8 @@ angular.module('RcmHtmlEditor', [])
 
         self.htmlEditorOptions = {
             defaults: {
+                link_list: "/rcm-page-search/title?format=tinyMceLinkList",
+                relative_urls : false,
                 optionsName: 'defaults',
                 force_br_newlines: false,
                 force_p_newlines: false,
@@ -31,7 +33,6 @@ angular.module('RcmHtmlEditor', [])
 
                 menubar: false,
                 plugins: "anchor, charmap, code, hr, image, link, paste, table, textcolor, colorpicker, elfinder",
-                relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
 
@@ -44,6 +45,8 @@ angular.module('RcmHtmlEditor', [])
                 ]
             },
             text: {
+                link_list: "/rcm-page-search/title?format=tinyMceLinkList",
+                relative_urls : false,
                 optionsName: 'text',
                 force_br_newlines: false,
                 force_p_newlines: false,
@@ -56,7 +59,6 @@ angular.module('RcmHtmlEditor', [])
 
                 menubar: false,
                 plugins: "anchor, charmap, code, hr, image, link, paste, table, textcolor, colorpicker, elfinder",
-                relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
 
@@ -68,6 +70,8 @@ angular.module('RcmHtmlEditor', [])
                 ]
             },
             simpleText: {
+                link_list: "/rcm-page-search/title?format=tinyMceLinkList",
+                relative_urls : false,
                 optionsName: 'simpleText',
                 force_br_newlines: false,
                 force_p_newlines: false,
@@ -80,7 +84,6 @@ angular.module('RcmHtmlEditor', [])
 
                 menubar: false,
                 plugins: "anchor, charmap, code, hr, image, link, paste, table, elfinder",
-                relative_urls: true,
                 document_base_url: self.baseUrl,
                 statusbar: false,
 
