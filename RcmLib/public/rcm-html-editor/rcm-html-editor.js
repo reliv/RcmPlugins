@@ -19,6 +19,7 @@ angular.module('RcmHtmlEditor', [])
 
         self.htmlEditorOptions = {
             defaults: {
+                link_list: "/rcm-page-search/title?format=tinyMceLinkList",
                 relative_urls : false,
                 optionsName: 'defaults',
                 force_br_newlines: false,
@@ -44,6 +45,7 @@ angular.module('RcmHtmlEditor', [])
                 ]
             },
             text: {
+                link_list: "/rcm-page-search/title?format=tinyMceLinkList",
                 relative_urls : false,
                 optionsName: 'text',
                 force_br_newlines: false,
@@ -68,6 +70,7 @@ angular.module('RcmHtmlEditor', [])
                 ]
             },
             simpleText: {
+                link_list: "/rcm-page-search/title?format=tinyMceLinkList",
                 relative_urls : false,
                 optionsName: 'simpleText',
                 force_br_newlines: false,
