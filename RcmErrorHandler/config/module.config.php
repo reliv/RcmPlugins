@@ -1,8 +1,8 @@
 <?php
 return array(
     'RcmErrorHandler' => array(
-        'overrideExceptions' => true,
-        'overrideErrors' => true,
+        'overrideExceptions' => false,
+        'overrideErrors' => false,
         'format' => array(
             /* Will over-ride system default if used *
             '_default' => array(
