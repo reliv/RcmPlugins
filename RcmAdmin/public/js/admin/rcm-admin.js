@@ -350,7 +350,15 @@ var RcmAdminService = {
 
             var page = RcmAdminService.getPage();
 
-            return function (scope, elm, attrs, ngModel, config) {
+            return function (scope, elm, attrs, ngModel) {
+
+                var config = null;
+
+                // global check for extra options, these will merge with the current
+                // option presets
+                if (typeof RcmThemeConfig == 'object' && typeof RcmThemeConfig.rcmAdminHtmlEditorOptions == 'object') {
+                    config = RcmThemeConfig.rcmAdminHtmlEditorOptions;
+                }
 
                 scope.rcmAdminPage = page;
 
