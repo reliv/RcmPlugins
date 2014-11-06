@@ -20,7 +20,8 @@ $this->rcmTextEdit(
     <?= isset($error) ? $this->escapeHtml($error) : '' ?>
 </div>
 
-<form class="loginForm rcmDoubleSubmitProtect" action="#" method="post">
+<form class="loginForm rcmDoubleSubmitProtect"
+      action="<?= $this->escapeHtml($_SERVER['REQUEST_URI']) ?>" method="post">
     <?=
     $this->rcmTextEdit(
         'userNameCopy',
