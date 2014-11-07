@@ -62,11 +62,11 @@ angular.module('rcmBrightcovePlayer', [])
                     }
 
                     if (playerController.onTemplateLoad) {
-                        objectElm.append('<param name="templateLoadHandler" value="RcmBrightcovePlayerService.playerControllerOTemplateLoad" />');
+                        objectElm.append('<param name="templateLoadHandler" value="RcmBrightcovePlayerService.playerControllerOnTemplateLoad" />');
                     }
 
                     if (playerController.onTemplateReady) {
-                        objectElm.append('<param name="templateReadyHandler" value="RcmBrightcovePlayerService.playerControllerOTemplateReady" />');
+                        objectElm.append('<param name="templateReadyHandler" value="RcmBrightcovePlayerService.playerControllerOnTemplateReady" />');
                     }
 
                     return function (scope, elm, attrs) {
@@ -323,14 +323,14 @@ var RcmBrightcovePlayerService = {
         return RcmBrightcovePlayerService.playerControllers[instanceId];
     },
 
-    playerControllerOTemplateLoad: function (pArgument) {
+    playerControllerOnTemplateLoad: function (pArgument) {
         var instanceId = pArgument.replace(/myExperience/gi, "");
 
         var playerController = RcmBrightcovePlayerService.getPlayerController(instanceId);
         playerController.onTemplateLoad(pArgument);
     },
 
-    playerControllerOTemplateReady: function (pArgument) {
+    playerControllerOnTemplateReady: function (pArgument) {
         /* Fix for IOS */
         var experienceId = pArgument.target.experience['id'];
         var instanceId = experienceId.replace(/myExperience/gi, "");
