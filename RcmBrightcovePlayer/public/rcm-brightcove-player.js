@@ -62,11 +62,11 @@ angular.module('rcmBrightcovePlayer', [])
                     }
 
                     if (playerController.onTemplateLoad) {
-                        objectElm.append('<param name="templateLoadHandler" value="RcmBrightcovePlayerService.getPlayerController(\'' + instanceId + '\').onTemplateLoad"/>');
+                        objectElm.append('<param name="templateLoadHandler" value="RcmBrightcovePlayerService.playerControllerOTemplateLoad" />');
                     }
 
                     if (playerController.onTemplateReady) {
-                        objectElm.append('<param name="templateReadyHandler" value="RcmBrightcovePlayerService.getPlayerController(\'' + instanceId + '\').onTemplateReady"/>');
+                        objectElm.append('<param name="templateReadyHandler" value="RcmBrightcovePlayerService.playerControllerOTemplateReady" />');
                     }
 
                     return function (scope, elm, attrs) {
@@ -323,6 +323,22 @@ var RcmBrightcovePlayerService = {
         return RcmBrightcovePlayerService.playerControllers[instanceId];
     },
 
+    playerControllerOTemplateLoad: function (pArgument) {
+        var instanceId = pArgument.replace(/myExperience/gi, "");
+
+        var playerController = RcmBrightcovePlayerService.getPlayerController(instanceId);
+        playerController.onTemplateLoad(pArgument);
+    },
+
+    playerControllerOTemplateReady: function (pArgument) {
+        /* Fix for IOS */
+        var experienceId = pArgument.target.experience['id'];
+        var instanceId = experienceId.replace(/myExperience/gi, "");
+
+        var playerController = RcmBrightcovePlayerService.getPlayerController(instanceId);
+        playerController.onTemplateReady(pArgument);
+    },
+
     playerConfig: {
         width: 672,
         height: 378,
@@ -426,14 +442,12 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
         self.videoPlayer.addEventListener(self.mediaEvent.COMPLETE, self.onMediaComplete);
 
         self.templateReady = true;
-
-        if (self.loadVideoIdWhenReady) {
-            self.cueVideoById(self.loadVideoIdWhenReady);
-        }
     };
 
     self.onTemplateReady = function (evt) {
-
+        if (self.loadVideoIdWhenReady) {
+            self.cueVideoById(self.loadVideoIdWhenReady);
+        }
     };
 
     self.loadVideoById = function (videoId, callback) {
