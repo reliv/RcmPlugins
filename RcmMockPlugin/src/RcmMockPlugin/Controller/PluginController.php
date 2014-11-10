@@ -7,8 +7,9 @@ use RcmMockPlugin\Exception\RuntimeException;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\Stdlib\RequestInterface;
 use Zend\View\Model\ViewModel;
+use Rcm\Plugin\BaseController;
 
-class PluginController implements PluginInterface
+class PluginController extends BaseController implements PluginInterface
 {
     protected $request;
     protected $cache;
@@ -33,7 +34,7 @@ class PluginController implements PluginInterface
         $this->cache->setItem('mockPluginData', $this->activeCache);
     }
 
-    public function renderInstance($instanceId)
+    public function renderInstance($instanceId, $instanceConfig)
     {
         $data = array();
 

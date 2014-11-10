@@ -16,9 +16,6 @@
 
 namespace RcmRecommendedProducts;
 
-use Rcm\Plugin\BaseController;
-use RcmRecommendedProducts\Controller\PluginController;
-
 /**
  * ZF2 Module Config.  Required by ZF2
  *
