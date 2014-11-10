@@ -6,7 +6,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use RcmEventCalenderCore\Model\Calender;
  /**
- * CalendarFactory.php
+ * CalendarModelFactory.php
  *
  * LongDescHere
  *
