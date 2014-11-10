@@ -47,4 +47,9 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmGoogleSearchBox' => 'RcmGoogleSearchBox\Factory\BaseControllerFactory'
+        )
+    )
 );

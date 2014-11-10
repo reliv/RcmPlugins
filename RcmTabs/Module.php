@@ -25,8 +25,8 @@ use Rcm\Plugin\BaseController;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv Inernational
+ * @author    Brian Janish <bjanish@relivinc.com>
+ * @copyright 2014 Reliv Inernational
  * @license   License.txt New BSD License
  * @version   Release: 1.0
  */
@@ -45,23 +45,23 @@ class Module
     }
 
     /**
-     * getServiceConfiguration is used by the ZF2 service manager in order
-     * to create new objects.
+     * getAutoloaderConfig() is a requirement for all Modules in ZF2.  This
+     * function is included as part of that standard.  See Docs on ZF2 for more
+     * information.
      *
-     * @return BaseController Returns an object.
+     * @return array Returns array to be used by the ZF2 Module Manager
      */
-    public function getServiceConfig()
+    public function getAutoloaderConfig()
     {
         return array(
-            'factories' => array(
-                'RcmTabs' => function ($serviceMgr) {
-                        $controller = new BaseController(
-                            $serviceMgr->get('config'),
-                            __DIR__
-                        );
-                        return $controller;
-                    }
-            )
+            'Zend\Loader\ClassMapAutoloader' => array(
+                __DIR__ . '/autoload_classmap.php',
+            ),
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                ),
+            ),
         );
     }
 }

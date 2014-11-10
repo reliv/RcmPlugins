@@ -16,8 +16,6 @@
 
 namespace RcmNumberFormat;
 
-use RcmNumberFormat\Controller\NumberFormatController;
-
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -32,27 +30,6 @@ use RcmNumberFormat\Controller\NumberFormatController;
  */
 class Module
 {
-
-    /**
-     * Returns ZF2 controller config for this module
-     *
-     * @return array
-     */
-    function getControllerConfig()
-    {
-        return array(
-            'factories' => array(
-                'rcmNumberFormatController' => function ($controllerMgr) {
-                        $serviceMgr = $controllerMgr->getServiceLocator();
-                        $controller = new NumberFormatController(
-                            $serviceMgr->get('rcmNumberFormatter'),
-                            $serviceMgr->get('rcmCurrencyFormatter')
-                        );
-                        return $controller;
-                    }
-            )
-        );
-    }
 
     /**
      * Returns ZF2 auto-loader config

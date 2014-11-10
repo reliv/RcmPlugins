@@ -47,5 +47,10 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmImageWithThumbnails' => 'RcmImageWithThumbnails\Factory\BaseControllerFactory'
+        )
+    )
 
 );

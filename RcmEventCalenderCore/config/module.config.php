@@ -72,5 +72,17 @@ return array(
             ),
         ),
     ),
-
+    'service_manager' => array(
+        'factories' => array(
+            'RcmCalendarCore' => 'RcmCalendarCore\Factory\CalendarModelFactory'
+        )
+    ),
+    'controllers' => array(
+        'factories' => array(
+            'EventAPIController' =>
+                'RcmEventCalendarCore\Factory\EventAPIControllerFactory',
+            'CategoryAPIController' =>
+                'RcmEventCalendarCore\Factory\CategoryAPIControllerFactory'
+        )
+    )
 );
