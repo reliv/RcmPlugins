@@ -37,14 +37,28 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
     var imgTag = container.find('.rollImg');
 
     /**
+     * cleanImageUrl
+     * @param url
+     * @returns {string}
+     */
+    me.cleanBackgroundUrl = function(background) {
+
+        var reg = /(?:\(['|"]?)(.*?)(?:['|"]?\))/;
+        return reg.exec(background)[1];
+    }
+
+    /**
      *  Gets background image url
      *
      * @returns {String}
      */
-    var getBackgroundImageUrl = function () {
-        return imgTag.css('background-image').replace('url(', '')
-            .replace(')', '');
+    me.getBackgroundImageUrl = function () {
+
+        var background = imgTag.css('background-image');
+        return me.cleanBackgroundUrl(background);
     };
+
+
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -80,7 +94,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
     me.getSaveData = function () {
         return {
             'href': aTags.attr('href'),
-            'imageSrc': getBackgroundImageUrl()
+            'imageSrc': me.getBackgroundImageUrl()
         }
     };
 
@@ -88,7 +102,8 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      */
     me.showEditDialog = function () {
-        var srcInput = $.dialogIn('image', 'Image', getBackgroundImageUrl());
+
+        var srcInput = $.dialogIn('image', 'Image', me.getBackgroundImageUrl());
         var hrefInput = $.dialogIn('url', 'Link Url', aTags.attr('href'));
 
         var form = $('<form></form>')
@@ -105,7 +120,7 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
                     Ok: function () {
 
                         //Get user-entered data from form
-                        imgTag.css('background-image', 'url(' + srcInput.val() + ')');
+                        imgTag.css('background-image', 'url("' + srcInput.val() + '")');
                         aTags.attr('href', hrefInput.val());
 
                         $(this).dialog('close');

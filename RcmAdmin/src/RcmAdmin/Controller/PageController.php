@@ -415,7 +415,12 @@ class PageController extends AbstractActionController
      */
     protected function prepSaveData(&$data)
     {
+        if(!is_array($data)) {
+            $data = array();
+        }
+
         ksort($data);
+
         $data['containers'] = array();
         $data['pageContainer'] = array();
 
@@ -474,8 +479,6 @@ class PageController extends AbstractActionController
             } else {
                 $data['pageContainer'][] = &$plugin;
             }
-
-            ksort($plugin['saveData']);
         }
     }
 
@@ -491,6 +494,9 @@ class PageController extends AbstractActionController
         }
 
         if (is_array($data)) {
+
+            ksort($data);
+
             foreach ($data as &$arrayData) {
                 $this->cleanSaveData($arrayData);
             }

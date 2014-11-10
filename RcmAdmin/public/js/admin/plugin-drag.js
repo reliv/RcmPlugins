@@ -277,20 +277,20 @@ RcmPluginDrag = {
         //Find the actual plugin instance
         var initialInstance = $(ui.item).find(".initialState");
         var isPageContainer = $(container).attr('data-isPageContainer') == 'Y';
-        var badMsg = 'Site-wide plugins can only be added to the inner page,' +
+        var badMsg = 'Site-wide plugins should only be added to the inner page,' +
             ' not the outer layout.';
         var pluginData;
         if ($(initialInstance).is('.initialState')) {
             //New plugin received
             var dragDiv = $(initialInstance).find(".rcmPlugin");
             pluginData = RcmPluginDrag.getPluginContainerInfo(dragDiv);
-            if (pluginData.isSiteWide && !isPageContainer) {
-                newItem.remove();
-                $().alert(badMsg);
-                return;
-            }
             var newDiv = dragDiv.clone(false);
             $(newItem).replaceWith($(newDiv));
+
+            if (pluginData.isSiteWide && !isPageContainer) {
+                // We were removing the plugin, but now we just warn them
+                $().alert(badMsg);
+            }
 
         } else {
             //Existing plugin received
@@ -302,7 +302,17 @@ RcmPluginDrag = {
                 return;
             }
         }
-        RcmAdminService.getPage().registerObjects();
+
+        var page = RcmAdminService.getPage();
+        page.registerObjects(
+            function(){
+                var plugin = page.getPlugin(pluginData.instanceId);
+                // @todo This might cause some issues with ng-repeat,
+                //       updateView compiles the elm
+                plugin.updateView();
+            }
+        );
+
         //Make sure the new plugin is sizable
         RcmPluginDrag.makePluginsResizable();
     },

@@ -1,8 +1,17 @@
 <?php
 return array(
     'RcmErrorHandler' => array(
-        'overrideExceptions' => true,
-        'overrideErrors' => true,
+        // enable Exception overrides (false = off)
+        'overrideExceptions' => false,
+        // enable Error overrides (false = off)
+        'overrideErrors' => false,
+        /**
+         * Error formatters,
+         * 'request/contentheader' => array(
+         *   'class' => '\Some\Formater\Class',
+         *   'options' => array('formatter' => 'options');
+         * );
+         */
         'format' => array(
             /* Will over-ride system default if used *
             '_default' => array(
@@ -10,25 +19,44 @@ return array(
                 'options' => array(),
             ),
             /* */
+            // Used for JSON formating of errors if request is application/json
             'application/json' => array(
                 'class' => '\RcmErrorHandler\Format\FormatJson',
                 'options' => array(),
             )
         ),
 
+        /**
+         * Listeners can be injected to log errors
+         */
         'listener' => array(
-            /** EXAMPLE **
+            /** EXAMPLES **/
+            /**
+             * Will only enter a issue if it does not find an existing one
+             *
+             *
             '\RcmJira\ErrorListener' => array(
                 'event' => 'RcmErrorHandler::All',
                 'options' => array(
+                    // Issue will be entered in this project
                     'projectKey' => 'REF',
+                    // Will not enter an issue if one is found in these projects
+                    // (includes the project above)
+                    'projectsToCheckForIssues' => array(
+                        'ISS'
+                    ),
+                    // Will only enter an issue if one is not found in the projects
+                    // that is NOT in one of the status below
                     'enterIssueIfNotStatus' => array(
                         'closed',
                         'resolved',
                     ),
                 ),
             ),
-            /* *
+            /* */
+            /**
+             * Standard logger for logging errors
+             *
             '\RcmErrorHandler\Log\ErrorListener' => array(
                 'event' => 'RcmErrorHandler::All',
                 // \Zend\Log\Logger Options
@@ -48,6 +76,9 @@ return array(
         ),
     ),
 
+    /**
+     * Configuration for JIRA API
+     */
     'RcmJira' => array(
         'api' => array(
             'endpoint' => 'https://jira.example.com',

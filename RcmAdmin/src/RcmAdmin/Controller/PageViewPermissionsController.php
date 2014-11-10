@@ -139,7 +139,6 @@ class PageViewPermissionsController extends AbstractRestfulController
         $this->addPermissions($roles, $resourceId);
 
         return new JsonModel(array());
-
     }
 
     /**
@@ -177,6 +176,14 @@ class PageViewPermissionsController extends AbstractRestfulController
     public function addPermissions($roles, $resourceId)
     {
         if (empty($roles)) {
+            return;
+        }
+
+        $allRoles = $this->aclDataService->getAllRoles()->getData();
+
+        // If all roles are selected, then no roles should be set (all roles allowed)
+        // This assumes that the current rules have been deleted or they are empty
+        if(count($roles) == count($allRoles)){
             return;
         }
 
