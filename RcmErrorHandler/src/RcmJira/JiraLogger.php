@@ -2,6 +2,7 @@
 
 namespace RcmJira;
 
+use RcmJira\Exception\JiraListenerException;
 use RcmJira\Exception\JiraLoggerException;
 use Zend\Log\Logger;
 use Zend\Log\LoggerInterface;
@@ -286,18 +287,61 @@ class JiraLogger implements LoggerInterface
      * @param $summary
      *
      * @return string
+     * @throws JiraListenerException
      */
     protected function getIssueJql($summary)
     {
         $closedJql = $this->getStatusQuery();
 
+        $projectsJql = $this->getProjectQuery();
+
+        if(empty($projectsJql)){
+            throw new JiraListenerException(
+                'No project key has been defined, JQL not valid.'
+            );
+        }
+
+        $jql = $projectsJql .
+        $closedJql .
+        'AND (Summary ~ "\"' . $this->jqlEscape($summary). '\"") ' .
+        "ORDER BY createdDate DESC";
+
+        return $jql;
+    }
+
+    /**
+     * getProjectQuery
+     *
+     * @return string
+     */
+    protected function getProjectQuery()
+    {
         $projectKey = $this->getOption('projectKey', 'REF');
 
-        return "project = '" . $this->jqlEscape($projectKey) . "' " .
-        $closedJql .
-        'AND (Summary ~ "\"' . $this->jqlEscape($summary)
-        . '\"") ' .
-        "ORDER BY createdDate DESC";
+        if(empty($projectKey)){
+
+            return '';
+        }
+
+        $projects = $this->getOption('projectsToCheckForIssues', null);
+
+        $jql = "project = '" . $this->jqlEscape($projectKey) . "' ";
+
+        if(empty($projects)){
+
+            return $jql;
+        }
+
+        $jqlArr = array();
+
+        foreach ($projects as $project) {
+
+            $jqlArr[] = "project = '" . $this->jqlEscape($project) . "'";
+        }
+
+        $jql = "(" . $jql ." OR " . implode(' OR ', $jqlArr) . ") ";
+
+        return $jql;
     }
 
     /**
@@ -309,7 +353,7 @@ class JiraLogger implements LoggerInterface
     {
         $statuses = $this->getOption('enterIssueIfNotStatus', null);
 
-        if(!$statuses){
+        if(empty($statuses)){
 
             return '';
         }
