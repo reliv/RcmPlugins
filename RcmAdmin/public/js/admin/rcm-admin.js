@@ -104,7 +104,7 @@ angular.module(
 
             var eventsRegistered = false;
 
-            var safeApply = function(scope, fn) {
+            var safeApply = function (scope, fn) {
                 var phase = scope.$root.$$phase;
                 if (phase == '$apply' || phase == '$digest') {
                     if (fn && (typeof(fn) === 'function')) {
@@ -350,7 +350,15 @@ var RcmAdminService = {
 
             var page = RcmAdminService.getPage();
 
-            return function (scope, elm, attrs, ngModel, config) {
+            return function (scope, elm, attrs, ngModel) {
+
+                var config = null;
+
+                // global check for extra options, these will merge with the current
+                // option presets
+                if (typeof RcmThemeConfig == 'object' && typeof RcmThemeConfig.rcmAdminHtmlEditorOptions == 'object') {
+                    config = RcmThemeConfig.rcmAdminHtmlEditorOptions;
+                }
 
                 scope.rcmAdminPage = page;
 
@@ -510,12 +518,12 @@ var RcmAdminService = {
         var page = RcmAdminService.getPage(
             function (page) {
                 if (typeof onComplete === 'function') {
-                    onComplete(page.plugins[id]);
+                    onComplete(page.getPlugin(id));
                 }
             }
         );
 
-        return page.plugins[id];
+        return page.getPlugin(id);
     },
 
     /**
@@ -1123,11 +1131,11 @@ var RcmAdminService = {
             }
         },
 
-        enableResize: function(elm, onComplete) {
+        enableResize: function (elm, onComplete) {
 
             try {
                 elm.resizable('destroy');
-            } catch(e) {
+            } catch (e) {
                 // nothing
             }
 
@@ -1398,6 +1406,19 @@ var RcmAdminService = {
 
             return self.model.getData();
         };
+
+        /**
+         * getPlugin
+         * @param pluginId
+         * @returns {*}
+         */
+        self.getPlugin = function (pluginId) {
+            if (self.plugins[pluginId]) {
+                return self.plugins[pluginId];
+            }
+
+            return null;
+        }
 
         /**
          * addPlugin

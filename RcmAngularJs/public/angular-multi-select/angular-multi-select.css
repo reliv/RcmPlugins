@@ -84,6 +84,7 @@
 
 /* the main checkboxes and helper layer */
 .multiSelect .checkboxLayer {
+    margin-top: 30px;
     background-color: #fff;
     position: absolute;
     z-index: 999;

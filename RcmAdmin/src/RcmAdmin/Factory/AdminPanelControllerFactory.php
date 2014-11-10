@@ -6,7 +6,20 @@ use RcmAdmin\Controller\AdminPanelController;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-
+/**
+ * Class AdminPanelControllerFactory
+ *
+ * LongDescHere
+ *
+ * PHP version 5
+ *
+ * @category  Reliv
+ * @package   RcmAdmin\Factory
+ * @copyright 2014 Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: <package_version>
+ * @link      https://github.com/reliv
+ */
 class AdminPanelControllerFactory implements FactoryInterface
 {
 
@@ -29,26 +42,16 @@ class AdminPanelControllerFactory implements FactoryInterface
             $adminPanelConfig = $config['rcmAdmin']['adminPanel'];
         }
 
-        /** @var \RcmUser\Service\RcmUserService $rcmUserService */
-        $rcmUserService = $serviceLocator->get(
-            'RcmUser\Service\RcmUserService'
-        );
-
         /** @var \Rcm\Entity\Site $currentSite */
         $currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
 
         /** @var \Rcm\Acl\CmsPermissionChecks $cmsPermissionChecks */
         $cmsPermissionChecks = $serviceLocator->get('Rcm\Acl\CmsPermissionsChecks');
 
-        /** @var \RcmUser\Acl\Service\AclDataService $aclDataService */
-        $aclDataService = $serviceLocator->get('RcmUser\Acl\AclDataService');
-
         return new AdminPanelController(
             $adminPanelConfig,
-            $rcmUserService,
             $currentSite,
-            $cmsPermissionChecks,
-            $aclDataService
+            $cmsPermissionChecks
         );
     }
 }

@@ -46,39 +46,30 @@ class AdminPanelController extends AbstractActionController
     /** @var array */
     protected $adminPanelConfig;
 
-    /** @var \RcmUser\Service\RcmUserService */
-    protected $userService;
-
     /** @var \Rcm\Entity\Site */
     protected $currentSite;
 
     /** @var \Rcm\Acl\CmsPermissionChecks */
     protected $cmsPermissionChecks;
 
-    /** @var AclDataService  */
+    /** @var AclDataService */
     protected $aclDataService;
 
     /**
      * Constructor
      *
-     * @param array               $adminPanelConfig    Admin Config
-     * @param RcmUserService      $userService         RmcUser User Service
-     * @param Site                $currentSite         Rcm Site Id
-     * @param CmsPermissionChecks $cmsPermissionChecks Rcm Service for CMS permissions
-     * @param AclDataService      $aclDataService      Rcm User Acl Data Service
+     * @param array               $adminPanelConfig
+     * @param Site                $currentSite
+     * @param CmsPermissionChecks $cmsPermissionChecks
      */
     public function __construct(
         Array          $adminPanelConfig,
-        RcmUserService $userService,
-        Site           $currentSite,
-        CmsPermissionChecks $cmsPermissionChecks,
-        AclDataService $aclDataService
+        Site $currentSite,
+        CmsPermissionChecks $cmsPermissionChecks
     ) {
         $this->adminPanelConfig = $adminPanelConfig;
-        $this->userService = $userService;
         $this->currentSite = $currentSite;
         $this->cmsPermissionChecks = $cmsPermissionChecks;
-        $this->aclDataService = $aclDataService;
     }
 
     /**
@@ -94,44 +85,19 @@ class AdminPanelController extends AbstractActionController
             return null;
         }
 
+        /** @var RouteMatch $routeMatch */
+        $routeMatch = $this->getEvent()->getRouteMatch();
+        $siteId = $this->currentSite->getSiteId();
+        $sourcePageName = $routeMatch->getParam('page', 'index');
+        $pageType = $routeMatch->getParam('pageType', 'n');
+
         $view = new ViewModel();
-        if($this->checkRestrictedPage() == true) {
-            $view->setVariable('restrictions',true);
+        if ($this->cmsPermissionChecks->isPageRestricted($siteId, $pageType, $sourcePageName, 'read') == true) {
+            $view->setVariable('restrictions', true);
         }
 
         $view->setVariable('adminMenu', $this->adminPanelConfig);
         $view->setTemplate('rcm-admin/admin/admin');
         return $view;
     }
-
-    public function checkRestrictedPage() {
-        /** @var RouteMatch $routeMatch */
-        $routeMatch = $this->getEvent()->getRouteMatch();
-
-        $sourcePageName = $routeMatch->getParam('page', 'index');
-        $pageType = $routeMatch->getParam('pageType', 'n');
-
-        /** @todo Move resource to external modal */
-        $resourceId = 'sites.' . $this->currentSite->getSiteId() . '.pages.' . $pageType . '.'
-            . $sourcePageName;
-
-        $aclDataService = $this->aclDataService;
-
-        //getting all set rules by resource Id
-        $rules = $aclDataService->getRulesByResource($resourceId)->getData();
-        //getting list of all dynamically created roles
-        $allRoles = $aclDataService->getAllRoles()->getData();
-        //if all aal rolea rea selected than means no restrictions on page
-        if(count($rules) > 0 && count($rules) != count($allRoles)) {
-            $restrictions = true;
-        } elseif(count($rules) == count($allRoles)) {
-            $restrictions = false;
-        }
-        else {
-            $restrictions = false;
-        }
-
-        return $restrictions;
-    }
-
-  }
+}
