@@ -49,4 +49,9 @@ return array(
             ),
         ),
     ),
+    'controllers' => array(
+        'factories' => array(
+            'NumberFormatController' => 'RcmNumberFormat\Factory\NumberFormatControllerFactory'
+        )
+    ),
 );

@@ -48,5 +48,10 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmTabs' => 'RcmTabs\Factory\BaseControllerFactory'
+        )
+    )
 
 );

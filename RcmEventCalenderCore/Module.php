@@ -8,17 +8,11 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
+ * @author    Brian Janish <bjanish@relivinc.com>
+ * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
-namespace RcmEventCalenderCore;
-
-use RcmEventCalenderCore\Controller\CategoryAPIController;
-use RcmEventCalenderCore\Controller\EventAPIController;
-use RcmEventCalenderCore\Model\Calender;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -67,45 +61,4 @@ class Module
         );
     }
 
-    /**
-     * getServiceConfiguration is used by the ZF2 service manager in order
-     * to create new objects.
-     *
-     * @return object Returns an object.
-     */
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                'CalenderModel' => function ($serviceMgr) {
-                        $service = new Calender(
-                            $serviceMgr->get('Doctrine\ORM\EntityManager')
-                        );
-                        return $service;
-                    }
-            )
-        );
-    }
-
-    function getControllerConfig()
-    {
-        return array(
-            'factories' => array(
-                'EventAPIController' => function ($controllerMgr) {
-                        $serviceMgr = $controllerMgr->getServiceLocator();
-                        return new EventAPIController(
-                            $serviceMgr->get('CalenderModel'),
-                            $serviceMgr->get('RcmUser\Service\RcmUserService')
-                        );
-                    },
-                'CategoryAPIController' => function ($controllerMgr) {
-                        $serviceMgr = $controllerMgr->getServiceLocator();
-                        return new CategoryAPIController(
-                            $serviceMgr->get('CalenderModel'),
-                            $serviceMgr->get('RcmUser\Service\RcmUserService')
-                        );
-                    }
-            )
-        );
-    }
 }

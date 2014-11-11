@@ -62,26 +62,4 @@ class Module
     {
         return include __DIR__ . '/config/module.config.php';
     }
-
-    /**
-     * getServiceConfiguration is used by the ZF2 service manager in order
-     * to create new objects.
-     *
-     * @return object Returns an object.
-     */
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                'RcmSocialButtons' =>
-                    function ($serviceMgr) {
-                        $controller
-                            = new \RcmSocialButtons\Controller\PluginController(
-                            $serviceMgr->get('config')
-                        );
-                        return $controller;
-                    }
-            )
-        );
-    }
 }

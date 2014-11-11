@@ -57,4 +57,9 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmSocialButtons' => 'RcmSocialButtons\Factory\PluginControllerFactory'
+        )
+    )
 );

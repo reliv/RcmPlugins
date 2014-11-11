@@ -48,5 +48,10 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmNavigation' => 'RcmNavigation\Factory\BaseControllerFactory'
+        )
+    )
 
 );

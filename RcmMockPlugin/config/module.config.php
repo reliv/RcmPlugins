@@ -32,5 +32,10 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'RcmMockPlugin' => 'RcmMockPlugin\Factory\PluginControllerFactory'
+        )
+    )
 
 );

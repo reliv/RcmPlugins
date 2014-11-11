@@ -16,8 +16,6 @@
 
 namespace RcmImageWithThumbnails;
 
-use Rcm\Plugin\BaseController;
-
 /**
  * ZF2 Module Config.  Required by ZF2
  *
@@ -45,23 +43,23 @@ class Module
     }
 
     /**
-     * getServiceConfiguration is used by the ZF2 service manager in order
-     * to create new objects.
+     * getAutoloaderConfig() is a requirement for all Modules in ZF2.  This
+     * function is included as part of that standard.  See Docs on ZF2 for more
+     * information.
      *
-     * @return BaseController Returns an object.
+     * @return array Returns array to be used by the ZF2 Module Manager
      */
-    public function getServiceConfig()
+    public function getAutoloaderConfig()
     {
         return array(
-            'factories' => array(
-                'RcmImageWithThumbnails' => function ($serviceMgr) {
-                        $controller = new BaseController(
-                            $serviceMgr->get('config'),
-                            __DIR__
-                        );
-                        return $controller;
-                    }
-            )
+            'Zend\Loader\ClassMapAutoloader' => array(
+                __DIR__ . '/autoload_classmap.php',
+            ),
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                ),
+            ),
         );
     }
 }

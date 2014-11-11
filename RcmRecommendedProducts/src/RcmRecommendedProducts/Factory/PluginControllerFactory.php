@@ -48,20 +48,5 @@ class PluginControllerFactory implements FactoryInterface {
         );
 
         return $controller;
-//        /** @var \Zend\Mvc\Controller\ControllerManager $cm For IDE */
-//        $cm = $controllerMgr;
-//
-//        /** @var ServiceLocatorInterface $serviceLocator */
-//        $serviceLocator = $cm->getServiceLocator();
-//
-//        $productModel = $serviceLocator->get('rcmShoppingCartProductModel');
-//
-//        $config = $serviceLocator->get('config');
-//
-//        return new PluginController(
-//            $config,
-//            $productModel
-//        );
     }
 }
- 
