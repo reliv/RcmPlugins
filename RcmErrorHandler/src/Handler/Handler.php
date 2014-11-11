@@ -411,7 +411,7 @@ class Handler
     protected function notify($event, $error)
     {
         // Keep us from reporting suppressed errors
-        if ($this->getErrorReporting() <= 0) {
+        if (!$this->canReportErrors($error->getSeverity())){
             return;
         }
 
