@@ -14,17 +14,17 @@ use RcmErrorHandler\Model\GenericError;
  *
  * PHP version 5
  *
- * @category  Reliv
- * @package   RcmErrorHandler\Handler
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
+ * @category           Reliv
+ * @package            RcmErrorHandler\Handler
+ * @author             James Jervis <jjervis@relivinc.com>
+ * @copyright          2014 Reliv International
+ * @license            License.txt New BSD License
+ * @version            Release: <package_version>
+ * @link               https://github.com/reliv
  */
 class Handler
 {
-    const EVENT_ALL= 'RcmErrorHandler::All';
+    const EVENT_ALL = 'RcmErrorHandler::All';
 
     const EVENT_EXCEPTION = 'RcmErrorHandler::Exception';
 
@@ -90,7 +90,9 @@ class Handler
 
         if ($formatConfig) {
             if (isset($formatConfig[$format])) {
-                return new $formatConfig[$format]['class'](new Config($formatConfig[$format]['options']));
+                return new $formatConfig[$format]['class'](
+                    new Config($formatConfig[$format]['options'])
+                );
             }
         }
 
@@ -180,7 +182,11 @@ class Handler
 
         if (!empty($formatter)) {
 
-            if ($this->canDisplayErrors() && $this->canReportErrors($error->getSeverity())) {
+            if ($this->canDisplayErrors()
+                && $this->canReportErrors(
+                    $error->getSeverity()
+                )
+            ) {
 
                 $formatter->displayString(
                     $error,
@@ -216,7 +222,7 @@ class Handler
         $type = 'Error:';
 
         if (isset($this->errorMap[$errno])) {
-            $type .=  $this->errorMap[$errno];
+            $type .= $this->errorMap[$errno];
         } else {
             $type .= GenericError::DEFAULT_TYPE;
         }
@@ -241,9 +247,19 @@ class Handler
      */
     public function canReportErrors($errno)
     {
-        $reportingLevel = error_reporting();
+        $reportingLevel = $this->getErrorReporting();
 
-        return ($reportingLevel & $errno);
+        return (($reportingLevel & $errno) > 0);
+    }
+
+    /**
+     * getErrorReporting
+     *
+     * @return int
+     */
+    public function getErrorReporting()
+    {
+        return error_reporting();
     }
 
     /**
@@ -253,7 +269,8 @@ class Handler
      */
     public function isFatalError()
     {
-        $reportingLevel = (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING | E_STRICT);
+        $reportingLevel = (E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING
+            | E_COMPILE_ERROR | E_COMPILE_WARNING | E_STRICT);
 
         return ($reportingLevel & $this->errno);
     }
@@ -393,6 +410,11 @@ class Handler
      */
     protected function notify($event, $error)
     {
+        // Keep us from reporting suppressed errors
+        if ($this->getErrorReporting() <= 0) {
+            return;
+        }
+
         // Trigger Event
         $application = $this->event->getApplication();
         $em = $application->getEventManager();

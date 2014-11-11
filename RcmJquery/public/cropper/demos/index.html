@@ -1,0 +1,391 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A basic example of Cropper.">
+  <meta name="keywords" content="HTML, CSS, JS, JavaScript, jQuery, image cropping, web development">
+  <meta name="author" content="Fengyuan Chen">
+  <title>Cropper</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../src/cropper.css">
+  <style>
+    .eg-container {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .eg-main {
+      max-height: 480px;
+      margin-bottom: 30px;
+    }
+
+    .eg-wrapper {
+      background-color: #f7f7f7;
+      border: 1px solid #eee;
+      box-shadow: inset 0 0 3px #f7f7f7;
+      height: 480px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .eg-wrapper img {
+      width: 100%;
+    }
+
+    .eg-preview {
+      margin-bottom: 15px;
+    }
+
+    .preview {
+      float: left;
+      margin-right: 15px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      background: #f7f7f7;
+    }
+
+    .preview-lg {
+      width: 290px;
+      height: 160px;
+    }
+
+    .preview-md {
+      width: 145px;
+      height: 90px;
+    }
+
+    .preview-sm {
+      width: 72.5px;
+      height: 45px;
+    }
+
+    .preview-xs {
+      width: 36.25px;
+      height: 22.5px;
+    }
+
+    .eg-data {
+      padding-right: 15px;
+    }
+
+    .eg-data .input-group {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .eg-data .input-group-addon {
+      min-width: 65px;
+    }
+
+    .eg-button > .btn {
+      margin-right: 15px;
+      margin-bottom: 15px;
+    }
+
+    .eg-input .input-group {
+      margin-bottom: 15px;
+    }
+
+    .eg-output .btn {
+      margin-right: 15px;
+      margin-bottom: 15px;
+    }
+
+    .eg-output img {
+      max-height: 214px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid eg-container" id="basic-example">
+    <div class="row eg-main">
+      <div class="col-xs-12 col-sm-9">
+        <div class="eg-wrapper">
+          <img class="cropper" src="img/picture-1.jpg" alt="Picture">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-3">
+        <div class="eg-preview clearfix">
+          <div class="preview preview-lg"></div>
+          <div class="preview preview-md"></div>
+          <div class="preview preview-sm"></div>
+          <div class="preview preview-xs"></div>
+        </div>
+        <div class="eg-data">
+          <div class="input-group">
+            <span class="input-group-addon">X</span>
+            <input class="form-control" id="dataX" type="text" placeholder="x">
+            <span class="input-group-addon">px</span>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Y</span>
+            <input class="form-control" id="dataY" type="text" placeholder="y">
+            <span class="input-group-addon">px</span>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Width</span>
+            <input class="form-control" id="dataWidth" type="text" placeholder="width">
+            <span class="input-group-addon">px</span>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Height</span>
+            <input class="form-control" id="dataHeight" type="text" placeholder="height">
+            <span class="input-group-addon">px</span>
+          </div>
+          <!-- <div class="input-group">
+            <span class="input-group-addon">Rotate</span>
+            <input class="form-control" id="dataRotate" type="text" placeholder="rotate">
+            <span class="input-group-addon">deg</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="clearfix">
+      <div class="eg-button">
+        <button id="reset" type="button" class="btn btn-warning">Reset</button>
+        <button id="reset2" type="button" class="btn  btn-warning">Reset (deep)</button>
+        <button id="clear" type="button" class="btn btn-primary">Clear</button>
+        <button id="destroy" type="button" class="btn btn-danger">Destroy</button>
+        <button id="enable" type="button" class="btn btn-success">Enable</button>
+        <button id="disable" type="button" class="btn btn-warning">Disable</button>
+        <button id="zoomIn" type="button" class="btn btn-info">Zoom In</button>
+        <button id="zoomOut" type="button" class="btn btn-info">Zoom Out</button>
+        <button id="rotateLeft" type="button" class="btn btn-info">Rotate Left</button>
+        <button id="rotateRight" type="button" class="btn btn-info">Rotate Right</button>
+        <button id="setData" type="button" class="btn btn-primary">Set Data</button>
+      </div>
+      <div class="row eg-input">
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-info" id="getData" type="button">Get Data</button>
+            </span>
+            <input class="form-control" id="showData" type="text">
+          </div>
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-info" id="getImageData" type="button">Get Image Data</button>
+            </span>
+            <input class="form-control" id="showImageData" type="text">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="replace" type="button">Replace</button>
+            </span>
+            <input class="form-control" id="replaceWith" type="text" value="img/picture-2.jpg">
+          </div>
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="setAspectRatio" type="button">Set Aspect Ratio</button>
+            </span>
+            <input class="form-control" id="aspectRatio" type="text" value="auto">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="zoom" type="button">Zoom</button>
+            </span>
+            <input class="form-control" id="zoomWith" type="number" value="0.5">
+          </div>
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" id="rotate" type="button">Rotate</button>
+            </span>
+            <input class="form-control" id="rotateWith" type="number" value="45">
+          </div>
+        </div>
+      </div>
+
+      <div class="row eg-output">
+        <div class="col-md-12">
+          <button class="btn btn-primary" id="getDataURL" type="button">Get Data URL</button>
+          <button class="btn btn-primary" id="getDataURL2" type="button">Get Data URL (JPG)</button>
+        </div>
+        <div class="col-md-6">
+          <textarea class="form-control" id="dataURL" rows="10"></textarea>
+        </div>
+        <div class="col-md-6">
+          <div id="showDataURL"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="../src/cropper.js"></script>
+  <script>
+    $(function() {
+      var $image = $(".cropper"),
+          $dataX = $("#dataX"),
+          $dataY = $("#dataY"),
+          $dataHeight = $("#dataHeight"),
+          $dataWidth = $("#dataWidth"),
+          console = window.console || {log:$.noop},
+          cropper;
+
+      $image.cropper({
+        aspectRatio: 16 / 9,
+        data: {
+          x: 420,
+          y: 50,
+          width: 640,
+          height: 360
+        },
+        preview: ".preview",
+
+        // autoCrop: false,
+        // dragCrop: false,
+        // modal: false,
+        // moveable: false,
+        // resizeable: false,
+        // scalable: false,
+
+        // maxWidth: 480,
+        // maxHeight: 270,
+        // minWidth: 160,
+        // minHeight: 90,
+
+        done: function(data) {
+          $dataX.val(data.x);
+          $dataY.val(data.y);
+          $dataHeight.val(data.height);
+          $dataWidth.val(data.width);
+        },
+        build: function(e) {
+          console.log(e.type);
+        },
+        built: function(e) {
+          console.log(e.type);
+        },
+        dragstart: function(e) {
+          console.log(e.type);
+        },
+        dragmove: function(e) {
+          console.log(e.type);
+        },
+        dragend: function(e) {
+          console.log(e.type);
+        }
+      });
+
+      cropper = $image.data("cropper");
+
+      $image.on({
+        "build.cropper": function(e) {
+          console.log(e.type);
+          // e.preventDefault();
+        },
+        "built.cropper": function(e) {
+          console.log(e.type);
+          // e.preventDefault();
+        },
+        "dragstart.cropper": function(e) {
+          console.log(e.type);
+          // e.preventDefault();
+        },
+        "dragmove.cropper": function(e) {
+          console.log(e.type);
+          // e.preventDefault();
+        },
+        "dragend.cropper": function(e) {
+          console.log(e.type);
+          // e.preventDefault();
+        }
+      });
+
+      $("#reset").click(function() {
+        $image.cropper("reset");
+      });
+
+      $("#reset2").click(function() {
+        $image.cropper("reset", true);
+      });
+
+      $("#clear").click(function() {
+        $image.cropper("clear");
+      });
+
+      $("#destroy").click(function() {
+        $image.cropper("destroy");
+      });
+
+      $("#enable").click(function() {
+        $image.cropper("enable");
+      });
+
+      $("#disable").click(function() {
+        $image.cropper("disable");
+      });
+
+      $("#zoom").click(function() {
+        $image.cropper("zoom", $("#zoomWith").val());
+      });
+
+      $("#zoomIn").click(function() {
+        $image.cropper("zoom", 0.1);
+      });
+
+      $("#zoomOut").click(function() {
+        $image.cropper("zoom", -0.1);
+      });
+
+      $("#rotate").click(function() {
+        $image.cropper("rotate", $("#rotateWith").val());
+      });
+
+      $("#rotateLeft").click(function() {
+        $image.cropper("rotate", -90);
+      });
+
+      $("#rotateRight").click(function() {
+        $image.cropper("rotate", 90);
+      });
+
+      $("#setAspectRatio").click(function() {
+        $image.cropper("setAspectRatio", $("#aspectRatio").val());
+      });
+
+      $("#replace").click(function() {
+        $image.cropper("replace", $("#replaceWith").val());
+      });
+
+      $("#getImageData").click(function() {
+        $("#showImageData").val(JSON.stringify($image.cropper("getImageData")));
+      });
+
+      $("#setData").click(function() {
+        $image.cropper("setData", {
+          x: $dataX.val(),
+          y: $dataY.val(),
+          width: $dataWidth.val(),
+          height: $dataHeight.val()
+        });
+      });
+
+      $("#getData").click(function() {
+        $("#showData").val(JSON.stringify($image.cropper("getData")));
+      });
+
+      $("#getDataURL").click(function() {
+        var dataURL = $image.cropper("getDataURL");
+
+        $("#dataURL").text(dataURL);
+        $("#showDataURL").html('<img src="' + dataURL + '">');
+      });
+
+      $("#getDataURL2").click(function() {
+        var dataURL = $image.cropper("getDataURL", "image/jpeg");
+
+        $("#dataURL").text(dataURL);
+        $("#showDataURL").html('<img src="' + dataURL + '">');
+      });
+    });
+  </script>
+</body>
+</html>
