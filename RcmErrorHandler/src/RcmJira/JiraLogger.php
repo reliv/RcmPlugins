@@ -443,6 +443,10 @@ class JiraLogger implements LoggerInterface
             $description .= $extra['description'];
         }
 
+        if(isset($_SERVER) && isset($_SERVER['HTTP_HOST'])){
+            $description .= "\n HOST: " . $_SERVER['REQUEST_URI'];
+        }
+
         if(isset($_SERVER) && isset($_SERVER['REQUEST_URI'])){
             $description .= "\n URL: " . $_SERVER['REQUEST_URI'];
         }
