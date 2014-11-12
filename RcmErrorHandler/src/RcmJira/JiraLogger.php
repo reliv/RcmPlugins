@@ -444,7 +444,7 @@ class JiraLogger implements LoggerInterface
         }
 
         if(isset($_SERVER) && isset($_SERVER['HTTP_HOST'])){
-            $description .= "\n HOST: " . $_SERVER['REQUEST_URI'];
+            $description .= "\n HOST: " . $_SERVER['HTTP_HOST'];
         }
 
         if(isset($_SERVER) && isset($_SERVER['REQUEST_URI'])){
