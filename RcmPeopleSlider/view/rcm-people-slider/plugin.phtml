@@ -50,10 +50,10 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
     });
 </script>
 <div>
-
     <div class="peopleDetails"
          data-selectedPersonId="<?= $selectedPersonId ?>">
         <?php //person output here for non-js support for SEO reasons only ?>
+
         <table class="personDetails">
             <tr>
                 <td>
@@ -63,7 +63,7 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
                 </td>
                 <td>
                     <img class="largeImage"
-                         src="<?= $selectedPerson['largeImage'] ?>">
+                         src="<?php echo (isset($selectedPerson['largeImage']) ? $selectedPerson['largeImage'] : '/modules/rcm-lib/images/no-image.png') ?>">
                 </td>
             </tr>
         </table>
