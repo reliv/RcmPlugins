@@ -443,7 +443,11 @@ class JiraLogger implements LoggerInterface
             $description .= $extra['description'];
         }
 
-        if(isset($_SERVER['REQUEST_URI'])){
+        if(isset($_SERVER) && isset($_SERVER['HTTP_HOST'])){
+            $description .= "\n HOST: " . $_SERVER['REQUEST_URI'];
+        }
+
+        if(isset($_SERVER) && isset($_SERVER['REQUEST_URI'])){
             $description .= "\n URL: " . $_SERVER['REQUEST_URI'];
         }
 
@@ -461,6 +465,10 @@ class JiraLogger implements LoggerInterface
 
         if(isset($extra['trace'])){
             $description .= "\n Stack trace: \n" . $extra['trace'];
+        }
+
+        if(isset($_SERVER)){
+            $description .= "\n SERVER: " . var_export($_SERVER, true);
         }
 
         return $description;
