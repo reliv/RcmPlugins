@@ -4,6 +4,7 @@ namespace RcmJira;
 
 use RcmErrorHandler\EventManager\HandlerListenerBase;
 use RcmErrorHandler\Format\FormatBase;
+use RcmErrorHandler\Model\GenericError;
 use RcmJira\Exception\JiraListenerException;
 
 /**
@@ -79,8 +80,45 @@ class ErrorListener extends HandlerListenerBase
 
         $logger->log(
             $logger->getPriorityFromErrorNumber($firstError->getSeverity()),
-            $firstError->getType() . ' - ' . $firstError->getMessage() . ' - ' . $firstError->getFile(),
+            $this->prepareSummary($firstError),
             $extras
         );
     }
-} 
+
+    /**
+     * prepareSummary
+     *
+     * @param GenericError $error
+     *
+     * @return string
+     */
+    public function prepareSummary(GenericError $error)
+    {
+        return $error->getType() . ' - ' .
+        $error->getMessage() . ' - ' .
+        $this->buildRelativePath($error->getFile());
+    }
+
+    /**
+     * buildRelativePath
+     *
+     * @param $absoluteDir
+     *
+     * @return mixed
+     */
+    public function buildRelativePath($absoluteDir)
+    {
+        $relativeDir = $absoluteDir;
+
+        $appDir = exec('pwd'); // or getcwd() could work if no symlinks are used
+
+        $dirLength = strlen($appDir);
+
+        if(substr ($absoluteDir , 0, $dirLength) == $appDir){
+
+            $relativeDir = substr_replace ($absoluteDir , '', 0, $dirLength);
+        }
+
+        return $relativeDir;
+    }
+}
