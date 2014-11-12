@@ -83,7 +83,11 @@ class ProxyController
         $httpClient = new Client($feedUrl, array('timeout' => 5));
         $rssReader->setHttpClient($httpClient);
 
-        $feedData = $rssReader->import($feedUrl);
+        try {
+            $feedData = $rssReader->import($feedUrl);
+        } catch (\Exception $e) {
+            $feedData = array();
+        }
 
         $feedCount = 0;
 
