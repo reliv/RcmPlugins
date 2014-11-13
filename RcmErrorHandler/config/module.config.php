@@ -51,6 +51,13 @@ return array(
                         'closed',
                         'resolved',
                     ),
+                    // Include Stacktrace - true to include stacktrace
+                    'includeStacktrace' => true,
+                    // Include dump of server vars - true to include server dump
+                    'includeServerDump' => true,
+                    // WARNING: this can be a security issue
+                    // Set to an array of specific session keys to display or 'ALL' to display all
+                    'includeSessionVars' => false,
                 ),
             ),
             /* */

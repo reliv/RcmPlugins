@@ -473,8 +473,17 @@ class JiraLogger implements LoggerInterface
             $description .= "\n Stack trace: \n" . $extra['trace'];
         }
 
-        if (isset($_SERVER)) {
+        if (isset($_SERVER) && isset($extra['includeServerDump'])
+            && $extra['includeServerDump'] == true
+        ) {
             $description .= "\n" . $this->prepareArray('Server', $_SERVER);
+        }
+
+        if (isset($_SESSION) && !empty($extra['includeSessionVars'])) {
+
+            $description .= "\n" . $this->prepareSession(
+                    $extra['includeSessionVars']
+                );
         }
 
         return $description;
@@ -535,7 +544,36 @@ class JiraLogger implements LoggerInterface
     }
 
     /**
+     * prepareSession
+     *
+     * @param $includeSessionVars
+     *
+     * @return string
+     */
+    protected function prepareSession($includeSessionVars)
+    {
+        $sessionVars = array();
+
+        if (is_array($includeSessionVars)) {
+            $sessionVarKeys = $includeSessionVars;
+            foreach ($sessionVarKeys as $key) {
+
+                if (isset($_SESSION[$key])) {
+                    $sessionVars[$key] = $_SESSION[$key];
+                }
+            }
+        }
+
+        if ($includeSessionVars == 'ALL') {
+            $sessionVars = $_SESSION;
+        }
+
+        return $this->prepareArray('Session', $sessionVars);
+    }
+
+    /**
      * prepareArray
+     *
      * @todo - Might implement recursive for array
      *
      * @param $name
@@ -563,7 +601,8 @@ class JiraLogger implements LoggerInterface
                 $output .= ' - ' . $key . ' = ' . $val ? 'TRUE' : 'FALSE' . "\n";
             } else {
 
-                $output .= ' - ' . $key . ' = (' . gettype($val) . ")\n";
+                $output .= ' - ' . $key . ' = (' . gettype($val) . ") \n" .
+                    '{code}' . print_r($val, true) . "{code}\n";
             }
         }
 
