@@ -486,6 +486,13 @@ class JiraLogger implements LoggerInterface
         return addslashes($param);
     }
 
+    /**
+     * prepareSummary
+     *
+     * @param $summary
+     *
+     * @return string
+     */
     protected function prepareSummary($summary){
 
         $summary = substr($summary, 0, 255);
