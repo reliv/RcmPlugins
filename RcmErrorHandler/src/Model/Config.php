@@ -28,11 +28,13 @@ class Config
     /**
      * __construct
      *
-     * @param $configArray
+     * @param array $configArray
      */
     public function __construct($configArray)
     {
-        $this->configArray = $configArray;
+        if (is_array($configArray)) {
+            $this->configArray = $configArray;
+        }
     }
 
     /**

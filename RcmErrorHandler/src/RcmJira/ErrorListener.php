@@ -4,6 +4,7 @@ namespace RcmJira;
 
 use RcmErrorHandler\EventManager\HandlerListenerBase;
 use RcmErrorHandler\Format\FormatBase;
+use RcmErrorHandler\Model\Config;
 use RcmErrorHandler\Model\GenericError;
 use RcmJira\Exception\JiraListenerException;
 
@@ -31,6 +32,11 @@ class ErrorListener extends HandlerListenerBase
     public $options;
 
     /**
+     * @var \RcmErrorHandler\Model\Config
+     */
+    protected $listenerOptions;
+
+    /**
      * @var JiraLogger $logger
      */
     protected $logger;
@@ -43,6 +49,7 @@ class ErrorListener extends HandlerListenerBase
         JiraLogger $logger
     ) {
         $this->options = $options;
+        $this->listenerOptions = new Config($options->get('options', array()));
         $this->logger = $logger;
     }
 
@@ -75,8 +82,19 @@ class ErrorListener extends HandlerListenerBase
             'file' => $firstError->getFile(),
             'line' => $firstError->getLine(),
             'message' => $firstError->getMessage(),
-            'trace' => $formatter->getTraceString($firstError)
+            'includeServerDump' => $this->listenerOptions->get(
+                'includeServerDump',
+                false
+            ),
+            'includeSessionVars' => $this->listenerOptions->get(
+                'includeSessionVars',
+                false
+            ),
         );
+
+        if ($this->listenerOptions->get('includeStacktrace', false) == true) {
+            $extras['trace'] = $formatter->getTraceString($firstError);
+        }
 
         $logger->log(
             $logger->getPriorityFromErrorNumber($firstError->getSeverity()),
@@ -114,9 +132,9 @@ class ErrorListener extends HandlerListenerBase
 
         $dirLength = strlen($appDir);
 
-        if(substr ($absoluteDir , 0, $dirLength) == $appDir){
+        if (substr($absoluteDir, 0, $dirLength) == $appDir) {
 
-            $relativeDir = substr_replace ($absoluteDir , '', 0, $dirLength);
+            $relativeDir = substr_replace($absoluteDir, '', 0, $dirLength);
         }
 
         return $relativeDir;
