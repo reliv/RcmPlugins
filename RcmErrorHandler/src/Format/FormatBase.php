@@ -43,6 +43,8 @@ class FormatBase implements FormatInterface
      */
     protected $config;
 
+    protected $appDir = '';
+
     /**
      * @todo Support templates for output
      *
@@ -113,7 +115,7 @@ class FormatBase implements FormatInterface
                 continue;
             }
 
-            $file = (isset($call['file']) ? $call['file'] : '?');
+            $file = (isset($call['file']) ? $this->cleanDirPath($call['file']) : '?');
             $line = (isset($call['line']) ? $call['line'] : '?');
             $class = (isset($call['class']) ? $call['class'] : '');
             $function = (isset($call['function']) ? $call['function'] : '');
@@ -142,9 +144,10 @@ class FormatBase implements FormatInterface
 
             $argStr = implode(', ', $args);
 
-            $output .= '# ' . $i . ' ' .
-                ': ' . $object . $function . '(' . $argStr . ') ' .
-                'File: ' . $file . ': ' . $line . "\n";
+            $output .= '# ' . ($i + 1) . ' ' .
+                ': ' . $object . $function . '(' . $argStr . ') ' . "\n" .
+                ' -- File: ' . $file  . "\n" .
+                ' -- Line: '. $line . "\n";
         }
 
         return $output;
@@ -187,5 +190,37 @@ class FormatBase implements FormatInterface
     public function displayTraceString(GenericError $error, \Zend\Mvc\MvcEvent $event)
     {
         echo $this->getTraceString($error);
+    }
+
+    /**
+     * buildRelativePath
+     *
+     * @param $absoluteDir
+     *
+     * @return mixed
+     */
+    public function cleanDirPath($absoluteDir)
+    {
+        $useFullPath = $this->config->get('useFullPath', false);
+
+        if($useFullPath){
+            return $absoluteDir;
+        }
+
+        $relativeDir = $absoluteDir;
+
+        if(empty($this->appDir)){
+
+            $this->appDir = exec('pwd'); // or getcwd()
+        }
+
+        $dirLength = strlen($this->appDir);
+
+        if(substr ($absoluteDir , 0, $dirLength) == $this->appDir){
+
+            $relativeDir = substr_replace ($absoluteDir , '', 0, $dirLength);
+        }
+
+        return $relativeDir;
     }
 } 
