@@ -7,11 +7,18 @@
     opacity: 0.3;
 }
 
+.ui-autocomplete {
+    z-index: 1000001;
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
+}
+
 .rcmContainer {
     width: 100%;
     min-height: 30px;
 }
-
 
 /* Admin Screen Jquery Helpers */
 .RcmErrorInputHightlight {
@@ -26,7 +33,6 @@
     color: white;
     font-size: 70px;
 }
-
 
 /*  Tiny MCE */
 .defaultSkin td.mceToolbar {
@@ -49,6 +55,7 @@
     cursor: pointer;
     float: left;
 }
+
 .adminAddButton .glyphicon {
     color: #FFFFFF;
 }
