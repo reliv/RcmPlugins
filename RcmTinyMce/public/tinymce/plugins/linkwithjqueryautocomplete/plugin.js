@@ -1,4 +1,6 @@
 /**
+ *  plugin.js
+ *
  * Link with jquery auto-complete
  *
  * This is a hacked copy of the tinyMCE link plugin. The "Link List" select box
@@ -8,14 +10,16 @@
  *
  * You must have jQuery-ui installed and included for this to work.
  *
- * Provide your link list data to tiny mce in the standard way in config
- * 
- * These changes were made by Rod McNew. Rod Mcnew's changes to this file are
- * free for anyone to use for anything they want. Please check the licensing
- * details on the original tiny-mce file as well.
- * 
- * plugin.js
- */
+ * Provide your link list data to TinyMCE in the standard way in config.
+ *
+ * These changes were made by Rod McNew.
+ *
+ * Copyright, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+*/
 
 /*global tinymce:true */
 tinymce.PluginManager.add('linkwithjqueryautocomplete', function (editor) {
