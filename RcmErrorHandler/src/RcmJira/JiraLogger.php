@@ -189,7 +189,9 @@ class JiraLogger implements LoggerInterface
      */
     public function log($priority, $message, $extra = array())
     {
-        $summary = $this->prepareSummary($this->getPriorityString($priority) . ': ' . $message);
+        $summary = $this->prepareSummary(
+            $this->getPriorityString($priority) . ': ' . $message
+        );
 
         $existingIssueKey = $this->getIssueKey($summary);
 
@@ -266,7 +268,7 @@ class JiraLogger implements LoggerInterface
         if ($this->hasApiError($result)) {
 
             $message = 'An error occured while talking to JIRA (search): ' .
-                implode(' ', $result->getResult()['errorMessages']) . ' '.
+                implode(' ', $result->getResult()['errorMessages']) . ' ' .
                 implode(' ', $result->getResult()['errors']);
 
             throw new JiraLoggerException($message);
@@ -295,16 +297,16 @@ class JiraLogger implements LoggerInterface
 
         $projectsJql = $this->getProjectQuery();
 
-        if(empty($projectsJql)){
+        if (empty($projectsJql)) {
             throw new JiraListenerException(
                 'No project key has been defined, JQL not valid.'
             );
         }
 
         $jql = $projectsJql .
-        $closedJql .
-        'AND (Summary ~ "\"' . $this->jqlEscape($summary). '\"") ' .
-        "ORDER BY createdDate DESC";
+            $closedJql .
+            'AND (Summary ~ "\"' . $this->jqlEscape($summary) . '\"") ' .
+            "ORDER BY createdDate DESC";
 
         return $jql;
     }
@@ -318,7 +320,7 @@ class JiraLogger implements LoggerInterface
     {
         $projectKey = $this->getOption('projectKey', 'REF');
 
-        if(empty($projectKey)){
+        if (empty($projectKey)) {
 
             return '';
         }
@@ -327,7 +329,7 @@ class JiraLogger implements LoggerInterface
 
         $jql = "project = '" . $this->jqlEscape($projectKey) . "' ";
 
-        if(empty($projects)){
+        if (empty($projects)) {
 
             return $jql;
         }
@@ -339,7 +341,7 @@ class JiraLogger implements LoggerInterface
             $jqlArr[] = "project = '" . $this->jqlEscape($project) . "'";
         }
 
-        $jql = "(" . $jql ." OR " . implode(' OR ', $jqlArr) . ") ";
+        $jql = "(" . $jql . " OR " . implode(' OR ', $jqlArr) . ") ";
 
         return $jql;
     }
@@ -353,7 +355,7 @@ class JiraLogger implements LoggerInterface
     {
         $statuses = $this->getOption('enterIssueIfNotStatus', null);
 
-        if(empty($statuses)){
+        if (empty($statuses)) {
 
             return '';
         }
@@ -380,12 +382,15 @@ class JiraLogger implements LoggerInterface
      */
     protected function addComment($issueKey, $summary, $extra = array())
     {
-        $result =  $this->getApi()->addComment($issueKey, 'Error occured again: ' . $summary);
+        $result = $this->getApi()->addComment(
+            $issueKey,
+            'Error occured again: ' . $summary
+        );
 
         if ($this->hasApiError($result)) {
 
             $message = 'An error occured while talking to JIRA (addComment): ' .
-                implode(' ', $result->getResult()['errorMessages']) . ' '.
+                implode(' ', $result->getResult()['errorMessages']) . ' ' .
                 implode(' ', $result->getResult()['errors']);
 
             throw new JiraLoggerException($message);
@@ -409,7 +414,7 @@ class JiraLogger implements LoggerInterface
 
         $projectKey = $this->getOption('projectKey', 'REF');
 
-        $issueType = (int) $this->getOption('issueType', 1);
+        $issueType = (int)$this->getOption('issueType', 1);
 
         $result = $this->getApi()->createIssue(
             $projectKey,
@@ -421,7 +426,7 @@ class JiraLogger implements LoggerInterface
         if ($this->hasApiError($result)) {
 
             $message = 'An error occured while talking to JIRA (createIssue): ' .
-                implode(' ', $result->getResult()['errorMessages']) . ' '.
+                implode(' ', $result->getResult()['errorMessages']) . ' ' .
                 implode(' ', $result->getResult()['errors']);
 
             throw new JiraLoggerException($message);
@@ -435,40 +440,41 @@ class JiraLogger implements LoggerInterface
      *
      * @return void
      */
-    protected function getDescription($extra = array()) {
+    protected function getDescription($extra = array())
+    {
 
         $description = '';
 
-        if(isset($extra['description'])){
+        if (isset($extra['description'])) {
             $description .= $extra['description'];
         }
 
-        if(isset($_SERVER) && isset($_SERVER['HTTP_HOST'])){
+        if (isset($_SERVER) && isset($_SERVER['HTTP_HOST'])) {
             $description .= "\n HOST: " . $_SERVER['HTTP_HOST'];
         }
 
-        if(isset($_SERVER) && isset($_SERVER['REQUEST_URI'])){
+        if (isset($_SERVER) && isset($_SERVER['REQUEST_URI'])) {
             $description .= "\n URL: " . $_SERVER['REQUEST_URI'];
         }
 
-        if(isset($extra['file'])){
+        if (isset($extra['file'])) {
             $description .= "\n File: " . $extra['file'];
         }
 
-        if(isset($extra['line'])){
+        if (isset($extra['line'])) {
             $description .= "\n Line: " . $extra['line'];
         }
 
-        if(isset($extra['message'])){
+        if (isset($extra['message'])) {
             $description .= "\n Message: " . $extra['message'];
         }
 
-        if(isset($extra['trace'])){
+        if (isset($extra['trace'])) {
             $description .= "\n Stack trace: \n" . $extra['trace'];
         }
 
-        if(isset($_SERVER)){
-            $description .= "\n SERVER: " . var_export($_SERVER, true);
+        if (isset($_SERVER)) {
+            $description .= "\n" . $this->prepareArray('Server', $_SERVER);
         }
 
         return $description;
@@ -493,11 +499,19 @@ class JiraLogger implements LoggerInterface
      *
      * @return string
      */
-    protected function prepareSummary($summary){
+    protected function prepareSummary($summary)
+    {
 
         $summary = substr($summary, 0, 255);
 
-        $summary = str_replace(array("\r", "\n"), '', $summary);
+        $summary = str_replace(
+            array(
+                "\r",
+                "\n"
+            ),
+            '',
+            $summary
+        );
 
         return $summary;
     }
@@ -518,5 +532,41 @@ class JiraLogger implements LoggerInterface
         }
 
         return false;
+    }
+
+    /**
+     * prepareArray
+     * @todo - Might implement recursive for array
+     *
+     * @param $name
+     * @param $array
+     *
+     * @return string
+     */
+    protected function prepareArray($name, $array)
+    {
+        $output = $name . ": \n";
+
+        foreach ($array as $key => $val) {
+
+            if (is_string($val)) {
+
+                $output .= ' - ' . $key . ' = "' . $val . "\"\n";
+            } elseif (is_numeric($val)) {
+
+                $output .= ' - ' . $key . ' = ' . $val . "\n";
+            } elseif (is_null($val)) {
+
+                $output .= ' - ' . $key . " = NULL\n";
+            } elseif (is_bool($val)) {
+
+                $output .= ' - ' . $key . ' = ' . $val ? 'TRUE' : 'FALSE' . "\n";
+            } else {
+
+                $output .= ' - ' . $key . ' = (' . gettype($val) . ")\n";
+            }
+        }
+
+        return $output;
     }
 } 
