@@ -1,5 +1,5 @@
 /**
- *  plugin.js
+ * plugin.js
  *
  * Link with jquery auto-complete
  *
@@ -19,7 +19,7 @@
  *
  * License: http://www.tinymce.com/license
  * Contributing: http://www.tinymce.com/contributing
-*/
+ */
 
 /*global tinymce:true */
 tinymce.PluginManager.add('linkwithjqueryautocomplete', function (editor) {
