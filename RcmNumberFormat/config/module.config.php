@@ -25,7 +25,7 @@ return array(
                 'options' => array(
                     'route' => '/rcm-number-format-http-api/currency/:value',
                     'defaults' => array(
-                        'controller' => 'rcmNumberFormatController',
+                        'controller' => 'NumberFormatController',
                         'action' => 'currency',
                     )
                 ),
@@ -35,7 +35,7 @@ return array(
                 'options' => array(
                     'route' => '/rcm-number-format-http-api/number/:value',
                     'defaults' => array(
-                        'controller' => 'rcmNumberFormatController',
+                        'controller' => 'NumberFormatController',
                         'action' => 'number',
                     )
                 ),
