@@ -28,32 +28,55 @@ $this->headScript()->appendFile(
     'text/javascript'
 );
 
+$peopleSliderDefault = array(
+    'smallImage' => '/modules/rcm-lib/images/no-image.png',
+    'largeImage' => '/modules/rcm-lib/images/no-image.png',
+    'shortDesc' => '',
+    'longDesc' => ''
+);
+
 //Figure out which person we are viewing. This non-js support is only for SEO.
 $selectedPersonId = 0;
 if (!empty($_GET['id'])
-    && $_GET['id'] < count($this->instanceConfig['people'])
+    && isset($this->instanceConfig['people'][$_GET['id']]
+    )
 ) {
     $selectedPersonId = $_GET['id'];
 }
 
-$selectedPerson = $this->instanceConfig['people'][$selectedPersonId];
+// Data Prep
+if (!isset($selectedPerson['smallImage'])) {
+    $selectedPerson['smallImage'] = $peopleSliderDefault['smallImage'];
+}
+if (!isset($selectedPerson['largeImage'])) {
+    $selectedPerson['largeImage'] = $peopleSliderDefault['largeImage'];
+}
+if (!isset($selectedPerson['shortDesc'])) {
+    $selectedPerson['shortDesc'] = $peopleSliderDefault['shortDesc'];
+}
+if (!isset($selectedPerson['longDesc'])) {
+    $selectedPerson['longDesc'] = $peopleSliderDefault['longDesc'];
+}
 
 $uriParts = explode('?', $_SERVER['REQUEST_URI']);
 $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
+
 ?>
 <script type="text/javascript">
-    $(function () {
-        new RcmPeopleSlider(
-            <?=  $this->instanceId?>,
-            <?=  json_encode($this->instanceConfig)?>
-        );
-    });
+    $(
+        function () {
+            new RcmPeopleSlider(
+                <?=  $this->instanceId?>,
+                <?=  json_encode($this->instanceConfig)?>
+            );
+        }
+    );
 </script>
 <div>
-
     <div class="peopleDetails"
          data-selectedPersonId="<?= $selectedPersonId ?>">
         <?php //person output here for non-js support for SEO reasons only ?>
+
         <table class="personDetails">
             <tr>
                 <td>
@@ -86,13 +109,14 @@ $currentUrl = '//' . $_SERVER['HTTP_HOST'] . $uriParts[0];
                         $classAppend = ' selected';
                     }
                     ?>
-                    <a href="<?= "$currentUrl?id=$personId" //for SEO ?>"
+                    <a href="<?= "$currentUrl?id=$personId" //for SEO       ?>"
                        class="person<?= $classAppend ?>"
                        data-personId="<?= $personId ?>">
                         <img class="smallImage"
                              src="<?= $person['smallImage'] ?>">
 
-                        <div class="shortDesc" data-rcm-html-edit><?= $person['shortDesc'] ?></div>
+                        <div class="shortDesc"
+                             data-rcm-html-edit><?= $person['shortDesc'] ?></div>
                     </a>
                 <?php endforeach ?>
             </div>

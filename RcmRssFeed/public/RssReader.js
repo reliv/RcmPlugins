@@ -16,6 +16,10 @@ function RssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
 
     $.getJSON(me.proxy, me.dataToSend,function (data) {
         $(displayContainer).html('');
+        if(data.length < 1 ){
+            var newLine = $("<p>").html('No RSS feed results found.');
+            $(me.displayContainer).html(newLine);
+        }
         $.each(data, function (key, value) {
             var newLine = $("<p>").html('<a href="' + value.feedlink + '">' + value.feedtitle + '</a>').addClass("rcmRssFeedLine");
             $(me.displayContainer).append(newLine);
