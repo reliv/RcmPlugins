@@ -218,7 +218,6 @@ class ManageSitesApiController extends AbstractRestfulController
 
         $siteArr = array(
             "siteId" => $site->getSiteId(),
-            "owner" => $site->getOwner(),
             "domain" => $site->getDomain()->getDomainName(),
             "theme" => $site->getTheme(),
             "siteLayout" => $site->getSiteLayout(),
