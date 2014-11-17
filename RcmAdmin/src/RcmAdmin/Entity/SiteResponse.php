@@ -19,20 +19,69 @@ use Rcm\Entity\Site;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class SiteReponse implements \JsonSerializable, \IteratorAggregate
+class SiteResponse implements \JsonSerializable, \IteratorAggregate
 {
+    // Meta Data
+    protected $code = 1;
+    protected $message;
 
+    // Object Data
     protected $siteId = null;
     protected $domain = null;
     protected $theme = null;
-    protected $siteLayout = null;
+    protected $siteLayout = 'GuestSitePage';
     protected $siteTitle = null;
     protected $language = null;
     protected $country = null;
-    protected $status = null;
-    protected $favIcon = null;
-    protected $loginPage = null;
-    protected $notAuthorizedPage = null;
+    protected $status = 'A';
+    protected $favIcon = '/images/favicon.ico';
+    protected $loginPage = '/login';
+    protected $notAuthorizedPage = '/not-authorized';
+    protected $notFoundPage = '/not-found';
+
+    /**
+     * getCode
+     *
+     * @return int
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * setCode
+     *
+     * @param $code
+     *
+     * @return void
+     */
+    public function setCode($code)
+    {
+        $this->code = (int) $code;
+    }
+
+    /**
+     * getMessage
+     *
+     * @return mixed
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * setMessage
+     *
+     * @param $message
+     *
+     * @return void
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
 
     /**
      * getCountry
@@ -164,6 +213,28 @@ class SiteReponse implements \JsonSerializable, \IteratorAggregate
     public function setNotAuthorizedPage($notAuthorizedPage)
     {
         $this->notAuthorizedPage = $notAuthorizedPage;
+    }
+
+    /**
+     * getNotFoundPage
+     *
+     * @return mixed
+     */
+    public function getNotFoundPage()
+    {
+        return $this->notFoundPage;
+    }
+
+    /**
+     * setNotFoundPage
+     *
+     * @param mixed $notFoundPage
+     *
+     * @return void
+     */
+    public function setNotFoundPage($notFoundPage)
+    {
+        $this->notFoundPage = $notFoundPage;
     }
 
     /**
@@ -303,16 +374,23 @@ class SiteReponse implements \JsonSerializable, \IteratorAggregate
     public function populateFromSite(Site $site)
     {
         $this->setSiteId($site->getSiteId());
-        $this->setDomain($site->getDomain()->getDomainName());
+        if (is_object($site->getDomain())) {
+            $this->setDomain($site->getDomain()->getDomainName());
+        }
         $this->setTheme($site->getTheme());
         $this->setSiteLayout($site->getSiteLayout());
         $this->setSiteTitle($site->getSiteTitle());
-        $this->setLanguage($site->getLanguage()->getIso6392t());
-        $this->setCountry($site->getCountry()->getIso3());
+        if (is_object($site->getLanguage())) {
+            $this->setLanguage($site->getLanguage()->getIso6392t());
+        }
+        if (is_object($site->getCountry())) {
+            $this->setCountry($site->getCountry()->getIso3());
+        }
         $this->setStatus($site->getStatus());
         $this->setFavIcon($site->getFavIcon());
         $this->setLoginPage($site->getLoginPage());
         $this->setNotAuthorizedPage($site->getNotAuthorizedPage());
+        $this->setNotFoundPage($site->getNotFoundPage());
     }
 
     /**
@@ -322,7 +400,7 @@ class SiteReponse implements \JsonSerializable, \IteratorAggregate
      */
     public function jsonSerialize()
     {
-        return $this->getIterator();
+        return get_object_vars($this);
     }
 
     /**
@@ -332,6 +410,6 @@ class SiteReponse implements \JsonSerializable, \IteratorAggregate
      */
     public function getIterator()
     {
-        return get_class_vars($this);
+        return new \ArrayIterator(get_object_vars($this));
     }
 } 

@@ -14,32 +14,68 @@ angular.module('rcmAdmin').controller(
                 '<li>Domain: ' + site.domain + '</li>' +
                 '</ul>',
                 function () {
-                    if (site.active == 'A') {
-                        site.active = 'D';
+                    if (site.status == 'A') {
+                        site.status = 'D';
                     } else {
-                        site.active = 'A';
+                        site.status = 'A';
                     }
-                    $http({
-                        method: 'PUT',
-                        url: '/api/admin/sites/' + site.siteId,
-                        data: site
-                    }).
-                        success(function (data) {
+                    $http(
+                        {
+                            method: 'PUT',
+                            url: '/api/admin/sites/' + site.siteId,
+                            data: site
+                        }
+                    ).
+                        success(
+                        function (data) {
                             $scope.sites = data;
                             //Refresh site list
                             self.getSites();
-                        });
+                        }
+                    );
                 }
             )
         };
+
+        $scope.cloneSite = function (site) {
+            $().confirm(
+                'Duplicate this site?<br><br>' +
+                '<ul>' +
+                '<li>Site Id: ' + site.siteId + '</li>' +
+                '<li>Domain: ' + site.domain + '</li>' +
+                '</ul>',
+                function () {
+                    $http(
+                        {
+                            method: 'POST',
+                            url: '/api/admin/sites/' + site.siteId,
+                            data: site
+                        }
+                    ).
+                        success(
+                        function (data) {
+                            console.log(data);
+                            //Refresh site list
+                            self.getSites();
+                        }
+                    );
+                }
+            )
+        };
+
         self.getSites = function () {
-            $http({
-                method: 'GET',
-                url: '/api/admin/sites'
-            }).
-                success(function (data) {
+            $http(
+                {
+                    method: 'GET',
+                    url: '/api/admin/sites'
+                }
+            ).
+                success(
+                function (data) {
                     $scope.sites = data;
-                });
+                    console.log(data);
+                }
+            );
 
         };
         self.getSites();

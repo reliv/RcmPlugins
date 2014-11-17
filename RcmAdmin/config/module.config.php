@@ -312,7 +312,10 @@ return array(
             => 'RcmAdmin\Factory\DispatchListenerFactory',
             'RcmAdmin\Controller\AdminPanelController'
             => 'RcmAdmin\Factory\AdminPanelControllerFactory',
-            'RcmAdminNavigation' => 'RcmAdmin\Factory\AdminNavigationFactory',
+            'RcmAdminNavigation'
+            => 'RcmAdmin\Factory\AdminNavigationFactory',
+            'RcmAdmin\Model\SiteModel'
+            => 'RcmAdmin\Factory\SiteModelFactory',
         ),
     ),
     'view_manager' => array(
