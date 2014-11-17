@@ -25,7 +25,6 @@ return array(
                 'options' => array(),
             )
         ),
-
         /**
          * Listeners can be injected to log errors
          */
@@ -58,31 +57,40 @@ return array(
                     // WARNING: this can be a security issue
                     // Set to an array of specific session keys to display or 'ALL' to display all
                     'includeSessionVars' => false,
+                    // This is useful for preventing exceptions who have dynamic
+                    // parts from creating multipule entries in JIRA
+                    // Jira ticket descriptions will be ran through preg_replace
+                    // using these as the preg_replace arguments.
+                    'summaryPreprocessors' => [
+                        // $pattern => $replacement
+                        // For example this would remove the number from
+                        // exceptions like "requestId: 0678096"
+                        '/requestId\:\s\d+/' => 'requestId: [see full desc for id]'
+                    ]
                 ),
             ),
             /* */
             /**
              * Standard logger for logging errors
              *
-            '\RcmErrorHandler\Log\ErrorListener' => array(
-                'event' => 'RcmErrorHandler::All',
-                // \Zend\Log\Logger Options
-                'options' => array(
-                    'writers' => array(
-                        array(
-                            'name' => 'stream',
-                            'priority' => null,
-                            'options' => array(
-                                'stream' => 'php://output', //'/www/logs/example.log'
-                            ),
-                        )
-                    ),
-                ),
-            ),
-            /* */
+             * '\RcmErrorHandler\Log\ErrorListener' => array(
+             * 'event' => 'RcmErrorHandler::All',
+             * // \Zend\Log\Logger Options
+             * 'options' => array(
+             * 'writers' => array(
+             * array(
+             * 'name' => 'stream',
+             * 'priority' => null,
+             * 'options' => array(
+             * 'stream' => 'php://output', //'/www/logs/example.log'
+             * ),
+             * )
+             * ),
+             * ),
+             * ),
+             * /* */
         ),
     ),
-
     /**
      * Configuration for JIRA API
      */
@@ -93,7 +101,6 @@ return array(
             'password' => 'myPassword',
         ),
     ),
-
     'service_manager' => array(
         'factories' => array(
             '\RcmErrorHandler\Config' => '\RcmErrorHandler\Factory\RcmErrorHandlerConfigFactory',
