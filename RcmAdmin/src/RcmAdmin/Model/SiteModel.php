@@ -53,8 +53,15 @@ class SiteModel {
      *
      * @return Site
      */
-    public function getSite($siteId)
+    public function getNewSite($siteId = null)
     {
+        if (empty($siteId)) {
+
+            // new site
+            /** @var \Rcm\Entity\Site $newSite */
+            return new Site();
+        }
+
         // clone
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $this->getEntityManger()->getRepository('\Rcm\Entity\Site');

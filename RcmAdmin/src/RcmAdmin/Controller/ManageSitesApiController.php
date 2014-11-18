@@ -146,10 +146,10 @@ class ManageSitesApiController extends AbstractRestfulController
         /** @var \Rcm\Entity\Site $site */
         $site = $siteRepo->findOneBy(array('siteId' => $siteId));
 
-        if ($data['active'] == 'D') {
+        if ($data['status'] == 'D') {
             $site->setStatus('D');
         }
-        if ($data['active'] == 'A') {
+        if ($data['status'] == 'A') {
             $site->setStatus('A');
         }
 
@@ -205,7 +205,7 @@ class ManageSitesApiController extends AbstractRestfulController
         );
         } catch (\Exception $e) {
 
-            $siteResponse = $this->getSiteResponse($newSite, 0, $e->getMessage());
+            $siteResponse = $this->getSiteResponse($newSite, 0, "Domain must be unique and valid.");
             $view->setVariables($siteResponse);
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return $view;
@@ -224,7 +224,7 @@ class ManageSitesApiController extends AbstractRestfulController
             $newSite = $siteModel->saveSite($newSite);
         } catch (\Exception $e) {
 
-            $siteResponse = $this->getSiteResponse($newSite, 0, $e->getMessage());
+            $siteResponse = $this->getSiteResponse($newSite, 0, "There was an error while creating default pages.");
             $view->setVariables($siteResponse);
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
             return $view;
@@ -233,21 +233,6 @@ class ManageSitesApiController extends AbstractRestfulController
         $siteResponse = $this->getSiteResponse($newSite, 1, 'Success');
 
         return new JsonModel($siteResponse);
-    }
-
-    protected function createNewSite(SiteResponse $siteRequest)
-    {
-
-            // new site
-            /** @var \Rcm\Entity\Site $newSite */
-        $newSite = new Site();
-
-
-    }
-
-    protected function cloneSite(SiteResponse $siteRequest)
-    {
-
     }
 
     /**
