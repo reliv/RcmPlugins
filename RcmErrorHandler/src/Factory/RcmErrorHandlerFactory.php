@@ -170,7 +170,7 @@ class RcmErrorHandlerFactory
 
         foreach ($listenersConfig as $class => $listenerConfig) {
 
-            if($serviceLocator->has($class)) {
+            if($serviceLocator->has($class) && !empty($listenerConfig['event'])) {
 
                 $obj = $serviceLocator->get($class);
 
