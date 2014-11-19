@@ -44,7 +44,7 @@ class SiteApiResponse extends Site
      *
      * @return array
      */
-    protected function toArray()
+    public function toArray()
     {
         return array(
             'siteId' => $this->getSiteId(),
