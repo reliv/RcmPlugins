@@ -70,7 +70,7 @@ angular.module('rcmAdmin').controller(
             $().confirm(
                 '<div class="confirm">' +
                 '<h2>Duplicate site ' + site.siteId + '?</h2>' +
-                '<div><span>New Domain: </span>' + $scope.tempSites[site.siteId].domain + '</div>' +
+                '<div><span>New Domain: </span>' + $scope.tempSites[site.siteId].domain.domain + '</div>' +
                 '</div>',
                 function () {
                     $http(
@@ -82,13 +82,17 @@ angular.module('rcmAdmin').controller(
                     )
                         .success(
                         function (data) {
-                            $scope.tempSites[site.siteId] = data;
+                            $scope.tempSites[site.siteId] = data.data;
+                            $scope.tempSites[site.siteId]['code'] = data.code;
+                            $scope.tempSites[site.siteId]['message'] = data.message;
                             $scope.loadings[site.siteId] = false;
                         }
                     )
                         .error(
                         function (data) {
-                            $scope.tempSites[site.siteId] = data;
+                            $scope.tempSites[site.siteId] = data.data;
+                            $scope.tempSites[site.siteId]['code'] = data.code;
+                            $scope.tempSites[site.siteId]['message'] = data.message;
                             $scope.loadings[site.siteId] = false;
                         }
                     );
