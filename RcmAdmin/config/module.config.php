@@ -244,9 +244,37 @@ return array(
             => 'Unable to locate the site to clone.  '
                 . 'Please contact and administrator or try again.',
         ),
-        'adminRichEditor' => 'ckEditor',
-//        'adminRichEditor' => 'tinyMce',
-        //'adminRichEditor' => 'aloha',
+        'adminRichEditor' => 'tinyMce',
+        'defaultSiteSettings' => array(
+            'theme' => "Default",
+            'siteLayout' => "GuestSitePage",
+            'siteTitle' => "My Site",
+            'language' => array(
+                'iso639_2t' => "eng"
+            ),
+            'country' => array(
+                'iso3' => "USA",
+            ),
+            'status' => "A",
+            'favIcon' => "/images/favicon.ico",
+            'loginPage' => "/login",
+            'notAuthorizedPage' => "/not-authorized",
+            'notFoundPage' => "/not-found",
+            'pages' => array(
+                'login' => array(
+                    'decription' => 'Login Page.',
+                    'pageTitle' => 'Login',
+                ),
+                'not-authorized' => array(
+                    'decription' => 'Not Authorized Page.',
+                    'pageTitle' => 'Not Authorized',
+                ),
+                'not-found' => array(
+                    'decription' => 'Not Found Page.',
+                    'pageTitle' => 'Not Found',
+                ),
+            ),
+        ),
     ),
     'includeFileManager' => array(
         'files' => array(
