@@ -26,7 +26,7 @@ class SiteApiResponse extends Site
      */
     public function jsonSerialize()
     {
-        return $this->getBasicProperties();
+        return $this->toArray();
     }
 
     /**
@@ -36,7 +36,7 @@ class SiteApiResponse extends Site
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->getBasicProperties());
+        return new \ArrayIterator($this->toArray());
     }
 
     /**
@@ -44,7 +44,7 @@ class SiteApiResponse extends Site
      *
      * @return array
      */
-    protected function getBasicProperties()
+    protected function toArray()
     {
         return array(
             'siteId' => $this->getSiteId(),
