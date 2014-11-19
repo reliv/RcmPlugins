@@ -178,7 +178,7 @@ class SiteModel {
     public function createDomain($domainName, $defaultLanguage)
     {
         if (empty($domainName)) {
-            throw new DomainNotFoundException('Domain is required.');
+            throw new DomainNotFoundException('Domain name is required.');
         }
 
         // Check if exists first

@@ -15,11 +15,16 @@
 
 namespace RcmAdmin\Controller;
 
+use Rcm\Entity\Country;
+use Rcm\Entity\Domain;
+use Rcm\Entity\Language;
+use Rcm\Entity\Page;
 use Rcm\Entity\Site;
-use Rcm\Exception\CountryNotFoundException;
-use Rcm\Exception\DomainNotFoundException;
-use Rcm\Exception\LanguageNotFoundException;
 use Rcm\Http\Response;
+use Rcm\View\Model\ApiJsonModel;
+use Rcm\View\Model\RcmJsonModel;
+use RcmAdmin\Entity\SiteApiRequest;
+use RcmAdmin\Entity\SiteApiResponse;
 use RcmAdmin\Entity\SiteResponse;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -42,14 +47,28 @@ use Zend\View\Model\JsonModel;
  */
 class ManageSitesApiController extends AbstractRestfulController
 {
+    protected $defaultPages = [
+            'login' => [
+                'decription' => 'Login Page.',
+                'pageTitle' => 'Login',
+            ],
+            'not-authorized' => [
+                'decription' => 'Not Authorized Page.',
+                'pageTitle' => 'Not Authorized',
+            ],
+            'not-found' => [
+                'decription' => 'Not Found Page.',
+                'pageTitle' => 'Not Found',
+            ],
+        ];
+
     /**
-     * getEntityManger
+     * getEntityManager
      *
      * @return \Doctrine\ORM\EntityManagerInterface
      */
-    protected function getEntityManger()
+    protected function getEntityManager()
     {
-
         return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
     }
 
@@ -91,7 +110,7 @@ class ManageSitesApiController extends AbstractRestfulController
         }
 
         /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
-        $entityManager = $this->getEntityManger();
+        $entityManager = $this->getEntityManager();
 
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
@@ -102,7 +121,7 @@ class ManageSitesApiController extends AbstractRestfulController
 
         /** @var \Rcm\Entity\Site $site */
         foreach ($sitesObjects as $site) {
-            $sites[] = $this->getSiteResponse($site);
+            $sites[] = $this->buildSiteApiResponse($site);
         }
         return new JsonModel($sites);
     }
@@ -133,7 +152,7 @@ class ManageSitesApiController extends AbstractRestfulController
         }
 
         /** @var \Doctrine\ORM\EntityManagerInterface $entityManager */
-        $entityManager = $this->getEntityManger();
+        $entityManager = $this->getEntityManager();
 
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
@@ -156,7 +175,7 @@ class ManageSitesApiController extends AbstractRestfulController
         $entityManager->persist($site);
         $entityManager->flush();
 
-        $data = $this->getSiteResponse($site);
+        $data = $this->buildSiteApiResponse($site);
 
         return new JsonModel($data);
     }
@@ -164,7 +183,7 @@ class ManageSitesApiController extends AbstractRestfulController
     /**
      * create - Create or Clone a site @todo Be more selective with Exceptions
      *
-     * @param array $data - see getSiteResponse()
+     * @param array $data - see buildSiteApiResponse()
      *
      * @return mixed|JsonModel
      */
@@ -177,143 +196,190 @@ class ManageSitesApiController extends AbstractRestfulController
         }
         /* */
 
-        $siteRequest = new SiteResponse();
-        $siteRequest->populate($data);
-
-        /** @var \RcmAdmin\Model\SiteModel $siteModel */
-        $siteModel = $this->getSiteModel();
-
-        $view = new JsonModel();
-
-        // Get Site
         try {
-            $newSite = $this->buildSiteFromRequest($siteRequest);
+            $data = $this->prepareNewSiteData($data);
         } catch (\Exception $e) {
 
-            $siteRequest->setCode(0);
-            $siteRequest->setMessage($e->getMessage());
-            $view->setVariables($siteRequest);
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $view;
+            return new ApiJsonModel(null, null, 0, $e->getMessage());
         }
 
-        try {
-        // Build new domain from request
-        $domain = $siteModel->createDomain(
-            $siteRequest->getDomain(),
-            $newSite->getLanguage()
-        );
-        } catch (\Exception $e) {
+        /** @var \Rcm\Repository\Site $siteRepo */
+        $siteRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Site');
 
-            $siteResponse = $this->getSiteResponse($newSite, 0, "Domain must be unique and valid.");
-            $view->setVariables($siteResponse);
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $view;
-        }
+        /** @var \Rcm\Entity\Site $newSite */
+        $newSite = $siteRepo->createNewSite($data['siteId']);
 
-        $newSite->setDomain($domain);
+        $newSite->populate($data);
 
-        // Create pages
-        try {
-            $siteModel->createDefaultPages(
-                $newSite,
-                $this->getCurrentUser()->getName()
-            );
+        $author = $this->getCurrentUser()->getName();
 
-            // Save
-            $newSite = $siteModel->saveSite($newSite);
-        } catch (\Exception $e) {
+        $this->createDefaultPages($newSite, $author);
 
-            $siteResponse = $this->getSiteResponse($newSite, 0, "There was an error while creating default pages.");
-            $view->setVariables($siteResponse);
-            $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
-            return $view;
-        }
+        $entityManager = $this->getEntityManager();
 
-        $siteResponse = $this->getSiteResponse($newSite, 1, 'Success');
+        $entityManager->persist($newSite);
 
-        return new JsonModel($siteResponse);
+        $entityManager->flush();
+
+        $siteApiResponse = $this->buildSiteApiResponse($newSite);
+
+        return new ApiJsonModel($siteApiResponse, null, 1, 'Success');
     }
 
     /**
-     * getSiteResponse
+     * prepareRequestData
+     *
+     * @param $data
+     *
+     * @return mixed
+     * @throws \Exception
+     * @throws \Rcm\Repository\DomainNotFoundException
+     */
+    protected function prepareNewSiteData($data)
+    {
+        $entitymanager = $this->getEntityManager();
+
+        // Site Id
+        if (empty($data['siteId'])) {
+            $data['siteId'] = null;
+        }
+
+        // Language
+        if (empty($data['language'])) {
+            throw new \Exception('Language is required to create new site.');
+        }
+
+        if (!empty($data['language']['iso639_2t'])) {
+
+            /** @var \Rcm\Repository\Language $languageRepo */
+            $languageRepo = $entitymanager->getRepository('\Rcm\Entity\Language');
+
+            $data['language'] = $languageRepo->getLanguageByString(
+                $data['language']['iso639_2t'],
+                'iso639_2t'
+            );
+        } else {
+
+            throw new \Exception(
+                'Language format (iso639_2t) required to create new site.'
+            );
+        }
+
+        if (!$data['language'] instanceof Language) {
+
+            throw new \Exception('Language could not be found.');
+        }
+
+        // Country
+        if (empty($data['country'])) {
+
+            throw new \Exception('Country is required to create new site.');
+        }
+
+        if (!empty($data['country']['iso3'])) {
+
+            /** @var \Rcm\Repository\Country $countryRepo */
+            $countryRepo = $entitymanager->getRepository('\Rcm\Entity\Country');
+
+            $data['country'] = $countryRepo->getCountryByString(
+                $data['country']['iso3'],
+                'iso3'
+            );
+        } else {
+
+            throw new \Exception(
+                'Country format (iso3) required to create new site.'
+            );
+        }
+
+        if (!$data['country'] instanceof Country) {
+
+            throw new \Exception('Country could not be found.');
+        }
+
+        // Domain
+        if (empty($data['domain'])) {
+
+            throw new \Exception('Domain is required to create new site.');
+        }
+
+        if (!empty($data['domain']['defaultLanguage'])
+            && !empty($data['domain']['defaultLanguage']['iso639_2t'])
+        ) {
+            /** @var \Rcm\Repository\Language $languageRepo */
+            $languageRepo = $entitymanager->getRepository('\Rcm\Entity\Language');
+
+            $data['domain']['defaultLanguage'] = $languageRepo->getLanguageByString(
+                $data['domain']['defaultLanguage']['iso639_2t'],
+                'iso639_2t'
+            );
+        } else {
+            $data['domain']['defaultLanguage'] = $data['language'];
+        }
+
+        if (!$data['domain']['defaultLanguage'] instanceof Language) {
+
+            throw new \Exception('Domain default language could not be found.');
+        }
+
+        // Create Domain
+        if (!empty($data['domain']['domain'])) {
+
+            /** @var \Rcm\Repository\Domain $domainRepo */
+            $domainRepo = $entitymanager->getRepository('\Rcm\Entity\Domain');
+
+            $data['domain'] = $domainRepo->createDomain(
+                $data['domain']['domain'],
+                $data['domain']['defaultLanguage']
+            );
+        } else {
+
+            throw new \Exception('Domain name is required to create new site.');
+        }
+
+        if (!$data['domain'] instanceof Domain) {
+
+            throw new \Exception('Domain could not be created.');
+        }
+
+        return $data;
+    }
+
+    /**
+     * createDefaultPages
      *
      * @param Site $site
-     * @param int $code
-     * @param string $message
      *
-     * @return SiteResponse
+     * @return void
      */
-    protected function getSiteResponse(Site $site, $code = 1, $message = '')
+    public function createDefaultPages(Site $site, $author)
     {
-        $siteResponse = new SiteResponse();
-        $siteResponse->populateFromSite($site);
-        $siteResponse->setCode($code);
-        $siteResponse->setMessage($message);
-        return $siteResponse;
+        foreach ($this->defaultPages as $key => $config) {
+
+            $page = new Page();
+            $page->setSite($site);
+            $page->setName($key);
+            $page->setDescription($config['decription']);
+            $page->setPageTitle($config['pageTitle']);
+            $page->setAuthor($author);
+
+            $site->addPage($page);
+        }
     }
 
     /**
-     * buildSiteFromRequest
+     * buildSiteApiResponse
      *
-     * @param SiteResponse $siteRequest
+     * @param Site $site
      *
-     * @return Site
-     * @throws \RcmAdmin\Model\SiteNotFoundException
+     * @return SiteApiResponse
      */
-    public function buildSiteFromRequest(SiteResponse $siteRequest)
+    protected function buildSiteApiResponse(Site $site)
     {
-        $siteModel = $this->getSiteModel();
-        $site = $siteModel->getNewSite($siteRequest->getSiteId());
+        $siteApiResponse = new SiteApiResponse();
 
-        if (!empty($siteRequest->getTheme())) {
-            $site->setTheme($siteRequest->getTheme());
-        }
-        if (!empty($siteRequest->getSiteLayout())) {
-            $site->setSiteLayout($siteRequest->getSiteLayout());
-        }
-        if (!empty($siteRequest->getSiteTitle())) {
-            $site->setSiteTitle($siteRequest->getSiteTitle());
-        }
-        if (!empty($siteRequest->getStatus())) {
-            $site->setStatus($siteRequest->getStatus());
-        }
-        if (!empty($siteRequest->getFavIcon())) {
-            $site->setFavIcon($siteRequest->getFavIcon());
-        }
-        if (!empty($siteRequest->getLoginPage())) {
-            $site->setLoginPage($siteRequest->getLoginPage());
-        }
-        if (!empty($siteRequest->getNotAuthorizedPage())) {
-            $site->setNotAuthorizedPage($siteRequest->getNotAuthorizedPage());
-        }
+        $siteApiResponse->populateFromSite($site);
 
-        // Get Language
-        //$site->setLanguage($siteRequest->getLanguage());
-        $language = $siteModel->getLanguage(
-            $siteRequest->getLanguage(),
-            $site->getLanguage()
-        );
-
-        if (empty($language)) {
-            throw new LanguageNotFoundException('Language not found.');
-        }
-
-        // Get Country
-        // $site->setCountry($siteRequest->getCountry());
-        $country = $siteModel->getCountry(
-            $siteRequest->getCountry(),
-            $site->getCountry()
-        );
-
-        if (empty($country)) {
-            throw new CountryNotFoundException('Country not found.');
-        }
-
-        // Setup site
-        $site->setLanguage($language);
-        $site->setCountry($country);
-
-        return $site;
+        return $siteApiResponse;
     }
 }

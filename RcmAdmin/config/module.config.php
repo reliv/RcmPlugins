@@ -247,7 +247,6 @@ return array(
         'adminRichEditor' => 'ckEditor',
 //        'adminRichEditor' => 'tinyMce',
         //'adminRichEditor' => 'aloha',
-
     ),
     'includeFileManager' => array(
         'files' => array(
