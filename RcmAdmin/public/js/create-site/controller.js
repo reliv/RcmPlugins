@@ -17,6 +17,8 @@ angular.module('rcmAdmin').controller(
         $scope.languages = {};
         $scope.countries = {};
 
+        $scope.done = false;
+
         $scope.code = 1;
         $scope.message = '';
         $scope.errorMessage = '';
@@ -33,7 +35,13 @@ angular.module('rcmAdmin').controller(
             $scope.code = 1;
             $scope.message = '';
             $scope.errorMessage = '';
-        }
+        };
+
+        $scope.reset = function() {
+
+            self.resetMessage();
+            $scope.done = false;
+        };
 
         self.getDefaultSite = function(){
             $scope.loadings.defaultSite = true;
@@ -158,6 +166,7 @@ angular.module('rcmAdmin').controller(
                     if(data.code == 1) {
                         $scope.site = data.data;
                         $scope.message = data.message;
+                        $scope.done = true;
                     }
                     $scope.loadings.createSite = false;
                 }

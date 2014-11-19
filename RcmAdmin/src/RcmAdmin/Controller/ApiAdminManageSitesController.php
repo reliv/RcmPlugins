@@ -258,7 +258,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         $this->createDefaultPages($newSite, $author);
 
         $entityManager = $this->getEntityManager();
-        
+
         try {
             $entityManager->persist($newSite);
 
