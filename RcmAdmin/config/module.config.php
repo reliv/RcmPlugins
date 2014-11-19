@@ -135,15 +135,6 @@ return array(
                     ),
                 ),
             ),
-            'ManageSitesApiController' => array(
-                'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
-                    'route' => '/api/admin/sites[/:id]',
-                    'defaults' => array(
-                        'controller' => 'RcmAdmin\Controller\ManageSitesApiController',
-                    )
-                ),
-            ),
             'RcmAdmin\Page\CreateTemplateFromPage' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
@@ -164,12 +155,21 @@ return array(
                     ),
                 ),
             ),
-            'ManageSitesApiController' => array(
+            'ApiAdminManageSitesController' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/api/admin/sites[/:id]',
+                    'route' => '/api/admin/mangage-sites[/:id]',
                     'defaults' => array(
-                        'controller' => 'RcmAdmin\Controller\ManageSitesApiController',
+                        'controller' => 'RcmAdmin\Controller\ApiAdminManageSitesController',
+                    )
+                ),
+            ),
+            'ApiAdminLanguageController' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/api/admin/language[/:id]',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\ApiAdminLanguageController',
                     )
                 ),
             ),
@@ -319,7 +319,8 @@ return array(
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js',
                     'modules/rcm-admin/js/dialog/rcm-popout-window.js',
                     'modules/rcm-admin/js/admin/rcm-save-ajax-admin-window.js',
-                    'modules/rcm-admin/js/controller/ManageSitesCtrl.js'
+                    'modules/rcm-admin/js/manage-sites/ManageSitesCtrl.js',
+                    'modules/rcm-admin/js/create-site/controller.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
@@ -380,8 +381,11 @@ return array(
             => 'RcmAdmin\Controller\PagePermissionsController',
             'RcmAdmin\Controller\PageViewPermissionsController' =>
                 'RcmAdmin\Controller\PageViewPermissionsController',
-            'RcmAdmin\Controller\ManageSitesApiController'
-            => 'RcmAdmin\Controller\ManageSitesApiController',
+            'RcmAdmin\Controller\ApiAdminManageSitesController'
+            => 'RcmAdmin\Controller\ApiAdminManageSitesController',
+            'RcmAdmin\Controller\ApiAdminLanguageController'
+            => 'RcmAdmin\Controller\ApiAdminLanguageController',
+
         ),
     ),
 );

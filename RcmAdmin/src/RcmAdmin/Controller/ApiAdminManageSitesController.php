@@ -15,6 +15,7 @@
 
 namespace RcmAdmin\Controller;
 
+use Doctrine\ORM\NoResultException;
 use Rcm\Entity\Country;
 use Rcm\Entity\Domain;
 use Rcm\Entity\Language;
@@ -31,7 +32,7 @@ use Zend\View\Model\JsonModel;
 
 
 /**
- * SitesApiController
+ * ApiAdminManageSitesController
  *
  * PHP version 5
  *
@@ -45,7 +46,7 @@ use Zend\View\Model\JsonModel;
  *
  * @method boolean rcmIsAllowed($resourceId, $privilege = null, $providerId = 'Rcm\Acl\ResourceProvider')
  */
-class ManageSitesApiController extends AbstractRestfulController
+class ApiAdminManageSitesController extends AbstractRestfulController
 {
     /**
      * getEntityManager
