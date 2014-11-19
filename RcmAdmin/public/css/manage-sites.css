@@ -1,0 +1,21 @@
+.rcmAdminManageSites .td {
+    vertical-align: top;
+}
+.rcmAdminManageSites .tr {
+    vertical-align: top;
+}
+.rcmAdminManageSites .siteDuplicateOptions {
+    margin: .8em 0;
+    padding: .5em;
+    border: .1em solid #AAAAAA;
+    border-radius: .3em;
+}
+
+.rcmAdminManageSites .buttons {
+    margin: .5em 0;
+    text-align :right;
+}
+
+.rcmAdminManageSites input[type="text"]{
+    width: 25em;
+}
