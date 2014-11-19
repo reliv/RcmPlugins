@@ -99,8 +99,14 @@ return array(
                 'pages' => array(
                     'Manage Sites' => array(
                         'label' => 'Manage Sites',
-                        'class' => 'RcmAdminMenu rcmStandardDialog Translations',
+                        'class' => 'RcmAdminMenu rcmStandardDialog',
                         'uri' => '/modules/rcm-admin/view/manage-sites.html',
+                        'title' => 'Manage Sites',
+                    ),
+                    'Create Site' => array(
+                        'label' => 'Create Site',
+                        'class' => 'RcmAdminMenu rcmStandardDialog',
+                        'uri' => '/modules/rcm-admin/view/create-site.html',
                         'title' => 'Manage Sites',
                     )
                 )
@@ -158,7 +164,7 @@ return array(
             'ApiAdminManageSitesController' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/api/admin/mangage-sites[/:id]',
+                    'route' => '/api/admin/manage-sites[/:id]',
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\ApiAdminManageSitesController',
                     )
@@ -170,6 +176,24 @@ return array(
                     'route' => '/api/admin/language[/:id]',
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\ApiAdminLanguageController',
+                    )
+                ),
+            ),
+            'ApiAdminThemeController' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/api/admin/theme[/:id]',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\ApiAdminThemeController',
+                    )
+                ),
+            ),
+            'ApiAdminCountryController' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/api/admin/country[/:id]',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\ApiAdminCountryController',
                     )
                 ),
             ),
@@ -246,7 +270,6 @@ return array(
         ),
         'adminRichEditor' => 'tinyMce',
         'defaultSiteSettings' => array(
-            'theme' => "Default",
             'siteLayout' => "GuestSitePage",
             'siteTitle' => "My Site",
             'language' => array(
@@ -319,7 +342,7 @@ return array(
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js',
                     'modules/rcm-admin/js/dialog/rcm-popout-window.js',
                     'modules/rcm-admin/js/admin/rcm-save-ajax-admin-window.js',
-                    'modules/rcm-admin/js/manage-sites/ManageSitesCtrl.js',
+                    'modules/rcm-admin/js/manage-sites/controller.js',
                     'modules/rcm-admin/js/create-site/controller.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
@@ -385,7 +408,10 @@ return array(
             => 'RcmAdmin\Controller\ApiAdminManageSitesController',
             'RcmAdmin\Controller\ApiAdminLanguageController'
             => 'RcmAdmin\Controller\ApiAdminLanguageController',
-
+            'RcmAdmin\Controller\ApiAdminThemeController'
+            => 'RcmAdmin\Controller\ApiAdminThemeController',
+            'RcmAdmin\Controller\ApiAdminCountryController'
+            => 'RcmAdmin\Controller\ApiAdminCountryController',
         ),
     ),
 );

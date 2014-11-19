@@ -32,8 +32,6 @@ class SiteModelFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
-
-        return new SiteModel($entityManager);
+        return new SiteModel($serviceLocator->get('config'));
     }
 } 

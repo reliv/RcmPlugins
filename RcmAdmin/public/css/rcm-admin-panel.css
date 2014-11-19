@@ -65,8 +65,9 @@ div.rcmPanelEditorToolbar {
     }
 }
 
+/* overrides bootstrap */
 .form-control {
-    padding: 0;
+    padding: 0 .5em 0 .5em;
 }
 
 
