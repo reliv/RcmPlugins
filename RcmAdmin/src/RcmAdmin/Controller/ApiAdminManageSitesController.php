@@ -25,6 +25,7 @@ use Rcm\View\Model\RcmJsonModel;
 use RcmAdmin\Entity\SiteApiRequest;
 use RcmAdmin\Entity\SiteApiResponse;
 use RcmAdmin\Entity\SiteResponse;
+use RcmAdmin\InputFilter\SiteInputFilter;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -139,7 +140,13 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         // get default site data - kinda hacky, but keeps us to one controller
         if ($id == -1) {
 
-            $result = $this->getDefaultSiteSettings();
+            $data = $this->getDefaultSiteSettings();
+
+            $site = new Site();
+
+            $site->populate($data);
+
+            $result = $this->buildSiteApiResponse($site);
 
             return new ApiJsonModel($result, null, 1, 'Success');
         }
@@ -148,12 +155,14 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         $siteRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Site');
 
         try {
-            $result = $siteRepo->find($id);
+            $site = $siteRepo->find($id);
         } catch (\Exception $e) {
             return new ApiJsonModel(
                 null, null, 0, "Failed to find site by id ({$id})"
             );
         }
+
+        $result = $this->buildSiteApiResponse($site);
 
         return new ApiJsonModel($result, null, 1, 'Success');
     }
@@ -228,6 +237,13 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         }
         /* */
 
+        $inputFilter = new SiteInputFilter();
+        $inputFilter->setData($data);
+
+        if(!$inputFilter->isValid()){
+            return new ApiJsonModel(array(), null, 0, 'Some values are missing or invalid.', $inputFilter->getMessages());
+        }
+
         try {
 
             $data = $this->prepareNewSiteData($data);
@@ -283,7 +299,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
     {
         $siteApiResponse = new SiteApiResponse();
 
-        $siteApiResponse->populateFromSite($site);
+        $siteApiResponse->populateFromObject($site);
 
         return $siteApiResponse;
     }
