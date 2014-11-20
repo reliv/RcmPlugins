@@ -15,9 +15,7 @@
 
 namespace RcmAdmin\Controller;
 
-use Doctrine\ORM\NoResultException;
 use Rcm\Entity\Country;
-use Rcm\Entity\Domain;
 use Rcm\Entity\Language;
 use Rcm\Entity\Page;
 use Rcm\Entity\Site;
@@ -111,7 +109,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
 
-        $sitesObjects = $siteRepo->getSites(false);
+        $sitesObjects = $siteRepo->findBy(array());
 
         $sites = [];
 
@@ -119,6 +117,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         foreach ($sitesObjects as $site) {
             $sites[] = $this->buildSiteApiResponse($site);
         }
+
         return new JsonModel($sites);
     }
 
