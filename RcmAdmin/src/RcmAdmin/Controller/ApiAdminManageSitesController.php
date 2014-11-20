@@ -109,7 +109,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
 
-        $sitesObjects = $siteRepo->findBy(array());
+        $sitesObjects = $siteRepo->findAll();
 
         $sites = [];
 

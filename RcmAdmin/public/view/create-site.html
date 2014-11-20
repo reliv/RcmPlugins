@@ -39,7 +39,7 @@
                             <select class="form-control"
                                     id="site-theme"
                                     ng-model="site.theme"
-                                    ng-options="k as k for (k, v) in themes">
+                                    ng-options="k as v.display for (k, v) in themes">
                             </select>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                             <select class="form-control"
                                     id="site-siteLayout"
                                     ng-model="site.siteLayout"
-                                    ng-options="k as k for (k, v) in themes[site.theme].layouts">>
+                                    ng-options="k as v.display for (k, v) in themes[site.theme].layouts">>
                             </select>
                         </div>
                     </div>
