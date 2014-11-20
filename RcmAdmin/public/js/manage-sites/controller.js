@@ -1,5 +1,5 @@
 angular.module('rcmAdmin').controller(
-    'rcmManageSites',
+    'rcmManageSitesController',
     function ($scope, $log, $http) {
         var siteData = RcmAdminService.RcmPageModel.getData();
         $scope.currentSiteId = siteData.siteId;
@@ -29,7 +29,7 @@ angular.module('rcmAdmin').controller(
                     $http(
                         {
                             method: 'PUT',
-                            url: '/api/admin/sites/' + site.siteId,
+                            url: '/api/admin/manage-sites/' + site.siteId,
                             data: site
                         }
                     )
@@ -76,7 +76,7 @@ angular.module('rcmAdmin').controller(
                     $http(
                         {
                             method: 'POST',
-                            url: '/api/admin/sites/' + $scope.tempSites[site.siteId].siteId,
+                            url: '/api/admin/manage-sites/' + $scope.tempSites[site.siteId].siteId,
                             data: $scope.tempSites[site.siteId]
                         }
                     )
@@ -105,7 +105,7 @@ angular.module('rcmAdmin').controller(
             $http(
                 {
                     method: 'GET',
-                    url: '/api/admin/sites'
+                    url: '/api/admin/manage-sites'
                 }
             )
                 .success(

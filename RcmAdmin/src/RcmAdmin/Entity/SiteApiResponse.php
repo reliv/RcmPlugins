@@ -20,27 +20,7 @@ use Rcm\Entity\Site;
 class SiteApiResponse extends Site
 {
     /**
-     * jsonSerialize
-     *
-     * @return array|mixed
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * getIterator
-     *
-     * @return array|Traversable
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->toArray());
-    }
-
-    /**
-     * getBasicProperties
+     * toArray
      *
      * @return array
      */

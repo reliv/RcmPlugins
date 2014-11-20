@@ -24,15 +24,26 @@ use Rcm\Exception\SiteNotFoundException;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class SiteModel {
+class SiteModel
+{
 
-    protected $entityManager;
+    protected $config;
 
     /**
-     * @param EntityManagerInterface $entityManager
+     * @param array $config
      */
-    public function __construct(EntityManagerInterface $entityManager){
+    public function __construct($config)
+    {
+        $this->config = $config;
+    }
 
-        $this->entityManager = $entityManager;
+    /**
+     * getConfig
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 } 
