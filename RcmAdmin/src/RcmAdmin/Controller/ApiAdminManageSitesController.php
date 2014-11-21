@@ -237,11 +237,19 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         }
         /* */
 
+        \Doctrine\Common\Util\Debug::dump($data); die;
+
         $inputFilter = new SiteInputFilter();
         $inputFilter->setData($data);
 
-        if(!$inputFilter->isValid()){
-            return new ApiJsonModel(array(), null, 1, 'Some values are missing or invalid.', $inputFilter->getMessages());
+        if (!$inputFilter->isValid()) {
+            return new ApiJsonModel(
+                array(),
+                null,
+                1,
+                'Some values are missing or invalid.',
+                $inputFilter->getMessages()
+            );
         }
 
         try {
@@ -263,6 +271,8 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Site');
 
+        \Doctrine\Common\Util\Debug::dump($data); die;
+
         /** @var \Rcm\Entity\Site $newSite */
         $newSite = $siteRepo->createNewSite($data['siteId']);
 
@@ -273,6 +283,8 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         $this->createDefaultPages($newSite, $author);
 
         $entityManager = $this->getEntityManager();
+
+        \Doctrine\Common\Util\Debug::dump($newSite); die;
 
         try {
             $entityManager->persist($newSite);
@@ -434,6 +446,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
      */
     public function createDefaultPages(Site $site, $author)
     {
+        return;
         $defaults = $this->getDefaultSiteSettings();
 
         if (empty($defaults['pages'])) {
@@ -444,17 +457,46 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             return;
         }
 
+        /** @var \Rcm\Repository\Page $pageRepo */
+        $pageRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Page');
+
         foreach ($defaults['pages'] as $key => $config) {
 
-            $page = new Page();
-            $page->setSite($site);
-            $page->setName($key);
-            $page->setDescription($config['decription']);
-            $page->setPageTitle($config['pageTitle']);
-            $page->setAuthor($author);
-
-            $site->addPage($page);
+            $page = $pageRepo->createNewPage(
+                $key,
+                $config['pageTitle'],
+                'default',
+                $author,
+                $site,
+                $pageType = 'n',
+                true,
+                true
+            );
+            $page->setDescription($config['description']);
         }
+    }
+
+    /**
+     * createDefaultPlugins
+     *
+     * @param Site $site
+     *
+     * @return void
+     */
+    protected function createDefaultPlugins(Site $site, $author)
+    {
+
+        /** @var \Rcm\Repository\Page $pageRepo */
+        $pageRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Page');
+
+//        $result = $pageRepo->savePage(
+//            $this->currentSite,
+//            $pageName,
+//            $pageRevision,
+//            $pageType,
+//            $data,
+//            $author
+//        );
     }
 
 

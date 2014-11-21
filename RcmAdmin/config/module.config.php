@@ -283,17 +283,38 @@ return array(
             'loginPage' => "/login",
             'notAuthorizedPage' => "/not-authorized",
             'notFoundPage' => "/not-found",
+            'containers' => array(
+                'guestTopNavigation',
+                'guestMainNavigation',
+                'guestRightColumn',
+                'guestFooter',
+            ),
             'pages' => array(
                 'login' => array(
-                    'decription' => 'Login Page.',
+                    'description' => 'Login Page.',
                     'pageTitle' => 'Login',
+                    'plugins' => array(
+                        'RcmLogin' => array(
+                            'type' => 'Common',
+                            'display' => 'Login Area',
+                            'tooltip' => 'Adds login area to page',
+                            'icon' => '',
+                            'requireHttps' => true,
+                            'editJs' => '/modules/rcm-login/rcm-login-edit.js',
+                            'postLoginRedirectUrl' => '/login-home',
+                            'defaultInstanceConfig' => '',
+                            'canCache' => false,
+                            'uncategorizedErrorRedirect' => "/account-issue"
+                        ),
+                        'container' => 'body'
+                    ),
                 ),
                 'not-authorized' => array(
-                    'decription' => 'Not Authorized Page.',
+                    'description' => 'Not Authorized Page.',
                     'pageTitle' => 'Not Authorized',
                 ),
                 'not-found' => array(
-                    'decription' => 'Not Found Page.',
+                    'description' => 'Not Found Page.',
                     'pageTitle' => 'Not Found',
                 ),
             ),

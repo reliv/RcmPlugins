@@ -179,6 +179,8 @@ angular.module('rcmAdmin').controller(
 
             self.parseMessage(data);
 
+            $scope.site.siteId = null;
+
             // Success check
             if (data.code == 0) {
                 $scope.site = data.data;
