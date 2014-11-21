@@ -107,7 +107,7 @@ return array(
                         'label' => 'Create Site',
                         'class' => 'RcmAdminMenu rcmStandardDialog',
                         'uri' => '/modules/rcm-admin/view/create-site.html',
-                        'title' => 'Manage Sites',
+                        'title' => 'Create Site',
                     )
                 )
             ),

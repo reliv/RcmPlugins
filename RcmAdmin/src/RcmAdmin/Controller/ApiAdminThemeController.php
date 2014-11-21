@@ -72,7 +72,7 @@ class ApiAdminThemeController extends AbstractRestfulController {
 
         $themes = $this->getThemesConfig();
 
-        return new ApiJsonModel($themes, null, 1, 'Success');
+        return new ApiJsonModel($themes, null, 0, 'Success');
     }
 
 } 

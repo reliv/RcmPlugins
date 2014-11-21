@@ -19,31 +19,31 @@ angular.module('rcmAdmin').controller(
 
         $scope.done = false;
 
-        $scope.code = 1;
+        $scope.code = 0;
         $scope.message = '';
         $scope.errorMessage = '';
 
-        self.parseMessage = function(result){
+        self.parseMessage = function (result) {
 
-            if(result.code == 0){
+            if (result.code == 1) {
                 $scope.errorMessage = $scope.errorMessage + ' ' + result.message;
             }
         };
 
-        self.resetMessage = function(result){
+        self.resetMessage = function (result) {
 
-            $scope.code = 1;
+            $scope.code = 0;
             $scope.message = '';
             $scope.errorMessage = '';
         };
 
-        $scope.reset = function() {
+        $scope.reset = function () {
 
             self.resetMessage();
             $scope.done = false;
         };
 
-        self.getDefaultSite = function(){
+        self.getDefaultSite = function () {
             $scope.loadings.defaultSite = true;
             $http(
                 {
@@ -70,7 +70,7 @@ angular.module('rcmAdmin').controller(
             );
         };
 
-        self.getThemes = function(){
+        self.getThemes = function () {
             $scope.loadings.themes = true;
             $http(
                 {
@@ -96,7 +96,7 @@ angular.module('rcmAdmin').controller(
             );
         };
 
-        self.getLanguages = function(){
+        self.getLanguages = function () {
             $scope.loadings.languages = true;
             $http(
                 {
@@ -122,7 +122,7 @@ angular.module('rcmAdmin').controller(
             );
         };
 
-        self.getCountries = function(){
+        self.getCountries = function () {
             $scope.loadings.countries = true;
             $http(
                 {
@@ -148,9 +148,10 @@ angular.module('rcmAdmin').controller(
             );
         };
 
-        $scope.createSite = function(){
+        $scope.createSite = function () {
             $scope.loadings.createSite = true;
             self.resetMessage();
+            console.log($scope.site);
             $http(
                 {
                     method: 'POST',
@@ -160,25 +161,47 @@ angular.module('rcmAdmin').controller(
             )
                 .success(
                 function (data) {
-                    console.log('success', data);
-                    self.parseMessage(data);
 
-                    if(data.code == 1) {
-                        $scope.site = data.data;
-                        $scope.message = data.message;
-                        $scope.done = true;
-                    }
+                    self.parseCreateResult(data);
                     $scope.loadings.createSite = false;
                 }
             )
                 .error(
                 function (data) {
-                    console.log('error', data);
-                    self.parseMessage(data);
+                    self.parseCreateResult(data);
 
                     $scope.loadings.createSite = false;
                 }
             );
+        };
+
+        self.parseCreateResult = function (data) {
+
+            self.parseMessage(data);
+
+            // Success check
+            if (data.code == 0) {
+                $scope.site = data.data;
+                $scope.message = data.message;
+                $scope.done = true;
+            }
+
+            // prepare errors for display
+            if (data.errors) {
+                angular.forEach(
+                    data.errors,
+                    function (value, key) {
+                        angular.forEach(
+                            value,
+                            function (evalue, ekey) {
+                                data.errors[key] = evalue + ' ';
+                            }
+                        );
+                    }
+                );
+            }
+
+            $scope.createResult = data;
         };
 
         self.getDefaultSite();

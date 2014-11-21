@@ -1,5 +1,8 @@
 <?php
 
+namespace RcmAdmin\InputFilter;
+
+use Zend\InputFilter\InputFilter;
 
 /**
  * Class SiteInputFilter
@@ -16,93 +19,167 @@
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class SiteInputFilter extends \Zend\InputFilter\InputFilter
+class SiteInputFilter extends InputFilter
 {
-
-    protected $filterConfig
-        = array(
-
-            'username' => array(
-                'name' => 'username',
+    /**
+     * @var array
+     */
+    protected $filterConfig = [
+            //'siteId' => [],
+            // These have special formats - so we custom validate
+            'domain' => [
+                'name' => 'domain',
                 'required' => true,
-                'filters' => array(
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+//                'validators' => [
+//                    [
+//                        'name' => 'Hostname',
+//                        'options' => [
+//                        ],
+//                    ],
+//                ]
+            ],
+            'language' => [
+                'name' => 'language',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
+            ],
+            'country' => [
+                'name' => 'country',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
+            ],
+            //
+            'theme' => [
+                'name' => 'theme',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
+            ],
+            'siteLayout' => [
+                'name' => 'siteLayout',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
+            ],
+            'siteTitle' => [
+                'name' => 'siteTitle',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
+            ],
+            'status' => [
+                'name' => 'status',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                    [
                         'name' => 'StringLength',
-                        'options' => array(
+                        'options' => [
                             'encoding' => 'UTF-8',
-                            'min' => 3,
-                            'max' => 100,
-                        ),
-                    ),
-                    // Help protect from XSS
-                    array(
-                        'name' => 'Regex',
-                        'options' => array(
-                            'pattern' => "/^[a-zA-Z0-9-_@'.]+$/",
-                            //'pattern' => "/[<>]/",
-                            'messageTemplates' => array(
-                                \Zend\Validator\Regex::NOT_MATCH => "Username can only contain letters, numbers and charactors: . - _ @ '."
-                            )
-                        ),
-                    ),
-                ),
-            ),
-            'password' => array(
-                'name' => 'password',
+                            'min' => 1,
+                            'max' => 1,
+                        ],
+                    ],
+                ]
+            ],
+            'favIcon' => [
+                'name' => 'favIcon',
                 'required' => true,
-                'filters' => array(),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 6,
-                            'max' => 100,
-                        ),
-                    ),
-                    /*
-                    array(
-                        'name' => 'Regex',
-                        'options' => array(
-                            'pattern' => '^(?=.*\d)(?=.*[a-zA-Z])$'
-                        ),
-                    ),
-                    */
-                ),
-            ),
-            'email' => array(
-                'name' => 'email',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'Zend\Filter\StripTags'),
-                    // Help protect from XSS
-                    array('name' => 'Zend\Filter\StringTrim'),
-                ),
-                'validators' => array(
-                    array('name' => 'Zend\Validator\EmailAddress'),
-                ),
-            ),
-            'name' => array(
-                'name' => 'name',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'Zend\Filter\StripTags'),
-                    // Help protect from XSS
-                    array('name' => 'Zend\Filter\StringTrim'),
-                ),
-                'validators' => array(),
-            ),
-        );
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
 
+                ]
+            ],
+            'loginPage' => [
+                'name' => 'loginPage',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
+            ],
+            'notAuthorizedPage' => [
+                'name' => 'notAuthorizedPage',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
+            ],
+            'notFoundPage' => [
+                'name' => 'notFoundPage',
+                'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
+            ],
+        ];
+
+    /**
+     *
+     */
     public function __construct()
     {
+        $this->build();
+    }
 
+    /**
+     * build input filter from config
+     *
+     * @return void
+     */
+    protected function build()
+    {
         $factory = $this->getFactory();
 
-        foreach($this->filterConfig as $field => $config){
+        foreach ($this->filterConfig as $field => $config) {
             $this->add(
                 $factory->createInput(
                     $config

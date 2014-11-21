@@ -25,6 +25,7 @@ use Rcm\View\Model\RcmJsonModel;
 use RcmAdmin\Entity\SiteApiRequest;
 use RcmAdmin\Entity\SiteApiResponse;
 use RcmAdmin\Entity\SiteResponse;
+use RcmAdmin\InputFilter\SiteInputFilter;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -139,23 +140,31 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         // get default site data - kinda hacky, but keeps us to one controller
         if ($id == -1) {
 
-            $result = $this->getDefaultSiteSettings();
+            $data = $this->getDefaultSiteSettings();
 
-            return new ApiJsonModel($result, null, 1, 'Success');
+            $site = new Site();
+
+            $site->populate($data);
+
+            $result = $this->buildSiteApiResponse($site);
+
+            return new ApiJsonModel($result, null, 0, 'Success');
         }
 
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Site');
 
         try {
-            $result = $siteRepo->find($id);
+            $site = $siteRepo->find($id);
         } catch (\Exception $e) {
             return new ApiJsonModel(
-                null, null, 0, "Failed to find site by id ({$id})"
+                null, null, 1, "Failed to find site by id ({$id})"
             );
         }
 
-        return new ApiJsonModel($result, null, 1, 'Success');
+        $result = $this->buildSiteApiResponse($site);
+
+        return new ApiJsonModel($result, null, 0, 'Success');
     }
 
     /**
@@ -228,6 +237,13 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         }
         /* */
 
+        $inputFilter = new SiteInputFilter();
+        $inputFilter->setData($data);
+
+        if(!$inputFilter->isValid()){
+            return new ApiJsonModel(array(), null, 1, 'Some values are missing or invalid.', $inputFilter->getMessages());
+        }
+
         try {
 
             $data = $this->prepareNewSiteData($data);
@@ -237,11 +253,11 @@ class ApiAdminManageSitesController extends AbstractRestfulController
                 '\Rcm\Entity\Domain'
             );
 
-            $data['domain'] = $domainRepo->createDomain($data['domain']['domain']);
+            $data['domain'] = $domainRepo->createDomain($data['domain']);
 
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 0, $e->getMessage());
+            return new ApiJsonModel(null, null, 1, $e->getMessage());
         }
 
         /** @var \Rcm\Repository\Site $siteRepo */
@@ -264,12 +280,12 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $entityManager->flush();
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 0, $e->getMessage());
+            return new ApiJsonModel(null, null, 1, $e->getMessage());
         }
 
         $siteApiResponse = $this->buildSiteApiResponse($newSite);
 
-        return new ApiJsonModel($siteApiResponse, null, 1, 'Success');
+        return new ApiJsonModel($siteApiResponse, null, 0, 'Success');
     }
 
     /**
@@ -283,7 +299,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
     {
         $siteApiResponse = new SiteApiResponse();
 
-        $siteApiResponse->populateFromSite($site);
+        $siteApiResponse->populateFromObject($site);
 
         return $siteApiResponse;
     }
@@ -358,13 +374,13 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             throw new \Exception('Language is required to create new site.');
         }
 
-        if (!empty($data['language']['iso639_2t'])) {
+        if (!empty($data['language'])) {
 
             /** @var \Rcm\Repository\Language $languageRepo */
             $languageRepo = $entitymanager->getRepository('\Rcm\Entity\Language');
 
             $data['language'] = $languageRepo->getLanguageByString(
-                $data['language']['iso639_2t'],
+                $data['language'],
                 'iso639_2t'
             );
         } else {
@@ -385,13 +401,13 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             throw new \Exception('Country is required to create new site.');
         }
 
-        if (!empty($data['country']['iso3'])) {
+        if (!empty($data['country'])) {
 
             /** @var \Rcm\Repository\Country $countryRepo */
             $countryRepo = $entitymanager->getRepository('\Rcm\Entity\Country');
 
             $data['country'] = $countryRepo->getCountryByString(
-                $data['country']['iso3'],
+                $data['country'],
                 'iso3'
             );
         } else {
@@ -404,17 +420,6 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         if (!$data['country'] instanceof Country) {
 
             throw new \Exception('Country could not be found.');
-        }
-
-        // Domain
-        if (empty($data['domain'])) {
-
-            throw new \Exception('Domain is required to create new site.');
-        }
-
-        if (empty($data['domain']['domain'])) {
-
-            throw new \Exception('Domain name is required to create new site.');
         }
 
         return $data;
