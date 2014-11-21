@@ -148,7 +148,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
             $result = $this->buildSiteApiResponse($site);
 
-            return new ApiJsonModel($result, null, 1, 'Success');
+            return new ApiJsonModel($result, null, 0, 'Success');
         }
 
         /** @var \Rcm\Repository\Site $siteRepo */
@@ -158,13 +158,13 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $site = $siteRepo->find($id);
         } catch (\Exception $e) {
             return new ApiJsonModel(
-                null, null, 0, "Failed to find site by id ({$id})"
+                null, null, 1, "Failed to find site by id ({$id})"
             );
         }
 
         $result = $this->buildSiteApiResponse($site);
 
-        return new ApiJsonModel($result, null, 1, 'Success');
+        return new ApiJsonModel($result, null, 0, 'Success');
     }
 
     /**
@@ -241,7 +241,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         $inputFilter->setData($data);
 
         if(!$inputFilter->isValid()){
-            return new ApiJsonModel(array(), null, 0, 'Some values are missing or invalid.', $inputFilter->getMessages());
+            return new ApiJsonModel(array(), null, 1, 'Some values are missing or invalid.', $inputFilter->getMessages());
         }
 
         try {
@@ -253,11 +253,11 @@ class ApiAdminManageSitesController extends AbstractRestfulController
                 '\Rcm\Entity\Domain'
             );
 
-            $data['domain'] = $domainRepo->createDomain($data['domain']['domain']);
+            $data['domain'] = $domainRepo->createDomain($data['domain']);
 
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 0, $e->getMessage());
+            return new ApiJsonModel(null, null, 1, $e->getMessage());
         }
 
         /** @var \Rcm\Repository\Site $siteRepo */
@@ -280,12 +280,12 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $entityManager->flush();
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 0, $e->getMessage());
+            return new ApiJsonModel(null, null, 1, $e->getMessage());
         }
 
         $siteApiResponse = $this->buildSiteApiResponse($newSite);
 
-        return new ApiJsonModel($siteApiResponse, null, 1, 'Success');
+        return new ApiJsonModel($siteApiResponse, null, 0, 'Success');
     }
 
     /**
@@ -374,13 +374,13 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             throw new \Exception('Language is required to create new site.');
         }
 
-        if (!empty($data['language']['iso639_2t'])) {
+        if (!empty($data['language'])) {
 
             /** @var \Rcm\Repository\Language $languageRepo */
             $languageRepo = $entitymanager->getRepository('\Rcm\Entity\Language');
 
             $data['language'] = $languageRepo->getLanguageByString(
-                $data['language']['iso639_2t'],
+                $data['language'],
                 'iso639_2t'
             );
         } else {
@@ -401,13 +401,13 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             throw new \Exception('Country is required to create new site.');
         }
 
-        if (!empty($data['country']['iso3'])) {
+        if (!empty($data['country'])) {
 
             /** @var \Rcm\Repository\Country $countryRepo */
             $countryRepo = $entitymanager->getRepository('\Rcm\Entity\Country');
 
             $data['country'] = $countryRepo->getCountryByString(
-                $data['country']['iso3'],
+                $data['country'],
                 'iso3'
             );
         } else {
@@ -420,17 +420,6 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         if (!$data['country'] instanceof Country) {
 
             throw new \Exception('Country could not be found.');
-        }
-
-        // Domain
-        if (empty($data['domain'])) {
-
-            throw new \Exception('Domain is required to create new site.');
-        }
-
-        if (empty($data['domain']['domain'])) {
-
-            throw new \Exception('Domain name is required to create new site.');
         }
 
         return $data;

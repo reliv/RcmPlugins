@@ -19,20 +19,20 @@ angular.module('rcmAdmin').controller(
 
         $scope.done = false;
 
-        $scope.code = 1;
+        $scope.code = 0;
         $scope.message = '';
         $scope.errorMessage = '';
 
         self.parseMessage = function (result) {
 
-            if (result.code == 0) {
+            if (result.code == 1) {
                 $scope.errorMessage = $scope.errorMessage + ' ' + result.message;
             }
         };
 
         self.resetMessage = function (result) {
 
-            $scope.code = 1;
+            $scope.code = 0;
             $scope.message = '';
             $scope.errorMessage = '';
         };
@@ -179,7 +179,8 @@ angular.module('rcmAdmin').controller(
 
             self.parseMessage(data);
 
-            if (data.code == 1) {
+            // Success check
+            if (data.code == 0) {
                 $scope.site = data.data;
                 $scope.message = data.message;
                 $scope.done = true;

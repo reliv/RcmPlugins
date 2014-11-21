@@ -58,10 +58,10 @@ class ApiAdminLanguageController extends AbstractRestfulController {
         try {
             $languages = $languageRepo->findBy(array(), array('languageName' => 'ASC'));
         } catch(\Exception $e){
-            return new ApiJsonModel(null, null, 0, 'An error occurred will getting languages.');
+            return new ApiJsonModel(null, null, 1, 'An error occurred will getting languages.');
         }
 
-        return new ApiJsonModel($languages, null, 1, 'Success');
+        return new ApiJsonModel($languages, null, 0, 'Success');
     }
 
 } 

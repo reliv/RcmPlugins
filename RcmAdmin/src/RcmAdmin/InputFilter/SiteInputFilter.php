@@ -30,14 +30,39 @@ class SiteInputFilter extends InputFilter
             'domain' => [
                 'name' => 'domain',
                 'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+//                'validators' => [
+//                    [
+//                        'name' => 'Hostname',
+//                        'options' => [
+//                        ],
+//                    ],
+//                ]
             ],
             'language' => [
                 'name' => 'language',
                 'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
             ],
             'country' => [
                 'name' => 'country',
                 'required' => true,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+
+                ]
             ],
             //
             'theme' => [
@@ -73,7 +98,6 @@ class SiteInputFilter extends InputFilter
 
                 ]
             ],
-
             'status' => [
                 'name' => 'status',
                 'required' => true,
@@ -162,46 +186,5 @@ class SiteInputFilter extends InputFilter
                 )
             );
         }
-    }
-
-    /**
-     * @override
-     * setData
-     *
-     * @param array|\Traversable $data
-     *
-     * @return bool|\Zend\InputFilter\InputFilterInterface
-     */
-    public function setData($data)
-    {
-        if (empty($data)) {
-            $data = $this->getRawValues();
-        }
-
-        // check is set
-        if (!empty($data['domain']) && !empty($data['domain']['domain'])) {
-
-            // is ok
-        } else {
-            $data['domain'] = '';
-        }
-
-        if (!empty($data['language']) && !empty($data['language']['iso639_2t'])) {
-
-            // is ok
-        } else {
-            $data['language'] = '';
-        }
-
-        if (!empty($data['country']) && !empty($data['country']['iso3'])) {
-
-            // is ok
-        } else {
-            $data['country'] = '';
-        }
-
-        // @todo need validate contents and clean values
-
-        return parent::setData($data);
     }
 } 
