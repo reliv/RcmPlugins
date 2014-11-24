@@ -291,31 +291,49 @@ return array(
             ),
             'pages' => array(
                 'login' => array(
+                    'name' => 'login',
                     'description' => 'Login Page.',
                     'pageTitle' => 'Login',
                     'plugins' => array(
-                        'RcmLogin' => array(
-                            'type' => 'Common',
-                            'display' => 'Login Area',
-                            'tooltip' => 'Adds login area to page',
-                            'icon' => '',
-                            'requireHttps' => true,
-                            'editJs' => '/modules/rcm-login/rcm-login-edit.js',
-                            'postLoginRedirectUrl' => '/login-home',
-                            'defaultInstanceConfig' => '',
-                            'canCache' => false,
-                            'uncategorizedErrorRedirect' => "/account-issue"
+                        array(
+                            'plugin' => 'RcmLogin',
+                            'displayName' => 'Login Area',
+                            'instanceConfig'=> array(),
+                            'layoutContainer' => '4',
                         ),
-                        'container' => 'body'
                     ),
                 ),
                 'not-authorized' => array(
+                    'name' => 'not-authorized',
                     'description' => 'Not Authorized Page.',
                     'pageTitle' => 'Not Authorized',
+                    'plugins' => array(
+                        array(
+                            'plugin' => 'RcmHtmlArea',
+                            'displayName' => 'Login Area',
+                            'instanceConfig'=> array(),
+                            'layoutContainer' => '4',
+                            'saveData' => array(
+                                'html' => '<h1>Access Denied</h1>',
+                            )
+                        ),
+                    ),
                 ),
                 'not-found' => array(
+                    'name' => 'not-found',
                     'description' => 'Not Found Page.',
                     'pageTitle' => 'Not Found',
+                    'plugins' => array(
+                        array(
+                            'plugin' => 'RcmHtmlArea',
+                            'displayName' => 'Login Area',
+                            'instanceConfig'=> array(),
+                            'layoutContainer' => '4',
+                            'saveData' => array(
+                                'html' => '<h1>Page Not Found</h1>',
+                            )
+                        ),
+                    ),
                 ),
             ),
         ),

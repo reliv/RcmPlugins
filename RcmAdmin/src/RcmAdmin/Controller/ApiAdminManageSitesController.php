@@ -18,6 +18,8 @@ namespace RcmAdmin\Controller;
 use Rcm\Entity\Country;
 use Rcm\Entity\Language;
 use Rcm\Entity\Page;
+use Rcm\Entity\PluginInstance;
+use Rcm\Entity\PluginWrapper;
 use Rcm\Entity\Site;
 use Rcm\Http\Response;
 use Rcm\View\Model\ApiJsonModel;
@@ -168,7 +170,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
     }
 
     /**
-     * update
+     * update @todo - allow update of all properties
      *
      * @param mixed $siteId
      * @param mixed $data
@@ -222,7 +224,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
     }
 
     /**
-     * create - Create or Clone a site @todo Be more selective with Exceptions
+     * create - Create or Clone a site
      *
      * @param array $data - see buildSiteApiResponse()
      *
@@ -236,8 +238,6 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             return $this->getResponse();
         }
         /* */
-
-        \Doctrine\Common\Util\Debug::dump($data); die;
 
         $inputFilter = new SiteInputFilter();
         $inputFilter->setData($data);
@@ -268,10 +268,10 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             return new ApiJsonModel(null, null, 1, $e->getMessage());
         }
 
-        /** @var \Rcm\Repository\Site $siteRepo */
-        $siteRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Site');
+        $entityManager = $this->getEntityManager();
 
-        \Doctrine\Common\Util\Debug::dump($data); die;
+        /** @var \Rcm\Repository\Site $siteRepo */
+        $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
 
         /** @var \Rcm\Entity\Site $newSite */
         $newSite = $siteRepo->createNewSite($data['siteId']);
@@ -280,15 +280,22 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
         $author = $this->getCurrentUser()->getName();
 
-        $this->createDefaultPages($newSite, $author);
+        $this->createPages($newSite, $author, $this->getDefaultSitePageSettings());
 
-        $entityManager = $this->getEntityManager();
 
-        \Doctrine\Common\Util\Debug::dump($newSite); die;
 
         try {
             $entityManager->persist($newSite);
 
+            $entityManager->flush();
+        } catch (\Exception $e) {
+
+            return new ApiJsonModel(null, null, 1, $e->getMessage());
+        }
+
+        $this->createPagePlugins($newSite, $this->getDefaultSitePageSettings());
+
+        try {
             $entityManager->flush();
         } catch (\Exception $e) {
 
@@ -316,50 +323,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         return $siteApiResponse;
     }
 
-    //// MODEL ? ////
-
-    /**
-     * getDefaultSiteSettings
-     *
-     * @return array
-     */
-    public function getDefaultSiteSettings()
-    {
-        $config = $this->getConfig();
-
-        $myConfig = $config['rcmAdmin'];
-
-        if (!empty($myConfig['defaultSiteSettings'])
-            && is_array(
-                $myConfig['defaultSiteSettings']
-            )
-        ) {
-            return $myConfig['defaultSiteSettings'];
-        }
-
-        return array();
-    }
-
-    /**
-     * prepareDefaultValues
-     *
-     * @param array $data
-     *
-     * @return array
-     */
-    protected function prepareDefaultValues($data)
-    {
-        $defaults = $this->getDefaultSiteSettings();
-
-        foreach ($defaults as $key => $value) {
-
-            if (empty($data[$key])) {
-                $data[$key] = $value;
-            }
-        }
-
-        return $data;
-    }
+    ////////////////////
 
     /**
      * Prepare Request Data
@@ -437,67 +401,302 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         return $data;
     }
 
+
     /**
-     * createDefaultPages
+     * prepareDefaultValues
      *
-     * @param Site $site
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function prepareDefaultValues($data)
+    {
+        $defaults = $this->getDefaultSiteSettings();
+
+        foreach ($defaults as $key => $value) {
+
+            if (empty($data[$key])) {
+                $data[$key] = $value;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * getDefaultSiteSettings
+     *
+     * @return array
+     */
+    public function getDefaultSiteSettings()
+    {
+        $config = $this->getConfig();
+
+        $myConfig = $config['rcmAdmin'];
+
+        if (!empty($myConfig['defaultSiteSettings'])
+            && is_array(
+                $myConfig['defaultSiteSettings']
+            )
+        ) {
+            return $myConfig['defaultSiteSettings'];
+        }
+
+        return array();
+    }
+
+    /**
+     * getDefaultSiteSettings
+     *
+     * @return array
+     */
+    public function getDefaultSitePageSettings()
+    {
+        $myConfig = $this->getDefaultSiteSettings();
+
+        $pagesData = array();
+
+        if (!empty($myConfig['pages'])
+            && is_array(
+                $myConfig['pages']
+            )
+        ) {
+            $pagesData = $myConfig['pages'];
+        }
+
+        return $this->preparePagesData($pagesData);
+    }
+
+    //// REPOS //////////////////////////////////////////////////////////////
+
+    /**
+     * createPages
+     *
+     * @param Site  $site
+     * @param string $author
+     * @param array $pagesData
      *
      * @return void
      */
-    public function createDefaultPages(Site $site, $author)
+    public function createPages(Site $site, $author, $pagesData = array())
     {
-        return;
-        $defaults = $this->getDefaultSiteSettings();
-
-        if (empty($defaults['pages'])) {
-            return;
-        }
-
-        if (!is_array($defaults['pages'])) {
-            return;
-        }
-
         /** @var \Rcm\Repository\Page $pageRepo */
         $pageRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Page');
 
-        foreach ($defaults['pages'] as $key => $config) {
+        foreach ($pagesData as $name => $pageData) {
 
             $page = $pageRepo->createNewPage(
-                $key,
-                $config['pageTitle'],
-                'default',
+                $pageData['name'],
+                $pageData['pageTitle'],
+                $pageData['pageLayout'],
                 $author,
                 $site,
-                $pageType = 'n',
+                $pageData['pageType'],
                 true,
                 true
             );
-            $page->setDescription($config['description']);
+            $page->setDescription($pageData['description']);
         }
     }
 
     /**
-     * createDefaultPlugins
+     * createPagePlugins
      *
-     * @param Site $site
+     * @param Site  $site
+     * @param array $pagesData
      *
      * @return void
      */
-    protected function createDefaultPlugins(Site $site, $author)
+    protected function createPagePlugins(Site $site, $pagesData = array())
     {
+        $entityManager = $this->getEntityManager();
 
         /** @var \Rcm\Repository\Page $pageRepo */
-        $pageRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Page');
+        $pageRepo = $entityManager->getRepository('\Rcm\Entity\Page');
 
-//        $result = $pageRepo->savePage(
-//            $this->currentSite,
-//            $pageName,
-//            $pageRevision,
-//            $pageType,
-//            $data,
-//            $author
-//        );
+        /** @var \Rcm\Repository\PluginInstance $pluginInstanceRepo */
+        $pluginInstanceRepo = $entityManager->getRepository('\Rcm\Entity\PluginInstance');
+
+        /** @var \Rcm\Repository\PluginWrapper $pluginWrapperRepo */
+        $pluginWrapperRepo = $entityManager->getRepository('\Rcm\Entity\PluginWrapper');
+
+        foreach ($pagesData as $pageName => $pageData) {
+
+            if(empty($pageData['plugins'])){
+                continue;
+            }
+
+            $page = $pageRepo->getPageByName($site, $pageData['name']);
+
+            if(!empty($page)){
+
+                $pageRevison = $page->getPublishedRevision();
+
+                foreach($pageData['plugins'] as $name => $data){
+
+                    $pluginData = $this->preparePluginData($name, $data);
+
+                    $pluginInstance = $pluginInstanceRepo->saveNewInstance(
+                        $pluginData['plugin'],
+                        $pluginData['saveData'],
+                        $pluginData['siteWide'],
+                        $pluginData['displayName']
+                    );
+
+                    $pluginData['instanceId'] = $pluginInstance->getInstanceId();
+
+                    $pluginData = $this->preparePluginWrapperData($pluginData);
+
+                    $wrapper = $pluginWrapperRepo->savePluginWrapper($pluginData, $page->getPageLayout());
+
+                    $pageRevison->addPluginWrapper($wrapper);
+
+                    $entityManager->persist($pageRevison);
+                }
+            }
+        }
+
+        //$entityManager->flush();
     }
+
+    /**
+     * preparePagesData
+     *
+     * @param $pagesData
+     *
+     * @return mixed
+     */
+    protected function preparePagesData($pagesData)
+    {
+        foreach($pagesData as $key => $value){
+
+            if(empty($pagesData[$key]['name'])){
+                $pagesData[$key]['name'] = $key;
+            }
+//            if(empty($pagesData[$key]['pageTitle'])){
+//                $pagesData[$key]['pageTitle'] = 'My Page';
+//            }
+//            if(empty($pagesData[$key]['description'])){
+//                $pagesData[$key]['description'] = 'My Page';
+//            }
+//            if(empty($pagesData[$key]['pageLayout'])){
+//                $pagesData[$key]['pageLayout'] = 'default';
+//            }
+//            if(empty($pagesData[$key]['pageType'])){
+//                $pagesData[$key]['pageType'] = 'n';
+//            }
+        }
+
+        return $pagesData;
+    }
+
+    /**
+     * preparePluginArray
+     *
+     * @param string $pluginName
+     * @param array $pluginData
+     *
+     * @return array
+     */
+    public function preparePluginData($pluginName, $pluginData = array())
+    {
+        // backwards compatible
+        if(!empty($pluginData['sitewideName']) && empty($pluginData['displayName'])){
+            $pluginData['displayName'] = $pluginData['sitewideName'];
+        }
+
+        if(empty($pluginData['displayName'])) {
+            $pluginData['displayName'] = $pluginName;
+        }
+
+        $pluginData['sitewideName'] = $pluginData['displayName'];
+
+        // backwards compatible
+        if(!empty($pluginData['name']) && empty($pluginData['plugin'])){
+            $pluginData['plugin'] = $pluginData['name'];
+        }
+
+        if(empty($pluginData['plugin'])){
+            $pluginData['plugin'] = $pluginName;
+        }
+
+        $pluginData['name'] = $pluginData['plugin'];
+
+        if(empty($pluginData['saveData'])){
+            $pluginData['saveData'] = array();
+        }
+
+        // backwards compatible
+        if(!empty($pluginData['isSitewide']) && empty($pluginData['siteWide'])){
+            $pluginData['siteWide'] = $pluginData['isSitewide'];
+        }
+
+        if(empty($pluginData['siteWide'])){
+            $pluginData['siteWide'] = 0;
+        }
+
+        $pluginData['isSitewide'] = $pluginData['siteWide'];
+
+        if(empty($pluginData['instanceConfig'])){
+            $pluginData['instanceConfig'] = array();
+        }
+
+        return $pluginData;
+    }
+
+    /**
+     * preparePluginWrapperData
+     *
+     * @param array $pluginData
+     * @param null  $pageContainer
+     *
+     * @return array
+     */
+    public function preparePluginWrapperData($pluginData = array(), $pageContainer = null)
+    {
+
+        if(empty($pluginData['rank'])){
+            $pluginData['rank'] = 0;
+        }
+
+        // backwards compatible
+        if(!empty($pluginData['float'])){
+            $pluginData['divFloat'] = $pluginData['float'];
+        }
+
+        if(empty($pluginData['divFloat'] )){
+            $pluginData['divFloat']  = null;
+        }
+
+        $pluginData['float'] = $pluginData['divFloat'];
+
+        if(empty($pluginData['height'])){
+            $pluginData['height'] = null;
+        }
+
+        if(empty($pluginData['width'])){
+            $pluginData['width'] = null;
+        }
+
+        // backwards compatible
+        if(!empty($pluginData['containerName']) && empty($pluginData['layoutContainer'])){
+            $pluginData['layoutContainer'] = $pluginData['containerName'];
+        }
+
+        if(!empty($pageContainer) && empty($pluginData['layoutContainer'])){
+            $pluginData['layoutContainer'] = $pageContainer;
+        }
+
+        if(empty($pluginData['layoutContainer'])){
+            $pluginData['layoutContainer'] = 'default';
+        }
+
+        $pluginData['containerName'] = $pluginData['layoutContainer'];
+
+        return $pluginData;
+    }
+
+
 
 
 }
