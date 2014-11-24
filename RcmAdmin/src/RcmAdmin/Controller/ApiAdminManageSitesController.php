@@ -464,7 +464,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $pagesData = $myConfig['pages'];
         }
 
-        return $this->preparePagesData($pagesData);
+        return $pagesData;
     }
 
     //// REPOS //////////////////////////////////////////////////////////////
@@ -570,9 +570,9 @@ class ApiAdminManageSitesController extends AbstractRestfulController
     {
         foreach($pagesData as $key => $value){
 
-            if(empty($pagesData[$key]['name'])){
-                $pagesData[$key]['name'] = $key;
-            }
+//            if(empty($pagesData[$key]['name'])){
+//                $pagesData[$key]['name'] = $key;
+//            }
 //            if(empty($pagesData[$key]['pageTitle'])){
 //                $pagesData[$key]['pageTitle'] = 'My Page';
 //            }

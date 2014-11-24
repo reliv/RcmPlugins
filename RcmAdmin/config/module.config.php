@@ -290,7 +290,7 @@ return array(
                 'guestFooter',
             ),
             'pages' => array(
-                'login' => array(
+                array(
                     'name' => 'login',
                     'description' => 'Login Page.',
                     'pageTitle' => 'Login',
@@ -303,7 +303,7 @@ return array(
                         ),
                     ),
                 ),
-                'not-authorized' => array(
+                array(
                     'name' => 'not-authorized',
                     'description' => 'Not Authorized Page.',
                     'pageTitle' => 'Not Authorized',
@@ -319,7 +319,7 @@ return array(
                         ),
                     ),
                 ),
-                'not-found' => array(
+                array(
                     'name' => 'not-found',
                     'description' => 'Not Found Page.',
                     'pageTitle' => 'Not Found',
