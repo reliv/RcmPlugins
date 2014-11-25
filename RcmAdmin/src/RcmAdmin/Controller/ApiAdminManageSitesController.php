@@ -16,7 +16,6 @@
 namespace RcmAdmin\Controller;
 
 use Rcm\Entity\Country;
-use Rcm\Entity\Domain;
 use Rcm\Entity\Language;
 use Rcm\Entity\Page;
 use Rcm\Entity\Site;
@@ -26,12 +25,13 @@ use Rcm\View\Model\RcmJsonModel;
 use RcmAdmin\Entity\SiteApiRequest;
 use RcmAdmin\Entity\SiteApiResponse;
 use RcmAdmin\Entity\SiteResponse;
+use RcmAdmin\InputFilter\SiteInputFilter;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 
 /**
- * SitesApiController
+ * ApiAdminManageSitesController
  *
  * PHP version 5
  *
@@ -45,8 +45,18 @@ use Zend\View\Model\JsonModel;
  *
  * @method boolean rcmIsAllowed($resourceId, $privilege = null, $providerId = 'Rcm\Acl\ResourceProvider')
  */
-class ManageSitesApiController extends AbstractRestfulController
+class ApiAdminManageSitesController extends AbstractRestfulController
 {
+    /**
+     * getConfig
+     *
+     * @return array
+     */
+    protected function getConfig()
+    {
+        return $this->serviceLocator->get('config');
+    }
+
     /**
      * getEntityManager
      *
@@ -55,24 +65,6 @@ class ManageSitesApiController extends AbstractRestfulController
     protected function getEntityManager()
     {
         return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    }
-
-    /**
-     * getDefaultSiteSettings
-     *
-     * @return array
-     */
-    protected function getDefaultSiteSettings()
-    {
-        $config = $this->serviceLocator->get('config');
-
-        $myConfig = $config['rcmAdmin'];
-
-        if(!empty($myConfig['defaultSiteSettings']) && is_array($myConfig['defaultSiteSettings'])){
-            return $myConfig['defaultSiteSettings'];
-        }
-
-        return array();
     }
 
     /**
@@ -118,7 +110,7 @@ class ManageSitesApiController extends AbstractRestfulController
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
 
-        $sitesObjects = $siteRepo->getSites(false);
+        $sitesObjects = $siteRepo->findAll();
 
         $sites = [];
 
@@ -126,7 +118,53 @@ class ManageSitesApiController extends AbstractRestfulController
         foreach ($sitesObjects as $site) {
             $sites[] = $this->buildSiteApiResponse($site);
         }
+
         return new JsonModel($sites);
+    }
+
+    /**\
+     * get
+     *
+     * @param mixed $id
+     *
+     * @return mixed|ApiJsonModel|\Zend\Stdlib\ResponseInterface
+     */
+    public function get($id)
+    {
+        //ACCESS CHECK
+        if (!$this->rcmIsAllowed('sites', 'admin')) {
+            $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
+            return $this->getResponse();
+        }
+
+        // get default site data - kinda hacky, but keeps us to one controller
+        if ($id == -1) {
+
+            $data = $this->getDefaultSiteSettings();
+
+            $site = new Site();
+
+            $site->populate($data);
+
+            $result = $this->buildSiteApiResponse($site);
+
+            return new ApiJsonModel($result, null, 0, 'Success');
+        }
+
+        /** @var \Rcm\Repository\Site $siteRepo */
+        $siteRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Site');
+
+        try {
+            $site = $siteRepo->find($id);
+        } catch (\Exception $e) {
+            return new ApiJsonModel(
+                null, null, 1, "Failed to find site by id ({$id})"
+            );
+        }
+
+        $result = $this->buildSiteApiResponse($site);
+
+        return new ApiJsonModel($result, null, 0, 'Success');
     }
 
     /**
@@ -199,14 +237,27 @@ class ManageSitesApiController extends AbstractRestfulController
         }
         /* */
 
+        $inputFilter = new SiteInputFilter();
+        $inputFilter->setData($data);
+
+        if(!$inputFilter->isValid()){
+            return new ApiJsonModel(array(), null, 1, 'Some values are missing or invalid.', $inputFilter->getMessages());
+        }
+
         try {
 
             $data = $this->prepareNewSiteData($data);
-            $data['domain'] = $this->createDomain($data['domain']['domain'], $data['domain']['defaultLanguage']);
+
+            /** @var \Rcm\Repository\Domain $domainRepo */
+            $domainRepo = $this->getEntityManager()->getRepository(
+                '\Rcm\Entity\Domain'
+            );
+
+            $data['domain'] = $domainRepo->createDomain($data['domain']);
 
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 0, $e->getMessage());
+            return new ApiJsonModel(null, null, 1, $e->getMessage());
         }
 
         /** @var \Rcm\Repository\Site $siteRepo */
@@ -223,13 +274,58 @@ class ManageSitesApiController extends AbstractRestfulController
 
         $entityManager = $this->getEntityManager();
 
-        $entityManager->persist($newSite);
+        try {
+            $entityManager->persist($newSite);
 
-        $entityManager->flush();
+            $entityManager->flush();
+        } catch (\Exception $e) {
+
+            return new ApiJsonModel(null, null, 1, $e->getMessage());
+        }
 
         $siteApiResponse = $this->buildSiteApiResponse($newSite);
 
-        return new ApiJsonModel($siteApiResponse, null, 1, 'Success');
+        return new ApiJsonModel($siteApiResponse, null, 0, 'Success');
+    }
+
+    /**
+     * buildSiteApiResponse
+     *
+     * @param Site $site
+     *
+     * @return SiteApiResponse
+     */
+    protected function buildSiteApiResponse(Site $site)
+    {
+        $siteApiResponse = new SiteApiResponse();
+
+        $siteApiResponse->populateFromObject($site);
+
+        return $siteApiResponse;
+    }
+
+    //// MODEL ? ////
+
+    /**
+     * getDefaultSiteSettings
+     *
+     * @return array
+     */
+    public function getDefaultSiteSettings()
+    {
+        $config = $this->getConfig();
+
+        $myConfig = $config['rcmAdmin'];
+
+        if (!empty($myConfig['defaultSiteSettings'])
+            && is_array(
+                $myConfig['defaultSiteSettings']
+            )
+        ) {
+            return $myConfig['defaultSiteSettings'];
+        }
+
+        return array();
     }
 
     /**
@@ -243,9 +339,9 @@ class ManageSitesApiController extends AbstractRestfulController
     {
         $defaults = $this->getDefaultSiteSettings();
 
-        foreach($defaults as $key => $value){
+        foreach ($defaults as $key => $value) {
 
-            if(empty($data[$key])){
+            if (empty($data[$key])) {
                 $data[$key] = $value;
             }
         }
@@ -278,13 +374,13 @@ class ManageSitesApiController extends AbstractRestfulController
             throw new \Exception('Language is required to create new site.');
         }
 
-        if (!empty($data['language']['iso639_2t'])) {
+        if (!empty($data['language'])) {
 
             /** @var \Rcm\Repository\Language $languageRepo */
             $languageRepo = $entitymanager->getRepository('\Rcm\Entity\Language');
 
             $data['language'] = $languageRepo->getLanguageByString(
-                $data['language']['iso639_2t'],
+                $data['language'],
                 'iso639_2t'
             );
         } else {
@@ -305,13 +401,13 @@ class ManageSitesApiController extends AbstractRestfulController
             throw new \Exception('Country is required to create new site.');
         }
 
-        if (!empty($data['country']['iso3'])) {
+        if (!empty($data['country'])) {
 
             /** @var \Rcm\Repository\Country $countryRepo */
             $countryRepo = $entitymanager->getRepository('\Rcm\Entity\Country');
 
             $data['country'] = $countryRepo->getCountryByString(
-                $data['country']['iso3'],
+                $data['country'],
                 'iso3'
             );
         } else {
@@ -326,81 +422,7 @@ class ManageSitesApiController extends AbstractRestfulController
             throw new \Exception('Country could not be found.');
         }
 
-        // Domain
-        if (empty($data['domain'])) {
-
-            throw new \Exception('Domain is required to create new site.');
-        }
-
-        if (empty($data['domain']['domain'])) {
-
-            throw new \Exception('Domain name is required to create new site.');
-        }
-
-        if (!empty($data['domain']['defaultLanguage'])
-            && !empty($data['domain']['defaultLanguage']['iso639_2t'])
-        ) {
-            /** @var \Rcm\Repository\Language $languageRepo */
-            $languageRepo = $entitymanager->getRepository('\Rcm\Entity\Language');
-
-            $data['domain']['defaultLanguage'] = $languageRepo->getLanguageByString(
-                $data['domain']['defaultLanguage']['iso639_2t'],
-                'iso639_2t'
-            );
-        } else {
-            $data['domain']['defaultLanguage'] = $data['language'];
-        }
-
-        if (!$data['domain']['defaultLanguage'] instanceof Language) {
-
-            throw new \Exception('Domain default language could not be found.');
-        }
-
         return $data;
-    }
-
-    /**
-     * Create Domain or use existing if not assigned to a site
-     *
-     * @param string   $domainName
-     * @param Language $defaultLanguage
-     *
-     * @return Domain
-     * @throws \Exception
-     * @throws \Rcm\Repository\DomainNotFoundException
-     */
-    public function createDomain($domainName, Language $defaultLanguage)
-    {
-        $entitymanager = $this->getEntityManager();
-
-        /** @var \Rcm\Repository\Domain $domainRepo */
-        $domainRepo = $entitymanager->getRepository('\Rcm\Entity\Domain');
-
-        // if the requested domain is not assigned to a site, then we can use the existing
-        $existingDomain = $domainRepo->getDomainByName($domainName);
-
-        if(!empty($existingDomain)){
-            /** @var \Rcm\Repository\Site $siteRepo */
-            $siteRepo = $entitymanager->getRepository('\Rcm\Entity\Site');
-
-            try {
-                $siteWithDomain = $siteRepo->getSiteByDomainFromDb($domainName);
-            } catch (NoResultException $e) {
-                return $existingDomain;
-            }
-        }
-
-        $domain = $domainRepo->createDomain(
-            $domainName,
-            $defaultLanguage
-        );
-
-        if (!$domain instanceof Domain) {
-
-            throw new \Exception('Domain could not be created.');
-        }
-
-        return $domain;
     }
 
     /**
@@ -414,13 +436,11 @@ class ManageSitesApiController extends AbstractRestfulController
     {
         $defaults = $this->getDefaultSiteSettings();
 
-        if(empty($defaults['pages']))
-        {
+        if (empty($defaults['pages'])) {
             return;
         }
 
-        if(!is_array($defaults['pages']))
-        {
+        if (!is_array($defaults['pages'])) {
             return;
         }
 
@@ -437,19 +457,5 @@ class ManageSitesApiController extends AbstractRestfulController
         }
     }
 
-    /**
-     * buildSiteApiResponse
-     *
-     * @param Site $site
-     *
-     * @return SiteApiResponse
-     */
-    protected function buildSiteApiResponse(Site $site)
-    {
-        $siteApiResponse = new SiteApiResponse();
 
-        $siteApiResponse->populateFromSite($site);
-
-        return $siteApiResponse;
-    }
 }

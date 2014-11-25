@@ -20,27 +20,7 @@ use Rcm\Entity\Site;
 class SiteApiResponse extends Site
 {
     /**
-     * jsonSerialize
-     *
-     * @return array|mixed
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * getIterator
-     *
-     * @return array|Traversable
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->toArray());
-    }
-
-    /**
-     * getBasicProperties
+     * toArray
      *
      * @return array
      */
@@ -48,12 +28,12 @@ class SiteApiResponse extends Site
     {
         return array(
             'siteId' => $this->getSiteId(),
-            'domain' => $this->getDomain(),
+            'domain' => $this->getDomain()->getDomainName(),
             'theme' => $this->getTheme(),
             'siteLayout' => $this->getSiteLayout(),
             'siteTitle' => $this->getSiteTitle(),
-            'language' => $this->getLanguage(),
-            'country' => $this->getCountry(),
+            'language' => $this->getLanguage()->getIso6392t(),
+            'country' => $this->getCountry()->getIso3(),
             'status' => $this->getStatus(),
             'favIcon' => $this->getFavIcon(),
             'loginPage' => $this->getLoginPage(),
