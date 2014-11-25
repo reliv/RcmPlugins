@@ -273,6 +273,9 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         /** @var \Rcm\Repository\Site $siteRepo */
         $siteRepo = $entityManager->getRepository('\Rcm\Entity\Site');
 
+        /** @var \Rcm\Repository\Page $pageRepo */
+        $pageRepo = $entityManager->getRepository('\Rcm\Entity\Page');
+
         /** @var \Rcm\Entity\Site $newSite */
         $newSite = $siteRepo->createNewSite($data['siteId']);
 
@@ -280,9 +283,12 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
         $author = $this->getCurrentUser()->getName();
 
-        $this->createPages($newSite, $author, $this->getDefaultSitePageSettings());
-
-
+        $pageRepo->createPages(
+            $newSite,
+            $this->getDefaultSitePageSettings($author),
+            true,
+            false
+        );
 
         try {
             $entityManager->persist($newSite);
@@ -293,7 +299,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             return new ApiJsonModel(null, null, 1, $e->getMessage());
         }
 
-        $this->createPagePlugins($newSite, $this->getDefaultSitePageSettings());
+        $this->createPagePlugins($newSite, $this->getDefaultSitePageSettings($author));
 
         try {
             $entityManager->flush();
@@ -323,7 +329,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         return $siteApiResponse;
     }
 
-    ////////////////////
+    //Model?//
 
     /**
      * Prepare Request Data
@@ -450,7 +456,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
      *
      * @return array
      */
-    public function getDefaultSitePageSettings()
+    public function getDefaultSitePageSettings($author)
     {
         $myConfig = $this->getDefaultSiteSettings();
 
@@ -464,50 +470,26 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $pagesData = $myConfig['pages'];
         }
 
+        foreach($pagesData as $key => $pageData){
+            $pagesData[$key]['author'] = $author;
+        }
+
         return $pagesData;
     }
 
     //// REPOS //////////////////////////////////////////////////////////////
 
     /**
-     * createPages
-     *
-     * @param Site  $site
-     * @param string $author
-     * @param array $pagesData
-     *
-     * @return void
-     */
-    public function createPages(Site $site, $author, $pagesData = array())
-    {
-        /** @var \Rcm\Repository\Page $pageRepo */
-        $pageRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Page');
-
-        foreach ($pagesData as $name => $pageData) {
-
-            $page = $pageRepo->createNewPage(
-                $pageData['name'],
-                $pageData['pageTitle'],
-                $pageData['pageLayout'],
-                $author,
-                $site,
-                $pageData['pageType'],
-                true,
-                true
-            );
-            $page->setDescription($pageData['description']);
-        }
-    }
-
-    /**
      * createPagePlugins
      *
      * @param Site  $site
      * @param array $pagesData
+     * @param bool  $doFlush
      *
      * @return void
+     * @throws \Exception
      */
-    protected function createPagePlugins(Site $site, $pagesData = array())
+    protected function createPagePlugins(Site $site, $pagesData = array(), $doFlush = true)
     {
         $entityManager = $this->getEntityManager();
 
@@ -532,22 +514,20 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
                 $pageRevison = $page->getPublishedRevision();
 
-                foreach($pageData['plugins'] as $name => $data){
+                if(empty($pageRevison)){
+                    throw new \Exception("Could not find published revision for page {$page->getPageId()}");
+                }
 
-                    $pluginData = $this->preparePluginData($name, $data);
+                foreach($pageData['plugins'] as $pluginData){
 
-                    $pluginInstance = $pluginInstanceRepo->saveNewInstance(
-                        $pluginData['plugin'],
-                        $pluginData['saveData'],
-                        $pluginData['siteWide'],
-                        $pluginData['displayName']
+                    $pluginInstance = $pluginInstanceRepo->createPluginInstance(
+                        $pluginData,
+                        false
                     );
 
-                    $pluginData['instanceId'] = $pluginInstance->getInstanceId();
+                    $pluginData['pluginInstanceId'] = $pluginInstance->getInstanceId();
 
-                    $pluginData = $this->preparePluginWrapperData($pluginData);
-
-                    $wrapper = $pluginWrapperRepo->savePluginWrapper($pluginData, $page->getPageLayout());
+                    $wrapper = $pluginWrapperRepo->savePluginWrapper($pluginData);
 
                     $pageRevison->addPluginWrapper($wrapper);
 
@@ -556,147 +536,10 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             }
         }
 
-        //$entityManager->flush();
+        if($doFlush) {
+            $entityManager->flush();
+        }
     }
-
-    /**
-     * preparePagesData
-     *
-     * @param $pagesData
-     *
-     * @return mixed
-     */
-    protected function preparePagesData($pagesData)
-    {
-        foreach($pagesData as $key => $value){
-
-//            if(empty($pagesData[$key]['name'])){
-//                $pagesData[$key]['name'] = $key;
-//            }
-//            if(empty($pagesData[$key]['pageTitle'])){
-//                $pagesData[$key]['pageTitle'] = 'My Page';
-//            }
-//            if(empty($pagesData[$key]['description'])){
-//                $pagesData[$key]['description'] = 'My Page';
-//            }
-//            if(empty($pagesData[$key]['pageLayout'])){
-//                $pagesData[$key]['pageLayout'] = 'default';
-//            }
-//            if(empty($pagesData[$key]['pageType'])){
-//                $pagesData[$key]['pageType'] = 'n';
-//            }
-        }
-
-        return $pagesData;
-    }
-
-    /**
-     * preparePluginArray
-     *
-     * @param string $pluginName
-     * @param array $pluginData
-     *
-     * @return array
-     */
-    public function preparePluginData($pluginName, $pluginData = array())
-    {
-        // backwards compatible
-        if(!empty($pluginData['sitewideName']) && empty($pluginData['displayName'])){
-            $pluginData['displayName'] = $pluginData['sitewideName'];
-        }
-
-        if(empty($pluginData['displayName'])) {
-            $pluginData['displayName'] = $pluginName;
-        }
-
-        $pluginData['sitewideName'] = $pluginData['displayName'];
-
-        // backwards compatible
-        if(!empty($pluginData['name']) && empty($pluginData['plugin'])){
-            $pluginData['plugin'] = $pluginData['name'];
-        }
-
-        if(empty($pluginData['plugin'])){
-            $pluginData['plugin'] = $pluginName;
-        }
-
-        $pluginData['name'] = $pluginData['plugin'];
-
-        if(empty($pluginData['saveData'])){
-            $pluginData['saveData'] = array();
-        }
-
-        // backwards compatible
-        if(!empty($pluginData['isSitewide']) && empty($pluginData['siteWide'])){
-            $pluginData['siteWide'] = $pluginData['isSitewide'];
-        }
-
-        if(empty($pluginData['siteWide'])){
-            $pluginData['siteWide'] = 0;
-        }
-
-        $pluginData['isSitewide'] = $pluginData['siteWide'];
-
-        if(empty($pluginData['instanceConfig'])){
-            $pluginData['instanceConfig'] = array();
-        }
-
-        return $pluginData;
-    }
-
-    /**
-     * preparePluginWrapperData
-     *
-     * @param array $pluginData
-     * @param null  $pageContainer
-     *
-     * @return array
-     */
-    public function preparePluginWrapperData($pluginData = array(), $pageContainer = null)
-    {
-
-        if(empty($pluginData['rank'])){
-            $pluginData['rank'] = 0;
-        }
-
-        // backwards compatible
-        if(!empty($pluginData['float'])){
-            $pluginData['divFloat'] = $pluginData['float'];
-        }
-
-        if(empty($pluginData['divFloat'] )){
-            $pluginData['divFloat']  = null;
-        }
-
-        $pluginData['float'] = $pluginData['divFloat'];
-
-        if(empty($pluginData['height'])){
-            $pluginData['height'] = null;
-        }
-
-        if(empty($pluginData['width'])){
-            $pluginData['width'] = null;
-        }
-
-        // backwards compatible
-        if(!empty($pluginData['containerName']) && empty($pluginData['layoutContainer'])){
-            $pluginData['layoutContainer'] = $pluginData['containerName'];
-        }
-
-        if(!empty($pageContainer) && empty($pluginData['layoutContainer'])){
-            $pluginData['layoutContainer'] = $pageContainer;
-        }
-
-        if(empty($pluginData['layoutContainer'])){
-            $pluginData['layoutContainer'] = 'default';
-        }
-
-        $pluginData['containerName'] = $pluginData['layoutContainer'];
-
-        return $pluginData;
-    }
-
-
 
 
 }
