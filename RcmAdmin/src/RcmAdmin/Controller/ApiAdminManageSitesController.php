@@ -428,17 +428,9 @@ class ApiAdminManageSitesController extends AbstractRestfulController
     {
         $config = $this->getConfig();
 
-        $myConfig = $config['rcmAdmin'];
+        $myConfig = $config['rcmAdmin']['defaultSiteSettings'];
 
-        if (!empty($myConfig['defaultSiteSettings'])
-            && is_array(
-                $myConfig['defaultSiteSettings']
-            )
-        ) {
-            return $myConfig['defaultSiteSettings'];
-        }
-
-        return array();
+        return $myConfig;
     }
 
     /**
@@ -450,16 +442,9 @@ class ApiAdminManageSitesController extends AbstractRestfulController
     {
         $myConfig = $this->getDefaultSiteSettings();
 
-        $pagesData = array();
+        $pagesData = $myConfig['pages'];
 
-        if (!empty($myConfig['pages'])
-            && is_array(
-                $myConfig['pages']
-            )
-        ) {
-            $pagesData = $myConfig['pages'];
-        }
-
+        // Set the author for each
         foreach($pagesData as $key => $pageData){
             $pagesData[$key]['author'] = $author;
         }
