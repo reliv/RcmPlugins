@@ -153,7 +153,6 @@ angular.module('rcmAdmin').controller(
             self.resetMessage();
             // make sure we don't sent and Id
             $scope.site.siteId = null;
-            console.log('request',$scope.site);
             $http(
                 {
                     method: 'POST',
@@ -163,14 +162,12 @@ angular.module('rcmAdmin').controller(
             )
                 .success(
                 function (data) {
-                    console.log('success',data);
                     self.parseCreateResult(data);
                     $scope.loadings.createSite = false;
                 }
             )
                 .error(
                 function (data) {
-                    console.error('error',data);
                     self.parseCreateResult(data);
                     $scope.loadings.createSite = false;
                 }
