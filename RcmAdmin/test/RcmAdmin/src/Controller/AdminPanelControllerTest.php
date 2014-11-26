@@ -98,10 +98,8 @@ class AdminPanelControllerTest extends \PHPUnit_Framework_TestCase
         /** @var \RcmUser\Service\RcmUserService $userService */
         $this->controller = new AdminPanelController(
             $config,
-            $userService,
             $this->currentSite,
-            $this->mockCmsPermissionCheck,
-            $this->mockAclService
+            $this->mockCmsPermissionCheck
         );
 
         $event = new MvcEvent();

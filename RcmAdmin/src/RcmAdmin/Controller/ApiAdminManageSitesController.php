@@ -70,16 +70,6 @@ class ApiAdminManageSitesController extends AbstractRestfulController
     }
 
     /**
-     * getSiteModel
-     *
-     * @return \RcmAdmin\Model\SiteModel
-     */
-    protected function getSiteModel()
-    {
-        return $this->serviceLocator->get('RcmAdmin\Model\SiteModel');
-    }
-
-    /**
      * getCurrentUser
      *
      * @return \RcmUser\User\Entity\User
@@ -476,8 +466,6 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
         return $pagesData;
     }
-
-    //// REPOS //////////////////////////////////////////////////////////////
 
     /**
      * createPagePlugins
