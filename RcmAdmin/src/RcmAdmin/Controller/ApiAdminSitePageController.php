@@ -3,6 +3,7 @@
 
 namespace RcmAdmin\Controller;
 
+use Rcm\Entity\Page;
 use Rcm\Entity\Site;
 use Rcm\Http\Response;
 use Rcm\View\Model\ApiJsonModel;
@@ -228,10 +229,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
      */
     public function update($id, $data)
     {
-        // @todo Complete Me!
-        $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
-        return $this->getResponse();
-
         //ACCESS CHECK
         if (!$this->rcmIsAllowed('sites', 'admin')) {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_401);
@@ -248,15 +245,13 @@ class ApiAdminSitePageController extends ApiAdminBaseController
             );
         }
 
-        $data['author'] = $this->getCurrentAuthor();
-
         $page = $this->getPage($site, $id);
 
-        $page->populate($data);
-
         try {
-            $this->getEntityManager()->persist($page);
-            $this->getEntityManager()->flush();
+            $this->getPageRepo()->updatePage(
+                $page,
+                $data
+            );
         } catch (\Exception $e) {
             return new ApiJsonModel(
                 null, null, 1, $e->getMessage()
@@ -267,7 +262,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $apiResponse->populate($page->toArray());
 
-        return new ApiJsonModel($apiResponse, null, 0, 'Success');
+        return new ApiJsonModel($apiResponse, null, 0, 'Success: Page updated.');
     }
 
     /**
@@ -329,8 +324,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
             );
         }
 
-
-        // create
         if ($this->hasPage($site, $data['name'], $data['pageType'])) {
             return new ApiJsonModel(
                 null, null, 1, 'Page already exists, duplicates cannot be created'
@@ -352,7 +345,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $apiResponse->populate($page->toArray());
 
-        return new ApiJsonModel($apiResponse, null, 0, 'Success');
+        return new ApiJsonModel($apiResponse, null, 0, 'Success: Page created');
     }
 
     /**
@@ -389,13 +382,17 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $page = $this->getPage($site, $data['pageId']);
 
+        $newPage = new Page();
+
+        $newPage->populate($data);
+
         if (empty($page)) {
             return new ApiJsonModel(
                 null, null, 1, "Source page was not found with id {$data['pageId']}."
             );
         }
 
-        if ($this->hasPage($destinationSite, $page->getName(), $page->getPageType())) {
+        if ($this->hasPage($destinationSite, $newPage->getName(), $newPage->getPageType())) {
             return new ApiJsonModel(
                 null, null, 1, 'Page already exists, duplicates cannot be created'
             );
@@ -419,6 +416,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $apiResponse->populate($newPage->toArray());
 
-        return new ApiJsonModel($apiResponse, null, 0, 'Success');
+        return new ApiJsonModel($apiResponse, null, 0, "Success: duplicated page to site {$data['copyToSiteId']}");
     }
 } 
