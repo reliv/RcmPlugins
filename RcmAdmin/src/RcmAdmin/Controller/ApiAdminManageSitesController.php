@@ -17,9 +17,6 @@ namespace RcmAdmin\Controller;
 
 use Rcm\Entity\Country;
 use Rcm\Entity\Language;
-use Rcm\Entity\Page;
-use Rcm\Entity\PluginInstance;
-use Rcm\Entity\PluginWrapper;
 use Rcm\Entity\Site;
 use Rcm\Http\Response;
 use Rcm\View\Model\ApiJsonModel;
@@ -28,7 +25,6 @@ use RcmAdmin\Entity\SiteApiRequest;
 use RcmAdmin\Entity\SiteApiResponse;
 use RcmAdmin\Entity\SiteResponse;
 use RcmAdmin\InputFilter\SiteInputFilter;
-use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 
@@ -47,37 +43,8 @@ use Zend\View\Model\JsonModel;
  *
  * @method boolean rcmIsAllowed($resourceId, $privilege = null, $providerId = 'Rcm\Acl\ResourceProvider')
  */
-class ApiAdminManageSitesController extends AbstractRestfulController
+class ApiAdminManageSitesController extends ApiAdminBaseController
 {
-    /**
-     * getConfig
-     *
-     * @return array
-     */
-    protected function getConfig()
-    {
-        return $this->serviceLocator->get('config');
-    }
-
-    /**
-     * getEntityManager
-     *
-     * @return \Doctrine\ORM\EntityManagerInterface
-     */
-    protected function getEntityManager()
-    {
-        return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    }
-
-    /**
-     * getCurrentUser
-     *
-     * @return \RcmUser\User\Entity\User
-     */
-    protected function getCurrentUser()
-    {
-        return $this->rcmUserGetCurrentUser();
-    }
 
     /**
      * getList
@@ -271,7 +238,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
         $newSite->populate($data);
 
-        $author = $this->getCurrentUser()->getName();
+        $author = $this->getCurrentAuthor();
 
         $pageRepo->createPages(
             $newSite,

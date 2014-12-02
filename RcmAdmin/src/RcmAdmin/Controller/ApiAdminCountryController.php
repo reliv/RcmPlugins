@@ -4,7 +4,7 @@
 namespace RcmAdmin\Controller;
 
 use Rcm\View\Model\ApiJsonModel;
-use Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\Http\Response;
 
 
 /**
@@ -23,17 +23,7 @@ use Zend\Mvc\Controller\AbstractRestfulController;
  * @link      https://github.com/reliv
  */
 
-class ApiAdminCountryController extends AbstractRestfulController {
-
-    /**
-     * getEntityManager
-     *
-     * @return \Doctrine\ORM\EntityManagerInterface
-     */
-    protected function getEntityManager()
-    {
-        return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    }
+class ApiAdminCountryController extends ApiAdminBaseController {
 
     /**
      * getList

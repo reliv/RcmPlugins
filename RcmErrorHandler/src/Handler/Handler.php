@@ -100,13 +100,31 @@ class Handler
     }
 
     /**
+     * getRequestHeaders
+     *
+     * @return array
+     */
+    protected function getRequestHeaders()
+    {
+        $headers = '';
+        foreach ($_SERVER as $name => $value)
+        {
+            if (substr($name, 0, 5) == 'HTTP_')
+            {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            }
+        }
+        return $headers;
+    }
+
+    /**
      * getFormat
      *
      * @return null|string
      */
     protected function getFormat()
     {
-        $headers = getallheaders();
+        $headers = $this->getRequestHeaders();
 
         foreach ($headers as $type => $value) {
             if (stripos($type, 'Content-Type') !== false) {

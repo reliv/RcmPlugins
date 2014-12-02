@@ -4,7 +4,7 @@
 namespace RcmAdmin\Controller;
 
 use Rcm\View\Model\ApiJsonModel;
-use Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\Http\Response;
 
 
 /**
@@ -22,18 +22,8 @@ use Zend\Mvc\Controller\AbstractRestfulController;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-
-class ApiAdminThemeController extends AbstractRestfulController {
-
-    /**
-     * getEntityManager
-     *
-     * @return \Doctrine\ORM\EntityManagerInterface
-     */
-    protected function getEntityManager()
-    {
-        return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    }
+class ApiAdminThemeController extends ApiAdminBaseController
+{
 
     /**
      * getThemesConfig
@@ -46,7 +36,7 @@ class ApiAdminThemeController extends AbstractRestfulController {
 
         $myConfig = $config['Rcm'];
 
-        if(empty($myConfig['themes'])){
+        if (empty($myConfig['themes'])) {
             return array();
         }
 
