@@ -151,7 +151,8 @@ angular.module('rcmAdmin').controller(
         $scope.createSite = function () {
             $scope.loadings.createSite = true;
             self.resetMessage();
-            console.log($scope.site);
+            // make sure we don't sent and Id
+            $scope.site.siteId = null;
             $http(
                 {
                     method: 'POST',
@@ -161,7 +162,6 @@ angular.module('rcmAdmin').controller(
             )
                 .success(
                 function (data) {
-
                     self.parseCreateResult(data);
                     $scope.loadings.createSite = false;
                 }
@@ -169,7 +169,6 @@ angular.module('rcmAdmin').controller(
                 .error(
                 function (data) {
                     self.parseCreateResult(data);
-
                     $scope.loadings.createSite = false;
                 }
             );
@@ -178,6 +177,8 @@ angular.module('rcmAdmin').controller(
         self.parseCreateResult = function (data) {
 
             self.parseMessage(data);
+
+            $scope.site.siteId = null;
 
             // Success check
             if (data.code == 0) {

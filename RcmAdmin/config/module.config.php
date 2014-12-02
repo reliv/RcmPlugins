@@ -283,18 +283,57 @@ return array(
             'loginPage' => "/login",
             'notAuthorizedPage' => "/not-authorized",
             'notFoundPage' => "/not-found",
+            'containers' => array(
+                'guestTopNavigation',
+                'guestMainNavigation',
+                'guestRightColumn',
+                'guestFooter',
+            ),
             'pages' => array(
-                'login' => array(
-                    'decription' => 'Login Page.',
+                array(
+                    'name' => 'login',
+                    'description' => 'Login Page.',
                     'pageTitle' => 'Login',
+                    'plugins' => array(
+                        array(
+                            'plugin' => 'RcmLogin',
+                            'displayName' => 'Login Area',
+                            'instanceConfig'=> array(),
+                            'layoutContainer' => '4',
+                        ),
+                    ),
                 ),
-                'not-authorized' => array(
-                    'decription' => 'Not Authorized Page.',
+                array(
+                    'name' => 'not-authorized',
+                    'description' => 'Not Authorized Page.',
                     'pageTitle' => 'Not Authorized',
+                    'plugins' => array(
+                        array(
+                            'plugin' => 'RcmHtmlArea',
+                            'displayName' => 'Login Area',
+                            'instanceConfig'=> array(),
+                            'layoutContainer' => '4',
+                            'saveData' => array(
+                                'html' => '<h1>Access Denied</h1>',
+                            )
+                        ),
+                    ),
                 ),
-                'not-found' => array(
-                    'decription' => 'Not Found Page.',
+                array(
+                    'name' => 'not-found',
+                    'description' => 'Not Found Page.',
                     'pageTitle' => 'Not Found',
+                    'plugins' => array(
+                        array(
+                            'plugin' => 'RcmHtmlArea',
+                            'displayName' => 'Login Area',
+                            'instanceConfig'=> array(),
+                            'layoutContainer' => '4',
+                            'saveData' => array(
+                                'html' => '<h1>Page Not Found</h1>',
+                            )
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -365,8 +404,6 @@ return array(
             => 'RcmAdmin\Factory\AdminPanelControllerFactory',
             'RcmAdminNavigation'
             => 'RcmAdmin\Factory\AdminNavigationFactory',
-            'RcmAdmin\Model\SiteModel'
-            => 'RcmAdmin\Factory\SiteModelFactory',
         ),
     ),
     'view_manager' => array(
