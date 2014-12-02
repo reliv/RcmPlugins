@@ -10,6 +10,7 @@ use Rcm\View\Model\ApiJsonModel;
 use RcmAdmin\Entity\SitePageApiResponse;
 use RcmAdmin\InputFilter\SitePageCreateInputFilter;
 use RcmAdmin\InputFilter\SitePageDuplicateInputFilter;
+use RcmAdmin\InputFilter\SitePageUpdateInputFilter;
 
 
 /**
@@ -235,6 +236,22 @@ class ApiAdminSitePageController extends ApiAdminBaseController
             return $this->getResponse();
         }
 
+        $inputFilter = new SitePageUpdateInputFilter();
+
+        $inputFilter->setData($data);
+
+        if (!$inputFilter->isValid()) {
+            return new ApiJsonModel(
+                array(),
+                null,
+                1,
+                'Some values are missing or invalid for page update.',
+                $inputFilter->getMessages()
+            );
+        }
+
+        $data = $inputFilter->getValues();
+
         $siteId = $this->getRequestSiteId();
 
         $site = $this->getSite($siteId);
@@ -267,7 +284,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
     /**
      * create
-     * @todo Needs input filter
+     * @todo duplicate might be separate controller
      *
      * @param mixed $data
      *
@@ -324,11 +341,15 @@ class ApiAdminSitePageController extends ApiAdminBaseController
             );
         }
 
+        $data = $inputFilter->getValues();
+
         if ($this->hasPage($site, $data['name'], $data['pageType'])) {
             return new ApiJsonModel(
                 null, null, 1, 'Page already exists, duplicates cannot be created'
             );
         }
+
+        $data['author'] = $this->getCurrentAuthor();
 
         try {
             $page = $this->getPageRepo()->createPage(
@@ -371,6 +392,8 @@ class ApiAdminSitePageController extends ApiAdminBaseController
                 $inputFilter->getMessages()
             );
         }
+
+        $data = $inputFilter->getValues();
 
         $destinationSite = $this->getSite($data['copyToSiteId']);
 

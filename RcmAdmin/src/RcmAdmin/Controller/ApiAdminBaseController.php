@@ -68,15 +68,17 @@ class ApiAdminBaseController extends AbstractRestfulController {
     /**
      * getCurrentAuthor
      *
+     * @param string $default
+     *
      * @return string
      */
-    protected function getCurrentAuthor()
+    protected function getCurrentAuthor($default = 'Unknown Author')
     {
         $user = $this->getCurrentUser();
 
         // @todo How should we handle this case?
         if(empty($user)){
-            return 'UNKNOWN_AUTHOR';
+            return $default;
         }
 
         return $user->getName();
