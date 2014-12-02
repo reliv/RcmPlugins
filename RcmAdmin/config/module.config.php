@@ -197,6 +197,15 @@ return array(
                     )
                 ),
             ),
+            'ApiAdminSitePageController' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/api/admin/sites/:siteId/pages[/:id]',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\ApiAdminSitePageController',
+                    )
+                ),
+            ),
             'RcmAdmin\Page\SavePage' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
@@ -449,6 +458,8 @@ return array(
             => 'RcmAdmin\Controller\ApiAdminThemeController',
             'RcmAdmin\Controller\ApiAdminCountryController'
             => 'RcmAdmin\Controller\ApiAdminCountryController',
+            'RcmAdmin\Controller\ApiAdminSitePageController'
+            => 'RcmAdmin\Controller\ApiAdminSitePageController',
         ),
     ),
 );
