@@ -10,11 +10,14 @@ angular.module('rcmAdmin')
             self.url = {
                 sourceSite: '/api/admin/manage-sites/current',
                 destinationSites: '/api/admin/manage-sites',
-                sourcePages: '/api/admin/sites/', //ID/pages'
-                pageTypes: '/api/admin/pagetypes'
+                sourcePages: '/api/admin/sites', //ID/pages'
+                pageTypes: '/api/admin/pagetypes',
+                copyPage: '/api/admin/sites'
             };
 
             $scope.errorMessage = null;
+
+            $scope.saveMessages = [];
 
             $scope.loadings = {
                 sourceSite: false,
@@ -27,24 +30,84 @@ angular.module('rcmAdmin')
 
             $scope.sourceSite = {};
             $scope.destinationSites = [];
-            $scope.sourcePages = {};
+            $scope.sourcePages = [];
             $scope.pageTypes = {};
 
             $scope.destinationSite = null;
 
-            $scope.selectedPages = {};
+            $scope.selectedPages = [];
             $scope.selectedPageType = null;
 
             $scope.toggleSelectPage = function (page) {
-                if ($scope.selectedPages[page.pageId]) {
-                    $scope.selectedPages[page.pageId] = null;
+                var index = $scope.selectedPages.indexOf(page);
+                if (index < 0) {
+                    $scope.selectedPages.push(page);
                 } else {
-                    $scope.selectedPages[page.pageId] = page;
+                    $scope.selectedPages.splice(
+                        index,
+                        1
+                    );
                 }
             };
 
             $scope.clearSelectedPages = function () {
-                $scope.selectedPages = {};
+                $scope.selectedPages = [];
+            };
+
+            $scope.copySelectedPages = function () {
+                $scope.copyMessages = [];
+
+                angular.forEach(
+                    $scope.selectedPages,
+                    self.copyPage
+                )
+            };
+
+            self.copyPage = function (page) {
+
+                page.copyToSiteId = $scope.destinationSite.siteId;
+
+                console.log(page);
+
+                $http(
+                    {
+                        method: 'POST',
+                        url: self.url.copyPage + '/' + $scope.sourceSite.siteId + '/pages/' + page.pageId,
+                        data: page
+                    }
+                )
+                    .success(
+                    function (data) {
+                        console.log(data);
+                        self.parseCopyMessage(data, page);
+                    }
+                )
+                    .error(
+                    function (data) {
+                        console.error(data);
+                        data.code = 1;
+                        self.parseCopyMessage(data, page);
+                    }
+                );
+            };
+
+            self.parseCopyMessage = function (result, page) {
+
+                if (result.code == 1) {
+                    $scope.copyMessages.push(
+                        {
+                            code: 1,
+                            message: 'An Error Occured while saving ' + page.pageTitle + '(' + page.name + '): ' + result.message
+                        }
+                    );
+                } else {
+                    $scope.copyMessages.push(
+                        {
+                            code: 0,
+                            message: 'Saved ' + page.pageTitle + '(' + page.name + '): ' + result.message
+                        }
+                    );
+                }
             };
 
             self.parseMessage = function (result) {
@@ -85,7 +148,7 @@ angular.module('rcmAdmin')
                 $http(
                     {
                         method: 'GET',
-                        url: self.url.sourcePages + $scope.sourceSite.siteId + '/pages'
+                        url: self.url.sourcePages + '/' + $scope.sourceSite.siteId + '/pages'
                     }
                 )
                     .success(
@@ -104,15 +167,6 @@ angular.module('rcmAdmin')
                     }
                 );
             };
-
-            self.prepareSourcePages = function(data) {
-                angular.forEach(
-                    data,
-                    function(value, key) {
-                        this.push(key + ': ' + value);
-                    }
-                )
-            }
 
             self.getDestinationSites = function () {
                 $scope.loadings.destinationSites = true;

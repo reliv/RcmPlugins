@@ -424,7 +424,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
         try {
             $newPage = $this->getPageRepo()->copyPage(
                 $destinationSite,
-                $page,
+                $page->toArray(),
                 $data,
                 null,
                 true

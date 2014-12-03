@@ -62,10 +62,10 @@
                         <div class="col-sm-2">
                             <label class="control-label">Pages to Copy</label>
                         </div>
-                        <div class="col-sm-offset-7 col-sm-2"
-                             ng-show="destinationSite">
+                        <div class="col-sm-offset-7 col-sm-2">
                             <button class="btn btn-primary btn-sm"
                                     data-ng-click="step=2"
+                                    data-ng-disabled="!destinationSite || selectedPages.length < 1"
                                     type="button">Copy Pages
                             </button>
                         </div>
@@ -81,7 +81,7 @@
                                                 />
 
                                         <div data-ng-click="toggleSelectPage(page)">
-                                            {{page.pageTitle}} ({{page.name}})  type: {{page.pageType}}
+                                            {{page.pageTitle}} ({{page.name}}) (type: {{page.pageType}})
                                         </div>
                                     </label>
 
@@ -97,6 +97,7 @@
                 <form role="form">
                     <div class="form-group">
                         <label class="col-sm-11 control-label">Pages to Copy:</label>
+
                         <div class="col-sm-11">
                             from {{sourceSite.siteTitle}} ({{sourceSite.domain}}) to {{destinationSite.siteTitle}} ({{destinationSite.domain}})
                         </div>
@@ -105,11 +106,10 @@
                                  data-ng-repeat="copypage in selectedPages">
                                 <div class="pageSelect">
                                     <label class="">
-                                        <div data-ng-click="toggleSelectPage(copypage)">
-                                            {{copypage.pageTitle}} ({{copypage.name}})
+                                        <div>
+                                            {{copypage.pageTitle}} ({{copypage.name}}) (type: {{copypage.pageType}})
                                         </div>
                                     </label>
-
                                 </div>
                             </div>
                         </div>
@@ -117,12 +117,28 @@
                 </form>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-10 col-sm-1">
+                    <div class="col-sm-offset-9 col-sm-2">
+                        <button class="btn btn-default btn-sm"
+                                data-ng-click="step=1">Back
+                        </button>
                         <button class="btn btn-primary btn-sm"
-                                data-ng-click="step=1">Submit
+                                data-ng-click="step=3; copySelectedPages();">Submit
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <div class="container-fluid" ng-show="step==3">
+
+                <div data-ng-repeat="message in copyMessages">
+                    <div class="alert alert-danger" ng-show="message.code == 1">
+                        <div>{{message.message}}</div>
+                    </div>
+                    <div class="alert alert-success" ng-show="message.code == 0">
+                        <div>{{message.message}}</div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
