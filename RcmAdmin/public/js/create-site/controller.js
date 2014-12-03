@@ -153,7 +153,7 @@ angular.module('rcmAdmin').controller(
             self.resetMessage();
 
             var site = self.prepareData($scope.site);
-            
+
             $http(
                 {
                     method: 'POST',
