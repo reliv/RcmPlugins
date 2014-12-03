@@ -3,14 +3,14 @@
 
 namespace RcmAdmin\Controller;
 
+use Rcm\Http\Response;
 use Rcm\View\Model\ApiJsonModel;
-use Zend\Http\Response;
 
 
 /**
- * Class ApiAdminThemeController
+ * Class ApiAdminPageTypesController
  *
- * LongDescHere
+ * ApiAdminPageTypesController
  *
  * PHP version 5
  *
@@ -22,29 +22,11 @@ use Zend\Http\Response;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class ApiAdminThemeController extends ApiAdminBaseController
-{
+
+class ApiAdminPageTypesController extends ApiAdminBaseController {
 
     /**
-     * getThemesConfig
-     *
-     * @return array
-     */
-    protected function getThemesConfig()
-    {
-        $config = $this->serviceLocator->get('config');
-
-        $myConfig = $config['Rcm'];
-
-        if (empty($myConfig['themes'])) {
-            return array();
-        }
-
-        return $myConfig['themes'];
-    }
-
-    /**
-     * getList
+     * getList of available page types
      *
      * @return mixed|JsonModel
      */
@@ -60,9 +42,11 @@ class ApiAdminThemeController extends ApiAdminBaseController
             return $this->getResponse();
         }
 
-        $themes = $this->getThemesConfig();
+        $config = $this->getConfig();
 
-        return new ApiJsonModel($themes, 0, 'Success');
+        $pageTypes = $config['Rcm']['pageTypes'];
+
+        return new ApiJsonModel($pageTypes, 0, 'Success');
     }
 
 } 

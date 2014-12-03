@@ -78,7 +78,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
             $sites[] = $this->buildSiteApiResponse($site);
         }
 
-        return new JsonModel($sites);
+        return new ApiJsonModel($sites, 0, 'Success');
     }
 
     /**\
@@ -97,7 +97,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
         }
 
         // get default site data - kinda hacky, but keeps us to one controller
-        if ($id == -1) {
+        if ($id == 'default') {
 
             $data = $this->getDefaultSiteSettings();
 
@@ -107,7 +107,17 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
 
             $result = $this->buildSiteApiResponse($site);
 
-            return new ApiJsonModel($result, null, 0, 'Success');
+            return new ApiJsonModel($result, 0, 'Success');
+        }
+
+        // get current site data - kinda hacky, but keeps us to one controller
+        if ($id == 'current') {
+
+            $site = $this->getCurrentSite();
+
+            $result = $this->buildSiteApiResponse($site);
+
+            return new ApiJsonModel($result, 0, 'Success');
         }
 
         /** @var \Rcm\Repository\Site $siteRepo */
@@ -117,13 +127,13 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
             $site = $siteRepo->find($id);
         } catch (\Exception $e) {
             return new ApiJsonModel(
-                null, null, 1, "Failed to find site by id ({$id})"
+                null, 1, "Failed to find site by id ({$id})"
             );
         }
 
         $result = $this->buildSiteApiResponse($site);
 
-        return new ApiJsonModel($result, null, 0, 'Success');
+        return new ApiJsonModel($result, 0, 'Success');
     }
 
     /**
@@ -202,7 +212,6 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
                 array(),
-                null,
                 1,
                 'Some values are missing or invalid.',
                 $inputFilter->getMessages()
@@ -224,7 +233,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
 
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 1, $e->getMessage());
+            return new ApiJsonModel(null, 1, $e->getMessage());
         }
 
         $entityManager = $this->getEntityManager();
@@ -255,7 +264,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
             $entityManager->flush();
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 1, $e->getMessage());
+            return new ApiJsonModel(null, 1, $e->getMessage());
         }
 
         $this->createPagePlugins($newSite, $this->getDefaultSitePageSettings($author));
@@ -264,12 +273,12 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
             $entityManager->flush();
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 1, $e->getMessage());
+            return new ApiJsonModel(null, 1, $e->getMessage());
         }
 
         $siteApiResponse = $this->buildSiteApiResponse($newSite);
 
-        return new ApiJsonModel($siteApiResponse, null, 0, 'Success');
+        return new ApiJsonModel($siteApiResponse, 0, 'Success');
     }
 
     /**

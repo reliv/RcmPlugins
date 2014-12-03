@@ -1,7 +1,132 @@
 <div class="rcmAdminSitePageCopy">
-    <link href="/modules/rcm-admin/css/create-site.css"
+    <link href="/modules/rcm-admin/css/site-page-copy.css"
           media="screen"
           rel="stylesheet"
           type="text/css"/>
+    <div data-ng-controller="rcmAdminSitePageCopyController">
+
+        <h2>Copy Pages</h2>
+
+        <div>
+            <div class="alert alert-danger" ng-show="errorMessage">
+                <div>{{errorMessage}}</div>
+            </div>
+            <div class="alert alert-success" ng-show="message">
+                <div>{{message}}</div>
+            </div>
+
+            <div class="container-fluid" ng-show="step==1">
+                <form class="form-horizontal" role="form">
+
+                    <div class="form-group" ng-hide="loadings.sourceSite">
+                        <label class="col-sm-3 control-label">Source Site</label>
+
+                        <div class="col-sm-8">
+                            <div class="form-control">{{sourceSite.siteTitle}} ({{sourceSite.domain}})</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-hide="loadings.destinationSites">
+                        <label class="col-sm-3 control-label"
+                               for="destinationSite">Destination Site</label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control"
+                                    id="destinationSite"
+                                    ng-model="destinationSite"
+                                    ng-options="v as v.siteTitle + ' (' + v.domain + ')' for (k, v) in destinationSites"
+                                    >
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-hide="loadings.pageTypes">
+                        <label class="col-sm-3 control-label"
+                               for="pageTypes">Filter By Page Type</label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control"
+                                    id="pageTypes"
+                                    ng-model="selectedPageType"
+                                    ng-options="v.type as v.title + ' (' + v.type + ')' for (k, v) in pageTypes"
+                                    ng-change="clearSelectedPages()"
+                                    >
+                                <option value="">-All-</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <form role="form">
+
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">Pages to Copy</label>
+                        </div>
+                        <div class="col-sm-offset-7 col-sm-2"
+                             ng-show="destinationSite">
+                            <button class="btn btn-primary btn-sm"
+                                    data-ng-click="step=2"
+                                    type="button">Copy Pages
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-hide="loadings.sourcePages">
+                        <div class="col-sm-11">
+                            <div class=""
+                                 data-ng-repeat="page in sourcePages | rcmAdminPageTypeFilter:selectedPageType">
+                                <div class="pageSelect">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox"
+                                               ng-model="selectedStuff"
+                                                />
+
+                                        <div data-ng-click="toggleSelectPage(page)">
+                                            {{page.pageTitle}} ({{page.name}})  type: {{page.pageType}}
+                                        </div>
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="container-fluid" ng-show="step==2">
+
+                <form role="form">
+                    <div class="form-group">
+                        <label class="col-sm-11 control-label">Pages to Copy:</label>
+                        <div class="col-sm-11">
+                            from {{sourceSite.siteTitle}} ({{sourceSite.domain}}) to {{destinationSite.siteTitle}} ({{destinationSite.domain}})
+                        </div>
+                        <div class="col-sm-11">
+                            <div class=""
+                                 data-ng-repeat="copypage in selectedPages">
+                                <div class="pageSelect">
+                                    <label class="">
+                                        <div data-ng-click="toggleSelectPage(copypage)">
+                                            {{copypage.pageTitle}} ({{copypage.name}})
+                                        </div>
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-10 col-sm-1">
+                        <button class="btn btn-primary btn-sm"
+                                data-ng-click="step=1">Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 </div>

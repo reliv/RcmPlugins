@@ -85,7 +85,6 @@ class PageController extends AbstractActionController
      */
     public function newAction()
     {
-
         if (!$this->rcmIsAllowed(
             'sites.' . $this->currentSite->getSiteId() . '.pages',
             'create'
@@ -149,6 +148,7 @@ class PageController extends AbstractActionController
                     'author' => $this->rcmUserGetCurrentUser()->getName(),
                     'name' => $validatedData['url'],
                     'pageTitle' => $validatedData['title'],
+                    'pageType' => 'n'
                 );
 
                 $this->pageRepo->copyPage(

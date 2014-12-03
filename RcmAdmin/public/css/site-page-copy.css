@@ -1,0 +1,23 @@
+.rcmAdminSitePageCopy {
+}
+
+.rcmAdminSitePageCopy .form-group label {
+    font-weight: bold;
+}
+
+.rcmAdminSitePageCopy div.form-control{
+    height: auto;
+    padding: .5em .5em .5em .5em;
+}
+
+.rcmAdminSitePageCopy .pageSelect {
+    border: .1em solid #0073ea;
+    border-radius: .3em;
+    font-weight: normal;
+    margin: .3em 0 .2em 0;
+    padding: .5em .5em .5em .5em;
+}
+
+.rcmAdminSitePageCopy .form-group .pageSelect label {
+    font-weight: normal;
+}
