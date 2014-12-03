@@ -108,7 +108,13 @@ return array(
                         'class' => 'RcmAdminMenu rcmStandardDialog',
                         'uri' => '/modules/rcm-admin/view/create-site.html',
                         'title' => 'Create Site',
-                    )
+                    ),
+//                    'Copy Pages' => array(
+//                        'label' => 'Copy Pages',
+//                        'class' => 'RcmAdminMenu rcmStandardDialog',
+//                        'uri' => '/modules/rcm-admin/view/site-page-copy.html',
+//                        'title' => 'Copy Pages',
+//                    )
                 )
             ),
             'User' => array(
@@ -203,6 +209,15 @@ return array(
                     'route' => '/api/admin/sites/:siteId/pages[/:id]',
                     'defaults' => array(
                         'controller' => 'RcmAdmin\Controller\ApiAdminSitePageController',
+                    )
+                ),
+            ),
+            'ApiAdminPageTypesController' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/api/admin/pagetypes[/:id]',
+                    'defaults' => array(
+                        'controller' => 'RcmAdmin\Controller\ApiAdminPageTypesController',
                     )
                 ),
             ),
@@ -307,7 +322,7 @@ return array(
                         array(
                             'plugin' => 'RcmLogin',
                             'displayName' => 'Login Area',
-                            'instanceConfig'=> array(),
+                            'instanceConfig' => array(),
                             'layoutContainer' => '4',
                         ),
                     ),
@@ -320,7 +335,7 @@ return array(
                         array(
                             'plugin' => 'RcmHtmlArea',
                             'displayName' => 'Login Area',
-                            'instanceConfig'=> array(),
+                            'instanceConfig' => array(),
                             'layoutContainer' => '4',
                             'saveData' => array(
                                 'html' => '<h1>Access Denied</h1>',
@@ -336,7 +351,7 @@ return array(
                         array(
                             'plugin' => 'RcmHtmlArea',
                             'displayName' => 'Login Area',
-                            'instanceConfig'=> array(),
+                            'instanceConfig' => array(),
                             'layoutContainer' => '4',
                             'saveData' => array(
                                 'html' => '<h1>Page Not Found</h1>',
@@ -392,6 +407,7 @@ return array(
                     'modules/rcm-admin/js/admin/rcm-save-ajax-admin-window.js',
                     'modules/rcm-admin/js/manage-sites/controller.js',
                     'modules/rcm-admin/js/create-site/controller.js',
+                    'modules/rcm-admin/js/site-page-copy/rcm-admin-site-page-copy.js',
                 ),
                 'modules/rcm-admin/css/rcm-admin.css' => array(
                     'modules/rcm-admin/css/admin-jquery-ui.css',
@@ -460,6 +476,9 @@ return array(
             => 'RcmAdmin\Controller\ApiAdminCountryController',
             'RcmAdmin\Controller\ApiAdminSitePageController'
             => 'RcmAdmin\Controller\ApiAdminSitePageController',
+            'RcmAdmin\Controller\ApiAdminPageTypesController'
+            => 'RcmAdmin\Controller\ApiAdminPageTypesController',
+
         ),
     ),
 );

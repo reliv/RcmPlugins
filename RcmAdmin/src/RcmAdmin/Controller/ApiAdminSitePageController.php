@@ -57,10 +57,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
      */
     protected function getSite($siteId)
     {
-        if ($siteId === -1) {
-            return $this->getCurrentSite();
-        }
-
         try {
             $site = $this->getSiteRepo()->findOneBy(array('siteId' => $siteId));
         } catch (\Exception $e) {
@@ -127,12 +123,19 @@ class ApiAdminSitePageController extends ApiAdminBaseController
      */
     protected function getRequestSiteId()
     {
-        return (int)$this->getEvent()
+        $siteId = $this->getEvent()
             ->getRouteMatch()
             ->getParam(
                 'siteId',
-                0
+                'current'
             );
+
+        if($siteId == 'current'){
+
+            $siteId = $this->getCurrentSite()->getSiteId();
+        }
+
+        return (int) $siteId;
     }
 
     /**
@@ -158,7 +161,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (empty($site)) {
             return new ApiJsonModel(
-                null, null, 1, "Site was not found with id {$siteId}."
+                null, 1, "Site was not found with id {$siteId}."
             );
         }
 
@@ -174,7 +177,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
         }
 
         return new ApiJsonModel(
-            $pages, null, 0, 'Success'
+            $pages, 0, 'Success'
         );
     }
 
@@ -199,7 +202,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (empty($site)) {
             return new ApiJsonModel(
-                null, null, 1, "Site was not found with id {$siteId}."
+                null, 1, "Site was not found with id {$siteId}."
             );
         }
 
@@ -207,7 +210,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (empty($page)) {
             return new ApiJsonModel(
-                null, null, 1, "Page was not found with id {$id}."
+                null, 1, "Page was not found with id {$id}."
             );
         }
 
@@ -215,7 +218,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $apiResponse->populate($page->toArray());
 
-        return new ApiJsonModel($apiResponse, null, 0, 'Success');
+        return new ApiJsonModel($apiResponse, 0, 'Success');
     }
 
     /**
@@ -243,7 +246,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
                 array(),
-                null,
                 1,
                 'Some values are missing or invalid for page update.',
                 $inputFilter->getMessages()
@@ -258,7 +260,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (empty($site)) {
             return new ApiJsonModel(
-                null, null, 1, "Site was not found with id {$siteId}."
+                null, 1, "Site was not found with id {$siteId}."
             );
         }
 
@@ -271,7 +273,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
             );
         } catch (\Exception $e) {
             return new ApiJsonModel(
-                null, null, 1, $e->getMessage()
+                null, 1, $e->getMessage()
             );
         }
 
@@ -279,7 +281,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $apiResponse->populate($page->toArray());
 
-        return new ApiJsonModel($apiResponse, null, 0, 'Success: Page updated.');
+        return new ApiJsonModel($apiResponse, 0, 'Success: Page updated.');
     }
 
     /**
@@ -304,7 +306,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (empty($site)) {
             return new ApiJsonModel(
-                null, null, 1, "Site was not found with id {$siteId}."
+                null, 1, "Site was not found with id {$siteId}."
             );
         }
 
@@ -334,7 +336,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
                 array(),
-                null,
                 1,
                 'Some values are missing or invalid for page creation.',
                 $inputFilter->getMessages()
@@ -345,7 +346,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if ($this->hasPage($site, $data['name'], $data['pageType'])) {
             return new ApiJsonModel(
-                null, null, 1, 'Page already exists, duplicates cannot be created'
+                null, 1, 'Page already exists, duplicates cannot be created'
             );
         }
 
@@ -358,7 +359,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
             );
         } catch (\Exception $e) {
             return new ApiJsonModel(
-                null, null, 1, $e->getMessage()
+                null, 1, $e->getMessage()
             );
         }
 
@@ -366,7 +367,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $apiResponse->populate($page->toArray());
 
-        return new ApiJsonModel($apiResponse, null, 0, 'Success: Page created');
+        return new ApiJsonModel($apiResponse, 0, 'Success: Page created');
     }
 
     /**
@@ -386,7 +387,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
                 array(),
-                null,
                 1,
                 'Some values are missing or invalid for page duplication.',
                 $inputFilter->getMessages()
@@ -399,7 +399,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (empty($destinationSite)) {
             return new ApiJsonModel(
-                null, null, 1, "Destination site was not found with id {$data['copyToSiteId']}."
+                null, 1, "Destination site was not found with id {$data['copyToSiteId']}."
             );
         }
 
@@ -411,13 +411,13 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (empty($page)) {
             return new ApiJsonModel(
-                null, null, 1, "Source page was not found with id {$data['pageId']}."
+                null, 1, "Source page was not found with id {$data['pageId']}."
             );
         }
 
         if ($this->hasPage($destinationSite, $newPage->getName(), $newPage->getPageType())) {
             return new ApiJsonModel(
-                null, null, 1, 'Page already exists, duplicates cannot be created'
+                null, 1, 'Page already exists, duplicates cannot be created'
             );
         }
 
@@ -431,7 +431,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
             );
         } catch (\Exception $e) {
             return new ApiJsonModel(
-                null, null, 1, $e->getMessage()
+                null, 1, $e->getMessage()
             );
         }
 
@@ -439,6 +439,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $apiResponse->populate($newPage->toArray());
 
-        return new ApiJsonModel($apiResponse, null, 0, "Success: duplicated page to site {$data['copyToSiteId']}");
+        return new ApiJsonModel($apiResponse, 0, "Success: duplicated page to site {$data['copyToSiteId']}");
     }
 } 

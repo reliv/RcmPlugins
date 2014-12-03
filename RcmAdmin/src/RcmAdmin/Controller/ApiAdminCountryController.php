@@ -48,9 +48,9 @@ class ApiAdminCountryController extends ApiAdminBaseController {
         try {
             $results = $repo->findBy(array(), array('countryName' => 'ASC'));
         } catch(\Exception $e){
-            return new ApiJsonModel(null, null, 1, 'An error occurred will getting countries.');
+            return new ApiJsonModel(null, 1, 'An error occurred will getting countries.');
         }
 
-        return new ApiJsonModel($results, null, 0, 'Success');
+        return new ApiJsonModel($results, 0, 'Success');
     }
 } 

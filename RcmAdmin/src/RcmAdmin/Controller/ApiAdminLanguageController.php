@@ -48,10 +48,10 @@ class ApiAdminLanguageController extends ApiAdminBaseController {
         try {
             $languages = $languageRepo->findBy(array(), array('languageName' => 'ASC'));
         } catch(\Exception $e){
-            return new ApiJsonModel(null, null, 1, 'An error occurred will getting languages.');
+            return new ApiJsonModel(null, 1, 'An error occurred will getting languages.');
         }
 
-        return new ApiJsonModel($languages, null, 0, 'Success');
+        return new ApiJsonModel($languages, 0, 'Success');
     }
 
 } 

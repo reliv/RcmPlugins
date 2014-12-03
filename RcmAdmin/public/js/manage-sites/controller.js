@@ -110,7 +110,7 @@ angular.module('rcmAdmin').controller(
             )
                 .success(
                 function (data) {
-                    $scope.sites = data;
+                    $scope.sites = data.data;
                     $scope.loading = false;
                 }
             )

@@ -39,6 +39,7 @@ class SiteApiResponse extends Site
             'loginPage' => $this->getLoginPage(),
             'notAuthorizedPage' => $this->getNotAuthorizedPage(),
             'notFoundPage' => $this->getNotFoundPage(),
+            //'supportedPageTypes' => $this->getSupportedPageTypes(),
         );
     }
 } 
