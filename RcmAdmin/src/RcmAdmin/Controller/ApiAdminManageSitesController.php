@@ -127,7 +127,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
     }
 
     /**
-     * update @todo - allow update of all properties
+     * update @todo - allow update of all properties and filter input
      *
      * @param mixed $siteId
      * @param mixed $data
@@ -208,6 +208,8 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
                 $inputFilter->getMessages()
             );
         }
+
+        $data = $inputFilter->getValues();
 
         try {
 

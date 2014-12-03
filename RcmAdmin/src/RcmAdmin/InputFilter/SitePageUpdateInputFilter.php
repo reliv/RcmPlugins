@@ -5,9 +5,9 @@ namespace RcmAdmin\InputFilter;
 use Zend\InputFilter\InputFilter;
 
 /**
- * Class SiteInputFilter
+ * Class SitePageUpdateInputFilter
  *
- * LongDescHere
+ * SitePageUpdateInputFilter
  *
  * PHP version 5
  *
@@ -19,88 +19,74 @@ use Zend\InputFilter\InputFilter;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class SiteInputFilter extends InputFilter
+class SitePageUpdateInputFilter extends InputFilter
 {
     /**
      * @var array
      */
-    protected $filterConfig = [
-            //'siteId' => [],
-            // These have special formats - so we custom validate
-            'domain' => [
-                'name' => 'domain',
-                'required' => true,
+    protected $filterConfig
+        = [
+            'name' => [
+                'name' => 'name',
+                'required' => false,
                 'filters' => [
                     ['name' => 'Zend\Filter\StripTags'],
                     ['name' => 'StringTrim'],
                 ],
-//                'validators' => [
-//                    [
-//                        'name' => 'Hostname',
-//                        'options' => [
-//                        ],
-//                    ],
-//                ]
             ],
-            'language' => [
-                'name' => 'language',
-                'required' => true,
-                'filters' => [
-                    ['name' => 'Zend\Filter\StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-
-                ]
-            ],
-            'country' => [
-                'name' => 'country',
-                'required' => true,
-                'filters' => [
-                    ['name' => 'Zend\Filter\StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-
-                ]
-            ],
-            //
-            'theme' => [
-                'name' => 'theme',
-                'required' => true,
-                'filters' => [
-                    ['name' => 'Zend\Filter\StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-
-                ]
-            ],
-            'siteLayout' => [
-                'name' => 'siteLayout',
+            'pageLayout' => [
+                'name' => 'pageLayout',
                 'required' => false,
                 'filters' => [
                     ['name' => 'Zend\Filter\StripTags'],
                     ['name' => 'StringTrim'],
                 ],
                 'validators' => [
-
                 ]
             ],
-            'siteTitle' => [
-                'name' => 'siteTitle',
-                'required' => true,
+            'siteLayoutOverride' => [
+                'name' => 'siteLayoutOverride',
+                'required' => false,
                 'filters' => [
                     ['name' => 'Zend\Filter\StripTags'],
                     ['name' => 'StringTrim'],
                 ],
                 'validators' => [
-
                 ]
             ],
-            'status' => [
-                'name' => 'status',
-                'required' => true,
+            'pageTitle' => [
+                'name' => 'pageTitle',
+                'required' => false,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                ]
+            ],
+            'description' => [
+                'name' => 'description',
+                'required' => false,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                ]
+            ],
+            'keywords' => [
+                'name' => 'keywords',
+                'required' => false,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                ]
+            ],
+            'pageType' => [
+                'name' => 'pageType',
+                'required' => false,
                 'filters' => [
                     ['name' => 'Zend\Filter\StripTags'],
                     ['name' => 'StringTrim'],
@@ -114,50 +100,6 @@ class SiteInputFilter extends InputFilter
                             'max' => 1,
                         ],
                     ],
-                ]
-            ],
-            'favIcon' => [
-                'name' => 'favIcon',
-                'required' => false,
-                'filters' => [
-                    ['name' => 'Zend\Filter\StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-
-                ]
-            ],
-            'loginPage' => [
-                'name' => 'loginPage',
-                'required' => true,
-                'filters' => [
-                    ['name' => 'Zend\Filter\StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-
-                ]
-            ],
-            'notAuthorizedPage' => [
-                'name' => 'notAuthorizedPage',
-                'required' => true,
-                'filters' => [
-                    ['name' => 'Zend\Filter\StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-
-                ]
-            ],
-            'notFoundPage' => [
-                'name' => 'notFoundPage',
-                'required' => true,
-                'filters' => [
-                    ['name' => 'Zend\Filter\StripTags'],
-                    ['name' => 'StringTrim'],
-                ],
-                'validators' => [
-
                 ]
             ],
         ];
