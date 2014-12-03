@@ -151,13 +151,14 @@ angular.module('rcmAdmin').controller(
         $scope.createSite = function () {
             $scope.loadings.createSite = true;
             self.resetMessage();
-            // make sure we don't sent and Id
-            $scope.site.siteId = null;
+
+            var site = self.prepareData($scope.site);
+            
             $http(
                 {
                     method: 'POST',
                     url: '/api/admin/manage-sites',
-                    data: $scope.site
+                    data: site
                 }
             )
                 .success(
@@ -173,6 +174,18 @@ angular.module('rcmAdmin').controller(
                 }
             );
         };
+
+        self.prepareData = function (site) {
+
+            // make sure we don't sent and Id
+            site.siteId = null;
+            // force default site layout
+            site.siteLayout = 'default';
+            // force empty favicon
+            site.favIcon = null;
+
+            return site;
+        }
 
         self.parseCreateResult = function (data) {
 
