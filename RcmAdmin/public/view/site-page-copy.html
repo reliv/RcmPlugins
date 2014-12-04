@@ -252,7 +252,8 @@
                     </div>
                 </div>
 
-                <div class="col-sm-11" ng-show="!loadings.copyPage">
+                <div class="col-sm-11" ng-show="copyMessages.count == selectedPages.length">
+                    <div class="message">Copying Complete!</div>
                     <button class="btn btn-default btn-sm"
                             data-ng-click="step=1">Back
                     </button>
