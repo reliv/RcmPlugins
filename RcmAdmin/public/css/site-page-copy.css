@@ -54,8 +54,6 @@
 
 }
 
-
-
 .rcmAdminSitePageCopy .page-copy .message {
     font-size: 1.2em;
     margin: .5em 0;
@@ -67,4 +65,9 @@
 
 .rcmAdminSitePageCopy .page-copy.success{
 
+}
+
+.rcmAdminSitePageCopy .complete-message {
+    font-size: 1.2em;
+    margin: .5em 0;
 }
