@@ -45,10 +45,9 @@
                     </div>
                 </form>
 
-                <div class="pageSelection">
+                <div class="pageSelection" ng-hide="loadings.pageTypes || loadings.sourcePages">
                     <form class="form-inline page-search"
-                          role="form"
-                          ng-hide="loadings.pageTypes || loadings.sourcePages">
+                          role="form">
                         <div class="form-group">
                             <label class="control-label aria-label"
                                    for="pageTypes">Filter By Page Type</label>
@@ -106,9 +105,18 @@
                                                     />
 
                                             <div>
-                                                <span class="page-title">{{page.pageTitle}}</span>
-                                                <span class="page-name">({{page.name}})</span>
-                                                <span class="page-type">(type: {{page.pageType}})</span>
+                                                <div>
+                                                    <span class="message-label page-title">Page:</span>
+                                                    <span class="page-title">{{page.pageTitle}}</span>
+                                                </div>
+                                                <div>
+                                                    <span class="message-label page-name">Name:</span>
+                                                    <span class="page-name">{{page.name}}</span>
+                                                </div>
+                                                <div>
+                                                    <span class="message-label page-type">Type:</span>
+                                                    <span class="page-type">{{page.pageType}}</span>
+                                                </div>
                                             </div>
                                         </label>
                                     </div>
@@ -146,9 +154,18 @@
                                 <div class="pageSelect">
                                     <label class="">
                                         <div>
-                                            <span class="page-title">{{copypage.pageTitle}}</span>
-                                            <span class="page-name">({{copypage.name}})</span>
-                                            <span class="page-type">(type: {{copypage.pageType}})</span>
+                                            <div>
+                                                <span class="message-label page-title">Page:</span>
+                                                <span class="page-title">{{copypage.pageTitle}}</span>
+                                            </div>
+                                            <div>
+                                                <span class="message-label page-name">Name:</span>
+                                                <span class="page-name">{{copypage.name}}</span>
+                                            </div>
+                                            <div>
+                                                <span class="message-label page-type">Type:</span>
+                                                <span class="page-type">{{copypage.pageType}}</span>
+                                            </div>
                                         </div>
                                     </label>
                                 </div>
@@ -170,7 +187,7 @@
                          ng-show="copyMessages.error.length > 0">
                         <div class="message">
                             {{copyMessages.error.length}} pages could not be copied:
-                            <button class="btn btn-default btn-sm"
+                            <button class="btn btn-default btn-xs"
                                     data-ng-click="showCopyErrors = !showCopyErrors">Details
                             </button>
                         </div>
@@ -183,10 +200,18 @@
                                     <span>{{result.message}}</span>
                                 </div>
                                 <div>
-                                    <span class="message-label">Page:</span>
-                                    <span class="page-title">{{result.page.pageTitle}}</span>
-                                    <span class="page-name">({{result.page.name}})</span>
-                                    <span class="page-type">(type: {{result.page.pageType}})</span>
+                                    <div>
+                                        <span class="message-label page-title">Page:</span>
+                                        <span class="page-title">{{result.page.pageTitle}}</span>
+                                    </div>
+                                    <div>
+                                        <span class="message-label page-name">Name:</span>
+                                        <span class="page-name">{{result.page.name}}</span>
+                                    </div>
+                                    <div>
+                                        <span class="message-label page-type">Type:</span>
+                                        <span class="page-type">{{result.page.pageType}}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +221,7 @@
                          ng-show="copyMessages.success.length > 0">
                         <div class="message">
                             {{copyMessages.success.length}} pages copied successfully:
-                            <button class="btn btn-default btn-sm"
+                            <button class="btn btn-default btn-xs"
                                     data-ng-click="showCopySuccesses = !showCopySuccesses">Details
                             </button>
                         </div>
@@ -209,10 +234,18 @@
                                     <span>{{result.message}}</span>
                                 </div>
                                 <div>
-                                    <span class="message-label">Page:</span>
-                                    <span class="page-title">{{result.page.pageTitle}}</span>
-                                    <span class="page-name">({{result.page.name}})</span>
-                                    <span class="page-type">(type: {{result.page.pageType}})</span>
+                                    <div>
+                                        <span class="message-label page-title">Page:</span>
+                                        <span class="page-title">{{result.page.pageTitle}}</span>
+                                    </div>
+                                    <div>
+                                        <span class="message-label page-name">Name:</span>
+                                        <span class="page-name">{{result.page.name}}</span>
+                                    </div>
+                                    <div>
+                                        <span class="message-label page-type">Type:</span>
+                                        <span class="page-type">{{result.page.pageType}}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

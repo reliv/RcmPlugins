@@ -1,6 +1,17 @@
 .rcmAdminSitePageCopy {
 }
 
+.rcmAdminSitePageCopy .page-title{
+    font-weight: bold;
+}
+
+.rcmAdminSitePageCopy .page-copy{
+    margin: 1em 0;
+}
+
+.rcmAdminSitePageCopy .message-label.page-title{
+}
+
 .rcmAdminSitePageCopy .form-group label {
     font-weight: bold;
 }
@@ -43,17 +54,7 @@
 
 }
 
-.rcmAdminSitePageCopy .page-title{
-    font-weight: bold;
-}
 
-.rcmAdminSitePageCopy .page-copy{
-    margin: 1em 0;
-}
-
-.rcmAdminSitePageCopy .message-label{
-    font-weight: bold;
-}
 
 .rcmAdminSitePageCopy .page-copy .message {
     font-size: 1.2em;
