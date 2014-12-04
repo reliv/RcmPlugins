@@ -10,43 +10,155 @@ angular.module('rcmAdmin')
             self.url = {
                 sourceSite: '/api/admin/manage-sites/current',
                 destinationSites: '/api/admin/manage-sites',
-                sourcePages: '/api/admin/sites/', //ID/pages'
-                pageTypes: '/api/admin/pagetypes'
+                sourcePages: '/api/admin/sites', //ID/pages'
+                pageTypes: '/api/admin/pagetypes',
+                copyPage: '/api/admin/sites'
             };
 
             $scope.errorMessage = null;
+
+
 
             $scope.loadings = {
                 sourceSite: false,
                 destinationSites: false,
                 sourcePages: false,
-                pageTypes: false
+                pageTypes: false,
+                copyPage: false
             };
 
             $scope.step = 1;
 
             $scope.sourceSite = {};
             $scope.destinationSites = [];
-            $scope.sourcePages = {};
+            $scope.sourcePages = [];
             $scope.pageTypes = {};
 
             $scope.destinationSite = null;
 
-            $scope.selectedPages = {};
+            $scope.selectedPages = [];
             $scope.selectedPageType = null;
+            $scope.filteredPages = [];
 
+            /**
+             * toggleSelectPage
+             * @param page
+             */
             $scope.toggleSelectPage = function (page) {
-                if ($scope.selectedPages[page.pageId]) {
-                    $scope.selectedPages[page.pageId] = null;
+
+                var index = $scope.selectedPages.indexOf(page);
+                if (index < 0) {
+                    $scope.selectedPages.push(page);
                 } else {
-                    $scope.selectedPages[page.pageId] = page;
+                    $scope.selectedPages.splice(
+                        index,
+                        1
+                    );
                 }
             };
 
+            /**
+             * clearSelectedPages
+             */
+            $scope.clearCopyMessages = function () {
+                $scope.copyMessages = {
+                    count: 0,
+                    error: [],
+                    success: []
+                };
+
+                $scope.showCopyErrors = false;
+                $scope.showCopySuccesses = false;
+            };
+            $scope.clearCopyMessages();
+
+            /**
+             * clearSelectedPages
+             */
             $scope.clearSelectedPages = function () {
-                $scope.selectedPages = {};
+                $scope.selectedPages = [];
             };
 
+            /**
+             * selectFilteredPages - Select all of the filtered pages
+             */
+            $scope.selectFilteredPages = function () {
+
+                if ($scope.filteredPages) {
+                    $scope.selectedPages = $scope.filteredPages;
+                }
+            };
+
+            /**
+             * copySelectedPages - Go thur the selected and do the copy
+             */
+            $scope.copySelectedPages = function () {
+                $scope.loadings.copyPage = true;
+                $scope.clearCopyMessages();
+
+                angular.forEach(
+                    $scope.selectedPages,
+                    self.copyPage
+                );
+
+                $scope.loadings.copyPage = false;
+            };
+
+            /**
+             * copyPage - Do the page copying
+             * @param page
+             */
+            self.copyPage = function (page) {
+
+                page.copyToSiteId = $scope.destinationSite.siteId;
+
+                $http(
+                    {
+                        method: 'POST',
+                        url: self.url.copyPage + '/' + $scope.sourceSite.siteId + '/pages/' + page.pageId,
+                        data: page
+                    }
+                )
+                    .success(
+                    function (data) {
+                        self.parseCopyMessage(data, page);
+                    }
+                )
+                    .error(
+                    function (data) {
+                        data.code = 1;
+                        self.parseCopyMessage(data, page);
+                    }
+                );
+            };
+
+            /**
+             *
+             * @param result
+             * @param page
+             */
+            self.parseCopyMessage = function (result, page) {
+
+                result.page = page;
+
+                $scope.copyMessages.count ++;
+
+                if (result.code == 1) {
+                    $scope.copyMessages.error.push(
+                        result
+                    );
+                } else {
+                    $scope.copyMessages.success.push(
+                        result
+                    );
+                }
+
+            };
+
+            /**
+             * parseMessage - Parse ans set standard error
+             * @param result
+             */
             self.parseMessage = function (result) {
 
                 if (result.code == 1) {
@@ -54,6 +166,9 @@ angular.module('rcmAdmin')
                 }
             };
 
+            /**
+             * getSourceSite
+             */
             self.getSourceSite = function () {
                 $scope.loadings.sourceSite = true;
                 $http(
@@ -80,18 +195,21 @@ angular.module('rcmAdmin')
                 );
             };
 
+            /**
+             * getSourcePages
+             */
             self.getSourcePages = function () {
                 $scope.loadings.sourcePages = true;
                 $http(
                     {
                         method: 'GET',
-                        url: self.url.sourcePages + $scope.sourceSite.siteId + '/pages'
+                        url: self.url.sourcePages + '/' + $scope.sourceSite.siteId + '/pages'
                     }
                 )
                     .success(
                     function (data) {
                         self.parseMessage(data);
-                        $scope.sourcePages = data.data;
+                        self.setSourcePages(data.data);
                         $scope.loadings.sourcePages = false;
                     }
                 )
@@ -105,15 +223,25 @@ angular.module('rcmAdmin')
                 );
             };
 
-            self.prepareSourcePages = function(data) {
+            /**
+             * Prepare Source Pages as array so they can be filtered
+             * @param sourcePages
+             */
+            self.setSourcePages = function (sourcePages) {
+
+                $scope.sourcePages = [];
+
                 angular.forEach(
-                    data,
-                    function(value, key) {
-                        this.push(key + ': ' + value);
+                    sourcePages,
+                    function (page) {
+                        $scope.sourcePages.push(page);
                     }
-                )
+                );
             }
 
+            /**
+             * getDestinationSites
+             */
             self.getDestinationSites = function () {
                 $scope.loadings.destinationSites = true;
                 $http(
@@ -131,7 +259,6 @@ angular.module('rcmAdmin')
                 )
                     .error(
                     function (data) {
-                        console.error(data);
                         data.code = 1;
                         data.message = 'An Error Occured: ' + data.message;
                         self.parseMessage(data);
@@ -140,6 +267,9 @@ angular.module('rcmAdmin')
                 );
             };
 
+            /**
+             * getPageTypes
+             */
             self.getPageTypes = function () {
                 $scope.loadings.pageTypes = true;
                 $http(
@@ -157,7 +287,6 @@ angular.module('rcmAdmin')
                 )
                     .error(
                     function (data) {
-                        console.error(data);
                         data.code = 1;
                         data.message = 'An Error Occured: ' + data.message;
                         self.parseMessage(data);
@@ -167,15 +296,54 @@ angular.module('rcmAdmin')
             };
 
 
-            self.getSourceSite();
+            /**
+             * init
+             */
+            self.init = function () {
 
-            self.getPageTypes();
+                self.getSourceSite();
 
-            self.getDestinationSites();
+                self.getPageTypes();
+
+                self.getDestinationSites();
+            }
+
+            self.init();
         }
     ]
-).filter(
+)
+
+    .filter(
     'rcmAdminPageTypeFilter',
+    function () {
+
+        var compareStrDirect = function (stra, strb) {
+            stra = ("" + stra).toLowerCase();
+            strb = ("" + strb).toLowerCase();
+
+            return (stra == strb);
+        }
+
+        return function (input, query) {
+            if (!query) {
+                return input
+            }
+            var result = [];
+
+            angular.forEach(
+                input, function (page) {
+                    if (compareStrDirect(page.pageType, query)) {
+                        result.push(page);
+                    }
+                }
+            );
+
+            return result;
+        };
+    }
+)
+    .filter(
+    'rcmAdminPageNameFilter',
     function () {
 
         var compareStr = function (stra, strb) {
@@ -193,7 +361,10 @@ angular.module('rcmAdmin')
 
             angular.forEach(
                 input, function (page) {
-                    if (compareStr(page.pageType, query)) {
+                    if (compareStr(page.name, query) || compareStr(
+                            page.pageTitle,
+                            query
+                        )) {
                         result.push(page);
                     }
                 }

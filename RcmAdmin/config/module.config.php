@@ -109,12 +109,12 @@ return array(
                         'uri' => '/modules/rcm-admin/view/create-site.html',
                         'title' => 'Create Site',
                     ),
-//                    'Copy Pages' => array(
-//                        'label' => 'Copy Pages',
-//                        'class' => 'RcmAdminMenu rcmStandardDialog',
-//                        'uri' => '/modules/rcm-admin/view/site-page-copy.html',
-//                        'title' => 'Copy Pages',
-//                    )
+                    'Copy Pages' => array(
+                        'label' => 'Copy Pages',
+                        'class' => 'RcmAdminMenu rcmStandardDialog',
+                        'uri' => '/modules/rcm-admin/view/site-page-copy.html',
+                        'title' => 'Copy Pages',
+                    )
                 )
             ),
             'User' => array(

@@ -421,11 +421,14 @@ class ApiAdminSitePageController extends ApiAdminBaseController
             );
         }
 
+        // force author to current user
+        $newPage->setAuthor($this->getCurrentAuthor());
+
         try {
             $newPage = $this->getPageRepo()->copyPage(
                 $destinationSite,
                 $page,
-                $data,
+                $newPage->toArray(),
                 null,
                 true
             );
@@ -439,6 +442,6 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         $apiResponse->populate($newPage->toArray());
 
-        return new ApiJsonModel($apiResponse, 0, "Success: duplicated page to site {$data['copyToSiteId']}");
+        return new ApiJsonModel($apiResponse, 0, "Success: Duplicated page to site {$data['copyToSiteId']}");
     }
 } 
