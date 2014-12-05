@@ -48,14 +48,14 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         // \Zend\ServiceManager\ServiceManager
-        $mapServiceManager = array(
-            array('request', true, $this->mockRequest),
-            array(
+        $mapServiceManager = [
+            ['request', true, $this->mockRequest],
+            [
                 'RcmUser\Service\RcmUserService',
                 true,
                 $this->mockRcmUserService
-            )
-        );
+            ]
+        ];
         $mockObject = $this->getMockBuilder(
             '\Zend\ServiceManager\ServiceManager'
         );

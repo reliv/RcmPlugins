@@ -80,18 +80,18 @@ class ProxyController
         $rssReader = new Reader();
 
         //Tried to add a timeout like this but it didnt work
-        $httpClient = new Client($feedUrl, array('timeout' => 5));
+        $httpClient = new Client($feedUrl, ['timeout' => 5]);
         $rssReader->setHttpClient($httpClient);
 
         try {
             $feedData = $rssReader->import($feedUrl);
         } catch (\Exception $e) {
-            $feedData = array();
+            $feedData = [];
         }
 
         $feedCount = 0;
 
-        $viewRssData = array();
+        $viewRssData = [];
 
         foreach ($feedData as $entry) {
 
@@ -99,13 +99,13 @@ class ProxyController
                 break;
             }
 
-            $viewRssData[] = array(
+            $viewRssData[] = [
                 'feedtitle' => $entry->getTitle(),
                 'description' => $entry->getDescription(),
                 'dateModified' => $entry->getDateModified(),
                 'authors' => $entry->getAuthors(),
                 'feedlink' => $entry->getLink()
-            );
+            ];
 
             $feedCount++;
         }

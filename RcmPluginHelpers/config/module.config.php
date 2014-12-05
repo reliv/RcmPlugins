@@ -16,12 +16,12 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-return array(
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+return [
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-plugin-helpers/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
-);
+            ],
+        ],
+    ],
+];

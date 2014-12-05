@@ -94,7 +94,7 @@ class DispatchListenerTest extends \PHPUnit_Framework_TestCase
         $layoutViewMock = new ViewModel();
 
         $event = new MvcEvent();
-        $routeMatch = new RouteMatch(array());
+        $routeMatch = new RouteMatch([]);
         $event->setRouteMatch($routeMatch);
         $event->setViewModel($layoutViewMock);
 
@@ -136,7 +136,7 @@ class DispatchListenerTest extends \PHPUnit_Framework_TestCase
         $layoutViewMock = new ViewModel();
 
         $event = new MvcEvent();
-        $routeMatch = new RouteMatch(array());
+        $routeMatch = new RouteMatch([]);
         $event->setRouteMatch($routeMatch);
         $event->setViewModel($layoutViewMock);
 

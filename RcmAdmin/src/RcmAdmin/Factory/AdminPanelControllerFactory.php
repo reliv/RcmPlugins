@@ -34,7 +34,7 @@ class AdminPanelControllerFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('config');
 
-        $adminPanelConfig = array();
+        $adminPanelConfig = [];
 
         if (!empty($config['rcmAdmin']['adminPanel'])
             && is_array($config['rcmAdmin']['adminPanel'])

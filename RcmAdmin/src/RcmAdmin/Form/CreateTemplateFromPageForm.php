@@ -73,33 +73,33 @@ class CreateTemplateFromPageForm extends Form implements ElementInterface
         $filter = new InputFilter();
 
         $this->add(
-            array(
+            [
                 'name' => 'template-name',
-                'options' => array(
+                'options' => [
                     'label' => 'Template Name',
-                ),
+                ],
                 'type' => 'text',
 
-            )
+            ]
         );
 
         $filter->add(
-            array(
+            [
                 'name' => 'template-name',
                 'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array(
+                'filters' => [
+                    ['name' => 'StripTags'],
+                    [
                         'name' => 'StringTrim',
-                        'options' => array(
+                        'options' => [
                             'charlist' => '-_',
-                        )
-                    ),
-                ),
-                'validators' => array(
+                        ]
+                    ],
+                ],
+                'validators' => [
                     $this->pageValidator,
-                ),
-            )
+                ],
+            ]
         );
     }
 
@@ -113,9 +113,9 @@ class CreateTemplateFromPageForm extends Form implements ElementInterface
     {
 
         $this->setValidationGroup(
-            array(
+            [
                 'template-name'
-            )
+            ]
         );
 
         return parent::isValid();

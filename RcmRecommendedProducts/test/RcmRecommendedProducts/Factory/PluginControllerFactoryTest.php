@@ -45,16 +45,16 @@ class PluginControllerFactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testCreateService() {
 
-        $config = array(
-            'rcmPlugin' => array(
-            'RcmRecommendedProducts' => array(
+        $config = [
+            'rcmPlugin' => [
+            'RcmRecommendedProducts' => [
                 'type' => 'Content Templates',
                 'display' => 'Recommended Products',
                 'tooltip' => '',
                 'icon' => '',
-                'editJs' => '/modules/rcm-recommended-products/rcm-recommended-products-edit.js'),
-            ),
-        );
+                'editJs' => '/modules/rcm-recommended-products/rcm-recommended-products-edit.js'],
+            ],
+        ];
 
         $mockProductModel = $this
             ->getMockBuilder('\RcmShoppingCart\Model\ProductModel')

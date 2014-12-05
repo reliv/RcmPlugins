@@ -26,7 +26,7 @@ class SiteApiResponse extends Site
      */
     public function toArray()
     {
-        return array(
+        return [
             'siteId' => $this->getSiteId(),
             'domain' => $this->getDomain()->getDomainName(),
             'theme' => $this->getTheme(),
@@ -40,6 +40,6 @@ class SiteApiResponse extends Site
             'notAuthorizedPage' => $this->getNotAuthorizedPage(),
             'notFoundPage' => $this->getNotFoundPage(),
             //'supportedPageTypes' => $this->getSupportedPageTypes(),
-        );
+        ];
     }
 } 

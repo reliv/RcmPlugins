@@ -46,7 +46,7 @@ class ApiAdminLanguageController extends ApiAdminBaseController {
         $languageRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Language');
 
         try {
-            $languages = $languageRepo->findBy(array(), array('languageName' => 'ASC'));
+            $languages = $languageRepo->findBy([], ['languageName' => 'ASC']);
         } catch(\Exception $e){
             return new ApiJsonModel(null, 1, 'An error occurred will getting languages.');
         }

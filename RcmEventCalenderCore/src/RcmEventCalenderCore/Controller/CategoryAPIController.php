@@ -18,7 +18,7 @@ class CategoryAPIController extends AbstractAPIController
         $this->exitIfNotAdmin();
 
         $categories = $this->calender->getCategories();
-        $categoryList = array();
+        $categoryList = [];
         foreach ($categories as $category) {
             $categoryList[] = $category->jsonSerialize();
         }
@@ -68,7 +68,7 @@ class CategoryAPIController extends AbstractAPIController
         } catch (\RcmEventCalenderCore\Exception\InvalidArgumentException $e) {
             $this->getResponse()->setStatusCode(400); //Bad Request
             //Return the message so troubleshooters tell which field is invalid
-            return new JsonModel(array('message' => $e->getMessage()));
+            return new JsonModel(['message' => $e->getMessage()]);
         }
         $location = $this->getCategoriesUrl() . "/$categoryId";
         $this->getResponse()->setStatusCode(201); //Created
@@ -114,7 +114,7 @@ class CategoryAPIController extends AbstractAPIController
             return null;
         }
         $this->calender->deleteCategory($id);
-        return new JsonModel(array());
+        return new JsonModel([]);
     }
 
     function checkRequired($data)
@@ -122,9 +122,9 @@ class CategoryAPIController extends AbstractAPIController
         if (empty($data['name'])) {
             $this->getResponse()->setStatusCode(400); //Bad Request
             return new JsonModel(
-                array(
+                [
                     'message' => "Name is required"
-                )
+                ]
             );
         }
         return null;

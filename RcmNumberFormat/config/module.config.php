@@ -17,41 +17,41 @@
  * @version   GIT: <git_id>
  */
 
-return array(
-    'router' => array(
-        'routes' => array(
-            'rcm-number-format-http-api-currency' => array(
+return [
+    'router' => [
+        'routes' => [
+            'rcm-number-format-http-api-currency' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/rcm-number-format-http-api/currency/:value',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'NumberFormatController',
                         'action' => 'currency',
-                    )
-                ),
-            ),
-            'rcm-number-format-http-api-number' => array(
+                    ]
+                ],
+            ],
+            'rcm-number-format-http-api-number' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/rcm-number-format-http-api/number/:value',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'NumberFormatController',
                         'action' => 'number',
-                    )
-                ),
-            ),
-        )
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+                    ]
+                ],
+            ],
+        ]
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-number-format/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
-    'controllers' => array(
-        'factories' => array(
+            ],
+        ],
+    ],
+    'controllers' => [
+        'factories' => [
             'NumberFormatController' => 'RcmNumberFormat\Factory\NumberFormatControllerFactory'
-        )
-    ),
-);
+        ]
+    ],
+];

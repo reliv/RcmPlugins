@@ -26,7 +26,7 @@ class SitePageApiResponse extends Page {
 
     public function toArray()
     {
-        return array(
+        return [
             'siteId' => $this->getSite()->getSiteId(),
             'pageId' => $this->getPageId(),
             'name' => $this->getName(),
@@ -39,6 +39,6 @@ class SitePageApiResponse extends Page {
             'description' => $this->getDescription(),
             'keywords' => $this->getKeywords(),
             'pageType' => $this->getPageType(),
-        );
+        ];
     }
 } 

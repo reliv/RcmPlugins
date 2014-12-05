@@ -87,8 +87,8 @@ class PagePermissionsController extends AbstractActionController
         //getting list of all dynamically created roles
         $allRoles = $aclDataService->getAllRoles()->getData();
 
-        $roleIds = array();
-        $rolesHasRules = array();
+        $roleIds = [];
+        $rolesHasRules = [];
         foreach ($rules as $setRuleFor) {
             //getting only the ones that are allow
             if ($setRuleFor->getRule() == 'allow') {
@@ -109,12 +109,12 @@ class PagePermissionsController extends AbstractActionController
             ];
         }
 
-        $data = array(
+        $data = [
             'siteId' => $currentSiteId,
             'pageType' => $pageType,
             'pageName' => $sourcePageName,
             'roles' => $roleIds
-        );
+        ];
 
         $view->setVariable('data', $data);
 

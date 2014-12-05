@@ -30,7 +30,7 @@ class ErrorListenerFactory implements FactoryInterface
 
         $listenerConfig = $config->get('listener');
 
-        $options = array();
+        $options = [];
 
         if(isset($listenerConfig['\RcmJira\ErrorListener'])) {
 

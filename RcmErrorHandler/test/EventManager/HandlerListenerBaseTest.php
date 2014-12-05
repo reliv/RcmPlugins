@@ -12,7 +12,7 @@ class HandlerListenerBaseTest extends Mocks {
 
     public function test(){
 
-        $options = new Config(array());
+        $options = new Config([]);
 
         $listener = new HandlerListenerBase($options);
 

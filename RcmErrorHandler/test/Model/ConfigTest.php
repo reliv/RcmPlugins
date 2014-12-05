@@ -25,7 +25,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
     public function test(){
 
-        $configArr = array('test' => 'testvalue');
+        $configArr = ['test' => 'testvalue'];
 
         $config = new Config($configArr);
 

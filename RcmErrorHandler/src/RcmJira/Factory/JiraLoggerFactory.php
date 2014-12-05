@@ -32,14 +32,14 @@ class JiraLoggerFactory implements FactoryInterface
 
         $listenerConfigs = $config->get('listener');
 
-        $listenerConfig = array();
+        $listenerConfig = [];
 
         if(isset($listenerConfigs['\RcmJira\ErrorListener'])) {
 
             $listenerConfig = $listenerConfigs['\RcmJira\ErrorListener'];
         }
 
-        $loggerOptions = array();
+        $loggerOptions = [];
 
         if(isset($listenerConfig['options'])){
 

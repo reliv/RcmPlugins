@@ -31,7 +31,7 @@ abstract class AbstractAPIController extends AbstractRestfulController
             header('HTTP/1.0 401 Unauthorized');
             //Always return valid JSON to make jQuery work easier
             header('Content-type: application/json');
-            die(json_encode(array('message' => 'Must be admin.')));
+            die(json_encode(['message' => 'Must be admin.']));
         }
     }
 

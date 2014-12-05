@@ -17,134 +17,134 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
-    'RcmUser' => array(
-        'Acl\Config' => array(
-            'ResourceProviders' => array(
-                'RcmI18nTranslations' => array(
-                    'translations' => array(
+    'RcmUser' => [
+        'Acl\Config' => [
+            'ResourceProviders' => [
+                'RcmI18nTranslations' => [
+                    'translations' => [
                         'resourceId' => 'translations',
                         'parentResourceId' => null,
-                        'privileges' => array(
+                        'privileges' => [
                             'read',
                             'update',
                             'create',
                             'delete',
-                        ),
+                        ],
                         'name' => 'Translations',
                         'description' => 'Creating translations for other countries',
-                    )
-                )
-            )
-        )
-    ),
-    'navigation' => array(
-        'RcmAdminMenu' => array(
-            'Site' => array(
-                'pages' => array(
-                    'Translations' => array(
+                    ]
+                ]
+            ]
+        ]
+    ],
+    'navigation' => [
+        'RcmAdminMenu' => [
+            'Site' => [
+                'pages' => [
+                    'Translations' => [
                         'label' => 'Translations',
                         'class' => 'RcmAdminMenu RcmBlankDialog Translations',
                         'uri' => '/modules/rcm-i18n/message-editor.html',
                         'title' => 'Translations',
-                    )
-                )
-            ),
-        )
-    ),
-    'translator' => array(
+                    ]
+                ]
+            ],
+        ]
+    ],
+    'translator' => [
 
         'locale' => 'en_US',
-        'remote_translation' => array(
-            array(
+        'remote_translation' => [
+            [
                 'type' => 'RcmI18n\DbLoader',
-            ),
-        ),
-    ),
+            ],
+        ],
+    ],
     /**
      * Can be removed after ZF2 PR
      */
-    'service_manager' => array(
-        'factories' => array(
+    'service_manager' => [
+        'factories' => [
             'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
             'RcmI18n\Model\Locales' => 'RcmI18n\Factory\LocalesFactory',
-        )
-    ),
-    'translator_plugins' => array(
-        'factories' => array(
+        ]
+    ],
+    'translator_plugins' => [
+        'factories' => [
             'RcmI18n\DbLoader' => 'RcmI18n\Factory\LoaderFactory',
-        )
-    ),
-    'doctrine' => array(
-        'connection' => array(
-            'orm_default' => array(
+        ]
+    ],
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
-                'params' => array(
+                'params' => [
                     'charset' => 'UTF8'
-                ),
-            )
-        ),
-        'driver' => array(
-            'RcmI18n' => array(
+                ],
+            ]
+        ],
+        'driver' => [
+            'RcmI18n' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
+                'paths' => [
                     __DIR__ . '/../src/RcmI18n/Entity'
-                )
-            ),
-            'orm_default' => array(
-                'drivers' => array(
+                ]
+            ],
+            'orm_default' => [
+                'drivers' => [
                     'RcmI18n' => 'RcmI18n'
-                )
-            )
+                ]
+            ]
             /**
              * NOTE: SOME KIND OF DOCTRINE UTF8 SETTING IS REQUIRED HERE OR
              * FRENCH CHARACTERS WILL NOT DISPLAY CORRECTLY IN BROWSERS
              */
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
+        ],
+    ],
+    'controllers' => [
+        'invokables' => [
             'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController',
             'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController'
-        )
-    ),
-    'router' => array(
-        'routes' => array(
-            'locales' => array(
+        ]
+    ],
+    'router' => [
+        'routes' => [
+            'locales' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/rcmi18n/locales',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'RcmI18n\Controller\Locale',
-                    ),
-                ),
-            ),
-            'messages' => array(
+                    ],
+                ],
+            ],
+            'messages' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/rcmi18n/messages/:locale[/:id]',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'RcmI18n\Controller\Messages',
-                    ),
-                ),
-            ),
-        )
-    ),
-    'view_helpers' => array(
-        'factories' => array(
+                    ],
+                ],
+            ],
+        ]
+    ],
+    'view_helpers' => [
+        'factories' => [
             'translate' => 'RcmI18n\Factory\TranslateHtmlFactory',
-        )
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ]
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-        'strategies' => array(
+        ],
+        'strategies' => [
             'ViewJsonStrategy',
-        ),
-    ),
+        ],
+    ],
     'asset_manager' => [
         'resolver_configs' => [
             'aliases' => [
@@ -162,4 +162,4 @@ return array(
         ],
 
     ],
-);
+];

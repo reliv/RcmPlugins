@@ -18,20 +18,20 @@ class Module implements AutoloaderProviderInterface
 {
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\ClassMapAutoloader' => array(
+        return [
+            'Zend\Loader\ClassMapAutoloader' => [
                 __DIR__ . '/autoload_classmap.php',
-            ),
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+            ],
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . str_replace(
                             '\\',
                             '/',
                             __NAMESPACE__
                         ),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public function getConfig()
@@ -56,19 +56,19 @@ class Module implements AutoloaderProviderInterface
             //handle the dispatch error (exception)
             $em->attach(
                 \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
-                array(
+                [
                     $handler,
                     'handleEventException'
-                )
+                ]
             );
 
             //handle the view render error (exception)
             $em->attach(
                 \Zend\Mvc\MvcEvent::EVENT_RENDER_ERROR,
-                array(
+                [
                     $handler,
                     'handleEventException'
-                )
+                ]
             );
         }
 

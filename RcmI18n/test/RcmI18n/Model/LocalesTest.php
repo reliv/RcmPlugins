@@ -56,7 +56,7 @@ class LocalesTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $mockSiteRepo->expects($this->any())
             ->method('getSites')
-            ->will($this->returnValue(array($site)));
+            ->will($this->returnValue([$site]));
         $this->unit = new Locales($mockSiteRepo);
     }
 
