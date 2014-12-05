@@ -90,8 +90,8 @@ return [
                 ),
             ),
             /* */
-        ),
-    ),
+        ],
+    ],
 
     /**
      * Configuration for JIRA API
@@ -101,11 +101,11 @@ return [
             'endpoint' => 'https://jira.example.com',
             'username' => 'myUsername',
             'password' => 'myPassword',
-        ),
-    ),
+        ],
+    ],
 
-    'service_manager' => array(
-        'factories' => array(
+    'service_manager' => [
+        'factories' => [
             '\RcmErrorHandler\Config' => '\RcmErrorHandler\Factory\RcmErrorHandlerConfigFactory',
             '\RcmJira\Api' => '\RcmJira\Factory\JiraApiFactory',
             '\RcmJira\JiraLogger' => '\RcmJira\Factory\JiraLoggerFactory',
