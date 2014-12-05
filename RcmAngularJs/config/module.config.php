@@ -16,25 +16,25 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-return array(
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+return [
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-angular-js/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
-    'view_helpers' => array(
-        'invokables' => array(
+            ],
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
             'rcmIncludeAngularJsUiBootstrap' =>
                 'RcmAngularJs\View\Helper\IncludeAngularJsBootstrap',
             'rcmIncludeAngularJsUiTinyMce' =>
                 'RcmAngularJs\View\Helper\IncludeAngularJsTinyMce',
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-);
+        ],
+    ],
+];

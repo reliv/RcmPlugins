@@ -101,34 +101,34 @@ class FormPageLayoutTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender()
     {
-        $options = array(
-            'layouts' => array(
-                'testOne' => array(
+        $options = [
+            'layouts' => [
+                'testOne' => [
                     'screenShot' => 'testOne.jpg',
                     'display' => 'testOne Display'
-                ),
-                'testTwo' => array(
+                ],
+                'testTwo' => [
                     'screenShot' => 'testTwo.jpg',
                     'display' => 'testTwo Display'
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $expectedImages = array(
+        $expectedImages = [
             'testOne.jpg',
             'testTwo.jpg'
-        );
+        ];
 
-        $expectedText = array(
+        $expectedText = [
             'testOne Display',
             'testTwo Display'
-        );
+        ];
 
         $mockElement = $this->getMockBuilder('RcmAdmin\Form\Element\MainLayout')
             ->setMethods(
-                array(
+                [
                     'getOptions'
-                )
+                ]
             )->getMock();
 
         $mockElement->expects($this->once())

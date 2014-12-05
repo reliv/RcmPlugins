@@ -23,7 +23,7 @@ class Config
     /**
      * @var array $configArray
      */
-    protected $configArray = array();
+    protected $configArray = [];
 
     /**
      * __construct

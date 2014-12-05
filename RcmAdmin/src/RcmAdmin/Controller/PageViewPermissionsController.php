@@ -138,7 +138,7 @@ class PageViewPermissionsController extends AbstractRestfulController
 
         $this->addPermissions($roles, $resourceId);
 
-        return new JsonModel(array());
+        return new JsonModel([]);
     }
 
     /**

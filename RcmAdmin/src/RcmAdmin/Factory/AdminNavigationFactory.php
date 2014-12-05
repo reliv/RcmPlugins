@@ -89,7 +89,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         $pageTypeMatch = $routeMatch->getParam('pageType', 'n');
 
         if (!empty($pageMatch)) {
-            $this->page = $this->pageRepo->findOneBy(array('name' => $pageMatch, 'pageType' => $pageTypeMatch));
+            $this->page = $this->pageRepo->findOneBy(['name' => $pageMatch, 'pageType' => $pageTypeMatch]);
         }
 
         return parent::createService($serviceLocator);
@@ -182,21 +182,21 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             $resource = $page['acl']['resource'];
 
             $resource = str_replace(
-                array(':siteId',':pageName'),
-                array($this->currentSite->getSiteId(), $this->page->getName()),
+                [':siteId',':pageName'],
+                [$this->currentSite->getSiteId(), $this->page->getName()],
                 $resource
             );
 
             if (!empty($this->page)) {
                 $resource = str_replace(
-                    array(':siteId',':pageName'),
-                    array($this->currentSite->getSiteId(), $this->page->getName()),
+                    [':siteId',':pageName'],
+                    [$this->currentSite->getSiteId(), $this->page->getName()],
                     $resource
                 );
             } else {
                 $resource = str_replace(
-                    array(':siteId'),
-                    array($this->currentSite->getSiteId()),
+                    [':siteId'],
+                    [$this->currentSite->getSiteId()],
                     $resource
                 );
             }
@@ -222,7 +222,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         }
 
         if (isset($page['params']) && is_array($page['params'])) {
-            array_walk($page['params'], array($this, 'updatePlaceHolders'));
+            array_walk($page['params'], [$this, 'updatePlaceHolders']);
         }
 
         if (!empty($page['rcmIncludeDrafts'])) {
@@ -242,7 +242,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
      */
     protected function getRevisionList($published=false)
     {
-        $return = array();
+        $return = [];
 
         $drafts = $this->pageRepo->getRevisionList(
             $this->currentSite->getSiteId(),
@@ -262,16 +262,16 @@ class AdminNavigationFactory extends AbstractNavigationFactory
                 continue;
             }
 
-            $return[] = array(
+            $return[] = [
                 'label'  => $draft['createdDate']->format("r").' - '.$draft['author'],
                 'route'  => 'contentManagerWithPageType',
                 'class' => 'revision',
-                'params' => array(
+                'params' => [
                     'page' => $this->page->getName(),
                     'pageType' => $this->page->getPageType(),
                     'revision' => $draft['revisionId']
-                )
-            );
+                ]
+            ];
         }
 
         return $return;
@@ -288,17 +288,17 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             return;
         }
 
-        $find = array(
+        $find = [
             ':rcmPageName',
             ':rcmPageType',
             ':rcmPageRevision'
-        );
+        ];
 
-        $replace = array(
+        $replace = [
             $this->page->getName(),
             $this->page->getPageType(),
             $this->pageRevision
-        );
+        ];
 
         $item = str_replace($find, $replace, $item);
     }

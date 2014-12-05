@@ -173,7 +173,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
         }
 
         /** @var \Rcm\Entity\Site $site */
-        $site = $siteRepo->findOneBy(array('siteId' => $siteId));
+        $site = $siteRepo->findOneBy(['siteId' => $siteId]);
 
         if ($data['status'] == 'D') {
             $site->setStatus('D');
@@ -211,7 +211,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
 
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
-                array(),
+                [],
                 1,
                 'Some values are missing or invalid.',
                 $inputFilter->getMessages()
@@ -440,7 +440,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
      * @return void
      * @throws \Exception
      */
-    protected function createPagePlugins(Site $site, $pagesData = array(), $doFlush = true)
+    protected function createPagePlugins(Site $site, $pagesData = [], $doFlush = true)
     {
         $entityManager = $this->getEntityManager();
 

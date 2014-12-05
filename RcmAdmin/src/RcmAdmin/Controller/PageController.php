@@ -116,12 +116,12 @@ class PageController extends AbstractActionController
             if (empty($validatedData['page-template'])
                 && !empty($validatedData['main-layout'])
             ) {
-                $pageData = array(
+                $pageData = [
                     'name' => $validatedData['url'],
                     'pageTitle' => $validatedData['title'],
                     'siteLayoutOverride' => $validatedData['main-layout'],
                     'author' => $this->rcmUserGetCurrentUser()->getName(),
-                );
+                ];
 
                 $this->pageRepo->createPage(
                     $this->currentSite,
@@ -131,10 +131,10 @@ class PageController extends AbstractActionController
             } elseif (!empty($validatedData['page-template'])) {
                 /** @var \Rcm\Entity\Page $page */
                 $page = $this->pageRepo->findOneBy(
-                    array(
+                    [
                         'pageId' => $validatedData['page-template'],
                         'pageType' => 't'
-                    )
+                    ]
                 );
 
                 if (empty($page)) {
@@ -144,12 +144,12 @@ class PageController extends AbstractActionController
                     );
                 }
 
-                $pageData = array(
+                $pageData = [
                     'author' => $this->rcmUserGetCurrentUser()->getName(),
                     'name' => $validatedData['url'],
                     'pageTitle' => $validatedData['title'],
                     'pageType' => 'n'
-                );
+                ];
 
                 $this->pageRepo->copyPage(
                     $this->currentSite,
@@ -253,12 +253,12 @@ class PageController extends AbstractActionController
 
             $pageId = $page->getPageId();
 
-            $pageData = array(
+            $pageData = [
                 'author' => $this->rcmUserGetCurrentUser()->getName(),
                 'name' => $validatedData['template-name'],
                 'pageTitle' => null,
                 'pageType' => 't',
-            );
+            ];
 
             $this->pageRepo->copyPage(
                 $this->currentSite,
@@ -468,13 +468,13 @@ class PageController extends AbstractActionController
     protected function prepSaveData(&$data)
     {
         if (!is_array($data)) {
-            $data = array();
+            $data = [];
         }
 
         ksort($data);
 
-        $data['containers'] = array();
-        $data['pageContainer'] = array();
+        $data['containers'] = [];
+        $data['pageContainer'] = [];
 
         if (empty($data['plugins'])) {
             throw new InvalidArgumentException(
@@ -560,11 +560,11 @@ class PageController extends AbstractActionController
         if (is_string($data)) {
             $data = trim(
                 str_replace(
-                    array(
+                    [
                         "\n",
                         "\t",
                         "\r"
-                    ),
+                    ],
                     "",
                     $data
                 )

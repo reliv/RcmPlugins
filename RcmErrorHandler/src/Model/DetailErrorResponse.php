@@ -44,14 +44,14 @@ class DetailErrorResponse {
 
     public $line = 0;
 
-    public $backtrace = array();
+    public $backtrace = [];
 
     public function __construct(
         $message = 'Internal Server Error',
         $code = 0,
         $file = '',
         $line = 0,
-        $backtrace = array()
+        $backtrace = []
     ) {
         $this->code = $code;
         $this->message = $message;

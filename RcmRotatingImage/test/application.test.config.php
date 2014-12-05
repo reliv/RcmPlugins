@@ -1,8 +1,8 @@
 <?php
 
-return array(
-    'modules' => array(
+return [
+    'modules' => [
         'RcmInstanceConfig',
         'RcmRotatingImage'
-    ),
-);
+    ],
+];

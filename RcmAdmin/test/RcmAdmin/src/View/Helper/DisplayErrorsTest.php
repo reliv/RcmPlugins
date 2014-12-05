@@ -47,25 +47,25 @@ class DisplayErrorsTest extends \PHPUnit_Framework_TestCase
      */
     public function testErrorMapper()
     {
-        $errors = array(
-            array(
+        $errors = [
+            [
                 'errorCode' => 'pageName',
                 'errorMessage' => 'pageName Error',
                 'expected' =>
                     '<p class="urlErrorMessage">pageName Error</p>' . "\n"
-            ),
-            array(
+            ],
+            [
                 'errorCode' => 'pageExists',
                 'errorMessage' => 'pageExists Error',
                 'expected' =>
                     '<p class="urlErrorMessage">pageExists Error</p>' . "\n"
-            ),
-            array(
+            ],
+            [
                 'errorCode' => 'unknown',
                 'errorMessage' => 'unknown Error',
                 'expected' => '<p class="errorMessage">unknown Error</p>' . "\n"
-            ),
-        );
+            ],
+        ];
 
         $helper = new DisplayErrors();
 
@@ -136,17 +136,17 @@ class DisplayErrorsTest extends \PHPUnit_Framework_TestCase
      */
     protected function renderErrorsTest($useInvoke = false)
     {
-        $errors = array(
-            array('pageName' => 'pageName Error'),
-            array('pageExists' => 'pageExists Error'),
-            array('unknown' => 'unknown Error'),
-        );
+        $errors = [
+            ['pageName' => 'pageName Error'],
+            ['pageExists' => 'pageExists Error'],
+            ['unknown' => 'unknown Error'],
+        ];
 
-        $messages = array(
+        $messages = [
             '<p class="urlErrorMessage">pageName Error</p>' . "\n",
             '<p class="urlErrorMessage">pageExists Error</p>' . "\n",
             '<p class="errorMessage">unknown Error</p>' . "\n"
-        );
+        ];
 
         $helper = new DisplayErrors();
         if ($useInvoke) {
@@ -169,7 +169,7 @@ class DisplayErrorsTest extends \PHPUnit_Framework_TestCase
      */
     protected function renderErrorsWithNoErrorsTest($useInvoke = false)
     {
-        $errors = array();
+        $errors = [];
 
         $helper = new DisplayErrors();
 

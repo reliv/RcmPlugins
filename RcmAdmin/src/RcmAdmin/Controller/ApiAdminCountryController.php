@@ -46,7 +46,7 @@ class ApiAdminCountryController extends ApiAdminBaseController {
         $repo = $this->getEntityManager()->getRepository('\Rcm\Entity\Country');
 
         try {
-            $results = $repo->findBy(array(), array('countryName' => 'ASC'));
+            $results = $repo->findBy([], ['countryName' => 'ASC']);
         } catch(\Exception $e){
             return new ApiJsonModel(null, 1, 'An error occurred will getting countries.');
         }

@@ -17,33 +17,33 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
-    'rcmPlugin' => array(
-        'RcmGoogleSearchResults' => array(
+    'rcmPlugin' => [
+        'RcmGoogleSearchResults' => [
             'type' => 'Common',
             'display' => 'Google Search Results',
             'tooltip' => 'Google Search Results',
             'icon' => '',
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php'
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+        ],
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-google-search-results/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             'RcmGoogleSearchResults' => 'RcmGoogleSearchResults\Factory\BaseControllerFactory'
-        )
-    )
-);
+        ]
+    ]
+];

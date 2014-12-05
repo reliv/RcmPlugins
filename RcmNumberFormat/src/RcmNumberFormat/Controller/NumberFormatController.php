@@ -53,9 +53,9 @@ class NumberFormatController extends AbstractActionController
     public function getView($formattedResult)
     {
         return new JsonModel(
-            array(
+            [
                 'result' => $formattedResult
-            )
+            ]
         );
     }
 
@@ -63,9 +63,9 @@ class NumberFormatController extends AbstractActionController
     {
         $this->getResponse()->setStatusCode(400); //Bad Request
         return new JsonModel(
-            array(
+            [
                 'error' => 'Value to format is not numeric.'
-            )
+            ]
         );
     }
 

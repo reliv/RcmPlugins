@@ -58,7 +58,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
     protected function getSite($siteId)
     {
         try {
-            $site = $this->getSiteRepo()->findOneBy(array('siteId' => $siteId));
+            $site = $this->getSiteRepo()->findOneBy(['siteId' => $siteId]);
         } catch (\Exception $e) {
             $site = null;
         }
@@ -77,10 +77,10 @@ class ApiAdminSitePageController extends ApiAdminBaseController
     {
         try {
             $page = $this->getPageRepo()->findOneBy(
-                array(
+                [
                     'site' => $site,
                     'pageId' => $pageId
-                )
+                ]
             );
         } catch (\Exception $e) {
             $page = null;
@@ -245,7 +245,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
-                array(),
+                [],
                 1,
                 'Some values are missing or invalid for page update.',
                 $inputFilter->getMessages()
@@ -335,7 +335,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
-                array(),
+                [],
                 1,
                 'Some values are missing or invalid for page creation.',
                 $inputFilter->getMessages()
@@ -386,7 +386,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
-                array(),
+                [],
                 1,
                 'Some values are missing or invalid for page duplication.',
                 $inputFilter->getMessages()

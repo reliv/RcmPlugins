@@ -19,12 +19,12 @@ class DoctrineDbLoaderTest extends \PHPUnit_Framework_TestCase
         $query->setMethod('setParameter', $query);
         $query->setMethod(
             'getArrayResult',
-            array(
-                array(
+            [
+                [
                     'defaultText' => 'translate',
                     'text' => 'Translatadoralata'
-                )
-            )
+                ]
+            ]
         );
         $entityMgr = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()->getMock();
@@ -35,7 +35,7 @@ class DoctrineDbLoaderTest extends \PHPUnit_Framework_TestCase
         $textDomain = $unit->load('en_US');
         $this->assertInstanceOf('Zend\I18n\Translator\TextDomain', $textDomain);
         $this->assertEquals(
-            array('translate' => 'Translatadoralata'),
+            ['translate' => 'Translatadoralata'],
             $textDomain->getArrayCopy()
         );
     }

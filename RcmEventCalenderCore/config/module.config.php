@@ -17,72 +17,72 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
-    'router' => array(
-        'routes' => array(
-            'rcm-event-calender-core-event' => array(
+    'router' => [
+        'routes' => [
+            'rcm-event-calender-core-event' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/rcm-event-calender/events[/:id]',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'EventAPIController',
-                    )
-                ),
-            ),
-            'rcm-event-calender-core-category' => array(
+                    ]
+                ],
+            ],
+            'rcm-event-calender-core-category' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/rcm-event-calender/categories[/:id]',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'CategoryAPIController',
-                    )
-                ),
-            ),
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+                    ]
+                ],
+            ],
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-        'strategies' => array(
+        ],
+        'strategies' => [
             'ViewJsonStrategy',
-        ),
-    ),
-    'doctrine' => array(
-        'driver' => array(
-            'RcmEventCalenderCore' => array(
+        ],
+    ],
+    'doctrine' => [
+        'driver' => [
+            'RcmEventCalenderCore' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(
+                'paths' => [
                     __DIR__ . '/../src/RcmEventCalenderCore/Entity'
-                )
-            ),
-            'orm_default' => array(
-                'drivers' => array(
+                ]
+            ],
+            'orm_default' => [
+                'drivers' => [
                     'RcmEventCalenderCore' => 'RcmEventCalenderCore'
-                )
-            )
-        )
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+                ]
+            ]
+        ]
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-event-calender-core/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             'RcmCalendarCore' => 'RcmCalendarCore\Factory\CalendarModelFactory'
-        )
-    ),
-    'controllers' => array(
-        'factories' => array(
+        ]
+    ],
+    'controllers' => [
+        'factories' => [
             'EventAPIController' =>
                 'RcmEventCalendarCore\Factory\EventAPIControllerFactory',
             'CategoryAPIController' =>
                 'RcmEventCalendarCore\Factory\CategoryAPIControllerFactory'
-        )
-    )
-);
+        ]
+    ]
+];

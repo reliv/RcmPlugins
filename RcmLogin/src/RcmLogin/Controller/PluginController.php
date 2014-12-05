@@ -129,10 +129,10 @@ class PluginController
             );
 
             $view->setVariables(
-                array(
+                [
                     'error' => $error,
                     'username' => $username,
-                )
+                ]
             );
 
         }

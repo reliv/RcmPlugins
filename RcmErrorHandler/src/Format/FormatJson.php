@@ -153,9 +153,9 @@ class FormatJson extends FormatBase
         $this->setResponseHeaders();
         $response->setStatusCode(Response::STATUS_CODE_500);
         $response->getHeaders()->addHeaders(
-            array(
+            [
                 'Content-Type' => 'application/json'
-            )
+            ]
         );
 
         $response->setContent('');

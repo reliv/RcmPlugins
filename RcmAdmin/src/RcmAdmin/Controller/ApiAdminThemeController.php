@@ -37,7 +37,7 @@ class ApiAdminThemeController extends ApiAdminBaseController
         $myConfig = $config['Rcm'];
 
         if (empty($myConfig['themes'])) {
-            return array();
+            return [];
         }
 
         return $myConfig['themes'];

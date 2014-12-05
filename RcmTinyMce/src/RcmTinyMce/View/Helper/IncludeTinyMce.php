@@ -27,7 +27,7 @@ class IncludeTinyMce extends AbstractHelper
      *
      * @return void
      */
-    public function __invoke($options = array())
+    public function __invoke($options = [])
     {
         $this->inject($options);
 
@@ -41,7 +41,7 @@ class IncludeTinyMce extends AbstractHelper
      *
      * @return void
      */
-    protected function inject($options = array())
+    protected function inject($options = [])
     {
         $view = $this->getView();
 

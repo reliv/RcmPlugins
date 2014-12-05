@@ -50,7 +50,7 @@ class MainLayout extends Radio
     {
         parent::setOptions($options);
 
-        $value_options = array();
+        $value_options = [];
 
         if (isset($this->options['layouts'])) {
             foreach ($this->options['layouts'] as $key => &$layout) {

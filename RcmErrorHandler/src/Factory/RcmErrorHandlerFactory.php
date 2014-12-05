@@ -102,10 +102,10 @@ class RcmErrorHandlerFactory
         $errorHandler = $this->getHandler();
 
         $originalHandler = set_error_handler(
-            array(
+            [
                 $errorHandler,
                 'handleError'
-            )
+            ]
         );
 
         /* @todo Should this be done? *
@@ -144,10 +144,10 @@ class RcmErrorHandlerFactory
         $exceptionHander = $this->getHandler();
 
         $originalHandler = set_exception_handler(
-            array(
+            [
                 $exceptionHander,
                 'handleException'
-            )
+            ]
         );
     }
 
@@ -176,10 +176,10 @@ class RcmErrorHandlerFactory
 
                 $eventManager->attach(
                     $listenerConfig['event'],
-                    array(
+                    [
                         $obj,
                         'update'
-                    )
+                    ]
                 );
             }
         }

@@ -80,10 +80,10 @@ class PluginController
         $events = $this->calender->getEvents($instanceConfig['categoryId']);
 
         $view = new \Zend\View\Model\ViewModel(
-            array(
+            [
                 'instanceConfig' => $instanceConfig,
                 'events' => $events
-            )
+            ]
         );
         $view->setTemplate($this->template);
         return $view;

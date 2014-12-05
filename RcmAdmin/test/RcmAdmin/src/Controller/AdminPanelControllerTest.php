@@ -103,7 +103,7 @@ class AdminPanelControllerTest extends \PHPUnit_Framework_TestCase
         );
 
         $event = new MvcEvent();
-        $routeMatch = new RouteMatch(array('page' => 'index', 'pageType' => 'n'));
+        $routeMatch = new RouteMatch(['page' => 'index', 'pageType' => 'n']);
         $event->setRouteMatch($routeMatch);
 
         $this->controller->setEvent($event);
@@ -116,58 +116,58 @@ class AdminPanelControllerTest extends \PHPUnit_Framework_TestCase
      */
     protected function getConfig()
     {
-        return array(
-            'Page' => array(
+        return [
+            'Page' => [
                 'display' => 'Page',
                 'aclGroups' => 'admin',
                 'cssClass' => '',
                 'href' => '#',
-                'links' => array(
-                    'New' => array(
+                'links' => [
+                    'New' => [
                         'display' => 'New',
                         'aclGroups' => 'admin',
                         'cssClass' => 'newPageIcon',
                         'href' => '#',
-                        'links' => array(
-                            'Page' => array(
+                        'links' => [
+                            'Page' => [
                                 'display' => 'Page',
                                 'aclResource' => 'admin',
                                 'aclPermissions' => 'page.new',
                                 'cssClass' => 'rcmNewPageIcon rcmNewPage',
                                 'href' => '#',
                                 'data-title' => 'New Page',
-                            ),
-                        )
-                    ),
-                    'Edit' => array(
+                            ],
+                        ]
+                    ],
+                    'Edit' => [
                         'display' => 'Edit',
                         'aclGroups' => 'admin',
                         'cssClass' => 'draftsIcon',
                         'href' => '#',
-                        'links' => array(
-                            'Page' => array(
+                        'links' => [
+                            'Page' => [
                                 'display' => 'Edit Content',
                                 'aclGroups' => 'admin',
                                 'cssClass' => 'rcmEditPageIcon rcmEditPage',
                                 'href' => '#',
-                            ),
-                            'Page Layout' => array(
+                            ],
+                            'Page Layout' => [
                                 'display' => 'Add/Remove Plugins on Page',
                                 'aclGroups' => 'admin',
                                 'cssClass' => 'rcmLayoutIcon rcmShowLayoutEditor',
                                 'href' => '#',
-                            ),
-                            'Page Properties' => array(
+                            ],
+                            'Page Properties' => [
                                 'display' => 'Page Properties',
                                 'aclGroups' => 'admin',
                                 'cssClass' => 'PagePropertiesIcon rcmPageProperties',
                                 'href' => '#',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**

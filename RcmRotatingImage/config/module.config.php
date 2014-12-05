@@ -17,10 +17,10 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
-    'rcmPlugin' => array(
-        'RcmRotatingImage' => array(
+    'rcmPlugin' => [
+        'RcmRotatingImage' => [
             'type' => 'Images & Slide Shows',
             'display' => 'Rotating Image',
             'tooltip' => 'Displays a different randomly selected image from a list each time a visitor comes to the site.',
@@ -29,28 +29,28 @@ return array(
             'editCss' => '/modules/rcm-rotating-image/edit.css',
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php'
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+        ],
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-rotating-image/' => __DIR__ . '/../public/',
-            ),
-            'collections' => array(
-                'modules/rcm-admin/js/rcm-admin.js' => array(
+            ],
+            'collections' => [
+                'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-rotating-image/edit.js',
-                ),
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             'RcmRotatingImage' => 'RcmRotatingImage\Factory\BaseControllerFactory'
-        )
-    )
-);
+        ]
+    ]
+];

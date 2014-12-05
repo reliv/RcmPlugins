@@ -190,7 +190,7 @@ class GenericError
      *
      * @return array
      */
-    public function getErrors(GenericError $error, $errors = array())
+    public function getErrors(GenericError $error, $errors = [])
     {
         array_unshift($errors, $error);
 

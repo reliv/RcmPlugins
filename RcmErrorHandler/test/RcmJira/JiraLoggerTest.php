@@ -17,20 +17,20 @@ class JiraLoggerTest extends Mocks {
                 $this->getMockApiResult(),
                 $this->getMockApiResult()
             ),
-            array(
+            [
                 'projectKey' => 'test1',
-            )
+            ]
         );
 
         $_SERVER['REQUEST_URI'] = 'http://test.example.com';
 
-        $extra = array(
+        $extra = [
             'description' => 'description',
             'file' => 'file',
             'line' => 'line',
             'message' => 'message',
             'trace' => 'trace',
-        );
+        ];
 
         $logger->emerg('test messg', $extra);
         $logger->alert('test messg', $extra);
@@ -57,21 +57,21 @@ class JiraLoggerTest extends Mocks {
                 $this->getMockApiResult(),
                 $this->getMockApiResult()
             ),
-            array(
+            [
                 'projectKey' => 'test1',
-                'enterIssueIfNotStatus' => array('status'),
-            )
+                'enterIssueIfNotStatus' => ['status'],
+            ]
         );
 
         $_SERVER['REQUEST_URI'] = 'http://test.example.com';
 
-        $extra = array(
+        $extra = [
             'description' => 'description',
             'file' => 'file',
             'line' => 'line',
             'message' => 'message',
             'trace' => 'trace',
-        );
+        ];
 
         $logger->log(E_NOTICE, 'test messg', $extra);
 
@@ -85,21 +85,21 @@ class JiraLoggerTest extends Mocks {
                 $this->getMockApiResult(),
                 $this->getMockApiResult()
             ),
-            array(
+            [
                 'projectKey' => 'test1',
-                'enterIssueIfNotStatus' => array('status'),
-            )
+                'enterIssueIfNotStatus' => ['status'],
+            ]
         );
 
         $_SERVER['REQUEST_URI'] = 'http://test.example.com';
 
-        $extra = array(
+        $extra = [
             'description' => 'description',
             'file' => 'file',
             'line' => 'line',
             'message' => 'message',
             'trace' => 'trace',
-        );
+        ];
 
 
         try{
@@ -128,21 +128,21 @@ class JiraLoggerTest extends Mocks {
                 $this->getMockApiResultErr(),
                 $this->getMockApiResult()
             ),
-            array(
+            [
                 'projectKey' => 'test1',
-                'enterIssueIfNotStatus' => array('status'),
-            )
+                'enterIssueIfNotStatus' => ['status'],
+            ]
         );
 
         $_SERVER['REQUEST_URI'] = 'http://test.example.com';
 
-        $extra = array(
+        $extra = [
             'description' => 'description',
             'file' => 'file',
             'line' => 'line',
             'message' => 'message',
             'trace' => 'trace',
-        );
+        ];
 
 
         try{
@@ -172,21 +172,21 @@ class JiraLoggerTest extends Mocks {
                 $this->getMockApiResult(),
                 $this->getMockApiResultErr()
             ),
-            array(
+            [
                 'projectKey' => 'test1',
-                'enterIssueIfNotStatus' => array('status'),
-            )
+                'enterIssueIfNotStatus' => ['status'],
+            ]
         );
 
         $_SERVER['REQUEST_URI'] = 'http://test.example.com';
 
-        $extra = array(
+        $extra = [
             'description' => 'description',
             'file' => 'file',
             'line' => 'line',
             'message' => 'message',
             'trace' => 'trace',
-        );
+        ];
 
 
         try{

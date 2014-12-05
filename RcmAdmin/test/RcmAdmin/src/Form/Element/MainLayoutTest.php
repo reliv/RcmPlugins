@@ -47,20 +47,20 @@ class MainLayoutTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOptions()
     {
-        $options['layouts'] = array(
-            'option1' => array('display' => 'value1'),
-            'option2' => array('display' => 'value2')
-        );
+        $options['layouts'] = [
+            'option1' => ['display' => 'value1'],
+            'option2' => ['display' => 'value2']
+        ];
 
         $element = new MainLayout();
         $element->setOptions($options);
 
         $valueOptions = $element->getValueOptions();
 
-        $expected = array(
+        $expected = [
             'option1' => 'value1',
             'option2' => 'value2'
-        );
+        ];
 
         $this->assertEquals($expected, $valueOptions);
     }

@@ -33,7 +33,7 @@ class ErrorListenerFactory  implements FactoryInterface
 
         $listenerConfigs = $config->get('listener');
 
-        $listenerConfigArr = array();
+        $listenerConfigArr = [];
 
         if(isset($listenerConfigs['\RcmErrorHandler\Log\ErrorListener'])) {
 
@@ -42,7 +42,7 @@ class ErrorListenerFactory  implements FactoryInterface
 
         $listenerConfig = new Config($listenerConfigArr);
 
-        $logger = new Logger($listenerConfig->get('options', array()));
+        $logger = new Logger($listenerConfig->get('options', []));
 
         return new ErrorListener($listenerConfig, $logger);
     }

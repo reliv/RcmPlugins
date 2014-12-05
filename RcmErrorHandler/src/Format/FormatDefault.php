@@ -78,7 +78,7 @@ class FormatDefault extends FormatBase
     ) {
 
         $backtrace = $error->getTrace($options);
-        $ret = array();
+        $ret = [];
 
         $output = '
             <table dir="ltr"
@@ -108,7 +108,7 @@ class FormatDefault extends FormatBase
             $function = (isset($call['function']) ? $call['function'] : '');
             $type = (isset($call['type']) ? $call['type'] : '');
 
-            $args = (isset($call['args']) ? (array)$call['args'] : array());
+            $args = (isset($call['args']) ? (array)$call['args'] : []);
 
             $object = '';
             if (!empty($class)) {

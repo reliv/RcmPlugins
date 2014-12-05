@@ -17,22 +17,22 @@
  * @version   GIT: <git_id>
  */
 
-return array(
-    'service_manager' => array(
-        'factories' => array(
+return [
+    'service_manager' => [
+        'factories' => [
             'RcmHtmlPurifier' => 'RcmHtmlPurifier\Factory\HtmlPurifierFactory',
-        )
-    ),
-    'controller_plugins' => array(
-        'invokables' => array(
+        ]
+    ],
+    'controller_plugins' => [
+        'invokables' => [
             'rcmHtmlPurify' =>
                 'RcmHtmlPurifier\Controller\Plugin\HtmlPurify',
-        ),
-    ),
-    'view_helpers' => array(
-        'invokables' => array(
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
             'rcmHtmlPurify' =>
                 'RcmHtmlPurifier\View\Helper\HtmlPurify',
-        ),
-    ),
-);
+        ],
+    ],
+];

@@ -48,10 +48,10 @@ class Category
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'categoryId' => $this->categoryId,
             'name' => $this->name,
-        );
+        ];
     }
 
     /**

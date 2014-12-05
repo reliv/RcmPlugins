@@ -17,10 +17,10 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
-    'rcmPlugin' => array(
-        'RcmRssFeed' => array(
+    'rcmPlugin' => [
+        'RcmRssFeed' => [
             'type' => 'Social Media',
             'display' => 'Rss Feed Reader',
             'tooltip' => 'Rss Reader and Display',
@@ -29,51 +29,51 @@ return array(
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php',
             'cacheable' => true,
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    'router' => array(
-        'routes' => array(
-            'rcm-rss-proxy' => array(
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'rcm-rss-proxy' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/rcm-rss-proxy',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'RcmRssFeed\Controller\ProxyController',
                         'action' => 'rssProxy',
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             'RcmRssFeed\Cache' => '\RcmRssFeed\Factory\RssCacheFactory'
-        )
-    ),
+        ]
+    ],
 
-    'controllers' => array(
-        'factories' => array(
+    'controllers' => [
+        'factories' => [
             'RcmRssFeed\Controller\ProxyController'
                 => '\RcmRssFeed\Factory\ProxyControllerFactory',
             'RcmRssFeed' => '\RcmRssFeed\Factory\PluginControllerFactory',
-        ),
-    ),
+        ],
+    ],
 
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-rss-feed/' => __DIR__ . '/../public/',
-            ),
-            'collections' => array(
-                'modules/rcm-admin/js/rcm-admin.js' => array(
+            ],
+            'collections' => [
+                'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-rss-feed/edit.js',
-                ),
-            ),
-        ),
-    ),
-);
+                ],
+            ],
+        ],
+    ],
+];

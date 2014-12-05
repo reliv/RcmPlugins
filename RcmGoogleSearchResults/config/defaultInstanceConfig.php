@@ -1,4 +1,4 @@
 <?php
-return array(
+return [
     'resultPlaceHolder' => 'No search results.'
-);
+];

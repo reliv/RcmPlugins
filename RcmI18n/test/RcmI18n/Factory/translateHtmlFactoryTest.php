@@ -20,7 +20,7 @@ class TranslateHtmlFactoryTest extends \PHPUnit_Framework_TestCase
             'RcmHtmlPurifier',
             $this->getMockBuilder('\HtmlPurifier')
                 ->disableOriginalConstructor()
-                ->setMethods(array('purify'))
+                ->setMethods(['purify'])
                 ->getMock()
         );
         $viewSm = new LoaderPluginManager();
