@@ -58,6 +58,16 @@ return [
                     // WARNING: this can be a security issue
                     // Set to an array of specific session keys to display or 'ALL' to display all
                     'includeSessionVars' => false,
+                    // This is useful for preventing exceptions who have dynamic
+                    // parts from creating multipule entries in JIRA
+                    // Jira ticket descriptions will be ran through preg_replace
+                    // using these as the preg_replace arguments.
+                    'summaryPreprocessors' => [
+                        // $pattern => $replacement
+                        // For example this would remove the number from
+                        // exceptions like "requestId: 0678096"
+                        '/requestId\:\s\d+/' => 'requestId: [see full desc for id]'
+                    ]
                 ),
             ),
             /* */
@@ -80,8 +90,8 @@ return [
                 ),
             ),
             /* */
-        ],
-    ],
+        ),
+    ),
 
     /**
      * Configuration for JIRA API
@@ -91,11 +101,11 @@ return [
             'endpoint' => 'https://jira.example.com',
             'username' => 'myUsername',
             'password' => 'myPassword',
-        ],
-    ],
+        ),
+    ),
 
-    'service_manager' => [
-        'factories' => [
+    'service_manager' => array(
+        'factories' => array(
             '\RcmErrorHandler\Config' => '\RcmErrorHandler\Factory\RcmErrorHandlerConfigFactory',
             '\RcmJira\Api' => '\RcmJira\Factory\JiraApiFactory',
             '\RcmJira\JiraLogger' => '\RcmJira\Factory\JiraLoggerFactory',
