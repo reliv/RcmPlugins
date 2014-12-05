@@ -70,7 +70,7 @@ angular.module('rcmAdmin').controller(
             $().confirm(
                 '<div class="confirm">' +
                 '<h2>Duplicate site ' + site.siteId + '?</h2>' +
-                '<div><span>New Domain: </span>' + $scope.tempSites[site.siteId].domain.domain + '</div>' +
+                '<div><span>New Domain: </span>' + $scope.tempSites[site.siteId].domain + '</div>' +
                 '</div>',
                 function () {
                     $http(

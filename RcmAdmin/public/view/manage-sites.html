@@ -14,7 +14,7 @@
             </tr>
             <tr ng-repeat="site in sites track by $index">
                 <td style="vertical-align: top; padding-left: 25px;">{{site.siteId}}</td>
-                <td style="vertical-align: top;"><h2>{{site.domain.domain}}</h2></td>
+                <td style="vertical-align: top;"><h2>{{site.domain}}</h2></td>
                 <td style="vertical-align: top;" ng-show="loadings[site.siteId]">
                     <div>Loading...</div>
                 </td>
@@ -53,7 +53,7 @@
                                     <div>Enter new domain</div>
                                     <input type="text"
                                            id="newDomain"
-                                           ng-model="tempSites[site.siteId].domain.domain"
+                                           ng-model="tempSites[site.siteId].domain"
                                            required="required"
                                            ng-required="true">
                                 </label>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="siteDuplicateOptions"
                          ng-show="tempSites[site.siteId].message">
-                        <div ng-show="tempSites[site.siteId].code == 0">
+                        <div ng-show="tempSites[site.siteId].code > 0">
                             <div class="alert alert-warning">
                                 <div>Error: {{tempSites[site.siteId].message}}</div>
                             </div>
@@ -84,7 +84,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div ng-show="tempSites[site.siteId].code == 1">
+                        <div ng-show="tempSites[site.siteId].code == 0">
                             <div class="alert alert-success">
                                 <div>{{tempSites[site.siteId].message}}</div>
                             </div>

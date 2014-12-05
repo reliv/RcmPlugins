@@ -49,6 +49,16 @@ class SitePageDuplicateInputFilter extends InputFilter
                     ['name' => 'StringTrim'],
                 ],
             ],
+            'pageLayout' => [
+                'name' => 'pageLayout',
+                'required' => false,
+                'filters' => [
+                    ['name' => 'Zend\Filter\StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                ]
+            ],
             'siteLayoutOverride' => [
                 'name' => 'siteLayoutOverride',
                 'required' => false,
