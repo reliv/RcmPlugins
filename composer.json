@@ -37,7 +37,37 @@
     },
     "autoload": {
         "psr-0": {
-            "RcmI18n": "RcmI18n/src/"
+            "RcmI18n": "RcmI18n/src/",
+            "RcmAdmin": "RcmAdmin/src/",
+            "RcmAngularJs": "RcmAngularJs/src/",
+            "RcmBrightCovePlayer": "RcmBrightCovePlayer/src/",
+            "RcmCallToActionBox": "RcmCallToActionBox/src/",
+            "RcmErrorHandler": "RcmErrorHandler/src/",
+            "RcmEventCalenderCore": "RcmEventCalenderCore/src/",
+            "RcmEventListDisplay": "RcmEventListDisplay/src/",
+            "RcmGoogleSearchBox": "RcmGoogleSearchBox/src/",
+            "RcmGoogleSearchResults": "RcmGoogleSearchResults/src/",
+            "RcmHtmlArea": "RcmHtmlArea/src/",
+            "RcmHtmlPurifier": "RcmHtmlPurifier/src/",
+            "RcmImageWithThumbNails": "RcmImageWithThumbNails/src/",
+            "RcmInstall": "RcmInstall/src/",
+            "RcmJquery": "RcmJquery/src/",
+            "RcmLib": "RcmLib/src/",
+            "RcmLogin": "RcmLogin/src/",
+            "RcmMockPlugin": "RcmMockPlugin/src/",
+            "RcmNavigation": "RcmNavigation/src/",
+            "RcmNavResponsive": "RcmNavResponsive/src/",
+            "RcmNumberFormat": "RcmNumberFormat/src/",
+            "RcmPeopleSlider": "RcmPeopleSlider/src/",
+            "RcmPluginHelpers": "RcmPluginHelpers/src/",
+            "RcmPortalAnnouncementBox": "RcmPortalAnnouncementBox/src/",
+            "RcmRecommendedProducts": "RcmRecommendedProducts/src/",
+            "RcmRotatingImage": "RcmRotatingImage/src/",
+            "RcmRssFeed": "RcmRssFeed/src/",
+            "RcmSocialButtons": "RcmSocialButtons/src/",
+            "RcmTabs": "RcmTabs/src/",
+            "RcmTinyMce": "RcmTinyMce/src/",
+            "RcmTwitterBootstrap": "RcmTwitterBootstrap/src/"
         },
         "classmap": [
             "./"
