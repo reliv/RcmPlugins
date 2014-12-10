@@ -47,8 +47,9 @@
                             Duplicate Site
                         </h2>
 
-                        <div>
-                            <form>
+                        <div class="container-fluid">
+                            <form role="form">
+                                <div class="form-group" ng-class="{'has-error': createResult.errors.country}">
                                 <label for="newDomain">
                                     <div>Enter new domain</div>
                                     <input type="text"
@@ -57,6 +58,40 @@
                                            required="required"
                                            ng-required="true">
                                 </label>
+                                    </div>
+
+                                <div class="form-group" ng-class="{'has-error': createResult.errors.country}">
+                                    <label class="col-sm-3 control-label"
+                                           for="site-country-iso3">Site Country</label>
+
+                                    <div class="col-sm-8">
+                                        <select class="form-control"
+                                                id="site-country-iso3"
+                                                ng-model="site.country"
+                                                ng-options="v.iso3 as v.countryName for (k, v) in countries"
+                                                >
+                                        </select>
+
+                                        <div class="help-block with-errors">{{createResult.errors.country}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" ng-class="{'has-error': createResult.errors.language}">
+                                    <label class="col-sm-3 control-label"
+                                           for="site-language-iso639_2t">Site Language</label>
+
+                                    <div class="col-sm-8">
+                                        <select class="form-control"
+                                                id="site-language-iso639_2t"
+                                                ng-model="site.language"
+                                                ng-options="v.iso639_2t as v.languageName for (k, v) in languages"
+                                                >
+                                        </select>
+
+                                        <div class="help-block with-errors">{{createResult.errors.language}}</div>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
 

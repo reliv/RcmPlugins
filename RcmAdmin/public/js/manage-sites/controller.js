@@ -4,6 +4,12 @@ angular.module('rcmAdmin').controller(
         var siteData = RcmAdminService.RcmPageModel.getData();
         $scope.currentSiteId = siteData.siteId;
         var self = this;
+
+        self.url = {
+            languages: '/api/admin/language',
+            countries: '/api/admin/country'
+        };
+
         $scope.sites = [];
 
         $scope.loading = false;
