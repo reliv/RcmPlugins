@@ -76,7 +76,7 @@ angular.module('rcmAdmin').controller(
                     $http(
                         {
                             method: 'POST',
-                            url: '/api/admin/manage-sites/' + $scope.tempSites[site.siteId].siteId,
+                            url: '/api/admin/site-clone',
                             data: $scope.tempSites[site.siteId]
                         }
                     )

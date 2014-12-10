@@ -176,6 +176,15 @@ return [
                     ]
                 ],
             ],
+            'ApiAdminSitesCloneController' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/admin/site-clone[/:id]',
+                    'defaults' => [
+                        'controller' => 'RcmAdmin\Controller\ApiAdminSitesCloneController',
+                    ]
+                ],
+            ],
             'ApiAdminLanguageController' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
@@ -209,6 +218,15 @@ return [
                     'route' => '/api/admin/sites/:siteId/pages[/:id]',
                     'defaults' => [
                         'controller' => 'RcmAdmin\Controller\ApiAdminSitePageController',
+                    ]
+                ],
+            ],
+            'ApiAdminSitePageCloneController' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/admin/sites/:siteId/page-clone[/:id]',
+                    'defaults' => [
+                        'controller' => 'RcmAdmin\Controller\ApiAdminSitePageCloneController',
                     ]
                 ],
             ],
@@ -468,6 +486,8 @@ return [
                 'RcmAdmin\Controller\PageViewPermissionsController',
             'RcmAdmin\Controller\ApiAdminManageSitesController'
             => 'RcmAdmin\Controller\ApiAdminManageSitesController',
+            'RcmAdmin\Controller\ApiAdminSitesCloneController'
+            => 'RcmAdmin\Controller\ApiAdminSitesCloneController',
             'RcmAdmin\Controller\ApiAdminLanguageController'
             => 'RcmAdmin\Controller\ApiAdminLanguageController',
             'RcmAdmin\Controller\ApiAdminThemeController'
@@ -476,9 +496,10 @@ return [
             => 'RcmAdmin\Controller\ApiAdminCountryController',
             'RcmAdmin\Controller\ApiAdminSitePageController'
             => 'RcmAdmin\Controller\ApiAdminSitePageController',
+            'RcmAdmin\Controller\ApiAdminSitePageCloneController'
+            => 'RcmAdmin\Controller\ApiAdminSitePageCloneController',
             'RcmAdmin\Controller\ApiAdminPageTypesController'
             => 'RcmAdmin\Controller\ApiAdminPageTypesController',
-
         ],
     ],
 ];

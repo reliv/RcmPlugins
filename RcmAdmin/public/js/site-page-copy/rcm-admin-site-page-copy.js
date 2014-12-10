@@ -110,12 +110,12 @@ angular.module('rcmAdmin')
              */
             self.copyPage = function (page) {
 
-                page.copyToSiteId = $scope.destinationSite.siteId;
+                page.destinationSiteId = $scope.destinationSite.siteId;
 
                 $http(
                     {
                         method: 'POST',
-                        url: self.url.copyPage + '/' + $scope.sourceSite.siteId + '/pages/' + page.pageId,
+                        url: self.url.copyPage + '/' + $scope.sourceSite.siteId + '/page-clone/' + page.pageId,
                         data: page
                     }
                 )
