@@ -57,7 +57,7 @@ class PluginControllerFactoryTest extends \PHPUnit_Framework_TestCase {
         ];
 
         $mockProductModel = $this
-            ->getMockBuilder('\RcmShoppingCart\Model\ProductModel')
+            ->getMockBuilder('\App\Model\ProductModel')
             ->disableOriginalConstructor()
             ->getMock();
 
