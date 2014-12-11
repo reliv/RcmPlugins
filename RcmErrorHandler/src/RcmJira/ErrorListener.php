@@ -49,7 +49,7 @@ class ErrorListener extends HandlerListenerBase
         JiraLogger $logger
     ) {
         $this->options = $options;
-        $this->listenerOptions = new Config($options->get('options', array()));
+        $this->listenerOptions = new Config($options->get('options', []));
         $this->logger = $logger;
     }
 
@@ -78,7 +78,7 @@ class ErrorListener extends HandlerListenerBase
 
         $logger = $this->logger;
 
-        $extras = array(
+        $extras = [
             'file' => $firstError->getFile(),
             'line' => $firstError->getLine(),
             'message' => $firstError->getMessage(),
@@ -90,7 +90,7 @@ class ErrorListener extends HandlerListenerBase
                 'includeSessionVars',
                 false
             ),
-        );
+        ];
 
         if ($this->listenerOptions->get('includeStacktrace', false) == true) {
             $extras['trace'] = $formatter->getTraceString($firstError);

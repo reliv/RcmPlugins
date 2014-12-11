@@ -20,7 +20,7 @@ namespace RcmI18nTest\Mock;
  */
 class Mock
 {
-    protected $methods = array();
+    protected $methods = [];
 
     function setMethod($methodName, $whatTheMethodReturns)
     {

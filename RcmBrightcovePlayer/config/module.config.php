@@ -19,10 +19,10 @@
  * @link      https://github.com/reliv
  */
 
-return array(
+return [
 
-    'rcmPlugin' => array(
-        'RcmBrightcovePlayer' => array(
+    'rcmPlugin' => [
+        'RcmBrightcovePlayer' => [
             'type'
             => 'Social Media',
             'display'
@@ -39,31 +39,31 @@ return array(
             => '/modules/rcm-brightcove-player/rcm-brightcove-player-edit.js',
             'defaultInstanceConfig'
             => include __DIR__ . '/defaultInstanceConfig.php'
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+        ],
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-brightcove-player/' => __DIR__ . '/../public/',
-            ),
-            'collections' => array(
-                'modules/rcm-admin/js/rcm-admin.js' => array(
+            ],
+            'collections' => [
+                'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-brightcove-player/rcm-brightcove-player-edit.js',
-                ),
-            ),
-        ),
-    ),
+                ],
+            ],
+        ],
+    ],
     // @codingStandardsIgnoreStart
-    'service_manager' => array(
-        'factories' => array(
+    'service_manager' => [
+        'factories' => [
             'RcmBrightcovePlayer' => 'RcmBrightcovePlayer\Factory\RcmBrightcovePlayerControllerFactory',
-        ),
-    ),
+        ],
+    ],
     // @codingStandardsIgnoreEnd
 
-);
+];

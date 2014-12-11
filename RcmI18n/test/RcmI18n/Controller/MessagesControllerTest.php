@@ -35,7 +35,7 @@ class MessagesControllerTest extends \PHPUnit_Framework_TestCase
 
         $result = $messagesController->update(
             'DEFAULT',
-            array()
+            []
         );
 
         $this->assertInstanceOf(

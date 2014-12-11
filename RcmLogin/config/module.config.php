@@ -17,10 +17,10 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
-    'rcmPlugin' => array(
-        'RcmLogin' => array(
+    'rcmPlugin' => [
+        'RcmLogin' => [
             'type' => 'Common',
             'display' => 'Login Area',
             'tooltip' => 'Adds login area to page',
@@ -32,30 +32,30 @@ return array(
                     '/defaultInstanceConfig.php',
             'canCache' => false,
             'uncategorizedErrorRedirect' => "/account-issue"
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+        ],
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-login/' => __DIR__ . '/../public/',
-            ),
-            'collections' => array(
-                'modules/rcm-admin/js/rcm-admin.js' => array(
+            ],
+            'collections' => [
+                'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-login/rcm-login-edit.js',
-                ),
-            ),
-        ),
-    ),
-    'service_manager' => array(
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
 
-        'factories' => array(
+        'factories' => [
             'RcmLogin' => 'RcmLogin\Factory\PluginControllerFactory',
-        )
+        ]
 
-    ),
-);
+    ],
+];

@@ -187,11 +187,11 @@
     }
 
     $crop = new CropAvatar($_POST['avatar_src'], $_POST['avatar_data'], $_FILES['avatar_file']);
-    $response = array(
+    $response = [
         'state'  => 200,
         'message' => $crop -> getMsg(),
         'result' => $crop -> getResult()
-    );
+    ];
 
     echo json_encode($response);
 ?>

@@ -14,27 +14,27 @@
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-return array(
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+return [
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-lib/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
-    'view_helpers' => array(
-        'invokables' => array(
+            ],
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
             'rcmJsLibIncludeHtmlEditor' =>
                 'RcmLib\View\Helper\IncludeHtmlEditor',
             'rcmJsLibIncludeCoreJs' =>
                 'RcmLib\View\Helper\IncludeCoreJs',
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
+        ],
+    ],
     /* <TEST> - TESTING ONLY *
     'controllers' => array(
         'invokables' => array(
@@ -61,4 +61,4 @@ return array(
         ),
     ),
     /* </TEST> */
-);
+];

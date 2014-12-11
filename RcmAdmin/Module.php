@@ -59,10 +59,10 @@ class Module
 
         $eventManager->attach(
             MvcEvent::EVENT_DISPATCH,
-            array(
+            [
                 $onDispatchListener,
                 'getAdminPanel'
-            ),
+            ],
             10001
         );
 
@@ -77,16 +77,16 @@ class Module
      */
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\ClassMapAutoloader' => array(
+        return [
+            'Zend\Loader\ClassMapAutoloader' => [
                 __DIR__ . '/autoload_classmap.php',
-            ),
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+            ],
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**

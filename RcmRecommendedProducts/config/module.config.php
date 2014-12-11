@@ -17,10 +17,10 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
-    'rcmPlugin' => array(
-        'RcmRecommendedProducts' => array(
+    'rcmPlugin' => [
+        'RcmRecommendedProducts' => [
             'type' => 'Content Templates',
             'display' => 'Recommended Products',
             'tooltip' => '',
@@ -29,52 +29,52 @@ return array(
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php'
 
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             'RcmRecommendedProducts' => 'RcmRecommendedProducts\Factory\PluginControllerFactory',
-        ),
-    ),
-    'controllers' => array(
-        'factories' => array(
+        ],
+    ],
+    'controllers' => [
+        'factories' => [
             'RcmRecommendedProductsController'
             => 'RcmRecommendedProducts\Factory\RcmRecommendedDisplayControllerFactory',
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    'router' => array(
-        'routes' => array(
-            'rcmRecommendedProductsList' => array(
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'rcmRecommendedProductsList' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
+                'options' => [
                     'route' => '/rcm-recommended-list-refresh/[:productId]',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller'
                         => 'RcmRecommendedProductsController',
                         'action' => 'refreshProductList',
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-recommended-products/' => __DIR__ . '/../public/',
-            ),
-            'collections' => array(
+            ],
+            'collections' => [
                 // required for admin edit //
-                'modules/rcm-admin/js/rcm-admin.js' => array(
+                'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-recommended-products/rcm-recommended-products-edit.js',
-                ),
-            ),
-        ),
+                ],
+            ],
+        ],
 
-    ),
+    ],
 
-);
+];

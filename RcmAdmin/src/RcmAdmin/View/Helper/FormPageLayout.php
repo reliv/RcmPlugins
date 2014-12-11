@@ -84,7 +84,7 @@ class FormPageLayout extends FormMultiCheckbox
         $options = $element->getOptions();
         $element->setLabelOption('disable_html_escape', true);
 
-        $inputOptions = array();
+        $inputOptions = [];
 
         foreach ($options['layouts'] as $key => &$layout) {
             $inputOptions[$key]

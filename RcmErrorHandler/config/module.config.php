@@ -1,6 +1,6 @@
 <?php
-return array(
-    'RcmErrorHandler' => array(
+return [
+    'RcmErrorHandler' => [
         // enable Exception overrides (false = off)
         'overrideExceptions' => false,
         // enable Error overrides (false = off)
@@ -12,7 +12,7 @@ return array(
          *   'options' => array('formatter' => 'options');
          * );
          */
-        'format' => array(
+        'format' => [
             /* Will over-ride system default if used *
             '_default' => array(
                 'class' => '\RcmErrorHandler\Format\FormatDefault',
@@ -20,16 +20,16 @@ return array(
             ),
             /* */
             // Used for JSON formating of errors if request is application/json
-            'application/json' => array(
+            'application/json' => [
                 'class' => '\RcmErrorHandler\Format\FormatJson',
-                'options' => array(),
-            )
-        ),
+                'options' => [],
+            ]
+        ],
 
         /**
          * Listeners can be injected to log errors
          */
-        'listener' => array(
+        'listener' => [
             /** EXAMPLES **/
             /**
              * Will only enter a issue if it does not find an existing one
@@ -58,6 +58,16 @@ return array(
                     // WARNING: this can be a security issue
                     // Set to an array of specific session keys to display or 'ALL' to display all
                     'includeSessionVars' => false,
+                    // This is useful for preventing exceptions who have dynamic
+                    // parts from creating multipule entries in JIRA
+                    // Jira ticket descriptions will be ran through preg_replace
+                    // using these as the preg_replace arguments.
+                    'summaryPreprocessors' => [
+                        // $pattern => $replacement
+                        // For example this would remove the number from
+                        // exceptions like "requestId: 0678096"
+                        '/requestId\:\s\d+/' => 'requestId: [see full desc for id]'
+                    ]
                 ),
             ),
             /* */
@@ -80,27 +90,27 @@ return array(
                 ),
             ),
             /* */
-        ),
-    ),
+        ],
+    ],
 
     /**
      * Configuration for JIRA API
      */
-    'RcmJira' => array(
-        'api' => array(
+    'RcmJira' => [
+        'api' => [
             'endpoint' => 'https://jira.example.com',
             'username' => 'myUsername',
             'password' => 'myPassword',
-        ),
-    ),
+        ],
+    ],
 
-    'service_manager' => array(
-        'factories' => array(
+    'service_manager' => [
+        'factories' => [
             '\RcmErrorHandler\Config' => '\RcmErrorHandler\Factory\RcmErrorHandlerConfigFactory',
             '\RcmJira\Api' => '\RcmJira\Factory\JiraApiFactory',
             '\RcmJira\JiraLogger' => '\RcmJira\Factory\JiraLoggerFactory',
             '\RcmJira\ErrorListener' => '\RcmJira\Factory\ErrorListenerFactory',
             '\RcmErrorHandler\Log\ErrorListener' => '\RcmErrorHandler\Log\Factory\ErrorListenerFactory',
-        )
-    ),
-);
+        ]
+    ],
+];

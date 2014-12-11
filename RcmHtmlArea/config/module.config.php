@@ -17,25 +17,25 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
-    'rcmPlugin' => array(
-        'RcmHtmlArea' => array(
+    'rcmPlugin' => [
+        'RcmHtmlArea' => [
             'type' => 'Common',
             'display' => 'Rich Content Area',
             'tooltip' => 'An editable area that allows you to add text, images, lists, links and more.',
             'icon' => ''
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             'RcmHtmlArea' => 'RcmHtmlArea\Factory\BaseControllerFactory'
-        )
-    )
+        ]
+    ]
 
-);
+];

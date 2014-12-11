@@ -80,11 +80,11 @@ class PluginController
         );
 
         $view->setVariables(
-            array(
+            [
                 'prodName' => $productName,
                 'mainImage' => $mainImage,
                 'prodUrl' => $prodUrl
-            )
+            ]
         );
         $view->setTerminal(true);
         return $view;
@@ -94,7 +94,7 @@ class PluginController
     {
         $prodId = $this->getEvent()->getRouteMatch()->getParam('productId');
 
-        $instanceConfig = array('productId' => $prodId);
+        $instanceConfig = ['productId' => $prodId];
 
         $view = $this->getRecommendedProductsList(0, $instanceConfig);
 

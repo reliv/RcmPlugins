@@ -3,8 +3,8 @@
 
 namespace RcmAdmin\Controller;
 
+use Rcm\Http\Response;
 use Rcm\View\Model\ApiJsonModel;
-use Zend\Mvc\Controller\AbstractRestfulController;
 
 
 /**
@@ -23,17 +23,7 @@ use Zend\Mvc\Controller\AbstractRestfulController;
  * @link      https://github.com/reliv
  */
 
-class ApiAdminLanguageController extends AbstractRestfulController {
-
-    /**
-     * getEntityManager
-     *
-     * @return \Doctrine\ORM\EntityManagerInterface
-     */
-    protected function getEntityManager()
-    {
-        return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    }
+class ApiAdminLanguageController extends ApiAdminBaseController {
 
     /**
      * getList
@@ -56,12 +46,12 @@ class ApiAdminLanguageController extends AbstractRestfulController {
         $languageRepo = $this->getEntityManager()->getRepository('\Rcm\Entity\Language');
 
         try {
-            $languages = $languageRepo->findBy(array(), array('languageName' => 'ASC'));
+            $languages = $languageRepo->findBy([], ['languageName' => 'ASC']);
         } catch(\Exception $e){
-            return new ApiJsonModel(null, null, 1, 'An error occurred will getting languages.');
+            return new ApiJsonModel(null, 1, 'An error occurred will getting languages.');
         }
 
-        return new ApiJsonModel($languages, null, 0, 'Success');
+        return new ApiJsonModel($languages, 0, 'Success');
     }
 
 } 

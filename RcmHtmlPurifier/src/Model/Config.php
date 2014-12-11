@@ -37,7 +37,7 @@ namespace RcmHtmlPurifier\Model;
 class Config
 {
 
-    public static function Html5Config($allowed = array())
+    public static function Html5Config($allowed = [])
     {
 
         $config = \HTMLPurifier_Config::createDefault();
@@ -159,7 +159,7 @@ class Config
                 'Block',
                 'Optional: (source, Flow) | (Flow, source) | Flow',
                 'Common',
-                array(
+                [
                     'src' => 'URI',
                     'type' => 'Text',
                     'width' => 'Length',
@@ -167,17 +167,17 @@ class Config
                     'poster' => 'URI',
                     'preload' => 'Enum#auto,metadata,none',
                     'controls' => 'Bool',
-                )
+                ]
             );
             $def->addElement(
                 'source',
                 'Block',
                 'Flow',
                 'Common',
-                array(
+                [
                     'src' => 'URI',
                     'type' => 'Text',
-                )
+                ]
             );
 
             // http://developers.whatwg.org/text-level-semantics.html
@@ -224,20 +224,20 @@ class Config
                 'Block',
                 'Flow',
                 'Common',
-                array(
+                [
                     'cite' => 'URI',
                     'datetime' => 'CDATA'
-                )
+                ]
             );
             $def->addElement(
                 'del',
                 'Block',
                 'Flow',
                 'Common',
-                array(
+                [
                     'cite' => 'URI',
                     'datetime' => 'CDATA'
-                )
+                ]
             );
 
             // TinyMCE

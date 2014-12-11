@@ -17,9 +17,6 @@ namespace RcmAdmin\Controller;
 
 use Rcm\Entity\Country;
 use Rcm\Entity\Language;
-use Rcm\Entity\Page;
-use Rcm\Entity\PluginInstance;
-use Rcm\Entity\PluginWrapper;
 use Rcm\Entity\Site;
 use Rcm\Http\Response;
 use Rcm\View\Model\ApiJsonModel;
@@ -28,7 +25,6 @@ use RcmAdmin\Entity\SiteApiRequest;
 use RcmAdmin\Entity\SiteApiResponse;
 use RcmAdmin\Entity\SiteResponse;
 use RcmAdmin\InputFilter\SiteInputFilter;
-use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 
@@ -47,37 +43,8 @@ use Zend\View\Model\JsonModel;
  *
  * @method boolean rcmIsAllowed($resourceId, $privilege = null, $providerId = 'Rcm\Acl\ResourceProvider')
  */
-class ApiAdminManageSitesController extends AbstractRestfulController
+class ApiAdminManageSitesController extends ApiAdminBaseController
 {
-    /**
-     * getConfig
-     *
-     * @return array
-     */
-    protected function getConfig()
-    {
-        return $this->serviceLocator->get('config');
-    }
-
-    /**
-     * getEntityManager
-     *
-     * @return \Doctrine\ORM\EntityManagerInterface
-     */
-    protected function getEntityManager()
-    {
-        return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    }
-
-    /**
-     * getCurrentUser
-     *
-     * @return \RcmUser\User\Entity\User
-     */
-    protected function getCurrentUser()
-    {
-        return $this->rcmUserGetCurrentUser();
-    }
 
     /**
      * getList
@@ -111,7 +78,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $sites[] = $this->buildSiteApiResponse($site);
         }
 
-        return new JsonModel($sites);
+        return new ApiJsonModel($sites, 0, 'Success');
     }
 
     /**\
@@ -130,7 +97,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         }
 
         // get default site data - kinda hacky, but keeps us to one controller
-        if ($id == -1) {
+        if ($id == 'default') {
 
             $data = $this->getDefaultSiteSettings();
 
@@ -140,7 +107,17 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
             $result = $this->buildSiteApiResponse($site);
 
-            return new ApiJsonModel($result, null, 0, 'Success');
+            return new ApiJsonModel($result, 0, 'Success');
+        }
+
+        // get current site data - kinda hacky, but keeps us to one controller
+        if ($id == 'current') {
+
+            $site = $this->getCurrentSite();
+
+            $result = $this->buildSiteApiResponse($site);
+
+            return new ApiJsonModel($result, 0, 'Success');
         }
 
         /** @var \Rcm\Repository\Site $siteRepo */
@@ -150,17 +127,17 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $site = $siteRepo->find($id);
         } catch (\Exception $e) {
             return new ApiJsonModel(
-                null, null, 1, "Failed to find site by id ({$id})"
+                null, 1, "Failed to find site by id ({$id})"
             );
         }
 
         $result = $this->buildSiteApiResponse($site);
 
-        return new ApiJsonModel($result, null, 0, 'Success');
+        return new ApiJsonModel($result, 0, 'Success');
     }
 
     /**
-     * update @todo - allow update of all properties
+     * update @todo - allow update of all properties and filter input
      *
      * @param mixed $siteId
      * @param mixed $data
@@ -196,7 +173,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
         }
 
         /** @var \Rcm\Entity\Site $site */
-        $site = $siteRepo->findOneBy(array('siteId' => $siteId));
+        $site = $siteRepo->findOneBy(['siteId' => $siteId]);
 
         if ($data['status'] == 'D') {
             $site->setStatus('D');
@@ -234,13 +211,14 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
         if (!$inputFilter->isValid()) {
             return new ApiJsonModel(
-                array(),
-                null,
+                [],
                 1,
                 'Some values are missing or invalid.',
                 $inputFilter->getMessages()
             );
         }
+
+        $data = $inputFilter->getValues();
 
         try {
 
@@ -255,7 +233,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 1, $e->getMessage());
+            return new ApiJsonModel(null, 1, $e->getMessage());
         }
 
         $entityManager = $this->getEntityManager();
@@ -271,7 +249,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
 
         $newSite->populate($data);
 
-        $author = $this->getCurrentUser()->getName();
+        $author = $this->getCurrentAuthor();
 
         $pageRepo->createPages(
             $newSite,
@@ -286,7 +264,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $entityManager->flush();
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 1, $e->getMessage());
+            return new ApiJsonModel(null, 1, $e->getMessage());
         }
 
         $this->createPagePlugins($newSite, $this->getDefaultSitePageSettings($author));
@@ -295,12 +273,12 @@ class ApiAdminManageSitesController extends AbstractRestfulController
             $entityManager->flush();
         } catch (\Exception $e) {
 
-            return new ApiJsonModel(null, null, 1, $e->getMessage());
+            return new ApiJsonModel(null, 1, $e->getMessage());
         }
 
         $siteApiResponse = $this->buildSiteApiResponse($newSite);
 
-        return new ApiJsonModel($siteApiResponse, null, 0, 'Success');
+        return new ApiJsonModel($siteApiResponse, 0, 'Success');
     }
 
     /**
@@ -462,7 +440,7 @@ class ApiAdminManageSitesController extends AbstractRestfulController
      * @return void
      * @throws \Exception
      */
-    protected function createPagePlugins(Site $site, $pagesData = array(), $doFlush = true)
+    protected function createPagePlugins(Site $site, $pagesData = [], $doFlush = true)
     {
         $entityManager = $this->getEntityManager();
 

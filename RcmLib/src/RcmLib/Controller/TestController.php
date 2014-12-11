@@ -68,10 +68,10 @@ class TestController extends AbstractActionController
         $baseUrl = $this->getRequest()->getServer('HTTP_HOST');
 
         $viewModel->setVariables(
-            array(
+            [
                 'testType' => $testType,
                 'baseUrl' => $baseUrl,
-            )
+            ]
         );
 
         return $viewModel;

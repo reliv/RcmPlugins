@@ -53,15 +53,15 @@ class Module
      */
     public function getServiceConfig()
     {
-        return array(
-            'factories' => array(
+        return [
+            'factories' => [
                 'RcmNavResponsive' => function ($serviceMgr) {
                         return new BaseController(
                             $serviceMgr->get('config'),
                             __DIR__
                         );
                     }
-            )
-        );
+            ]
+        ];
     }
 }

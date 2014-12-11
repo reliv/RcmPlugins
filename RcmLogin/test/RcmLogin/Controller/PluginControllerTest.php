@@ -29,14 +29,14 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
     protected function buildMocks($result, $user = null)
     {
         // \RcmInstanceConfig\Service\PluginStorageMgr
-        $instanceConfig = array(
-            'translate' => array(
+        $instanceConfig = [
+            'translate' => [
                 'missing' => 'missing',
                 'invalid' => 'invalid',
                 'systemFailure' => 'systemFailure',
 
-            ),
-        );
+            ],
+        ];
         $mockObject = $this->getMockBuilder(
             '\RcmInstanceConfig\Service\PluginStorageMgr'
         );
@@ -47,18 +47,18 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($instanceConfig));
 
         // config
-        $this->mockConfig = array(
-            'Rcm' => array(
+        $this->mockConfig = [
+            'Rcm' => [
                 'successfulLoginUrl' => 'someurl'
-            )
-        );
+            ]
+        ];
 
 
         // \Zend\Http\Request getQuery
-        $mapRequest = array(
-            array('username', null, 'testusername'),
-            array('password', null, 'testpassword')
-        );
+        $mapRequest = [
+            ['username', null, 'testusername'],
+            ['password', null, 'testpassword']
+        ];
         $mockObject = $this->getMockBuilder(
             '\Zend\Http\Request'
         );
@@ -83,14 +83,14 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
 
 
         // \Zend\Mvc\Controller\PluginManager
-        $mapPluginManager = array(
-            array('request', true, $this->mockRequest),
-            array(
+        $mapPluginManager = [
+            ['request', true, $this->mockRequest],
+            [
                 'RcmUser\Service\RcmUserService',
                 true,
                 $this->mockRcmUserService
-            )
-        );
+            ]
+        ];
         $mockObject = $this->getMockBuilder(
             '\Zend\Mvc\Controller\PluginManager'
         );
@@ -106,7 +106,7 @@ class PluginControllerTest extends \PHPUnit_Framework_TestCase
     public function getMockResult(
         $code = Result::SUCCESS,
         $identity = null,
-        $messages = array()
+        $messages = []
     ) {
 
         return new Result($code, $identity, $messages);

@@ -72,7 +72,7 @@ class Event
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'eventId' => $this->eventId,
             'categoryId' => $this->category->getCategoryId(),
             'title' => $this->title,
@@ -80,7 +80,7 @@ class Event
             'mapAddress' => $this->mapAddress,
             'startDate' => $this->startDate->format(self::DATE_FORMAT),
             'endDate' => $this->endDate->format(self::DATE_FORMAT),
-        );
+        ];
     }
 
     /**

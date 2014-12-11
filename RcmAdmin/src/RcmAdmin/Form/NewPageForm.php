@@ -104,112 +104,112 @@ class NewPageForm extends Form implements ElementInterface
         $filter = new InputFilter();
 
         $this->add(
-            array(
+            [
                 'name' => 'url',
-                'options' => array(
+                'options' => [
                     'label' => 'Page Url',
-                ),
+                ],
                 'type' => 'text',
 
-            )
+            ]
         );
 
         $filter->add(
-            array(
+            [
                 'name' => 'url',
                 'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array(
+                'filters' => [
+                    ['name' => 'StripTags'],
+                    [
                         'name' => 'StringTrim',
-                        'options' => array(
+                        'options' => [
                             'charlist' => '-_',
-                        )
-                    ),
-                ),
-                'validators' => array(
+                        ]
+                    ],
+                ],
+                'validators' => [
                     $this->pageValidator,
-                ),
-            )
+                ],
+            ]
         );
 
         $this->add(
-            array(
+            [
                 'name' => 'title',
-                'options' => array(
+                'options' => [
                     'label' => 'Page Title',
-                ),
+                ],
                 'type' => 'text',
-            )
+            ]
         );
 
         $filter->add(
-            array(
+            [
                 'name' => 'title',
                 'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
+                'filters' => [
+                    ['name' => 'StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
+                    [
                         'name' => '\Zend\I18n\Validator\Alnum',
-                        'options' => array(
+                        'options' => [
                             'allowWhiteSpace' => true,
-                        )
-                    ),
-                ),
-            )
+                        ]
+                    ],
+                ],
+            ]
         );
 
         $this->add(
-            array(
+            [
                 'name' => 'page-template',
-                'options' => array(
+                'options' => [
                     'label' => 'Page Template',
                     'value_options' => $pageList,
-                ),
+                ],
                 'type' => 'Zend\Form\Element\Select',
-            )
+            ]
         );
 
         $filter->add(
-            array(
+            [
                 'name' => 'page-template',
                 'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
+                'filters' => [
+                    ['name' => 'StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
                     $this->templateValidator,
-                ),
-            )
+                ],
+            ]
         );
 
 
         $this->add(
-            array(
+            [
                 'name' => 'main-layout',
-                'options' => array(
+                'options' => [
                     'label' => 'Main Layout',
                     'layouts' => $this->layoutManager->getSiteThemeLayoutsConfig($this->currentSite->getTheme()),
-                ),
+                ],
                 'type' => 'mainLayout',
-            )
+            ]
         );
 
         $filter->add(
-            array(
+            [
                 'name' => 'main-layout',
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
+                'filters' => [
+                    ['name' => 'StripTags'],
+                    ['name' => 'StringTrim'],
+                ],
+                'validators' => [
                     $this->layoutValidator,
-                ),
-            )
+                ],
+            ]
         );
 
         $this->setInputFilter($filter);
@@ -225,19 +225,19 @@ class NewPageForm extends Form implements ElementInterface
     {
         if ($this->get('page-template')->getValue() == 'blank') {
             $this->setValidationGroup(
-                array(
+                [
                     'url',
                     'title',
                     'main-layout',
-                )
+                ]
             );
         } else {
             $this->setValidationGroup(
-                array(
+                [
                     'url',
                     'title',
                     'page-template',
-                )
+                ]
             );
         }
         return parent::isValid();

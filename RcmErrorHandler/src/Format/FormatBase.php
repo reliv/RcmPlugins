@@ -53,7 +53,7 @@ class FormatBase implements FormatInterface
     public function __construct(Config $config = null)
     {
         if (!($config instanceof Config)) {
-            $config = new Config(array());
+            $config = new Config([]);
         }
 
         $this->config = $config;
@@ -121,7 +121,7 @@ class FormatBase implements FormatInterface
             $function = (isset($call['function']) ? $call['function'] : '');
             $type = (isset($call['type']) ? $call['type'] : '');
 
-            $args = (isset($call['args']) ? (array)$call['args'] : array());
+            $args = (isset($call['args']) ? (array)$call['args'] : []);
 
             $object = '';
             if (!empty($class)) {

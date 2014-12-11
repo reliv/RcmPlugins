@@ -37,11 +37,11 @@ class MessagesController extends AbstractRestfulController
         $locale = $this->params()->fromRoute('locale');
 
         $defaultMessages = $em->getRepository('RcmI18n\Entity\Message')
-            ->findBy(array('locale' => 'en_US'));
+            ->findBy(['locale' => 'en_US']);
         $localeMessages = $em->getRepository('RcmI18n\Entity\Message')
-            ->findBy(array('locale' => $locale));
+            ->findBy(['locale' => $locale]);
 
-        $translations = array();
+        $translations = [];
         foreach ($defaultMessages as $defaultMessage) {
 
             /** @var \RcmI18n\Entity\Message $defaultMessage */
@@ -96,7 +96,7 @@ class MessagesController extends AbstractRestfulController
          * in the en_US locale
          */
         $usMessage = $messageRepo->findOneBy(
-            array('locale' => 'en_US', 'defaultText' => $data['defaultText'])
+            ['locale' => 'en_US', 'defaultText' => $data['defaultText']]
         );
         if (!$this->getServiceLocator()->get('RcmI18n\Model\Locales')
             ->localeIsValid($locale)
@@ -112,7 +112,7 @@ class MessagesController extends AbstractRestfulController
         $cleanText = $this->rcmHtmlPurify($data['text']);
 
         $message = $messageRepo->findOneBy(
-            array('locale' => $locale, 'messageId' => $id)
+            ['locale' => $locale, 'messageId' => $id]
         );
 
         if ($message instanceof Message) {

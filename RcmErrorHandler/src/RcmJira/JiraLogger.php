@@ -29,7 +29,7 @@ class JiraLogger implements LoggerInterface
      * @var array $priorities
      */
     protected $priorities
-        = array(
+        = [
             Logger::EMERG => 'EMERG',
             Logger::ALERT => 'ALERT',
             Logger::CRIT => 'CRIT',
@@ -38,7 +38,7 @@ class JiraLogger implements LoggerInterface
             Logger::NOTICE => 'NOTICE',
             Logger::INFO => 'INFO',
             Logger::DEBUG => 'DEBUG',
-        );
+        ];
 
     /**
      * array(
@@ -55,7 +55,7 @@ class JiraLogger implements LoggerInterface
      *
      * @var array $options
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * @var \chobie\Jira\Api|null $api
@@ -66,7 +66,7 @@ class JiraLogger implements LoggerInterface
      * @param \chobie\Jira\Api $api
      * @param array            $jiraOptions
      */
-    public function __construct(\chobie\Jira\Api $api, $jiraOptions = array())
+    public function __construct(\chobie\Jira\Api $api, $jiraOptions = [])
     {
         $this->api = $api;
         $this->options = $jiraOptions;
@@ -96,7 +96,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return LoggerInterface
      */
-    public function emerg($message, $extra = array())
+    public function emerg($message, $extra = [])
     {
         $this->log(Logger::EMERG, $message, $extra);
     }
@@ -107,7 +107,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return LoggerInterface
      */
-    public function alert($message, $extra = array())
+    public function alert($message, $extra = [])
     {
         $this->log(Logger::ALERT, $message, $extra);
     }
@@ -118,7 +118,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return LoggerInterface
      */
-    public function crit($message, $extra = array())
+    public function crit($message, $extra = [])
     {
         $this->log(Logger::CRIT, $message, $extra);
     }
@@ -129,7 +129,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return LoggerInterface
      */
-    public function err($message, $extra = array())
+    public function err($message, $extra = [])
     {
         $this->log(Logger::ERR, $message, $extra);
     }
@@ -140,7 +140,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return LoggerInterface
      */
-    public function warn($message, $extra = array())
+    public function warn($message, $extra = [])
     {
         $this->log(Logger::WARN, $message, $extra);
     }
@@ -151,7 +151,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return LoggerInterface
      */
-    public function notice($message, $extra = array())
+    public function notice($message, $extra = [])
     {
         $this->log(Logger::NOTICE, $message, $extra);
     }
@@ -162,7 +162,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return LoggerInterface
      */
-    public function info($message, $extra = array())
+    public function info($message, $extra = [])
     {
         $this->log(Logger::INFO, $message, $extra);
     }
@@ -173,7 +173,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return LoggerInterface
      */
-    public function debug($message, $extra = array())
+    public function debug($message, $extra = [])
     {
         $this->log(Logger::DEBUG, $message, $extra);
     }
@@ -187,11 +187,9 @@ class JiraLogger implements LoggerInterface
      *
      * @return Logger
      */
-    public function log($priority, $message, $extra = array())
+    public function log($priority, $message, $extra = [])
     {
-        $summary = $this->prepareSummary(
-            $this->getPriorityString($priority) . ': ' . $message
-        );
+        $summary = $this->prepareSummary($priority, $message);
 
         $existingIssueKey = $this->getIssueKey($summary);
 
@@ -334,7 +332,7 @@ class JiraLogger implements LoggerInterface
             return $jql;
         }
 
-        $jqlArr = array();
+        $jqlArr = [];
 
         foreach ($projects as $project) {
 
@@ -380,7 +378,7 @@ class JiraLogger implements LoggerInterface
      * @return void
      * @throws JiraLoggerException
      */
-    protected function addComment($issueKey, $summary, $extra = array())
+    protected function addComment($issueKey, $summary, $extra = [])
     {
         $result = $this->getApi()->addComment(
             $issueKey,
@@ -406,11 +404,11 @@ class JiraLogger implements LoggerInterface
      * @return void
      * @throws JiraLoggerException
      */
-    protected function createIssue($summary, $extra = array())
+    protected function createIssue($summary, $extra = [])
     {
-        $options = array(
+        $options = [
             "description" => $this->getDescription($extra)
-        );
+        ];
 
         $projectKey = $this->getOption('projectKey', 'REF');
 
@@ -425,7 +423,8 @@ class JiraLogger implements LoggerInterface
 
         if ($this->hasApiError($result)) {
 
-            $message = 'An error occured while talking to JIRA (createIssue): ' .
+            $message
+                = 'An error occured while talking to JIRA (createIssue): ' .
                 implode(' ', $result->getResult()['errorMessages']) . ' ' .
                 implode(' ', $result->getResult()['errors']);
 
@@ -440,7 +439,7 @@ class JiraLogger implements LoggerInterface
      *
      * @return void
      */
-    protected function getDescription($extra = array())
+    protected function getDescription($extra = [])
     {
 
         $description = '';
@@ -504,20 +503,29 @@ class JiraLogger implements LoggerInterface
     /**
      * prepareSummary
      *
-     * @param $summary
+     * @param $priority
+     * @param $message
      *
      * @return string
      */
-    protected function prepareSummary($summary)
+    protected function prepareSummary($priority, $message)
     {
+        if (isset($this->options['summaryPreprocessors'])) {
+            $preprocessors = $this->options['summaryPreprocessors'];
+            foreach ($preprocessors as $pattern => $replacement) {
+                $message = preg_replace($pattern, $replacement, $message);
+            }
+        }
+
+        $summary = $this->getPriorityString($priority) . ': ' . $message;
 
         $summary = substr($summary, 0, 255);
 
         $summary = str_replace(
-            array(
+            [
                 "\r",
                 "\n"
-            ),
+            ],
             '',
             $summary
         );
@@ -552,7 +560,7 @@ class JiraLogger implements LoggerInterface
      */
     protected function prepareSession($includeSessionVars)
     {
-        $sessionVars = array();
+        $sessionVars = [];
 
         if (is_array($includeSessionVars)) {
             $sessionVarKeys = $includeSessionVars;
@@ -598,7 +606,8 @@ class JiraLogger implements LoggerInterface
                 $output .= ' - ' . $key . " = NULL\n";
             } elseif (is_bool($val)) {
 
-                $output .= ' - ' . $key . ' = ' . $val ? 'TRUE' : 'FALSE' . "\n";
+                $output
+                    .= ' - ' . $key . ' = ' . $val ? 'TRUE' : 'FALSE' . "\n";
             } else {
 
                 $output .= ' - ' . $key . ' = (' . gettype($val) . ") \n" .
@@ -608,4 +617,4 @@ class JiraLogger implements LoggerInterface
 
         return $output;
     }
-} 
+}

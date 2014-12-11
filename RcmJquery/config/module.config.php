@@ -16,23 +16,23 @@
  * @version   GIT: <git_id>
  */
 
-return array(
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+return [
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-jquery/' => __DIR__ . '/../public/',
-            ),
-        ),
-    ),
-    'view_helpers' => array(
-        'invokables' => array(
+            ],
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
             'rcmIncludeJqueryUi' => 'RcmJquery\View\Helper\IncludeJqueryUi',
             'rcmIncludeJqueryBlockUi' => 'RcmJquery\View\Helper\IncludeJqueryUi',
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-);
+        ],
+    ],
+];

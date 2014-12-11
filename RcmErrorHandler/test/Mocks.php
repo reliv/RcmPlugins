@@ -140,7 +140,7 @@ class Mocks extends \PHPUnit_Framework_TestCase
         )
             ->method('getErrors')
             ->will(
-                $this->returnValue(array('TEST3'))
+                $this->returnValue(['TEST3'])
             );
 
         $mock->expects(
@@ -161,34 +161,34 @@ class Mocks extends \PHPUnit_Framework_TestCase
 
         $mockObject->test = 'TEST';
 
-        $mockStack = array(
-            array(
+        $mockStack = [
+            [
                 'file' => '/mock/test1.php',
                 'line' => 1,
                 'function' => 'mockFunction',
                 'class' => 'Some\Controller1',
                 'object' => $mockObject,
                 'type' => '->',
-                'args' => array(
-                    array(),
+                'args' => [
+                    [],
                     $mockObject,
                     'mockArg'
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'file' => '/mock/test2.php',
                 'line' => 2,
                 'function' => 'mockFunction',
                 'class' => 'Some\Controller2',
                 'object' => $mockObject,
                 'type' => '->',
-                'args' => array(
-                    array(),
+                'args' => [
+                    [],
                     $mockObject,
                     'mockArg'
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $mockStack;
     }
@@ -215,13 +215,13 @@ class Mocks extends \PHPUnit_Framework_TestCase
             ->method('getParam')
             ->will(
                 $this->returnValueMap(
-                    array(
-                        array(
+                    [
+                        [
                             'error',
                             null,
                             $this->getMockGenericError($errno)
-                        ),
-                    )
+                        ],
+                    ]
                 )
             );
 
@@ -270,51 +270,51 @@ class Mocks extends \PHPUnit_Framework_TestCase
     public function getMockConfig()
     {
 
-        $rcmErrorHandler = array(
+        $rcmErrorHandler = [
             'overrideExceptions' => true,
             'overrideErrors' => true,
-            'format' => array(
+            'format' => [
                 '_default' => '\RcmErrorHandler\Format\FormatDefault',
-                'application/json' => array(
+                'application/json' => [
                     'class' => '\RcmErrorHandler\Format\FormatJson',
-                    'options' => array(),
-                )
-            ),
+                    'options' => [],
+                ]
+            ],
 
-            'listener' => array(
+            'listener' => [
                 /** EXAMPLE **/
-                '\RcmJira\ErrorListener' => array(
+                '\RcmJira\ErrorListener' => [
                     'event' => 'RcmErrorHandler::All',
-                    'options' => array(
+                    'options' => [
                         'endpoint' => 'https://jira.example.com',
                         'username' => 'myUsername',
                         'password' => 'myPassword',
                         'projectKey' => 'REF',
-                        'enterIssueIfNotStatus' => array(
+                        'enterIssueIfNotStatus' => [
                             'closed',
                             'resolved',
-                        ),
-                    ),
-                ),
+                        ],
+                    ],
+                ],
 
-                '\RcmErrorHandler\Log\ErrorListener' => array(
+                '\RcmErrorHandler\Log\ErrorListener' => [
                     'event' => 'RcmErrorHandler::All',
                     // \Zend\Log\Logger Options
-                    'options' => array(
-                        'writers' => array(
-                            array(
+                    'options' => [
+                        'writers' => [
+                            [
                                 'name' => 'stream',
                                 'priority' => null,
-                                'options' => array(
+                                'options' => [
                                     'stream' => 'php://output'
-                                ),
-                            )
-                        ),
-                    ),
-                ),
+                                ],
+                            ]
+                        ],
+                    ],
+                ],
                 /* */
-            ),
-        );
+            ],
+        ];
 
         return new Config($rcmErrorHandler);
     }
@@ -324,17 +324,17 @@ class Mocks extends \PHPUnit_Framework_TestCase
     {
 
         return new Config(
-            array(
-                'writers' => array(
-                    array(
+            [
+                'writers' => [
+                    [
                         'name' => 'stream',
                         'priority' => null,
-                        'options' => array(
+                        'options' => [
                             'stream' => 'php://output'
-                        ),
-                    )
-                ),
-            )
+                        ],
+                    ]
+                ],
+            ]
 
         );
     }
@@ -419,12 +419,12 @@ class Mocks extends \PHPUnit_Framework_TestCase
     public function getMockApiResult($mockApiIssue = null)
     {
 
-        $mockApiIssues = array();
+        $mockApiIssues = [];
         $issueCnt = 0;
         if ($mockApiIssue) {
-            $mockApiIssues = array(
+            $mockApiIssues = [
                 $mockApiIssue
-            );
+            ];
 
             $issueCnt = 1;
         }
@@ -440,7 +440,7 @@ class Mocks extends \PHPUnit_Framework_TestCase
         )
             ->method('getResult')
             ->will(
-                $this->returnValue(array())
+                $this->returnValue([])
             );
 
         $mock->expects(
@@ -477,13 +477,13 @@ class Mocks extends \PHPUnit_Framework_TestCase
             ->method('getResult')
             ->will(
                 $this->returnValue(
-                    array(
-                        'errors' => array(),
-                        'errorMessages' => array(
+                    [
+                        'errors' => [],
+                        'errorMessages' => [
                             'some',
                             'error'
-                        ),
-                    )
+                        ],
+                    ]
                 )
             );
 

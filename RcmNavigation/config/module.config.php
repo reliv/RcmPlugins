@@ -17,11 +17,11 @@
  * @version   GIT: <git_id>
  */
 
-return array(
+return [
 
 
-    'rcmPlugin' => array(
-        'RcmNavigation' => array(
+    'rcmPlugin' => [
+        'RcmNavigation' => [
             'type' => 'Common',
             'display' => 'Navigation Menu',
             'tooltip' => 'Navigation menu that can display sub-menus when users mouse-over the main menu.',
@@ -29,29 +29,29 @@ return array(
             'editJs' => '/modules/rcm-navigation/edit.js',
             'defaultInstanceConfig' => include
                     __DIR__ . '/defaultInstanceConfig.php'
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack' => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'aliases' => array(
+        ],
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
                 'modules/rcm-navigation/' => __DIR__ . '/../public/',
-            ),
-            'collections' => array(
-                'modules/rcm-admin/js/rcm-admin.js' => array(
+            ],
+            'collections' => [
+                'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-navigation/edit.js',
-                ),
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             'RcmNavigation' => 'RcmNavigation\Factory\BaseControllerFactory'
-        )
-    )
+        ]
+    ]
 
-);
+];

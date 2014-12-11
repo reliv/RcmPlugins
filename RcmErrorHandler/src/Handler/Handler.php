@@ -44,7 +44,7 @@ class Handler
      * @var array $errorMap
      */
     protected $errorMap
-        = array(
+        = [
             E_ERROR => 'Error',
             E_PARSE => 'Parse',
             E_CORE_ERROR => 'CoreError',
@@ -61,7 +61,7 @@ class Handler
             E_NOTICE => 'Notice',
             E_USER_NOTICE => 'UserNotice',
             E_ALL => 'Unknown'
-        );
+        ];
 
     /**
      * __construct
@@ -100,13 +100,31 @@ class Handler
     }
 
     /**
+     * getRequestHeaders
+     *
+     * @return array
+     */
+    protected function getRequestHeaders()
+    {
+        $headers = '';
+        foreach ($_SERVER as $name => $value)
+        {
+            if (substr($name, 0, 5) == 'HTTP_')
+            {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            }
+        }
+        return $headers;
+    }
+
+    /**
      * getFormat
      *
      * @return null|string
      */
     protected function getFormat()
     {
-        $headers = getallheaders();
+        $headers = $this->getRequestHeaders();
 
         foreach ($headers as $type => $value) {
             if (stripos($type, 'Content-Type') !== false) {
@@ -134,7 +152,7 @@ class Handler
         $errstr = 1,
         $errfile = __FILE__,
         $errline = __LINE__,
-        $errcontext = array()
+        $errcontext = []
     ) {
         $prev = error_get_last();
 
@@ -422,21 +440,21 @@ class Handler
         $em->trigger(
             $event,
             $this,
-            array(
+            [
                 'handler' => $this,
                 'error' => $error,
                 'config' => $this->config
-            )
+            ]
         );
 
         $em->trigger(
             self::EVENT_ALL,
             $this,
-            array(
+            [
                 'handler' => $this,
                 'error' => $error,
                 'config' => $this->config
-            )
+            ]
         );
     }
 } 

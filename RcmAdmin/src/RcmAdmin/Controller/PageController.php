@@ -64,11 +64,11 @@ class PageController extends AbstractActionController
     /**
      * Constructor
      *
-     * @param Site     $currentSite Current Site
-     * @param PageRepo $pageRepo    Page Repository
+     * @param Site $currentSite  Current Site
+     * @param PageRepo $pageRepo Page Repository
      */
     public function __construct(
-        Site     $currentSite,
+        Site $currentSite,
         PageRepo $pageRepo
     ) {
         $this->currentSite = $currentSite;
@@ -85,8 +85,11 @@ class PageController extends AbstractActionController
      */
     public function newAction()
     {
-
-        if (!$this->rcmIsAllowed('sites.' . $this->currentSite->getSiteId() . '.pages', 'create')) {
+        if (!$this->rcmIsAllowed(
+            'sites.' . $this->currentSite->getSiteId() . '.pages',
+            'create'
+        )
+        ) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -113,27 +116,45 @@ class PageController extends AbstractActionController
             if (empty($validatedData['page-template'])
                 && !empty($validatedData['main-layout'])
             ) {
-                $this->pageRepo->createNewPage(
-                    $validatedData['url'],
-                    $validatedData['title'],
-                    $validatedData['main-layout'],
-                    $this->rcmUserGetCurrentUser()->getName(),
-                    $this->currentSite
+                $pageData = [
+                    'name' => $validatedData['url'],
+                    'pageTitle' => $validatedData['title'],
+                    'siteLayoutOverride' => $validatedData['main-layout'],
+                    'author' => $this->rcmUserGetCurrentUser()->getName(),
+                ];
+
+                $this->pageRepo->createPage(
+                    $this->currentSite,
+                    $pageData
                 );
+
             } elseif (!empty($validatedData['page-template'])) {
                 /** @var \Rcm\Entity\Page $page */
-                $page = $this->pageRepo->findOneBy(array('pageId' => $validatedData['page-template'], 'pageType' => 't'));
+                $page = $this->pageRepo->findOneBy(
+                    [
+                        'pageId' => $validatedData['page-template'],
+                        'pageType' => 't'
+                    ]
+                );
 
                 if (empty($page)) {
-                    throw new PageNotFoundException('No template found for page id: '.$validatedData['page-template']);
+                    throw new PageNotFoundException(
+                        'No template found for page id: '
+                        . $validatedData['page-template']
+                    );
                 }
 
+                $pageData = [
+                    'author' => $this->rcmUserGetCurrentUser()->getName(),
+                    'name' => $validatedData['url'],
+                    'pageTitle' => $validatedData['title'],
+                    'pageType' => 'n'
+                ];
+
                 $this->pageRepo->copyPage(
-                    $page,
-                    $validatedData['url'],
-                    $this->rcmUserGetCurrentUser()->getName(),
                     $this->currentSite,
-                    $validatedData['title']
+                    $page,
+                    $pageData
                 );
             }
 
@@ -169,7 +190,11 @@ class PageController extends AbstractActionController
      */
     public function createTemplateFromPageAction()
     {
-        if (!$this->rcmIsAllowed('sites.' . $this->currentSite->getSiteId() . '.pages', 'create')) {
+        if (!$this->rcmIsAllowed(
+            'sites.' . $this->currentSite->getSiteId() . '.pages',
+            'create'
+        )
+        ) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -221,19 +246,25 @@ class PageController extends AbstractActionController
             );
 
             if (empty($page)) {
-                throw new PageNotFoundException('Unable to locate source page to copy');
+                throw new PageNotFoundException(
+                    'Unable to locate source page to copy'
+                );
             }
 
             $pageId = $page->getPageId();
 
+            $pageData = [
+                'author' => $this->rcmUserGetCurrentUser()->getName(),
+                'name' => $validatedData['template-name'],
+                'pageTitle' => null,
+                'pageType' => 't',
+            ];
+
             $this->pageRepo->copyPage(
-                $page,
-                $validatedData['template-name'],
-                $this->rcmUserGetCurrentUser()->getName(),
                 $this->currentSite,
-                null,
-                $sourcePageRevision,
-                't'
+                $page,
+                $pageData,
+                $sourcePageRevision
             );
 
             $this->view->setVariable(
@@ -274,7 +305,11 @@ class PageController extends AbstractActionController
      */
     public function publishPageRevisionAction()
     {
-        if (!$this->rcmIsAllowed('sites.' . $this->currentSite->getSiteId() . '.pages', 'create')) {
+        if (!$this->rcmIsAllowed(
+            'sites.' . $this->currentSite->getSiteId() . '.pages',
+            'create'
+        )
+        ) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -308,7 +343,12 @@ class PageController extends AbstractActionController
             );
         }
 
-        $this->pageRepo->publishPageRevision($this->currentSite->getSiteId(), $pageName, $pageType, $pageRevision);
+        $this->pageRepo->publishPageRevision(
+            $this->currentSite->getSiteId(),
+            $pageName,
+            $pageType,
+            $pageRevision
+        );
 
         return $this->redirect()->toUrl(
             $this->urlToPage(
@@ -325,7 +365,11 @@ class PageController extends AbstractActionController
      */
     public function savePageAction()
     {
-        if (!$this->rcmIsAllowed('sites.' . $this->currentSite->getSiteId() . '.pages', 'edit')) {
+        if (!$this->rcmIsAllowed(
+            'sites.' . $this->currentSite->getSiteId() . '.pages',
+            'edit'
+        )
+        ) {
             $response = new Response();
             $response->setStatusCode('401');
 
@@ -374,9 +418,17 @@ class PageController extends AbstractActionController
             );
 
             if (empty($result)) {
-                $return['redirect'] = $this->urlToPage($pageName, $pageType, $pageRevision);
+                $return['redirect'] = $this->urlToPage(
+                    $pageName,
+                    $pageType,
+                    $pageRevision
+                );
             } else {
-                $return['redirect'] = $this->urlToPage($pageName, $pageType, $result);
+                $return['redirect'] = $this->urlToPage(
+                    $pageName,
+                    $pageType,
+                    $result
+                );
             }
 
             return $this->getJsonResponse($return);
@@ -415,23 +467,24 @@ class PageController extends AbstractActionController
      */
     protected function prepSaveData(&$data)
     {
-        if(!is_array($data)) {
-            $data = array();
+        if (!is_array($data)) {
+            $data = [];
         }
 
         ksort($data);
 
-        $data['containers'] = array();
-        $data['pageContainer'] = array();
+        $data['containers'] = [];
+        $data['pageContainer'] = [];
 
         if (empty($data['plugins'])) {
-            throw new InvalidArgumentException('Save Data missing plugins.
+            throw new InvalidArgumentException(
+                'Save Data missing plugins.
                 Please make sure the data you\'re attempting to save is correctly formatted.
-            ');
+            '
+            );
         }
 
-        foreach ($data['plugins'] as &$plugin)
-        {
+        foreach ($data['plugins'] as &$plugin) {
             $this->cleanSaveData($plugin['saveData']);
 
             /*
@@ -468,9 +521,9 @@ class PageController extends AbstractActionController
                 $plugin['sitewideName'] = null;
             }
 
-            $plugin['rank'] = (int) $plugin['rank'];
-            $plugin['height'] = (int) $plugin['height'];
-            $plugin['width'] = (int) $plugin['width'];
+            $plugin['rank'] = (int)$plugin['rank'];
+            $plugin['height'] = (int)$plugin['height'];
+            $plugin['width'] = (int)$plugin['width'];
 
             $plugin['containerName'] = $plugin['containerId'];
 
@@ -504,8 +557,18 @@ class PageController extends AbstractActionController
             return;
         }
 
-        if(is_string($data)) {
-            $data = trim(str_replace(array("\n", "\t", "\r"), "", $data));
+        if (is_string($data)) {
+            $data = trim(
+                str_replace(
+                    [
+                        "\n",
+                        "\t",
+                        "\r"
+                    ],
+                    "",
+                    $data
+                )
+            );
         }
 
         return;

@@ -78,7 +78,7 @@ class SiteInputFilter extends InputFilter
             ],
             'siteLayout' => [
                 'name' => 'siteLayout',
-                'required' => true,
+                'required' => false,
                 'filters' => [
                     ['name' => 'Zend\Filter\StripTags'],
                     ['name' => 'StringTrim'],
@@ -118,7 +118,7 @@ class SiteInputFilter extends InputFilter
             ],
             'favIcon' => [
                 'name' => 'favIcon',
-                'required' => true,
+                'required' => false,
                 'filters' => [
                     ['name' => 'Zend\Filter\StripTags'],
                     ['name' => 'StringTrim'],

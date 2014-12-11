@@ -50,20 +50,20 @@ class RssCacheFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('config');
 
-        $extraOptions = array(
+        $extraOptions = [
             'namespace' => 'rcmRssCache',
             'ttl' => '300'
-        );
+        ];
 
         $cache = StorageFactory::factory(
-            array(
-                'adapter' => array(
+            [
+                'adapter' => [
                     'name' => $config['rcmCache']['adapter'],
                     'options' => $config['rcmCache']['options']
                         + $extraOptions,
-                ),
+                ],
                 'plugins' => $config['rcmCache']['plugins'],
-            )
+            ]
         );
 
         return $cache;

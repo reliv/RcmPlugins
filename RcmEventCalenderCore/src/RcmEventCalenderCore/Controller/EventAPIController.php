@@ -19,7 +19,7 @@ class EventAPIController extends AbstractAPIController
 
         $categoryId = $this->params()->fromQuery('categoryId', null);
         $events = $this->calender->getEvents($categoryId);
-        $eventList = array();
+        $eventList = [];
         foreach ($events as $event) {
             $eventList[] = $event->jsonSerialize();
         }
@@ -76,7 +76,7 @@ class EventAPIController extends AbstractAPIController
         } catch (\RcmEventCalenderCore\Exception\InvalidArgumentException $e) {
             $this->getResponse()->setStatusCode(400); //Bad Request
             //Return the message so troubleshooters tell which field is invalid
-            return new JsonModel(array('message' => $e->getMessage()));
+            return new JsonModel(['message' => $e->getMessage()]);
         }
         $location = $this->getEventsUrl() . "/$eventId";
         $this->getResponse()->setStatusCode(201); //Created
@@ -104,9 +104,9 @@ class EventAPIController extends AbstractAPIController
         if (!$event) {
             $this->getResponse()->setStatusCode(403); //Forbidden
             return new JsonModel(
-                array(
+                [
                     'message' => 'PUT is forbidden for new resources. Use POST.'
-                )
+                ]
             );
         }
 
@@ -130,9 +130,9 @@ class EventAPIController extends AbstractAPIController
         } catch (\RcmEventCalenderCore\Exception\InvalidArgumentException $e) {
             $this->getResponse()->setStatusCode(400); //Bad Request
             //Return the message so troubleshooters tell which field is invalid
-            return new JsonModel(array('message' => $e->getMessage()));
+            return new JsonModel(['message' => $e->getMessage()]);
         }
-        return new JsonModel(array());
+        return new JsonModel([]);
     }
 
     /**
@@ -153,28 +153,28 @@ class EventAPIController extends AbstractAPIController
             return null;
         }
         $this->calender->deleteEvent($id);
-        return new JsonModel(array());
+        return new JsonModel([]);
     }
 
     function checkRequired($data)
     {
         foreach (
-            array(
+            [
                 'categoryId',
                 'title',
                 'text',
                 'startDate',
                 'endDate',
                 'mapAddress'
-            )
+            ]
             as $requiredName
         ) {
             if (empty($data[$requiredName])) {
                 $this->getResponse()->setStatusCode(400); //Bad Request
                 return new JsonModel(
-                    array(
+                    [
                         'message' => "Field $requiredName is required"
-                    )
+                    ]
                 );
             }
         }

@@ -39,11 +39,11 @@ class PluginController
 {
     public function renderInstance($instanceId, $instanceConfig)
     {
-        $view = new ViewModel(array(
+        $view = new ViewModel([
             'instanceId' => $instanceId,
             'instanceConfig' => $instanceConfig,
             'rssProxy' => '/rcm-rss-proxy'
-        ));
+        ]);
 
         $view->setTemplate($this->template);
         return $view;
