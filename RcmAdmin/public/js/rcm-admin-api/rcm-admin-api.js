@@ -25,8 +25,8 @@ angular.module('rcmAdminApi', [])
                 site: '/api/admin/manage-sites/{siteId}',
                 siteCopy: '/api/admin/site-copy',
                 sitePages: '/api/admin/sites/{siteId}/pages',
-                sitePage: '/api/admin/sites/{siteID}/pages/{pageId}',
-                sitePageCopy: '/api/admin/sites/{siteID}/page-copy/{pageId}',
+                sitePage: '/api/admin/sites/{siteId}/pages/{pageId}',
+                sitePageCopy: '/api/admin/sites/{siteId}/page-copy/{pageId}',
 
                 themes: '/api/admin/theme'
             };

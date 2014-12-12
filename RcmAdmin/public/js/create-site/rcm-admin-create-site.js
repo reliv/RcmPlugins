@@ -53,6 +53,7 @@ angular.module('rcmAdmin')
                     {
                         url: rcmAdminApiUrlService.sites,
                         data: siteData,
+                        prepareErrors: true,
                         loading: function (loading) {
                             $scope.loadings.createSite = loading;
                         },

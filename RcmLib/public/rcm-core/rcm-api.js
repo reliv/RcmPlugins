@@ -3,7 +3,9 @@
  *  - Deals with failed codes (code 0 = success)
  *  - Creates standard return on error if no standard API JSON object received
  *  - Deals with loading state
+ *    See: ApiParams.loading
  *  - Formats error messages (from rcm input filter) into single strings (optional)
+ *    See: ApiParams.prepareErrors
  */
 angular.module('rcmApi', [])
     .factory(
@@ -25,22 +27,53 @@ angular.module('rcmApi', [])
              * @constructor
              */
             self.ApiParams = function () {
+                /**
+                 * URL of request (can contain parsable params in format {myParam})
+                 * @type {string}
+                 */
                 this.url = '';
+                /**
+                 * URL Params that will replace parsable params in url
+                 * @type {object}
+                 */
                 this.urlParams = null;
+                /**
+                 * POST PUT DELETE data
+                 * @type {object}
+                 */
                 this.data = null;
+                /**
+                 * GET query params
+                 * @type {object}
+                 */
                 this.params = null;
-                this.prepareErrors = true;
-
+                /**
+                 * Prepare errors from input filters if set to true
+                 * @type {boolean}
+                 */
+                this.prepareErrors = false;
+                /**
+                 * Loading callback, used to track loading state
+                 * @param {boolean} loading
+                 */
                 this.loading = function (loading) {
                 };
+                /**
+                 * Success callback, called if http and API is successful (error code == 0)
+                 * @param {object} data
+                 */
                 this.success = function (data) {
                 };
+                /**
+                 * Error callback, called if http or API is fails (error code > 0)
+                 * @param data
+                 */
                 this.error = function (data) {
                 };
             };
 
             /**
-             * ApiData
+             * ApiData - Format expected from server
              * @constructor
              */
             self.ApiData = function () {
@@ -66,8 +99,14 @@ angular.module('rcmApi', [])
 
                     if (self.cache[apiParams.url]) {
 
-                        self.apiSuccess(self.cache[apiParams.url], apiParams, 'CACHE', null, null)
-                        return ;
+                        self.apiSuccess(
+                            self.cache[apiParams.url],
+                            apiParams,
+                            'CACHE',
+                            null,
+                            null
+                        )
+                        return;
                     }
 
                     apiParams.cacheId = apiParams.url;
@@ -215,7 +254,10 @@ angular.module('rcmApi', [])
              * @param apiParams
              */
             self.apiError = function (data, apiParams, status, headers, config) {
-                $log.error('An API error occured, status: '+status+' returned: ', data);
+                $log.error(
+                    'An API error occured, status: ' + status + ' returned: ',
+                    data
+                );
 
                 self.prepareErrorData(
                     data,
