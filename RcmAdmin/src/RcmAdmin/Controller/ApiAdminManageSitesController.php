@@ -191,7 +191,7 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
     }
 
     /**
-     * create - Create or Clone a site
+     * create - Create a site
      *
      * @param array $data - see buildSiteApiResponse()
      *
@@ -245,9 +245,11 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
         $pageRepo = $entityManager->getRepository('\Rcm\Entity\Page');
 
         /** @var \Rcm\Entity\Site $newSite */
-        $newSite = $siteRepo->createNewSite($data['siteId']);
+        $newSite = new Site();
 
         $newSite->populate($data);
+        // make sure we don't have a siteId
+        $newSite->setSiteId(null);
 
         $author = $this->getCurrentAuthor();
 
@@ -267,9 +269,9 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
             return new ApiJsonModel(null, 1, $e->getMessage());
         }
 
-        $this->createPagePlugins($newSite, $this->getDefaultSitePageSettings($author));
-
         try {
+            $this->createPagePlugins($newSite, $this->getDefaultSitePageSettings($author), false);
+
             $entityManager->flush();
         } catch (\Exception $e) {
 
