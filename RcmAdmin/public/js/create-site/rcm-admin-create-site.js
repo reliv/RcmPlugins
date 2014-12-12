@@ -113,7 +113,6 @@ angular.module('rcmAdmin')
                         $scope.themes = data.data;
                     },
                     error: function (data) {
-                        console.error('c', data);
                         self.parseMessage(data);
                     }
                 },
