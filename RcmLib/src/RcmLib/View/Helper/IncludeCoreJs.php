@@ -48,7 +48,7 @@ class IncludeCoreJs extends AbstractHelper
 
         /* <CORE_JS_FILES> */
         $headScript()->prependFile(
-            $view->basePath() . '/modules/rcm-lib/rcm-core/rcm-core.js'
+            $view->basePath() . '/modules/rcm-lib/rcm-core.js'
         );
         $headScript()->prependFile(
             $view->basePath()

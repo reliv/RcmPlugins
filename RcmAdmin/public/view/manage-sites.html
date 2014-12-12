@@ -2,7 +2,7 @@
     <link href="/modules/rcm-admin/css/manage-sites.css"
           media="screen"
           rel="stylesheet" type="text/css">
-    <div ng-controller="rcmManageSitesController">
+    <div ng-controller="rcmAdminManageSitesController">
         <div class="loading" ng-show="loading">Loading...</div>
         <div class="alert alert-warning" ng-show="message">
             <div>{{message}}</div>
@@ -47,16 +47,57 @@
                             Duplicate Site
                         </h2>
 
-                        <div>
-                            <form>
-                                <label for="newDomain">
-                                    <div>Enter new domain</div>
-                                    <input type="text"
-                                           id="newDomain"
-                                           ng-model="tempSites[site.siteId].domain"
-                                           required="required"
-                                           ng-required="true">
-                                </label>
+                        <div class="container-fluid">
+                            <form role="form">
+                                <div class="form-group"
+                                     ng-class="{'has-error': createResult.errors.country}">
+                                    <label class="col-sm-10 control-label"
+                                           for="newDomain">
+                                        <div>Enter new domain</div>
+                                    </label>
+
+                                    <div class="col-sm-10">
+                                        <input class="form-control"
+                                               id="newDomain"
+                                               ng-model="tempSites[site.siteId].domain"
+                                               required="required"
+                                               ng-required="true"
+                                               type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-10 control-label"
+                                           for="site-country-iso3">
+                                        Site Country
+                                    </label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control"
+                                                id="site-country-iso3"
+                                                ng-model="tempSites[site.siteId].country"
+                                                ng-options="v.iso3 as v.countryName for (k, v) in countries"
+                                                >
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-10 control-label"
+                                           for="site-language-iso639_2t">
+                                        Site Language
+                                    </label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control"
+                                                id="site-language-iso639_2t"
+                                                ng-model="tempSites[site.siteId].language"
+                                                ng-options="v.iso639_2t as v.languageName for (k, v) in languages"
+                                                >
+                                        </select>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
 

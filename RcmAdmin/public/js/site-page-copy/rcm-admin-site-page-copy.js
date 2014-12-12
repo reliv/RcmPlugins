@@ -2,22 +2,12 @@ angular.module('rcmAdmin')
     .controller(
     'rcmAdminSitePageCopyController',
     [
-        '$scope', '$http',
-        function ($scope, $http) {
+        '$scope', '$http', 'rcmApiService', 'rcmAdminApiUrlService',
+        function ($scope, $http, rcmApiService, rcmAdminApiUrlService) {
 
             var self = this;
 
-            self.url = {
-                sourceSite: '/api/admin/manage-sites/current',
-                destinationSites: '/api/admin/manage-sites',
-                sourcePages: '/api/admin/sites', //ID/pages'
-                pageTypes: '/api/admin/pagetypes',
-                copyPage: '/api/admin/sites'
-            };
-
             $scope.errorMessage = null;
-
-
 
             $scope.loadings = {
                 sourceSite: false,
@@ -105,54 +95,40 @@ angular.module('rcmAdmin')
             };
 
             /**
-             * copyPage - Do the page copying
+             * Copy Page
              * @param page
              */
             self.copyPage = function (page) {
 
-                page.copyToSiteId = $scope.destinationSite.siteId;
+                page.destinationSiteId = $scope.destinationSite.siteId;
 
-                $http(
+                rcmApiService.post(
                     {
-                        method: 'POST',
-                        url: self.url.copyPage + '/' + $scope.sourceSite.siteId + '/pages/' + page.pageId,
-                        data: page
-                    }
-                )
-                    .success(
-                    function (data) {
-                        self.parseCopyMessage(data, page);
-                    }
-                )
-                    .error(
-                    function (data) {
-                        data.code = 1;
-                        self.parseCopyMessage(data, page);
-                    }
+                        url: rcmAdminApiUrlService.sitePageCopy,
+                        urlParams: {
+                            siteId: $scope.sourceSite.siteId,
+                            pageId: page.pageId
+                        },
+                        data: page,
+                        success: function (data) {
+
+                            data.page = page;
+                            $scope.copyMessages.count++;
+                            $scope.copyMessages.success.push(
+                                data
+                            );
+                        },
+                        error: function (data) {
+
+                            data.page = page;
+                            $scope.copyMessages.count++;
+                            $scope.copyMessages.error.push(
+                                data
+                            );
+                        }
+                    },
+                    true
                 );
-            };
-
-            /**
-             *
-             * @param result
-             * @param page
-             */
-            self.parseCopyMessage = function (result, page) {
-
-                result.page = page;
-
-                $scope.copyMessages.count ++;
-
-                if (result.code == 1) {
-                    $scope.copyMessages.error.push(
-                        result
-                    );
-                } else {
-                    $scope.copyMessages.success.push(
-                        result
-                    );
-                }
-
             };
 
             /**
@@ -161,37 +137,29 @@ angular.module('rcmAdmin')
              */
             self.parseMessage = function (result) {
 
-                if (result.code == 1) {
-                    $scope.errorMessage = $scope.errorMessage + ' ' + result.message;
-                }
+                $scope.errorMessage = $scope.errorMessage + ' ' + result.message;
             };
 
             /**
-             * getSourceSite
+             *
              */
             self.getSourceSite = function () {
-                $scope.loadings.sourceSite = true;
-                $http(
+                rcmApiService.get(
                     {
-                        method: 'GET',
-                        url: self.url.sourceSite
-                    }
-                )
-                    .success(
-                    function (data) {
-                        self.parseMessage(data);
-                        $scope.sourceSite = data.data;
-                        self.getSourcePages();
-                        $scope.loadings.sourceSite = false;
-                    }
-                )
-                    .error(
-                    function (data) {
-                        data.code = 1;
-                        data.message = 'An Error Occured: ' + data.message;
-                        self.parseMessage(data);
-                        $scope.loadings.sourceSite = false;
-                    }
+                        url: rcmAdminApiUrlService.siteCurrent,
+
+                        loading: function (loading) {
+                            $scope.loadings.sourceSite = loading;
+                        },
+                        success: function (data) {
+                            $scope.sourceSite = data.data;
+                            self.getSourcePages();
+                        },
+                        error: function (data) {
+                            self.parseMessage(data);
+                        }
+                    },
+                    true
                 );
             };
 
@@ -199,27 +167,21 @@ angular.module('rcmAdmin')
              * getSourcePages
              */
             self.getSourcePages = function () {
-                $scope.loadings.sourcePages = true;
-                $http(
+                rcmApiService.get(
                     {
-                        method: 'GET',
-                        url: self.url.sourcePages + '/' + $scope.sourceSite.siteId + '/pages'
-                    }
-                )
-                    .success(
-                    function (data) {
-                        self.parseMessage(data);
-                        self.setSourcePages(data.data);
-                        $scope.loadings.sourcePages = false;
-                    }
-                )
-                    .error(
-                    function (data) {
-                        data.code = 1;
-                        data.message = 'An Error Occured: ' + data.message;
-                        self.parseMessage(data);
-                        $scope.loadings.sourcePages = false;
-                    }
+                        url: rcmAdminApiUrlService.sitePages,
+                        urlParams: {siteId: $scope.sourceSite.siteId},
+                        loading: function (loading) {
+                            $scope.loadings.sourcePages = loading;
+                        },
+                        success: function (data) {
+                            self.setSourcePages(data.data);
+                        },
+                        error: function (data) {
+                            self.parseMessage(data);
+                        }
+                    },
+                    true
                 );
             };
 
@@ -237,33 +199,27 @@ angular.module('rcmAdmin')
                         $scope.sourcePages.push(page);
                     }
                 );
-            }
+            };
 
             /**
              * getDestinationSites
              */
             self.getDestinationSites = function () {
-                $scope.loadings.destinationSites = true;
-                $http(
+                rcmApiService.get(
                     {
-                        method: 'GET',
-                        url: self.url.destinationSites
-                    }
-                )
-                    .success(
-                    function (data) {
-                        self.parseMessage(data);
-                        $scope.destinationSites = data.data;
-                        $scope.loadings.destinationSites = false;
-                    }
-                )
-                    .error(
-                    function (data) {
-                        data.code = 1;
-                        data.message = 'An Error Occured: ' + data.message;
-                        self.parseMessage(data);
-                        $scope.loadings.destinationSites = false;
-                    }
+                        url: rcmAdminApiUrlService.sites,
+                        urlParams: {siteId: $scope.sourceSite.siteId},
+                        loading: function (loading) {
+                            $scope.loadings.destinationSites = loading;
+                        },
+                        success: function (data) {
+                            $scope.destinationSites = data.data;
+                        },
+                        error: function (data) {
+                            self.parseMessage(data);
+                        }
+                    },
+                    true
                 );
             };
 
@@ -271,30 +227,22 @@ angular.module('rcmAdmin')
              * getPageTypes
              */
             self.getPageTypes = function () {
-                $scope.loadings.pageTypes = true;
-                $http(
+                rcmApiService.get(
                     {
-                        method: 'GET',
-                        url: self.url.pageTypes
-                    }
-                )
-                    .success(
-                    function (data) {
-                        self.parseMessage(data);
-                        $scope.pageTypes = data.data;
-                        $scope.loadings.pageTypes = false;
-                    }
-                )
-                    .error(
-                    function (data) {
-                        data.code = 1;
-                        data.message = 'An Error Occured: ' + data.message;
-                        self.parseMessage(data);
-                        $scope.loadings.pageTypes = false;
-                    }
+                        url: rcmAdminApiUrlService.pageTypes,
+                        loading: function (loading) {
+                            $scope.loadings.pageTypes = loading;
+                        },
+                        success: function (data) {
+                            $scope.pageTypes = data.data;
+                        },
+                        error: function (data) {
+                            self.parseMessage(data);
+                        }
+                    },
+                    true
                 );
             };
-
 
             /**
              * init

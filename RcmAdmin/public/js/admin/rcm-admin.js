@@ -8,7 +8,7 @@
  */
 angular.module(
     'rcmAdmin',
-    ['RcmHtmlEditor']
+    ['rcmApi', 'rcmAdminApi', 'RcmHtmlEditor']
 )
 /**
  * rcmAdminService
