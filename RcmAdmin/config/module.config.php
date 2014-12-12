@@ -179,7 +179,7 @@ return [
             'ApiAdminSitesCloneController' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
-                    'route' => '/api/admin/site-clone[/:id]',
+                    'route' => '/api/admin/site-copy[/:id]',
                     'defaults' => [
                         'controller' => 'RcmAdmin\Controller\ApiAdminSitesCloneController',
                     ]
@@ -224,7 +224,7 @@ return [
             'ApiAdminSitePageCloneController' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
-                    'route' => '/api/admin/sites/:siteId/page-clone[/:id]',
+                    'route' => '/api/admin/sites/:siteId/page-copy[/:id]',
                     'defaults' => [
                         'controller' => 'RcmAdmin\Controller\ApiAdminSitePageCloneController',
                     ]
@@ -333,6 +333,22 @@ return [
             ],
             'pages' => [
                 [
+                    'name' => 'index',
+                    'description' => 'Home Page.',
+                    'pageTitle' => 'Home',
+                    'plugins' => [
+                        [
+                            'plugin' => 'RcmHtmlArea',
+                            'displayName' => 'Home Page Area',
+                            'instanceConfig' => [],
+                            'layoutContainer' => '4',
+                            'saveData' => [
+                                'html' => '<h1>Home</h1>',
+                            ]
+                        ],
+                    ],
+                ],
+                [
                     'name' => 'login',
                     'description' => 'Login Page.',
                     'pageTitle' => 'Login',
@@ -352,7 +368,7 @@ return [
                     'plugins' => [
                         [
                             'plugin' => 'RcmHtmlArea',
-                            'displayName' => 'Login Area',
+                            'displayName' => 'Access Denied Area',
                             'instanceConfig' => [],
                             'layoutContainer' => '4',
                             'saveData' => [
@@ -368,7 +384,7 @@ return [
                     'plugins' => [
                         [
                             'plugin' => 'RcmHtmlArea',
-                            'displayName' => 'Login Area',
+                            'displayName' => 'Page Not Found Area',
                             'instanceConfig' => [],
                             'layoutContainer' => '4',
                             'saveData' => [
@@ -409,6 +425,7 @@ return [
             ],
             'collections' => [
                 'modules/rcm-admin/js/rcm-admin.js' => [
+                    'modules/rcm-admin/js/rcm-admin-api/rcm-admin-api.js', // general service - requires rcm-core
                     'modules/rcm-admin/js/dialog/rcm-dialog.js',
                     'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
                     'modules/rcm-admin/js/admin/rcm-admin.js',
@@ -423,8 +440,8 @@ return [
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js',
                     'modules/rcm-admin/js/dialog/rcm-popout-window.js',
                     'modules/rcm-admin/js/admin/rcm-save-ajax-admin-window.js',
-                    'modules/rcm-admin/js/manage-sites/controller.js',
-                    'modules/rcm-admin/js/create-site/controller.js',
+                    'modules/rcm-admin/js/manage-sites/rcm-admin-manage-sites.js',
+                    'modules/rcm-admin/js/create-site/rcm-admin-create-site.js',
                     'modules/rcm-admin/js/site-page-copy/rcm-admin-site-page-copy.js',
                 ],
                 'modules/rcm-admin/css/rcm-admin.css' => [

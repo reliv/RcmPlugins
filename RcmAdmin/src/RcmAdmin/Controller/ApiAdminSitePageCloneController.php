@@ -27,7 +27,6 @@ class ApiAdminSitePageCloneController extends ApiAdminSitePageController
 {
     /**
      * create
-     * @todo duplicate might be separate controller
      *
      * @param mixed $data
      *
