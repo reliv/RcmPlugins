@@ -1086,7 +1086,7 @@ var RcmAdminService = {
                                 $(this).dialog("close");
                             },
                             Ok: {
-                                class: "okButton",
+                                "class": "okButton",
                                 text: 'Ok',
                                 click: function () {
 
