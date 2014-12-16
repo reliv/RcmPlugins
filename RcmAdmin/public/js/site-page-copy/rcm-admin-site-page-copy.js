@@ -126,8 +126,7 @@ angular.module('rcmAdmin')
                                 data
                             );
                         }
-                    },
-                    true
+                    }
                 );
             };
 
@@ -180,8 +179,7 @@ angular.module('rcmAdmin')
                         error: function (data) {
                             self.parseMessage(data);
                         }
-                    },
-                    true
+                    }
                 );
             };
 
@@ -218,8 +216,7 @@ angular.module('rcmAdmin')
                         error: function (data) {
                             self.parseMessage(data);
                         }
-                    },
-                    true
+                    }
                 );
             };
 

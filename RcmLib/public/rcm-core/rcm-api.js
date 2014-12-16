@@ -199,7 +199,7 @@ angular.module('rcmApi', [])
              * DELETE
              * @param apiParams
              */
-            self.delete = function (apiParams) {
+            self.del = function (apiParams) {
 
                 apiParams = angular.extend(new self.ApiParams(), apiParams);
 
