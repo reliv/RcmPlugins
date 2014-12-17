@@ -20,6 +20,12 @@ return [
             'aliases' => [
                 'modules/rcm-lib/' => __DIR__ . '/../public/',
             ],
+            'collections' => [
+                'modules/rcm-lib/rcm-core.js' => [
+                    'modules/rcm-lib/rcm-core/rcm.js',
+                    'modules/rcm-lib/rcm-core/rcm-api.js',
+                ],
+            ],
         ],
     ],
     'view_helpers' => [

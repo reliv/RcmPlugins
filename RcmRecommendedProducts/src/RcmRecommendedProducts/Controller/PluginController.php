@@ -20,9 +20,9 @@ namespace RcmRecommendedProducts\Controller;
 use Aws\CloudFront\Exception\Exception;
 use Rcm\Plugin\PluginInterface;
 use Rcm\Plugin\BaseController;
-use RcmShoppingCart\Entity\Sku;
-use RcmShoppingCart\Model\OrderMgr;
-use RcmShoppingCart\Model\ProductModel;
+use App\Entity\Sku;
+use App\Model\OrderMgr;
+use App\Model\ProductModel;
 
 /**
  * Plugin Controller

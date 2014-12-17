@@ -56,7 +56,7 @@ class AvailablePluginsJsList extends AbstractHelper implements ServiceLocatorAwa
         );
 
         $headScript->appendFile(
-            '/modules/rcm-shopping-cart/js/models/RcmOrderMgr.js',
+            '/modules/app/js/models/RcmOrderMgr.js',
             'text/javascript'
         );
     }
