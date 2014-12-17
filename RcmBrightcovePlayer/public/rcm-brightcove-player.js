@@ -442,14 +442,12 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
         self.videoPlayer.addEventListener(self.mediaEvent.COMPLETE, self.onMediaComplete);
 
         self.templateReady = true;
-
-        if (self.loadVideoIdWhenReady) {
-            self.cueVideoById(self.loadVideoIdWhenReady);
-        }
     };
 
     self.onTemplateReady = function (evt) {
-
+        if (self.loadVideoIdWhenReady) {
+            self.cueVideoById(self.loadVideoIdWhenReady);
+        }
     };
 
     self.loadVideoById = function (videoId, callback) {
