@@ -19,6 +19,9 @@
 
 return [
 
+    'RcmI18n' => [
+        'defaultLocale' => 'en_US',
+    ],
     'RcmUser' => [
         'Acl\Config' => [
             'ResourceProviders' => [
@@ -54,8 +57,8 @@ return [
         ]
     ],
     'translator' => [
-
         'locale' => 'en_US',
+        'event_manager_enabled' => true,
         'remote_translation' => [
             [
                 'type' => 'RcmI18n\DbLoader',
@@ -107,7 +110,8 @@ return [
     'controllers' => [
         'invokables' => [
             'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController',
-            'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController'
+            'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController',
+            'RcmI18n\Controller\ApiAdminBuildMessagesController' => 'RcmI18n\Controller\ApiAdminBuildMessagesController',
         ]
     ],
     'router' => [

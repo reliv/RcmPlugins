@@ -150,7 +150,7 @@ class Message implements \IteratorAggregate, \JsonSerializable
      */
     public function getIterator()
     {
-        $a = new ArrayObject(get_object_vars($this));
+        $a = new ArrayObject($this->toArray());
         return $a->getIterator();
     }
 
@@ -161,6 +161,16 @@ class Message implements \IteratorAggregate, \JsonSerializable
      */
     public function jsonSerialize ()
     {
-        return get_class_vars($this);
+        return $this->toArray();
+    }
+
+    /**
+     * toArray
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
     }
 } 

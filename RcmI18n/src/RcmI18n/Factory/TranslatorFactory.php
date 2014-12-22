@@ -44,6 +44,7 @@ class TranslatorFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('config');
         $translator = Translator::factory($config['translator']);
+
         /**
          * Work-around for the translator loader plugin manager not having a config
          * key that it looks for.
@@ -59,6 +60,14 @@ class TranslatorFactory implements FactoryInterface
             );
         }
         $translator->setLocale(\Locale::getDefault());
+
+        // Register listener
+        $listener = $serviceLocator->get('RcmI18n\Event\MissingTranslationListener');
+
+        $event = $translator->getEventManager();
+
+        $listener->attach($event);
+
         return new \Zend\Mvc\I18n\Translator($translator);
     }
 }
