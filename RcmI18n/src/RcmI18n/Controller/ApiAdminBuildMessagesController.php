@@ -55,12 +55,13 @@ class ApiAdminBuildMessagesController extends AbstractRestfulController
      */
     public function update($id, $data)
     {
-        if (!$this->rcmIsAllowed('translations', 'update')) {
+        // DISABLED
+        //if (!$this->rcmIsAllowed('translations', 'update')) {
             $response = $this->getResponse();
             $response->setStatusCode(Response::STATUS_CODE_401);
             $response->setContent($response->renderStatusLine());
             return $response;
-        }
+        //}
 
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');

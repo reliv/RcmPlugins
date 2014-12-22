@@ -21,23 +21,7 @@ return [
 
     'RcmI18n' => [
         'defaultLocale' => 'en_US',
-        /**
-         * Allows for the generation of new messages using the API
-         * Could also be used as a fallback, but not currently supported
-         */
-        'translations' => [
-            // namespace
-            'default' => [
-                // Translation data
-                //[
-                //    'locale' => 'en_US',
-                //    'defaultText' => 'My Default Text',
-                //    'text' => 'My Translated Text',
-                //],
-            ]
-        ]
     ],
-
     'RcmUser' => [
         'Acl\Config' => [
             'ResourceProviders' => [
@@ -73,8 +57,8 @@ return [
         ]
     ],
     'translator' => [
-
         'locale' => 'en_US',
+        'event_manager_enabled' => true,
         'remote_translation' => [
             [
                 'type' => 'RcmI18n\DbLoader',
@@ -88,6 +72,7 @@ return [
         'factories' => [
             'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
             'RcmI18n\Model\Locales' => 'RcmI18n\Factory\LocalesFactory',
+            'RcmI18n\Event\MissingTranslationListener' => 'RcmI18n\Factory\MissingTranslationListenerFactory',
         ]
     ],
     'translator_plugins' => [
