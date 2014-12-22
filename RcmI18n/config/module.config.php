@@ -19,6 +19,25 @@
 
 return [
 
+    'RcmI18n' => [
+        'defaultLocale' => 'en_US',
+        /**
+         * Allows for the generation of new messages using the API
+         * Could also be used as a fallback, but not currently supported
+         */
+        'translations' => [
+            // namespace
+            'default' => [
+                // Translation data
+                //[
+                //    'locale' => 'en_US',
+                //    'defaultText' => 'My Default Text',
+                //    'text' => 'My Translated Text',
+                //],
+            ]
+        ]
+    ],
+
     'RcmUser' => [
         'Acl\Config' => [
             'ResourceProviders' => [
@@ -107,7 +126,8 @@ return [
     'controllers' => [
         'invokables' => [
             'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController',
-            'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController'
+            'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController',
+            'RcmI18n\Controller\ApiAdminBuildMessagesController' => 'RcmI18n\Controller\ApiAdminBuildMessagesController',
         ]
     ],
     'router' => [
@@ -127,6 +147,15 @@ return [
                     'route' => '/rcmi18n/messages/:locale[/:id]',
                     'defaults' => [
                         'controller' => 'RcmI18n\Controller\Messages',
+                    ],
+                ],
+            ],
+            'apiAdminBuildMessages' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/admin/rcmi18n/build-messages[/:id]',
+                    'defaults' => [
+                        'controller' => 'RcmI18n\Controller\ApiAdminBuildMessagesController',
                     ],
                 ],
             ],
