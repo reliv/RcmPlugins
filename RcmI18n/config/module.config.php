@@ -72,7 +72,6 @@ return [
         'factories' => [
             'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
             'RcmI18n\Model\Locales' => 'RcmI18n\Factory\LocalesFactory',
-            'RcmI18n\Event\MissingTranslationListener' => 'RcmI18n\Factory\MissingTranslationListenerFactory',
         ]
     ],
     'translator_plugins' => [
@@ -132,15 +131,6 @@ return [
                     'route' => '/rcmi18n/messages/:locale[/:id]',
                     'defaults' => [
                         'controller' => 'RcmI18n\Controller\Messages',
-                    ],
-                ],
-            ],
-            'apiAdminBuildMessages' => [
-                'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => [
-                    'route' => '/api/admin/rcmi18n/build-messages[/:id]',
-                    'defaults' => [
-                        'controller' => 'RcmI18n\Controller\ApiAdminBuildMessagesController',
                     ],
                 ],
             ],
