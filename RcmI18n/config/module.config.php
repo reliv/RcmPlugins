@@ -72,6 +72,7 @@ return [
         'factories' => [
             'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
             'RcmI18n\Model\Locales' => 'RcmI18n\Factory\LocalesFactory',
+            'RcmI18n\Event\MissingTranslationListener' => 'RcmI18n\Factory\MissingTranslationListenerFactory',
         ]
     ],
     'translator_plugins' => [
@@ -111,7 +112,6 @@ return [
         'invokables' => [
             'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController',
             'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController',
-            'RcmI18n\Controller\ApiAdminBuildMessagesController' => 'RcmI18n\Controller\ApiAdminBuildMessagesController',
         ]
     ],
     'router' => [
