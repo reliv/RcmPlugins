@@ -561,7 +561,13 @@ var inputImageEventsDelegated = false;
             if (newVal == null) {
                 if (typeof(name) != 'undefined') {
                     //Used for must input types
-                    return dialogElement.find('[name="' + name + '"]').val();
+                    var inputElement
+                        = dialogElement.find('[name="' + name + '"]');
+                    if (inputElement.attr('type') == 'checkbox') {
+                        return inputElement.is(':checked');
+                    } else {
+                        return inputElement.val();
+                    }
                 } else {
                     //For ck editor inputs
 
