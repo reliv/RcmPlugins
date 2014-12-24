@@ -24,6 +24,7 @@ return [
                 'modules/rcm-lib/rcm-core.js' => [
                     'modules/rcm-lib/rcm-core/rcm.js',
                     'modules/rcm-lib/rcm-core/rcm-api.js',
+                    'modules/rcm-admin/js/admin/bootstrap-alert-confirm.js'
                 ],
             ],
         ],
