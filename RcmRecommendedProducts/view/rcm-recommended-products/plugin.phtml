@@ -7,14 +7,14 @@ $this->headLink()->appendStylesheet(
 ?>
 <div class="rcmRecommendedProductsList">
     <a href="<?= $this->escapeHtml($prodUrl) ?>">
-    <div class="recommendedProductImage"><img
-            src="<?= $this->escapeHtml($mainImage) ?>">
+    <div class="recommendedProductImage">
+        <img src="<?= $this->escapeHtml($mainImage) ?>">
     </div>
     <div class="prodName">
         <?= $prodName ?>
     </div>
     <div class="orderNow">
-        <button class="btn btn-primary">
+        <div role="button" class="btn btn-primary">
             <?=
             $this->rcmTextEdit(
                 'button',
@@ -22,7 +22,7 @@ $this->headLink()->appendStylesheet(
                 'div',
                 ['class' => 'orderNow']
             ) ?>
-        </button>
+        </div>
     </a>
     </div>
 </div> 
