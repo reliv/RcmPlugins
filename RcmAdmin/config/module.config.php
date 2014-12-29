@@ -433,7 +433,6 @@ return [
                     'modules/rcm-admin/js/jquery/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/admin/ajax-plugin-edit-helper.js',
                     'modules/rcm-admin/js/admin/available-plugins-menu.js',
-                    'modules/rcm-admin/js/admin/bootstrap-alert-confirm.js',
                     'modules/rcm-admin/js/admin/plugin-drag.js',
                     'modules/rcm-admin/js/admin/session.js',
                     'modules/rcm-admin/js/permissions/page-permissions.js',
