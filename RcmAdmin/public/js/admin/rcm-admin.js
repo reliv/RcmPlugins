@@ -1184,7 +1184,8 @@ var RcmAdminService = {
             var donDoIt = function () {
                 return false;
             };
-            elm.find('button').unbind()
+            elm.find('button').unbind();
+            elm.find('[role="button"]').unbind();
             elm.find('button').click(donDoIt);
             elm.find('a').click(donDoIt);
             elm.find('form').submit(donDoIt);

@@ -24,7 +24,8 @@ return [
                 'modules/rcm-lib/rcm-core.js' => [
                     'modules/rcm-lib/rcm-core/rcm.js',
                     'modules/rcm-lib/rcm-core/rcm-api.js',
-                    'modules/rcm-admin/js/admin/bootstrap-alert-confirm.js'
+                    'modules/rcm-lib/rcm-core/rcm-form-control.js',
+                    'modules/rcm-admin/js/admin/bootstrap-alert-confirm.js' // @todo - admin bits should not be here, we should refactor bootstrap-alert-confirm general lib
                 ],
             ],
         ],
