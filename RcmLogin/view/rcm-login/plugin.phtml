@@ -20,8 +20,11 @@ $this->rcmTextEdit(
     <?= isset($error) ? $this->escapeHtml($error) : '' ?>
 </div>
 
-<form class="loginForm rcmDoubleSubmitProtect"
-      action="<?= $this->escapeHtml($_SERVER['REQUEST_URI']) ?>" method="post">
+<form class="loginForm rcmDoubleSubmitProtect rcm-login-form"
+      action="<?= $this->escapeHtml($_SERVER['REQUEST_URI']) ?>"
+      method="post"
+      onkeypress="return rcmFormControl.submitOnEnter(this, event);"
+    >
     <?=
     $this->rcmTextEdit(
         'userNameCopy',
@@ -45,15 +48,14 @@ $this->rcmTextEdit(
     <input type="password" name="password">
     <br>
     <br>
-    <button class="btn btn-primary">
+    <div role="button" onclick="$('.rcm-login-form').submit();" class="btn btn-primary" type="submit">
         <?=
         $this->rcmTextEdit(
             'loginSubmitCopy',
             'login',
-            'span',
-            array('type' => 'submit')
+            'span'
         ) ?>
-    </button>
+    </div>
 </form>
 <br>
 <br>
