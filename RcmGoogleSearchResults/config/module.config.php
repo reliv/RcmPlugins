@@ -26,7 +26,8 @@ return [
             'tooltip' => 'Google Search Results',
             'icon' => '',
             'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php'
+                    __DIR__ . '/defaultInstanceConfig.php',
+            'canCache' => false,
         ],
     ],
     'view_manager' => [

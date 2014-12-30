@@ -7,9 +7,16 @@ $().ready(function () {
         'submit',
         function () {
             var form = $(this);
+
+            // Ignore form without action, like angular forms
+            if(!form.attr('action')){
+                return true;
+            }
+
             if (form.hasClass('processing')) {
                 return false;
             }
+
             form.addClass('processing');
             return true;
         }
