@@ -47,9 +47,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmGoogleSearchBox' => 'RcmGoogleSearchBox\Factory\BaseControllerFactory'
-        ]
-    ]
 ];

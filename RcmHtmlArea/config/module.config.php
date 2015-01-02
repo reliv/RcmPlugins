@@ -32,10 +32,4 @@ return [
             __DIR__ . '/../view',
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmHtmlArea' => 'RcmHtmlArea\Factory\BaseControllerFactory'
-        ]
-    ]
-
 ];

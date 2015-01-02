@@ -48,10 +48,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmCallToActionBox' => 'RcmCallToActionBox\Factory\BaseControllerFactory'
-        ]
-    ]
-
 ];
