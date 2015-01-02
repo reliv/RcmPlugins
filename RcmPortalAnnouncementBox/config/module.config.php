@@ -48,9 +48,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmPortalAnnouncementBox' => 'RcmPortalAnnouncementBox\Factory\BaseControllerFactory'
-        ]
-    ]
 ];
