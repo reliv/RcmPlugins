@@ -19,6 +19,9 @@
 
 return [
 
+    'RcmI18n' => [
+        'defaultLocale' => 'en_US',
+    ],
     'RcmUser' => [
         'Acl\Config' => [
             'ResourceProviders' => [
@@ -54,8 +57,8 @@ return [
         ]
     ],
     'translator' => [
-
         'locale' => 'en_US',
+        'event_manager_enabled' => true,
         'remote_translation' => [
             [
                 'type' => 'RcmI18n\DbLoader',
@@ -69,6 +72,7 @@ return [
         'factories' => [
             'MvcTranslator' => 'RcmI18n\Factory\TranslatorFactory',
             'RcmI18n\Model\Locales' => 'RcmI18n\Factory\LocalesFactory',
+            'RcmI18n\Event\MissingTranslationListener' => 'RcmI18n\Factory\MissingTranslationListenerFactory',
         ]
     ],
     'translator_plugins' => [
@@ -107,7 +111,7 @@ return [
     'controllers' => [
         'invokables' => [
             'RcmI18n\Controller\Locale' => 'RcmI18n\Controller\LocaleController',
-            'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController'
+            'RcmI18n\Controller\Messages' => 'RcmI18n\Controller\MessagesController',
         ]
     ],
     'router' => [

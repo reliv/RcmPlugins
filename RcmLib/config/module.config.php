@@ -24,6 +24,8 @@ return [
                 'modules/rcm-lib/rcm-core.js' => [
                     'modules/rcm-lib/rcm-core/rcm.js',
                     'modules/rcm-lib/rcm-core/rcm-api.js',
+                    'modules/rcm-lib/rcm-core/rcm-form-double-submit-protect.js',
+                    'modules/rcm-lib/rcm-core/rcm-bootstrap-alert-confirm.js'
                 ],
             ],
         ],

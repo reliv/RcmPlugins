@@ -1001,8 +1001,12 @@ var RcmAdminService = {
                     }
                 }
             );
-
-            RcmAdminService.RcmPluginViewModel.disableLinks(elm, onComplete);
+            RcmAdminService.RcmPluginViewModel.createEditableButtons(
+                elm,
+                function(elm) {
+                    RcmAdminService.RcmPluginViewModel.disableLinks(elm, onComplete);
+                }
+            );
         },
 
         /**
@@ -1018,7 +1022,12 @@ var RcmAdminService = {
 
             jQuery.contextMenu('destroy', '[data-rcmPluginInstanceId=' + id + ']');
 
-            RcmAdminService.RcmPluginViewModel.disableLinks(elm, onComplete);
+            RcmAdminService.RcmPluginViewModel.createEditableButtons(
+                elm,
+                function(elm) {
+                    RcmAdminService.RcmPluginViewModel.disableLinks(elm, onComplete);
+                }
+            );
         },
 
         /**
@@ -1179,15 +1188,59 @@ var RcmAdminService = {
          * disableLinks
          */
         disableLinks: function (elm, onComplete) {
-
             // Disable normal events
             var donDoIt = function () {
                 return false;
             };
-            elm.find('button').unbind()
+            elm.find('button').unbind();
+            elm.find('[role="button"]').unbind();
             elm.find('button').click(donDoIt);
             elm.find('a').click(donDoIt);
             elm.find('form').submit(donDoIt);
+            elm.find('form').unbind();
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
+        },
+        /**
+         * createEditableButtons
+         * @todo This is currently one-way, if an edit is canceled, buttons are not returned to normal
+         * @param elm
+         * @param onComplete
+         */
+        createEditableButtons: function (elm, onComplete) {
+
+            elm.find('button').each(
+                function (index, element) {
+
+                    var curElement = jQuery(element);
+                    var newElm = jQuery('<div role="button"></div>');
+
+                    var curHtml = curElement.html();
+                    if(curHtml) {
+                        newElm.html(curHtml);
+                    }
+
+                    var curClass = curElement.attr('class');
+                    if(curClass) {
+                        newElm.attr('class', curClass);
+                    }
+
+                    var curId = curElement.attr('id');
+                    if(curId) {
+                        newElm.attr('id', curId);
+                    }
+
+                    var curTextEdit = curElement.attr('data-textedit');
+                    if(curTextEdit) {
+                        newElm.attr('data-textedit', curTextEdit);
+                    }
+
+                    curElement.after(newElm);
+                    curElement.remove();
+                }
+            );
 
             if (typeof onComplete === 'function') {
                 onComplete(elm);
@@ -1418,7 +1471,7 @@ var RcmAdminService = {
             }
 
             return null;
-        }
+        };
 
         /**
          * addPlugin
@@ -1903,7 +1956,7 @@ var RcmAdminService = {
          */
         self.initEdit = function (onInitted) {
 
-            var pluginObject = self.getPluginObject()
+            var pluginObject = self.getPluginObject();
 
             self.viewModel.enableEdit(
                 self.getElm(),
@@ -1944,7 +1997,7 @@ var RcmAdminService = {
         };
 
         /**
-         * updateView - ONLY use this if needed - will cause issues with ng-repaet and possibly other
+         * updateView - ONLY use this if needed - will cause issues with ng-repeat and possibly other
          * @todo - option for elm
          * @param onComplete
          */
@@ -1975,7 +2028,6 @@ var RcmAdminService = {
          * pluginReady - trigger post plugin ready actions/ DOM parsing
          */
         self.pluginReady = function (onComplete) {
-
             self.prepareEditors(
                 function (plugin) {
 

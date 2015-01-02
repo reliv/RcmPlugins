@@ -1,13 +1,3 @@
-<?php
-$this->headScript()->appendFile(
-    '/modules/rcm-plugin-helpers/form-double-submit-protect/form-double-submit-protect.js',
-    'text/javascript'
-);
-
-//$this->rcmJsLibIncludeCoreJs();
-//needed for form-double-submit-protect.js
-?>
-
 <?=
 $this->rcmTextEdit(
     'loginHeader',
@@ -20,8 +10,10 @@ $this->rcmTextEdit(
     <?= isset($error) ? $this->escapeHtml($error) : '' ?>
 </div>
 
-<form class="loginForm rcmDoubleSubmitProtect"
-      action="<?= $this->escapeHtml($_SERVER['REQUEST_URI']) ?>" method="post">
+<form class="loginForm  rcm-login-form"
+      action="<?= $this->escapeHtml($_SERVER['REQUEST_URI']) ?>"
+      method="post"
+    >
     <?=
     $this->rcmTextEdit(
         'userNameCopy',
@@ -45,13 +37,12 @@ $this->rcmTextEdit(
     <input type="password" name="password">
     <br>
     <br>
-    <button class="btn btn-primary">
+    <button class="btn btn-primary" type="submit">
         <?=
         $this->rcmTextEdit(
             'loginSubmitCopy',
             'login',
-            'span',
-            array('type' => 'submit')
+            'span'
         ) ?>
     </button>
 </form>

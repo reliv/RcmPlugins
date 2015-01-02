@@ -38,8 +38,12 @@ use Zend\Stdlib\ArrayObject;
  * @ORM\Entity
  * @ORM\Table (
  *     name="rcmi18n_message",
- *     indexes={@ORM\Index(name="locale", columns={"locale"})}),
+ *     indexes={@ORM\Index(name="locale", columns={"locale"})}
  * )
+ *
+ * Doctrine won't do this but this is good to have:
+ * CREATE UNIQUE INDEX localeDefaultText
+ * ON rcmi18n_message (locale, defaultText(64));
  */
 class Message implements \IteratorAggregate, \JsonSerializable
 {
@@ -62,7 +66,7 @@ class Message implements \IteratorAggregate, \JsonSerializable
     /**
      * @var string Translation name
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=512)
      */
     protected $defaultText;
 
@@ -150,7 +154,7 @@ class Message implements \IteratorAggregate, \JsonSerializable
      */
     public function getIterator()
     {
-        $a = new ArrayObject(get_object_vars($this));
+        $a = new ArrayObject($this->toArray());
         return $a->getIterator();
     }
 
@@ -159,8 +163,18 @@ class Message implements \IteratorAggregate, \JsonSerializable
      *
      * @return array|mixed
      */
-    public function jsonSerialize ()
+    public function jsonSerialize()
     {
-        return get_class_vars($this);
+        return $this->toArray();
+    }
+
+    /**
+     * toArray
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
     }
 } 
