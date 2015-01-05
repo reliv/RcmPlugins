@@ -48,9 +48,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmRotatingImage' => 'RcmRotatingImage\Factory\BaseControllerFactory'
-        ]
-    ]
 ];
