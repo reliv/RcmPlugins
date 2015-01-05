@@ -1,6 +1,6 @@
 <?php
 return [
-    'googleKey' => '000756681373664777195:za-qx2oocbk',
+    'googleKey' => 'MY-GOOGLE-SEARCH-KEY',
     'resultPage' => '/search',
     'searchButton' => 'Search'
 ];
