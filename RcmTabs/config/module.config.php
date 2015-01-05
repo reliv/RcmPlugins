@@ -48,10 +48,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmTabs' => 'RcmTabs\Factory\BaseControllerFactory'
-        ]
-    ]
-
 ];

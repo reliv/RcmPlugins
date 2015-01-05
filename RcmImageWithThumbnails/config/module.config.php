@@ -47,10 +47,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmImageWithThumbnails' => 'RcmImageWithThumbnails\Factory\BaseControllerFactory'
-        ]
-    ]
-
 ];

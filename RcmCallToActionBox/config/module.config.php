@@ -27,7 +27,8 @@ return [
             'icon' => '',
             'editJs' => '/modules/rcm-call-to-action-box/call-to-action-box-edit.js',
             'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php'
+                    __DIR__ . '/defaultInstanceConfig.php',
+            'canCache'=> true
         ],
     ],
     'view_manager' => [
@@ -48,10 +49,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmCallToActionBox' => 'RcmCallToActionBox\Factory\BaseControllerFactory'
-        ]
-    ]
-
 ];

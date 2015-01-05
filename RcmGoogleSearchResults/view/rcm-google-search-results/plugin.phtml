@@ -23,7 +23,7 @@ $cx = isset($_GET['cx']) ? $_GET['cx'] : null;
 <?php if ($cx): ?>
     <script>
         (function () {
-            var cx = '<?=  $cx?>';
+            var cx = '<?= $cx; ?>';
             var gcse = document.createElement('script');
             gcse.type = 'text/javascript';
             gcse.async = true;

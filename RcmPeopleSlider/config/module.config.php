@@ -47,10 +47,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmPeopleSlider' => 'RcmPeopleSlider\Factory\BaseControllerFactory'
-        ]
-    ]
-
 ];

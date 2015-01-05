@@ -18,8 +18,6 @@
  */
 
 return [
-
-
     'rcmPlugin' => [
         'RcmNavigation' => [
             'type' => 'Common',
@@ -28,7 +26,8 @@ return [
             'icon' => '',
             'editJs' => '/modules/rcm-navigation/edit.js',
             'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php'
+                    __DIR__ . '/defaultInstanceConfig.php',
+            'canCache'=> true
         ],
     ],
     'view_manager' => [
@@ -48,10 +47,4 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'RcmNavigation' => 'RcmNavigation\Factory\BaseControllerFactory'
-        ]
-    ]
-
 ];
