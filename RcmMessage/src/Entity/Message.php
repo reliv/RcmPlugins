@@ -2,6 +2,7 @@
 
 namespace RcmMessage\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  *
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="RcmMessage\Repository\Message")
  * @ORM\Table (
  *     name="rcm_message_message"
  * )
@@ -31,45 +32,44 @@ class Message
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    public $id;
+    protected $id;
     /**
      * @var string $level
      * @ORM\Column(type="string", length=16, nullable=false)
      */
-    public $level = 'default'; // ['default', 'info', 'warning', 'error', 'crit']
+    protected $level = 'default'; // ['default', 'info', 'warning', 'error', 'crit']
     /**
      * @var string $subject
      * @ORM\Column(type="string", length=128, nullable=false)
      */
-    public $subject = '';
+    protected $subject = '';
     /**
      * @var string $message
      * @ORM\Column(type="string", length=512, nullable=false)
      */
-    public $message = '';
+    protected $message = '';
     /**
      * @var string $source
      * @ORM\Column(type="string", length=32, nullable=false)
      */
-    public $source = 'DEFAULT';
+    protected $source = 'DEFAULT';
     /**
      * @var $destinations ArrayCollection destinations
      * @ORM\OneToMany(targetEntity="Destination", mappedBy="message", cascade={"persist"})
      * @ORM\OrderBy({"id" = "ASC"})
      */
-    public $destinations;
+    protected $destinations;
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
-    public $dateCreated;
+    protected $dateCreated = null;
 
     /**
      * __construct
      */
     public function __construct()
     {
-
         $this->dateCreated = new \DataTime();
     }
 
@@ -186,7 +186,7 @@ class Message
     /**
      * getDestinations
      *
-     * @return array
+     * @return ArrayCollection
      */
     public function getDestinations()
     {
@@ -227,5 +227,17 @@ class Message
         $this->dateCreated = $dateCreated;
     }
 
+    /**
+     * addDestinationUser
+     *
+     * @param string $userId
+     *
+     * @return void
+     */
+    public function addDestinationUser($userId)
+    {
+        $destination = new Destination($userId);
 
+        $this->destinations.add($destination);
+    }
 }

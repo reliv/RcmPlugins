@@ -30,26 +30,26 @@ class Destination
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    public $id;
+    protected $id;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
-    public $dateViewed = null;
+    protected $dateViewed = null;
 
     /**
      * @var string $id
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    public $userId;
+    protected $userId;
 
     /**
      * @var Message
      * @ORM\ManyToOne(targetEntity="Message", inversedBy="destinations"))
-     * @ORM\JoinColumn(name="messageId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="messageId", referencedColumnName="id", onDelete="CASCADE")
      */
-    public $message;
+    protected $message;
 
     /**
      * __construct
