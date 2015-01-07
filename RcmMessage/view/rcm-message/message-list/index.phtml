@@ -1,16 +1,2 @@
 <?php
-$flashMessenger = $this->flashMessenger();
-
-$flashMessenger->addMessage('DEFAULT Message');
-$flashMessenger->addInfoMessage('INFO Message <a href="/">CLICK</a>');
-$flashMessenger->addWarningMessage('WARN Message');
-$flashMessenger->addErrorMessage('ERR Message');
-$flashMessenger->addSuccessMessage('SUCCESS Message');
-
-//$flashMessenger->clearMessages();
-
-echo $flashMessenger->render('error',   array('alert', 'alert-dismissable', 'alert-danger'));
-echo $flashMessenger->render('warning',   array('alert', 'alert-dismissable', 'alert-warning'));
-echo $flashMessenger->render('info',    array('alert', 'alert-dismissable', 'alert-info'));
-echo $flashMessenger->render('default', array('alert', 'alert-dismissable', 'alert-info'));
-echo $flashMessenger->render('success', array('alert', 'alert-dismissable', 'alert-success'));
+echo $this->rcmUserMessageList(null, null, null);

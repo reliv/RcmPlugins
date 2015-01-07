@@ -3,6 +3,7 @@
  * Config
  */
 return [
+
     /**
      *
      */
@@ -13,6 +14,7 @@ return [
             ],
         ],
     ],
+    
     /**
      *
      */
@@ -42,8 +44,8 @@ return [
      *
      */
     'view_helpers' => [
-        'invokables' => [
-            // 'rmcMessageIcon' => 'RcmMessage\View\Helper\RcmMessageIcon',
+        'factories' => [
+            'rcmUserMessageList' => 'RcmMessage\Factory\RcmUserMessageListHelperFactory',
         ],
     ],
     /**

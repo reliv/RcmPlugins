@@ -1,0 +1,20 @@
+<script type="text/javascript" src="/modules/rcm-message-list/rcm-message-list.js"></script>
+<div>
+    <div>
+        <?=
+        $this->rcmRichEdit(
+            'title',
+            $this->instanceConfig['title'],
+            'h2'
+        ); ?>
+    </div>
+    <div>
+        <?=
+        $this->rcmUserMessageList(
+            $this->instanceConfig['source'],
+            $this->instanceConfig['level'],
+            $this->instanceConfig['hasViewed']
+        );
+        ?>
+    </div>
+</div>

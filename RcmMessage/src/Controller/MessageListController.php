@@ -25,12 +25,22 @@ use Zend\View\Model\ViewModel;
 class MessageListController extends AbstractActionController
 {
     /**
+     * getEntityManager
+     *
+     * @return \Doctrine\ORM\EntityManagerInterface
+     */
+    protected function getEntityManager()
+    {
+        return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
+    }
+
+    /**
      * indexAction
      *
      * @return array
      */
     public function indexAction()
     {
-        return new ViewModel(['test' => 'test']);
+        return new ViewModel();
     }
 }

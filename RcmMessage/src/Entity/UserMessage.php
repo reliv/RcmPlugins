@@ -17,12 +17,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  *
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="RcmMessage\Repository\UserMessage")
  * @ORM\Table (
- *     name="rcm_message_destination"
+ *     name="rcm_message_user_message"
  * )
  */
-class Destination
+class UserMessage
 {
     /**
      * @var int $id
@@ -46,7 +46,7 @@ class Destination
 
     /**
      * @var Message
-     * @ORM\ManyToOne(targetEntity="Message", inversedBy="destinations"))
+     * @ORM\ManyToOne(targetEntity="Message", fetch="EAGER"))
      * @ORM\JoinColumn(name="messageId", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $message;
@@ -56,7 +56,7 @@ class Destination
      *
      * @param $userId
      */
-    public function __construct($userId)
+    public function __construct($userId = null)
     {
         $this->userId = $userId;
     }
@@ -126,4 +126,28 @@ class Destination
     {
         $this->userId = $userId;
     }
+
+    /**
+     * getMessage
+     *
+     * @return Message
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * setMessage
+     *
+     * @param Message $message
+     *
+     * @return void
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+
 }

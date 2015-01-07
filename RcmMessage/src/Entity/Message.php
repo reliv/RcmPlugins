@@ -26,6 +26,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
+    //const LEVEL_DEFAULT = 'default';
+    const LEVEL_CRITICAL = 2;
+    const LEVEL_ERROR = 4;
+    const LEVEL_WARNING = 8;
+    const LEVEL_INFO = 16;
+    const LEVEL_SUCCESS = 32;
+
     /**
      * @var int $id
      * @ORM\Id
@@ -35,9 +42,9 @@ class Message
     protected $id;
     /**
      * @var string $level
-     * @ORM\Column(type="string", length=16, nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      */
-    protected $level = 'default'; // ['default', 'info', 'warning', 'error', 'crit']
+    protected $level = 2;
     /**
      * @var string $subject
      * @ORM\Column(type="string", length=128, nullable=false)
@@ -52,13 +59,8 @@ class Message
      * @var string $source
      * @ORM\Column(type="string", length=32, nullable=false)
      */
-    protected $source = 'DEFAULT';
-    /**
-     * @var $destinations ArrayCollection destinations
-     * @ORM\OneToMany(targetEntity="Destination", mappedBy="message", cascade={"persist"})
-     * @ORM\OrderBy({"id" = "ASC"})
-     */
-    protected $destinations;
+    protected $source = null;
+
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
@@ -98,7 +100,7 @@ class Message
     /**
      * getLevel
      *
-     * @return string
+     * @return int
      */
     public function getLevel()
     {
@@ -114,6 +116,9 @@ class Message
      */
     public function setLevel($level)
     {
+        if(empty($level)){
+            $level = null;
+        }
         $this->level = $level;
     }
 
@@ -180,29 +185,10 @@ class Message
      */
     public function setSource($source)
     {
+        if(empty($source)){
+            $source = null;
+        }
         $this->source = $source;
-    }
-
-    /**
-     * getDestinations
-     *
-     * @return ArrayCollection
-     */
-    public function getDestinations()
-    {
-        return $this->destinations;
-    }
-
-    /**
-     * setDestinations
-     *
-     * @param $destinations
-     *
-     * @return void
-     */
-    public function setDestinations($destinations)
-    {
-        $this->destinations = $destinations;
     }
 
     /**
@@ -225,19 +211,5 @@ class Message
     public function setDateCreated($dateCreated)
     {
         $this->dateCreated = $dateCreated;
-    }
-
-    /**
-     * addDestinationUser
-     *
-     * @param string $userId
-     *
-     * @return void
-     */
-    public function addDestinationUser($userId)
-    {
-        $destination = new Destination($userId);
-
-        $this->destinations.add($destination);
     }
 }

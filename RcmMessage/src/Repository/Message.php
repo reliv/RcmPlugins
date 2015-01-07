@@ -2,13 +2,17 @@
 
 namespace RcmMessage\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
+
 /**
  * Class Message
  *
  * PHP version 5
  *
  * @category  Reliv
- * @package   moduleNameHere
+ * @package   RcmMessage
  * @author    James Jervis <jjervis@relivinc.com>
  * @copyright 2015 Reliv International
  * @license   License.txt New BSD License
@@ -16,31 +20,7 @@ namespace RcmMessage\Repository;
  * @link      https://github.com/reliv
  */
 
-class Message
+class Message  extends EntityRepository
 {
 
-    public function getUserMessages(
-        $userId,
-        $source = null,
-        $level = null
-    ) {
-
-    }
-
-    public function getUserMessage(
-        $userId,
-        $messageId,
-        $source = null,
-        $level = null
-    ) {
-
-    }
-
-    public function getLatestUserMessage(
-        $userId,
-        $source = null,
-        $level = null
-    ) {
-
-    }
 }
