@@ -8,8 +8,8 @@
         ); ?>
     </div>
     <div>
-        <?=
-        $this->rcmUserMessageList(
+        <?php
+        echo $this->rcmMessageUserMessageList(
             $this->instanceConfig['source'],
             $this->instanceConfig['level'],
             $this->instanceConfig['hasViewed']

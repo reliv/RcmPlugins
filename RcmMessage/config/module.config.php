@@ -30,7 +30,7 @@ return [
                         'messageFilters' => [
                             'source' => null,
                             'level' => null,
-                            'hasViewed' => null
+                            'hasViewed' => false
                         ],
                     ],
 
@@ -61,7 +61,10 @@ return [
      */
     'view_helpers' => [
         'factories' => [
-            'rcmUserMessageList' => 'RcmMessage\Factory\RcmUserMessageListHelperFactory',
+            'rcmMessageUserMessageList' => 'RcmMessage\Factory\RcmUserMessageListHelperFactory',
+        ],
+        'invokables' => [
+            'rcmMessageFlashMessageList' => 'RcmMessage\View\Helper\RcmFlashMessageListHelper',
         ],
     ],
     /**

@@ -9,5 +9,6 @@ return array(
   'RcmMessage\Factory\RcmUserMessageListHelperFactory' => __DIR__ . '/src/Factory/RcmUserMessageListHelperFactory.php',
   'RcmMessage\Repository\Message'                      => __DIR__ . '/src/Repository/Message.php',
   'RcmMessage\Repository\UserMessage'                  => __DIR__ . '/src/Repository/UserMessage.php',
+  'RcmMessage\View\Helper\RcmFlashMessageListHelper'   => __DIR__ . '/src/View/Helper/RcmFlashMessageListHelper.php',
   'RcmMessage\View\Helper\RcmUserMessageListHelper'    => __DIR__ . '/src/View/Helper/RcmUserMessageListHelper.php',
 );

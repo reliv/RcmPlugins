@@ -88,6 +88,7 @@ class RcmUserMessageListHelper extends AbstractHelper
         );
 
         return $this->render(
+            $userId,
             $messages
         );
     }
@@ -100,18 +101,19 @@ class RcmUserMessageListHelper extends AbstractHelper
      * @return string
      */
     protected function render(
+        $userId,
         $messages
     ) {
         $messageHtml = '<script type="text/javascript" src="/modules/rcm-message/js/rcm-message.js"></script>';
-        $messageHtml .= '<div data-ng-controller="rcm-message-list">';
+        $messageHtml .= '<div class="rcmMessage userMessageList" data-ng-controller="rcmMessageList">';
 
         foreach ($messages as $userMessage) {
             $message = $userMessage->getMessage();
             $cssName = $this->getCssName($message->getLevel());
             $messageBody = $message->getMessage() ;
             $messageHtml .= '
-            <div class="alert' . $cssName . ' alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss-message="alert" aria-label="Close">
+            <div class="alert' . $cssName . '" ng-hide="hiddenUserMessageIds[\''.$userId.':'.$userMessage->getId().'\']" role="alert">
+              <button type="button" class="close" ng-click="dismissUserMessage('.$userId.', '.$userMessage->getId().')" aria-label="Close">
               <span aria-hidden="true">&times;</span>
               </button>
               <span>
@@ -121,24 +123,6 @@ class RcmUserMessageListHelper extends AbstractHelper
             ';
         }
         $messageHtml .= '</div>';
-
-        //$flashMessenger = $this->flashMessenger();
-        //
-        //$flashMessenger->addMessage('DEFAULT Message');
-        //$flashMessenger->addInfoMessage('INFO Message <a href="/">CLICK</a>');
-        //$flashMessenger->addWarningMessage('WARN Message');
-        //$flashMessenger->addErrorMessage('ERR Message');
-        //$flashMessenger->addSuccessMessage('SUCCESS Message');
-        //
-        ////$flashMessenger->clearMessages();
-        //
-        //echo $flashMessenger->render('error',   array('alert', 'alert-dismissable', 'alert-danger'));
-        //echo $flashMessenger->render('warning', array('alert', 'alert-dismissable', 'alert-warning'));
-        //echo $flashMessenger->render('info',    array('alert', 'alert-dismissable', 'alert-info'));
-        //echo $flashMessenger->render('default', array('alert', 'alert-dismissable', 'alert-info'));
-        //echo $flashMessenger->render('success', array('alert', 'alert-dismissable', 'alert-success'));
-        //
-        //echo '<pre>';
 
         return $messageHtml;
     }
