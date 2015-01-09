@@ -4,6 +4,8 @@ namespace RcmMessage\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Rcm\Entity\ApiBase;
+use Zend\Form\Element\DateTime;
 
 /**
  * Class Message
@@ -24,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  *
  */
-class Message
+class Message extends ApiBase
 {
     //const LEVEL_DEFAULT = 'default';
     const LEVEL_CRITICAL = 2;
@@ -57,7 +59,7 @@ class Message
     protected $message = '';
     /**
      * @var string $source
-     * @ORM\Column(type="string", length=32, nullable=false)
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
     protected $source = null;
 
@@ -72,7 +74,7 @@ class Message
      */
     public function __construct()
     {
-        $this->dateCreated = new \DataTime();
+        $this->dateCreated = new \DateTime();
     }
 
     /**
@@ -211,5 +213,47 @@ class Message
     public function setDateCreated($dateCreated)
     {
         $this->dateCreated = $dateCreated;
+    }
+
+    /**
+     * setDateCreatedString - from ISO8601 string
+     *
+     * @param $dateCreated
+     *
+     * @return void
+     */
+    public function setDateCreatedString($dateCreated)
+    {
+        $date = \DateTime::createFromFormat(\DateTime::ISO8601, $dateCreated);
+
+        $this->setDateCreated($date);
+    }
+
+    /**
+     * getDateCreatedString
+     *
+     * @return null|string
+     */
+    public function getDateCreatedString()
+    {
+        if (empty($this->dateCreated)) {
+            return null;
+        }
+
+        return $this->dateCreated->format(\DateTime::ISO8601);
+    }
+
+    /**
+     * toArray
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = get_object_vars($this);
+
+        $array['dateCreated'] = $this->getDateCreatedString();
+
+        return $array;
     }
 }

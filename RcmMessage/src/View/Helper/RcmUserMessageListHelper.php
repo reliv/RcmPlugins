@@ -102,7 +102,8 @@ class RcmUserMessageListHelper extends AbstractHelper
     protected function render(
         $messages
     ) {
-        $messageHtml = '';
+        $messageHtml = '<script type="text/javascript" src="/modules/rcm-message/js/rcm-message.js"></script>';
+        $messageHtml .= '<div data-ng-controller="rcm-message-list">';
 
         foreach ($messages as $userMessage) {
             $message = $userMessage->getMessage();
@@ -119,6 +120,7 @@ class RcmUserMessageListHelper extends AbstractHelper
             </div>
             ';
         }
+        $messageHtml .= '</div>';
 
         //$flashMessenger = $this->flashMessenger();
         //

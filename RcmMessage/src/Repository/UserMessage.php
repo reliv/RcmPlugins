@@ -22,7 +22,6 @@ use Doctrine\ORM\NoResultException;
 
 class UserMessage extends EntityRepository
 {
-
     /**
      * getUserMessages
      *
@@ -39,6 +38,10 @@ class UserMessage extends EntityRepository
         $level = null,
         $hasViewed = null
     ) {
+
+        $level = $this->getIntNullValue($level);
+        $hasViewed = $this->getBoolNullValue($hasViewed);
+
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('userMessage');
         $queryBuilder->from('\RcmMessage\Entity\UserMessage', 'userMessage');
@@ -72,6 +75,43 @@ class UserMessage extends EntityRepository
         } catch (NoResultException $e) {
             return [];
         }
+    }
+
+    /**
+     * getIntNullValue
+     *
+     * @param $var
+     *
+     * @return int|null
+     */
+    protected function getIntNullValue($var)
+    {
+        if(null === $var) {
+            return null;
+        }
+
+        return (int) $var;
+    }
+
+    /**
+     * getBoolNullValue
+     *
+     * @param $var
+     *
+     * @return bool|null
+     */
+    protected function getBoolNullValue($var)
+    {
+
+        if(null === $var || is_bool($var)){
+            return $var;
+        }
+
+        if('' === $var){
+            return null;
+        }
+
+        return (bool) (int) $var;
     }
 
     /**

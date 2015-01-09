@@ -3,6 +3,7 @@
 namespace RcmMessage\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rcm\Entity\ApiBase;
 
 /**
  * Class Destination
@@ -22,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="rcm_message_user_message"
  * )
  */
-class UserMessage
+class UserMessage extends ApiBase
 {
     /**
      * @var int $id
@@ -46,7 +47,7 @@ class UserMessage
 
     /**
      * @var Message
-     * @ORM\ManyToOne(targetEntity="Message", fetch="EAGER"))
+     * @ORM\ManyToOne(targetEntity="Message", fetch="EAGER", cascade={"persist"}))
      * @ORM\JoinColumn(name="messageId", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $message;
@@ -84,6 +85,34 @@ class UserMessage
     }
 
     /**
+     * setViewed
+     *
+     * @param bool $viewed
+     *
+     * @return void
+     */
+    public function setViewed($viewed = true)
+    {
+        if($viewed) {
+            $date = new \DateTime();
+            $this->setDateViewed($date);
+            return;
+        }
+
+        $this->dateViewed = null;
+    }
+
+    /**
+     * hasViewed
+     *
+     * @return bool
+     */
+    public function hasViewed(){
+
+        return !empty($this->dateViewed);
+    }
+
+    /**
      * getDateViewed
      *
      * @return \DateTime
@@ -102,7 +131,38 @@ class UserMessage
      */
     public function setDateViewed($dateViewed)
     {
+        if(!empty($this->dateViewed)){
+            return;
+        }
         $this->dateViewed = $dateViewed;
+    }
+
+    /**
+     * setDateViewedString - from ISO8601 string
+     *
+     * @param $dateViewed
+     *
+     * @return void
+     */
+    public function setDateViewedString($dateViewed)
+    {
+        $date = \DateTime::createFromFormat(\DateTime::ISO8601, $dateViewed);
+
+        $this->setDateViewed($date);
+    }
+
+    /**
+     * getDateViewedString
+     *
+     * @return null|string
+     */
+    public function getDateViewedString()
+    {
+        if (empty($this->dateViewed)) {
+            return null;
+        }
+
+        return $this->dateViewed->format(\DateTime::ISO8601);
     }
 
     /**
@@ -149,5 +209,19 @@ class UserMessage
         $this->message = $message;
     }
 
+    /**
+     * toArray
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = get_object_vars($this);
+
+        $array['dateViewed'] = $this->getDateViewedString();
+        $array['viewed'] = $this->hasViewed();
+
+        return $array;
+    }
 
 }

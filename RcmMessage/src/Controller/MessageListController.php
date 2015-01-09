@@ -41,6 +41,7 @@ class MessageListController extends AbstractActionController
      */
     public function indexAction()
     {
-        return new ViewModel();
+        $messageFilters = $this->getEvent()->getRouteMatch()->getParam('messageFilters');
+        return new ViewModel(['messageFilters' => $messageFilters]);
     }
 }

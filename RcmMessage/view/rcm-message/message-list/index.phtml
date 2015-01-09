@@ -1,2 +1,7 @@
 <?php
-echo $this->rcmUserMessageList(null, null, null);
+
+echo $this->rcmUserMessageList(
+    $messageFilters['source'],
+    $messageFilters['level'],
+    $messageFilters['hasViewed']
+);

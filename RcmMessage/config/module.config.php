@@ -27,7 +27,22 @@ return [
                     'defaults' => [
                         'controller' => 'RcmMessage\Controller\MessageListController',
                         'action' => 'index',
+                        'messageFilters' => [
+                            'source' => null,
+                            'level' => null,
+                            'hasViewed' => null
+                        ],
                     ],
+
+                ],
+            ],
+            'RcmMessage\ApiUserMessage' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/message/user/:userId/message[/:id]',
+                    'defaults' => [
+                        'controller' => 'RcmMessage\Controller\ApiUserMessageController',
+                    ]
                 ],
             ],
         ],
@@ -38,6 +53,7 @@ return [
     'controllers' => [
         'invokables' => [
             'RcmMessage\Controller\MessageListController' => 'RcmMessage\Controller\MessageListController',
+            'RcmMessage\Controller\ApiUserMessageController' => 'RcmMessage\Controller\ApiUserMessageController',
         ],
     ],
     /**
