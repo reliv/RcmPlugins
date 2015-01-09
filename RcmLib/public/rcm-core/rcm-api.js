@@ -105,7 +105,7 @@ angular.module('rcmApi', [])
                             'CACHE',
                             null,
                             null
-                        )
+                        );
                         return;
                     }
 
@@ -368,3 +368,29 @@ angular.module('rcmApi', [])
         }
     ]
 );
+
+
+/**
+ * Exposes Angular service to global scope for use by other libraries
+ * - This is to support jQuery and native JavaScript modules and code
+ */
+var rcmApi = {
+    rcmApiService: null // defined in angular
+};
+
+/**
+ * Angular injector to get rcmApi Module services
+ */
+angular.injector(['ng', 'rcmApi']).invoke(
+    [
+        'rcmApiService',
+        function (rcmApiService) {
+            rcmApi.rcmApiService = rcmApiService;
+        }
+    ]
+);
+// Might be required?
+//angular.element(document).ready(
+//function () {
+    //}
+//);
