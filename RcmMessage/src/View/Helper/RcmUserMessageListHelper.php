@@ -104,20 +104,34 @@ class RcmUserMessageListHelper extends AbstractHelper
         $userId,
         $messages
     ) {
-        $messageHtml = '<script type="text/javascript" src="/modules/rcm-message/js/rcm-message.js"></script>';
+        $messageHtml
+            = '<script type="text/javascript" src="/modules/rcm-message/js/rcm-message.js"></script>';
         $messageHtml .= '<div class="rcmMessage userMessageList" data-ng-controller="rcmMessageList">';
 
+        if (count($messages) < 1) {
+            // @todo Translate this
+            $messageHtml .= '<div class="userMessageListEmpty">No Messages</div>';
+        }
+
         foreach ($messages as $userMessage) {
+            /** @var \RcmMessage\Entity\Message $message */
             $message = $userMessage->getMessage();
             $cssName = $this->getCssName($message->getLevel());
-            $messageBody = $message->getMessage() ;
-            $messageHtml .= '
-            <div class="alert' . $cssName . '" ng-hide="hiddenUserMessageIds[\''.$userId.':'.$userMessage->getId().'\']" role="alert">
-              <button type="button" class="close" ng-click="dismissUserMessage('.$userId.', '.$userMessage->getId().')" aria-label="Close">
+            $messageSubject = $message->getSubject();
+            $messageBody = $message->getMessage();
+            $messageHtml
+                .= '
+            <div class="alert' . $cssName . '" ng-hide="hiddenUserMessageIds[\''
+                . $userId . ':' . $userMessage->getId() . '\']" role="alert">
+              <button type="button" class="close" ng-click="dismissUserMessage('
+                . $userId . ', ' . $userMessage->getId() . ')" aria-label="Close">
               <span aria-hidden="true">&times;</span>
               </button>
-              <span>
-              '. $messageBody . '
+              <span class="subject">
+              ' . $messageSubject . ':
+              </span>
+              <span class="body">
+              ' . $messageBody . '
               </span>
             </div>
             ';
