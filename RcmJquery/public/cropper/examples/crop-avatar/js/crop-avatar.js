@@ -1,6 +1,6 @@
 (function (factory) {
   if (typeof define === "function" && define.amd) {
-    define(["../../../../../../RcmAngularJs/public/ocLazyLoad/examples/example2/js/jquery"], factory);
+    define(["jquery"], factory);
   } else {
     factory(jQuery);
   }
