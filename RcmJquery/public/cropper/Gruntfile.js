@@ -8,13 +8,13 @@ module.exports = function (grunt) {
             " * Cropper v<%= pkg.version %>\n" +
             " * <%= pkg.homepage %>\n" +
             " *\n" +
-            " * Copyright <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
+            " * Copyright 2014-<%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
             " * Released under the <%= pkg.license.type %> license\n" +
             " */\n",
     clean: {
       dist: ["dist/"],
       build: ["build/<%= pkg.version %>.<%= grunt.template.today('yyyymmdd') %>"],
-      release: ["release/<%= pkg.version %>"],
+      release: ["releases/<%= pkg.version %>"],
       docs: ["docs/dist"]
     },
     jshint: {
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
       options: {
         config: "resources/.jscsrc"
       },
-      files: ["*.js", "src/*.js"]
+      files: ["src/*.js"]
     },
     uglify: {
       dist: {
@@ -82,6 +82,20 @@ module.exports = function (grunt) {
         dest: "dist/<%= pkg.name %>.min.css"
       }
     },
+    htmlcomb: {
+      demos: {
+        src: "demos/index.html",
+        dest: "demos/index.html"
+      },
+      docs: {
+        src: "docs/index.html",
+        dest: "docs/index.html"
+      },
+      examples: {
+        src: "examples/crop-avatar/crop-avatar.html",
+        dest: "examples/crop-avatar/crop-avatar.html"
+      }
+    },
     usebanner: {
       options: {
         position: "top",
@@ -108,7 +122,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: "dist/",
         src: "**",
-        dest: "release/<%= pkg.version %>/",
+        dest: "releases/<%= pkg.version %>/",
         filter: "isFile"
       },
       docs: {
@@ -117,10 +131,6 @@ module.exports = function (grunt) {
         src: "**",
         dest: "docs/dist",
         filter: "isFile"
-      },
-      others: {
-        src: "README.md",
-        dest: "docs/",
       }
     },
     watch: {
@@ -137,6 +147,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask("build", ["clean:build", "copy:build"]);
   grunt.registerTask("release", ["clean:release", "copy:release"]);
-  grunt.registerTask("docs", ["clean:docs", "copy:docs", "copy:others"]);
-  grunt.registerTask("default", ["clean:dist", "jshint", "jscs", "uglify", "copy:dist", "autoprefixer", "csscomb", "csslint", "cssmin", "usebanner", "build", "release", "docs"]);
+  grunt.registerTask("docs", ["clean:docs", "copy:docs"]);
+  grunt.registerTask("default", ["clean:dist", "jshint", "jscs", "uglify", "copy:dist", "autoprefixer", "csscomb", "csslint", "cssmin", "htmlcomb", "usebanner", "build", "release", "docs"]);
 };
