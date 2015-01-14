@@ -3,7 +3,6 @@
 
 namespace RcmMessage\Controller;
 
-use Pws\Approval\Entity\Approvable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
