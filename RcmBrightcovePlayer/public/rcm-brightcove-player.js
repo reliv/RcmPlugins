@@ -62,11 +62,11 @@ angular.module('rcmBrightcovePlayer', [])
                     }
 
                     if (playerController.onTemplateLoad) {
-                        objectElm.append('<param name="templateLoadHandler" value="RcmBrightcovePlayerService.playerControllerOnTemplateLoad" />');
+                        objectElm.append('<param name="templateLoadHandler" value="RcmPlayerControllerOnTemplateLoad" />');
                     }
 
                     if (playerController.onTemplateReady) {
-                        objectElm.append('<param name="templateReadyHandler" value="RcmBrightcovePlayerService.playerControllerOnTemplateReady" />');
+                        objectElm.append('<param name="templateReadyHandler" value="RcmPlayerControllerOnTemplateReady" />');
                     }
 
                     return function (scope, elm, attrs) {
@@ -323,21 +323,7 @@ var RcmBrightcovePlayerService = {
         return RcmBrightcovePlayerService.playerControllers[instanceId];
     },
 
-    playerControllerOnTemplateLoad: function (pArgument) {
-        var instanceId = pArgument.replace(/myExperience/gi, "");
 
-        var playerController = RcmBrightcovePlayerService.getPlayerController(instanceId);
-        playerController.onTemplateLoad(pArgument);
-    },
-
-    playerControllerOnTemplateReady: function (pArgument) {
-        /* Fix for IOS */
-        var experienceId = pArgument.target.experience['id'];
-        var instanceId = experienceId.replace(/myExperience/gi, "");
-
-        var playerController = RcmBrightcovePlayerService.getPlayerController(instanceId);
-        playerController.onTemplateReady(pArgument);
-    },
 
     playerConfig: {
         width: 672,
@@ -345,6 +331,22 @@ var RcmBrightcovePlayerService = {
         playerID: 2660464878001,
         playerKey: "AQ~~,AAABWA8lTok~,NLWj-wltGTxQtoAwLzwEdE62BFMU_8At"
     }
+};
+
+var RcmPlayerControllerOnTemplateLoad = function (pArgument) {
+    var instanceId = pArgument.replace(/myExperience/gi, "");
+
+    var playerController = RcmBrightcovePlayerService.getPlayerController(instanceId);
+    playerController.onTemplateLoad(pArgument);
+};
+
+var RcmPlayerControllerOnTemplateReady = function (pArgument) {
+    /* Fix for IOS */
+    var experienceId = pArgument.target.experience['id'];
+    var instanceId = experienceId.replace(/myExperience/gi, "");
+
+    var playerController = RcmBrightcovePlayerService.getPlayerController(instanceId);
+    playerController.onTemplateReady(pArgument);
 };
 
 /**
