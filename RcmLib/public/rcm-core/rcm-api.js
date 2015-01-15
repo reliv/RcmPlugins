@@ -389,8 +389,3 @@ angular.injector(['ng', 'rcmApi']).invoke(
         }
     ]
 );
-// Might be required?
-//angular.element(document).ready(
-//function () {
-    //}
-//);
