@@ -10,15 +10,17 @@
 .rcmI18n #transMesages .col-default-text {
     padding-top: 14px;
     max-width: 20em;
-    width: 20em;
+    //width: 20em;
+    width: 35%;
 }
 .rcmI18n #transMesages .col-messages {
-    max-width: 20em;
-    width: 20em;
+    /*max-width: 20em;*/
+    /*width: 20em;*/
+    width: 65%;
 }
 .rcmI18n #transMesages .col-button {
-    vertical-align: top;
-    max-width: 10em;
+    /*vertical-align: top;*/
+    /*max-width: 10em;*/
 }
 
 @-moz-keyframes spin {
@@ -82,6 +84,55 @@
 .rcmI18n .invisible {
     visibility: hidden;
 }
+
+.rcmI18n .dirty {
+
+}
+
+.rcmI18n .translation {
+
+}
+
+.rcmI18n .translation .toolbars {
+    display: none;
+}
+
+.rcmI18n .translation .toolbars.editable{
+    display: block;
+}
+
+.rcmI18n .translation .toolbars .toolbar-save {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.rcmI18n .translation .toolbars .toolbar-save button {
+    float: left;
+    margin: 0;
+}
+
+.rcmI18n .translation .toolbars .toolbar-editor {
+    float: right;
+    display: inline-block;
+    padding: 0 0 0 0;
+    width: 80%;
+}
+
+.rcmI18n .translation .message {
+    width: 100%;
+}
+
+.rcmI18n .translation .message .editor {
+    border: none;
+    padding: 6px 0 6px 0;
+    width: 100%;
+}
+
+.rcmI18n .translation .message .dirty {
+    border: 1px solid #eeeeee;
+}
+
 
 .rcmI18n .titleTranslations {
     background-color: #F5F5F5;
