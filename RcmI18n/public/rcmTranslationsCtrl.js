@@ -79,6 +79,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             };
 
             $scope.saveText = function (message) {
+                console.log($scope.selectedLocale);
 
                 $http(
                     {
@@ -87,7 +88,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                         + encodeURIComponent($scope.selectedLocale)
                         + '/' + encodeURIComponent(message['messageId']),
                         data: message
-
                     }
                 ).
                     success(
