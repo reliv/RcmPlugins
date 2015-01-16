@@ -24,6 +24,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class MissingTranslationListener implements ListenerAggregateInterface
 {
+    const DO_NOT_TRANSLATE = 'DO_NOT_TRANSLATE';
 
     /**
      * @var array
@@ -121,6 +122,12 @@ class MissingTranslationListener implements ListenerAggregateInterface
         $params = $event->getParams();
 
         $defaultLocale = $this->getDefaultLocale();
+
+        // Ignore if not translate
+        if($params['text_domain'] === self::DO_NOT_TRANSLATE) {
+
+            return;
+        }
 
         // Only adding if we are the default locale
         if($params['locale'] !== $defaultLocale) {
