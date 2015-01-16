@@ -39,11 +39,11 @@
                         <div class="loadBar">
                             <div>
                                 <i class="glyphicon glyphicon-refresh loading"
-                                   ng-class="{'active': loading || rcmHtmlEditorService.toolbarLoading}"></i>
+                                   ng-class="{'active': loading}"></i>
                             </div>
                         </div>
                         <table id="transMesages"
-                               ng-hide="loading || rcmHtmlEditorService.toolbarLoading"
+                               ng-hide="loading"
                                class="table panel panel-default">
                             <tr class="titleTranslations">
                                 <th style="width:20em">
@@ -52,36 +52,57 @@
                                 <th style="width:20em">
                                     Translated Message
                                 </th>
-                                <th style="width:10em"></th>
                             </tr>
                             <tr ng-repeat="message in messages | filter:messageQuery">
                                 <td class="col-default-text">
                                     {{message.defaultText}}
                                 </td>
                                 <td class="col-messages">
-                                    <div id="htmlEditorToolbar-{{message.id}}">
+                                    <div class="translation">
+                                        <div class="toolbars"
+                                             ng-class="{'editable': message.editable || message.dirty}">
+                                            <div class="toolbar-save">
+                                                <button ng-class="{invisible: !message.dirty}"
+                                                        id="button-{{message.id}}"
+                                                        ng-click="saveText(message)"
+                                                        class="glyphicon glyphicon-save btn btn-primary btn-sm">
+                                                    Save
+                                                </button>
+                                            </div>
+                                            <div class="toolbar-editor">
+                                                <div id="htmlEditorToolbar-{{message.id}}"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <i class="glyphicon glyphicon-refresh loading"
+                                                   ng-class="{'active': editorsLoading[message.id]}"></i>
+                                            </div>
+                                            <div class="message"
+                                                 ng-hide="editorsLoading[message.id]">
+                                                <div class="editor"
+                                                     ng-class="{'dirty': message.dirty}"
+                                                     ng-show="message.editable"
+                                                     id="{{message.id}}"
+                                                     rcm-html-edit-on-click="'.editor-link'"
+                                                     html-editor-attached-toolbar
+                                                     html-editor-type="simpleText"
+                                                     html-editor-size="small"
+                                                     ng-change="message.dirty = true"
+                                                     ng-model="message.text">
+                                                </div>
+                                                <div class="editor-link"
+                                                     ng-class="{'error': !message.text}"
+                                                     ng-hide="message.editable">{{message.text ? message.text : "TRANSLATION MISSING"}}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div style="clear: both"><!-- Clear so the focus works properly--></div>
-                                    <div style="padding: 6px 0 6px 0"
-                                         id="{{message.id}}"
-                                         data-rcm-html-edit
-                                         html-editor-attached-toolbar
-                                         html-editor-type="simpleText"
-                                         html-editor-size="small"
-                                         ng-change="message.dirty = true"
-                                         ng-model="message.text"></div>
-
                                 </td>
 
-                                <td class="col-button">
-                                    <button ng-class="{invisible: !message.dirty}"
-                                            id="button-{{message.id}}"
-                                            ng-click="saveText(message)"
-                                            class="glyphicon glyphicon-save btn btn-primary"
-                                            style="float:right;margin-top:1em">
-                                        Save
-                                    </button>
-                                </td>
+                                <!--<td class="col-button">-->
+
+                                <!--</td>-->
                             </tr>
                         </table>
                     </form>

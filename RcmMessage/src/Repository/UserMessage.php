@@ -129,24 +129,7 @@ class UserMessage extends EntityRepository
         $source = null,
         $level = null
     ) {
-
-    }
-
-    /**
-     * getUserMessages
-     *
-     * @param string $userId
-     * @param string $source
-     * @param string $level
-     *
-     * @return ArrayCollection
-     */
-    public function getLatestMessage(
-        $userId,
-        $source = null,
-        $level = null
-    ) {
-
+        // @todo
     }
 
     /**
@@ -163,6 +146,6 @@ class UserMessage extends EntityRepository
         $source = null,
         $level = null
     ){
-
+        // @todo
     }
 }
