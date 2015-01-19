@@ -150,8 +150,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             };
 
             $scope.saveText = function (message) {
-                console.log($scope.selectedLocale);
-
                 $http(
                     {
                         method: 'PUT',//method put to update selected locale
