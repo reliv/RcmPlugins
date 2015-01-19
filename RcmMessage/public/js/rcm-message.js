@@ -8,6 +8,7 @@ angular.module('rcmMessage', ['rcmApi'])
         function ($scope, rcmApiService) {
 
             $scope.hiddenUserMessageIds = {};
+            $scope.messageHiddenCount = 0;
             /**
              * Fire and forget - Tell server it was viewed
              * @param $userMessageId
@@ -16,6 +17,7 @@ angular.module('rcmMessage', ['rcmApi'])
             {
                 // Fire and forget - hide right away
                 $scope.hiddenUserMessageIds[$userId+':'+$userMessageId] = true;
+                $scope.messageHiddenCount ++;
 
                 rcmApiService.put(
                     {
