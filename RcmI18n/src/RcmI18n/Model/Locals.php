@@ -33,11 +33,11 @@ class Locales
 
         /** @var \Rcm\Entity\Site $site */
         foreach ($siteRepo->getSites(true) as $site) {
-            $list[] = $site->getLanguage()->getIso6391()
-                . '_' . $site->getCountry()->getIso2();
+            $list[$site->getLanguage()->getIso6391()
+            . '_' . $site->getCountry()->getIso2()] = $site->getCountry()->getCountryName() . ' ' . $site->getLanguage()->getLanguageName();
         }
 
-        $this->locales = array_values(array_unique($list));
+        $this->locales = array_unique($list);
     }
 
     /**
