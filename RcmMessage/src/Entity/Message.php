@@ -59,7 +59,7 @@ class Message extends ApiBase
     protected $message = '';
     /**
      * @var string $source
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     protected $source = null;
 
