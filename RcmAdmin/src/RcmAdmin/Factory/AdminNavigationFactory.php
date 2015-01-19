@@ -266,10 +266,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
                 'label'  => $draft['createdDate']->format("r").' - '.$draft['author'],
                 'route'  => 'contentManagerWithPageType',
                 'class' => 'revision',
+                'text_domain' => 'DO_NOT_TRANSLATE',
                 'params' => [
                     'page' => $this->page->getName(),
                     'pageType' => $this->page->getPageType(),
-                    'revision' => $draft['revisionId']
+                    'revision' => $draft['revisionId'],
                 ]
             ];
         }
