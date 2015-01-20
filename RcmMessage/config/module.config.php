@@ -30,7 +30,7 @@ return [
                         'messageFilters' => [
                             'source' => null,
                             'level' => null,
-                            'hasViewed' => false
+                            'showHasViewed' => false
                         ],
                     ],
 

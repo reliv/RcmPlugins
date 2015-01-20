@@ -68,17 +68,19 @@ class RcmUserMessageListHelper extends AbstractHelper
     /**
      * __invoke
      *
-     * @param null|string $userId
      * @param null|string $source
-     * @param null|string $level
-     * @param null|bool   $hasViewed
+     * @param null| $level
+     * @param null|bool $showHasViewed
+     * @param bool $showDefaultMessage
+     * @param null $userId
      *
      * @return string
      */
     public function __invoke(
         $source = null,
         $level = null,
-        $hasViewed = null,
+        $showHasViewed = false,
+        $showDefaultMessage = false,
         $userId = null
     ) {
         if (empty($userId)) {
@@ -93,33 +95,46 @@ class RcmUserMessageListHelper extends AbstractHelper
             $userId,
             $source,
             $level,
-            $hasViewed
+            $showHasViewed
         );
 
         return $this->render(
             $userId,
-            $messages
+            $messages,
+            $showDefaultMessage
         );
     }
 
     /**
      * render
      *
-     * @param $messages
+     * @param string $userId
+     * @param array  $messages
+     * @param bool   $showDefaultMessage
      *
      * @return string
      */
     protected function render(
         $userId,
-        $messages
+        $messages,
+        $showDefaultMessage = false
     ) {
         $messageHtml
             = '<script type="text/javascript" src="/modules/rcm-message/js/rcm-message.js"></script>';
+
+        $messageHtml
+            .= '<link href="/modules/rcm-message/css/styles.css" media="screen,print" rel="stylesheet" type="text/css">';
+
         $messageHtml .= '<div class="rcmMessage userMessageList" data-ng-controller="rcmMessageList">';
 
-        $messageHtml .= '<div class="userMessageListEmpty" ng-show="messageHiddenCount >= '.count($messages).'">';
-        $messageHtml .= $this->translator->translate('No Messages');
-        $messageHtml .= '</div>';
+        if($showDefaultMessage) {
+            $messageHtml .=
+                '<div class="userMessageListEmpty" ng-show="messageHiddenCount >= '
+                . count($messages)
+                . '">';
+            $messageHtml .= $this->translator->translate('No Messages');
+            $messageHtml .= '</div>';
+        }
 
         foreach ($messages as $userMessage) {
             /** @var \RcmMessage\Entity\Message $message */

@@ -1,18 +1,25 @@
-<div>
-    <div>
-        <?=
-        $this->rcmRichEdit(
-            'title',
-            $this->instanceConfig['title'],
-            'h2'
-        ); ?>
-    </div>
+<div class="rcmMessageList" title="RcmMessageList">
+    <?php
+    if (!empty($this->instanceConfig['title'])) {
+        ?>
+        <div>
+            <?=
+            $this->rcmRichEdit(
+                'title',
+                $this->instanceConfig['title'],
+                'h2'
+            ); ?>
+        </div>
+    <?php
+    }
+    ?>
     <div>
         <?php
         echo $this->rcmMessageUserMessageList(
             $this->instanceConfig['source'],
             $this->instanceConfig['level'],
-            $this->instanceConfig['hasViewed']
+            $this->instanceConfig['showHasViewed'],
+            $this->instanceConfig['showDefaultMessage']
         );
         ?>
     </div>
