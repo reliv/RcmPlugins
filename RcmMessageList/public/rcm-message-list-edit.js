@@ -82,15 +82,23 @@ var RcmMessageListEdit = function (instanceId, container, pluginHandler) {
      */
     me.buildMockAlert = function () {
 
-      var html = '<div class="alert alert-info" role="alert">' +
-        '<button type="button" class="close" aria-label="Close">' +
-        '<span aria-hidden="true">×</span>' +
-        '</button>' +
-        '<span class="subject">Some message subject: </span>' +
-        '<span class="body">Some message content here</span>' +
-        '</div>';
+        var html = '<div class="alert alert-info" role="alert">' +
+            '<button type="button" class="close" aria-label="Close">' +
+            '<span aria-hidden="true">×</span>' +
+            '</button>' +
+            '<span class="subject">Some message subject: </span>' +
+            '<span class="body">Some message content here</span>' +
+            '</div>';
 
-        $('.rcmPlugin.RcmMessageList .userMessageList').append(html);
+        var pluginElms = $('.rcmPlugin.RcmMessageList .userMessageList');
+
+        pluginElms.each(
+            function (index) {
+                if($(this).find('.alert').length < 1){
+                    $(this).append(html);
+                }
+            }
+        );
     };
 
     /**
