@@ -1,0 +1,15 @@
+.rcmMessage {
+    width: 99%;
+    padding: .2em .5% .2em .5%;
+}
+/** bootstrap over-ride **/
+.alert {
+    margin-bottom: .7em;
+}
+/** This is for the plugin **/
+.rcmPlugin.RcmMessageList {
+    width: 100%;
+}
+.rcmMessageList {
+
+}
