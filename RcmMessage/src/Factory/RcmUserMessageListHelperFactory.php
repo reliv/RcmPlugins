@@ -30,7 +30,12 @@ class RcmUserMessageListHelperFactory implements FactoryInterface
 
         $userMessageRepo = $serviceLocator->get('Doctrine\ORM\EntityManager')->getRepository('\RcmMessage\Entity\UserMessage');
         $rcmUserService = $serviceLocator->get('RcmUser\Service\RcmUserService');
+        $translator = $serviceLocator->get('MvcTranslator');
 
-        return new RcmUserMessageListHelper($userMessageRepo, $rcmUserService);
+        return new RcmUserMessageListHelper(
+            $userMessageRepo,
+            $rcmUserService,
+            $translator
+        );
     }
 }
