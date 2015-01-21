@@ -4,8 +4,8 @@
 angular.module('rcmLocales', ['RcmHtmlEditor'])
     .controller(
     'rcmTranslations', [
-        '$scope', '$element', '$log', '$http', 'rcmHtmlEditorService',
-        function ($scope, $element, $log, $http, rcmHtmlEditorService) {
+        '$scope', '$element', '$log', '$http', '$sce', 'rcmHtmlEditorService',
+        function ($scope, $element, $log, $http, $sce, rcmHtmlEditorService) {
             var self = this;
             self.url = {
                 locales: '/rcmi18n/locales'
@@ -23,7 +23,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             rcmHtmlEditorService.eventManager.on(
                 'rcmHtmlEditorService.loading.start',
                 function(args){
-                    //console.log('on rcmHtmlEditorService.loading.start:', args);
                     $scope.editorsLoading[args.editorId] = true;
                     $scope.$apply();
                 }
@@ -31,7 +30,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             rcmHtmlEditorService.eventManager.on(
                 'rcmHtmlEditorService.loading.end',
                 function(args){
-                    //console.log('on rcmHtmlEditorService.loading.end:', args);
                     $scope.editorsLoading[args.editorId] = false;
                     $scope.messages[args.editorId].editable = true;
                     $scope.$apply();
@@ -45,13 +43,9 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             rcmHtmlEditorService.eventManager.on(
                 'RcmHtmlEditor.onInit',
                 function(args){
-                    console.log('on RcmHtmlEditor.onInit');
-
-                    //$scope.messages[args.rcmHtmlEditor.id].dirty = true;
                     args.tinyMceEditorInstance.on(
                         'focus',
                         function(e){
-                            //$scope.messages[args.rcmHtmlEditor.id].dirty = true;
                             $scope.$apply();
                         }
                     );
@@ -59,17 +53,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                     args.tinyMceEditorInstance.on(
                         'blur',
                         function(e){
-                            //$scope.messages[args.rcmHtmlEditor.id].dirty = false;
-                            $scope.messages[args.rcmHtmlEditor.id].editable = false;
-                            args.rcmHtmlEditor.destroy();
-                            $scope.$apply();
-                        }
-                    );
-
-                    args.tinyMceEditorInstance.on(
-                        'blur',
-                        function(e){
-                            //$scope.messages[args.rcmHtmlEditor.id].dirty = false;
                             $scope.messages[args.rcmHtmlEditor.id].editable = false;
                             args.rcmHtmlEditor.destroy();
                             $scope.$apply();
@@ -102,13 +85,6 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
 
             };
 
-            $scope.getClickElm = function(messageId) {
-
-                return 'click' + messageId;
-
-                return angular.element($element.find('#click' + messageId).first());
-            };
-
             self.getLocales();
 
             $scope.OpenLocale = function () {
@@ -131,6 +107,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                                 data, function (value, key) {
                                     id = 'trans' + key;
                                     value.id = id;
+                                    value.textHtml = $sce.trustAsHtml(value.text);
                                     $scope.messages[id] = value;
                                 }
                             );
@@ -162,6 +139,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                     success(
                     function (data) {
                         message.dirty = false;
+                        message.textHtml = $sce.trustAsHtml(message.text);
                     }
                 ).
                     error(
@@ -171,13 +149,8 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                         // or server returns response with an error status.
                     }
                 );
-
-
             }
-
         }
-
-
     ]
 )
     .filter(

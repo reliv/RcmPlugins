@@ -59,6 +59,8 @@ class Locales
      */
     function localeIsValid($locale)
     {
-        return in_array($locale, $this->getLocales());
+        $locales = $this->getLocales();
+
+        return array_key_exists($locale, $locales);
     }
 } 
