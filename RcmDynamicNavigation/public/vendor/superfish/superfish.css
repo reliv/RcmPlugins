@@ -1,16 +1,4 @@
 /*=======================superfish=========================*/
-nav a{
-    font-size: 14px;
-}
-nav{
-    display:inline-block;
-    margin: 9px 0 0px;
-    float: left;
-    min-height: 37px;
-}
-footer nav{
-    margin: 9px 0 0px;
-}
 .sf-menu{display:block;}
 .sf-menu ul {
     position:absolute;
