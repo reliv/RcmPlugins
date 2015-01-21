@@ -18,7 +18,8 @@ var RcmMessageListEdit = function (instanceId, container, pluginHandler) {
     me.instanceConfig = {
         source: null,
         level: null,
-        hasViewed: null
+        showHasViewed: false,
+        showDefaultMessage: false
     };
 
 
@@ -45,7 +46,17 @@ var RcmMessageListEdit = function (instanceId, container, pluginHandler) {
         return me.instanceConfig;
     };
 
+    /**
+     * completeEditInit
+     */
     me.completeEditInit = function () {
+
+        // add a border to show plugin if it is empty
+        //$('.rcmPlugin.RcmMessageList').css('border', '1px dotted #DDDDDD');
+        //$('.rcmPlugin.RcmMessageList').css('min-height', '1em');
+        //$('.rcmPlugin.RcmMessageList .rcmMessageList').css('min-height', '1em');
+        // Show mock alert
+        me.buildMockAlert();
 
         //Add right click menu
         $.contextMenu(
@@ -66,6 +77,33 @@ var RcmMessageListEdit = function (instanceId, container, pluginHandler) {
         );
     };
 
+    /**
+     * buildMockAlert
+     */
+    me.buildMockAlert = function () {
+
+        var html = '<div class="alert alert-info" role="alert">' +
+            '<button type="button" class="close" aria-label="Close">' +
+            '<span aria-hidden="true">×</span>' +
+            '</button>' +
+            '<span class="subject">Some message subject: </span>' +
+            '<span class="body">Some message content here</span>' +
+            '</div>';
+
+        var pluginElms = $('.rcmPlugin.RcmMessageList .userMessageList');
+
+        pluginElms.each(
+            function (index) {
+                if($(this).find('.alert').length < 1){
+                    $(this).append(html);
+                }
+            }
+        );
+    };
+
+    /**
+     * showEditDialog
+     */
     me.showEditDialog = function () {
 
         var fields = {};
@@ -87,7 +125,7 @@ var RcmMessageListEdit = function (instanceId, container, pluginHandler) {
             },
             me.instanceConfig.level
         );
-        fields.hasViewed = $.dialogIn(
+        fields.showHasViewed = $.dialogIn(
             'select',
             'Show Viewed Messages',
             {
@@ -95,12 +133,27 @@ var RcmMessageListEdit = function (instanceId, container, pluginHandler) {
                 0: 'Non-Viewed_Only',
                 '': 'All'
             },
-            me.instanceConfig.hasViewed
+            me.instanceConfig.showHasViewed
+        );
+
+        fields.showDefaultMessage = $.dialogIn(
+            'select',
+            'Show Default Message (show &quot;No Messages&quot; when there are no messages)',
+            {
+                1: 'Show',
+                0: 'Hide'
+            },
+            me.instanceConfig.showDefaultMessage
         );
 
         var form = $('<form></form>')
             .addClass('simple')
-            .append(fields.source, fields.level, fields.hasViewed)
+            .append(
+            fields.source,
+            fields.level,
+            fields.showHasViewed,
+            fields.showDefaultMessage
+        )
             .dialog(
             {
                 title: me.propertyName,
@@ -115,7 +168,8 @@ var RcmMessageListEdit = function (instanceId, container, pluginHandler) {
                         //Get user-entered data from form
                         me.instanceConfig.source = fields.source.val();
                         me.instanceConfig.level = fields.level.val();
-                        me.instanceConfig.hasViewed = fields.hasViewed.val();
+                        me.instanceConfig.showHasViewed = fields.showHasViewed.val();
+                        me.instanceConfig.showDefaultMessage = fields.showDefaultMessage.val();
 
                         $(this).dialog('close');
                     }

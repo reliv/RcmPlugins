@@ -16,7 +16,7 @@
                             <label style="position: fixed;">
                                 <select class="form-control"
                                         ng-model="selectedLocale"
-                                        ng-options="locale for locale in locales"
+                                        ng-options="key as value for (key , value) in locales"
                                         ng-change="OpenLocale()"
                                         ng-disabled="loading || rcmHtmlEditorService.toolbarLoading">
                                     <option value="">
@@ -93,7 +93,10 @@
                                                 </div>
                                                 <div class="editor-link"
                                                      ng-class="{'error': !message.text}"
-                                                     ng-hide="message.editable">{{message.text ? message.text : "TRANSLATION MISSING"}}
+                                                     ng-hide="message.editable"
+                                                     >
+                                                    <div ng-bind-html="message.textHtml" ng-show="message.text"></div>
+                                                    <div ng-hide="message.text">TRANSLATION MISSING</div>
                                                 </div>
                                             </div>
                                         </div>

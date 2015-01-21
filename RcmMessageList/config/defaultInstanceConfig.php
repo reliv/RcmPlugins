@@ -3,5 +3,6 @@ return [
     'title' => 'My Messages',
     'source' => null,
     'level' => null,
-    'hasViewed' => null,
+    'showHasViewed' => false,
+    'showDefaultMessage' => false,
 ];
