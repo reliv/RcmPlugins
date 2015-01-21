@@ -1,18 +1,13 @@
 <div class="rcmMessageList" title="RcmMessageList">
-    <?php
-    if (!empty($this->instanceConfig['title'])) {
+    <div>
+        <?=
+        $this->rcmRichEdit(
+            'title',
+            $this->instanceConfig['title'],
+            'h2'
+        );
         ?>
-        <div>
-            <?=
-            $this->rcmRichEdit(
-                'title',
-                $this->instanceConfig['title'],
-                'h2'
-            ); ?>
-        </div>
-    <?php
-    }
-    ?>
+    </div>
     <div>
         <?php
         echo $this->rcmMessageUserMessageList(
