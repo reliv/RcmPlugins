@@ -382,11 +382,7 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             $published,
             $limit
         );
-//        if($published){
-//            var_dump($revisions);
-//            var_dump($revisions['revisions'][29420]['publishedDate']->format("r"));
-//            die;
-//        }
+
         return $revisions;
     }
 
