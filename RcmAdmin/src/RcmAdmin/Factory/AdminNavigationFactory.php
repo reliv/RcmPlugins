@@ -304,6 +304,10 @@ class AdminNavigationFactory extends AbstractNavigationFactory
 
             $revisions = $this->getRevisionList($published, $limit);
 
+            if(empty($revisions['revisions'])){
+                continue;
+            }
+
             foreach ($revisions['revisions'] as $revision) {
 
                 $pageConfig = $config['page'];
