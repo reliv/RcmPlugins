@@ -83,13 +83,45 @@ return [
                         'label' => 'Drafts',
                         'uri' => '#',
                         'class' => 'drafts',
-                        'rcmIncludeDrafts' => true,
+                        'rcmIncludeRevisions' => [
+                            [
+                                'published' => false,
+                                'limit' => 10,
+                                'page' => [
+                                    'label' => ':revisionCreatedDate - :revisionAuthor',
+                                    'route' => 'contentManagerWithPageType',
+                                    'class' => 'revision',
+                                    'text_domain' => 'DO_NOT_TRANSLATE',
+                                    'params' => [
+                                        'page' => ':rcmPageName',
+                                        'pageType' => ':rcmPageType',
+                                        'revision' => ':rcmPageRevision',
+                                    ]
+                                ]
+                            ]
+                        ],
                     ],
                     'Restore' => [
                         'label' => 'Restore',
                         'uri' => '#',
                         'class' => 'restore',
-                        'rcmIncludePublishedRevisions' => true
+                        'rcmIncludeRevisions' => [
+                            [
+                                'published' => true,
+                                'limit' => 10,
+                                'page' => [
+                                    'label' => ':revisionPublishedDate - :revisionAuthor',
+                                    'route' => 'RcmAdmin\Page\PublishPageRevision',
+                                    'class' => 'revision',
+                                    'text_domain' => 'DO_NOT_TRANSLATE',
+                                    'params' => [
+                                        'rcmPageName' => ':rcmPageName',
+                                        'rcmPageType' => ':rcmPageType',
+                                        'rcmPageRevision' => ':rcmPageRevision',
+                                    ]
+                                ]
+                            ]
+                        ],
                     ],
                 ],
             ],
@@ -425,7 +457,8 @@ return [
             ],
             'collections' => [
                 'modules/rcm-admin/js/rcm-admin.js' => [
-                    'modules/rcm-admin/js/rcm-admin-api/rcm-admin-api.js', // general service - requires rcm-core
+                    'modules/rcm-admin/js/rcm-admin-api/rcm-admin-api.js',
+                    // general service - requires rcm-core
                     'modules/rcm-admin/js/dialog/rcm-dialog.js',
                     'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
                     'modules/rcm-admin/js/admin/rcm-admin.js',
