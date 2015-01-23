@@ -194,15 +194,13 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
     };
 
     this.buildTabs = function(){
-        console.log('buildTabs');
+
         tabs.tab();
-        //tabs.tabs();//needed for dragging new plugin on page
     };
 
     this.refresh = function () {
-        console.log('refresh');
+
         tabs.tab('show');
-        //tabs.tabs('refresh');
 
         container.find(titleSelector).find('div').keydown(
             function (event) {
@@ -282,8 +280,6 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
                 );
             }
         );
-
-
     };
 
     this.getGreatestTabId = function () {
