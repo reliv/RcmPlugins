@@ -18,8 +18,12 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
     var me = this;
     me.pluginHandler = pluginHandler;
 
-    var titleWrap = container.find('.titleWrap');
-    var bodyWrap = container.find('.bodyWrap');
+    var titleWrapSelector = '.nav.nav-tabs'; // titleWrap
+    var bodySelector = '.tab-content'; // bodyWrap
+    var titleSelector = '.title'// .
+
+    var titleWrap = container.find(titleWrapSelector);
+    var bodyWrap = container.find(bodySelector);
     var tabs = container.find('.tabs');
     var sortMode = false;
     var embedMsg = 'Place Embed Code Below:<br>';
@@ -40,28 +44,36 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
      * @param instanceConfig
      */
     this.completeInitEdit = function (instanceConfig) {
-        tabs.tabs();//needed for dragging new plugin on page
+        me.buildTabs();
 
         me.addRightClick(
-            rcm.getPluginContainerSelector(instanceId) + ' .title', true
+            pluginHandler.model.getPluginContainerSelector(instanceId) + ' ' + titleSelector,
+            true
         );
         me.addRightClick(
-            rcm.getPluginContainerSelector(instanceId) + ' .titleWrap', false
+            pluginHandler.model.getPluginContainerSelector(instanceId) + '' + titleWrapSelector,
+            false
         );
-
-        container.delegate('a', 'click', me.tabClick);
 
         //Convert rawHtml divs to text areas
-        me.forEachTab(function (tabId, tabType, title, body) {
-            if (tabType == 'rawHtml') {
-                body.html(
-                    embedMsg +
+        me.forEachTab(
+            function (tabId, tabType, title, body) {
+
+                title.find('a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show')
+                });
+
+                if (tabType == 'rawHtml') {
+                    body.html(
+                        embedMsg +
                         '<textarea class="rawHtmlWrap">' +
                         me.getInstanceConfigRawHtml(tabId, instanceConfig) +
                         '</textarea>'
-                );
+                    );
+                }
             }
-        });
+        );
 
         me.refresh();
     };
@@ -91,13 +103,15 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
 
         var tabContainers = [];
 
-        me.forEachTab(function (tabId, tabType, title, body) {
-            var tabData = {id: tabId, type: tabType};
-            if (tabType == 'rawHtml') {
-                tabData['rawHtml'] = body.find('textarea.rawHtmlWrap').val();
+        me.forEachTab(
+            function (tabId, tabType, title, body) {
+                var tabData = {id: tabId, type: tabType};
+                if (tabType == 'rawHtml') {
+                    tabData['rawHtml'] = body.find('textarea.rawHtmlWrap').val();
+                }
+                tabContainers.push(tabData);
             }
-            tabContainers.push(tabData);
-        });
+        );
 
         return {
             containers: tabContainers
@@ -128,52 +142,83 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
     };
 
     this.addTabTitle = function (newId, type) {
-        titleWrap.append($(
-            '<li class="title" data-tabId="' + newId + '" data-tabType="' + type + '">' +
-                '<a data-textedit="tab_title_' + newId + '" href="#rcmTab_' + instanceId + '_' + newId + '">' +
+
+        titleWrap.append(
+            $(
+                '<li role="presentation" ' +
+                'class="title" ' +
+                'data-tabId="' + newId + '" data-tabType="' + type + '">' +
+                '<a href="#rcmTab_' + instanceId + '_' + newId + '" ' +
+                'aria-controls="rcmTab_<?= $this->instanceId ?>_' + newId + '" ' +
+                'role="tab" ' +
+                'data-toggle="tab">' +
+                '<div data-textedit="tab_title_' + newId + '">' +
                 'New Tab' +
+                '</div>' +
                 '</a>' +
                 '</li>'
-        ));
+            )
+        );
     };
 
     this.addHtmlTab = function (newId) {
-        bodyWrap.append($('<div class="body" id="rcmTab_' + instanceId + '_' + newId + '" data-richedit="tab_content_' + newId + '">' +
-            '<h1>Lorem ipsum</h1>' +
-            '<p>Lorem ipsum</p>' +
-            '</div>'
-        ));
+
+        bodyWrap.append(
+            $(
+                '<div role="tabpanel" ' +
+                'class="tab-pane" ' +
+                'id="rcmTab_' + instanceId + '_' + newId + '">' +
+                '<div data-richedit="tab_content_' + newId + '">' +
+                '<h1>Lorem ipsum</h1>' +
+                '<p>Lorem ipsum</p>' +
+                '</div>' +
+                '</div>'
+            )
+        );
     };
 
     this.addRawHtmlTab = function (newId) {
-        bodyWrap.append($('<div class="body rawHtml" id="rcmTab_' + instanceId + '_' + newId + '" >' +
-            embedMsg +
-            '<textarea class="rawHtmlWrap"></textarea>' +
-            '</div>'
-        ));
+
+        bodyWrap.append(
+            $(
+                '<div role="tabpanel" ' +
+                'class="tab-pane" ' +
+                'id="rcmTab_' + instanceId + '_' + newId + '">' +
+                '<div class="rawHtmlWrap">' +
+                embedMsg +
+                '<textarea class="rawHtmlWrap"></textarea>' +
+                '</div>' +
+                '</div>'
+            )
+        );
     };
 
-    this.tabClick = function () {
-        //window['rcmEdit'].refreshEditors(container);
-
+    this.buildTabs = function(){
+        console.log('buildTabs');
+        tabs.tab();
+        //tabs.tabs();//needed for dragging new plugin on page
     };
 
     this.refresh = function () {
-        tabs.tabs('refresh');
+        console.log('refresh');
+        tabs.tab('show');
+        //tabs.tabs('refresh');
 
-        container.find('.title').find('div').keydown(function (event) {
-            event.stopPropagation();
-        });
+        container.find(titleSelector).find('div').keydown(
+            function (event) {
+                event.stopPropagation();
+            }
+        );
 
         var tabAs = tabs.find('li a');
         try {
-            tabs.find('.titleWrap').sortable('destroy');
+            tabs.find(titleWrapSelector).sortable('destroy');
             tabAs.attr('style', '');// Clear Draggable pointer
         } catch (err) {
             //its ok if we couldn't destroy
         }
         if (sortMode) {
-            tabs.find('.titleWrap').sortable();
+            tabs.find(titleWrapSelector).sortable();
             tabAs.attr('style', 'cursor: move;');// Draggable pointer
         }
     };
@@ -212,17 +257,19 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
             }
         }
 
-        $.contextMenu({
-            selector: selector,
-            items: items
-        });
+        $.contextMenu(
+            {
+                selector: selector,
+                items: items
+            }
+        );
     };
 
     this.forEachTab = function (callback) {
-        container.find('.title').each(
+        container.find(titleSelector).each(
             function () {
-                var title = $(this)
-                var tabId = title.attr('data-tabId')
+                var title = $(this);
+                var tabId = title.attr('data-tabId');
                 callback(
                     //tabId
                     tabId,
@@ -233,18 +280,21 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
                     //Body Ele
                     container.find('#rcmTab_' + instanceId + '_' + tabId)
                 );
-            });
+            }
+        );
 
 
     };
 
     this.getGreatestTabId = function () {
         var greatestId = 0;
-        me.forEachTab(function (tabId) {
-            if (tabId > greatestId) {
-                greatestId = tabId;
+        me.forEachTab(
+            function (tabId) {
+                if (tabId > greatestId) {
+                    greatestId = tabId;
+                }
             }
-        });
+        );
         return greatestId;
     };
 };

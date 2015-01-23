@@ -92,7 +92,7 @@ var RcmCore = function () {
 
             self.moduleDepenencies.push(moduleName);
         }
-    }
+    };
 
     /**
      *
@@ -107,7 +107,7 @@ var RcmCore = function () {
         }
 
         return true;
-    }
+    };
 
     /**
      *
@@ -206,9 +206,10 @@ var RcmCore = function () {
                  */
             }
         );
-    }
+    };
 
     /**
+     * @deprecated
      * From old scripts
      * @param instanceId
      * @returns {string}
@@ -219,6 +220,7 @@ var RcmCore = function () {
     };
 
     /**
+     * @deprecated
      * From old scripts
      * @param instanceId
      * @returns {*|jQuery|HTMLElement}
@@ -260,11 +262,11 @@ var RcmCore = function () {
                 };
 
                 /* there are more methods, but this covers the basics */
-            }
+            };
 
             window.console = self.console;
         }
-    }
+    };
 
     // construct
     self.initConsole();
