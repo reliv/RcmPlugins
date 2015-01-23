@@ -798,6 +798,11 @@ var RcmAdminService = {
      */
     RcmPluginModel: {
 
+        getPluginContainerSelector: function (pluginId) {
+
+            return ('[data-rcmPluginInstanceId="' + pluginId + '"] .rcmPluginContainer');
+        },
+
         getElms: function (containerId, onComplete) {
 
             var containerElm = RcmAdminService.RcmContainerModel.getElm(containerId);
@@ -1630,7 +1635,7 @@ var RcmAdminService = {
         self.getData = function () {
 
             return self.model.getData(self.id);
-        }
+        };
 
         /**
          * canEdit
@@ -1667,9 +1672,10 @@ var RcmAdminService = {
     },
 
     /**
-     * RcmPlugin
+     * RcmPlugin - AKA pluginHandler
      * @param page
      * @param id
+     * @param container
      * @constructor
      */
     RcmPlugin: function (page, id, container) {
@@ -1707,7 +1713,7 @@ var RcmAdminService = {
 
         /**
          * getElm
-         * @returns {*}
+         * @returns {elm}
          */
         self.getElm = function () {
 
@@ -1794,7 +1800,7 @@ var RcmAdminService = {
 
         /**
          * getSaveData
-         * @param onSaved
+         * @param onComplete
          */
         self.getSaveData = function (onComplete) {
 
@@ -1998,7 +2004,7 @@ var RcmAdminService = {
 
         /**
          * updateView - ONLY use this if needed - will cause issues with ng-repeat and possibly other
-         * @todo - option for elm
+         * @param elm
          * @param onComplete
          */
         self.updateView = function (elm, onComplete) {
@@ -2043,7 +2049,7 @@ var RcmAdminService = {
 
         /**
          * onEditChange
-         * @param args
+         * @param page
          */
         self.onEditChange = function (page) {
 
