@@ -59,12 +59,17 @@ class AdminNavigationFactory extends AbstractNavigationFactory
 
     /**
      * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return \Zend\Navigation\Navigation
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $this->rcmUserService = $serviceLocator->get('RcmUser\Service\RcmUserService');
-        $this->cmsPermissionChecks = $serviceLocator->get('Rcm\Acl\CmsPermissionsChecks');
+        $this->rcmUserService = $serviceLocator->get(
+            'RcmUser\Service\RcmUserService'
+        );
+        $this->cmsPermissionChecks = $serviceLocator->get(
+            'Rcm\Acl\CmsPermissionsChecks'
+        );
         $this->currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
 
         $config = $serviceLocator->get('config');
@@ -78,9 +83,13 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         $application = $serviceLocator->get('Application');
 
         /** @var RouteMatch $routeMatch */
-        $routeMatch  = $application->getMvcEvent()->getRouteMatch();
+        $routeMatch = $application->getMvcEvent()->getRouteMatch();
 
-        if (!in_array($routeMatch->getMatchedRouteName(), $config['Rcm']['RcmCmsPageRouteNames'])) {
+        if (!in_array(
+            $routeMatch->getMatchedRouteName(),
+            $config['Rcm']['RcmCmsPageRouteNames']
+        )
+        ) {
             return parent::createService($serviceLocator);
         }
 
@@ -89,7 +98,12 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         $pageTypeMatch = $routeMatch->getParam('pageType', 'n');
 
         if (!empty($pageMatch)) {
-            $this->page = $this->pageRepo->findOneBy(['name' => $pageMatch, 'pageType' => $pageTypeMatch]);
+            $this->page = $this->pageRepo->findOneBy(
+                [
+                    'name' => $pageMatch,
+                    'pageType' => $pageTypeMatch
+                ]
+            );
         }
 
         return parent::createService($serviceLocator);
@@ -111,14 +125,19 @@ class AdminNavigationFactory extends AbstractNavigationFactory
     /**
      * Zend Inject Components.
      *
-     * @param array $pages
-     * @param RouteMatch $routeMatch
-     * @param Router $router
+     * @param array        $pages
+     * @param RouteMatch   $routeMatch
+     * @param Router       $router
      * @param null|Request $request
+     *
      * @return mixed
      */
-    protected function injectComponents(array $pages, RouteMatch $routeMatch = null, Router $router = null, $request = null)
-    {
+    protected function injectComponents(
+        array $pages,
+        RouteMatch $routeMatch = null,
+        Router $router = null,
+        $request = null
+    ) {
         foreach ($pages as $key => &$page) {
 
             if (!$this->shouldShowInNavigation($page)) {
@@ -129,7 +148,8 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             $this->setupRcmNavigation($page);
 
             $hasUri = isset($page['uri']);
-            $hasMvc = isset($page['action']) || isset($page['controller']) || isset($page['route']);
+            $hasMvc = isset($page['action']) || isset($page['controller'])
+                || isset($page['route']);
             if ($hasMvc) {
                 if (!isset($page['routeMatch']) && $routeMatch) {
                     $page['routeMatch'] = $routeMatch;
@@ -144,7 +164,12 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             }
 
             if (isset($page['pages'])) {
-                $page['pages'] = $this->injectComponents($page['pages'], $routeMatch, $router, $request);
+                $page['pages'] = $this->injectComponents(
+                    $page['pages'],
+                    $routeMatch,
+                    $router,
+                    $request
+                );
             }
         }
 
@@ -167,7 +192,9 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             return false;
         }
 
-        if (isset($page['acl']) && is_array($page['acl']) && !empty($page['acl']['resource'])) {
+        if (isset($page['acl']) && is_array($page['acl'])
+            && !empty($page['acl']['resource'])
+        ) {
 
             $providerId = null;
             if (!empty($page['acl']['providerId'])) {
@@ -182,15 +209,27 @@ class AdminNavigationFactory extends AbstractNavigationFactory
             $resource = $page['acl']['resource'];
 
             $resource = str_replace(
-                [':siteId',':pageName'],
-                [$this->currentSite->getSiteId(), $this->page->getName()],
+                [
+                    ':siteId',
+                    ':pageName'
+                ],
+                [
+                    $this->currentSite->getSiteId(),
+                    $this->page->getName()
+                ],
                 $resource
             );
 
             if (!empty($this->page)) {
                 $resource = str_replace(
-                    [':siteId',':pageName'],
-                    [$this->currentSite->getSiteId(), $this->page->getName()],
+                    [
+                        ':siteId',
+                        ':pageName'
+                    ],
+                    [
+                        $this->currentSite->getSiteId(),
+                        $this->page->getName()
+                    ],
                     $resource
                 );
             } else {
@@ -201,7 +240,12 @@ class AdminNavigationFactory extends AbstractNavigationFactory
                 );
             }
 
-            if (!$this->rcmUserService->isAllowed($resource, $privilege, $providerId)) {
+            if (!$this->rcmUserService->isAllowed(
+                $resource,
+                $privilege,
+                $providerId
+            )
+            ) {
                 return false;
             }
 
@@ -215,24 +259,107 @@ class AdminNavigationFactory extends AbstractNavigationFactory
      *
      * @param $page
      */
-    protected function setupRcmNavigation(&$page) {
-
+    protected function setupRcmNavigation(&$page)
+    {
         if (empty($this->page)) {
             return;
         }
 
         if (isset($page['params']) && is_array($page['params'])) {
-            array_walk($page['params'], [$this, 'updatePlaceHolders']);
+            array_walk(
+                $page['params'],
+                [
+                    $this,
+                    'updatePlaceHolders'
+                ],
+                $this->pageRevision
+            );
         }
 
-        if (!empty($page['rcmIncludeDrafts'])) {
-            $page['pages'] = $this->getRevisionList(false);
+        $this->buildRevisionsNav($page);
+    }
+
+    /**
+     * buildRevisionsNav
+     *
+     * @param $page
+     *
+     * @return mixed
+     */
+    protected function buildRevisionsNav(&$page)
+    {
+        if (empty($page['rcmIncludeRevisions'])) {
+
+            return $page;
         }
 
-        if (!empty($page['rcmIncludePublishedRevisions'])) {
-            $page['pages'] = $this->getRevisionList(true);
+        if(empty($page['pages'])) {
+
+            $page['pages'] = [];
         }
 
+        foreach ($page['rcmIncludeRevisions'] as $config) {
+            $published = (bool)$config['published'];
+            $limit = (int)$config['limit'];
+
+            $revisions = $this->getRevisionList($published, $limit);
+
+            if(empty($revisions['revisions'])){
+                continue;
+            }
+
+            foreach ($revisions['revisions'] as $revision) {
+
+                $pageConfig = $config['page'];
+
+                array_walk_recursive(
+                    $pageConfig,
+                    [
+                        $this,
+                        'parseRevisionConfigValue'
+                    ],
+                    $revision
+                );
+
+                $page['pages'][] = $pageConfig;
+            }
+        }
+
+        return $page;
+    }
+
+    /**
+     * parseRevisionConfigValue
+     *
+     * @param $value
+     * @param $key
+     * @param $revision
+     *
+     * @return mixed
+     */
+    protected function parseRevisionConfigValue(&$value, $key, $revision)
+    {
+        $find = [
+            ':revisionCreatedDate',
+            ':revisionPublishedDate',
+            ':revisionAuthor',
+            ':revisionId',
+        ];
+
+        if(!empty($revision['publishedDate'])){
+            $revision['publishedDate'] = $revision['publishedDate']->format("r");
+        }
+
+        $replace = [
+            $revision['createdDate']->format("r"),
+            $revision['publishedDate'],
+            $revision['author'],
+            $revision['revisionId']
+        ];
+
+        $value = str_replace($find, $replace, $value);
+
+        $this->updatePlaceHolders($value, $key, $revision['revisionId']);
     }
 
     /**
@@ -240,50 +367,40 @@ class AdminNavigationFactory extends AbstractNavigationFactory
      *
      * @return array
      */
-    protected function getRevisionList($published=false)
-    {
-        $return = [];
-
-        $drafts = $this->pageRepo->getRevisionList(
+    /**
+     * getRevisionList
+     *
+     * @param bool $published
+     * @param int  $limit
+     *
+     * @return array|mixed
+     */
+    protected function getRevisionList(
+        $published = false,
+        $limit = 10
+    ) {
+        $revisions =  $this->pageRepo->getRevisionList(
             $this->currentSite->getSiteId(),
             $this->page->getName(),
             $this->page->getPageType(),
             $published,
-            10
+            $limit
         );
 
-        if (empty($drafts)) {
-            return $return;
-        }
-
-        /** @var \Rcm\Entity\Revision $draft */
-        foreach ($drafts['revisions'] as $draft) {
-            if ($this->pageRevision == $draft['revisionId']) {
-                continue;
-            }
-
-            $return[] = [
-                'label'  => $draft['createdDate']->format("r").' - '.$draft['author'],
-                'route'  => 'contentManagerWithPageType',
-                'class' => 'revision',
-                'text_domain' => 'DO_NOT_TRANSLATE',
-                'params' => [
-                    'page' => $this->page->getName(),
-                    'pageType' => $this->page->getPageType(),
-                    'revision' => $draft['revisionId'],
-                ]
-            ];
-        }
-
-        return $return;
+        return $revisions;
     }
 
     /**
-     * Update config place holders with correct data prior to building the navigation
+     * Update config place holders with correct data
      *
      * @param $item
+     * @param $key
+     * @param $revisionNumber
+     *
+     * @return void
      */
-    protected function updatePlaceHolders(&$item) {
+    protected function updatePlaceHolders(&$item, $key, $revisionNumber)
+    {
 
         if (empty($this->page)) {
             return;
@@ -298,10 +415,11 @@ class AdminNavigationFactory extends AbstractNavigationFactory
         $replace = [
             $this->page->getName(),
             $this->page->getPageType(),
-            $this->pageRevision
+            $revisionNumber,
         ];
 
         $item = str_replace($find, $replace, $item);
     }
+
 
 }
