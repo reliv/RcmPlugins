@@ -46,6 +46,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      * @type {String}
      */
     var loginLinkTemplate = '<li class="rcmDynamicNavigationLogout"><a href="/login?logout=1">Logout</a></li>';
+    loginLinkTemplate = loginLinkTemplate + '<li class="rcmDynamicNavigationLogin"><a href="/login">Login</a></li>';
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -188,12 +189,15 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
                     callback: function() {
                         me.addLoginLink(this);
                     }
-                },
-
+                }
             }
         });
 
         me.refresh();
+    };
+
+    me.isLoginLink = function(item) {
+
     };
 
     /**
@@ -207,15 +211,27 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         var a = li.children('a');
 
         //Find out what css class this link has
-        var cssClass = li.attr('class');
-        if (typeof(cssClass) == 'undefined') {
-            cssClass = '';
+        var currentClasses = li.attr('data-class');
+
+        if (typeof(currentClasses) == 'undefined') {
+            currentClasses = '';
         }
+
+        var cssClass = currentClasses;
 
         var okClicked = false;
 
         var text = $.dialogIn('text', 'Text', jQuery.trim(a.html()));
         var href = $.dialogIn('url', 'Link Url', jQuery.trim(a.attr('href')));
+
+        var aTarget = $.dialogIn(
+            'select',
+            'Open in new window',
+            {'': 'No', '_blank': 'Yes'},
+            jQuery.trim(a.attr('target')),
+            true
+        );
+
         var cssClassInput = $.dialogIn(
             'select',
             'Display Style',
@@ -227,7 +243,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .append(text, href, cssClassInput)
+            .append(text, href, aTarget, cssClassInput)
             .dialog({
                 title: 'Properties',
                 modal: true,
@@ -244,12 +260,22 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
                     Cancel: function () {
                         $(this).dialog("close");
                     },
-                    Ok: function () {
-
+                    Ok: function() {
                         //Get user-entered data from form
                         a.html(text.val());
                         a.attr('href', href.val());
-                        li.attr('class', cssClassInput.val());
+                        a.attr('target', aTarget.val());
+                        li.attr('data-class', cssClassInput.val());
+
+                        var currentClassArray = currentClasses.split(" ");
+                        var activeClasses = li.attr('class');
+
+                        $.each(currentClassArray, function(k,v) {
+                            activeClasses = activeClasses.replace(v, '');
+                            li.removeClass(v);
+                        });
+
+                        li.addClass(cssClassInput.val());
 
                         //Put this in a closure so modifySubMenu can call it
                         var button = this;

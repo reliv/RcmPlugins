@@ -10,8 +10,9 @@ $this->headScript()->appendFile(
     'text/javascript'
 );
 
-$this->headScript()->appendScript(
-    'jQuery(document).ready(function(){ jQuery(\'#RcmDynamicNavigation_'.$this->instanceId.'\').superfish(); });'
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-dynamic-navigation/rcm-dynamic-navigation.js',
+    'text/javascript'
 );
 
 $this->headLink()->appendStylesheet(
@@ -26,7 +27,7 @@ function getUl($data, $id=null)
 {
     foreach ($data as $index => $column) { ?>
 
-        <ul class="column_<?php echo $index;  if (!empty($id)) : ?> sf-menu" id="<?= $id; ?><?php endif; ?>">
+        <ul class="<?php if (!empty($id)) : ?>sf-menu" id="<?= $id; ?><?php endif; ?>">
             <?php getLi($column); ?>
         </ul>
 <?php
@@ -38,7 +39,7 @@ function getLi($links)
 {
     foreach ($links as $link) { ?>
 
-        <li>
+        <li class="<?= $link['class']?>" data-class="<?= $link['class']?>">
             <a href="<?= $link['href']?>" <?php if (!empty($link['target'])) { ?> target="<?= $link['target']; ?>"<?php } ?>>
                 <?= $link['display']; ?>
             </a>
