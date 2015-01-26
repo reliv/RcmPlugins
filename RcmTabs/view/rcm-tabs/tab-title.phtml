@@ -1,6 +1,13 @@
-<li class="title" data-tabId="<?= $tab['id'] ?>"
-    data-tabType="<?= $tab['type'] ?>">
-    <a href="#rcmTab_<?= $this->instanceId ?>_<?= $tab['id'] ?>">
+<li role="presentation"
+    class="title"
+    data-tabId="<?= $tab['id'] ?>"
+    data-tabType="<?= $tab['type'] ?>"
+    >
+    <a href="#rcmTab_<?= $this->instanceId ?>_<?= $tab['id'] ?>"
+       aria-controls="rcmTab_<?= $this->instanceId ?>_<?= $tab['id'] ?>"
+       role="tab"
+       data-toggle="tab"
+        >
         <div data-textedit="tab_title_<?= $tab['id'] ?>">
             <?= $this->instanceConfig['tab_title_' . $tab['id']] ?>
         </div>

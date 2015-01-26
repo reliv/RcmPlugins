@@ -1,39 +1,124 @@
-<div class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
-    <ul class="titleWrap">
-        <?php foreach ($this->instanceConfig['containers'] as $tab) {
-            if (empty($tab['type'])) {
-                $tab['type'] = 'html';
-            }
-            include 'tab-title.phtml';
-        } ?>
-    </ul>
-    <div class="bodyWrap" style="min-height: 450px;">
-        <?php foreach ($this->instanceConfig['containers'] as $tab) {
+<style type="text/css">
 
-            //Fix legacy tabs that have no type
-            if (empty($tab['type'])) {
-                $tab['type'] = 'html';
-            }
+    .RcmTabs {
+        clear: both;
+        width: 100%;
+    }
 
-            switch ($tab['type']) {
-                case 'html':
-                    include 'tab-body-html.phtml';
-                    break;
-                case 'rawHtml':
-                    include 'tab-body-raw-html.phtml';
-                    break;
-                default:
-                    throw new \RuntimeException(
-                        $tab['type'] . ' is an invalid tab type'
-                    );
+    .RcmTabs .nav-tabs {
+        background-color: #dddddd;
+        border-right: 1px solid #dddddd;
+        border-top: 1px solid #dddddd;
+        border-left: 1px solid #dddddd;
+        border-bottom: 0px solid #dddddd;
+        border-radius: 4px 4px 0 0;
+        padding: .3em .5em 0 .5em;
+    }
+
+    .RcmTabs .nav-tabs > li > a,
+    .RcmTabs .nav-tabs > li > a:hover,
+    .RcmTabs .nav-tabs > li > a:focus {
+        background-color: #eeeeee;
+        border-top: 1px solid #dddddd;
+        border-right: 1px solid #dddddd;
+        border-bottom: 0px solid #dddddd;
+        border-left: 1px solid #dddddd;
+        border-radius: 4px 4px 0 0;
+        cursor: default;
+    }
+
+    .RcmTabs .nav-tabs > li.active > a,
+    .RcmTabs .nav-tabs > li.active > a:hover,
+    .RcmTabs .nav-tabs > li.active > a:focus {
+        background-color: #ffffff;
+        border-bottom: none;
+    }
+
+    .RcmTabs .tab-content {
+        border-top: 0px solid #dddddd;
+        border-right: 1px solid #dddddd;
+        border-bottom: 1px solid #dddddd;
+        border-left: 1px solid #dddddd;
+        border-radius: 0 0 4px 4px;
+    }
+
+    .RcmTabs .tab-pane {
+        padding: 1em 2em 1em 2em;
+        min-height: 20em;
+    }
+
+
+</style>
+<?php
+$activeTabId = null;
+?>
+<script src="/modules/rcm-twitter-bootstrap/bootstrap-tabcollapse/bootstrap-tabcollapse.js"
+        type="text/javascript"></script>
+
+<div class="rcmTabsContainer">
+
+    <div role="tabpanel" class="tabs" id="rcmTabs_<?= $this->instanceId; ?>">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <?php
+            foreach ($this->instanceConfig['containers'] as $key => $tab) {
+                if (empty($tab['type'])) {
+                    $tab['type'] = 'html';
+                }
+                if ($key == 0) {
+                    $tab['active'] = true;
+                    $activeTabId = "rcmTab_{$this->instanceId}_{$tab['id']}";
+                }
+                include 'tab-title.phtml';
             }
-        } ?>
+            ?>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <?php
+            foreach ($this->instanceConfig['containers'] as $tab) {
+
+                //Fix legacy tabs that have no type
+                if (empty($tab['type'])) {
+                    $tab['type'] = 'html';
+                }
+                if ($key == 0) {
+                    $tab['active'] = true;
+                }
+
+                switch ($tab['type']) {
+                    case 'html':
+                        include 'tab-body-html.phtml';
+                        break;
+                    case 'rawHtml':
+                        include 'tab-body-raw-html.phtml';
+                        break;
+                    default:
+                        throw new \RuntimeException(
+                            $tab['type'] . ' is an invalid tab type'
+                        );
+                }
+            }
+            ?>
+        </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    $(function () {
-        $('#rcmTabs_<?=  $this->instanceId; ?>').tabs();
-    })
-</script>
 
+    (function () {
+        var tabElm = $('#rcmTabs_<?= $this->instanceId; ?>');
+
+        tabElm.find('[href="#<?= $activeTabId ?>"]').trigger('click');
+
+        tabElm.tabCollapse(
+            {
+                tabsClass: 'hidden-xs',
+                accordionClass: 'visible-xs'
+            }
+        );
+    })();
+
+</script>
