@@ -81,6 +81,7 @@ class PagePermissionsController extends AbstractActionController
         $aclDataService = $this->getServiceLocator()->get(
             'RcmUser\Acl\AclDataService'
         );
+
         //getting all set rules by resource Id
         $rules = $aclDataService->getRulesByResource($resourceId)->getData();
 
@@ -132,4 +133,3 @@ class PagePermissionsController extends AbstractActionController
     }
 
 }
- 

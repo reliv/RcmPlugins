@@ -1,0 +1,56 @@
+<?php
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-dynamic-navigation/vendor/superfish/dist/js/hoverIntent.js',
+    'text/javascript'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-dynamic-navigation/vendor/superfish/dist/js/superfish.js',
+    'text/javascript'
+);
+
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-dynamic-navigation/rcm-dynamic-navigation.js',
+    'text/javascript'
+);
+
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-dynamic-navigation/vendor/superfish/dist/css/superfish.css'
+);
+
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-dynamic-navigation/rcm-dynamic-navigation.css'
+);
+
+function getUl($data, $id=null)
+{
+    foreach ($data as $index => $column) { ?>
+
+        <ul class="<?php if (!empty($id)) : ?>sf-menu" id="<?= $id; ?><?php endif; ?>">
+            <?php getLi($column); ?>
+        </ul>
+<?php
+
+    }
+}
+
+function getLi($links)
+{
+    foreach ($links as $link) { ?>
+
+        <li class="<?= $link['class']?>" data-class="<?= $link['class']?>">
+            <a href="<?= $link['href']?>" <?php if (!empty($link['target'])) { ?> target="<?= $link['target']; ?>"<?php } ?>>
+                <?= $link['display']; ?>
+            </a>
+
+            <?php if ($link['links']) { getUl($link['links']); } ?>
+        </li>
+
+<?php
+
+    }
+}
+
+?>
+<?php getUl($this->navigation, "RcmDynamicNavigation_".$this->instanceId); ?>
