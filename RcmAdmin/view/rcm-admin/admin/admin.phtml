@@ -11,6 +11,12 @@ $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-lib/rcm-html-editor/rcm-html-editor.js'
 );
 
+// RcmUser JS
+$this->headScript()->appendFile(
+    $this->basePath()
+    . '/admin/rcmuser/js/core.js'
+);
+
 $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-admin/js/rcm-admin.js'
 );
@@ -32,6 +38,7 @@ $this->headScript()->appendFile(
     $this->basePath()
     . '/modules/rcm-jquery/jquery-context-menu/jquery.ui.position.js'
 );
+
 
 $layout = $this->layout();
 
