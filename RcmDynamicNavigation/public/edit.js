@@ -45,8 +45,8 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      *
      * @type {String}
      */
-    var loginLinkTemplate = '<li class="rcmDynamicNavigationLogout"><a href="/login?logout=1">Logout</a></li>';
-    loginLinkTemplate = loginLinkTemplate + '<li class="rcmDynamicNavigationLogin"><a href="/login">Login</a></li>';
+    var loginLinkTemplate = '<li class="rcmDynamicNavigationLogout rcmDynamicNavigationLoginMenuItem"><a href="/login?logout=1">Logout</a></li>';
+    loginLinkTemplate = loginLinkTemplate + '<li class="rcmDynamicNavigationLogin rcmDynamicNavigationLoginMenuItem"><a href="/login">Login</a></li>';
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -126,10 +126,9 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
                 }
 
                 li.remove();
+                me.refresh();
             }
         );
-
-        me.refresh();
     };
 
     /**
@@ -137,8 +136,68 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      */
     me.addRightClickMenu = function () {
 
+        jQuery.contextMenu('destroy', containerSelector + ' li');
+
+        var showAddLoginLinkMenu = {};
+        if (jQuery(".rcmDynamicNavigationLoginMenuItem").length < 1) {
+            showAddLoginLinkMenu = {
+                separator2: "-",
+                loginLink: {
+                    name: 'Add Login Link',
+                    icon: 'add',
+                    callback: function () {
+                        me.addLoginLink(this);
+                    }
+                }
+            }
+        }
+
+        var items = {
+
+            edit: {
+                name: 'Edit Link Properties',
+                icon: 'edit',
+                callback: function () {
+                    me.showEditDialog(this, false);
+                }
+            },
+            permissions: {
+                name: 'Change Link View Permissions',
+                icon: 'edit',
+                callback: function () {
+                    rcmShowPermissions({
+
+                    }, function(){alert("My Callback")});
+                }
+            },
+            separator1: "-",
+                createNew: {
+            name: 'Create New Link',
+                icon: 'add',
+                callback: function () {
+                    me.addItem(this);
+                }
+            },
+            createSub: {
+                name: 'Add Sub Menu Link',
+                icon: 'add',
+                callback: function () {
+                    me.addSubMenu(this);
+                }
+            },
+            deleteLink: {
+                name: 'Delete Link',
+                icon: 'delete',
+                callback: function() {
+                    me.deleteItem(this);
+                }
+            }
+        };
+
+        jQuery.extend(items,showAddLoginLinkMenu);
+
         //Add right click menu
-        $.contextMenu({
+        jQuery.contextMenu({
             selector: containerSelector + ' li',
 
             events: {
@@ -152,48 +211,8 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
             },
 
             //Here are the right click menu options
-            items: {
-                edit: {
-                    name: 'Edit Link Properties',
-                    icon: 'edit',
-                    callback: function () {
-                        me.showEditDialog(this, false);
-                    }
-                },
-                separator1: "-",
-                createNew: {
-                    name: 'Create New Link',
-                    icon: 'add',
-                    callback: function () {
-                        me.addItem(this);
-                    }
-                },
-                createSub: {
-                    name: 'Add Sub Menu Link',
-                    icon: 'add',
-                    callback: function () {
-                        me.addSubMenu(this);
-                    }
-                },
-                deleteLink: {
-                    name: 'Delete Link',
-                    icon: 'delete',
-                    callback: function() {
-                        me.deleteItem(this);
-                    }
-                },
-                separator2: "-",
-                loginLink: {
-                    name: 'Add Login Link',
-                    icon: 'add',
-                    callback: function() {
-                        me.addLoginLink(this);
-                    }
-                }
-            }
+            items: items
         });
-
-        me.refresh();
     };
 
     me.isLoginLink = function(item) {
@@ -288,6 +307,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
     };
 
     me.refresh = function() {
+        me.addRightClickMenu();
         $(containerSelector).find('a').click(false);
 
         try {
@@ -303,3 +323,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         });
     }
 };
+
+
+
+

@@ -478,6 +478,7 @@ return [
                     'modules/rcm-admin/js/manage-sites/rcm-admin-manage-sites.js',
                     'modules/rcm-admin/js/create-site/rcm-admin-create-site.js',
                     'modules/rcm-admin/js/site-page-copy/rcm-admin-site-page-copy.js',
+                    'modules/rcm-admin/js/dialog/rcm-permissions.js'
                 ],
                 'modules/rcm-admin/css/rcm-admin.css' => [
                     'modules/rcm-admin/css/admin-jquery-ui.css',
