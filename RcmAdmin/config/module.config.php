@@ -485,6 +485,8 @@ return [
                     'modules/rcm-admin/css/layout-editor.css',
                     'modules/rcm-admin/css/rcm-admin-panel.css',
                     'modules/rcm-admin/css/rcm-admin-navigation.css',
+                    // RcmUser services - CSS
+                    'modules/rcm-user/css/rcm-user-role-selector.css',
                     'modules/rcm-admin/css/permissions.css',
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.css'
                 ],

@@ -103,7 +103,7 @@ class PagePermissionsController extends AbstractActionController
         foreach ($allRoles as $key => $role) {
             $roleId = $role->getRoleId();
             if (in_array($roleId, $rolesHasRules)) {
-                $selectedRoles[$key] = $role;
+                $selectedRoles[$roleId] = $role;
             }
         }
 
