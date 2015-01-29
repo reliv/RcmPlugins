@@ -458,6 +458,9 @@ return [
             'collections' => [
                 'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-admin/js/rcm-admin-api/rcm-admin-api.js',
+                    // RcmUser services - include using ZF2 'admin/rcmuser/js/core.js',
+                    'modules/rcm-user/js/rcm-user-roles-service.js',
+                    'modules/rcm-user/js/rcm-user-role-selector.js',
                     // general service - requires rcm-core
                     'modules/rcm-admin/js/dialog/rcm-dialog.js',
                     'modules/rcm-admin/js/navigation/rcm-admin-menu.js',

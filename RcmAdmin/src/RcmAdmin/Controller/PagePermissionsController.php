@@ -78,17 +78,19 @@ class PagePermissionsController extends AbstractActionController
 
         $resourceId = 'sites.' . $currentSiteId . '.pages.' . $pageType . '.'
             . $sourcePageName;
+        /** @var \RcmUser\Acl\Service\AclDataService $aclDataService */
         $aclDataService = $this->getServiceLocator()->get(
             'RcmUser\Acl\AclDataService'
         );
+
         //getting all set rules by resource Id
         $rules = $aclDataService->getRulesByResource($resourceId)->getData();
 
         //getting list of all dynamically created roles
-        $allRoles = $aclDataService->getAllRoles()->getData();
+        $allRoles = $aclDataService->getNamespacedRoles()->getData();
 
-        $roleIds = [];
         $rolesHasRules = [];
+
         foreach ($rules as $setRuleFor) {
             //getting only the ones that are allow
             if ($setRuleFor->getRule() == 'allow') {
@@ -96,24 +98,21 @@ class PagePermissionsController extends AbstractActionController
             }
         }
 
-        foreach ($allRoles as $role) {
+        $selectedRoles = [];
+
+        foreach ($allRoles as $key => $role) {
             $roleId = $role->getRoleId();
             if (in_array($roleId, $rolesHasRules)) {
-                $ticked = true;
-            } else {
-                $ticked = false;
+                $selectedRoles[$key] = $role;
             }
-            $roleIds[] = [
-                'name' => $roleId,
-                'ticked' => $ticked
-            ];
         }
 
         $data = [
             'siteId' => $currentSiteId,
             'pageType' => $pageType,
             'pageName' => $sourcePageName,
-            'roles' => $roleIds
+            'roles' => $allRoles,
+            'selectedRoles' => $selectedRoles,
         ];
 
         $view->setVariable('data', $data);
