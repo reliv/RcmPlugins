@@ -98,9 +98,9 @@ class PageViewPermissionsController extends AbstractRestfulController
             return $this->getResponse();
         }
 
-        if (is_array($data['roles'])) {
+        if (is_array($data['selectedRoles'])) {
 
-            $roles = $data['roles'];
+            $selectedRoles = $data['selectedRoles'];
 
         } else {
             $this->getResponse()->setStatusCode(Response::STATUS_CODE_400);
@@ -136,9 +136,9 @@ class PageViewPermissionsController extends AbstractRestfulController
             return $this->getResponse();
         }
 
-        $this->addPermissions($roles, $resourceId);
+        $newRoles = $this->addPermissions($selectedRoles, $resourceId);
 
-        return new JsonModel([]);
+        return new JsonModel($newRoles);
     }
 
     /**
@@ -184,11 +184,11 @@ class PageViewPermissionsController extends AbstractRestfulController
         // If all roles are selected, then no roles should be set (all roles allowed)
         // This assumes that the current rules have been deleted or they are empty
         if(count($roles) == count($allRoles)){
-            return;
+            return $allRoles;
         }
 
-        foreach ($roles as $roleId) {
-            $this->addPermission($roleId, $resourceId);
+        foreach ($roles as $role) {
+            $this->addPermission($role['roleId'], $resourceId);
         }
 
         if (count($roles) > 0) {
@@ -196,6 +196,8 @@ class PageViewPermissionsController extends AbstractRestfulController
                 $this->getAclRule('guest', $resourceId, 'deny')
             );
         }
+
+        return $roles;
     }
 
     /**
