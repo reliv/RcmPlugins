@@ -1,5 +1,4 @@
 <div oc-lazy-load="{name: 'pagePermissions', files: ['/admin/rcmuser/js/core.js', '/modules/rcm-user/js/rcm-user-roles-service.js', '/modules/rcm-user/js/rcm-user-role-selector.js']}">
-    <link href="/modules/rcm-user/css/rcm-user-role-selector.css" rel="stylesheet" type="text/css">
     <div class="pagePermissions">
         <div rcm-page-permissions
              rcm-page-permissions-data="<?php echo $this->escapeHtmlAttr(
@@ -17,26 +16,16 @@
                         <div class="wrapperPagePerm">
 
                             <div rcm-user-role-selector="pagePermissions"
-                                 rcm-user-role-selector-id-property="namespace"
+                                 rcm-user-role-selector-id-property="roleId"
                                  rcm-user-role-selector-title-property="roleId"
-                                 rcm-user-role-selector-show-nesting=""
-                                 xxx-rcm-user-role-selector-save-label="Save"
+                                 rcm-user-role-selector-namespace-property="namespace"
+                                 rcm-user-role-selector-show-nesting=".."
+                                 rcm-user-role-selector-save-label=""
                                  rcm-user-role-selector-search-label=""
                                  rcm-user-role-selector-search-placeholder="Search..."
                                  rcm-user-role-selector-save="savePermissions()"
                                 >
                             </div>
-
-<!--                            <div multi-select-->
-<!--                                 input-model="roles"-->
-<!--                                 output-model="selectedItems"-->
-<!--                                 helper-elements="filter"-->
-<!--                                 item-label="name"-->
-<!--                                 tick-property="ticked"-->
-<!--                                 orientation="horizontal"-->
-<!--                                >-->
-<!--                            </div>-->
-
                         </div>
                     </div>
                 </div>
