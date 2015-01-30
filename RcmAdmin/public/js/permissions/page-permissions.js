@@ -17,11 +17,13 @@ angular.module('pagePermissions', ['rcmUserRoleSelector'])
 
                 var valueNamespace = "pagePermissions";
 
+                rcmUserRolesService.setSelectedRoles(valueNamespace, data.selectedRoles);
+
                 rcmUser.eventManager.on(
-                    'rcmUserRolesService.onSetRoles',
+                    'rcmUserRolesService.onRolesReady',
                     function(roles){
                         scope.roles = roles;
-                        rcmUserRolesService.setSelectedRoles(valueNamespace, data.selectedRoles);
+                        //scope.$apply();
                     }
                 );
 
