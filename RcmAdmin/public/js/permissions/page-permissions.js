@@ -17,45 +17,15 @@ angular.module('pagePermissions', ['rcmUserRoleSelector'])
 
                 var valueNamespace = "pagePermissions";
 
+                rcmUserRolesService.setSelectedRoles(valueNamespace, data.selectedRoles);
+
                 rcmUser.eventManager.on(
-                    'rcmUserRolesService.onSetRoles',
+                    'rcmUserRolesService.onRolesReady',
                     function(roles){
                         scope.roles = roles;
-                        rcmUserRolesService.setSelectedRoles(valueNamespace, data.selectedRoles);
+                        //scope.$apply();
                     }
                 );
-
-                rcmUser.eventManager.on(
-                    'rcmUserRolesService.onSetSelectedRole',
-                    function(result){
-                        self.setLockDisplay();
-                    }
-                );
-
-                rcmUser.eventManager.on(
-                    'rcmUserRolesService.onRemoveSelectedRole',
-                    function(result){
-                        self.setLockDisplay();
-                    }
-                );
-
-                //preparing data to include only selected roles
-                var prepareData = function () {
-                    //getting read of ticked parameter and creating array of names only
-                    var roles = [];
-                    angular.forEach(
-                        scope.selectedItems, function (value) {
-                            roles.push(value['name']);
-                        }
-                    );
-                    return {
-                        siteId: data.siteId,
-                        pageType: data.pageType,
-                        pageName: data.pageName,
-                        roles: roles,
-                        selectedRoles: rcmUserRolesService.getSelectedRoles(valueNamespace)
-                    }
-                };
 
                 self.setLockDisplay = function(){
 
@@ -90,18 +60,16 @@ angular.module('pagePermissions', ['rcmUserRoleSelector'])
                 };
 
                 scope.savePermissions = function () {
-                    var newData = {
-                        siteId: data.siteId,
-                        pageType: data.pageType,
-                        pageName: data.pageName,
-                        selectedRoles: rcmUserRolesService.getSelectedRoles(valueNamespace)
-                    };
+
+                    data.selectedRoles = rcmUserRolesService.getSelectedRoles(valueNamespace);
+
+                    element.find("[rcm-page-permissions-data]").val(JSON.stringify(data));
 
                     $http(
                         {
                             method: 'PUT',
-                            url: 'api/admin/page/permissions/' + newData.pageName,
-                            data: newData
+                            url: 'api/admin/page/permissions/' + data.pageName,
+                            data: data
                         }
                     ).
                         success(
