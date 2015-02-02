@@ -165,9 +165,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
                 name: 'Change Link View Permissions',
                 icon: 'edit',
                 callback: function () {
-                    rcmShowPermissions({
-
-                    }, function(){alert("My Callback")});
+                    rcmShowPermissions({"customer": "customer", "distributor": "distributor", "ambassador": "ambassador"}, function(roles){console.log(roles)});
                 }
             },
             separator1: "-",
