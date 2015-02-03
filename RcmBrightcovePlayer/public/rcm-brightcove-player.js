@@ -80,8 +80,6 @@ angular.module('rcmBrightcovePlayer', [])
                 template: '<!-- Start of Brightcove Player -->' +
                 '<object id="myExperienceXXX" class="BrightcoveExperience">' +
                 ' <param name="bgcolor" value="#FFFFFF"/>' +
-                ' <param name="width" value="{{playerController.playerConfig.width}}"/>' +
-                ' <param name="height" value="{{playerController.playerConfig.height}}"/>' +
                 ' <param name="playerID" value="{{playerController.playerConfig.playerID}}"/>' +
                 ' <param name="playerKey" value="{{playerController.playerConfig.playerKey}}" />' +
                 ' <param name="isVid" value="true"/>' +
