@@ -1,3 +1,9 @@
+.RcmBrightcovePlayer{
+    display: block;
+    float: none !important;
+    clear: both;
+}
+
 .RcmBrightcovePlayer #sortable1, .RcmBrightcovePlayer #sortable2 {
     list-style-type: none;
     margin: 0;
@@ -31,9 +37,6 @@
 }
 
 .RcmBrightcovePlayer .video {
-
-    width: 672px;
-    height: 378px;
     margin: 5px;
 }
 

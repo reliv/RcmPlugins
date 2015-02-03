@@ -25,6 +25,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
     var type;
     var typeSelect = form.find('select[name=type]');
     var videoSelect = form.find('select[name=video]');
+    var aspectRatioSelect = form.find('select[name=aspectRatio]');
     var renderCorrectOptionForm = function () {
         type = typeSelect.val();
         form.find('.single-embed-options').hide();
@@ -110,9 +111,11 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
             $("#sortable1, #sortable2").disableSelection();
         });
 
-        type = RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig.type;
+        var playerController = RcmBrightcovePlayerService.getPlayerController(instanceId);
+        var type = playerController.instanceConfig.type;
         typeSelect.val(type);
-        videoSelect.val(RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['videoId']);
+        videoSelect.val(playerController.instanceConfig['videoId']);
+        aspectRatioSelect.val(playerController.instanceConfig.aspectRatio);
         renderVidPreview();
         renderCorrectOptionForm();
         form.dialog(
@@ -124,7 +127,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
                         $(this).dialog("close");
                     },
                     "OK": function () {
-
+                        playerController.instanceConfig.aspectRatio = aspectRatioSelect.val();
                         RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['type'] = type;
 
                         if (type == 'single-embed') {
