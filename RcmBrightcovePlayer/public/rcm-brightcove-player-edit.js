@@ -128,21 +128,21 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
                     },
                     "OK": function () {
                         playerController.instanceConfig.aspectRatio = aspectRatioSelect.val();
-                        RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['type'] = type;
+                        playerController.instanceConfig['type'] = type;
 
                         if (type == 'single-embed') {
-                            RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['videoId']
+                            playerController.instanceConfig['videoId']
                                 = videoSelect.val();
 
                         } else {
 
-                            RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['playlistIds'] = [];
+                            playerController.instanceConfig['playlistIds'] = [];
 
                             var lis = form.find('ul.playlist-list li');
 
                             $.each(lis, function () {
                                 var playlistId = $(this).attr('data-id');
-                                RcmBrightcovePlayerService.getPlayerController(instanceId).instanceConfig['playlistIds'].push(parseInt(playlistId));
+                                playerController.instanceConfig['playlistIds'].push(parseInt(playlistId));
                             });
                         }
                         $(this).dialog("close");
