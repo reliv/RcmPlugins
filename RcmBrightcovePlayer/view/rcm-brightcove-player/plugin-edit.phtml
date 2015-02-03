@@ -8,18 +8,32 @@
 
             <div>
                 <div>
-                    <select name="type">
-                        <option value="single-embed">
-                            Single Video Player
-                        </option>
-                        <option value="multi-embed">
-                            Multi-Video Player With Tabs
-                        </option>
-                    </select>
+                    <label>
+                        Single Video or Multi Video:<br>
+                        <select name="type">
+                            <option value="single-embed">
+                                Single Video Player
+                            </option>
+                            <option value="multi-embed">
+                                Multi-Video Player With Tabs
+                            </option>
+                        </select>
+                    </label>
+                    <br>
+                    <label>
+                        Aspect Ratio:<br>
+                        <select name="aspectRatio">
+                            <option value="16:9">
+                                16:9 Standard
+                            </option>
+                            <option value="2.35:1">
+                                2.35:1 Widescreen
+                            </option>
+                        </select>
+                    </label>
                 </div>
                 <div class="single-embed-options">
-
-                    <br/>Choose video:<br/>
+                    Choose Video:<br/>
                     <select name="video"></select>
                     <br><br>
                     <img class="thumbnailPreview"/>
