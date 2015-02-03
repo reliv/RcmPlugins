@@ -25,6 +25,6 @@ new function () {
     $(setHeights);
     //Run when window is resized
     $(window).resize(setHeights);
-    //Run when target elements are resized without of a window resize
+    //Run when target elements are resized without a window resize
     $('body').delegate('[data-keep-aspect-ratio]', 'resize', setHeights);
 };
