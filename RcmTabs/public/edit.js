@@ -20,7 +20,7 @@ var RcmTabsEdit = function (instanceId, container, pluginHandler) {
 
     var titleWrapSelector = '.nav.nav-tabs'; // titleWrap
     var bodySelector = '.tab-content'; // bodyWrap
-    var titleSelector = '.title'// .
+    var titleSelector = '.title';// .
 
     var titleWrap = container.find(titleWrapSelector);
     var bodyWrap = container.find(bodySelector);

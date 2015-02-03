@@ -458,6 +458,9 @@ return [
             'collections' => [
                 'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-admin/js/rcm-admin-api/rcm-admin-api.js',
+                    // RcmUser services - include using ZF2 'admin/rcmuser/js/core.js',
+                    'modules/rcm-user/js/rcm-user-roles-service.js',
+                    'modules/rcm-user/js/rcm-user-role-selector.js',
                     // general service - requires rcm-core
                     'modules/rcm-admin/js/dialog/rcm-dialog.js',
                     'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
@@ -482,6 +485,8 @@ return [
                     'modules/rcm-admin/css/layout-editor.css',
                     'modules/rcm-admin/css/rcm-admin-panel.css',
                     'modules/rcm-admin/css/rcm-admin-navigation.css',
+                    // RcmUser services - CSS
+                    'modules/rcm-user/css/rcm-user-role-selector.css',
                     'modules/rcm-admin/css/permissions.css',
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.css'
                 ],
