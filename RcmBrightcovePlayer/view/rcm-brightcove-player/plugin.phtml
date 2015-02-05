@@ -1,5 +1,12 @@
 <?php
 
+
+$this->headScript()->appendFile(
+    $this->basePath()
+    . '/modules/rcm-brightcove-player/rcm-brightcove-api-service.js',
+    'text/javascript'
+);
+
 $this->headScript()->appendFile(
     'https://sadmin.brightcove.com/js/BrightcoveExperiences.js',
     'text/javascript'
@@ -13,7 +20,7 @@ $this->headScript()->appendFile(
 
 $this->headScript()->appendFile(
     $this->basePath()
-    . '/modules/rcm-brightcove-player/rcm-brightcove-api-service.js',
+    . '/modules/rcm-brightcove-player/keep-aspect-ratio.js',
     'text/javascript'
 );
 
