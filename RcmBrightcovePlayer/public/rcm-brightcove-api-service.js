@@ -29,9 +29,20 @@ var RcmBrightcoveApiService = {
             if (newNum < data['total_count']) {
                 requestPage(nextPage);
             } else {
-                var sortedItems = {};
+                var sortedItems = [];
                 $.each(RcmBrightcoveApiService.items, function () {
-                    sortedItems[this.id] = this;
+                    sortedItems.push(this);
+                });
+                sortedItems.sort(function (a, b) {
+                    a = a.name.toLowerCase();
+                    b = b.name.toLowerCase();
+                    if (a < b) {
+                        return -1;
+                    } else if (a > b) {
+                        return  1;
+                    } else {
+                        return 0;
+                    }
                 });
                 callback(sortedItems);
             }
