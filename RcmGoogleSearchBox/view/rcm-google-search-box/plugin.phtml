@@ -23,21 +23,34 @@ $this->headScript()->appendFile(
 $qq = isset($_GET['qq']) ? $_GET['qq'] : null;
 ?>
 <script type="text/javascript">
-    $(function () {
-        new RcmGoogleSearchBox(
-            <?= json_encode($this->instanceId)?>
-        );
-    });
+    $(
+        function () {
+            new RcmGoogleSearchBox(
+                <?= json_encode($this->instanceId)?>
+            );
+        }
+    );
 </script>
 <form action="<?= $this->instanceConfig['resultPage'] ?>">
-    <input type="hidden" name="cx"
-           value="<?= $this->instanceConfig['googleKey'] ?>">
-    <input type="hidden" name="ie" value="UTF-8">
-    <input type="hidden" name="q">
-    <input value="<?= $this->escapeHtml($qq) ?>" type="text" name="qq"
-           size="40">
 
-    <button class="plain search">Search</button>
-
+    <div class="searchField">
+        <input type="hidden"
+               name="cx"
+               value="<?= $this->instanceConfig['googleKey'] ?>"/>
+        <input type="hidden"
+               name="ie"
+               value="UTF-8"/>
+        <input type="hidden"
+               name="q"/>
+        <input value="<?= $this->escapeHtml($qq) ?>"
+               type="text"
+               name="qq"
+               size="40"/>
+    </div>
+    <div class="searchButton">
+        <button class="glyphicon glyphicon-search plain search">
+            <span>Search</span>
+        </button>
+    </div>
 </form>
 
