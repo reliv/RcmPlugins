@@ -10,48 +10,49 @@ $this->rcmTextEdit(
     <?= isset($error) ? $this->escapeHtml($error) : '' ?>
 </div>
 
-<form class="loginForm  rcm-login-form"
-      action="<?= $this->escapeHtml($_SERVER['REQUEST_URI']) ?>"
-      method="post"
-    >
-    <?=
-    $this->rcmTextEdit(
-        'userNameCopy',
-        'Username:',
-        'label',
-        array('for' => 'rcmLoginUsername')
-    ) ?>
-    <br>
-    <input type="hidden" name="rcmPluginName" value="RcmLogin">
-    <input autofocus type="text" name="username"
-           value="<?= $this->escapeHtml($username) ?>">
-    <br>
-    <?=
-    $this->rcmTextEdit(
-        'loginPasswordCopy',
-        'Password:',
-        'label',
-        array('for' => 'rcmLoginPassword')
-    ) ?>
-    <br>
-    <input type="password" name="password">
-    <br>
-    <br>
-    <button class="btn btn-primary" type="submit">
+<div class="loginContent">
+    <form class="loginForm  rcm-login-form"
+          action="<?= $this->escapeHtml($_SERVER['REQUEST_URI']) ?>"
+          method="post"
+        >
         <?=
         $this->rcmTextEdit(
-            'loginSubmitCopy',
-            'login',
-            'span'
+            'userNameCopy',
+            'Username:',
+            'label',
+            array('for' => 'rcmLoginUsername')
         ) ?>
-    </button>
-</form>
-<br>
-<br>
-
-<?=
-$this->rcmRichEdit(
-    'bottomLoginText',
-    '<a href="/reset-password">Forgot your password?</a><br>'
-) ?>
-
+        <br>
+        <input type="hidden" name="rcmPluginName" value="RcmLogin">
+        <input autofocus type="text" name="username"
+               value="<?= $this->escapeHtml($username) ?>">
+        <br>
+        <?=
+        $this->rcmTextEdit(
+            'loginPasswordCopy',
+            'Password:',
+            'label',
+            array('for' => 'rcmLoginPassword')
+        ) ?>
+        <br>
+        <input type="password" name="password">
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit">
+            <?=
+            $this->rcmTextEdit(
+                'loginSubmitCopy',
+                'login',
+                'span'
+            ) ?>
+        </button>
+    </form>
+</div>
+<div class="loginFooter">
+    <?=
+    $this->rcmRichEdit(
+        'bottomLoginText',
+        '<a href="/reset-password">Forgot your password?</a><br>'
+    )
+    ?>
+</div>
