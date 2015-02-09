@@ -127,6 +127,7 @@ var RcmBrightcovePlayerEdit = function (instanceId, container, pluginHandler) {
                         $(this).dialog("close");
                     },
                     "OK": function () {
+                        type = typeSelect.val();
                         playerController.instanceConfig.aspectRatio = aspectRatioSelect.val();
                         playerController.instanceConfig['type'] = type;
 
