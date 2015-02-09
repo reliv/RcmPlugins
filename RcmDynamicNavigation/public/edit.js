@@ -63,7 +63,46 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      */
     me.getSaveData = function () {
 
+        var mainLinks = jQuery(containerSelector).children("ul:first").children("li");
 
+        var data = [];
+
+        jQuery.each(mainLinks, function(i, link){
+            data.push(me.getLinkData(link));
+        });
+
+        return data;
+    };
+
+    me.getLinkData = function(link) {
+        var a = jQuery(link).children("a:first");
+
+        var liClass = jQuery(link).attr("class");
+
+        if (liClass !== undefined) {
+            liClass = liClass.replace('sf-with-ul', "");
+        }
+
+
+        var myLinkData = {
+            'display' : a.text().trim(),
+            'href' : a.attr('href'),
+            'target': a.attr("target"),
+            'class' : liClass,
+            'permissions' : jQuery(link).attr('data-permissions')
+        };
+
+        var linksArray = [];
+
+        var subLinks = jQuery(link).children("ul:first").children("li");
+
+        jQuery.each(subLinks, function(i, subLink){
+            linksArray.push(me.getLinkData(subLink));
+        });
+
+        myLinkData.links = linksArray;
+
+        return myLinkData;
     };
 
 
@@ -139,7 +178,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         jQuery.contextMenu('destroy', containerSelector + ' li');
 
         var showAddLoginLinkMenu = {};
-        if (jQuery(".rcmDynamicNavigationLoginMenuItem").length < 1) {
+        if (jQuery(containerSelector + " .rcmDynamicNavigationLoginMenuItem").length < 1) {
             showAddLoginLinkMenu = {
                 separator2: "-",
                 loginLink: {
@@ -165,7 +204,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
                 name: 'Change Link View Permissions',
                 icon: 'edit',
                 callback: function () {
-                    rcmShowPermissions({"customer": "customer", "distributor": "distributor", "ambassador": "ambassador"}, function(roles){console.log(roles)});
+                    me.showPermissionsDialog(this);
                 }
             },
             separator1: "-",
@@ -302,6 +341,22 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
                 }
             });
 
+    };
+
+    me.showPermissionsDialog = function (li) {
+
+        var permissions = li.attr('data-permissions');
+        var selectedRoles = permissions.split(",");
+
+        var selected = {};
+
+        $.each(selectedRoles, function(i,v) {
+            selected[v] = v;
+        });
+
+        rcmShowPermissions(selected, function(roles){
+            li.attr('data-permissions', roles.join(','));
+        });
     };
 
     me.refresh = function() {

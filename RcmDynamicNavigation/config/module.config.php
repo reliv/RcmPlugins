@@ -37,7 +37,7 @@ return [
 
     'controllers' => [
         'factories' => [
-            'RcmDynamicNavigation' => '\RcmDynamicNavigation\Factory\PluginControllerFactory',
+            'RcmDynamicNavigation' => 'RcmDynamicNavigation\Factory\PluginControllerFactory',
         ]
     ],
 

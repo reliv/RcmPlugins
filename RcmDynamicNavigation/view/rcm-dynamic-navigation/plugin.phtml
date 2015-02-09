@@ -25,32 +25,30 @@ $this->headLink()->appendStylesheet(
 
 function getUl($data, $id=null)
 {
-    foreach ($data as $index => $column) { ?>
-
-        <ul class="<?php if (!empty($id)) : ?>sf-menu" id="<?= $id; ?><?php endif; ?>">
-            <?php getLi($column); ?>
-        </ul>
+?>
+    <ul class="<?php if (!empty($id)) : ?>sf-menu" id="<?= $id; ?><?php endif; ?>">
+            <?php foreach ($data as $link) {getLi($link);} ?>
+    </ul>
 <?php
-
-    }
 }
 
-function getLi($links)
+function getLi($link)
 {
-    foreach ($links as $link) { ?>
+    if (empty($link['class'])) { $link['class'] = ''; }
+    if (empty($link['href'])) { $link['href'] = ''; }
+    if (empty($link['target'])) { $link['target'] = ''; }
+    if (empty($link['display'])) { $link['display'] = ''; }
+    if (empty($link['permissions'])) { $link['permissions'] = ''; }
 
-        <li class="<?= $link['class']?>" data-class="<?= $link['class']?>">
+?>
+        <li class="<?= $link['class']?>" data-class="<?= $link['class']?>" data-permissions="<?= $link['permissions'] ?>">
             <a href="<?= $link['href']?>" <?php if (!empty($link['target'])) { ?> target="<?= $link['target']; ?>"<?php } ?>>
                 <?= $link['display']; ?>
             </a>
 
-            <?php if ($link['links']) { getUl($link['links']); } ?>
+            <?php if (!empty($link['links']) && is_array($link['links'])) { getUl($link['links']); } ?>
         </li>
-
 <?php
-
-    }
 }
 
-?>
-<?php getUl($this->navigation, "RcmDynamicNavigation_".$this->instanceId); ?>
+getUl($this->instanceConfig, "RcmDynamicNavigation_".$this->instanceId);

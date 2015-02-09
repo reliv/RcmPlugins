@@ -58,33 +58,6 @@ class PluginController
             $instanceConfig
         );
 
-        $links = [
-            0 => [
-                0 => [
-                    'display' => 'countries',
-                    'href' => '#',
-                    'target' => null,
-                    'class' => 'US country',
-                    'backgroundImage' => 'https://content.reliv.com/migrate/content/images/country-flags/United_States_of_America.png',
-                    'links' => [
-                        0 => [
-                            0 => [
-                                'display' => 'United States',
-                                'href' => 'https://local.reliv.com',
-                                'target' => null,
-                                'class' => 'US country',
-                                'backgroundImage' => 'https://content.reliv.com/migrate/content/images/country-flags/United_States_of_America.png',
-                                'links' => [],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-
-        $view->setVariable('navigation', $links);
-
         return $view;
     }
 }
