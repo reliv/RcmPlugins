@@ -1,5 +1,12 @@
 <?php
 $activeTabId = null;
+
+$noColapse = '';
+
+if($this->instanceConfig['alwaysShowAccordionContent']) {
+    $noColapse = '-NO-COLLAPSE';
+}
+
 ?>
 <script src="/modules/rcm-twitter-bootstrap/bootstrap-tabcollapse/bootstrap-tabcollapse.js"
         type="text/javascript"></script>
@@ -64,17 +71,14 @@ $activeTabId = null;
 
         tabElm.tabCollapse(
             {
-                <?php
-                    if($this->instanceConfig['alwaysShowAccordionContent']) {
-                ?>
                 accordionTemplate: function(heading, groupId, parentId, active){
                     return '<div class="panel panel-default">' +
                         '   <div class="panel-heading">' +
-                        '      <h4 class="panel-title">' +
-                        '        <a class="" data-toggle="collapse" data-parent="#' + parentId + '" href="#' + groupId + '-NO-COLLAPSE">' +
+                        '      <h2 class="panel-title">' +
+                        '        <a class="" data-toggle="collapse" data-parent="#' + parentId + '" href="#' + groupId + '<?= $noColapse ?>">' +
                         '           ' + heading +
                         '        </a>' +
-                        '      </h4>' +
+                        '      </h2>' +
                         '   </div>' +
                         '   <div id="' + groupId + '" class="panel-collapse collapse in">' +
                         '       <div class="panel-body js-tabcollapse-panel-body">' +
@@ -82,10 +86,6 @@ $activeTabId = null;
                         '   </div>' +
                         '</div>';
                 },
-                <?php
-                    }
-                ?>
-
                 tabsClass: 'hidden-xs',
                 accordionClass: 'visible-xs'
             }
