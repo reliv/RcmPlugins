@@ -34,6 +34,8 @@ rcmShowPermissions = function (selectedRoles, onOkCallback)
                         scope.$apply();
                     }
                 );
+
+                rcmUser.rcmUserRolesService.service.setSelectedRoles(me.nameSpace, me.selectedRoles);
             },
             buttons: {
                 Cancel: function () {
@@ -47,6 +49,8 @@ rcmShowPermissions = function (selectedRoles, onOkCallback)
                         roles.push(roleIndex);
                     });
 
+                    $(this).dialog("close");
+
                     if (typeof me.onOkCallBack == "function") {
                         me.onOkCallBack(roles);
                     }
@@ -57,10 +61,8 @@ rcmShowPermissions = function (selectedRoles, onOkCallback)
 
     };
 
-    setTimeout('rcmUser.rcmUserRolesService.service.setSelectedRoles(me.nameSpace, me.selectedRoles);', 5000);
-
     rcmUser.eventManager.on(
-        'rcmUserRolesService.onSetRoles',
+        'rcmUserRolesService.onRolesReady',
         me.buildDialog
     );
 
