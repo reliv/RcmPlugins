@@ -1,4 +1,4 @@
-window.onerror = function (message, file, line, column, errorObj) {
+window.onerror = function (message, file, line, column) {
     // Supports IE7+, Firefox, Chrome, Opera, Safari
     if (window.XMLHttpRequest) {
         var error = new Error();
