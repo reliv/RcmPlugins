@@ -25,7 +25,6 @@ return [
                 'options' => [],
             ]
         ],
-
         /**
          * Listeners can be injected to log errors
          */
@@ -217,4 +216,16 @@ return [
             ],
         ],
     ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
+                'modules/rcm-error-handler/' => __DIR__ . '/../public/',
+            ],
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
+            'headscript' => 'RcmErrorHandler\ViewHelper\HeadScriptWithErrorHandlerFirst',
+        ]
+    ]
 ];
