@@ -9,9 +9,9 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class ErrorListenerFactory
+ * Class LoggerListenerFactory
  *
- * LongDescHere
+ * LoggerListenerFactory
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @link      https://github.com/reliv
  */
 
-class ErrorListenerFactory  implements FactoryInterface
+class LoggerErrorListenerFactory  implements FactoryInterface
 {
 
     public function createService(ServiceLocatorInterface $serviceLocator)
@@ -36,9 +36,9 @@ class ErrorListenerFactory  implements FactoryInterface
 
         $listenerConfigArr = [];
 
-        if(isset($listenerConfigs['\RcmErrorHandler\Log\ErrorListener'])) {
+        if(isset($listenerConfigs['\RcmErrorHandler\Log\LoggerListener'])) {
 
-            $listenerConfigArr = $listenerConfigs['\RcmErrorHandler\Log\ErrorListener'];
+            $listenerConfigArr = $listenerConfigs['\RcmErrorHandler\Log\LoggerListener'];
         }
 
         $listenerConfig = new Config($listenerConfigArr);

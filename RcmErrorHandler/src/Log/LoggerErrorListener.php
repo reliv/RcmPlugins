@@ -1,56 +1,60 @@
 <?php
 
-namespace RcmJira;
+namespace RcmErrorHandler\Log;
 
 use RcmErrorHandler\EventManager\HandlerListenerBase;
-use RcmErrorHandler\Format\FormatBase;
-use RcmErrorHandler\Model\Config;
-use RcmErrorHandler\Model\GenericError;
-use RcmJira\Exception\JiraListenerException;
+use Zend\Log\Logger;
 
 /**
- * Class ErrorListener
+ * Class LoggerErrorListener
  *
- * LongDescHere
+ * LoggerErrorListener
  *
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmJira
+ * @package   RcmErrorHandler\Log
  * @author    James Jervis <jjervis@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class ErrorListener extends HandlerListenerBase
+class LoggerErrorListener extends HandlerListenerBase
 {
+    /**
+     * @var array Error numbers to method
+     */
+    protected $loggerMethodMap = [
+            Logger::EMERG => 'emerg',
+            Logger::ALERT => 'alert',
+            Logger::CRIT => 'crit',
+            Logger::ERR => 'err',
+            Logger::WARN => 'warn',
+            Logger::NOTICE => 'notice',
+            Logger::INFO => 'info',
+            Logger::DEBUG => 'debug',
+        ];
 
     /**
      * @var \RcmErrorHandler\Model\Config
      */
-    public $options;
+    protected $options;
 
     /**
-     * @var \RcmErrorHandler\Model\Config
+     * @var array LoggerInterface $logger
      */
-    protected $listenerOptions;
-
-    /**
-     * @var JiraLogger $logger
-     */
-    protected $logger;
+    protected $loggers;
 
     /**
      * @param \RcmErrorHandler\Model\Config $options
      */
     public function __construct(
         \RcmErrorHandler\Model\Config $options,
-        JiraLogger $logger
+        $loggers
     ) {
         $this->options = $options;
-        $this->listenerOptions = new Config($options->get('options', []));
-        $this->logger = $logger;
+        $this->loggers = $loggers;
     }
 
     /**
@@ -76,8 +80,6 @@ class ErrorListener extends HandlerListenerBase
 
         $formatter = new FormatBase();
 
-        $logger = $this->logger;
-
         $extras = [
             'file' => $firstError->getFile(),
             'line' => $firstError->getLine(),
@@ -88,11 +90,19 @@ class ErrorListener extends HandlerListenerBase
             $extras['trace'] = $formatter->getTraceString($firstError);
         }
 
-        $logger->log(
-            $logger->getPriorityFromErrorNumber($firstError->getSeverity()),
-            $this->prepareSummary($firstError),
-            $extras
-        );
+        $loggers = $this->loggers;
+
+        $method = $this->getMethodFromErrorNumber($firstError->getSeverity());
+
+        $summary = $this->prepareSummary($firstError);
+
+        foreach ($loggers as $logger) {
+
+            $logger->$method(
+                $summary,
+                $extras
+            );
+        }
     }
 
     /**
@@ -131,4 +141,28 @@ class ErrorListener extends HandlerListenerBase
 
         return $relativeDir;
     }
-}
+
+    /**
+     * getMethodFromErrorNumber
+     *
+     * @param $errno
+     *
+     * @return string
+     */
+    public function getMethodFromErrorNumber($errno)
+    {
+        $priority = Logger::INFO;
+
+        if (isset(Logger::$errorPriorityMap[$errno])) {
+            $priority = Logger::$errorPriorityMap[$errno];
+        }
+
+        $method = 'info';
+
+        if (isset($this->loggerMethodMap[$priority])) {
+            $method = $this->loggerMethodMap[$priority];
+        }
+
+        return $method;
+    }
+} 
