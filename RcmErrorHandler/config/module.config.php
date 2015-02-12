@@ -5,12 +5,13 @@ return [
         'overrideExceptions' => false,
         // enable Error overrides (false = off)
         'overrideErrors' => false,
+
         /**
          * Error formatters,
-         * 'request/contentheader' => array(
+         * 'request/contentheader' => [
          *   'class' => '\Some\Formater\Class',
-         *   'options' => array('formatter' => 'options');
-         * );
+         *   'options' => ['formatter' => 'options'];
+         * ]
          */
         'format' => [
             /* Will over-ride system default if used *
@@ -25,72 +26,38 @@ return [
                 'options' => [],
             ]
         ],
+
         /**
-         * Listeners can be injected to log errors
+         * Listeners can be injected to listen for errors
          */
         'listener' => [
-            /** EXAMPLES **/
-            /**
-             * Will only enter a issue if it does not find an existing one
-             *
-             *
-             * '\RcmJira\ErrorListener' => array(
-             * 'event' => 'RcmErrorHandler::All',
-             * 'options' => array(
-             * // Issue will be entered in this project
-             * 'projectKey' => 'REF',
-             * // Will not enter an issue if one is found in these projects
-             * // (includes the project above)
-             * 'projectsToCheckForIssues' => array(
-             * 'ISS'
-             * ),
-             * // Will only enter an issue if one is not found in the projects
-             * // that is NOT in one of the status below
-             * 'enterIssueIfNotStatus' => array(
-             * 'closed',
-             * 'resolved',
-             * ),
-             * // Include Stacktrace - true to include stacktrace
-             * 'includeStacktrace' => true,
-             * // Include dump of server vars - true to include server dump
-             * 'includeServerDump' => true,
-             * // WARNING: this can be a security issue
-             * // Set to an array of specific session keys to display or 'ALL' to display all
-             * 'includeSessionVars' => false,
-             * // This is useful for preventing exceptions who have dynamic
-             * // parts from creating multipule entries in JIRA
-             * // Jira ticket descriptions will be ran through preg_replace
-             * // using these as the preg_replace arguments.
-             * 'summaryPreprocessors' => [
-             * // $pattern => $replacement
-             * // For example this would remove the number from
-             * // exceptions like "requestId: 0678096"
-             * '/requestId\:\s\d+/' => 'requestId: [see full desc for id]'
-             * ]
-             * ),
-             * ),
-             * /* */
-            /**
-             * Standard logger for logging errors
-             *
-             * '\RcmErrorHandler\Log\ErrorListener' => array(
-             * 'event' => 'RcmErrorHandler::All',
-             * // \Zend\Log\Logger Options
-             * 'options' => array(
-             * 'writers' => array(
-             * array(
-             * 'name' => 'stream',
-             * 'priority' => null,
-             * 'options' => array(
-             * 'stream' => 'php://output', //'/www/logs/example.log'
-             * ),
-             * )
-             * ),
-             * ),
-             * ),
-             * /* */
+            /* Standard listener for logging errors using loggers *
+            '\RcmErrorHandler\Log\LoggerErrorListener' => [
+                // Required event
+                'event' => 'RcmErrorHandler::All',
+                // Options
+                'options' => [
+                    // Logger Services to use
+                    'loggers' => [
+                        '\RcmJira\JiraLogger',
+                    ],
+                    // Include Stacktrace - true to include stacktrace
+                    'includeStacktrace' => true,
+                ],
+            ],
+            /* */
+        ],
+
+        /**
+         * Define which loggers to use for JS logging
+         */
+        'jsLoggers' => [
+            /* Use JiraLogger *
+            '\RcmJira\JiraLogger',
+            /* */
         ],
     ],
+
     /**
      * Configuration for JIRA API
      */
@@ -100,15 +67,77 @@ return [
             'username' => 'myUsername',
             'password' => 'myPassword',
         ],
+        'JiraLoggerOptions' => [
+            /* Options */
+
+            // Issue will be entered in this project
+            'projectKey' => 'REF',
+
+            // Will not enter an issue if one is found in these projects
+            // (includes the project above)
+            'projectsToCheckForIssues' => [
+                //'ISS' => 'ISS'
+            ],
+
+            // Will only enter an issue if one is not found in the projects
+            // that is NOT in one of the status below
+            'enterIssueIfNotStatus' => [
+                'closed' => 'closed',
+                'resolved' => 'resolved',
+            ],
+
+            // Include dump of server vars - true to include server dump
+            'includeServerDump' => true,
+
+            // WARNING: this can be a security issue
+            // Set to an array of specific session keys to display or 'ALL' to display all
+            'includeSessionVars' => false,
+
+            // This is useful for preventing exceptions who have dynamic
+            // parts from creating multipule entries in JIRA
+            // Jira ticket descriptions will be ran through preg_replace
+            // using these as the preg_replace arguments.
+            'summaryPreprocessors' => [
+                // $pattern => $replacement
+            ]
+            /* */
+        ],
     ],
+
     'service_manager' => [
         'factories' => [
             '\RcmErrorHandler\Config' => '\RcmErrorHandler\Factory\RcmErrorHandlerConfigFactory',
+            '\RcmErrorHandler\Log\LoggerErrorListener' => '\RcmErrorHandler\Log\Factory\LoggerErrorListenerFactory',
             '\RcmJira\Api' => '\RcmJira\Factory\JiraApiFactory',
             '\RcmJira\JiraLogger' => '\RcmJira\Factory\JiraLoggerFactory',
-            '\RcmJira\ErrorListener' => '\RcmJira\Factory\ErrorListenerFactory',
-            '\RcmErrorHandler\Log\ErrorListener' => '\RcmErrorHandler\Log\Factory\ErrorListenerFactory',
         ]
+    ],
+
+    'controllers' => [
+        'invokables' => [
+            'RcmErrorHandler\Controller\ApiClientErrorLoggerController'
+            => 'RcmErrorHandler\Controller\ApiClientErrorLoggerController',
+        ],
+    ],
+
+    'view_manager' => array(
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
+    ),
+
+    'router' => [
+        'routes' => [
+            'RcmErrorHandler\ApiJsErrorLogger' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/rcm-error-handler/client-error[/:id]',
+                    'defaults' => [
+                        'controller' => 'RcmErrorHandler\Controller\ApiClientErrorLoggerController',
+                    ],
+                ],
+            ],
+        ],
     ],
     'asset_manager' => [
         'resolver_configs' => [

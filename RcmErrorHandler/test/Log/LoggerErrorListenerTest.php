@@ -7,7 +7,7 @@
  * PHP version 5
  *
  * @category  Reliv
- * @package   RcmJira\Test\ErrorListener
+ * @package   RcmErrorHandler\Test\Log\ErrorListener
  * @author    James Jervis <jjervis@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
@@ -15,20 +15,20 @@
  * @link      https://github.com/reliv
  */
 
-namespace RcmJira\Test;
+namespace RcmErrorHandler\Test\Log;
 
 require_once __DIR__ . '/../Mocks.php';
 
+use RcmErrorHandler\Log\LoggerErrorListener;
 use RcmErrorHandler\Test\Mocks;
-use RcmJira\ErrorListener;
 
-class ErrorListenerTest extends Mocks {
+class LoggerErrorListenerTest extends Mocks {
 
     public function test(){
 
-        $logger = $this->getMockJiraLogger();
+        $sm = $this->getMockServiceLocator();
 
-        $listener = new ErrorListener($this->getMockLogListenerConfig(), $logger);
+        $listener = new LoggerErrorListener($this->getMockLoggerListenerOptions(), $sm);
 
         $listener->update($this->getMockMvcEvent(0));
 
