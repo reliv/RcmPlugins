@@ -319,7 +319,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                         if (targetBlankInput.val() == 'yes'){
                             a.attr('target', '_blank');
                         } else {
-                            a.attr('target', 'no');
+                            a.attr('target', '_self');
                         }
                     }
                 }
