@@ -98,11 +98,7 @@ return [
             // Jira ticket descriptions will be ran through preg_replace
             // using these as the preg_replace arguments.
             'summaryPreprocessors' => [
-
                 // $pattern => $replacement
-                // For example this would remove the number from
-                // exceptions like "requestId: 0678096"
-                '/requestId\:\s\d+/' => 'requestId: [see full desc for id]'
             ]
             /* */
         ],
