@@ -216,6 +216,14 @@ var RcmNavigationEdit = function (instanceId, container) {
 
         var a = li.children('a');
 
+        //Find out if this answer is 'yes' or 'no'
+        var targetBlank = 'no';
+        if(a.attr('target') == '_self'){
+            targetBlank = 'no';
+        } else if (a.attr('target') == '_blank') {
+            targetBlank = 'yes';
+        }
+
         //Find out what kind of subMenu this link has
         var subMenu = 'none';
         if (li.children('div.columnCount_1').length > 0) {
@@ -237,7 +245,11 @@ var RcmNavigationEdit = function (instanceId, container) {
         var cssClassInput = $.dialogIn(
             'select',
             'Display Style',
-            {'': 'Normal', 'heading': 'Heading', 'bold': 'Bold'},
+            {
+                '': 'Normal',
+                'heading': 'Heading',
+                'bold': 'Bold'
+            },
             cssClass
         );
         var subMenuInput = $.dialogIn(
@@ -250,11 +262,20 @@ var RcmNavigationEdit = function (instanceId, container) {
             },
             subMenu
         );
+        var targetBlankInput = $.dialogIn (
+            'select',
+            'Open in New Window?',
+            {
+                'no' : 'No',
+                'yes': 'Yes'
 
+            },
+            targetBlank
+        );
         //Create and show our edit dialog
         var form = $('<form></form>')
             .addClass('simple')
-            .append(text, href, cssClassInput, subMenuInput)
+            .append(text, href, cssClassInput, subMenuInput, targetBlankInput)
             .dialog({
                 title: 'Properties',
                 modal: true,
@@ -277,7 +298,7 @@ var RcmNavigationEdit = function (instanceId, container) {
                         a.html(text.val());
                         a.attr('href', href.val());
                         li.attr('class', cssClassInput.val());
-
+                        a.attr('target', targetBlankInput.val());
                         //Put this in a closure so modifySubMenu can call it
                         var button = this;
                         var continueOkClick = function () {
@@ -293,6 +314,12 @@ var RcmNavigationEdit = function (instanceId, container) {
                                 continueOkClick);
                         } else {
                             continueOkClick();
+                        }
+
+                        if (targetBlankInput.val() == 'yes'){
+                            a.attr('target', '_blank');
+                        } else {
+                            a.attr('target', 'no');
                         }
                     }
                 }
