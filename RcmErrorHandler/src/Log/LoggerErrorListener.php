@@ -2,8 +2,12 @@
 
 namespace RcmErrorHandler\Log;
 
+use RcmErrorHandler\Format\FormatBase;
+use RcmErrorHandler\Model\Config;
 use RcmErrorHandler\EventManager\HandlerListenerBase;
+use RcmErrorHandler\Model\GenericError;
 use Zend\Log\Logger;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class LoggerErrorListener
@@ -39,22 +43,75 @@ class LoggerErrorListener extends HandlerListenerBase
     /**
      * @var \RcmErrorHandler\Model\Config
      */
-    protected $options;
+    public $options;
 
     /**
-     * @var array LoggerInterface $logger
+     * @var ServiceLocatorInterface
      */
-    protected $loggers;
+    protected $serviceLocator;
 
     /**
      * @param \RcmErrorHandler\Model\Config $options
      */
     public function __construct(
-        \RcmErrorHandler\Model\Config $options,
-        $loggers
+        Config $options,
+        ServiceLocatorInterface $serviceLocator
     ) {
         $this->options = $options;
-        $this->loggers = $loggers;
+        $this->serviceLocator = $serviceLocator;
+    }
+
+    /**
+     * log
+     *
+     * @param GenericError $error
+     *
+     * @return void
+     */
+    protected function doLog(GenericError $error)
+    {
+        $loggerConfig = $this->options->get('loggers');
+
+        $serviceLocator = $this->serviceLocator;
+
+        $extra = $this->getExtras($error);
+
+        $method = $this->getMethodFromErrorNumber($error->getSeverity());
+
+        $message = $this->prepareSummary($error);
+
+        foreach($loggerConfig as $serviceName){
+
+            if($serviceLocator->has($serviceName)){
+                /** @var \Zend\Log\LoggerInterface $logger */
+                $logger = $serviceLocator->get($serviceName);
+                $logger->$method($message, $extra);
+            }
+        }
+    }
+
+    /**
+     * getExtras
+     *
+     * @param GenericError $error
+     *
+     * @return array
+     */
+    protected function getExtras(GenericError $error){
+
+        $formatter = new FormatBase();
+
+        $extras = [
+            'file' => $error->getFile(),
+            'line' => $error->getLine(),
+            'message' => $error->getMessage(),
+        ];
+
+        if ($this->options->get('includeStacktrace', false) == true) {
+            $extras['trace'] = $formatter->getTraceString($error);
+        }
+
+        return $extras;
     }
 
     /**
@@ -78,31 +135,7 @@ class LoggerErrorListener extends HandlerListenerBase
         /** @var \RcmErrorHandler\Model\Config $config */
         // $config = $event->getParam('config');
 
-        $formatter = new FormatBase();
-
-        $extras = [
-            'file' => $firstError->getFile(),
-            'line' => $firstError->getLine(),
-            'message' => $firstError->getMessage(),
-        ];
-
-        if ($this->listenerOptions->get('includeStacktrace', false) == true) {
-            $extras['trace'] = $formatter->getTraceString($firstError);
-        }
-
-        $loggers = $this->loggers;
-
-        $method = $this->getMethodFromErrorNumber($firstError->getSeverity());
-
-        $summary = $this->prepareSummary($firstError);
-
-        foreach ($loggers as $logger) {
-
-            $logger->$method(
-                $summary,
-                $extras
-            );
-        }
+        $this->doLog($firstError);
     }
 
     /**
@@ -112,7 +145,7 @@ class LoggerErrorListener extends HandlerListenerBase
      *
      * @return string
      */
-    public function prepareSummary(GenericError $error)
+    protected function prepareSummary(GenericError $error)
     {
         return $error->getType() . ' - ' .
         $error->getMessage() . ' - ' .
@@ -126,7 +159,7 @@ class LoggerErrorListener extends HandlerListenerBase
      *
      * @return mixed
      */
-    public function buildRelativePath($absoluteDir)
+    protected function buildRelativePath($absoluteDir)
     {
         $relativeDir = $absoluteDir;
 
@@ -149,7 +182,7 @@ class LoggerErrorListener extends HandlerListenerBase
      *
      * @return string
      */
-    public function getMethodFromErrorNumber($errno)
+    protected function getMethodFromErrorNumber($errno)
     {
         $priority = Logger::INFO;
 

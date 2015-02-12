@@ -6,9 +6,9 @@ use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 /**
- * Class ApiJsErrorLogger
+ * Class ApiClientErrorLoggerController
  *
- * LongDescHere
+ * ApiClientErrorLoggerController
  *
  * PHP version 5
  *
@@ -20,7 +20,7 @@ use Zend\View\Model\JsonModel;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class ApiJsErrorLoggerController extends AbstractRestfulController
+class ApiClientErrorLoggerController extends AbstractRestfulController
 {
     /**
      * getLoggerConfig
@@ -42,14 +42,14 @@ class ApiJsErrorLoggerController extends AbstractRestfulController
     }
 
     /**
-     * log
+     * doLog
      *
      * @param string $message
      * @param array  $extra
      *
      * @return void
      */
-    protected function log($message, $extra = [])
+    protected function doLog($message, $extra = [])
     {
         $loggerConfig = $this->getLoggerConfig();
 
@@ -66,22 +66,57 @@ class ApiJsErrorLoggerController extends AbstractRestfulController
     }
 
     /**
+     * getDataValue
+     *
+     * @param array  $data
+     * @param string $key
+     * @param null   $default
+     *
+     * @return null
+     */
+    protected function getDataValue($data, $key, $default = null)
+    {
+        if(isset($data[$key])){
+            return $data[$key];
+        }
+
+        return $default;
+    }
+
+    /**
+     * prepareMessage
+     *
+     * @param array $data
+     *
+     * @return string
+     */
+    protected function prepareMessage($data)
+    {
+        $message = $this->getDataValue($data, 'type', 'ClientError') . ' - ' .
+            $this->getDataValue($data, 'message', '(no message)') . ' - ' .
+            $this->getDataValue($data, 'file', 'UNKOWN FILE');
+
+        return $message;
+    }
+
+    /**
      * create
      *
      * @param mixed $data
      *  $data = [
-     *  'message' => 'some message',
-     *  'file' => '/some/url',
-     *  'line' => 123,
-     *  'description' => 'Some Description',
-     *  'trace' => ''
+     *   'message' => 'some message',
+     *   'file' => '/some/url',
+     *   'line' => 123,
+     *   'description' => 'Some Description',
+     *   'trace' => '1# Some trace string'
+     *   'type' => 'ClientError'
      *  ];
      *
-     * @return void
+     * @return JsonModel
      */
     public function create($data)
     {
-        $this->log($data['message'], $data);
+        $this->doLog($this->prepareMessage($data), $data);
 
         $view = new JsonModel([]);
 

@@ -2,9 +2,8 @@
 
 namespace RcmErrorHandler\Log\Factory;
 
-use RcmErrorHandler\Log\ErrorListener;
+use RcmErrorHandler\Log\LoggerErrorListener;
 use RcmErrorHandler\Model\Config;
-use Zend\Log\Logger;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -24,7 +23,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @link      https://github.com/reliv
  */
 
-class LoggerErrorListenerFactory  implements FactoryInterface
+class LoggerErrorListenerFactory implements FactoryInterface
 {
 
     public function createService(ServiceLocatorInterface $serviceLocator)
@@ -34,35 +33,16 @@ class LoggerErrorListenerFactory  implements FactoryInterface
 
         $listenerConfigs = $config->get('listener');
 
-        $listenerConfigArr = [];
+        $listenerOptions = [];
 
-        if(isset($listenerConfigs['\RcmErrorHandler\Log\LoggerListener'])) {
+        if(isset($listenerConfigs['\RcmErrorHandler\Log\LoggerErrorListener']) &&
+            isset($listenerConfigs['\RcmErrorHandler\Log\LoggerErrorListener']['options'])) {
 
-            $listenerConfigArr = $listenerConfigs['\RcmErrorHandler\Log\LoggerListener'];
+            $listenerOptions = $listenerConfigs['\RcmErrorHandler\Log\LoggerErrorListener']['options'];
         }
 
-        $listenerConfig = new Config($listenerConfigArr);
+        $listenerOptions = new Config($listenerOptions);
 
-        $loggerConfigs = $config->get('loggers');
-
-        $loggerConfig = [];
-
-        if(isset($loggerConfigs['\Zend\Log\Logger'])) {
-
-            $loggerConfig = $loggerConfigs['\Zend\Log\Logger'];
-        }
-
-        $loggerOptions = [];
-
-        if(isset($loggerConfig['options'])){
-
-            $loggerOptions = $loggerConfig['options'];
-        }
-
-        $logger = new Logger($loggerOptions);
-
-        var_dump($logger); die;
-
-        return new ErrorListener($listenerConfig, $logger);
+        return new LoggerErrorListener($listenerOptions, $serviceLocator);
     }
 }
