@@ -25,6 +25,33 @@ require_once __DIR__ . '/autoload.php';
 class Mocks extends \PHPUnit_Framework_TestCase
 {
 
+    public function getMockServiceLocator()
+    {
+        $mock = $this->getMockBuilder(
+            '\Zend\ServiceManager\ServiceLocatorInterface'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('has')
+            ->will(
+                $this->returnValue(true)
+            );
+
+        $mock->expects(
+            $this->any()
+        )
+            ->method('get')
+            ->will(
+                $this->returnValue($this->getMockLogger())
+            );
+
+        return $mock;
+    }
+
     public function getHandler()
     {
         /** @var \RcmErrorHandler\Handler\ExceptionHandler mockExceptionHandler */
@@ -33,6 +60,7 @@ class Mocks extends \PHPUnit_Framework_TestCase
         )
             ->disableOriginalConstructor()
             ->getMock();
+
         $mock->expects(
             $this->any()
         )
@@ -282,37 +310,19 @@ class Mocks extends \PHPUnit_Framework_TestCase
             ],
 
             'listener' => [
-                /** EXAMPLE **/
-                '\RcmJira\ErrorListener' => [
+                '\RcmErrorHandler\Log\LoggerErrorListener' => [
+                    // Required event
                     'event' => 'RcmErrorHandler::All',
+                    // Options
                     'options' => [
-                        'endpoint' => 'https://jira.example.com',
-                        'username' => 'myUsername',
-                        'password' => 'myPassword',
-                        'projectKey' => 'REF',
-                        'enterIssueIfNotStatus' => [
-                            'closed',
-                            'resolved',
+                        // Logger Services to use
+                        'loggers' => [
+                            '\RcmJira\JiraLogger',
                         ],
+                        // Include Stacktrace - true to include stacktrace
+                        'includeStacktrace' => true,
                     ],
                 ],
-
-                '\RcmErrorHandler\Log\ErrorListener' => [
-                    'event' => 'RcmErrorHandler::All',
-                    // \Zend\Log\Logger Options
-                    'options' => [
-                        'writers' => [
-                            [
-                                'name' => 'stream',
-                                'priority' => null,
-                                'options' => [
-                                    'stream' => 'php://output'
-                                ],
-                            ]
-                        ],
-                    ],
-                ],
-                /* */
             ],
         ];
 
@@ -320,22 +330,17 @@ class Mocks extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function getMockLogListenerConfig()
+    public function getMockLoggerListenerOptions()
     {
 
         return new Config(
             [
-                'writers' => [
-                    [
-                        'name' => 'stream',
-                        'priority' => null,
-                        'options' => [
-                            'stream' => 'php://output'
-                        ],
-                    ]
+                'loggers' => [
+                    '\Some\Logger',
                 ],
+                // Include Stacktrace - true to include stacktrace
+                'includeStacktrace' => true,
             ]
-
         );
     }
 
@@ -347,13 +352,6 @@ class Mocks extends \PHPUnit_Framework_TestCase
         )
             ->disableOriginalConstructor()
             ->getMock();
-        $mock->expects(
-            $this->any()
-        )
-            ->method('log')
-            ->will(
-                $this->returnValue($mock)
-            );
 
         return $mock;
     }

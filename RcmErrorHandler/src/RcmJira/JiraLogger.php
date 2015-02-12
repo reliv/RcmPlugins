@@ -472,16 +472,18 @@ class JiraLogger implements LoggerInterface
             $description .= "\n Stack trace: \n" . $extra['trace'];
         }
 
-        if (isset($_SERVER) && isset($extra['includeServerDump'])
-            && $extra['includeServerDump'] == true
-        ) {
+        $includeServerDump = $this->getOption('includeServerDump', false);
+
+        if (isset($_SERVER) && $includeServerDump) {
             $description .= "\n" . $this->prepareArray('Server', $_SERVER);
         }
 
-        if (isset($_SESSION) && !empty($extra['includeSessionVars'])) {
+        $includeSessionVars = $this->getOption('includeSessionVars', null);
+
+        if (isset($_SESSION) && !empty($includeSessionVars)) {
 
             $description .= "\n" . $this->prepareSession(
-                    $extra['includeSessionVars']
+                    $includeSessionVars
                 );
         }
 
@@ -510,11 +512,11 @@ class JiraLogger implements LoggerInterface
      */
     protected function prepareSummary($priority, $message)
     {
-        if (isset($this->options['summaryPreprocessors'])) {
-            $preprocessors = $this->options['summaryPreprocessors'];
-            foreach ($preprocessors as $pattern => $replacement) {
-                $message = preg_replace($pattern, $replacement, $message);
-            }
+
+        $preprocessors = $this->getOption('summaryPreprocessors', []);
+
+        foreach ($preprocessors as $pattern => $replacement) {
+            $message = preg_replace($pattern, $replacement, $message);
         }
 
         $summary = $this->getPriorityString($priority) . ': ' . $message;
@@ -526,7 +528,7 @@ class JiraLogger implements LoggerInterface
                 "\r",
                 "\n"
             ],
-            '',
+            ' ',
             $summary
         );
 

@@ -25,26 +25,10 @@ class JiraLoggerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-
-        $config = $serviceLocator->get('\RcmErrorHandler\Config');
+        $configRoot = $serviceLocator->get('Config');
+        $loggerOptions = $configRoot['RcmJira']['JiraLoggerOptions'];
 
         $api = $serviceLocator->get('\RcmJira\Api');
-
-        $listenerConfigs = $config->get('listener');
-
-        $listenerConfig = [];
-
-        if(isset($listenerConfigs['\RcmJira\ErrorListener'])) {
-
-            $listenerConfig = $listenerConfigs['\RcmJira\ErrorListener'];
-        }
-
-        $loggerOptions = [];
-
-        if(isset($listenerConfig['options'])){
-
-            $loggerOptions = $listenerConfig['options'];
-        }
 
         return new JiraLogger($api, $loggerOptions);
     }
