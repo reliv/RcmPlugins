@@ -146,9 +146,9 @@ return [
             ],
         ],
     ],
-    'view_helpers' => [
-        'invokables' => [
-            'headscript' => 'RcmErrorHandler\ViewHelper\HeadScriptWithErrorHandlerFirst',
-        ]
-    ]
+//    'view_helpers' => [
+//        'invokables' => [
+//            'headscript' => 'RcmErrorHandler\ViewHelper\HeadScriptWithErrorHandlerFirst',
+//        ]
+//    ]
 ];
