@@ -45,14 +45,17 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      *
      * @type {String}
      */
-    var loginLinkTemplate = '<li class="rcmDynamicNavigationLogout rcmDynamicNavigationLoginMenuItem"><a href="/login?logout=1">Logout</a></li>';
-    loginLinkTemplate = loginLinkTemplate + '<li class="rcmDynamicNavigationLogin rcmDynamicNavigationLoginMenuItem"><a href="/login">Login</a></li>';
+    var loginLinkTemplate = '<li class="rcmDynamicNavigationLogout rcmDynamicNavigationAuthMenuItem" data-class="rcmDynamicNavigationLogout rcmDynamicNavigationAuthMenuItem"><a href="/login?logout=1">Logout</a></li>';
+    loginLinkTemplate = loginLinkTemplate + '<li class="rcmDynamicNavigationLogin rcmDynamicNavigationAuthMenuItem" data-class="rcmDynamicNavigationLogin rcmDynamicNavigationAuthMenuItem"><a href="/login">Login</a></li>';
 
     /**
      * Called by content management system to make this plugin user-editable
      */
     me.initEdit = function () {
-        me.addRightClickMenu();
+
+        var links = jQuery(containerSelector).find("li");
+        links.removeClass('HiddenLink');
+        me.refresh();
     };
 
     /**
@@ -63,32 +66,31 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      */
     me.getSaveData = function () {
 
-        var mainLinks = jQuery(containerSelector).children("ul:first").children("li");
+        var mainLinks = jQuery(containerSelector).children("ul:first").children("li").toArray();
 
         var data = [];
 
         jQuery.each(mainLinks, function(i, link){
-            data.push(me.getLinkData(link));
+            data.push(me.getLinkData(i, link));
         });
 
-        return data;
+        var saveData = {
+            links : data
+        };
+
+        return saveData;
     };
 
-    me.getLinkData = function(link) {
+    me.getLinkData = function(myIndex, link) {
+
         var a = jQuery(link).children("a:first");
 
-        var liClass = jQuery(link).attr("class");
-
-        if (liClass !== undefined) {
-            liClass = liClass.replace('sf-with-ul', "");
-        }
-
-
         var myLinkData = {
+            "myIndex" : myIndex,
             'display' : a.text().trim(),
             'href' : a.attr('href'),
             'target': a.attr("target"),
-            'class' : liClass,
+            'class' : jQuery(link).attr('data-class'),
             'permissions' : jQuery(link).attr('data-permissions')
         };
 
@@ -97,7 +99,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         var subLinks = jQuery(link).children("ul:first").children("li");
 
         jQuery.each(subLinks, function(i, subLink){
-            linksArray.push(me.getLinkData(subLink));
+            linksArray.push(me.getLinkData(i, subLink));
         });
 
         myLinkData.links = linksArray;
@@ -178,7 +180,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         jQuery.contextMenu('destroy', containerSelector + ' li');
 
         var showAddLoginLinkMenu = {};
-        if (jQuery(containerSelector + " .rcmDynamicNavigationLoginMenuItem").length < 1) {
+        if (jQuery(containerSelector + " .rcmDynamicNavigationAuthMenuItem").length < 1) {
             showAddLoginLinkMenu = {
                 separator2: "-",
                 loginLink: {
@@ -355,7 +357,11 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         });
 
         rcmShowPermissions(selected, function(roles){
-            li.attr('data-permissions', roles.join(','));
+            if (roles.length > 1) {
+                li.attr('data-permissions', roles.join(','));
+            } else {
+                li.attr('data-permissions', roles[0]);
+            }
         });
     };
 

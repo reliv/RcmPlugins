@@ -35,13 +35,14 @@ function getUl($data, $id=null)
 function getLi($link)
 {
     if (empty($link['class'])) { $link['class'] = ''; }
+    if (empty($link['system_class'])) { $link['system_class'] = ''; }
     if (empty($link['href'])) { $link['href'] = ''; }
     if (empty($link['target'])) { $link['target'] = ''; }
     if (empty($link['display'])) { $link['display'] = ''; }
     if (empty($link['permissions'])) { $link['permissions'] = ''; }
 
 ?>
-        <li class="<?= $link['class']?>" data-class="<?= $link['class']?>" data-permissions="<?= $link['permissions'] ?>">
+        <li class="<?= $link['class']?> <?= $link['system_class']?>" data-class="<?= $link['class']?>" data-permissions="<?= $link['permissions'] ?>">
             <a href="<?= $link['href']?>" <?php if (!empty($link['target'])) { ?> target="<?= $link['target']; ?>"<?php } ?>>
                 <?= $link['display']; ?>
             </a>
@@ -51,4 +52,5 @@ function getLi($link)
 <?php
 }
 
-getUl($this->instanceConfig, "RcmDynamicNavigation_".$this->instanceId);
+
+getUl($this->instanceConfig['links'], "RcmDynamicNavigation_".$this->instanceId);
