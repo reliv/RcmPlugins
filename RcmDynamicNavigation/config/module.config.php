@@ -27,6 +27,7 @@ return [
             'icon' => '',
             'canCache'=> false,
             'editJs' => '/modules/rcm-dynamic-navigation/edit.js',
+//            'defaultInstanceConfig' => include __DIR__ . '/defaultInstanceConfig.php'
         ],
     ],
     'view_manager' => [

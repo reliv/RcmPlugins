@@ -1,3 +1,7 @@
 .RcmDynamicNavigation .rcmPluginContainer {
     overflow: visible !important;
 }
+
+.RcmDynamicNavigation .HiddenLink {
+    display: none;
+}

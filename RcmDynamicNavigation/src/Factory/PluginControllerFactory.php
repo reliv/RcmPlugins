@@ -54,9 +54,19 @@ class PluginControllerFactory implements FactoryInterface
         /** @var ServiceLocatorInterface $serviceLocator */
         $serviceLocator = $cm->getServiceLocator();
 
+        /** @var \Rcm\Acl\CmsPermissionChecks $cmsPermissionChecks */
+        $cmsPermissionChecks = $serviceLocator->get(
+            'Rcm\Acl\CmsPermissionsChecks'
+        );
+
+        /** @var \Rcm\Entity\Site $currentSite */
+        $currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
+
         $config = $serviceLocator->get('config');
 
         return new PluginController(
+            $cmsPermissionChecks,
+            $currentSite,
             $config
         );
     }
