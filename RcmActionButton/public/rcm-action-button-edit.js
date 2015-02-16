@@ -25,11 +25,23 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
     /**
      *
      */
+    var pluginElm = jQuery("[data-rcmplugininstanceid='"+pluginHandler.getId()+"']");
+
+    /**
+     *
+     */
     var buttonBox = container.find('.button-box');
 
+    /**
+     *
+     */
     var buttonContent = container.find('.button-content');
 
 
+    /**
+     * getColorList
+     * @returns {*}
+     */
     me.getColorList = function() {
 
         var jsonList = buttonBox.attr('data-color-list');
@@ -38,38 +50,66 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
 
     };
 
+    /**
+     * setButtonColor
+     * @param color
+     */
     me.setButtonColor = function (color) {
 
         buttonBox.attr('data-button-color', color);
         buttonBox.attr('style', 'background-color: ' + color);
     };
 
+    /**
+     * getButtonColor
+     * @returns {*}
+     */
     me.getButtonColor = function () {
 
         return buttonBox.attr('data-button-color');
     };
 
+    /**
+     * setLinkColor
+     * @param color
+     */
     me.setLinkColor = function (color) {
 
         buttonBox.attr('data-link-color', color);
         buttonContent.attr('style', 'color: ' + color);
     };
 
+    /**
+     * getLinkColor
+     * @returns {*}
+     */
     me.getLinkColor = function () {
 
         return buttonBox.attr('data-link-color');
     };
 
+    /**
+     * setHref
+     * @param href
+     */
     me.setHref = function (href) {
 
         aTags.attr('href', href);
     };
 
+    /**
+     * getHref
+     * @returns {*}
+     */
     me.getHref = function () {
 
         return aTags.attr('href');
     };
 
+    /**
+     * setNewLine
+     * @param newLine
+     */
     me.setNewLine = function (newLine) {
 
         newLine = me.getBool(newLine);
@@ -80,10 +120,15 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
         nlElm.remove();
 
         if(newLine){
-            jQuery('<div id="RcmActionButtonClear'+pluginHandler.getId()+'" class="clearfix"></div>' ).insertBefore(container);
+
+            jQuery('<div id="RcmActionButtonClear'+pluginHandler.getId()+'" class="clearfix"></div>' ).insertBefore(pluginElm);
         }
     };
 
+    /**
+     * getNewLine
+     * @returns {*}
+     */
     me.getNewLine = function () {
 
         var newLine = buttonBox.attr('data-new-line');
@@ -91,6 +136,11 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
         return me.getBool(newLine);
     };
 
+    /**
+     * getBool
+     * @param value
+     * @returns {boolean}
+     */
     me.getBool = function (value) {
 
         return (value == 1 || value == 'true' || value === true);
