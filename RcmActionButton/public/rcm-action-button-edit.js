@@ -1,19 +1,12 @@
 /**
- * RcmCallToActionBox
+ * RcmActionButtonEdit
  *
- * JS for editing RcmCallToActionBox
- *
- * PHP version 5.3
- *
- * LICENSE: No License yet
- *
- * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
+ * @param instanceId
+ * @param container
+ * @param RcmAdminService.RcmPlugin pluginHandler
+ * @constructor
  */
-var RcmCallToActionBoxEdit = function (instanceId, container) {
+var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -23,66 +16,84 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
     var me = this;
 
     /**
-     * jQuery object for the two links
+     * jQuery object for the links
      *
      * @type {Object}
      */
     var aTags = container.find('a');
 
     /**
-     * Background image jQuery object
      *
-     * @type {Object}
      */
-    var imgTag = container.find('.rollImg');
+    var buttonBox = container.find('.button-box');
 
-    /**
-     * cleanImageUrl
-     * @param url
-     * @returns {string}
-     */
-    me.cleanBackgroundUrl = function(background) {
+    var buttonContent = container.find('.button-content');
 
-        var reg = /(?:\(['|"]?)(.*?)(?:['|"]?\))/;
-        return reg.exec(background)[1];
+
+    me.getColorList = function() {
+
+        var jsonList = buttonBox.attr('data-color-list');
+
+        return JSON.parse(jsonList);
+
     };
 
-    /**
-     *  Gets background image url
-     *
-     * @returns {String}
-     */
-    me.getBackgroundImageUrl = function () {
+    me.setButtonColor = function (color) {
 
-        var background = imgTag.css('background-image');
-        return me.cleanBackgroundUrl(background);
+        buttonBox.attr('data-button-color', color);
+        buttonBox.attr('style', 'background-color: ' + color);
     };
 
+    me.getButtonColor = function () {
 
+        return buttonBox.attr('data-button-color');
+    };
 
-    /**
-     * Called by content management system to make this plugin user-editable
-     */
-    me.initEdit = function () {
+    me.setLinkColor = function (color) {
 
-        //Double clicking will show properties dialog
-        container.dblclick(me.showEditDialog);
+        buttonBox.attr('data-link-color', color);
+        buttonContent.attr('style', 'color: ' + color);
+    };
 
-        //Add right click menu
-        $.contextMenu({
-            selector: rcm.getPluginContainerSelector(instanceId),
-            //Here are the right click menu options
-            items: {
-                edit: {
-                    name: 'Edit Properties',
-                    icon: 'edit',
-                    callback: function () {
-                        me.showEditDialog();
-                    }
-                }
+    me.getLinkColor = function () {
 
-            }
-        });
+        return buttonBox.attr('data-link-color');
+    };
+
+    me.setHref = function (href) {
+
+        aTags.attr('href', href);
+    };
+
+    me.getHref = function () {
+
+        return aTags.attr('href');
+    };
+
+    me.setNewLine = function (newLine) {
+
+        newLine = me.getBool(newLine);
+
+        buttonBox.attr('data-new-line', newLine);
+
+        var nlElm = jQuery('#RcmActionButtonClear'+pluginHandler.getId());
+        nlElm.remove();
+
+        if(newLine){
+            jQuery('<div id="RcmActionButtonClear'+pluginHandler.getId()+'" class="clearfix"></div>' ).insertBefore(container);
+        }
+    };
+
+    me.getNewLine = function () {
+
+        var newLine = buttonBox.attr('data-new-line');
+
+        return me.getBool(newLine);
+    };
+
+    me.getBool = function (value) {
+
+        return (value == 1 || value == 'true' || value === true);
     };
 
     /**
@@ -93,23 +104,63 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      */
     me.getSaveData = function () {
         return {
-            'href': aTags.attr('href'),
-            'imageSrc': me.getBackgroundImageUrl()
-        }
+            'buttonColor': me.getButtonColor(),
+            'linkColor': me.getLinkColor(),
+            //'class': 'col-md-3 col-sm-12 col-xs-12',
+            'newLine': me.getNewLine(),
+            'href': me.getHref()
+        };
     };
 
     /**
-     * Displays a dialog box to edit href and image src
+     * Called by content management system to make this plugin user-editable
+     */
+    me.initEdit = function () {
+
+        //Double clicking will show properties dialog
+        container.dblclick(me.showEditDialog);
+
+        //Add right click menu
+        $.contextMenu(
+            {
+                selector: rcm.getPluginContainerSelector(instanceId),
+                //Here are the right click menu options
+                items: {
+                    edit: {
+                        name: 'Edit Properties',
+                        icon: 'edit',
+                        callback: function () {
+                            me.showEditDialog();
+                        }
+                    }
+                }
+            }
+        );
+    };
+
+    /**
+     * Displays a dialog box to edit
      */
     me.showEditDialog = function () {
 
-        var srcInput = $.dialogIn('image', 'Image', me.getBackgroundImageUrl());
-        var hrefInput = $.dialogIn('url', 'Link Url', aTags.attr('href'));
+        var fields = {
+            buttonColor: jQuery.dialogIn('select', 'Button Color', me.getColorList(), me.getButtonColor()),
+            linkColor: jQuery.dialogIn('select', 'Link Color', me.getColorList(), me.getLinkColor()),
+            href: jQuery.dialogIn('url', 'Link Url', me.getHref()),
+            newLine: jQuery.dialogIn(
+                'select', 'Start New Line', {
+                    1: 'This Button Starts a New Line',
+                    0: 'Inline Button'
+                },
+                me.getNewLine()
+            )
+        };
 
         var form = $('<form></form>')
             .addClass('simple')
-            .append(srcInput, hrefInput)
-            .dialog({
+            .append(fields.buttonColor, fields.linkColor, fields.href, fields.newLine)
+            .dialog(
+            {
                 title: 'Properties',
                 modal: true,
                 width: 620,
@@ -120,8 +171,10 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
                     Ok: function () {
 
                         //Get user-entered data from form
-                        imgTag.css('background-image', 'url("' + srcInput.val() + '")');
-                        aTags.attr('href', hrefInput.val());
+                        me.setButtonColor(fields.buttonColor.val());
+                        me.setLinkColor(fields.linkColor.val());
+                        me.setHref(fields.href.val());
+                        me.setNewLine(fields.newLine.val());
 
                         $(this).dialog('close');
                     }

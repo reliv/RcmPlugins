@@ -18,11 +18,17 @@ return [
             'icon' => '',
             'editJs' => '/modules/rcm-action-button/rcm-action-button-edit.js',
             'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php',
-            'canCache'=> true,
+                __DIR__ . '/defaultInstanceConfig.php',
+            'canCache' => true,
             'colorSwatches' => [
-                'White' => "#FFFFFF",
-                'Red' => "#FF0000"
+                '#000000' => 'Black',
+                '#DDDDDD' => 'Light Gray',
+                '#FFFFFF' => 'White',
+                '#00B2B0' => 'Teal',
+                '#00A5DB' => 'Blue',
+                '#8DC63F' => 'Green',
+                '#F15D22' => 'Red',
+                '#F8971D' => 'Orange'
             ],
         ],
     ],

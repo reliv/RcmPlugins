@@ -1,3 +1,10 @@
+<?php
+$this->headLink()->appendStylesheet(
+    $this->basePath() . '/modules/rcm-action-button/css/style.css'
+);
+
+$this->colorList = htmlentities(json_encode($this->config['rcmPlugin']['RcmActionButton']['colorSwatches']), ENT_QUOTES);
+?>
 <script type="text/javascript">
 
     (function() {
@@ -6,56 +13,26 @@
         pluginElm.removeAttr('style');
         pluginElm.addClass('<?= $this->instanceConfig['class'] ?>');
         <?php
-            if($this->instanceConfig['newLine']) {
+            if($this->instanceConfig['newLine'] === 'true') {
         ?>
         pluginElm.addClass('first');
-        $( "<div class='clearfix'></div>" ).insertBefore(pluginElm);
+        $( '<div id="RcmActionButtonClear<?= $this->instanceId ?>" class="clearfix"></div>' ).insertBefore(pluginElm);
         <?php
             }
         ?>
     })();
 </script>
 
-<style type="text/css">
-    .rcmPlugin.RcmActionButton .button-box {
-        border: 0px solid;
-        border-radius: 10px 0 10px 0;
-        padding: .5em;
-        width: 100%;
-    }
-
-    .rcmPlugin.RcmActionButton .button-area {
-        display: table;
-        min-height: 2em;
-        width: 100%;
-    }
-
-    .rcmPlugin.RcmActionButton .button-content {
-        display: table-cell;
-        vertical-align: middle;
-        horiz-align: center;
-    }
-
-    .rcmPlugin.RcmActionButton.col-md-3,
-    .rcmPlugin.RcmActionButton.col-sm-12,
-    .rcmPlugin.RcmActionButton.col-xs-12{
-    }
-
-    .rcmPlugin.RcmActionButton.col-md-3.first,
-    .rcmPlugin.RcmActionButton.col-sm-12.first,
-    .rcmPlugin.RcmActionButton.col-xs-12.first{
-    }
-
-
-    .rcmPlugin.RcmCallToActionBox {
-        border: 1px solid #008000;
-    }
-</style>
-
-<div class="button-box" style="background-color: <?= $this->instanceConfig['color'] ?>">
+<div class="button-box"
+     style="background-color: <?= $this->instanceConfig['buttonColor'] ?>"
+     data-button-color="<?= $this->instanceConfig['buttonColor'] ?>"
+     data-link-color="<?= $this->instanceConfig['linkColor'] ?>"
+     data-new-line="<?= $this->instanceConfig['newLine'] ?>"
+     data-color-list="<?= $this->colorList ?>"
+    >
 
     <a class="button-area" href="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
-        <div class="button-content">
+        <div class="button-content" style="color: <?= $this->instanceConfig['linkColor'] ?>">
             <?=
             $this->rcmTextEdit(
                 'content',
