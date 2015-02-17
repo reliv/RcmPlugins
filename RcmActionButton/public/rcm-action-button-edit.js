@@ -25,11 +25,6 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
     /**
      *
      */
-    var pluginElm = jQuery("[data-rcmplugininstanceid='"+pluginHandler.getId()+"']");
-
-    /**
-     *
-     */
     var buttonBox = container.find('.button-box');
 
     /**
@@ -107,36 +102,6 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
     };
 
     /**
-     * setNewLine
-     * @param newLine
-     */
-    me.setNewLine = function (newLine) {
-
-        newLine = me.getBool(newLine);
-
-        buttonBox.attr('data-new-line', newLine);
-
-        var nlElm = jQuery('#RcmActionButtonClear'+pluginHandler.getId());
-        nlElm.remove();
-
-        if(newLine){
-
-            jQuery('<div id="RcmActionButtonClear'+pluginHandler.getId()+'" class="clearfix"></div>' ).insertBefore(pluginElm);
-        }
-    };
-
-    /**
-     * getNewLine
-     * @returns {*}
-     */
-    me.getNewLine = function () {
-
-        var newLine = buttonBox.attr('data-new-line');
-
-        return me.getBool(newLine);
-    };
-
-    /**
      * getBool
      * @param value
      * @returns {boolean}
@@ -157,7 +122,6 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
             'buttonColor': me.getButtonColor(),
             'linkColor': me.getLinkColor(),
             //'class': 'col-md-3 col-sm-12 col-xs-12',
-            'newLine': me.getNewLine(),
             'href': me.getHref()
         };
     };
@@ -196,19 +160,12 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
         var fields = {
             buttonColor: jQuery.dialogIn('select', 'Button Color', me.getColorList(), me.getButtonColor()),
             linkColor: jQuery.dialogIn('select', 'Link Color', me.getColorList(), me.getLinkColor()),
-            href: jQuery.dialogIn('url', 'Link Url', me.getHref()),
-            newLine: jQuery.dialogIn(
-                'select', 'Start New Line', {
-                    1: 'This Button Starts a New Line',
-                    0: 'Inline Button'
-                },
-                me.getNewLine()
-            )
+            href: jQuery.dialogIn('url', 'Link Url', me.getHref())
         };
 
         var form = $('<form></form>')
             .addClass('simple')
-            .append(fields.buttonColor, fields.linkColor, fields.href, fields.newLine)
+            .append(fields.buttonColor, fields.linkColor, fields.href)
             .dialog(
             {
                 title: 'Properties',
@@ -224,7 +181,6 @@ var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {
                         me.setButtonColor(fields.buttonColor.val());
                         me.setLinkColor(fields.linkColor.val());
                         me.setHref(fields.href.val());
-                        me.setNewLine(fields.newLine.val());
 
                         $(this).dialog('close');
                     }

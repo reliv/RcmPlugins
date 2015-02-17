@@ -6,6 +6,7 @@
 .rcmPlugin.RcmActionButton .button-box {
     border: 0px solid;
     border-radius: 10px 0 10px 0;
+    margin-bottom: 1.5em;
     padding: .5em;
     width: 100%;
 }
