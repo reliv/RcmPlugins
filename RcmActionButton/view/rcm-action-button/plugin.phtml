@@ -12,14 +12,6 @@ $this->colorList = htmlentities(json_encode($this->config['rcmPlugin']['RcmActio
         var pluginElm = jQuery("[data-rcmplugininstanceid='<?= $this->instanceId ?>']");
         pluginElm.removeAttr('style');
         pluginElm.addClass('<?= $this->instanceConfig['class'] ?>');
-        <?php
-            if($this->instanceConfig['newLine'] === 'true') {
-        ?>
-        pluginElm.addClass('first');
-        $( '<div id="RcmActionButtonClear<?= $this->instanceId ?>" class="clearfix"></div>' ).insertBefore(pluginElm);
-        <?php
-            }
-        ?>
     })();
 </script>
 
@@ -27,7 +19,6 @@ $this->colorList = htmlentities(json_encode($this->config['rcmPlugin']['RcmActio
      style="background-color: <?= $this->instanceConfig['buttonColor'] ?>"
      data-button-color="<?= $this->instanceConfig['buttonColor'] ?>"
      data-link-color="<?= $this->instanceConfig['linkColor'] ?>"
-     data-new-line="<?= $this->instanceConfig['newLine'] ?>"
      data-color-list="<?= $this->colorList ?>"
     >
 
