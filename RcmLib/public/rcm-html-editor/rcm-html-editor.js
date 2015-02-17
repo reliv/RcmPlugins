@@ -558,7 +558,7 @@ angular.module('RcmHtmlEditor', [])
                 self.updateView = function () {
 
                     if (self.ngModel) {
-                        self.ngModel.$setViewValue(self.getElmValue());
+                        self.ngModel.$setViewValue(self.tinyInstance.getContent());
                     }
 
                     self.apply();
