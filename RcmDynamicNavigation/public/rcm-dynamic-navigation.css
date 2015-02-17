@@ -26,7 +26,7 @@
     z-index: 1000;
 }
 
-.RcmDynamicNavigation select {
+.RcmDynamicNavigation select, .RcmDynamicNavigation .mobileMenuIcon {
     display: none;
 }
 
@@ -35,7 +35,7 @@
         display: none;
     }
 
-    .RcmDynamicNavigation select {
+    .RcmDynamicNavigation .mobileMenuIcon {
         display: block;
     }
 }

@@ -68,7 +68,9 @@ class RenderLinks extends AbstractHelper
 
         $selectHtml = $this->getSelect($links);
 
-        return $navHtml."\n".$selectHtml;
+        $mobileMenu = $this->getMobileMenu($links);
+
+        return $navHtml."\n".$selectHtml."\n".$mobileMenu;
     }
 
     /**
@@ -208,6 +210,12 @@ class RenderLinks extends AbstractHelper
 
         $html .= '</li>'."\n";
 
+        return $html;
+    }
+
+    protected function getMobileMenu()
+    {
+        $html = '<div class="glyphicon glyphicon-menu-hamburger mobileMenuIcon" aria-hidden="true"></div>';
         return $html;
     }
 }
