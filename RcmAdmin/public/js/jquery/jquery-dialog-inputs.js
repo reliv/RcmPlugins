@@ -370,18 +370,21 @@ var inputImageEventsDelegated = false;
                 select.append('<option value="' + key + '"' + selected + '>' + choices[key] + '</option>')
             }
             var inputBox = '';
+
             if (allowCustomValues) {
 
                 selected = '';
                 var displayNone = ' style="display:none"';
                 var customValue = '';
+
                 if (!(value in choices)) {
                     selected = ' selected="selected"';
                     displayNone = '';
                     customValue = value;
                 }
+
                 select.append('<option class="custom" value="' + customValue + '"' + selected + '>Custom Value</option>');
-                inputBox = $('<input' + customClass + displayNone + ' size="80" value="' + customValue + '">');
+                inputBox = $('<input' + displayNone + ' size="80" value="' + customValue + '">');
             }
 
             p.append(select);
@@ -394,9 +397,7 @@ var inputImageEventsDelegated = false;
                 select.change(function (event) {
                     var select = $(event.target);
                     var textBox = select.parent().children('input');
-                    if (select.children('option.custom').attr('selected')
-                        == 'selected'
-                        ) {
+                    if (select.find(':selected').hasClass('custom')) {
                         textBox.show();
                     } else {
                         textBox.hide();
