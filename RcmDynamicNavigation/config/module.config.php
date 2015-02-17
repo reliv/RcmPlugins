@@ -11,10 +11,12 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
+ * @package   RcmDynamicNavigation
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
+ * @link      https://github.com/reliv
  */
 
 return [
@@ -27,9 +29,17 @@ return [
             'icon' => '',
             'canCache'=> false,
             'editJs' => '/modules/rcm-dynamic-navigation/edit.js',
-//            'defaultInstanceConfig' => include __DIR__ . '/defaultInstanceConfig.php'
+            'defaultInstanceConfig' => include __DIR__ . '/defaultInstanceConfig.php'
         ],
     ],
+
+    'view_helpers' => [
+        'invokables' => [
+            'rcmDynamicLinksRenderLinks'
+            => 'RcmDynamicNavigation\View\RenderLinks',
+        ],
+    ],
+
     'view_manager' => [
         'template_path_stack' => [
             __DIR__ . '/../view',

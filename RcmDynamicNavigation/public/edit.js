@@ -66,7 +66,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      */
     me.getSaveData = function () {
 
-        var mainLinks = jQuery(containerSelector).children("ul:first").children("li").toArray();
+        var mainLinks = jQuery(containerSelector).find("nav").children("ul:first").children("li").toArray();
 
         var data = [];
 
@@ -109,16 +109,16 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
 
 
     me.addItem = function(item) {
-        var selectedLi = $(item);
-        var newLi = $(newLinkTemplate);
+        var selectedLi = jQuery(item);
+        var newLi = jQuery(newLinkTemplate);
 
         selectedLi.after(newLi);
         me.refresh();
     };
 
     me.addSubMenu = function(item) {
-        var selectedLi = $(item);
-        var newUl = $(newSubMenuTemplate);
+        var selectedLi = jQuery(item);
+        var newUl = jQuery(newSubMenuTemplate);
 
         if (selectedLi.find('ul').length > 0 ) {
             return;
@@ -135,13 +135,13 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
     };
 
     me.addLoginLink = function(item) {
-        var menuBar = $(containerSelector).children('ul');
+        var menuBar = jQuery(containerSelector).find('nav').children('ul');
 
         if (menuBar.find(".rcmDynamicNavigationLogout").length > 0) {
             return;
         }
 
-        newLi = $(loginLinkTemplate);
+        newLi = jQuery(loginLinkTemplate);
 
         menuBar.append(newLi);
         me.refresh();
@@ -152,12 +152,12 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
     };
 
     me.deleteItem = function(item) {
-        var li = $(item);
+        var li = jQuery(item);
         var a = li.find('a');
         var itemtext = $.trim(a.html());
         var myTopParentUl = li.parents('ul:last');
 
-        $().confirm(
+        jQuery().confirm(
             'Delete this link?<br><br>"' + itemtext + '"',
             function () {
 
@@ -299,7 +299,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         );
 
         //Create and show our edit dialog
-        var form = $('<form></form>')
+        var form = jQuery('<form></form>')
             .addClass('simple')
             .append(text, href, aTarget, cssClassInput)
             .dialog({
@@ -316,7 +316,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
                 },
                 buttons: {
                     Cancel: function () {
-                        $(this).dialog("close");
+                        jQuery(this).dialog("close");
                     },
                     Ok: function() {
                         //Get user-entered data from form
@@ -337,7 +337,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
 
                         //Put this in a closure so modifySubMenu can call it
                         var button = this;
-                        $(button).dialog("close");
+                        jQuery(button).dialog("close");
                         me.refresh();
                     }
                 }
@@ -367,7 +367,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
 
     me.refresh = function() {
         me.addRightClickMenu();
-        $(containerSelector).find('a').click(false);
+        jQuery(containerSelector).find('a').click(false);
 
         try {
             //Prevent links from being arrangeable
@@ -382,7 +382,5 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         });
     }
 };
-
-
 
 

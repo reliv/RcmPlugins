@@ -9,7 +9,7 @@
  * LICENSE: BSD
  *
  * @category  Reliv
- * @package   RcmLoginLink
+ * @package   RcmDynamicNavigation
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
@@ -29,7 +29,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * Factory for PluginController.
  *
  * @category  Reliv
- * @package   RcmLoginLink
+ * @package   RcmDynamicNavigation
  * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -45,7 +45,6 @@ class PluginControllerFactory implements FactoryInterface
      *
      * @return PluginController
      */
-
     public function createService(ServiceLocatorInterface $controllerMgr)
     {
         /** @var \Zend\Mvc\Controller\ControllerManager $cm For IDE */

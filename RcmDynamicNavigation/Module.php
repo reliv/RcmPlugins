@@ -8,6 +8,7 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
+ * @package   RcmDynamicNavigation
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
@@ -23,10 +24,12 @@ namespace RcmDynamicNavigation;
  * file has been included as part of the ZF2 standards.
  *
  * @category  Reliv
+ * @package   RcmDynamicNavigation
  * @author    Rod McNew <rmcnew@relivinc.com>
  * @copyright 2012 Reliv Inernational
  * @license   License.txt New BSD License
  * @version   Release: 1.0
+ * @link      https://github.com/reliv
  */
 class Module
 {
