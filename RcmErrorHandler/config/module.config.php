@@ -147,8 +147,8 @@ return [
         ],
     ],
     'view_helpers' => [
-        'invokables' => [
-            'headscript' => 'RcmErrorHandler\ViewHelper\HeadScriptWithErrorHandlerFirst',
-        ]
+//        'invokables' => [
+//            'headscript' => 'RcmErrorHandler\ViewHelper\HeadScriptWithErrorHandlerFirst',
+//        ]
     ]
 ];

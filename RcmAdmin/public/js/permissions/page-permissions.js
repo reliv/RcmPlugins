@@ -19,38 +19,59 @@ angular.module('pagePermissions', ['rcmUserRoleSelector'])
 
                 rcmUserRolesService.setSelectedRoles(valueNamespace, data.selectedRoles);
 
+                var selectedRoles = rcmUserRolesService.getSelectedRoles(valueNamespace);
+
                 rcmUser.eventManager.on(
                     'rcmUserRolesService.onRolesReady',
                     function(roles){
                         scope.roles = roles;
                         //scope.$apply();
+                        //if guest role is checked, all others get unchecked
+                        angular.forEach(
+                            selectedRoles, function(value) {
+                                if(value.roleId == 'guest') {
+                                    rcmUserRolesService.clearSelectedRoles(valueNamespace);
+                                }
+                            }
+                        );
                     }
                 );
 
                 self.setLockDisplay = function(){
 
-                    var selectedRoles = rcmUserRolesService.getSelectedRoles(valueNamespace);
+
 
                     var hasRoles = rcmUserRolesService.hasSelectedRoles(valueNamespace);
 
                     var selectedAll = rcmUserRolesService.hasAllRoles(selectedRoles);
 
-                    if (hasRoles && !selectedAll) {
+                    var guest = false;
 
+                    var countSelectedRoles = 0;
+
+                    angular.forEach(
+                        selectedRoles, function(value, index) {
+                            countSelectedRoles++;
+                        //if there is only guest role is selected, we show unlocked lock
+                        if(value.roleId == 'guest' && countSelectedRoles == 1) {
+                            guest = true;
+                            }
+                        }
+                    );
+
+                    if (hasRoles && !selectedAll && guest == false ) {
                         $("#unlockPermissionsNonEdit").hide();
                         $("#lockPermissionsNonEdit").show();
                         $("#unlockPermissionsEditMode").hide();
                         $("#lockPermissionsEditMode").show();
 
-                    } else if (selectedAll) {
-
+                    } else if (selectedAll || guest == true) {
                         $("#lockPermissionsNonEdit").hide();
                         $("#unlockPermissionsNonEdit").show();
                         $("#lockPermissionsEditMode").hide();
                         $("#unlockPermissionsEditMode").show();
 
                     } else {
-
                         $("#lockPermissionsNonEdit").hide();
                         $("#unlockPermissionsNonEdit").show();
                         $("#lockPermissionsEditMode").hide();
@@ -63,6 +84,7 @@ angular.module('pagePermissions', ['rcmUserRoleSelector'])
 
                     data.selectedRoles = rcmUserRolesService.getSelectedRoles(valueNamespace);
 
+
                     element.find("[rcm-page-permissions-data]").val(JSON.stringify(data));
 
                     $http(
@@ -74,7 +96,9 @@ angular.module('pagePermissions', ['rcmUserRoleSelector'])
                     ).
                         success(
                         function (data, status, headers, config) {
+
                             self.setLockDisplay();
+
                         }
                     )
                         .error(
