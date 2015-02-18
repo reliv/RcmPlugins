@@ -1,0 +1,36 @@
+.rcmPlugin.RcmActionButton.first:before {
+    /*clear: both;*/
+    content: " ";
+    display: table;
+}
+.rcmPlugin.RcmActionButton .button-box {
+    border: 0px solid;
+    border-radius: 10px 0 10px 0;
+    margin-bottom: 1.5em;
+    padding: .5em;
+    width: 100%;
+}
+
+.rcmPlugin.RcmActionButton .button-area {
+    display: table;
+    min-height: 2em;
+    width: 100%;
+}
+
+.rcmPlugin.RcmActionButton .button-content {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    horiz-align: center;
+}
+
+/*.rcmPlugin.RcmActionButton.col-md-3,*/
+/*.rcmPlugin.RcmActionButton.col-sm-12,*/
+/*.rcmPlugin.RcmActionButton.col-xs-12{*/
+/*}*/
+
+/*.rcmPlugin.RcmActionButton.col-md-3.first,*/
+/*.rcmPlugin.RcmActionButton.col-sm-12.first,*/
+/*.rcmPlugin.RcmActionButton.col-xs-12.first{*/
+
+/*}*/

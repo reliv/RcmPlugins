@@ -186,6 +186,33 @@ angular.module('rcmBrightcovePlayer', [])
 
                 tabWrapperElm.tab();
 
+
+
+                tabWrapperElm.find('[href="#<?= $activeTabId ?>"]').trigger('click');
+
+                tabWrapperElm.tabCollapse(
+                    {
+                        accordionTemplate: function(heading, groupId, parentId, active){
+                            return '<div class="panel panel-default">' +
+                                '   <div class="panel-heading">' +
+                                '      <h2 class="panel-title">' +
+                                '        <a class="" data-toggle="collapse" data-parent="#' + parentId + '" href="#' + groupId + '<?= $noColapse ?>">' +
+                                '           ' + heading +
+                                '        </a>' +
+                                '      </h2>' +
+                                '   </div>' +
+                                '   <div id="' + groupId + '" class="panel-collapse collapse in">' +
+                                '       <div class="panel-body js-tabcollapse-panel-body">' +
+                                '       </div>' +
+                                '   </div>' +
+                                '</div>';
+                        },
+                        tabsClass: 'hidden-xs',
+                        accordionClass: 'visible-xs'
+                    }
+                );
+
+
                 $compile(tabWrapperElm.contents())(scope);
 
                 if (typeof onComplete === 'function') {

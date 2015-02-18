@@ -32,11 +32,11 @@ class FormatBaseTest extends Mocks
 
         //ob_start();
 
-        $formater->displayString($error, $event);
-
-        $formater->displayBasicString($error, $event);
-
-        $formater->displayTraceString($error, $event);
+//        $formater->displayString($error, $event);
+//
+//        $formater->displayBasicString($error, $event);
+//
+//        $formater->displayTraceString($error, $event);
 
         //ob_clean();
     }

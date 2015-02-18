@@ -131,4 +131,3 @@ class PagePermissionsController extends AbstractActionController
     }
 
 }
- 
