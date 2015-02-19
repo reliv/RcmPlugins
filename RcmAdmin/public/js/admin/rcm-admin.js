@@ -881,19 +881,9 @@ var RcmAdminService = {
 
             data.sitewideName = elm.attr('data-rcmPluginDisplayName');
 
-            // @todo This needs to be fixed
-            data.resized = (elm.attr('data-rcmPluginResized') == 'Y');
+            data.columnClass = elm.attr('data-rcmPluginColumnClass');
 
-            if (data.resized) {
-                data.width = elm.width();
-                data.height = elm.height();
-            }
-
-            data.float = elm.css('float');
-
-            if (!data.float) {
-                data.float = 'left';
-            }
+            data.rowNumber = elm.attr('data-rcmPluginRowNumber');
 
             if (typeof onComplete === 'function') {
                 onComplete(data)
