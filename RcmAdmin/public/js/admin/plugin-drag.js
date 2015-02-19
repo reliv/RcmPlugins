@@ -1,4 +1,4 @@
-RcmPluginDrag = {
+var RcmPluginDrag = {
     /**
 
      /**
@@ -97,11 +97,8 @@ RcmPluginDrag = {
      */
     setHelperWidth: function (helper, pluginContainer) {
         var divWidth = RcmPluginDrag.getElementWidth(pluginContainer);
-        if (divWidth > 1000) {
-            $(helper).width(350);
-        } else {
-            $(helper).width(divWidth);
-        }
+
+        $(helper).width(divWidth);
     },
 
     /**
@@ -160,7 +157,8 @@ RcmPluginDrag = {
      * @param ui
      */
     pluginResizeStartHandler: function (event, ui) {
-        ui.element.attr('data-rcmPluginResized', 'Y');
+        ui.element.attr('data-rcmPluginResized', 'true');
+        // @todo what is this calling?
         RcmPluginDrag.checkResize(ui.element);
     },
 

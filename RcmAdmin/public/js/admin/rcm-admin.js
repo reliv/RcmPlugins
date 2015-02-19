@@ -1042,7 +1042,6 @@ var RcmAdminService = {
                 '<ul>' +
                 '<li><a href="#"></a><ul>' +
                 '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
-                '<li><a href="#" class="rcmRemoveSizePluginMenuItem">Remove custom size</a> </li>' +
                 '<li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
                 '</ul>' +
                 '</span>' +
@@ -1116,18 +1115,6 @@ var RcmAdminService = {
                 }
             );
 
-            if (elm.attr('data-rcmPluginResized') == 'N') {
-                elm.find(".rcmRemoveSizePluginMenuItem").hide();
-            }
-            elm.find(".rcmRemoveSizePluginMenuItem").click(
-                function (e) {
-                    elm.attr('data-rcmPluginResized', 'N');
-                    elm.css('height', '');
-                    elm.css('width', '');
-                    elm.find(".rcmRemoveSizePluginMenuItem").hide();
-                }
-            );
-
             RcmAdminService.RcmPluginViewModel.enableResize(elm);
 
             if (typeof onComplete === 'function') {
@@ -1146,8 +1133,7 @@ var RcmAdminService = {
             elm.resizable(
                 {
                     stop: function () {
-                        elm.find(".rcmRemoveSizePluginMenuItem").show();
-                        elm.attr('data-rcmPluginResized', 'Y');
+                        elm.attr('data-rcmPluginResized', 'true');
                     }
                 }
             );
