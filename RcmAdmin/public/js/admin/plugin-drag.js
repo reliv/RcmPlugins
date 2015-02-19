@@ -97,8 +97,11 @@ var RcmPluginDrag = {
      */
     setHelperWidth: function (helper, pluginContainer) {
         var divWidth = RcmPluginDrag.getElementWidth(pluginContainer);
-
-        $(helper).width(divWidth);
+        if (divWidth > 1000) {
+            $(helper).width(350);
+        } else {
+            $(helper).width(divWidth);
+        }
     },
 
     /**
@@ -157,7 +160,6 @@ var RcmPluginDrag = {
      * @param ui
      */
     pluginResizeStartHandler: function (event, ui) {
-        ui.element.attr('data-rcmPluginResized', 'true');
         // @todo what is this calling?
         RcmPluginDrag.checkResize(ui.element);
     },
@@ -169,7 +171,8 @@ var RcmPluginDrag = {
         $('#RcmRealPage').find('.rcmPlugin').resizable(
             {
                 grid: 10,
-                start: RcmPluginDrag.pluginResizeStartHandler
+                start: RcmPluginDrag.pluginResizeStartHandler,
+                handles: 'e, w'
             }
         );
     },

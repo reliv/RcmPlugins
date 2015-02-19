@@ -1132,8 +1132,15 @@ var RcmAdminService = {
 
             elm.resizable(
                 {
-                    stop: function () {
-                        elm.attr('data-rcmPluginResized', 'true');
+                    containment: 'parent',
+                    grid: 10,
+                    handles: 'e, w',
+                    stop: function (event, ui ) {
+                        //
+                    },
+
+                    resize: function (event, ui ) {
+                        //
                     }
                 }
             );
