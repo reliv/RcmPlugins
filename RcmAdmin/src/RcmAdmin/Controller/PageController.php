@@ -487,25 +487,6 @@ class PageController extends AbstractActionController
         foreach ($data['plugins'] as &$plugin) {
             $this->cleanSaveData($plugin['saveData']);
 
-            /*
-             * Set some default data to keep notices from being thrown.
-             */
-            if (empty($plugin['height'])) {
-                $plugin['height'] = 0;
-            }
-
-            if (empty($plugin['width'])) {
-                $plugin['width'] = 0;
-            }
-
-            if (empty($plugin['float'])) {
-                $plugin['float'] = 'left';
-            }
-
-            if (empty($plugin['float'])) {
-                $plugin['float'] = 'left';
-            }
-
             /* Patch for a Json Bug */
             if (!empty($plugin['isSitewide'])
                 && $plugin['isSitewide'] != 'false'
@@ -522,8 +503,8 @@ class PageController extends AbstractActionController
             }
 
             $plugin['rank'] = (int)$plugin['rank'];
-            $plugin['height'] = (int)$plugin['height'];
-            $plugin['width'] = (int)$plugin['width'];
+            $plugin['rowNumber'] = (int)$plugin['rowNumber'];
+            $plugin['columnClass'] = (string)$plugin['columnClass'];
 
             $plugin['containerName'] = $plugin['containerId'];
 
