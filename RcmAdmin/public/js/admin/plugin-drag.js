@@ -1,4 +1,4 @@
-RcmPluginDrag = {
+var RcmPluginDrag = {
     /**
 
      /**
@@ -160,7 +160,7 @@ RcmPluginDrag = {
      * @param ui
      */
     pluginResizeStartHandler: function (event, ui) {
-        ui.element.attr('data-rcmPluginResized', 'Y');
+        // @todo what is this calling?
         RcmPluginDrag.checkResize(ui.element);
     },
 
@@ -171,7 +171,8 @@ RcmPluginDrag = {
         $('#RcmRealPage').find('.rcmPlugin').resizable(
             {
                 grid: 10,
-                start: RcmPluginDrag.pluginResizeStartHandler
+                start: RcmPluginDrag.pluginResizeStartHandler,
+                handles: 'e, w'
             }
         );
     },
