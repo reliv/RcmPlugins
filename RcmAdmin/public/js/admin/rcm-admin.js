@@ -1130,17 +1130,98 @@ var RcmAdminService = {
                 // nothing
             }
 
+            /* <RESIZE> @todo - Make separate lib */
+            var columnNumber = 12;
+
+            var getColumnWidth = function(parentWidth){
+                return (parentWidth / columnNumber);
+            };
+
+            var getWidthColumns = function(parentWidth, elmWidth){
+
+                if(parentWidth <= 0){
+                    parentWidth = 1;
+                }
+
+                if(elmWidth <= 0){
+                    elmWidth = 1;
+                }
+
+                var columnWidth = getColumnWidth(parentWidth);
+
+                var widthColumns = Math.ceil(elmWidth / columnWidth);
+
+                if(widthColumns > columnNumber){
+                    widthColumns = columnNumber;
+                }
+
+                return widthColumns;
+            };
+
+            var getWidth = function(parentWidth, elmWidth){
+
+                var widthColumns = getWidthColumns(parentWidth, elmWidth);
+
+                var columnWidth = getColumnWidth(parentWidth);
+
+                var width = Math.floor(widthColumns * columnWidth);
+
+                return {width: width, columns: widthColumns};
+            };
+
+            var buildClass = function(columns, positionColumns) {
+
+                return 'col-md-'+columns;
+            };
+
+            var updateColumnClass = function(elm, columns){
+
+                var currentClass = elm.attr('data-rcmplugincolumnclass');
+                //var defaultClass = elm.attr('data-rcmplugindefaultclass');
+
+                var newClass = buildClass(columns);
+
+                elm.attr('data-rcmplugincolumnclass', newClass);
+                elm.removeClass(currentClass);
+                elm.addClass(newClass);
+            };
+
+            var updateWidth = function(ui){
+
+                var parentElm = ui.element.parent();
+                var elm = ui.element;
+
+                var widths = getWidth(parentElm.width(), elm.width());
+
+                elm.width(widths.width);
+                ui.size.width = widths.width; // we sync it just in case
+
+                /* @todo - finish position offest
+                var position = getWidth(parentElm.width(), elm.position().left);
+                console.log(position.columns);
+                elm.offset({left: position.width});
+                ui.position.left = position.width;
+                */
+                //console.log(widths);
+
+                updateColumnClass(elm, widths.columns);
+            };
+
+            /* </RESIZE> */
+
             elm.resizable(
                 {
                     containment: 'parent',
-                    grid: 10,
+                    //grid: 10,
                     handles: 'e, w',
                     stop: function (event, ui ) {
-                        //
+
+                        //updateWidth(ui);
                     },
 
                     resize: function (event, ui ) {
-                        //
+
+                        updateWidth(ui);
                     }
                 }
             );
