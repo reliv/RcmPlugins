@@ -1196,12 +1196,12 @@ var RcmAdminService = {
                 elm.width(widths.width);
                 ui.size.width = widths.width; // we sync it just in case
 
-                /* @todo - finish position offest
+                /* @todo - finish position offest *
                 var position = getWidth(parentElm.width(), elm.position().left);
                 console.log(position.columns);
                 elm.offset({left: position.width});
                 ui.position.left = position.width;
-                */
+                /* */
                 //console.log(widths);
 
                 updateColumnClass(elm, widths.columns);
