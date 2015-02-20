@@ -1042,7 +1042,6 @@ var RcmAdminService = {
                 '<ul>' +
                 '<li><a href="#"></a><ul>' +
                 '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
-                '<li><a href="#" class="rcmRemoveSizePluginMenuItem">Remove custom size</a> </li>' +
                 '<li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
                 '</ul>' +
                 '</span>' +
@@ -1116,18 +1115,6 @@ var RcmAdminService = {
                 }
             );
 
-            if (elm.attr('data-rcmPluginResized') == 'N') {
-                elm.find(".rcmRemoveSizePluginMenuItem").hide();
-            }
-            elm.find(".rcmRemoveSizePluginMenuItem").click(
-                function (e) {
-                    elm.attr('data-rcmPluginResized', 'N');
-                    elm.css('height', '');
-                    elm.css('width', '');
-                    elm.find(".rcmRemoveSizePluginMenuItem").hide();
-                }
-            );
-
             RcmAdminService.RcmPluginViewModel.enableResize(elm);
 
             if (typeof onComplete === 'function') {
@@ -1143,11 +1130,98 @@ var RcmAdminService = {
                 // nothing
             }
 
+            /* <RESIZE> @todo - Make separate lib */
+            var columnNumber = 12;
+
+            var getColumnWidth = function(parentWidth){
+                return (parentWidth / columnNumber);
+            };
+
+            var getWidthColumns = function(parentWidth, elmWidth){
+
+                if(parentWidth <= 0){
+                    parentWidth = 1;
+                }
+
+                if(elmWidth <= 0){
+                    elmWidth = 1;
+                }
+
+                var columnWidth = getColumnWidth(parentWidth);
+
+                var widthColumns = Math.ceil(elmWidth / columnWidth);
+
+                if(widthColumns > columnNumber){
+                    widthColumns = columnNumber;
+                }
+
+                return widthColumns;
+            };
+
+            var getWidth = function(parentWidth, elmWidth){
+
+                var widthColumns = getWidthColumns(parentWidth, elmWidth);
+
+                var columnWidth = getColumnWidth(parentWidth);
+
+                var width = Math.floor(widthColumns * columnWidth);
+
+                return {width: width, columns: widthColumns};
+            };
+
+            var buildClass = function(columns, positionColumns) {
+
+                return 'col-md-'+columns;
+            };
+
+            var updateColumnClass = function(elm, columns){
+
+                var currentClass = elm.attr('data-rcmplugincolumnclass');
+                //var defaultClass = elm.attr('data-rcmplugindefaultclass');
+
+                var newClass = buildClass(columns);
+
+                elm.attr('data-rcmplugincolumnclass', newClass);
+                elm.removeClass(currentClass);
+                elm.addClass(newClass);
+            };
+
+            var updateWidth = function(ui){
+
+                var parentElm = ui.element.parent();
+                var elm = ui.element;
+
+                var widths = getWidth(parentElm.width(), elm.width());
+
+                elm.width(widths.width);
+                ui.size.width = widths.width; // we sync it just in case
+
+                /* @todo - finish position offest *
+                var position = getWidth(parentElm.width(), elm.position().left);
+                console.log(position.columns);
+                elm.offset({left: position.width});
+                ui.position.left = position.width;
+                /* */
+                //console.log(widths);
+
+                updateColumnClass(elm, widths.columns);
+            };
+
+            /* </RESIZE> */
+
             elm.resizable(
                 {
-                    stop: function () {
-                        elm.find(".rcmRemoveSizePluginMenuItem").show();
-                        elm.attr('data-rcmPluginResized', 'Y');
+                    containment: 'parent',
+                    //grid: 10,
+                    handles: 'e, w',
+                    stop: function (event, ui ) {
+
+                        //updateWidth(ui);
+                    },
+
+                    resize: function (event, ui ) {
+
+                        updateWidth(ui);
                     }
                 }
             );
