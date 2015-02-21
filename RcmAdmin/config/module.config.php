@@ -464,6 +464,7 @@ return [
                     // general service - requires rcm-core
                     'modules/rcm-admin/js/dialog/rcm-dialog.js',
                     'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
+                    'modules/rcm-admin/js/admin/rcm-column-resize.js',
                     'modules/rcm-admin/js/admin/rcm-admin.js',
                     'modules/rcm-admin/js/admin/rcm-edit.js',
                     'modules/rcm-admin/js/jquery/jquery-dialog-inputs.js',
