@@ -18,6 +18,7 @@
 
 namespace RcmAdmin;
 
+use Zend\Console\Request;
 use Zend\Mvc\MvcEvent;
 
 
@@ -47,6 +48,10 @@ class Module
      */
     public function onBootstrap(MvcEvent $e)
     {
+        // Don't break console routes
+        if ($e->getRequest() instanceof Request) {
+            return;
+        }
         $sm = $e->getApplication()->getServiceManager();
 
         //Add Domain Checker
