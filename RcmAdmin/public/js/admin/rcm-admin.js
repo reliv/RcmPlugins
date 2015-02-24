@@ -1043,6 +1043,7 @@ var RcmAdminService = {
                 '<li><a href="#"></a><ul>' +
                 '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
                 '<li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
+                '<li><a href="#" class="rcmResetSizePluginMenuItem">Reset Size</a> </li>' +
                 '</ul>' +
                 '</span>' +
                 '</div>';
@@ -1115,6 +1116,14 @@ var RcmAdminService = {
                 }
             );
 
+
+            elm.find(".rcmResetSizePluginMenuItem").click(
+                function (e) {
+                    rcmColunmResize.setClass(elm, rcmColunmResize.defaultClass)
+                    e.preventDefault();
+                }
+            );
+
             RcmAdminService.RcmPluginViewModel.enableResize(elm);
 
             if (typeof onComplete === 'function') {
@@ -1125,12 +1134,12 @@ var RcmAdminService = {
         enableResize: function (elm, onComplete) {
 
             try {
-                elm.resizable('destroy');
+                rcmColunmResize.destroy(elm);
             } catch (e) {
                 // nothing
             }
 
-            rcmColunmResize.addControls(elm);
+            rcmColunmResize.init(elm);
 
             if (typeof onComplete === 'function') {
                 onComplete(elm);

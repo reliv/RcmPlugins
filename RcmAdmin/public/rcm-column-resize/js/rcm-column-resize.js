@@ -31,16 +31,21 @@ var rcmColunmResize = new function () {
         return partWidthColumns;
     };
 
-    self.getCurrentClass = function (elm) {
-
-        return elm.attr('data-rcmplugincolumnclass');
-    };
-
+    /**
+     * getMediaView
+     * @returns {string}
+     */
     self.getMediaView = function () {
-        // @todo Make this work
+        // @todo Make this work by getting the data from some source
         return 'sm'
     };
 
+    /**
+     *
+     * @param elm
+     * @param view
+     * @param widthCols
+     */
     self.setWidth = function (elm, view, widthCols) {
 
         var columnData = self.getElmColumnData(elm);
@@ -69,6 +74,12 @@ var rcmColunmResize = new function () {
         );
     };
 
+    /**
+     * setOffset in columns
+     * @param elm
+     * @param view
+     * @param offsetCols
+     */
     self.setOffset = function (elm, view, offsetCols) {
 
         var columnData = self.getElmColumnData(elm);
@@ -147,17 +158,21 @@ var rcmColunmResize = new function () {
         return data;
     };
 
-    self.getElmColumnViewData = function (elm, mediaView) {
-
-        var columnData = self.getElmColumnData(elm);
-
-        return columnData[mediaView];
-    };
-
+    /**
+     * Destroy resize bits
+     * @param elm
+     */
     self.destroy = function (elm) {
-        // @todo
+        elm.parent().unbind('mousemove');
+        var controls = elm.find('.rcm-colunm-resize-control');
+        controls.unbind('mousedown');
+        controls.remove();
     };
 
+    /**
+     * Add draggy controls
+     * @param elm
+     */
     self.addControls = function (elm) {
 
         elm = jQuery(elm);
@@ -226,8 +241,6 @@ var rcmColunmResize = new function () {
         );
     };
 
-    ////
-
     /**
      * buildClass
      * @param columnData
@@ -278,17 +291,33 @@ var rcmColunmResize = new function () {
      * @param columnData
      */
     self.updateColumnClass = function (elm, columnData) {
-
-        var currentClass = elm.attr('data-rcmplugincolumnclass');
-        //var defaultClass = elm.attr('data-rcmplugindefaultclass');
-
         var newClass = self.buildClass(columnData);
+        self.setClass(elm, newClass);
+    };
 
+    /**
+     *
+     * @param elm
+     * @returns {*}
+     */
+    self.getCurrentClass = function (elm) {
+
+        return elm.attr('data-rcmplugincolumnclass');
+    };
+
+    /**
+     * Set Class
+     * @param elm
+     * @param newClass
+     */
+    self.setClass = function(elm, newClass) {
+        //var defaultClass = elm.attr('data-rcmplugindefaultclass');
+        var currentClass = elm.attr('data-rcmplugincolumnclass');
         elm.attr('data-rcmplugincolumnclass', newClass);
         elm.removeClass(currentClass);
         elm.addClass(newClass);
     };
 
-
+    self.init = self.addControls;
 };
 
