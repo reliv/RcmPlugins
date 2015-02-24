@@ -1043,6 +1043,7 @@ var RcmAdminService = {
                 '<li><a href="#"></a><ul>' +
                 '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
                 '<li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
+                '<li><a href="#" class="rcmResetSizePluginMenuItem">Reset Size</a> </li>' +
                 '</ul>' +
                 '</span>' +
                 '</div>';
@@ -1111,6 +1112,14 @@ var RcmAdminService = {
             elm.find(".rcmSiteWidePluginMenuItem").click(
                 function (e) {
                     makeSiteWide(jQuery(this).parents(".rcmPlugin"));
+                    e.preventDefault();
+                }
+            );
+
+
+            elm.find(".rcmResetSizePluginMenuItem").click(
+                function (e) {
+                    rcmColunmResize.setClass(elm, rcmColunmResize.defaultClass)
                     e.preventDefault();
                 }
             );
