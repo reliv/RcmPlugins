@@ -7,226 +7,226 @@
  *  RcmHtmlEditor
  */
 angular.module(
-        'rcmAdmin',
-        ['rcmApi', 'rcmAdminApi', 'RcmHtmlEditor']
-    )
+    'rcmAdmin',
+    ['rcmApi', 'rcmAdminApi', 'RcmHtmlEditor']
+)
 /**
  * rcmAdminService
  */
     .factory(
-        'rcmAdminService',
-        [
-            function () {
-                return RcmAdminService;
-            }
-        ]
-    )
+    'rcmAdminService',
+    [
+        function () {
+            return RcmAdminService;
+        }
+    ]
+)
 /**
  * rcmAdmin.rcmAdminMenuActions
  */
     .directive(
-        'rcmAdminMenuActions',
-        [
-            '$compile',
-            'rcmAdminService',
-            function ($compile, rcmAdminService) {
+    'rcmAdminMenuActions',
+    [
+        '$compile',
+        'rcmAdminService',
+        function ($compile, rcmAdminService) {
 
-                var thisLink = function (scope, elm, attrs) {
-                    scope.rcmAdminPage = rcmAdminService.getPage(
-                        $compile(elm.contents())(scope)
-                    );
-                };
+            var thisLink = function (scope, elm, attrs) {
+                scope.rcmAdminPage = rcmAdminService.getPage(
+                    $compile(elm.contents())(scope)
+                );
+            };
 
-                return {
-                    restrict: 'A',
-                    link: thisLink
-                }
+            return {
+                restrict: 'A',
+                link: thisLink
             }
-        ]
-    )
+        }
+    ]
+)
 
 /**
  * rcmAdmin.post
  */
     .directive(
-        'rcmMenuPost',
-        [
-            'rcmAdminService',
-            function (rcmAdminService) {
+    'rcmMenuPost',
+    [
+        'rcmAdminService',
+        function (rcmAdminService) {
 
-                var thisLink = function (scope, elm, attrs) {
+            var thisLink = function (scope, elm, attrs) {
 
-                    elm.unbind();
-                    elm.bind(
-                        'click', null, function (e) {
-                            e.preventDefault();
+                elm.unbind();
+                elm.bind(
+                    'click', null, function (e) {
+                        e.preventDefault();
 
-                            var linkHref = '';
+                        var linkHref = '';
 
-                            if (attrs.publishUrl === undefined) {
-                                linkHref = elm.find('a').attr('href');
-                            } else {
-                                linkHref = attrs.publishUrl;
-                            }
+                        if (attrs.publishUrl === undefined) {
+                            linkHref = elm.find('a').attr('href');
+                        } else {
+                            linkHref = attrs.publishUrl;
+                        }
 
-                            jQuery('body').append('<form id="stupidPostSubmit" method="post" action="' + linkHref + '">');
-                            jQuery('#stupidPostSubmit').submit();
+                        jQuery('body').append('<form id="stupidPostSubmit" method="post" action="' + linkHref + '">');
+                        jQuery('#stupidPostSubmit').submit();
 
-                            /* Ajax request.  Makes publish take Twice as long, and
-                             * fails silently when problems arise.  Recommended not
-                             * to use, but kept here to settle any disputes.
-                             */
+                        /* Ajax request.  Makes publish take Twice as long, and
+                         * fails silently when problems arise.  Recommended not
+                         * to use, but kept here to settle any disputes.
+                         */
 //                        jQuery.post(elm.find('a').attr('href'), function(data) {
 //                            if (data.redirect != undefined) {
 //                                window.location = data.redirect;
 //                            }
 //                        });
-                        }
-                    );
-                };
+                    }
+                );
+            };
 
-                return {
-                    restrict: 'C',
-                    link: thisLink
-                }
+            return {
+                restrict: 'C',
+                link: thisLink
             }
-        ]
-    )
+        }
+    ]
+)
 /**
  * rcmAdmin.rcmAdminEditButton
  */
     .directive(
-        'rcmAdminEditButton',
-        [
-            'rcmAdminService',
-            'rcmHtmlEditorService',
-            function (rcmAdminService, rcmHtmlEditorService) {
+    'rcmAdminEditButton',
+    [
+        'rcmAdminService',
+        'rcmHtmlEditorService',
+        function (rcmAdminService, rcmHtmlEditorService) {
 
-                var eventsRegistered = false;
+            var eventsRegistered = false;
 
-                var safeApply = function (scope, fn) {
-                    var phase = scope.$root.$$phase;
-                    if (phase == '$apply' || phase == '$digest') {
-                        if (fn && (typeof(fn) === 'function')) {
-                            fn();
-                        }
-                    } else {
-                        scope.$apply(fn);
+            var safeApply = function (scope, fn) {
+                var phase = scope.$root.$$phase;
+                if (phase == '$apply' || phase == '$digest') {
+                    if (fn && (typeof(fn) === 'function')) {
+                        fn();
                     }
-                };
+                } else {
+                    scope.$apply(fn);
+                }
+            };
 
-                var getLoading = function (scope) {
-                    scope.loading = (rcmAdminService.RcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
-                    safeApply(scope);
-                };
+            var getLoading = function (scope) {
+                scope.loading = (rcmAdminService.RcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
+                safeApply(scope);
+            };
 
-                var thisLink = function (scope, elm, attrs) {
+            var thisLink = function (scope, elm, attrs) {
 
-                    scope.loading = (rcmAdminService.RcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
+                scope.loading = (rcmAdminService.RcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
 
-                    if (!eventsRegistered) {
+                if (!eventsRegistered) {
 
-                        rcmAdminService.RcmEventManager.on(
-                            'RcmAdminService.RcmLoading.start',
-                            function () {
-                                getLoading(scope);
-                            }
-                        );
-                        rcmAdminService.RcmEventManager.on(
-                            'RcmAdminService.RcmLoading.end',
-                            function () {
-                                getLoading(scope);
-                            }
-                        );
-                        rcmHtmlEditorService.eventManager.on(
-                            'rcmHtmlEditorService.loading.start',
-                            function (obj) {
-                                getLoading(scope);
-                            }
-                        );
-                        rcmHtmlEditorService.eventManager.on(
-                            'rcmHtmlEditorService.loading.end',
-                            function (obj) {
-                                getLoading(scope);
-                            }
-                        );
-
-                        eventsRegistered = true;
-                    }
-
-                    scope.rcmAdminPage = rcmAdminService.getPage();
-
-                    var editingState = attrs.rcmAdminEditButton;
-
-                    elm.unbind();
-                    elm.bind(
-                        'click', null, function () {
-
-                            rcmAdminService.rcmAdminEditButtonAction(
-                                editingState,
-                                function () {
-                                    scope.$apply();
-                                }
-                            );
+                    rcmAdminService.RcmEventManager.on(
+                        'RcmAdminService.RcmLoading.start',
+                        function () {
+                            getLoading(scope);
                         }
                     );
-                };
+                    rcmAdminService.RcmEventManager.on(
+                        'RcmAdminService.RcmLoading.end',
+                        function () {
+                            getLoading(scope);
+                        }
+                    );
+                    rcmHtmlEditorService.eventManager.on(
+                        'rcmHtmlEditorService.loading.start',
+                        function (obj) {
+                            getLoading(scope);
+                        }
+                    );
+                    rcmHtmlEditorService.eventManager.on(
+                        'rcmHtmlEditorService.loading.end',
+                        function (obj) {
+                            getLoading(scope);
+                        }
+                    );
 
-                return {
-                    restrict: 'A',
-                    link: thisLink
+                    eventsRegistered = true;
                 }
+
+                scope.rcmAdminPage = rcmAdminService.getPage();
+
+                var editingState = attrs.rcmAdminEditButton;
+
+                elm.unbind();
+                elm.bind(
+                    'click', null, function () {
+
+                        rcmAdminService.rcmAdminEditButtonAction(
+                            editingState,
+                            function () {
+                                scope.$apply();
+                            }
+                        );
+                    }
+                );
+            };
+
+            return {
+                restrict: 'A',
+                link: thisLink
             }
-        ]
-    )
+        }
+    ]
+)
 /**
  * rcmAdmin.richedit
  */
     .directive(
-        'richedit',
-        [
-            'rcmAdminService',
-            'rcmHtmlEditorInit',
-            'rcmHtmlEditorDestroy',
-            function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
+    'richedit',
+    [
+        'rcmAdminService',
+        'rcmHtmlEditorInit',
+        'rcmHtmlEditorDestroy',
+        function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
-                return {
-                    compile: rcmAdminService.getHtmlEditorLink(
-                        rcmHtmlEditorInit,
-                        rcmHtmlEditorDestroy,
-                        'richedit'
-                    ),
-                    scope: {},
-                    restrict: 'A',
-                    require: '?ngModel'
-                }
+            return {
+                compile: rcmAdminService.getHtmlEditorLink(
+                    rcmHtmlEditorInit,
+                    rcmHtmlEditorDestroy,
+                    'richedit'
+                ),
+                scope: {},
+                restrict: 'A',
+                require: '?ngModel'
             }
-        ]
-    )
+        }
+    ]
+)
 /**
  * rcmAdmin.textedit
  */
     .directive(
-        'textedit',
-        [
-            'rcmAdminService',
-            'rcmHtmlEditorInit',
-            'rcmHtmlEditorDestroy',
-            function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
+    'textedit',
+    [
+        'rcmAdminService',
+        'rcmHtmlEditorInit',
+        'rcmHtmlEditorDestroy',
+        function (rcmAdminService, rcmHtmlEditorInit, rcmHtmlEditorDestroy) {
 
-                return {
-                    compile: rcmAdminService.getHtmlEditorLink(
-                        rcmHtmlEditorInit,
-                        rcmHtmlEditorDestroy,
-                        'textedit'
-                    ),
-                    scope: {},
-                    restrict: 'A',
-                    require: '?ngModel'
-                }
+            return {
+                compile: rcmAdminService.getHtmlEditorLink(
+                    rcmHtmlEditorInit,
+                    rcmHtmlEditorDestroy,
+                    'textedit'
+                ),
+                scope: {},
+                restrict: 'A',
+                require: '?ngModel'
             }
-        ]
-    );
+        }
+    ]
+);
 /* <RcmAdminService> */
 var RcmAdminService = {
 
@@ -1130,101 +1130,7 @@ var RcmAdminService = {
                 // nothing
             }
 
-            /* <RESIZE> @todo - Make separate lib */
-            var columnNumber = 12;
-
-            var getColumnWidth = function(parentWidth){
-                return (parentWidth / columnNumber);
-            };
-
-            var getWidthColumns = function(parentWidth, elmWidth){
-
-                if(parentWidth <= 0){
-                    parentWidth = 1;
-                }
-
-                if(elmWidth <= 0){
-                    elmWidth = 1;
-                }
-
-                var columnWidth = getColumnWidth(parentWidth);
-
-                var widthColumns = Math.ceil(elmWidth / columnWidth);
-
-                if(widthColumns > columnNumber){
-                    widthColumns = columnNumber;
-                }
-
-                return widthColumns;
-            };
-
-            var getWidth = function(parentWidth, elmWidth){
-
-                var widthColumns = getWidthColumns(parentWidth, elmWidth);
-
-                var columnWidth = getColumnWidth(parentWidth);
-
-                var width = Math.floor(widthColumns * columnWidth);
-
-                return {width: width, columns: widthColumns};
-            };
-
-            var buildClass = function(columns, positionColumns) {
-
-                return 'col-md-'+columns;
-            };
-
-            var updateColumnClass = function(elm, columns){
-
-                var currentClass = elm.attr('data-rcmplugincolumnclass');
-                //var defaultClass = elm.attr('data-rcmplugindefaultclass');
-
-                var newClass = buildClass(columns);
-
-                elm.attr('data-rcmplugincolumnclass', newClass);
-                elm.removeClass(currentClass);
-                elm.addClass(newClass);
-            };
-
-            var updateWidth = function(ui){
-
-                var parentElm = ui.element.parent();
-                var elm = ui.element;
-
-                var widths = getWidth(parentElm.width(), elm.width());
-
-                elm.width(widths.width);
-                ui.size.width = widths.width; // we sync it just in case
-
-                /* @todo - finish position offest *
-                var position = getWidth(parentElm.width(), elm.position().left);
-                console.log(position.columns);
-                elm.offset({left: position.width});
-                ui.position.left = position.width;
-                /* */
-                //console.log(widths);
-
-                updateColumnClass(elm, widths.columns);
-            };
-
-            /* </RESIZE> */
-
-            elm.resizable(
-                {
-                    containment: 'parent',
-                    //grid: 10,
-                    handles: 'e, w',
-                    stop: function (event, ui ) {
-
-                        //updateWidth(ui);
-                    },
-
-                    resize: function (event, ui ) {
-
-                        updateWidth(ui);
-                    }
-                }
-            );
+            rcmColunmResize.addControls(elm);
 
             if (typeof onComplete === 'function') {
                 onComplete(elm);
@@ -1780,10 +1686,12 @@ var RcmAdminService = {
                 },
                 function (data) {
                     pluginContainer.html(data);
-                    self.updateView(pluginContainer, function () {
-                        self.isInitted = false;
-                        self.initEdit(callback);
-                    });
+                    self.updateView(
+                        pluginContainer, function () {
+                            self.isInitted = false;
+                            self.initEdit(callback);
+                        }
+                    );
                 }
             );
         };
