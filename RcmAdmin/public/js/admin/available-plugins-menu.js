@@ -87,6 +87,8 @@ var RcmAvailablePluginsMenu = {
                         outerContainer.addClass(pluginInfo.name);
                         outerContainer.attr('data-rcmPluginInstanceId', instanceId);
                         outerContainer.attr('data-rcmPluginName', pluginInfo.name);
+                        outerContainer.attr('data-rcmplugincolumnclass', 'col-sm-12');
+                        outerContainer.attr('data-rcmpluginrownumber', '0');
                         outerContainer.attr(
                             'data-rcmSiteWidePlugin',
                             pluginInfo.siteWide ? 1 : 0
