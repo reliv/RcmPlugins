@@ -1132,25 +1132,6 @@ var RcmAdminService = {
 
             rcmColunmResize.addControls(elm);
 
-            //elm.resizable(
-            //    {
-            //        //containment: 'parent',
-            //        //grid: 10,
-            //        handles: 'e, w',
-            //        start: function (event, ui) {
-            //
-            //        },
-            //        stop: function (event, ui) {
-            //
-            //        },
-            //
-            //        resize: function (event, ui) {
-            //
-            //            rcmColunmResize.updateWidth(ui);
-            //        }
-            //    }
-            //);
-
             if (typeof onComplete === 'function') {
                 onComplete(elm);
             }

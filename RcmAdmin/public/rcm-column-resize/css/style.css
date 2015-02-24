@@ -1,0 +1,41 @@
+.rcm-colunm-resize-control {
+    background-color: rgba(0, 0, 0, 0);
+    border-top: 1px dotted #999999;
+    border-bottom: 1px dotted #999999;
+    color: #000000;
+    color: rgba(0, 0, 0, 0);
+    cursor: col-resize;
+    line-height: 50%;
+    position: absolute;
+    top: 0px;
+    width: 1em;
+    height: 100%;
+}
+
+.rcm-colunm-resize-control.width {
+    border-right: 1px dotted #999999;
+    right: 0px;
+}
+
+.rcm-colunm-resize-control.width:hover {
+    background-color: rgba(0, 0, 0, .5);
+
+    color: rgba(0, 0, 0, 1);
+}
+
+.rcm-colunm-resize-control.offset {
+    border-left: 1px dotted #999999;
+    left: 0px;
+}
+
+.rcm-colunm-resize-control.offset:hover {
+    background-color: rgba(0, 0, 0, .5);
+
+    color: rgba(0, 0, 0, 1);
+}
+
+.rcm-colunm-resize-control .div {
+    display: table-cell;
+    vertical-align:middle;
+    text-align: center;
+}
