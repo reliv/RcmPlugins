@@ -7,7 +7,6 @@
     color: #101010;
     width: 100%;
     left: 0%;
-    position: relative;
     margin: 0 auto;
     float: none;
     outline: none;
@@ -16,7 +15,6 @@
     border-radius: 0px !important;
     -moz-border-radius: 0px !important;
     -webkit-border-radius: 0px !important;
-    /* height: 40px !important; */
     position: relative;
     outline: none !important;
     z-index: 1000;
