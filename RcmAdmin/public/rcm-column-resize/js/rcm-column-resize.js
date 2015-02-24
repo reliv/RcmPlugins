@@ -155,7 +155,10 @@ var rcmColunmResize = new function () {
     };
 
     self.destroy = function (elm) {
-        // @todo
+        elm.parent().unbind('mousemove');
+        var controls = elm.find('.rcm-colunm-resize-control');
+        controls.unbind('mousedown');
+        controls.remove();
     };
 
     self.addControls = function (elm) {
@@ -289,6 +292,6 @@ var rcmColunmResize = new function () {
         elm.addClass(newClass);
     };
 
-
+    self.init = self.addControls;
 };
 

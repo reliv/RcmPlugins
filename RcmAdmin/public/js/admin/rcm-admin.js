@@ -1125,12 +1125,12 @@ var RcmAdminService = {
         enableResize: function (elm, onComplete) {
 
             try {
-                elm.resizable('destroy');
+                rcmColunmResize.destroy(elm);
             } catch (e) {
                 // nothing
             }
 
-            rcmColunmResize.addControls(elm);
+            rcmColunmResize.init(elm);
 
             if (typeof onComplete === 'function') {
                 onComplete(elm);
