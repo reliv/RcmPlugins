@@ -25,12 +25,8 @@ var RcmPluginDrag = {
                     row.remove();
                 }
             });
-            var lastRow
-            $.each(container.children('.row'), function () {
-                lastRow = $(this);
-            });
             for (var i = 0; i < extraRowCount; i++) {
-                lastRow.after($('<div class="row"></div>'));
+                container.append($('<div class="row"></div>'));
             }
         });
     },

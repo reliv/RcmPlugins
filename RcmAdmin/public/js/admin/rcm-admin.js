@@ -290,7 +290,7 @@ var RcmAdminService = {
 
                     page.arrange(true);
 
-                    RcmPluginDrag.initDrag();
+                    RcmPluginDrag.refresh();
 
                     return;
                 }
@@ -1073,6 +1073,7 @@ var RcmAdminService = {
 
                     page.registerObjects();
                     e.preventDefault();
+                    RcmPluginDrag.refresh();
                 }
             );
 
