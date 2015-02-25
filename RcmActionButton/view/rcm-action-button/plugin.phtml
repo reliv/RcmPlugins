@@ -5,23 +5,12 @@ $this->headLink()->appendStylesheet(
 
 $this->colorList = htmlentities(json_encode($this->config['rcmPlugin']['RcmActionButton']['colorSwatches']), ENT_QUOTES);
 ?>
-<script type="text/javascript">
-
-    (function() {
-
-        var pluginElm = jQuery("[data-rcmplugininstanceid='<?= $this->instanceId ?>']");
-        pluginElm.removeAttr('style');
-        pluginElm.addClass('<?= $this->instanceConfig['class'] ?>');
-    })();
-</script>
-
 <div class="button-box"
      style="background-color: <?= $this->instanceConfig['buttonColor'] ?>"
      data-button-color="<?= $this->instanceConfig['buttonColor'] ?>"
      data-link-color="<?= $this->instanceConfig['linkColor'] ?>"
      data-color-list="<?= $this->colorList ?>"
     >
-
     <a class="button-area" href="<?= $this->escapeHtml($this->instanceConfig['href']) ?>">
         <div class="button-content" style="color: <?= $this->instanceConfig['linkColor'] ?>">
             <?=
@@ -33,7 +22,4 @@ $this->colorList = htmlentities(json_encode($this->config['rcmPlugin']['RcmActio
             ) ?>
         </div>
     </a>
-
 </div>
-
-

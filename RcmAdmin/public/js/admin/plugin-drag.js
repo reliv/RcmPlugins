@@ -1,13 +1,34 @@
 var RcmPluginDrag = {
-    /**
 
-     /**
-     * Show the layout editor
+    /**
+     * Sets up everything to do with plugin dragging
      */
-    initDrag: function () {
+    refresh: function () {
+        $('html').addClass('rcmDraggingPlugins');
+        RcmPluginDrag.setExtraRowCount(1);
         RcmPluginDrag.makePluginsDraggable();
         RcmPluginDrag.makePluginsSortable();
-        //RcmPluginDrag.addCMSHandles();
+    },
+
+    /**
+     * Sets the number of extra empty rows in each container
+     * @todo empty must be last one
+     * @param {int} extraRowCount send 0 or 1
+     */
+    setExtraRowCount: function (extraRowCount) {
+        $.each($('.rcmContainer'), function () {
+            var container = $(this);
+            $.each(container.children('.row'), function () {
+                var row = $(this);
+                //If row is empty
+                if (row.children().length == 0) {
+                    row.remove();
+                }
+            });
+            for (var i = 0; i < extraRowCount; i++) {
+                container.append($('<div class="row"></div>'));
+            }
+        });
     },
     /**
      * Make plugins in the layout editor menu draggable
@@ -19,6 +40,11 @@ var RcmPluginDrag = {
     },
 
     makePluginItemDragable: function (pluginItem) {
+        try {
+            pluginItem.draggable('destroy');
+        } catch (e) {
+            //No problem
+        }
         pluginItem.draggable(
             {
                 cursorAt: {left: 40, top: 10},
@@ -29,22 +55,12 @@ var RcmPluginDrag = {
                     RcmPluginDrag.pluginDraggableDrag(this);
                 },
                 revert: 'invalid',
-                connectToSortable: '.rcmContainer',
+                connectToSortable: '.rcmContainer > .row',
                 appendTo: 'body'
             }
         );
 
     },
-
-    /**
-     * Disable dragging on plugins
-     *
-     stopPluginsDraggable: function () {
-        $("#rcmLayoutAccordion").find(".rcmPluginDrag").each(function (v, e) {
-            $(e).draggable("destroy");
-        });
-    },
-     */
 
     /**
      * Callback for Draggable - Helper
@@ -155,35 +171,17 @@ var RcmPluginDrag = {
     },
 
     /**
-     * pluginResizeStartHandler
-     * @param event
-     * @param ui
-     */
-    pluginResizeStartHandler: function (event, ui) {
-        // @todo what is this calling?
-        RcmPluginDrag.checkResize(ui.element);
-    },
-
-    /**
-     * makePluginsResizable
-     */
-    makePluginsResizable: function () {
-        $('#RcmRealPage').find('.rcmPlugin').resizable(
-            {
-                grid: 10,
-                start: RcmPluginDrag.pluginResizeStartHandler,
-                handles: 'e, w'
-            }
-        );
-    },
-
-    /**
      * Makes plugins sortable.
      */
     makePluginsSortable: function () {
-        $(".rcmContainer").sortable(
+        try {
+            $(".rcmContainer > .row").sortable('destroy');
+        } catch (e) {
+            //No problem
+        }
+        $(".rcmContainer > .row").sortable(
             {
-                connectWith: '.rcmContainer',
+                connectWith: '.rcmContainer > .row',
                 dropOnEmpty: true,
                 helper: "original",
                 tolerance: 'pointer',
@@ -199,22 +197,10 @@ var RcmPluginDrag = {
                 start: function (event, ui) {
                     RcmPluginDrag.pluginSortableStart(ui);
                 },
-                stop: RcmPluginDrag.pluginSortableStop,
-                cancel: '[data-textedit]'
+                stop: RcmPluginDrag.pluginSortableStop
             }
         );
-        RcmPluginDrag.makePluginsResizable();
     },
-
-    /**
-     * Makes plugins sortable.
-     *
-     stopPluginsSortable: function () {
-        $(".rcmContainer").each(function (v, e) {
-            $(e).sortable("destroy");
-        });
-    },
-     */
 
     /**
      * Plugin Sortable Change event
@@ -243,7 +229,6 @@ var RcmPluginDrag = {
      * @param ui
      */
     pluginSortableStart: function (ui) {
-        $('html').addClass('rcmDraggingPlugins');
         /* Advise the editor that we are moving it's container */
         var richEdit = $(ui.item).find('[data-richedit]');
         if (richEdit.length > 0) {
@@ -261,9 +246,10 @@ var RcmPluginDrag = {
      * @param ui
      */
     pluginSortableStop: function (event, ui) {
-        var pluginData = RcmPluginDrag.getPluginContainerInfo(ui.item);
-        $('html').removeClass('rcmDraggingPlugins');
         RcmAdminService.getPage().registerObjects();
+        setTimeout(function () {
+            RcmPluginDrag.refresh();//Fix Rows
+        }, 100);
         return true;
     },
     /**
@@ -306,34 +292,14 @@ var RcmPluginDrag = {
 
         var page = RcmAdminService.getPage();
         page.registerObjects(
-            function(){
+            function () {
                 var plugin = page.getPlugin(pluginData.instanceId);
                 // @todo This might cause some issues with ng-repeat,
                 //       updateView compiles the elm
                 plugin.updateView();
             }
         );
-
-        //Make sure the new plugin is sizable
-        RcmPluginDrag.makePluginsResizable();
     },
-
-    /**
-     * Delete Plugin on clink bind
-     *
-     * @param container
-     *
-     deletePlugin: function (container) {
-        var pluginData = RcmPluginDrag.getPluginContainerInfo(container);
-        if (pluginData.isSiteWide == 'Y') {
-            $('#' + pluginData.displayName).show();
-        }
-        me.rcmPlugins.removeRichEdits(container, pluginData);
-        me.rcmPlugins.removeTextEdits(container, pluginData);
-        me.rcmPlugins.removeCalledPlugin(container);
-        $(container).remove();
-    },
-     */
 
     /**
      * getElementWidth

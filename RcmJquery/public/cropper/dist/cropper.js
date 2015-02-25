@@ -303,7 +303,7 @@
       this.initContainer();
       this.initCropper();
       this.initImage();
-      this.initDragger();
+      this.refreshger();
 
       if (data) {
         this.setData(data, TRUE);
@@ -488,7 +488,7 @@
       }
     },
 
-    initDragger: function () {
+    refreshger: function () {
       var defaults = this.defaults,
           cropper = this.cropper,
           // If not set, use the original aspect ratio of the image.
@@ -777,7 +777,7 @@
         this.defaults.aspectRatio = freeRatio ? NAN : aspectRatio;
 
         if (this.built) {
-          this.initDragger();
+          this.refreshger();
           this.renderDragger();
         }
       }
