@@ -251,7 +251,7 @@ angular.module('rcmAdmin')
                 self.getPageTypes();
 
                 self.getDestinationSites();
-            }
+            };
 
             self.init();
         }
@@ -267,7 +267,7 @@ angular.module('rcmAdmin')
             strb = ("" + strb).toLowerCase();
 
             return (stra == strb);
-        }
+        };
 
         return function (input, query) {
             if (!query) {
@@ -296,7 +296,7 @@ angular.module('rcmAdmin')
             strb = ("" + strb).toLowerCase();
 
             return stra.indexOf(strb) !== -1;
-        }
+        };
 
         return function (input, query) {
             if (!query) {

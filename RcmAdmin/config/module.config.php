@@ -464,25 +464,26 @@ return [
                     // general service - requires rcm-core
                     'modules/rcm-admin/js/dialog/rcm-dialog.js',
                     'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
-                    'modules/rcm-admin/rcm-column-resize/js/rcm-column-resize.js',
+
+                    'modules/rcm-admin/rcm-column-resize/rcm-column-resize.js',
 
                     /* <rcm-admin-service> */
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-service-config.js',
-                    'modules/rcm-admin/rcm-admin/js/rcm-event-manager.js',
-                    'modules/rcm-admin/rcm-admin/js/rcm-loading.js',
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-model.js',
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-view-model.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-service-config.js',
+                    'modules/rcm-admin/rcm-admin/rcm-event-manager.js',
+                    'modules/rcm-admin/rcm-admin/rcm-loading.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-model.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-view-model.js',
 
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-plugin-edit-js.js',
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-plugin.js',
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-container.js',
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-page.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-plugin-edit-js.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-plugin.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-container.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-page.js',
 
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-service.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-service.js',
 
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-service-edit-button-action.js',
-                    'modules/rcm-admin/rcm-admin/js/rcm-admin-service-html-editor-link.js',
-                    'modules/rcm-admin/rcm-admin/js/angular-rcm-admin.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-service-edit-button-action.js',
+                    'modules/rcm-admin/rcm-admin/rcm-admin-service-html-editor-link.js',
+                    'modules/rcm-admin/rcm-admin/angular-rcm-admin.js',
                     /* </rcm-admin-service> */
 
                     'modules/rcm-admin/js/admin/rcm-edit.js',
@@ -506,7 +507,7 @@ return [
                     'modules/rcm-admin/css/layout-editor.css',
                     'modules/rcm-admin/css/rcm-admin-panel.css',
                     'modules/rcm-admin/css/rcm-admin-navigation.css',
-                    'modules/rcm-admin/rcm-column-resize/css/style.css',
+                    'modules/rcm-admin/rcm-column-resize/style.css',
                     // RcmUser services - CSS
                     'modules/rcm-user/css/rcm-user-role-selector.css',
                     'modules/rcm-admin/css/permissions.css',
