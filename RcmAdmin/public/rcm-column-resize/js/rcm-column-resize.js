@@ -177,6 +177,13 @@ var rcmColunmResize = new function () {
 
         elm = jQuery(elm);
 
+        try {
+            // prevent duplicate create
+            self.destroy(elm);
+        } catch (e) {
+            // nothing
+        }
+
         var controlOffset = jQuery('<div class="rcm-colunm-resize-control offset"><div> </div></div>');
 
         var controlWidth = jQuery('<div class="rcm-colunm-resize-control width"><div> </div></div>');
