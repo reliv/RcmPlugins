@@ -145,8 +145,14 @@ html.rcmEditingPlugins .rcmPlugin:hover {
     border: 2px dotted grey;
 }
 
-html.rcmDraggingPlugins .rcmContainer {
+html.rcmDraggingPlugins .row {
     border: 2px dotted grey;
+    border-bottom: 0;
+    min-height: 3em;
+}
+
+html.rcmDraggingPlugins .rcmContainer{
+    border-bottom: 2px dotted grey;
 }
 
 html.rcmDraggingPlugins .rcmPlugin {
