@@ -21,17 +21,22 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
     var me = this;
 
     me.liClassesToFilter = [
-        'rcmDynamicNavigationLogout',
-        'rcmDynamicNavigationLogin',
-        'rcmDynamicNavigationAuthMenuItem',
         'dropdown',
         'open',
         'context-menu-active'
     ];
 
+    me.liClassesForLogin = [
+        'rcmDynamicNavigationLogout',
+        'rcmDynamicNavigationLogin',
+        'rcmDynamicNavigationAuthMenuItem'
+    ];
+
     me.aClassesToFilter = [
         'dropdown-toggle'
     ];
+
+    me.seperatorCount = 0;
 
     /**
      * The selector to get this plugin container
@@ -79,7 +84,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      */
     me.getSaveData = function () {
 
-        var mainLinks = jQuery(me.containerSelector).find("nav").children("ul:first").children("li").toArray();
+        var mainLinks = jQuery(me.containerSelector).find("#RcmDynamicNavigation_"+instanceId).children("ul:first").children("li").toArray();
 
         var data = [];
 
@@ -90,9 +95,6 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         var saveData = {
             links : data
         };
-
-        console.log(saveData);
-        confirm('Is it right?');
 
         return saveData;
     };
@@ -106,7 +108,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
             'display' : a.find('span.linkText').text().trim(),
             'href' : a.attr('href'),
             'target': a.attr("target"),
-            'class' : me.getLiClasses(link),
+            'class' : me.getLiClasses(link, true),
             'permissions' : jQuery(link).attr('data-permissions')
         };
 
@@ -215,68 +217,20 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
      * Add the elements we need for editing to the DOM
      */
     me.addRightClickMenu = function () {
+        var mainMenuItems = me.getMenuItems('main');
+        me.addRightClickMenuDialog(me.containerSelector + ' ul:first > li', mainMenuItems);
 
-        jQuery.contextMenu('destroy', me.containerSelector + ' li');
+        var subMenuItems = me.getMenuItems('sub');
+        me.addRightClickMenuDialog(me.containerSelector + ' ul:first > li li', subMenuItems);
+    };
 
-        var showAddLoginLinkMenu = {};
-        if (jQuery(me.containerSelector + " .rcmDynamicNavigationAuthMenuItem").length < 1) {
-            showAddLoginLinkMenu = {
-                separator2: "-",
-                loginLink: {
-                    name: 'Add Login Link',
-                    icon: 'add',
-                    callback: function () {
-                        me.addLoginLink(this);
-                    }
-                }
-            }
-        }
-
-        var items = {
-
-            edit: {
-                name: 'Edit Link Properties',
-                icon: 'edit',
-                callback: function () {
-                    me.showEditDialog(this, false);
-                }
-            },
-            permissions: {
-                name: 'Change Link View Permissions',
-                icon: 'edit',
-                callback: function () {
-                    me.showPermissionsDialog(this);
-                }
-            },
-            separator1: "-",
-                createNew: {
-            name: 'Create New Link',
-                icon: 'add',
-                callback: function () {
-                    me.addItem(this);
-                }
-            },
-            createSub: {
-                name: 'Add Sub Menu Link',
-                icon: 'add',
-                callback: function () {
-                    me.addSubMenu(this);
-                }
-            },
-            deleteLink: {
-                name: 'Delete Link',
-                icon: 'delete',
-                callback: function() {
-                    me.deleteItem(this);
-                }
-            }
-        };
-
-        jQuery.extend(items,showAddLoginLinkMenu);
+    me.addRightClickMenuDialog = function(selector, items)
+    {
+        jQuery.contextMenu('destroy', selector);
 
         //Add right click menu
         jQuery.contextMenu({
-            selector: me.containerSelector + ' li',
+            selector: selector,
 
             events: {
                 hide: function () {
@@ -291,6 +245,96 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
             //Here are the right click menu options
             items: items
         });
+    };
+
+    me.getMenuItems = function(type)
+    {
+
+        me.seperatorCount = 0;
+
+        var showAddLoginLinkMenu = {};
+
+        if (jQuery(me.containerSelector + " .rcmDynamicNavigationAuthMenuItem").length < 1 && type == 'main') {
+            showAddLoginLinkMenu = {
+                loginLink: {
+                    name: 'Add Login Link',
+                    icon: 'add',
+                    callback: function () {
+                        me.addLoginLink(this);
+                    }
+                }
+            }
+        }
+
+        var createSubMenuItem = {};
+
+        if (type == 'main') {
+            createSubMenuItem = {
+                createSub: {
+                    name: 'Add Sub Menu Link',
+                    icon: 'add',
+                    callback: function () {
+                        me.addSubMenu(this);
+                    }
+                },
+            };
+        }
+
+        var editLinkPropertiesMenuItem = {
+            edit: {
+                name: 'Edit Link Properties',
+                icon: 'edit',
+                callback: function () {
+                    me.showEditDialog(this, false);
+                }
+            }
+        };
+
+        var permissionMenuItem = {
+            permissions: {
+                name: 'Change Link View Permissions',
+                icon: 'edit',
+                callback: function () {
+                    me.showPermissionsDialog(this);
+                }
+            }
+        };
+
+        var createNewLinkMenuItem = {
+            createNew: {
+                name: 'Create New Link',
+                icon: 'add',
+                callback: function () {
+                    me.addItem(this);
+                }
+            },
+        };
+
+        var deleteLinkMenuItem = {
+            deleteLink: {
+                name: 'Delete Link',
+                icon: 'delete',
+                callback: function() {
+                    me.deleteItem(this);
+                }
+            }
+        };
+
+        var items = {};
+
+        jQuery.extend(items, editLinkPropertiesMenuItem, me.getSeperator(), editLinkPropertiesMenuItem, createNewLinkMenuItem, createSubMenuItem, deleteLinkMenuItem, me.getSeperator(), showAddLoginLinkMenu);
+
+        return items;
+    };
+
+    me.getSeperator = function()
+    {
+        var seperatorId = 'seperator'+me.seperatorCount;
+        var seperator = {};
+        seperator[seperatorId] = '-';
+
+        me.seperatorCount++;
+        return seperator;
     };
 
     me.isLoginLink = function(item) {
@@ -308,7 +352,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         var a = li.children('a');
 
         //Find out what css class this link has
-        var currentClasses = me.getLiClasses(li);
+        var currentClasses = me.getLiClasses(li, false);
 
         if (typeof(currentClasses) == 'undefined') {
             currentClasses = '';
@@ -394,13 +438,19 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         });
     };
 
-    me.getLiClasses = function(li) {
+    me.getLiClasses = function(li, save) {
 
         var cloneLi = jQuery(li).clone();
 
         jQuery.each(me.liClassesToFilter, function(i, v) {
             jQuery(cloneLi).removeClass(v);
         });
+
+        if (!save) {
+            jQuery.each(me.liClassesForLogin, function(i, v) {
+                jQuery(cloneLi).removeClass(v);
+            });
+        }
 
         return cloneLi.attr('class');
     };
@@ -433,6 +483,8 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         });
 
         jQuery(me.containerSelector).find("a.dropdown-toggle").unbind('click');
+
+        jQuery(me.containerSelector).find('li').dblclick(function(){me.showEditDialog(jQuery(this),false)})
     }
 };
 
