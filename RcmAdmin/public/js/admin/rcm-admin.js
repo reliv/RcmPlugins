@@ -511,7 +511,7 @@ var RcmAdminService = {
      * getPlugin
      * @param id
      * @param onComplete
-     * @returns {*}
+     * @returns {RcmPlugin}
      */
     getPlugin: function (id, onComplete) {
 
