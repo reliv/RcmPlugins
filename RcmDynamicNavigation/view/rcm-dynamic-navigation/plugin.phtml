@@ -5,6 +5,10 @@ $this->headScript()->appendFile(
     'text/javascript'
 );
 
+$this->headLink()->appendStylesheet(
+    $this->basePath() .'/modules/rcm-dynamic-navigation/rcm-dynamic-navigation.css'
+);
+
 ?>
 
 <?= $this->rcmDynamicLinksRenderLinks($this->links, $this->isAdmin, "RcmDynamicNavigation_".$this->instanceId); ?>

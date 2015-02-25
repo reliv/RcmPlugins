@@ -133,10 +133,6 @@ class RenderLinks extends AbstractHelper
 
         if (!empty($objectClass) || !empty($systemClass)) {
             $html .= ' class="'.$objectClass.' '.$systemClass.'"';
-
-            if ($admin) {
-                $html .= ' data-class="' . $objectClass . '"';
-            }
         }
 
         if ($admin) {
@@ -155,7 +151,7 @@ class RenderLinks extends AbstractHelper
         }
 
         $html .= '>';
-        $html .= $link->getDisplay();
+        $html .= '<span class="linkText">'.$link->getDisplay().'</span>';
 
         if ($link->hasLinks()) {
             $html .= '<span class="caret"></span>';

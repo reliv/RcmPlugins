@@ -69,6 +69,12 @@ class IncludeTwitterBootstrap extends AbstractHelper
         $headScript->appendFile(
             '/modules/rcm-twitter-bootstrap/bootstrap/js/bootstrap.js'
         );
+
+        $headScript->appendFile(
+            '/modules/rcm-twitter-bootstrap/bootstrap/js/respond/respond.min.js',
+            'text/javascript',
+            array('conditional' => 'lt IE 8')
+        );
     }
 
     public function injectCss()

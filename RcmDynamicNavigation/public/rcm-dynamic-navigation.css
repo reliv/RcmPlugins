@@ -1,41 +1,4 @@
-.RcmDynamicNavigation .HiddenLink,
-.RcmDynamicNavigation select .HiddenLink
+.RcmDynamicNavigation .HiddenLink
 {
     display: none;
-}
-
-.RcmDynamicNavigation .rcmPluginContainer {
-    overflow: visible !important;
-}
-
-.RcmDynamicNavigation select {
-    font: 14px/20px Verdana, Arial, Helvetica, sans-serif;
-    color: #101010;
-    width: 100%;
-    left: 0%;
-    position: relative;
-    margin: 0 auto;
-    float: none;
-    border: 2px solid #13a;
-    margin-top: -1px;
-    border-radius: 0px !important;
-    -moz-border-radius: 0px !important;
-    -webkit-border-radius: 0px !important;
-    /* height: 40px !important; */
-    outline: none !important;
-    z-index: 1000;
-}
-
-.RcmDynamicNavigation select, .RcmDynamicNavigation .mobileMenuIcon {
-    display: none;
-}
-
-@media only screen and (max-width: 768px) {
-    .RcmDynamicNavigation nav {
-        display: none;
-    }
-
-    .RcmDynamicNavigation .mobileMenuIcon {
-        display: block;
-    }
 }
