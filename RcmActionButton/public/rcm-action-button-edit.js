@@ -3,7 +3,7 @@
  *
  * @param instanceId
  * @param container
- * @param RcmAdminService.RcmPlugin pluginHandler
+ * @param RcmAdminPlugin pluginHandler
  * @constructor
  */
 var RcmActionButtonEdit = function (instanceId, container, pluginHandler) {

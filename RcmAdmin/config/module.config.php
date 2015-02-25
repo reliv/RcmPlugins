@@ -465,7 +465,26 @@ return [
                     'modules/rcm-admin/js/dialog/rcm-dialog.js',
                     'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
                     'modules/rcm-admin/rcm-column-resize/js/rcm-column-resize.js',
-                    'modules/rcm-admin/js/admin/rcm-admin.js',
+
+                    /* <rcm-admin-service> */
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-service-config.js',
+                    'modules/rcm-admin/rcm-admin/js/rcm-event-manager.js',
+                    'modules/rcm-admin/rcm-admin/js/rcm-loading.js',
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-model.js',
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-view-model.js',
+
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-plugin-edit-js.js',
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-plugin.js',
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-container.js',
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-page.js',
+
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-service.js',
+
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-service-edit-button-action.js',
+                    'modules/rcm-admin/rcm-admin/js/rcm-admin-service-html-editor-link.js',
+                    'modules/rcm-admin/rcm-admin/js/angular-rcm-admin.js',
+                    /* </rcm-admin-service> */
+
                     'modules/rcm-admin/js/admin/rcm-edit.js',
                     'modules/rcm-admin/js/jquery/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/admin/ajax-plugin-edit-helper.js',
