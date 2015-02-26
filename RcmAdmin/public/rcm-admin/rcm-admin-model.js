@@ -238,7 +238,7 @@ var RcmAdminModel = function () {
         },
 
         /**
-         * getId
+         * getId AKA InstanceId
          * @param pluginElm
          * @param onComplete
          * @returns {*}
@@ -252,6 +252,24 @@ var RcmAdminModel = function () {
             }
 
             return id;
+        },
+
+        /**
+         * setId AKA InstanceId
+         * @param pluginElm
+         * @param value
+         * @param onComplete
+         * @returns {*}
+         */
+        setId: function (pluginElm, value, onComplete) {
+
+            pluginElm.attr('data-rcmPluginInstanceId', value);
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
         },
 
         /**
@@ -270,10 +288,104 @@ var RcmAdminModel = function () {
 
             return name;
         },
+
+        /**
+         * setRowNumber
+         * @param pluginElm
+         * @param rowNumber
+         * @param onComplete
+         * @returns {*}
+         */
+        setRowNumber: function (pluginElm, rowNumber, onComplete) {
+
+            // @todo If this is used, then we need to move the elm in the DOM too
+            pluginElm.attr('data-rcmPluginRowNumber', rowNumber);
+
+            if (typeof onComplete === 'function') {
+                onComplete(rowNumber)
+            }
+
+            return rowNumber;
+        },
+
+        /**
+         * getRowNumber
+         * @param pluginElm
+         * @param onComplete
+         * @returns {*}
+         */
+        getRowNumber: function (pluginElm, onComplete) {
+
+            var value = pluginElm.parent().index();
+
+            // Sync value for server
+            pluginElm.attr('data-rcmPluginRowNumber', value);
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
+         * setColumnClass
+         * @param pluginElm
+         * @param value
+         * @param onComplete
+         * @returns {*}
+         */
+        setColumnClass: function (pluginElm, value, onComplete) {
+
+            pluginElm.attr('data-rcmPluginColumnClass', value);
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
+         * getColumnClass
+         * @param pluginElm
+         * @param onComplete
+         * @returns {*}
+         */
+        getColumnClass: function (pluginElm, onComplete) {
+
+            var value = pluginElm.attr('data-rcmPluginColumnClass');
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
+         * getColumnClass
+         * @param pluginElm
+         * @param onComplete
+         * @returns {*}
+         */
+        getOrder: function (pluginElm, onComplete) {
+
+            var value = pluginElm.index();
+
+            // var value = pluginElm.attr('data-rcmPluginRenderOrderNumber');
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
         /**
          * getData
          * @param containerId
-         * @param id
+         * @param id AKA InstanceId
          * @param onComplete
          * @returns {{}}
          */
@@ -285,16 +397,17 @@ var RcmAdminModel = function () {
 
             data.containerId = containerId;
 
-            data.instanceId = elm.attr('data-rcmPluginInstanceId');
+            data.instanceId = self.RcmPluginModel.getId(elm);
 
             data.isSitewide = (elm.attr('data-rcmSiteWidePlugin') == '1' || elm.attr('data-rcmSiteWidePlugin') == 'Y');
-            data.name = elm.attr('data-rcmPluginName');
+
+            data.name = self.RcmPluginModel.getName(elm);
 
             data.sitewideName = elm.attr('data-rcmPluginDisplayName');
 
-            data.columnClass = elm.attr('data-rcmPluginColumnClass');
+            data.columnClass = self.RcmPluginModel.getColumnClass(elm);
 
-            data.rowNumber = elm.attr('data-rcmPluginRowNumber');
+            data.rowNumber = self.RcmPluginModel.getRowNumber(elm);
 
             if (typeof onComplete === 'function') {
                 onComplete(data)
