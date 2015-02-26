@@ -14,6 +14,13 @@ RcmAdminService.rcmAdminEditButtonAction = function (editingState, onComplete) {
                 editingState = 'page';
             }
 
+            //Needed to show plugin borders when hovering in edit mode
+            if (editingState == 'page' || editingState == 'arrange') {
+                $('html').addClass('rcmEditingPlugins');
+            }else{
+                $('html').removeClass('rcmEditingPlugins');
+            }
+
             if (editingState == 'arrange') {
                 //scope.rcmAdminPage.arrange();
                 page.setEditingOn('page');
