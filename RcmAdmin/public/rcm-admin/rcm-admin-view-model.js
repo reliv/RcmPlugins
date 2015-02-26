@@ -191,7 +191,7 @@ var RcmAdminViewModel = function (config, model, page) {
 
             elm.find(".rcmResetSizePluginMenuItem").click(
                 function (e) {
-                    self.rcmColunmResize.setClass(elm, self.rcmColunmResize.defaultClass)
+                    self.rcmColunmResize.setClass(elm, self.rcmColunmResize.defaultClass);
                     e.preventDefault();
                 }
             );

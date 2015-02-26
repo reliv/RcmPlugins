@@ -298,7 +298,7 @@ var RcmAdminModel = function () {
          */
         setRowNumber: function (pluginElm, rowNumber, onComplete) {
 
-            // @todo If this is used, then we need to move the elm in the DOM too
+            // @todo If this is used, then we need to move the elm in the DOM too and update css
             pluginElm.attr('data-rcmPluginRowNumber', rowNumber);
 
             if (typeof onComplete === 'function') {
@@ -329,6 +329,82 @@ var RcmAdminModel = function () {
         },
 
         /**
+         * setClass
+         * @param pluginElm
+         * @param value
+         * @param onComplete
+         * @returns {*}
+         */
+        setClass: function (pluginElm, defaultClass, columnClass, onComplete) {
+
+            var value = defaultClass + ' ' + columnClass;
+
+            pluginElm.attr('class', value);
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
+         * getClass
+         * @param pluginElm
+         * @param onComplete
+         * @returns {*}
+         */
+        getClass: function (pluginElm, onComplete) {
+
+            var value = pluginElm.attr('class');
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
+         * setCustomClass
+         * @param pluginElm
+         * @param value
+         * @param onComplete
+         * @returns {*}
+         */
+        setDefaultClass: function (pluginElm, value, onComplete) {
+
+            pluginElm.attr('data-rcmPluginDefaultClass', value);
+
+            var columnClass = self.RcmPluginModel.getColumnClass(pluginElm);
+
+            self.RcmPluginModel.setClass(pluginElm, value, columnClass);
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
+         * getDefaultClass
+         * @param pluginElm
+         * @param onComplete
+         * @returns {*}
+         */
+        getDefaultClass: function (pluginElm, onComplete) {
+
+            var value = pluginElm.attr('data-rcmPluginDefaultClass');
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
          * setColumnClass
          * @param pluginElm
          * @param value
@@ -338,6 +414,10 @@ var RcmAdminModel = function () {
         setColumnClass: function (pluginElm, value, onComplete) {
 
             pluginElm.attr('data-rcmPluginColumnClass', value);
+
+            var defaultClass = self.RcmPluginModel.getDefaultClass(pluginElm);
+
+            self.RcmPluginModel.setClass(pluginElm, defaultClass, value);
 
             if (typeof onComplete === 'function') {
                 onComplete(value)
@@ -364,7 +444,7 @@ var RcmAdminModel = function () {
         },
 
         /**
-         * getColumnClass
+         * getOrder
          * @param pluginElm
          * @param onComplete
          * @returns {*}
@@ -373,7 +453,7 @@ var RcmAdminModel = function () {
 
             var value = pluginElm.index();
 
-            // var value = pluginElm.attr('data-rcmPluginRenderOrderNumber');
+            pluginElm.attr('data-rcmPluginRenderOrderNumber', value);
 
             if (typeof onComplete === 'function') {
                 onComplete(value)
