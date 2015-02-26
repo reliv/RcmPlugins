@@ -1,38 +1,14 @@
 <?php
 
 $this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-dynamic-navigation/vendor/superfish/dist/js/hoverIntent.js',
-    'text/javascript'
-);
-
-$this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-dynamic-navigation/vendor/superfish/dist/js/superfish.js',
-    'text/javascript'
-);
-
-$this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-dynamic-navigation/rcm-dynamic-navigation.js',
+    'https://oss.maxcdn.com/respond/1.4.2/respond.min.js',
     'text/javascript'
 );
 
 $this->headLink()->appendStylesheet(
-    $this->basePath() . '/modules/rcm-dynamic-navigation/vendor/superfish/dist/css/superfish.css'
-);
-
-$this->headLink()->appendStylesheet(
-    $this->basePath() . '/modules/rcm-dynamic-navigation/rcm-dynamic-navigation.css'
+    $this->basePath() .'/modules/rcm-dynamic-navigation/rcm-dynamic-navigation.css'
 );
 
 ?>
-<script>
-    $(function () {
-        $('.RcmDynamicNavigation ul.sf-menu').superfish({speed: 1});
-        $('.RcmDynamicNavigation select').change(
-            function () {
-                window.location.href = $(this).val();
-            }
-        );
-    });
-</script>
 
 <?= $this->rcmDynamicLinksRenderLinks($this->links, $this->isAdmin, "RcmDynamicNavigation_".$this->instanceId); ?>

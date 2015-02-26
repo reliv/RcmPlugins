@@ -62,76 +62,22 @@ class RenderLinks extends AbstractHelper
      */
     public function render($links, $admin, $id)
     {
-        $navHtml = '<nav>';
+        $navHtml = '<nav class="navbar navbar-default">';
+        $navHtml .= '
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#'.$id.'" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div id="'.$id.'" class="navbar-collapse collapse">
+          ';
         $navHtml .= $this->getUl($links, $admin, $id);
-        $navHtml .= '</nav>';
+        $navHtml .= '</div></nav>';
 
-        $selectHtml = $this->getSelect($links);
-
-        $mobileMenu = $this->getMobileMenu($links);
-
-        return $navHtml."\n".$selectHtml."\n".$mobileMenu;
-    }
-
-    /**
-     * Select box used for responsive design
-     *
-     * @param Array $links Array of NavLinks
-     *
-     * @return string
-     */
-    protected function getSelect($links)
-    {
-        $view = $this->getView();
-
-        $html = '<select>';
-        $html .= '<option selected value="#">';
-        $html .= $view->translate('Select a page:');
-        $html .= '</option>';
-
-        /** @var NavLink $link */
-        foreach ($links as $link) {
-            $html .= $this->getOption($link);
-        }
-
-        $html .= '</select>';
-
-        return $html;
-    }
-
-    /**
-     * Get a link option for the select box
-     *
-     * @param \RcmDynamicNavigation\Model\NavLink $link   Link to generate option for
-     * @param string                              $spacer Place holder for spacers.  Used when called recursively
-     *
-     * @return string
-     */
-    protected function getOption(NavLink $link, $spacer = '')
-    {
-        $html = '<option value="'.$link->getHref().'"';
-
-        $systemClass = $link->getSystemClass();
-
-        if (!empty($systemClass)) {
-            $html .= ' class="'.$systemClass.'"';
-        }
-
-        $html .= '>';
-
-        $html .= $spacer.$link->getDisplay();
-        $html .= '</option>';
-
-        if ($link->hasLinks()) {
-            $extraLinks = $link->getLinks();
-            $newSpacer = $spacer.'--';
-
-            foreach ($extraLinks as $extraLink) {
-                $html .= $this->getOption($extraLink, $newSpacer);
-            }
-        }
-
-        return $html;
+        return $navHtml;
     }
 
     /**
@@ -145,13 +91,13 @@ class RenderLinks extends AbstractHelper
      */
     protected function getUl($links, $admin, $id = null)
     {
-        $html = '<ul';
+        $html = '';
 
         if (!empty($id)) {
-            $html .= ' class="sf-menu" id="'.$id.'"';
+            $html .= '<ul class="nav navbar-nav">';
+        } else {
+            $html .= '<ul class="dropdown-menu" role="menu">';
         }
-
-        $html .= '>'."\n";
 
         foreach ($links as $link) {
             $html .= $this->getLi($link, $admin);
@@ -177,16 +123,16 @@ class RenderLinks extends AbstractHelper
         $objectClass = $link->getClass();
         $systemClass = $link->getSystemClass();
 
+        if ($link->hasLinks()) {
+            $objectClass .= ' dropdown';
+        }
+
         $permissionsArray = $link->getPermissions();
 
         $html = '<li';
 
         if (!empty($objectClass) || !empty($systemClass)) {
             $html .= ' class="'.$objectClass.' '.$systemClass.'"';
-
-            if ($admin) {
-                $html .= ' data-class="' . $objectClass . '"';
-            }
         }
 
         if ($admin) {
@@ -196,12 +142,21 @@ class RenderLinks extends AbstractHelper
         $html .= '>'."\n";
         $html .= '<a href="'.$link->getHref().'"';
 
+        if ($link->hasLinks()) {
+            $html .= 'class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"';
+        }
+
         if (!empty($target)) {
             $html .= ' target="'.$target.'"';
         }
 
         $html .= '>';
-        $html .= $link->getDisplay();
+        $html .= '<span class="linkText">'.$link->getDisplay().'</span>';
+
+        if ($link->hasLinks()) {
+            $html .= '<span class="caret"></span>';
+        }
+
         $html .= '</a>'."\n";
 
         if ($link->hasLinks()) {
