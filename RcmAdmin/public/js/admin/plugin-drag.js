@@ -4,7 +4,7 @@ var RcmPluginDrag = {
      * Sets up everything to do with plugin dragging
      */
     refresh: function () {
-        $('html').addClass('rcmDraggingPlugins');
+        $('html').addClass('rcmArrangingPlugins');
         RcmPluginDrag.setExtraRowCount(1);
         RcmPluginDrag.makePluginsDraggable();
         RcmPluginDrag.makePluginsSortable();
