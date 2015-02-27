@@ -18,8 +18,6 @@ var rcmColunmResize = new function () {
      * getPartWidthColumns
      * @param totalWidthPx
      * @param partWidthPx
-     * @param minColumns
-     * @param maxColumns
      * @returns {number}
      */
     self.getPartWidthColumns = function (totalWidthPx, partWidthPx) {
@@ -43,7 +41,6 @@ var rcmColunmResize = new function () {
     /**
      *
      * @param elm
-     * @param view
      * @param widthCols
      */
     self.setWidth = function (elm, widthCols) {
@@ -79,7 +76,6 @@ var rcmColunmResize = new function () {
     /**
      * setOffset in columns
      * @param elm
-     * @param view
      * @param offsetCols
      */
     self.setOffset = function (elm, offsetCols) {
@@ -115,8 +111,7 @@ var rcmColunmResize = new function () {
     /**
      * setVisible
      * @param elm
-     * @param view
-     * @param offsetCols
+     * @param visible
      */
     self.setVisible = function (elm, visible) {
 
@@ -134,8 +129,6 @@ var rcmColunmResize = new function () {
     /**
      * getVisible
      * @param elm
-     * @param view
-     * @param offsetCols
      */
     self.getVisible = function (elm) {
 
@@ -150,7 +143,6 @@ var rcmColunmResize = new function () {
      * setHidden
      * @param elm
      * @param hidden bool
-     * @param offsetCols
      */
     self.setHidden = function (elm, hidden) {
 
@@ -168,8 +160,6 @@ var rcmColunmResize = new function () {
     /**
      * getHidden
      * @param elm
-     * @param view
-     * @param offsetCols
      */
     self.getHidden = function (elm) {
 
@@ -411,9 +401,8 @@ var rcmColunmResize = new function () {
     };
 
     /**
-     * Set Class
+     * clearClass
      * @param elm
-     * @param newClass
      */
     self.clearClass = function (elm) {
 
