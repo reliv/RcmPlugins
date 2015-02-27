@@ -1,4 +1,3 @@
-
 /**
  * RcmAdminPlugin - AKA RcmPlugin - AKA pluginHandler
  * @param page
@@ -21,41 +20,12 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     self.id = id;
 
     self.container = container;
-    self.order = 0;
     self.editMode = null;
     self.pluginObject = null;
     self.isInitted = false;
 
     self.instanceConfig = null;
     self.defaultInstanceConfig = null;
-
-    /**
-     * Asks the plugin edit controller for its instance config, then has
-     * the server re-render the plugin. This is useful for previewing
-     * changes to plugins without having to save the page.
-     */
-    self.preview = function (callback) {
-        var pluginElm = self.getElm();
-
-        var name = self.model.getName(pluginElm);
-        var pluginContainer = self.model.getPluginContainer(pluginElm);
-        self.instanceConfig = self.getSaveData().saveData;
-        $.post(
-            '/rcm-admin-get-instance/' + name + '/' + id,
-            {
-                previewInstanceConfig: self.instanceConfig
-            },
-            function (data) {
-                pluginContainer.html(data);
-                self.updateView(
-                    pluginContainer, function () {
-                        self.isInitted = false;
-                        self.initEdit(callback);
-                    }
-                );
-            }
-        );
-    };
 
     /**
      * getType
@@ -102,6 +72,17 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     };
 
     /**
+     * getOrder
+     * @returns {*}
+     */
+    self.getOrder = function () {
+
+        var pluginElm = self.getElm();
+
+        return self.model.getOrder(pluginElm);
+    };
+
+    /**
      * getInstanceConfig
      * @param onComplete
      */
@@ -136,7 +117,7 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
 
         var data = self.model.getData(self.container.id, self.id);
 
-        data.rank = self.order;
+        data.rank = self.getOrder();
 
         data.containerType = self.container.getData().type;
 
@@ -325,13 +306,13 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
      * initEdit
      * @param onInitted
      */
-    self.initEdit = function (onInitted) {
+    self.initEdit = function (onInitted, refresh) {
 
+        var elm = self.getElm();
         self.viewModel.enableEdit(
-            self.getElm(),
+            elm,
             function (elm) {
-                if (!self.isInitted) {
-
+                if (!self.isInitted || refresh) {
                     var pluginObject = self.getPluginObject();
 
                     if (pluginObject.initEdit) {
@@ -355,9 +336,11 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
      */
     self.cancelEdit = function (onCanceled) {
 
+        var elm = self.getElm();
+        var type = self.getType();
         self.viewModel.disableEdit(
-            self.getElm(),
-            self.getType(),
+            elm,
+            type,
             function (elm) {
                 if (typeof onCanceled === 'function') {
                     onCanceled(self);
@@ -367,7 +350,33 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     };
 
     /**
-     * updateView - ONLY use this if needed - will cause issues with ng-repeat and possibly other
+     * enableArrange
+     * @param onComplete
+     */
+    self.enableArrange = function (onComplete) {
+
+        var elm = self.getElm();
+        self.viewModel.enableArrange(
+            elm,
+            onComplete
+        );
+    };
+
+    /**
+     * disableArrange
+     * @param onComplete
+     */
+    self.disableArrange = function (onComplete) {
+
+        var elm = self.getElm();
+        self.viewModel.disableArrange(
+            elm,
+            onComplete
+        );
+    };
+
+    /**
+     * updateView - ONLY use this if needed - may cause issues with ng-repeat and possibly other
      * @param elm
      * @param onComplete
      */
@@ -395,6 +404,35 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     };
 
     /**
+     * Asks the plugin edit controller for its instance config, then has
+     * the server re-render the plugin. This is useful for previewing
+     * changes to plugins without having to save the page.
+     * @param onComplete
+     */
+    self.preview = function (onComplete) {
+        var pluginElm = self.getElm();
+
+        var name = self.model.getName(pluginElm);
+        var pluginContainer = self.model.getPluginContainer(pluginElm);
+        self.instanceConfig = self.getSaveData().saveData;
+        // @todo This should be in a model
+        $.post(
+            '/rcm-admin-get-instance/' + name + '/' + id,
+            {
+                previewInstanceConfig: self.instanceConfig
+            },
+            function (data) {
+                pluginContainer.html(data);
+                self.updateView(
+                    pluginContainer, function () {
+                        self.initEdit(onComplete, true);
+                    }
+                );
+            }
+        );
+    };
+
+    /**
      * pluginReady - trigger post plugin ready actions/ DOM parsing
      */
     self.pluginReady = function (onComplete) {
@@ -408,7 +446,6 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
                 }
             }
         );
-
     };
 
     /**
@@ -441,13 +478,9 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     self.onArrangeStateChange = function (state) {
 
         if (state) {
-            self.viewModel.enableArrange(
-                self.getElm()
-            );
+            self.enableArrange();
         } else {
-            self.viewModel.disableArrange(
-                self.getElm()
-            );
+            self.disableArrange();
         }
     };
 
@@ -457,15 +490,12 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     self.onInitComplete = function (onComplete) {
 
         // initial state
-        if (self.canEdit(self.page.editing)) {
-
-            self.initEdit();
-        }
+        self.onEditChange(self.page);
 
         self.onArrangeStateChange(self.page.arrangeMode);
 
         if (typeof onComplete === 'function') {
-            onComplete(plugin);
+            onComplete(self);
         }
     };
 
@@ -480,7 +510,6 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
 
         self.prepareEditors(
             function (plugin) {
-
                 self.onInitComplete(onComplete);
             }
         );

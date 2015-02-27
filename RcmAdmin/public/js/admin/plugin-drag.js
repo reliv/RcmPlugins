@@ -16,27 +16,33 @@ var RcmPluginDrag = {
      * @param {int} extraRowCount send 0 or 1
      */
     setExtraRowCount: function (extraRowCount) {
-        $.each($('.rcmContainer'), function () {
-            var container = $(this);
-            $.each(container.children('.row'), function () {
-                var row = $(this);
-                //If row is empty
-                if (row.children().length == 0) {
-                    row.remove();
+        $.each(
+            $('.rcmContainer'), function () {
+                var container = $(this);
+                $.each(
+                    container.children('.row'), function () {
+                        var row = $(this);
+                        //If row is empty
+                        if (row.children().length == 0) {
+                            row.remove();
+                        }
+                    }
+                );
+                for (var i = 0; i < extraRowCount; i++) {
+                    container.append($('<div class="row"></div>'));
                 }
-            });
-            for (var i = 0; i < extraRowCount; i++) {
-                container.append($('<div class="row"></div>'));
             }
-        });
+        );
     },
     /**
      * Make plugins in the layout editor menu draggable
      */
     makePluginsDraggable: function () {
-        $(".availablePluginsMenu .rcmPluginDrag").each(function () {
-            RcmPluginDrag.makePluginItemDragable($(this));
-        });
+        $(".availablePluginsMenu .rcmPluginDrag").each(
+            function () {
+                RcmPluginDrag.makePluginItemDragable($(this));
+            }
+        );
     },
 
     makePluginItemDragable: function (pluginItem) {
@@ -99,7 +105,11 @@ var RcmPluginDrag = {
         $.get(
             url,
             function (data) {
-                RcmPluginDrag.getInstanceSuccessCallback(data, helper, pluginContainer)
+                RcmPluginDrag.getInstanceSuccessCallback(
+                    data,
+                    helper,
+                    pluginContainer
+                )
             }
         );
     },
@@ -163,7 +173,7 @@ var RcmPluginDrag = {
             placeHolder.attr(
                 'class',
                 container.attr('class')
-                    + ' rcmPluginSortPlaceHolder'
+                + ' rcmPluginSortPlaceHolder'
             );
             // Copy plugin html
             placeHolder.html(container.html());
@@ -246,10 +256,13 @@ var RcmPluginDrag = {
      * @param ui
      */
     pluginSortableStop: function (event, ui) {
+
         RcmAdminService.getPage().registerObjects();
-        setTimeout(function () {
-            RcmPluginDrag.refresh();//Fix Rows
-        }, 100);
+        setTimeout(
+            function () {
+                RcmPluginDrag.refresh();//Fix Rows
+            }, 100
+        );
         return true;
     },
     /**
@@ -267,11 +280,15 @@ var RcmPluginDrag = {
         var badMsg = 'Site-wide plugins should only be added to the inner page,' +
             ' not the outer layout.';
         var pluginData;
+
         if ($(initialInstance).is('.initialState')) {
             //New plugin received
             var dragDiv = $(initialInstance).find(".rcmPlugin");
+
             pluginData = RcmPluginDrag.getPluginContainerInfo(dragDiv);
+
             var newDiv = dragDiv.clone(false);
+
             $(newItem).replaceWith($(newDiv));
 
             if (pluginData.isSiteWide && !isPageContainer) {
@@ -282,7 +299,9 @@ var RcmPluginDrag = {
         } else {
             //Existing plugin received
             var plugin = $(ui.item);
+
             pluginData = RcmPluginDrag.getPluginContainerInfo(plugin);
+
             if (pluginData.isSiteWide && !isPageContainer) {
                 $(ui.sender).sortable('cancel');
                 $().alert(badMsg);
@@ -291,12 +310,13 @@ var RcmPluginDrag = {
         }
 
         var page = RcmAdminService.getPage();
+
         page.registerObjects(
             function () {
-                var plugin = page.getPlugin(pluginData.instanceId);
-                // @todo This might cause some issues with ng-repeat,
-                //       updateView compiles the elm
-                plugin.updateView();
+
+                page.registerObjects();
+                var rcmAdminPlugin = page.getPlugin(pluginData.instanceId);
+                rcmAdminPlugin.updateView();
             }
         );
     },

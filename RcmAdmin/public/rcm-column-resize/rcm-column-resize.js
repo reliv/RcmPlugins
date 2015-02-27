@@ -18,8 +18,6 @@ var rcmColunmResize = new function () {
      * getPartWidthColumns
      * @param totalWidthPx
      * @param partWidthPx
-     * @param minColumns
-     * @param maxColumns
      * @returns {number}
      */
     self.getPartWidthColumns = function (totalWidthPx, partWidthPx) {
@@ -43,14 +41,15 @@ var rcmColunmResize = new function () {
     /**
      *
      * @param elm
-     * @param view
      * @param widthCols
      */
-    self.setWidth = function (elm, view, widthCols) {
+    self.setWidth = function (elm, widthCols) {
+
+        var mediaView = self.getMediaView();
 
         var columnData = self.getElmColumnData(elm);
 
-        var maxWidthColumns = self.totalWidthColumns - columnData[view].offset;
+        var maxWidthColumns = self.totalWidthColumns - columnData[mediaView].offset;
 
         if (widthCols > maxWidthColumns) {
             widthCols = maxWidthColumns;
@@ -60,13 +59,13 @@ var rcmColunmResize = new function () {
             widthCols = 1;
         }
 
-        var widthAndOffset = widthCols + columnData[view].offset;
+        var widthAndOffset = widthCols + columnData[mediaView].offset;
 
         if (widthAndOffset > self.totalWidthColumns) {
-            columnData[view].offset = self.totalWidthColumns - widthCols;
+            columnData[mediaView].offset = self.totalWidthColumns - widthCols;
         }
 
-        columnData[view].width = widthCols;
+        columnData[mediaView].width = widthCols;
 
         self.updateColumnClass(
             elm,
@@ -77,14 +76,15 @@ var rcmColunmResize = new function () {
     /**
      * setOffset in columns
      * @param elm
-     * @param view
      * @param offsetCols
      */
-    self.setOffset = function (elm, view, offsetCols) {
+    self.setOffset = function (elm, offsetCols) {
+
+        var mediaView = self.getMediaView();
 
         var columnData = self.getElmColumnData(elm);
 
-        var maxOffsetColumns = self.totalWidthColumns - 1; //columnData[view].width;
+        var maxOffsetColumns = self.totalWidthColumns - 1; //columnData[mediaView].width;
 
         if (offsetCols > maxOffsetColumns) {
             offsetCols = maxOffsetColumns;
@@ -94,18 +94,80 @@ var rcmColunmResize = new function () {
             offsetCols = 0;
         }
 
-        var widthAndOffset = offsetCols + columnData[view].width;
+        var widthAndOffset = offsetCols + columnData[mediaView].width;
 
         if (widthAndOffset > self.totalWidthColumns) {
-            columnData[view].width = self.totalWidthColumns - offsetCols;
+            columnData[mediaView].width = self.totalWidthColumns - offsetCols;
         }
 
-        columnData[view].offset = offsetCols;
+        columnData[mediaView].offset = offsetCols;
 
         self.updateColumnClass(
             elm,
             columnData
         );
+    };
+
+    /**
+     * setVisible
+     * @param elm
+     * @param visible
+     */
+    self.setVisible = function (elm, visible) {
+
+        var mediaView = self.getMediaView();
+
+        var columnData = self.getElmColumnData(elm);
+        columnData[mediaView].visible = visible;
+
+        self.updateColumnClass(
+            elm,
+            columnData
+        );
+    };
+
+    /**
+     * getVisible
+     * @param elm
+     */
+    self.getVisible = function (elm) {
+
+        var columnData = self.getElmColumnData(elm);
+
+        var mediaView = self.getMediaView();
+
+        return columnData[mediaView].visible;
+    };
+
+    /**
+     * setHidden
+     * @param elm
+     * @param hidden bool
+     */
+    self.setHidden = function (elm, hidden) {
+
+        var mediaView = self.getMediaView();
+
+        var columnData = self.getElmColumnData(elm);
+        columnData[mediaView].hidden = hidden;
+
+        self.updateColumnClass(
+            elm,
+            columnData
+        );
+    };
+
+    /**
+     * getHidden
+     * @param elm
+     */
+    self.getHidden = function (elm) {
+
+        var columnData = self.getElmColumnData(elm);
+
+        var mediaView = self.getMediaView();
+
+        return columnData[mediaView].hidden;
     };
 
     /**
@@ -124,19 +186,27 @@ var rcmColunmResize = new function () {
         var data = {
             'xs': {
                 width: 0,
-                offset: 0
+                offset: 0,
+                visible: '',
+                hidden: false
             },
             'sm': {
                 width: 0,
-                offset: 0
+                offset: 0,
+                visible: '',
+                hidden: false
             },
             'md': {
                 width: 0,
-                offset: 0
+                offset: 0,
+                visible: '',
+                hidden: false
             },
             'lg': {
                 width: 0,
-                offset: 0
+                offset: 0,
+                visible: '',
+                hidden: false
             }
         };
 
@@ -146,12 +216,34 @@ var rcmColunmResize = new function () {
 
             part = classes[index].split('-');
 
-            if (part.length === 3) {
-                data[part[1]].width = Number(part[2]);
+            if (part[0] === 'col') {
+
+                if (part.length === 3) {
+                    data[part[1]].width = Number(part[2]);
+                }
+
+                if (part.length === 4) {
+                    data[part[1]][part[2]] = Number(part[3]);
+                }
             }
 
-            if (part.length === 4) {
-                data[part[1]][part[2]] = Number(part[3]);
+            if (part[0] === 'visible') {
+
+                var part3 = '';
+                if(part[3]) {
+                    part3 = part[3];
+                }
+
+                data[part[1]]['visible'] = part3;
+
+                data[part[1]]['hidden'] = false;
+            }
+
+            if (part[0] === 'hidden') {
+
+                data[part[1]]['visible'] = '';
+
+                data[part[1]]['hidden'] = true;
             }
         }
 
@@ -210,7 +302,7 @@ var rcmColunmResize = new function () {
 
                         var cols = elm.currentColumnData[mediaView].offset + changeCols;
 
-                        self.setOffset(elm, mediaView, cols);
+                        self.setOffset(elm, cols);
                     }
                 );
             }
@@ -235,7 +327,7 @@ var rcmColunmResize = new function () {
 
                         var cols = elm.currentColumnData[mediaView].width + changeCols;
 
-                        self.setWidth(elm, mediaView, cols);
+                        self.setWidth(elm, cols);
                     }
                 );
             }
@@ -255,26 +347,32 @@ var rcmColunmResize = new function () {
      */
     self.buildClass = function (columnData) {
 
-        var classPrefix = 'col';
-
         var classes = '';
 
         var className = '';
 
         for (var mediaView in columnData) {
+
             for (var detail in columnData[mediaView]) {
 
                 className = '';
 
-                if (columnData[mediaView][detail] !== 0 && columnData[mediaView][detail] !== null && columnData[mediaView][detail] !== undefined) {
+                if (detail == 'width' && columnData[mediaView][detail] !== 0) {
 
-                    if (detail == 'width') {
-                        className = classPrefix + '-' + mediaView + '-' + columnData[mediaView][detail];
-                    } else {
+                    className = 'col' + '-' + mediaView + '-' + columnData[mediaView][detail];
+                }
 
-                        className = classPrefix + '-' + mediaView + '-' + detail + '-' + columnData[mediaView][detail];
-                    }
+                if (detail == 'offset' && columnData[mediaView][detail] !== 0) {
 
+                    className = 'col' + '-' + mediaView + '-' + detail + '-' + columnData[mediaView][detail];
+                }
+
+                if (detail == 'visible' && columnData[mediaView][detail] !== '') {
+                    className = 'visible' + '-' + mediaView + '-' + columnData[mediaView][detail];
+                }
+
+                if (detail == 'hidden' && columnData[mediaView][detail]) {
+                    className = 'hidden' + '-' + mediaView;
                 }
 
                 if (className !== '') {
@@ -303,13 +401,22 @@ var rcmColunmResize = new function () {
     };
 
     /**
+     * clearClass
+     * @param elm
+     */
+    self.clearClass = function (elm) {
+
+        self.setClass(elm, self.defaultClass);
+    };
+
+    /**
      *
      * @param elm
      * @returns {*}
      */
     self.getCurrentClass = function (elm) {
 
-        return elm.attr('data-rcmplugincolumnclass');
+        return RcmAdminService.model.RcmPluginModel.getColumnClass(elm);
     };
 
     /**
@@ -317,12 +424,9 @@ var rcmColunmResize = new function () {
      * @param elm
      * @param newClass
      */
-    self.setClass = function(elm, newClass) {
-        //var defaultClass = elm.attr('data-rcmplugindefaultclass');
-        var currentClass = elm.attr('data-rcmplugincolumnclass');
-        elm.attr('data-rcmplugincolumnclass', newClass);
-        elm.removeClass(currentClass);
-        elm.addClass(newClass);
+    self.setClass = function (elm, newClass) {
+
+        RcmAdminService.model.RcmPluginModel.setColumnClass(elm, newClass);
     };
 
     self.init = self.addControls;

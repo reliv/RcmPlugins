@@ -83,11 +83,13 @@ var RcmAvailablePluginsMenu = {
                         initialState.css('display', 'none');
                         initialState.appendTo(plugin);
 
+                        var colClass ='col-sm-12';
                         var outerContainer = $('<div class="rcmPlugin">');
                         outerContainer.addClass(pluginInfo.name);
+                        outerContainer.addClass(colClass);
                         outerContainer.attr('data-rcmPluginInstanceId', instanceId);
                         outerContainer.attr('data-rcmPluginName', pluginInfo.name);
-                        outerContainer.attr('data-rcmplugincolumnclass', 'col-sm-12');
+                        outerContainer.attr('data-rcmplugincolumnclass', colClass);
                         outerContainer.attr('data-rcmpluginrownumber', '0');
                         outerContainer.attr(
                             'data-rcmSiteWidePlugin',

@@ -142,7 +142,10 @@
 
 /* Container Drag Targets */
 html.rcmEditingPlugins .rcmPlugin:hover {
-    border: 1px dashed grey;
+    /*border: 1px dashed grey;*/
+    box-shadow: 0px 0px 1px 1px rgba(127,127,127,1);
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=0, Color='#888888')";
 }
 
 html.rcmArrangingPlugins .rcmContainer > .row {

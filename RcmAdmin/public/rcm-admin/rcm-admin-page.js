@@ -230,9 +230,8 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
      * addPlugin
      * @param containerId
      * @param pluginId
-     * @param order
      */
-    self.addPlugin = function (containerId, pluginId, order) {
+    self.addPlugin = function (containerId, pluginId) {
 
         if (!self.plugins[pluginId]) {
 
@@ -248,8 +247,6 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
 
         self.plugins[pluginId].container = self.containers[containerId];
 
-        self.plugins[pluginId].order = order;
-
         self.events.trigger('addPlugin', pluginId);
 
         return self.plugins[pluginId];
@@ -259,7 +256,6 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
      * removePlugin
      * @param containerId
      * @param pluginId
-     * @param order
      */
     self.removePlugin = function (pluginId) {
 
@@ -317,7 +313,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                         pluginElm = jQuery(pvalue);
                         pluginId = self.pluginModel.getId(pluginElm);
 
-                        self.addPlugin(containerId, pluginId, pkey);
+                        self.addPlugin(containerId, pluginId);
 
                         pluginsRemove.push(pluginId);
                     }
