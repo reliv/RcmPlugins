@@ -241,7 +241,7 @@ var rcmColunmResize = new function () {
 
                 var part3 = '';
                 if(part[3]) {
-                    var part3 = part[3];
+                    part3 = part[3];
                 }
 
                 data[part[1]]['visible'] = part3;
