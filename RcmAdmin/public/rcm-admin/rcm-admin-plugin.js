@@ -337,7 +337,7 @@ RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     self.cancelEdit = function (onCanceled) {
 
         var elm = self.getElm();
-        var type = self.getElm();
+        var type = self.getType();
         self.viewModel.disableEdit(
             elm,
             type,
