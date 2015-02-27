@@ -83,7 +83,7 @@ var RcmAdminViewModel = function (config, model, page) {
          * @param onComplete
          */
         disableEdit: function (elm, type, onComplete) {
-console.log(type);
+
             var id = self.model.RcmPluginModel.getId(elm);
 
             var page = self.page;

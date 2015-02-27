@@ -10,8 +10,6 @@ var RcmAdminService = new function () {
      */
     self.config = rcmAdminServiceConfig;
 
-    console.log(rcmAdminServiceConfig);
-
     /**
      * page
      */
