@@ -227,7 +227,6 @@ angular.module('rcmBrightcovePlayer', [])
                         if (!hasCompiledBefore) {
 
                             var updateEvent = function (playerCtrl) {
-                                console.log('updateCalled', playerCtrl);
                                 scope.playlists = playerCtrl.playlists;
 
                                 if (scope.instanceId == playerCtrl.instanceId) {
