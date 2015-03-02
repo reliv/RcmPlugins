@@ -46,6 +46,11 @@ class IncludeCoreJs extends AbstractHelper
         /** @var \Zend\View\Helper\HeadScript $headScript */
         $headScript = $view->headScript();
 
+        //Plugins inject their js into this file
+        $headScript()->prependFile(
+            $view->basePath() . '/modules/rcm/plugins.js'
+        );
+
         /* <CORE_JS_FILES> */
         $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-lib/rcm-core.js'
