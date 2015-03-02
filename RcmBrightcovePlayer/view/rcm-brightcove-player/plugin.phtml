@@ -1,31 +1,10 @@
 <?php
 
-
-$this->headScript()->appendFile(
-    $this->basePath()
-    . '/modules/rcm-brightcove-player/rcm-brightcove-api-service.js',
-    'text/javascript'
-);
-
-$this->headScript()->appendFile(
-    'https://sadmin.brightcove.com/js/BrightcoveExperiences.js',
-    'text/javascript'
-);
-
-$this->headScript()->appendFile(
-    $this->basePath()
-    . '/modules/rcm-brightcove-player/rcm-brightcove-player.js',
-    'text/javascript'
-);
-
-$this->headScript()->appendFile(
-    $this->basePath()
-    . '/modules/rcm-brightcove-player/keep-aspect-ratio.js',
-    'text/javascript'
-);
-
 $this->headLink()->appendStylesheet(
     $this->basePath() . '/modules/rcm-brightcove-player/style.css'
+);
+$this->headScript()->appendFile(
+    $this->basePath() . 'https://sadmin.brightcove.com/js/BrightcoveExperiences.js'
 );
 ?>
 <!-- <RcmBrightcovePlayer> -->
@@ -42,8 +21,8 @@ $this->headLink()->appendStylesheet(
     } elseif (($instanceConfig['type']) == 'multi-embed') {
         require('multi-player.phtml');
     }
-    // @todo this should only be loaded as needed
 
+    // @todo this should only be loaded as needed
     require('plugin-edit.phtml');
 
     ?>
