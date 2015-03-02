@@ -1,4 +1,4 @@
-var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete) {
+var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig) {
 
     var self = this;
     self.instanceId = instanceId;
@@ -7,39 +7,20 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
     self.videoId = null; // active video
     self.experienceId = 'myExperience' + self.instanceId;
 
-    self.templateReady = false;
-    self.loadVideoIdWhenReady = 0;
-
     self.player = null;
     self.APIModules = null;
     self.videoPlayer = null;
 
     self.playlists = [];
 
-    self.setInstanceConfig = function (instanceConfig) {
-
-        self.instanceConfig = instanceConfig;
-
-        BrightCoveEventManager.trigger('setInstanceConfig', self);
-    };
-
-    BrightCoveEventManager.on('templateLoad-' + instanceId, function (experienceID) {
+    RcmBrightCoveEventManager.on('templateLoad-' + instanceId, function (experienceID) {
 
         self.player = brightcove.api.getExperience(experienceID);
         self.APIModules = brightcove.api.modules.APIModules;
         self.mediaEvent = brightcove.api.events.MediaEvent;
 
         self.videoPlayer = self.player.getModule(self.APIModules.VIDEO_PLAYER);
-        self.videoPlayer.addEventListener(self.mediaEvent.BEGIN, self.onMediaBegin);
         self.videoPlayer.addEventListener(self.mediaEvent.COMPLETE, self.onMediaComplete);
-
-        self.templateReady = true;
-    });
-
-    BrightCoveEventManager.on('templateReady-' + instanceId, function () {
-        if (self.loadVideoIdWhenReady) {
-            self.cueVideoById(self.loadVideoIdWhenReady);
-        }
     });
 
     self.loadVideoById = function (videoId, callback) {
@@ -49,27 +30,6 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
         self.getDownloadURL(videoId, callback);
     };
 
-    self.cueVideoById = function (videoId, callback) {
-
-        if (self.templateReady) {
-
-            // onTemplateReady has already been called so we can just cue the video
-            self.videoPlayer.cueVideoByID(videoId);
-            BrightCoveEventManager.trigger('cueVideo', videoId);
-        } else {
-
-            // onTemplateReady hasn't been called yet so we set this property to be used when it does get called
-            self.loadVideoIdWhenReady = videoId;
-        }
-
-        self.getDownloadURL(videoId, callback);
-    };
-
-    self.onMediaBegin = function (evt) {
-        //displayName  = evt.media.displayName;
-        BrightCoveEventManager.trigger('onMediaBegin', self);
-    };
-
     self.onMediaComplete = function (evt) {
         nextVideo++;
         if (nextVideo == videos.length) {
@@ -77,7 +37,7 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
         }
 
         self.videoPlayer.loadVideoByID(videos[nextVideo]);
-        BrightCoveEventManager.trigger('onMediaComplete', self);
+        RcmBrightCoveEventManager.trigger('onMediaComplete', self);
     };
 
     self.getDownloadURL = function (videoId, callback) {
@@ -98,7 +58,7 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
         if (self.downloadUrl !== url) {
 
             self.downloadUrl = url;
-            BrightCoveEventManager.trigger('downloadUrlChange', self);
+            RcmBrightCoveEventManager.trigger('downloadUrlChange-' + instanceId, self);
         }
     };
 
@@ -112,7 +72,7 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
             callback(self);
         }
 
-        BrightCoveEventManager.trigger('playlistsBuilt', self);
+        RcmBrightCoveEventManager.trigger('playlistsBuilt-' + instanceId, self);
     };
 
     /**
@@ -129,25 +89,18 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
         );
     };
 
-    /**
-     * init
-     * @param onComplete
-     */
-    self.init = function (onComplete) {
-
+    self.init = function () {
         self.buildPlaylist(
             function (thisPlayer) {
-
                 if (thisPlayer.videoId) {
-                    thisPlayer.cueVideoById(thisPlayer.videoId)
-                }
-
-                if (typeof onComplete === 'function') {
-                    onComplete(thisPlayer);
+                    RcmBrightCoveEventManager.on('templateReady-' + instanceId, function () {
+                        self.videoPlayer.cueVideoByID(thisPlayer.videoId);
+                        self.getDownloadURL(thisPlayer.videoId);
+                    });
                 }
             }
         );
     };
 
-    self.init(onComplete);
+    self.init();
 };
