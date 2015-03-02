@@ -241,9 +241,6 @@ angular.module('rcmBrightcovePlayer', [])
                                 updateEvent
                             );
 
-                            //Let the controller know we are ready to receive the playlist
-                            RcmBrightCoveEventManager.trigger('tabDirectiveReady-' + scope.instanceId);
-
                             hasCompiledBefore = true;
                         }
                     }

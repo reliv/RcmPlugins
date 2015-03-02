@@ -1,25 +1,17 @@
 var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig) {
 
     var self = this;
-    var heardTabDirectiveIsReady = false;
     self.instanceId = instanceId;
     self.instanceConfig = instanceConfig;
     self.downloadUrl = '';
     self.videoId = null; // active video
     self.experienceId = 'myExperience' + self.instanceId;
 
-    self.templateReady = false;
-    self.loadVideoIdWhenReady = 0;
-
     self.player = null;
     self.APIModules = null;
     self.videoPlayer = null;
 
     self.playlists = [];
-
-    RcmBrightCoveEventManager.on('tabDirectiveReady-' + instanceId, function () {
-        heardTabDirectiveIsReady = true;
-    });
 
     RcmBrightCoveEventManager.on('templateLoad-' + instanceId, function (experienceID) {
 
@@ -30,14 +22,6 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig) {
         self.videoPlayer = self.player.getModule(self.APIModules.VIDEO_PLAYER);
         self.videoPlayer.addEventListener(self.mediaEvent.BEGIN, self.onMediaBegin);
         self.videoPlayer.addEventListener(self.mediaEvent.COMPLETE, self.onMediaComplete);
-
-        self.templateReady = true;
-    });
-
-    RcmBrightCoveEventManager.on('templateReady-' + instanceId, function () {
-        if (self.loadVideoIdWhenReady) {
-            self.cueVideoById(self.loadVideoIdWhenReady);
-        }
     });
 
     self.loadVideoById = function (videoId, callback) {
@@ -48,18 +32,20 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig) {
     };
 
     self.cueVideoById = function (videoId, callback) {
-
-        if (self.templateReady) {
-
-            // onTemplateReady has already been called so we can just cue the video
-            self.videoPlayer.cueVideoByID(videoId);
-        } else {
-
-            // onTemplateReady hasn't been called yet so we set this property to be used when it does get called
-            self.loadVideoIdWhenReady = videoId;
-        }
-
-        self.getDownloadURL(videoId, callback);
+        /**
+         * Sometimes the template isn't ready yet when we are called so we use
+         * the event manager
+         *
+         * @type {boolean}
+         */
+        var cued = false;
+        RcmBrightCoveEventManager.on('templateReady-' + instanceId, function () {
+            if (!cued) {
+                self.videoPlayer.cueVideoByID(videoId);
+                self.getDownloadURL(videoId, callback);
+                cued = true;
+            }
+        });
     };
 
     self.onMediaBegin = function (evt) {
@@ -109,22 +95,7 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig) {
             callback(self);
         }
 
-        /**
-         * Sometimes the tabs directive loads before us and misses our event, other times
-         * we load before the tabs directive and miss its event. Doing it both ways below
-         * prevents this.
-         */
-        if (heardTabDirectiveIsReady) {
-            RcmBrightCoveEventManager.trigger('playlistsBuilt-' + instanceId, self);
-        } else {
-            var triggeredPlaylistsBuilt = false;
-            RcmBrightCoveEventManager.on('tabDirectiveReady-' + instanceId, function () {
-                if (!triggeredPlaylistsBuilt) {
-                    RcmBrightCoveEventManager.trigger('playlistsBuilt-' + instanceId, self);
-                    triggeredPlaylistsBuilt = true;
-                }
-            });
-        }
+        RcmBrightCoveEventManager.trigger('playlistsBuilt-' + instanceId, self);
     };
 
     /**

@@ -1,25 +1,38 @@
-var RcmBrightCoveEventManager = {
+/**
+ * This class handles events for brightcove
+ *
+ * Warning: This is a "smart" event manager in that it will look to see if your
+ * event has fired before you registered an event listener. If your event already
+ * fired, we trigger it again.
+ */
+var RcmBrightCoveEventManager = new function () {
+    var self = this;
+    var events = {};
+    var previouslyTriggeredEvents = {};
+    self.on = function (event, onTrigger) {
 
-    events: {},
-
-    on: function (event, method) {
-
-        if (!RcmBrightCoveEventManager.events[event]) {
-            RcmBrightCoveEventManager.events[event] = [];
+        if (!events[event]) {
+            events[event] = [];
         }
 
-        RcmBrightCoveEventManager.events[event].push(method);
-    },
+        events[event].push(onTrigger);
 
-    trigger: function (event, args) {
+        if (previouslyTriggeredEvents[event]) {
+            onTrigger(event, previouslyTriggeredEvents[event]);
+        }
+    };
 
-        if (RcmBrightCoveEventManager.events[event]) {
+    self.trigger = function (event, args) {
+
+        previouslyTriggeredEvents[event] = args;
+
+        if (events[event]) {
             jQuery.each(
-                RcmBrightCoveEventManager.events[event],
+                events[event],
                 function (index, value) {
                     value(args);
                 }
             );
         }
     }
-}
+}();
