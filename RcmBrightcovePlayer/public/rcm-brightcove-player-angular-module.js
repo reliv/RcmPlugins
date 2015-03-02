@@ -1,44 +1,47 @@
 rcm.addAngularModule('rcmBrightcovePlayer');
 angular.module('rcmBrightcovePlayer', [])
     .directive(
-    'rcmBrightcovePlayerDownloadLink',
-    function () {
+        'rcmBrightcovePlayerDownloadLink',
+        ['$timeout', function ($timeout) {
 
-        var hasCompiledBefore = false;
+            var hasCompiledBefore = false;
 
-        return {
-            compile: function (elm, attrs) {
+            return {
+                compile: function (elm, attrs) {
 
-                var instanceId = attrs.rcmBrightcovePlayerDownloadLink;
+                    var instanceId = attrs.rcmBrightcovePlayerDownloadLink;
 
-                var playerController = RcmBrightcovePlayerService.getPlayerController(
-                    instanceId
-                );
+                    var playerController = RcmBrightcovePlayerService.getPlayerController(
+                        instanceId
+                    );
 
-                return function (scope, elm, attrs) {
+                    return function (scope, elm, attrs) {
 
-                    if (!hasCompiledBefore) {
+                        if (!hasCompiledBefore) {
 
-                        RcmBrightCoveEventManager.on(
-                            'downloadUrlChange-' + instanceId,
-                            function (playerCtrl) {
-                                if (instanceId == playerCtrl.instanceId) {
-                                    scope.$apply();
+                            RcmBrightCoveEventManager.on(
+                                'downloadUrlChange-' + instanceId,
+                                function (playerCtrl) {
+                                    if (instanceId == playerCtrl.instanceId) {
+                                        //$timeout prevents "already applying" error
+                                        $timeout(function () {
+                                            scope.$apply();
+                                        });
+                                    }
                                 }
-                            }
-                        );
+                            );
 
-                        hasCompiledBefore = true;
-                    }
+                            hasCompiledBefore = true;
+                        }
 
-                    scope.playerController = playerController;
-                };
-            },
+                        scope.playerController = playerController;
+                    };
+                },
 
-            template: '<a href="{{playerController.downloadUrl}}" ng-show="playerController.downloadUrl"><span data-textEdit="download" ng-model="playerController.instanceConfig.download">{{playerController.instanceConfig.download}}</span></span></a>'
-        };
-    }
-)
+                template: '<a href="{{playerController.downloadUrl}}" ng-show="playerController.downloadUrl"><span data-textEdit="download" ng-model="playerController.instanceConfig.download">{{playerController.instanceConfig.download}}</span></span></a>'
+            };
+        }]
+    )
     .directive(
         'rcmBrightcovePlayer',
         [
@@ -224,7 +227,7 @@ angular.module('rcmBrightcovePlayer', [])
                         if (!hasCompiledBefore) {
 
                             var updateEvent = function (playerCtrl) {
-
+                                console.log('updateCalled', playerCtrl);
                                 scope.playlists = playerCtrl.playlists;
 
                                 if (scope.instanceId == playerCtrl.instanceId) {
