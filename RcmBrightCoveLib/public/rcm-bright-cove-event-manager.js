@@ -12,7 +12,7 @@ var RcmBrightCoveEventManager = {
     },
 
     trigger: function (event, args) {
-console.log(event);
+
         if (RcmBrightCoveEventManager.events[event]) {
             jQuery.each(
                 RcmBrightCoveEventManager.events[event],
