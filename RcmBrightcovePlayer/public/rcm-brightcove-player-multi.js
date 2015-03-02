@@ -1,6 +1,7 @@
 var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete) {
 
     var self = this;
+    var heardTabDirectiveIsReady = false;
     self.instanceId = instanceId;
     self.instanceConfig = instanceConfig;
     self.downloadUrl = '';
@@ -15,6 +16,10 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
     self.videoPlayer = null;
 
     self.playlists = [];
+
+    RcmBrightCoveEventManager.on('tabDirectiveReady-' + instanceId, function () {
+        heardTabDirectiveIsReady = true;
+    });
 
     RcmBrightCoveEventManager.on('templateLoad-' + instanceId, function (experienceID) {
 
@@ -106,13 +111,20 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
 
         /**
          * Sometimes the tabs directive loads before us and misses our event, other times
-         * we load before the tabs directive and miss its event. Doing it "both ways" below
+         * we load before the tabs directive and miss its event. Doing it both ways below
          * prevents this.
          */
-        RcmBrightCoveEventManager.trigger('playlistsBuilt-' + instanceId, self);
-        RcmBrightCoveEventManager.on('tabDirectiveReady-' + instanceId, function () {
+        if (heardTabDirectiveIsReady) {
             RcmBrightCoveEventManager.trigger('playlistsBuilt-' + instanceId, self);
-        });
+        } else {
+            var triggeredPlaylistsBuilt = false;
+            RcmBrightCoveEventManager.on('tabDirectiveReady-' + instanceId, function () {
+                if (!triggeredPlaylistsBuilt) {
+                    RcmBrightCoveEventManager.trigger('playlistsBuilt-' + instanceId, self);
+                    triggeredPlaylistsBuilt = true;
+                }
+            });
+        }
     };
 
     /**
