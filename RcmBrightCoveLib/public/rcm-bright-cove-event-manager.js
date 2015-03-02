@@ -60,6 +60,5 @@ var RcmBrightCoveEventManager = new function () {
      * @param message
      */
     self.log = function (message) {
-        console.log(message);
     }
 }();
