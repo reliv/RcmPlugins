@@ -16,13 +16,6 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
 
     self.playlists = [];
 
-    self.setInstanceConfig = function (instanceConfig) {
-
-        self.instanceConfig = instanceConfig;
-
-        RcmBrightCoveEventManager.trigger('setInstanceConfig', self);
-    };
-
     RcmBrightCoveEventManager.on('templateLoad-' + instanceId, function (experienceID) {
 
         self.player = brightcove.api.getExperience(experienceID);

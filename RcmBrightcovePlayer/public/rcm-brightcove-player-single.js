@@ -22,13 +22,6 @@ var RcmBrightcovePlayerSingle = function (instanceId, instanceConfig, onComplete
         }
     };
 
-    self.setInstanceConfig = function (instanceConfig) {
-
-        self.instanceConfig = instanceConfig;
-
-        RcmBrightCoveEventManager.trigger('setInstanceConfig', self);
-    }
-
     self.init = function (onComplete) {
 
         RcmBrightcoveApiService.getDownloadURL(
