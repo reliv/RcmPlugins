@@ -1,44 +1,47 @@
 rcm.addAngularModule('rcmBrightcovePlayer');
 angular.module('rcmBrightcovePlayer', [])
     .directive(
-    'rcmBrightcovePlayerDownloadLink',
-    function () {
+        'rcmBrightcovePlayerDownloadLink',
+        ['$timeout', function ($timeout) {
 
-        var registeredEvent = false;
+            var hasCompiledBefore = false;
 
-        return {
-            compile: function (elm, attrs) {
+            return {
+                compile: function (elm, attrs) {
 
-                var instanceId = attrs.rcmBrightcovePlayerDownloadLink;
+                    var instanceId = attrs.rcmBrightcovePlayerDownloadLink;
 
-                var playerController = RcmBrightcovePlayerService.getPlayerController(
-                    instanceId
-                );
+                    var playerController = RcmBrightcovePlayerService.getPlayerController(
+                        instanceId
+                    );
 
-                return function (scope, elm, attrs) {
+                    return function (scope, elm, attrs) {
 
-                    if (!registeredEvent) {
+                        if (!hasCompiledBefore) {
 
-                        BrightCoveEventManager.on(
-                            'downloadUrlChange',
-                            function (playerCtrl) {
-                                if (instanceId == playerCtrl.instanceId) {
-                                    scope.$apply();
+                            RcmBrightCoveEventManager.on(
+                                'downloadUrlChange-' + instanceId,
+                                function (playerCtrl) {
+                                    if (instanceId == playerCtrl.instanceId) {
+                                        //$timeout prevents "already applying" error
+                                        $timeout(function () {
+                                            scope.$apply();
+                                        });
+                                    }
                                 }
-                            }
-                        );
+                            );
 
-                        registeredEvent = true;
-                    }
+                            hasCompiledBefore = true;
+                        }
 
-                    scope.playerController = playerController;
-                };
-            },
+                        scope.playerController = playerController;
+                    };
+                },
 
-            template: '<a href="{{playerController.downloadUrl}}" ng-show="playerController.downloadUrl"><span data-textEdit="download" ng-model="playerController.instanceConfig.download">{{playerController.instanceConfig.download}}</span></span></a>'
-        };
-    }
-)
+                template: '<a href="{{playerController.downloadUrl}}" ng-show="playerController.downloadUrl"><span data-textEdit="download" ng-model="playerController.instanceConfig.download">{{playerController.instanceConfig.download}}</span></span></a>'
+            };
+        }]
+    )
     .directive(
         'rcmBrightcovePlayer',
         [
@@ -97,7 +100,7 @@ angular.module('rcmBrightcovePlayer', [])
             '$compile',
             function ($compile) {
 
-                var registeredEvent = false;
+                var hasCompiledBefore = false;
 
 
                 var updateTabs = function (scope, elm, playlists, onComplete) {
@@ -156,13 +159,6 @@ angular.module('rcmBrightcovePlayer', [])
                                             '        </span>' +
                                             '       </td>' +
                                             '       </tr>' +
-//                                    '       <tr>' +
-//                                    '        <td>' +
-//                                    '         <span class="description">' +
-//                                    '          <p style="text-decoration: none;font-size: 10px;">' + video.shortDescription + '</p>' +
-//                                    '         </span>' +
-//                                    '        </td>' +
-//                                    '       </tr>' +
                                             '      </table>' +
                                             '   </a>'
                                     );
@@ -212,11 +208,7 @@ angular.module('rcmBrightcovePlayer', [])
                 };
 
                 var controller = function ($scope) {
-
-                    $scope.testme = 'test';
-
                     $scope.videoClick = function (videoId) {
-
                         $scope.playerController.loadVideoById(videoId);
                     };
                 };
@@ -232,32 +224,26 @@ angular.module('rcmBrightcovePlayer', [])
                             scope.instanceId
                         );
 
-                        if (!registeredEvent) {
+                        if (!hasCompiledBefore) {
 
                             var updateEvent = function (playerCtrl) {
-
                                 scope.playlists = playerCtrl.playlists;
 
                                 if (scope.instanceId == playerCtrl.instanceId) {
-                                    setTimeout(
-                                        function () {
-                                            updateTabs(
-                                                scope,
-                                                elm,
-                                                playerCtrl.playlists
-                                            );
-                                        },
-                                        1
+                                    updateTabs(
+                                        scope,
+                                        elm,
+                                        playerCtrl.playlists
                                     );
                                 }
                             };
 
-                            BrightCoveEventManager.on(
-                                'playlistsBuilt',
+                            RcmBrightCoveEventManager.on(
+                                'playlistsBuilt-' + scope.instanceId,
                                 updateEvent
                             );
 
-                            registeredEvent = true;
+                            hasCompiledBefore = true;
                         }
                     }
                 };

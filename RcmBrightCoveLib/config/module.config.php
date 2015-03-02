@@ -27,7 +27,7 @@ return [
             ],
             'collections' => [
                 'modules/rcm/plugins.js' => [
-                    'modules/rcm-bright-cove-lib/bright-cove-event-manager.js',
+                    'modules/rcm-bright-cove-lib/rcm-bright-cove-event-manager.js',
                     'modules/rcm-bright-cove-lib/rcm-brightcove-player-service.js',
                     'modules/rcm-bright-cove-lib/rcm-brightcove-api-service.js',
                     'modules/rcm-bright-cove-lib/keep-aspect-ratio.js'
