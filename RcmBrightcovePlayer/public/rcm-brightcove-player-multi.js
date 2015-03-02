@@ -1,4 +1,4 @@
-var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete) {
+var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig) {
 
     var self = this;
     var heardTabDirectiveIsReady = false;
@@ -141,25 +141,15 @@ var RcmBrightcovePlayerMulti = function (instanceId, instanceConfig, onComplete)
         );
     };
 
-    /**
-     * init
-     * @param onComplete
-     */
-    self.init = function (onComplete) {
-
+    self.init = function () {
         self.buildPlaylist(
             function (thisPlayer) {
-
                 if (thisPlayer.videoId) {
                     thisPlayer.cueVideoById(thisPlayer.videoId)
-                }
-
-                if (typeof onComplete === 'function') {
-                    onComplete(thisPlayer);
                 }
             }
         );
     };
 
-    self.init(onComplete);
+    self.init();
 };

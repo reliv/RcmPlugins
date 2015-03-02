@@ -4,7 +4,7 @@
  * @param playerModel
  * @constructor
  */
-var RcmBrightcovePlayerSingle = function (instanceId, instanceConfig, onComplete) {
+var RcmBrightcovePlayerSingle = function (instanceId, instanceConfig) {
 
     var self = this;
     self.instanceId = instanceId;
@@ -16,26 +16,21 @@ var RcmBrightcovePlayerSingle = function (instanceId, instanceConfig, onComplete
     self.setDownloadUrl = function (url) {
 
         if (self.downloadUrl !== url) {
-
             self.downloadUrl = url;
             RcmBrightCoveEventManager.trigger('downloadUrlChange-'+instanceId, self);
         }
     };
 
-    self.init = function (onComplete) {
+    self.init = function () {
 
         RcmBrightcoveApiService.getDownloadURL(
             self.videoId,
             function (url) {
                 self.setDownloadUrl(url);
                 RcmBrightCoveEventManager.trigger('init', self);
-
-                if (typeof onComplete === 'function') {
-                    onComplete(self);
-                }
             }
         );
     };
 
-    self.init(onComplete);
+    self.init();
 };
