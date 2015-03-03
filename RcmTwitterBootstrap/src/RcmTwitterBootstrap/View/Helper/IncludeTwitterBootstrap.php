@@ -55,8 +55,9 @@ class IncludeTwitterBootstrap extends AbstractHelper
      */
     protected function inject()
     {
-        $this->injectJs();
+        $this->injectMeta();
         $this->injectCss();
+        $this->injectJs();
     }
 
     public function injectJs()
@@ -71,9 +72,15 @@ class IncludeTwitterBootstrap extends AbstractHelper
         );
 
         $headScript->appendFile(
+            '/modules/rcm-twitter-bootstrap/html5shiv/html5shiv.js',
+            'text/javascript',
+            array('conditional' => 'lt IE 9')
+        );
+
+        $headScript->appendFile(
             '/modules/rcm-twitter-bootstrap/bootstrap/js/respond/respond.min.js',
             'text/javascript',
-            array('conditional' => 'lt IE 8')
+            array('conditional' => 'lt IE 9')
         );
     }
 
@@ -93,5 +100,20 @@ class IncludeTwitterBootstrap extends AbstractHelper
          * '/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css.map'
          * );
          * /* */
+    }
+
+    public function injectMeta()
+    {
+        $view = $this->getView();
+
+        $view->headMeta()->appendName(
+            'viewport',
+            'width=device-width, initial-scale=1'
+        );
+
+        $view->headMeta()->appendName(
+            'X-UA-Compatible',
+            'IE=edge'
+        );
     }
 }
