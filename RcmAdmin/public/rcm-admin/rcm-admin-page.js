@@ -134,6 +134,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                     self.loadingMessages.save
                 );
                 var data = self.getData();
+
                 // loop containers and fire saves... aggregate data and sent to server
                 data.plugins = {};
 
@@ -151,7 +152,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                         self.setLoading(false);
                         //self.events.trigger('alert', {type:'success',message: 'Page saved'});
                         if (msg.redirect) {
-                            window.location = msg.redirect;
+                            //window.location = msg.redirect;
                         } else {
 
                             self.events.trigger(

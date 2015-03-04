@@ -40,7 +40,8 @@ var RcmAdminViewModel = function (config, model, page) {
                             click: function () {
 
                                 //Get user-entered data from form
-                                $(container).attr('data-rcmsitewideplugin', 'Y');
+                                $(container).attr('data-rcmsitewideplugin', '1');
+                                self.model.RcmPluginModel.setIsSitewide($(pluginContainer), true);
                                 $(container).attr(
                                     'data-rcmplugindisplayname',
                                     pluginName.val()
