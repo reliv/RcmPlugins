@@ -47,7 +47,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         me.apertureSlider = new ApertureSlider(
             container.find('.peopleAperture'),
             {
-                frameWidth: 158,
+                frameWidth: 160,
                 minHeight: 140,
                 frameSeparation: 0,
                 framesPerView: framesPerView,

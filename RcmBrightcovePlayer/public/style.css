@@ -40,6 +40,14 @@
     margin: 5px;
 }
 
+.RcmBrightcovePlayer .video span {
+    height: 100%;
+}
+
+.RcmBrightcovePlayer .video object {
+    height: 100%;
+}
+
 .RcmBrightcovePlayer .videoArea {
     display: block;
     float: left;
