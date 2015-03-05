@@ -148,6 +148,15 @@ html.rcmEditingPlugins .rcmPlugin:hover {
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=0, Color='#888888')";
 }
 
+/* Container Drag Targets */
+html.rcmEditingPlugins .rcmPlugin[data-rcmsitewideplugin="1"]:hover,
+html.rcmEditingPlugins .rcmPlugin[data-rcmsitewideplugin="Y"]:hover{
+    /*border: 1px dashed grey;*/
+    box-shadow: 0px 0px 1px 1px rgba(127,0,0,1);
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=0, Color='#880000')";
+}
+
 html.rcmArrangingPlugins .rcmContainer > .row {
     border: 1px dashed grey;
     border-bottom: 0;

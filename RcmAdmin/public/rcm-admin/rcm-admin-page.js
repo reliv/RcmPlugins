@@ -152,7 +152,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                         self.setLoading(false);
                         //self.events.trigger('alert', {type:'success',message: 'Page saved'});
                         if (msg.redirect) {
-                            //window.location = msg.redirect;
+                            window.location = msg.redirect;
                         } else {
 
                             self.events.trigger(
