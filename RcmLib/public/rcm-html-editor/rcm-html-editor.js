@@ -41,7 +41,7 @@ angular.module('RcmHtmlEditor', [])
                     "bold italic underline strikethrough subscript superscript removeformat | " +
                     "alignleft aligncenter alignright alignjustify | " +
                     "bullist numlist outdent indent | cut copy pastetext | " +
-                    "image table hr charmap | link unlink anchor"
+                    "image table hr charmap | link unlink anchor | removeformat"
                 ]
             },
             text: {
@@ -66,7 +66,7 @@ angular.module('RcmHtmlEditor', [])
                     "code | undo redo | forecolor | " +
                     "bold italic underline strikethrough subscript superscript removeformat | " +
                     "outdent indent | cut copy pastetext | " +
-                    "image charmap | link unlink anchor"
+                    "image charmap | link unlink anchor | removeformat"
                 ]
             },
             simpleText: {
@@ -90,7 +90,7 @@ angular.module('RcmHtmlEditor', [])
                 toolbar: [
                     "code | " +
                     "bold italic underline strikethrough subscript superscript removeformat | " +
-                    "link unlink anchor"
+                    "link unlink anchor | removeformat"
                 ]
             }
         };
