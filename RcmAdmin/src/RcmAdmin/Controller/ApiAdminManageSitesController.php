@@ -475,12 +475,13 @@ class ApiAdminManageSitesController extends ApiAdminBaseController
 
                     $pluginInstance = $pluginInstanceRepo->createPluginInstance(
                         $pluginData,
+                        $site,
                         false
                     );
 
                     $pluginData['pluginInstanceId'] = $pluginInstance->getInstanceId();
 
-                    $wrapper = $pluginWrapperRepo->savePluginWrapper($pluginData);
+                    $wrapper = $pluginWrapperRepo->savePluginWrapper($pluginData, $site);
 
                     $pageRevison->addPluginWrapper($wrapper);
 
