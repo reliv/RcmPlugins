@@ -1,0 +1,47 @@
+
+<div class="fluid-container">
+    <div class="row">
+        <div class="col-sm-4">
+            <?= $this->rcmRichEdit(
+                'txt1',
+                '<h2>Choice 1</h2>choice 1 rocks',
+                'div'
+            ) ?>
+            <?=
+            $this->rcmTextEdit(
+                'btn1',
+                'Continue',
+                'button',
+                ['class', 'btn btn-primary']
+            ) ?>
+        </div>
+        <div class="col-sm-4">
+            <?= $this->rcmRichEdit(
+                'txt2',
+                '<h2>Choice 2</h2>choice 2 rocks',
+                'div'
+            ) ?>
+            <?=
+            $this->rcmTextEdit(
+                'btn2',
+                'Continue',
+                'button',
+                ['class', 'btn btn-primary']
+            ) ?>
+        </div>
+        <div class="col-sm-4">
+            <?= $this->rcmRichEdit(
+                'txt1',
+                '<h3>Choice 1</h3>choice 1 rocks',
+                'div'
+            ) ?>
+            <?=
+            $this->rcmTextEdit(
+                'btn1',
+                'Continue',
+                'button',
+                ['class', 'btn btn-primary']
+            ) ?>
+        </div>
+    </div>
+</div>
