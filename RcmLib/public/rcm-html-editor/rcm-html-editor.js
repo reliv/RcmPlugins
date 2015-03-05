@@ -979,3 +979,5 @@ angular.module('RcmHtmlEditor', [])
         }
     ]
 );
+
+tinymce.ScriptLoader.loadQueue();
