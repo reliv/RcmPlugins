@@ -28,13 +28,6 @@ var RcmThreeChoicesEdit = function (instanceId, container) {
     var linkEle3 = $(choiceEles[2]).find('a.editableLink');
 
     /**
-     * Background image jQuery object
-     *
-     * @type {Object}
-     */
-    var imgTag = container.find('.rollImg');
-
-    /**
      * Called by content management system to make this plugin user-editable
      */
     self.initEdit = function () {
