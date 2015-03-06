@@ -20,14 +20,13 @@
 return [
 
     'rcmPlugin' => [
-        'RcmCallToActionBox' => [
+        'RcmThreeChoices' => [
             'type' => 'Content Templates',
-            'display' => 'Call to Action Box',
-            'tooltip' => 'Editable box with an image, headline, and description',
+            'display' => 'Three Choices',
+            'tooltip' => 'Three Choices! Which will you choose?',
             'icon' => '',
             'editJs' => '/modules/rcm-call-to-action-box/call-to-action-box-edit.js',
-            'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php',
+            'defaultInstanceConfig' => [],
             'canCache'=> true
         ],
     ],
@@ -39,12 +38,11 @@ return [
     'asset_manager' => [
         'resolver_configs' => [
             'aliases' => [
-                'modules/rcm-call-to-action-box/' => __DIR__ . '/../public/',
+                'modules/rcm-three-choices/' => __DIR__ . '/../public/',
             ],
             'collections' => [
-                // required for admin edit //
-                'modules/rcm-admin/js/rcm-admin.js' => [
-                    'modules/rcm-call-to-action-box/call-to-action-box-edit.js',
+                'modules/rcm/plugins.css' => [
+                    'modules/rcm-three-choices/style.css',
                 ],
             ],
         ],

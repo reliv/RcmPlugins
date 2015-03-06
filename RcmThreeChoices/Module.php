@@ -14,7 +14,7 @@
  * @version   GIT: <git_id>
  */
 
-namespace RcmCallToActionBox;
+namespace RcmThreeChoices;
 
 
 /**
