@@ -213,7 +213,7 @@ var RcmDialog = {
 
         return RcmDialog.dialogs[dialogId];
     }
-}
+};
 
 /**
  * <RcmDialog>
@@ -301,7 +301,7 @@ angular.module(
                 };
 
                 return thisLink;
-            }
+            };
 
             return {
                 restrict: 'A',
@@ -337,7 +337,7 @@ angular.module(
                 };
 
                 return thisLink;
-            }
+            };
 
             return {
                 restrict: 'A',
@@ -371,7 +371,7 @@ angular.module(
                 };
 
                 return thisLink;
-            }
+            };
 
             return {
                 restrict: 'A',
@@ -522,7 +522,7 @@ angular.module(
                 };
 
                 return thisLink;
-            }
+            };
 
             return {
                 restrict: 'A',
@@ -622,7 +622,7 @@ angular.module(
                 };
 
                 return thisLink;
-            }
+            };
 
             return {
                 restrict: 'A',
@@ -651,6 +651,6 @@ angular.module(
             }
         }
     ]
-)
+);
 /** </RcmDialog> */
 rcm.addAngularModule('RcmDialog');
