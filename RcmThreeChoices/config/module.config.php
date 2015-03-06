@@ -42,6 +42,9 @@ return [
                 'modules/rcm-three-choices/' => __DIR__ . '/../public/',
             ],
             'collections' => [
+                'modules/rcm-admin/js/rcm-admin.js' => [
+                    'modules/rcm-three-choices/rcm-three-choices-edit.js',
+                ],
                 'modules/rcm/plugins.css' => [
                     'modules/rcm-three-choices/style.css',
                 ],
