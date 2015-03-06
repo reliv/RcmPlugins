@@ -51,13 +51,13 @@
 .RcmBrightcovePlayer .videoArea {
     display: block;
     float: left;
-    width: 200px;
     height: 150px;
+    padding: 16px;
 }
 
 .RcmBrightcovePlayer .title p {
     /*text-overflow: ellipsis;*/
-    width: 150px;
+    width: 135px;
     /*white-space: nowrap;*/
     overflow: hidden;
     text-decoration: none;
@@ -65,7 +65,7 @@
 
 .RcmBrightcovePlayer .description p {
     text-overflow: ellipsis;
-    width: 150px;
+    /*width: 150px;*/
     height: 35px;
     white-space: inherit;
     overflow: hidden;
@@ -110,11 +110,13 @@
     border-bottom: 0px solid transparent;
 }
 .RcmBrightcovePlayer .tab-content {
-
-    padding-top: 20px;
-    padding-left: 80px;
     overflow: hidden;
+    margin-left: 3px;
 }
 .RcmBrightcovePlayer .nav-tabs > li {
     margin-bottom: -5px;
+}
+
+.RcmBrightcovePlayer .panel-body {
+    padding: 0px;
 }
