@@ -26,8 +26,9 @@ return [
             'tooltip' => 'Three Choices! Which will you choose?',
             'icon' => '',
             'editJs' => '/modules/rcm-call-to-action-box/call-to-action-box-edit.js',
-            'defaultInstanceConfig' => [],
-            'canCache'=> true
+            'defaultInstanceConfig' => include
+                    __DIR__ . '/defaultInstanceConfig.php',
+            'canCache' => true
         ],
     ],
     'view_manager' => [
