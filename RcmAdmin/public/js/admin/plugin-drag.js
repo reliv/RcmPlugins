@@ -348,7 +348,7 @@ var RcmPluginDrag = {
         }
         var pluginData = {
             pluginName: $(pluginContainer).attr('data-rcmPluginName'),
-            isSiteWide: $(pluginContainer).attr('data-rcmSiteWidePlugin') == 1,
+            isSiteWide: RcmAdminService.model.RcmPluginModel.isSitewide($(pluginContainer)),
             instanceId: $(pluginContainer).attr('data-rcmPluginInstanceId'),
             displayName: $(pluginContainer).attr('data-rcmPluginDisplayName')
         };

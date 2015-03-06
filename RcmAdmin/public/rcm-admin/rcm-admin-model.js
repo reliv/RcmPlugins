@@ -238,23 +238,6 @@ var RcmAdminModel = function () {
         },
 
         /**
-         * getId AKA InstanceId
-         * @param pluginElm
-         * @param onComplete
-         * @returns {*}
-         */
-        getId: function (pluginElm, onComplete) {
-
-            var id = pluginElm.attr('data-rcmPluginInstanceId');
-
-            if (typeof onComplete === 'function') {
-                onComplete(id)
-            }
-
-            return id;
-        },
-
-        /**
          * setId AKA InstanceId
          * @param pluginElm
          * @param value
@@ -272,6 +255,57 @@ var RcmAdminModel = function () {
             return value;
         },
 
+        /**
+         * getId AKA InstanceId
+         * @param pluginElm
+         * @param onComplete
+         * @returns {*}
+         */
+        getId: function (pluginElm, onComplete) {
+
+            var id = pluginElm.attr('data-rcmPluginInstanceId');
+
+            if (typeof onComplete === 'function') {
+                onComplete(id)
+            }
+
+            return id;
+        },
+
+        /**
+         * setSitewideName AKA DisplayName
+         * @param pluginElm
+         * @param value
+         * @param onComplete
+         * @returns {*}
+         */
+        setSitewideName: function (pluginElm, value, onComplete) {
+
+            pluginElm.attr('data-rcmPluginDisplayName', value);
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
+         * getSitewideName AKA DisplayName
+         * @param pluginElm
+         * @param onComplete
+         * @returns {*}
+         */
+        getSitewideName: function (pluginElm, onComplete) {
+
+            var value = pluginElm.attr('data-rcmPluginDisplayName');
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
         /**
          * getName
          * @param pluginElm
@@ -463,6 +497,48 @@ var RcmAdminModel = function () {
         },
 
         /**
+         * setIsSitewide
+         * @param pluginElm
+         * @param value
+         * @param onComplete
+         * @returns {*}
+         */
+        setIsSitewide: function (pluginElm, value, onComplete) {
+
+            if(value){
+                value = 1;
+                pluginElm.attr('data-rcmSiteWidePlugin', value);
+
+            } else {
+                value = 0;
+                pluginElm.attr('data-rcmSiteWidePlugin', null);
+            }
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
+         * isSitewide
+         * @param pluginElm
+         * @param onComplete
+         * @returns {boolean}
+         */
+        isSitewide: function (pluginElm, onComplete) {
+
+            var value = (pluginElm.attr('data-rcmSiteWidePlugin') == '1' || pluginElm.attr('data-rcmSiteWidePlugin') == 'Y');
+
+            if (typeof onComplete === 'function') {
+                onComplete(value)
+            }
+
+            return value;
+        },
+
+        /**
          * getData
          * @param containerId
          * @param id AKA InstanceId
@@ -479,11 +555,11 @@ var RcmAdminModel = function () {
 
             data.instanceId = self.RcmPluginModel.getId(elm);
 
-            data.isSitewide = (elm.attr('data-rcmSiteWidePlugin') == '1' || elm.attr('data-rcmSiteWidePlugin') == 'Y');
+            data.isSitewide = self.RcmPluginModel.isSitewide(elm);
 
             data.name = self.RcmPluginModel.getName(elm);
 
-            data.sitewideName = elm.attr('data-rcmPluginDisplayName');
+            data.sitewideName = self.RcmPluginModel.getSitewideName(elm);
 
             data.columnClass = self.RcmPluginModel.getColumnClass(elm);
 
