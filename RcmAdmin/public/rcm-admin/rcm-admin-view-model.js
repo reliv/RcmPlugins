@@ -40,7 +40,7 @@ var RcmAdminViewModel = function (config, model, page) {
                             click: function () {
 
                                 //Get user-entered data from form
-                                $(container).attr('data-rcmsitewideplugin', 'Y');
+                                self.model.RcmPluginModel.setIsSitewide($(container), true);
                                 $(container).attr(
                                     'data-rcmplugindisplayname',
                                     pluginName.val()
@@ -139,13 +139,21 @@ var RcmAdminViewModel = function (config, model, page) {
 
             var page = self.page;
 
+            var isSitewide = self.model.RcmPluginModel.isSitewide(elm);
+
+            var sitewideOption = '';
+
+            if(!isSitewide){
+                sitewideOption = '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>';
+            }
+
             var menu = '' +
                 '<div id="rcmLayoutEditHelper' + id + '">' +
                 ' <span class="rcmSortableHandle rcmLayoutEditHelper" title="Move Plugin"></span>' +
                 ' <span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu">' +
                 '  <ul>' +
                 '   <li><a href="#"></a><ul>' +
-                '   <li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
+                '   ' + sitewideOption +
                 '   <li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
                 '   <li><a href="#" class="rcmResetSizePluginMenuItem">Reset Size</a> </li>' +
                 '  </ul>' +

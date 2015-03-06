@@ -48,11 +48,16 @@ $page = $layout->page;
 /** @var \Rcm\Entity\Site $site */
 $site = $layout->site;
 
+/** @var array $requestedPageData */
+$requestedPageData = $layout->requestedPageData;
+
 $pageData = array(
     'rcmPageRevision' => $page->getCurrentRevision()->getRevisionId(),
     'rcmPageType' => $page->getPageType(),
     'rcmPageName' => $page->getName(),
+    'rcmPageId' => $page->getPageId(),
     'rcmSiteId' => $site->getSiteId(),
+    'requestedPageData' => $requestedPageData,
 );
 
 $this->headMeta()->setProperty(
