@@ -51,6 +51,11 @@ class IncludeCoreJs extends AbstractHelper
             $view->basePath() . '/modules/rcm/plugins.js'
         );
 
+        //Plugins inject their css into this file
+        $view->headLink()->prependStylesheet(
+            '/modules/rcm/plugins.css'
+        );
+
         /* <CORE_JS_FILES> */
         $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-lib/rcm-core.js'

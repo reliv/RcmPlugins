@@ -1,0 +1,31 @@
+<div class="fluid-container sm-table">
+    <div class="row sm-tr">
+        <?php for ($i = 1; $i <= 3; $i++): ?>
+            <div class="col-sm-4 sm-td choice">
+                <?=
+                $this->rcmRichEdit(
+                    'txt' . $i,
+                    '<h2>A Choice</h2>This choice rocks!',
+                    'div',
+                    ['class' => 'choiceDesc']
+                ) ?>
+                <a class="btn btn-primary hiddenSpacer">
+                    &nbsp;
+                </a>
+
+                <div class="btnWrap">
+                    <?=
+                    $this->rcmTextEdit(
+                        'btn' . $i,
+                        'Continue',
+                        'a',
+                        [
+                            'class' => 'editableLink btn btn-primary',
+                            'href' => $instanceConfig['links'][$i]
+                        ]
+                    ) ?>
+                </div>
+            </div>
+        <?php endfor ?>
+    </div>
+</div>

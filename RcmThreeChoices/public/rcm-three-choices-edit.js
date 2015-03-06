@@ -1,7 +1,7 @@
 /**
- * RcmCallToActionBox
+ * RcmThreeChoices
  *
- * JS for editing RcmCallToActionBox
+ * JS for editing RcmThreeChoices
  *
  * PHP version 5.3
  *
@@ -13,7 +13,7 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-var RcmCallToActionBoxEdit = function (instanceId, container) {
+var RcmThreeChoicesEdit = function (instanceId, container) {
 
     var self = this;
 
@@ -22,35 +22,10 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      *
      * @type {Object}
      */
-    var aTags = container.find('a');
-
-    /**
-     * Background image jQuery object
-     *
-     * @type {Object}
-     */
-    var imgTag = container.find('.rollImg');
-
-    /**
-     * cleanImageUrl
-     * @param url
-     * @returns {string}
-     */
-    self.cleanBackgroundUrl = function(background) {
-        var reg = /(?:\(['|"]?)(.*?)(?:['|"]?\))/;
-        return reg.exec(background)[1];
-    };
-
-    /**
-     *  Gets background image url
-     *
-     * @returns {String}
-     */
-    self.getBackgroundImageUrl = function () {
-
-        var background = imgTag.css('background-image');
-        return self.cleanBackgroundUrl(background);
-    };
+    var choiceEles = container.find('.choice');
+    var linkEle1 = $(choiceEles[0]).find('a.editableLink');
+    var linkEle2 = $(choiceEles[1]).find('a.editableLink');
+    var linkEle3 = $(choiceEles[2]).find('a.editableLink');
 
     /**
      * Called by content management system to make this plugin user-editable
@@ -85,22 +60,25 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
      */
     self.getSaveData = function () {
         return {
-            'href': aTags.attr('href'),
-            'imageSrc': self.getBackgroundImageUrl()
+            links: {
+                1: linkEle1.attr('href'),
+                2: linkEle2.attr('href'),
+                3: linkEle3.attr('href')
+            }
         }
     };
 
     /**
-     * Displays a dialog box to edit href and image src
+     * Displays a dialog box to edit properties
      */
     self.showEditDialog = function () {
-
-        var srcInput = $.dialogIn('image', 'Image', self.getBackgroundImageUrl());
-        var hrefInput = $.dialogIn('url', 'Link Url', aTags.attr('href'));
+        var link1 = $.dialogIn('url', 'Link for Button #1', linkEle1.attr('href'));
+        var link2 = $.dialogIn('url', 'Link for Button #2', linkEle2.attr('href'));
+        var link3 = $.dialogIn('url', 'Link for Button #3', linkEle3.attr('href'));
 
         var form = $('<form></form>')
             .addClass('simple')
-            .append(srcInput, hrefInput)
+            .appendMulti([link1, link2, link3])
             .dialog({
                 title: 'Properties',
                 modal: true,
@@ -110,11 +88,9 @@ var RcmCallToActionBoxEdit = function (instanceId, container) {
                         $(this).dialog("close");
                     },
                     Ok: function () {
-
-                        //Get user-entered data from form
-                        imgTag.css('background-image', 'url("' + srcInput.val() + '")');
-                        aTags.attr('href', hrefInput.val());
-
+                        linkEle1.attr('href', link1.val());
+                        linkEle2.attr('href', link2.val());
+                        linkEle3.attr('href', link3.val());
                         $(this).dialog('close');
                     }
                 }
