@@ -64,6 +64,10 @@
     .RcmThreeChoices .choice {
         margin:0 15px 15px 15px;
     }
+    .RcmThreeChoices .btnWrap {
+        text-align: left;
+        left:15px;
+    }
 }
 @media (min-width: 768px) {
     .RcmThreeChoices .sm-table {
