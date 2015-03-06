@@ -105,7 +105,7 @@ class PageController extends AbstractActionController
         $request = $this->request;
 
         if($request->isGet()){
-            
+
             $form->get('url')->setValue($request->getQuery('url'));
         }
 
