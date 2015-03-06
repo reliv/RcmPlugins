@@ -77,6 +77,10 @@
         display: table-row;
     }
 
+    .RcmThreeChoices .sm-tr:before, .RcmThreeChoices .sm-tr:after{
+        content:none;
+    }
+
     .RcmThreeChoices .sm-td {
         display: table-cell;
         float: none;
