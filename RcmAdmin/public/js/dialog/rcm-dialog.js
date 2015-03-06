@@ -84,6 +84,11 @@ var RcmDialog = {
         self.url = '';
         self.elm = null;
         self.openState = 'init';
+        // @todo make this a part of the actions
+        self.params = {
+            saveLabel: 'Save',
+            closeLabel: 'Close'
+        };
 
         self.preOpened = false;
 
@@ -186,6 +191,9 @@ var RcmDialog = {
                     'hidden.bs.modal',
                     function (event) {
                         self.openState = 'closed';
+                        if(self.actions.close){
+                            self.actions.close();
+                        }
                         self.elm.remove();
                         //scope.$destroy();
                         self.elm = null;
@@ -389,9 +397,9 @@ angular.module(
                 '            <iframe src="{{dialog.url}}" style="width: 100%; height: 400px"></iframe>' +
                 '        </div>' +
                 '        <div class="modal-footer">' +
-                '            <button type="button" class="btn btn-default" XXXdata-dismiss="modal" ng-click="dialog.actions.close()">Close' +
+                '            <button type="button" class="btn btn-default" XXXdata-dismiss="modal" ng-click="dialog.actions.close()">{{dialog.params.closeLabel}}' +
                 '            </button>' +
-                '            <button ng-show="dialog.actions.save" type="button" class="btn btn-primary saveBtn" ng-click="dialog.actions.save()">Save' +
+                '            <button ng-show="dialog.actions.save" type="button" class="btn btn-primary saveBtn" ng-click="dialog.actions.save()">{{dialog.params.saveLabel}}' +
                 '            </button>' +
                 '        </div>' +
                 '    </div>' +
@@ -540,10 +548,10 @@ angular.module(
                 '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
                 '   <div class="modal-footer">' +
                 '    <button type="button" class="btn btn-default" XXXdata-dismiss="modal" data-ng-click="dialog.actions.close()" >' +
-                '     Close' +
+                '     {{dialog.params.closeLabel}}' +
                 '    </button>' +
                 '    <button ng-show="dialog.actions.save" type="button" class="btn btn-primary saveBtn" data-ng-click="dialog.actions.save()" >' +
-                '     Save' +
+                '     {{dialog.params.saveLabel}}' +
                 '    </button>' +
                 '   </div>' +
                 '  </div>' +
@@ -639,10 +647,10 @@ angular.module(
                 '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
                 '   <div class="modal-footer">' +
                 '    <button type="button" class="btn btn-default" data-ng-click="dialog.actions.close()">' +
-                '     Close' +
+                '     {{dialog.params.closeLabel}}' +
                 '    </button>' +
                 '    <button type="button" class="btn btn-primary saveBtn" data-ng-click="dialog.actions.save()" >' +
-                '     Save' +
+                '     {{dialog.params.saveLabel}}' +
                 '    </button>' +
                 '   </div>' +
                 '  </div>' +
