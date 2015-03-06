@@ -63,6 +63,7 @@ var RcmAdminModel = function () {
             data.type = pageInfo.rcmPageType;
             data.revision = pageInfo.rcmPageRevision;
             data.siteId = pageInfo.rcmSiteId;
+            data.requestedPageData = pageInfo.requestedPageData;
 
             if (typeof onComplete === 'function') {
                 onComplete(data)
