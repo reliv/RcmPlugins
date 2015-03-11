@@ -106,10 +106,10 @@ var inputImageEventsDelegated = false;
             left = parseInt(( window.screen.width - width ) / 2, 10);
 
         options = ( options || 'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes' ) +
-            ',width=' + width +
-            ',height=' + height +
-            ',top=' + top +
-            ',left=' + left;
+        ',width=' + width +
+        ',height=' + height +
+        ',top=' + top +
+        ',left=' + left;
 
         var popupWindow = window.open('', null, options, true);
 
@@ -146,14 +146,14 @@ var inputImageEventsDelegated = false;
 
             var p = $('<p class="dialogElement imageInput" data-dialogElementName="' + name + '" style="overflow-y:hidden"></p>');
             p.append('<label for="' + name + '">' + description + '</label><br>' +
-                '<img style="max-width:120px;float:left;margin-right:10px" src="' + src + '" onerror="this.src=\'/modules/rcm-lib/images/no-image.png\';">');
+            '<img style="max-width:120px !important;float:left;margin-right:10px" src="' + src + '" onerror="this.src=\'/modules/rcm-lib/images/no-image.png\';">');
             var urlBox = $('<input style="width:370px;margin-right:10px" name="' + name + '" value="' + src + '">');
             p.append(urlBox);
             p.append('<button type="button" class="image-button ui-button ui-widget ' +
-                'ui-state-default ui-corner-all ui-button-text-only" role="button" ' +
-                'aria-disabled="false">' +
-                '<span class="ui-button-text">Browse</span>' +
-                '</button>');
+            'ui-state-default ui-corner-all ui-button-text-only" role="button" ' +
+            'aria-disabled="false">' +
+            '<span class="ui-button-text">Browse</span>' +
+            '</button>');
 
             if (!inputImageEventsDelegated) {
 
@@ -195,7 +195,7 @@ var inputImageEventsDelegated = false;
             var name = $.fn.generateUUID();
 
             var p = $('<p class="dialogElement" data-dialogElementName="' + name + '"><label for="' + name + '">' + description + '</label><br>' +
-                '<input type="text" name="' + name + '" value="' + value + '"></p>');
+            '<input type="text" name="' + name + '" value="' + value + '"></p>');
 
             return p;
         },
@@ -271,13 +271,13 @@ var inputImageEventsDelegated = false;
             var name = $.fn.generateUUID();
 
             var p = $('<p class="dialogElement" data-dialogElementName="' + name + '"><label for="' + name + '">' + description + '</label><br>' +
-                '<input type="password" id="' + name + '"  name="' + name + '" value="' + value + '"></p>');
+            '<input type="password" id="' + name + '"  name="' + name + '" value="' + value + '"></p>');
 
             //Give it a random name so labels and multi-dialogs work
             var validationName = $.fn.generateUUID();
 
             var validationP = $('<p class="dialogElement"><label for="' + validationName + '">' + validationDescription + '</label><br>' +
-                '<input type="password" id="' + validationName + '" name="' + validationName + '" value="' + value + '"></p>');
+            '<input type="password" id="' + validationName + '" name="' + validationName + '" value="' + value + '"></p>');
 
             var divId = $.fn.generateUUID();
 
@@ -324,7 +324,7 @@ var inputImageEventsDelegated = false;
             var name = $.fn.generateUUID();
 
             var p = $('<p class="dialogElement" data-dialogElementName="' + name + '"><label for="' + name + '">' + description + '</label>' +
-                '<br></p>');
+            '<br></p>');
             var input = $('<input name="' + name + '" value="' + value + '">');
             p.append(input);
             input.datepicker();
@@ -435,7 +435,7 @@ var inputImageEventsDelegated = false;
             }
             var p = $(
                 '<p class="dialogElement dialogElementCheckBox" data-dialogElementName="' + name + '"><input type="checkbox"' + checkedHtml + ' name="' + name +
-                    '" value="true" />' + description + '</p>'
+                '" value="true" />' + description + '</p>'
             );
 
             return p;
@@ -460,8 +460,8 @@ var inputImageEventsDelegated = false;
             var div = $('<div id="' + id + '" data-rcm-html-edit>' + value + '</div>');
             var p = $(
                 '<p class="dialogElement" data-dialogRichEditId="' + id + '">' +
-                    '<label>' + description + '</label><br>' +
-                    '</p>'
+                '<label>' + description + '</label><br>' +
+                '</p>'
             );
             p.append(div);
             p.append('<br>');
