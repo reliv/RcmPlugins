@@ -25,6 +25,7 @@ angular.module('RcmHtmlEditor', [])
                 force_br_newlines: false,
                 force_p_newlines: false,
                 forced_root_block: '',
+                paste_as_text: true,
 
                 inline: true,
                 encoding: "raw",
@@ -51,6 +52,7 @@ angular.module('RcmHtmlEditor', [])
                 force_br_newlines: false,
                 force_p_newlines: false,
                 forced_root_block: '',
+                paste_as_text: true,
 
                 inline: true,
                 encoding: "raw",
@@ -76,6 +78,7 @@ angular.module('RcmHtmlEditor', [])
                 force_br_newlines: false,
                 force_p_newlines: false,
                 forced_root_block: '',
+                paste_as_text: true,
 
                 inline: true,
                 encoding: "raw",
