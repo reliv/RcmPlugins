@@ -30,6 +30,7 @@ return [
                 'RcmAngularJs\View\Helper\IncludeAngularJsBootstrap',
             'rcmIncludeAngularJsUiTinyMce' =>
                 'RcmAngularJs\View\Helper\IncludeAngularJsTinyMce',
+            'rcmAngularTemplateParse' => 'RcmAngularJs\View\Helper\AngularTemplateParser'
         ],
     ],
     'view_manager' => [
