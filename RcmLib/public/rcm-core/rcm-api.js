@@ -165,6 +165,37 @@ angular.module('rcmApi', [])
             };
 
             /**
+             * PATCH
+             * @param apiParams
+             */
+            self.patch = function (apiParams) {
+
+                apiParams = angular.extend(new self.ApiParams(), apiParams);
+
+                apiParams.url = self.formatUrl(apiParams.url, apiParams.urlParams);
+
+                apiParams.loading(true);
+
+                $http(
+                    {
+                        method: 'PATCH',
+                        url: apiParams.url,
+                        data: apiParams.data // angular.toJson(data)
+                    }
+                )
+                    .success(
+                    function (data, status, headers, config) {
+                        self.apiSuccess(data, apiParams, status, headers, config)
+                    }
+                )
+                    .error(
+                    function (data, status, headers, config) {
+                        self.apiError(data, apiParams, status, headers, config)
+                    }
+                );
+            };
+
+            /**
              * PUT
              * @param apiParams
              */
