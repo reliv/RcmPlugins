@@ -23,7 +23,8 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
     me.liClassesToFilter = [
         'dropdown',
         'open',
-        'context-menu-active'
+        'context-menu-active',
+        'HiddenLink'
     ];
 
     me.liClassesForLogin = [
