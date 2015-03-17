@@ -51,13 +51,13 @@
 .RcmBrightcovePlayer .videoArea {
     display: block;
     float: left;
-    width: 200px;
+    width: 154px;
     height: 150px;
 }
 
 .RcmBrightcovePlayer .title p {
     /*text-overflow: ellipsis;*/
-    width: 150px;
+    width: 135px;
     /*white-space: nowrap;*/
     overflow: hidden;
     text-decoration: none;
@@ -86,7 +86,6 @@
     border-left: 1px solid #dddddd;
     border-bottom: 0px solid #dddddd;
     border-radius: 4px 4px 0 0;
-    padding: .3em .5em 0 .5em;
 }
 .RcmBrightcovePlayer ul {
     margin-left:0px;
@@ -112,9 +111,6 @@
 .RcmBrightcovePlayer .tab-content {
 
     padding-top: 20px;
-    padding-left: 80px;
+    padding-left: 20px;
     overflow: hidden;
-}
-.RcmBrightcovePlayer .nav-tabs > li {
-    margin-bottom: -5px;
 }
