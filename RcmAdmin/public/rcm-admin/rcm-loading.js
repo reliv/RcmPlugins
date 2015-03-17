@@ -5,8 +5,17 @@ var RcmLoading = function (onloadingStart, onloadingEnd) {
     // var onloadingStart = function(data){}
     // var onloadingEnd = function(data){}
 
+    /**
+     * loading
+     * @type {Array}
+     */
     self.loading = [];
 
+    /**
+     * startLoading
+     * @param namespace
+     * @param id
+     */
     self.startLoading = function (namespace, id) {
 
         if (!namespace || !id) {
@@ -42,6 +51,12 @@ var RcmLoading = function (onloadingStart, onloadingEnd) {
 
         }
     };
+
+    /**
+     * endLoading
+     * @param namespace
+     * @param id
+     */
     self.endLoading = function (namespace, id) {
 
         if (!namespace || !id) {
@@ -75,6 +90,7 @@ var RcmLoading = function (onloadingStart, onloadingEnd) {
             }
         }
     };
+
     /**
      *
      * @param namespace
