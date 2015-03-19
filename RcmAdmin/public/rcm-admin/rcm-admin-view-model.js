@@ -40,7 +40,10 @@ var RcmAdminViewModel = function (config, model, page) {
                             click: function () {
 
                                 //Get user-entered data from form
-                                self.model.RcmPluginModel.setIsSitewide($(container), true);
+                                self.model.RcmPluginModel.setIsSitewide(
+                                    $(container),
+                                    true
+                                );
                                 $(container).attr(
                                     'data-rcmplugindisplayname',
                                     pluginName.val()
@@ -143,22 +146,63 @@ var RcmAdminViewModel = function (config, model, page) {
 
             var sitewideOption = '';
 
-            if(!isSitewide){
-                sitewideOption = '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>';
+            if (!isSitewide) {
+                sitewideOption = '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a></li>';
             }
 
-            var menu = '' +
-                '<div id="rcmLayoutEditHelper' + id + '">' +
-                ' <span class="rcmSortableHandle rcmLayoutEditHelper" title="Move Plugin"></span>' +
-                ' <span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu">' +
+
+            var menu = jQuery(
+                '<div id="rcmLayoutEditHelper' + id + '" class="rcmLayoutEditHelper">' +
+                '</div>'
+            );
+
+            var sortableMenu = jQuery(
+                ' <div class="rcmHandle sortableMenu" title="Move Plugin">' +
+                '   <div class="icon"></div>' +
+                ' </div>'
+            );
+
+            var containerMenu = jQuery(
+                ' <div class="rcmHandle containerMenu" title="Container Menu">' +
+                '   <div class="icon"></div>' +
+                ' </div>'
+            );
+
+            var rcmContainerMenu = jQuery(
+                ' <div class="rcmContainerMenu" title="Container Menu">' +
                 '  <ul>' +
-                '   <li><a href="#"></a><ul>' +
                 '   ' + sitewideOption +
                 '   <li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
                 '   <li><a href="#" class="rcmResetSizePluginMenuItem">Reset Size</a> </li>' +
                 '  </ul>' +
-                ' </span>' +
-                '</div>';
+                ' </div>'
+            );
+
+            rcmContainerMenu.hide();
+
+            rcmContainerMenu.hover(
+                function () {
+                    rcmContainerMenu.show();
+                },
+                function () {
+                    rcmContainerMenu.hide();
+                }
+            );
+
+            containerMenu.hover(
+                function () {
+                    rcmContainerMenu.show();
+                },
+                function () {
+                    rcmContainerMenu.hide();
+                }
+            );
+
+            menu.append(sortableMenu);
+
+            menu.append(containerMenu);
+
+            menu.append(rcmContainerMenu);
 
             elm.prepend(menu);
 
@@ -199,7 +243,10 @@ var RcmAdminViewModel = function (config, model, page) {
 
             elm.find(".rcmResetSizePluginMenuItem").click(
                 function (e) {
-                    self.rcmColunmResize.setClass(elm, self.rcmColunmResize.defaultClass);
+                    self.rcmColunmResize.setClass(
+                        elm,
+                        self.rcmColunmResize.defaultClass
+                    );
                     e.preventDefault();
                 }
             );

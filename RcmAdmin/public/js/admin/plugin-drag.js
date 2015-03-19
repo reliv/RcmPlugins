@@ -197,7 +197,7 @@ var RcmPluginDrag = {
                 tolerance: 'pointer',
                 placeholder: "rcmPluginSortPlaceHolder",
                 forcePlaceholderSize: false,
-                handle: '.rcmSortableHandle',
+                handle: '.rcmHandle.sortableMenu',
                 change: function (event, ui) {
                     RcmPluginDrag.pluginSortableChange(ui);
                 },

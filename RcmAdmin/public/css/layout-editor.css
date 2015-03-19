@@ -44,105 +44,80 @@
     filter: alpha(opacity=40);
 }
 
-/* Plugin Menu Overlays*/
+/* <Plugin Menu Overlays> */
 .rcmLayoutEditHelper {
-    border: 1px dotted grey;
-    border-radius: 5px 5px 0 0;
-    border-bottom: none;
-    position: absolute;
-    z-index: 10000;
-    top: -14px;
+    /*border: 1px dotted red;*/
+    color: #000000;
     display: none;
-    height: 16px;
-    width: 15px;
+    height: 2em;
+    position: absolute; top: 0px; left: 0px;
+    width: 100%;
+    z-index: 20000;
 }
 
-.rcmSortableHandle {
-    left: -2px;
+.rcmLayoutEditHelper .rcmHandle {
+    background-color: rgba(255,255,255,.5);
+    border: 1px dotted grey;
+    border-radius: 5px 5px 5px 5px;
+    padding: .3em .5em;
+    font-family: 'Glyphicons Halflings';
+}
+
+.rcmLayoutEditHelper .rcmHandle.sortableMenu {
     cursor: move;
-    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat 0px -82px;
+    float: left;
 }
 
-.rcmSettingPlugin {
-    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat -145px -146px;
-    right: 16px;
+.rcmLayoutEditHelper .rcmHandle.sortableMenu .icon:after {
+    content: "\e068";
 }
-
 /* Plugin Menu Overlays Drop Down */
 /* Container Menu */
-.rcmContainerMenu {
-    right: -2px;
-    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat -194px -115px;
+.rcmLayoutEditHelper .rcmHandle.containerMenu {
+    float: right;
 }
 
-.rcmContainerMenu, .rcmContainerMenu ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    line-height: 1;
-    overflow: visible !important;
+.rcmLayoutEditHelper .rcmHandle.containerMenu .icon:after {
+    content: "\e012";
 }
 
-.rcmContainerMenu a {
-    display: block;
-    font-weight: bold;
-    text-decoration: none;
-    margin: 6px;
-    padding: 0;
-    color: black;
-}
-
-.rcmContainerMenu li {
-    padding-right: 20px;
-    padding-top: 10px;
-    float: left;
-}
-
-.rcmContainerMenu ul li ul li:hover {
-    background: #FFFFFF;
-    color: #000000;
-}
-
-.rcmContainerMenu li ul li {
-    padding: 5px 30px 5px 5px;
-    float: none;
-}
-
-.rcmContainerMenu li ul li a {
-    font-weight: normal;
-    color: #FFFFFF;
-}
-
-.rcmContainerMenu li ul li:hover a {
-    font-weight: normal;
-    color: #000000;
-}
-
-.rcmContainerMenu li ul {
-    position: absolute;
+.rcmLayoutEditHelper .rcmContainerMenu{
+    background-color: #000000;
     border: 1px solid black;
     border-radius: 5px;
-    background-color: #000000;
-    padding: 2px;
-    left: -999em;
-    z-index: 950;
+    list-style: none;
+    line-height: 1;
+    margin: 0;
     opacity: 0.7;
+    overflow: visible;
+    padding: .5em;
+    position: absolute; top: 2em; right: 0px;
+    z-index: 950;
 }
 
-.rcmContainerMenu li:hover ul, .rcmContainerMenu li.sfhover ul {
-    left: -120px;
-    top: 10px;
+.rcmLayoutEditHelper .rcmContainerMenu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
-.rcmContainerMenu li ul li {
-    width: 130px;
-    padding: 0 0 5px 0;
-    float: left;
+.rcmLayoutEditHelper .rcmContainerMenu a {
+    background-color: transparent;
+    color: #FFFFFF;
+    display: block;
+    font-weight: bold;
+    padding: .5em;
+    text-decoration: none;
 }
+
+.rcmLayoutEditHelper .rcmContainerMenu a:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+/* </Plugin Menu Overlays> */
 
 /* Container Drag Targets */
 html.rcmEditingPlugins .rcmPlugin:hover {
-    /*border: 1px dashed grey;*/
     box-shadow: 0px 0px 1px 1px rgba(127,127,127,1);
     /* For IE 8 */
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=0, Color='#888888')";
