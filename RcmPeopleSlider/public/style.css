@@ -22,24 +22,26 @@
 }
 
 .RcmPeopleSlider .peopleDetails {
-    padding: 10px;
-    height: 350px;
-}
-
-.RcmPeopleSlider .largeImage, .RcmPeopleSlider .longDesc {
-    float: right;
+    padding: 1em;
+    height: 30em;
 }
 
 .RcmPeopleSlider .longDesc {
-    /*width: 445px;*/
-    height: 330px;
-    margin-left: 5px;
-    margin-right: 16px;
-    margin-top: 2px;
+    float: left;
+    width: 72%;
+    width: calc(75% - 1em);
+    margin-right: 1em;
+    margin-top: .2em;
+}
+
+.RcmPeopleSlider .longDesc.noimage {
+    width: 98%;
+    width: calc(100% - 3em);
 }
 
 .RcmPeopleSlider .largeImage {
-    margin-left: 10px;
+    width: 25%;
+    float: right;
 }
 
 .RcmPeopleSlider .peopleAperture {
