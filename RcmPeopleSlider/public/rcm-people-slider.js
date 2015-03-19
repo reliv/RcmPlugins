@@ -47,7 +47,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         me.apertureSlider = new ApertureSlider(
             container.find('.peopleAperture'),
             {
-                frameWidth: 160,
+                frameWidth: 158,
                 minHeight: 140,
                 frameSeparation: 0,
                 framesPerView: framesPerView,
@@ -93,29 +93,28 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
     };
 
     me.buildPersonDetails = function (personId, person) {
+
         var dataPersonId = ' data-personId="' + personId + '"';
 
-        var imageTag = ''
+        var imageTag = '';
+        var longDescNoimageCss = ' noimage';
 
         if (person.largeImage && person.largeImage != 'undefined') {
+
             //We don't put anything in src so images only load later
             imageTag = '<img ' +
             'class="largeImage" ' +
-            'data-delayedSrc="' + person.largeImage + '">'
+            'data-delayedSrc="' + person.largeImage + '">';
+            longDescNoimageCss = '';
         }
 
         return $(
-            '<table class="personDetails"'
-            + dataPersonId + ' style="display:none;"' + '>' +
-            '<tr>' +
-            '<td><div class="longDesc" data-rcm-html-edit>' +
+            '<div class="personDetails"' + dataPersonId + ' style="display:none;"' + '>' +
+            '<div class="longDesc' + longDescNoimageCss + '" data-rcm-html-edit>' +
             person.longDesc +
-            '</div></td>' +
-            '<td>' +
+            '</div>' +
             imageTag +
-            '</td>' +
-            '</tr>' +
-            '</table>'
+            '</div>'
         );
     };
 
