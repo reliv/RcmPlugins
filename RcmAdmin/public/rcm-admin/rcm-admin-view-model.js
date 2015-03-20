@@ -134,9 +134,84 @@ var RcmAdminViewModel = function (config, model, page) {
 
         /**
          * enableEdit
+         * @param elm
          * @param onComplete
          */
         enableArrange: function (elm, onComplete) {
+
+            self.RcmPluginViewModel.createLayoutHelper(elm);
+
+            self.RcmPluginViewModel.enableResize(elm);
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
+        },
+
+        /**
+         * disableArrange
+         * @param elm
+         * @param onComplete
+         */
+        disableArrange: function (elm, onComplete) {
+            //@todo - remove elements
+            var id = self.model.RcmPluginModel.getId(elm);
+
+            jQuery('[id="rcmLayoutEditHelper' + id + '"]').remove();
+
+            elm.hover(
+                function () {
+                    return false;
+                }
+            );
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
+        },
+
+        /**
+         * enableResize
+         * @param elm
+         * @param onComplete
+         */
+        enableResize: function (elm, onComplete) {
+
+            self.rcmColunmResize.init(elm);
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
+        },
+
+        /**
+         * disableLinks
+         * @param elm
+         * @param onComplete
+         */
+        disableLinks: function (elm, onComplete) {
+            // Disable normal events
+            var donDoIt = function () {
+                return false;
+            };
+            elm.find('button').unbind();
+            elm.find('[role="button"]').unbind();
+            elm.find('button').click(donDoIt);
+            elm.find('a').click(donDoIt);
+            elm.find('form').submit(donDoIt);
+            elm.find('form').unbind();
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
+        },
+
+        /**
+         * createLayoutHelper
+         * @param elm
+         * @param onComplete
+         */
+        createLayoutHelper: function(elm, onComplete) {
 
             var id = self.model.RcmPluginModel.getId(elm);
 
@@ -251,68 +326,11 @@ var RcmAdminViewModel = function (config, model, page) {
                 }
             );
 
-            self.RcmPluginViewModel.enableResize(elm);
-
             if (typeof onComplete === 'function') {
                 onComplete(elm);
             }
         },
 
-        /**
-         * disableArrange
-         * @param elm
-         * @param onComplete
-         */
-        disableArrange: function (elm, onComplete) {
-            //@todo - remove elements
-            var id = self.model.RcmPluginModel.getId(elm);
-
-            jQuery('[id="rcmLayoutEditHelper' + id + '"]').remove();
-
-            elm.hover(
-                function () {
-                    return false;
-                }
-            );
-
-            if (typeof onComplete === 'function') {
-                onComplete(elm);
-            }
-        },
-
-        /**
-         * enableResize
-         * @param elm
-         * @param onComplete
-         */
-        enableResize: function (elm, onComplete) {
-
-            self.rcmColunmResize.init(elm);
-
-            if (typeof onComplete === 'function') {
-                onComplete(elm);
-            }
-        },
-
-        /**
-         * disableLinks
-         */
-        disableLinks: function (elm, onComplete) {
-            // Disable normal events
-            var donDoIt = function () {
-                return false;
-            };
-            elm.find('button').unbind();
-            elm.find('[role="button"]').unbind();
-            elm.find('button').click(donDoIt);
-            elm.find('a').click(donDoIt);
-            elm.find('form').submit(donDoIt);
-            elm.find('form').unbind();
-
-            if (typeof onComplete === 'function') {
-                onComplete(elm);
-            }
-        },
 
         /**
          * createEditableButtons
