@@ -271,6 +271,15 @@ return [
                     ]
                 ],
             ],
+            'RcmAdmin\\RpcAdminCanEdit' =>  [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/rpc/rcm-admin/can-edit',
+                    'defaults' => [
+                        'controller' => 'RcmAdmin\Controller\RpcAdminCanEdit',
+                    ]
+                ],
+            ],
             'RcmAdmin\Page\SavePage' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
@@ -578,6 +587,8 @@ return [
             => 'RcmAdmin\Controller\ApiAdminSitePageCloneController',
             'RcmAdmin\Controller\ApiAdminPageTypesController'
             => 'RcmAdmin\Controller\ApiAdminPageTypesController',
+            'RcmAdmin\Controller\RpcAdminCanEdit'
+            => 'RcmAdmin\Controller\RpcAdminCanEdit',
         ],
     ],
 ];
