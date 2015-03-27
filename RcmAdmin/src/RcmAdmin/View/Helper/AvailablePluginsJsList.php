@@ -56,7 +56,7 @@ class AvailablePluginsJsList extends AbstractHelper implements ServiceLocatorAwa
         );
 
         $headScript->appendFile(
-            '/modules/app/js/models/RcmOrderMgr.js',
+            $view->basePath().'/modules/app/js/models/RcmOrderMgr.js',
             'text/javascript'
         );
     }

@@ -32,7 +32,7 @@ class IncludeAngularJsBootstrap extends AbstractHelper
         $headScript = $view->headScript();
 
         $headScript->appendFile(
-            '/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-tpls-0.11.0.min.js'
+            $view->basePath().'/modules/rcm-angular-js/angular-ui/bootstrap/ui-bootstrap-tpls-0.11.0.min.js'
         );
 
         $view->plugin('rcmIncludeTwitterBootstrap')->injectCss();
