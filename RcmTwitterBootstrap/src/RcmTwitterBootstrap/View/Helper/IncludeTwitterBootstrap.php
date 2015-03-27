@@ -68,20 +68,8 @@ class IncludeTwitterBootstrap extends AbstractHelper
         $headScript = $view->headScript();
 
         $headScript->appendFile(
-            '/modules/rcm-twitter-bootstrap/bootstrap/js/bootstrap.js'
+            $view->basePath().'/modules/rcm-twitter-bootstrap/bootstrap/js/bootstrap.js'
         );
-
-//        $headScript->appendFile(
-//            '/modules/rcm-twitter-bootstrap/html5shiv/html5shiv.js',
-//            'text/javascript',
-//            array('conditional' => 'lt IE 9')
-//        );
-//
-//        $headScript->appendFile(
-//            '/modules/rcm-twitter-bootstrap/bootstrap/js/respond/respond.min.js',
-//            'text/javascript',
-//            array('conditional' => 'lt IE 9')
-//        );
     }
 
     public function injectCss()
@@ -92,14 +80,8 @@ class IncludeTwitterBootstrap extends AbstractHelper
 
         // NOTE: IE8 does not like minifyied version
         $headLink->prependStylesheet(
-            '/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css'
+            $view->basePath().'/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css'
         );
-
-        /** not required *
-         * $headLink->prependStylesheet(
-         * '/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css.map'
-         * );
-         * /* */
     }
 
     public function injectMeta()

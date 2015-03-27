@@ -47,7 +47,7 @@ class IncludeAngularJsTinyMce extends AbstractHelper
         $headScript = $view->headScript();
 
         $headScript->prependFile(
-            '/modules/rcm-angular-js/angular-ui/ui-tinymce/src/tinymce.js'
+            $view->basePath().'/modules/rcm-angular-js/angular-ui/ui-tinymce/src/tinymce.js'
         );
 
         $view->rcmIncludeTinyMceJs();

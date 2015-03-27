@@ -49,7 +49,7 @@ class IncludeTinyMce extends AbstractHelper
         $headScript = $view->headScript();
 
         $headScript->appendFile(
-            '/modules/rcm-tinymce-js/tinymce/tinymce.js'
+            $view->basePath() .'/modules/rcm-tinymce-js/tinymce/tinymce.js'
         );
 
     }
