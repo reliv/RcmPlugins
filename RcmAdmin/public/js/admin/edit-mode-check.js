@@ -9,8 +9,8 @@ RcmAdminService.editModeCheck = function () {
                 type: 'post',
                 dataType: 'json',
                 success: function (data) {
-                    var editable = data;
-                    if (!editable.data['canEdit']) {
+                    var editable = data.data;
+                    if (!editable.canEdit) {
                         bootbox.dialog({
                             size: 'small',
                             title: '<h1>Session Timed Out</h1>',
@@ -20,9 +20,18 @@ RcmAdminService.editModeCheck = function () {
                                 success: {
                                     label: 'Ok',
                                     callback: function (result) {
-                                        if (result) {
-                                            window.location = '/login?redirect=' + window.location.pathname;
-                                        }
+                                        $.ajax({
+                                            url: '/api/admin/current-site',
+                                            type: 'get',
+                                            dataType: 'json',
+                                            success: function (data) {
+                                                var login = data.data;
+                                                if (result) {
+                                                    window.location = login.loginPage + '?redirect=' + window.location.pathname;
+                                                }
+                                            }
+                                        });
+
                                     }
 
                                 }
