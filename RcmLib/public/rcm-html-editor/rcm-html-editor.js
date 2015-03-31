@@ -23,7 +23,7 @@ angular.module('RcmHtmlEditor', [])
                 relative_urls: false,
                 optionsName: 'defaults',
                 force_br_newlines: false,
-                force_p_newlines: false,
+                force_p_newlines: true,
                 forced_root_block: '',
                 paste_as_text: true,
 
@@ -77,7 +77,7 @@ angular.module('RcmHtmlEditor', [])
                 relative_urls: false,
                 optionsName: 'text',
                 force_br_newlines: false,
-                force_p_newlines: false,
+                force_p_newlines: true,
                 forced_root_block: '',
                 paste_as_text: true,
 
@@ -105,7 +105,7 @@ angular.module('RcmHtmlEditor', [])
                 relative_urls: false,
                 optionsName: 'simpleText',
                 force_br_newlines: false,
-                force_p_newlines: false,
+                force_p_newlines: true,
                 forced_root_block: '',
                 paste_as_text: true,
 
