@@ -494,7 +494,7 @@ return [
                     'modules/rcm-admin/rcm-admin/rcm-admin-service-html-editor-link.js',
                     'modules/rcm-admin/rcm-admin/angular-rcm-admin.js',
                     /* </rcm-admin-service> */
-
+                    'modules/rcm-admin/js/admin/edit-mode-check.js',
                     'modules/rcm-admin/js/admin/rcm-edit.js',
                     'modules/rcm-admin/js/jquery/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/admin/ajax-plugin-edit-helper.js',
