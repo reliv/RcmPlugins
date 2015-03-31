@@ -199,6 +199,16 @@ return [
                     ],
                 ],
             ],
+            'RcmAdminApiCurrentSite' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/admin/current-site[/:id]',
+                    'defaults' => [
+                        'id' => 'current',
+                        'controller' => 'RcmAdmin\Controller\ApiAdminCurrentSiteController',
+                    ]
+                ],
+            ],
             'ApiAdminManageSitesController' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
@@ -571,6 +581,8 @@ return [
             => 'RcmAdmin\Controller\PagePermissionsController',
             'RcmAdmin\Controller\PageViewPermissionsController' =>
                 'RcmAdmin\Controller\PageViewPermissionsController',
+            'RcmAdmin\Controller\ApiAdminCurrentSiteController' =>
+                'RcmAdmin\Controller\ApiAdminCurrentSiteController',
             'RcmAdmin\Controller\ApiAdminManageSitesController'
             => 'RcmAdmin\Controller\ApiAdminManageSitesController',
             'RcmAdmin\Controller\ApiAdminSitesCloneController'
