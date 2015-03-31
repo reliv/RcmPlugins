@@ -27,7 +27,7 @@ class SiteDuplicateInputFilter extends InputFilter
                 'name' => 'siteId',
                 'required' => true,
                 'filters' => [
-                    ['name' => 'Zend\Filter\Int'],
+                    ['name' => 'Zend\Filter\ToInt'],
                 ],
             ],
             // These have special formats - so we custom validate
