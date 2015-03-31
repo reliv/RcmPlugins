@@ -30,14 +30,14 @@ class SitePageDuplicateInputFilter extends InputFilter
                 'name' => 'destinationSiteId',
                 'required' => true,
                 'filters' => [
-                    ['name' => 'Zend\Filter\Int'],
+                    ['name' => 'Zend\Filter\ToInt'],
                 ],
             ],
             'pageId' => [
                 'name' => 'pageId',
                 'required' => true,
                 'filters' => [
-                    ['name' => 'Zend\Filter\Int'],
+                    ['name' => 'Zend\Filter\ToInt'],
                 ],
             ],
             //
