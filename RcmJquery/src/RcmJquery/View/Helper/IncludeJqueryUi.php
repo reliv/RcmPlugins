@@ -46,12 +46,12 @@ class IncludeJqueryUi extends AbstractHelper
         $view = $this->getView();
 
         $view->headLink()->prependStylesheet(
-            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/'
+            $view->basePath().'/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/'
             . 'smoothness/jquery-ui-1.10.4.custom.min.css'
         );
 
         $view->headScript()->appendFile(
-            '/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/'
+            $view->basePath().'/modules/rcm-jquery/jquery-ui-1.10.4.custom/js/'
             . 'jquery-ui-1.10.4.custom.min.js'
         );
     }

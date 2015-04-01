@@ -23,7 +23,7 @@ angular.module('RcmHtmlEditor', [])
                 relative_urls: false,
                 optionsName: 'defaults',
                 force_br_newlines: false,
-                force_p_newlines: false,
+                force_p_newlines: true,
                 forced_root_block: '',
                 paste_as_text: true,
 
@@ -36,6 +36,33 @@ angular.module('RcmHtmlEditor', [])
                 plugins: "anchor, charmap, code, hr, image, linkwithjqueryautocomplete, paste, table, textcolor, colorpicker, elfinder",
                 document_base_url: self.baseUrl,
                 statusbar: false,
+
+                style_formats_merge: true,
+                style_formats: [
+                    {
+                        title: "Image",
+                        items: [
+                            {
+                                title: 'Align Left',
+                                selector: 'img',
+                                styles: {
+                                    'float': 'left',
+                                    'margin': '0 1em .5em 0'
+                                }
+                            },
+                            {
+                                title: 'Align Right',
+                                selector: 'img',
+                                styles: {
+                                    'float': 'right',
+                                    'margin': '0 0 .5em 1em'
+                                }
+                            }
+                        ]
+                    }
+                ],
+
+                image_advtab: true,
 
                 toolbar: [
                     "code | undo redo | styleselect | forecolor | " +
@@ -50,7 +77,7 @@ angular.module('RcmHtmlEditor', [])
                 relative_urls: false,
                 optionsName: 'text',
                 force_br_newlines: false,
-                force_p_newlines: false,
+                force_p_newlines: true,
                 forced_root_block: '',
                 paste_as_text: true,
 
@@ -64,6 +91,8 @@ angular.module('RcmHtmlEditor', [])
                 document_base_url: self.baseUrl,
                 statusbar: false,
 
+                image_advtab: true,
+
                 toolbar: [
                     "code | undo redo | forecolor | " +
                     "bold italic underline strikethrough subscript superscript removeformat | " +
@@ -76,7 +105,7 @@ angular.module('RcmHtmlEditor', [])
                 relative_urls: false,
                 optionsName: 'simpleText',
                 force_br_newlines: false,
-                force_p_newlines: false,
+                force_p_newlines: true,
                 forced_root_block: '',
                 paste_as_text: true,
 
@@ -234,7 +263,11 @@ angular.module('RcmHtmlEditor', [])
                     'RcmHtmlEditor.onInit',
                     function (args) {
 
-                        self.loading(args.rcmHtmlEditor.id, false, 'rcmHtmlEditor: ');
+                        self.loading(
+                            args.rcmHtmlEditor.id,
+                            false,
+                            'rcmHtmlEditor: '
+                        );
 
                         self.updateState(
                             function () {
@@ -868,7 +901,7 @@ angular.module('RcmHtmlEditor', [])
 
                     var clickElm = elm;
 
-                    if(attrs.rcmHtmlEditOnClick){
+                    if (attrs.rcmHtmlEditOnClick) {
 
                         var selector = $parse(attrs.rcmHtmlEditOnClick)(scope);
 
@@ -876,7 +909,7 @@ angular.module('RcmHtmlEditor', [])
 
                         var newElm = parentElm.find(selector).first();
 
-                        if(newElm){
+                        if (newElm) {
                             clickElm = newElm;
                         }
                     }

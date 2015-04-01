@@ -104,6 +104,11 @@ class PageController extends AbstractActionController
         /** @var \Zend\Http\Request $request */
         $request = $this->request;
 
+        if($request->isGet()){
+
+            $form->get('url')->setValue($request->getQuery('url'));
+        }
+
         $data = $request->getPost();
 
         $form->setValidationGroup('url');

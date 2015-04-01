@@ -1,29 +1,28 @@
 /* Menu */
-.availablePluginsMenu img{
+.availablePluginsMenu img {
     height: 40px;
     width: 40px;
     margin-right: 1em;
 }
 
-.availablePluginsMenu{
+.availablePluginsMenu {
     width: 250px;
-    position:fixed;
+    position: fixed;
     z-index: 1000;
 }
 
-.availablePluginsMenu #availablePluginsGroup{
+.availablePluginsMenu #availablePluginsGroup {
     overflow-y: scroll;
     max-height: 600px;
 }
 
-.availablePluginsMenu h1.panel-heading{
+.availablePluginsMenu h1.panel-heading {
     cursor: move;
 }
 
-.availablePluginsMenu .siteWideAlreadyOnPage{
-    display:none;
+.availablePluginsMenu .siteWideAlreadyOnPage {
+    display: none;
 }
-
 
 /* Layout Editor - Plugins */
 .rcmLayoutImage {
@@ -44,108 +43,128 @@
     filter: alpha(opacity=40);
 }
 
-/* Plugin Menu Overlays*/
+/* <Plugin Menu Overlays> */
 .rcmLayoutEditHelper {
-    border: 1px dotted grey;
-    border-radius: 5px 5px 0 0;
-    border-bottom: none;
-    position: absolute;
-    z-index: 10000;
-    top: -14px;
+    color: #000000;
     display: none;
-    height: 16px;
-    width: 15px;
+    font-size: 12px;
+    position: absolute;
+    top: -.8em;
+    left: 0px;
+    width: 100%; height: 2em;
+    z-index: 20000;
 }
 
-.rcmSortableHandle {
-    left: -2px;
+.rcmLayoutEditHelper .rcmHandle {
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0px 0px 1px 1px rgba(127, 127, 127, 1);
+    font-family: 'Glyphicons Halflings';
+    padding: .3em .5em;
+    width: 2em; height: 2em;
+}
+
+[data-rcmsitewideplugin="1"] .rcmLayoutEditHelper .rcmHandle {
+    box-shadow: 0px 0px 1px 1px rgba(127, 0, 0, 1);
+}
+
+.rcmLayoutEditHelper .rcmHandle.sortableMenu {
     cursor: move;
-    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat 0px -82px;
+    float: left;
 }
 
-.rcmSettingPlugin {
-    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat -145px -146px;
-    right: 16px;
+.rcmLayoutEditHelper .rcmHandle.sortableMenu .icon:after {
+    content: "\e068";
 }
 
 /* Plugin Menu Overlays Drop Down */
 /* Container Menu */
-.rcmContainerMenu {
-    right: -2px;
-    background: url('/modules/rcm-jquery/jquery-ui-1.10.4.custom/css/smoothness/images/ui-icons_454545_256x240.png') no-repeat -194px -115px;
+.rcmLayoutEditHelper .rcmHandle.containerMenu {
+    float: right;
 }
 
-.rcmContainerMenu, .rcmContainerMenu ul {
-    padding: 0;
-    margin: 0;
+.rcmLayoutEditHelper .rcmHandle.containerMenu .icon:after {
+    content: "\e012";
+}
+
+.rcmLayoutEditHelper .rcmContainerMenu {
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 1px 1px rgba(127, 127, 127, 1);
+    border-radius: 5px;
+    color: #000000;
     list-style: none;
     line-height: 1;
-    overflow: visible !important;
+    margin: 0;
+    overflow: visible;
+    padding: .5em;
+    position: absolute;
+    top: 2em;
+    right: 0px;
+    z-index: 950;
 }
 
-.rcmContainerMenu a {
+[data-rcmsitewideplugin="1"] .rcmLayoutEditHelper .rcmContainerMenu {
+    box-shadow: 0px 0px 1px 1px rgba(127, 0, 0, 1);
+}
+
+.rcmLayoutEditHelper .rcmContainerMenu ul {
+    display: block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.rcmLayoutEditHelper .rcmContainerMenu ul li {
+    display: block;
+    width: 100%;
+}
+
+.rcmLayoutEditHelper .rcmContainerMenu ul li ul {
+    display: block;
+}
+
+.rcmLayoutEditHelper .rcmContainerMenu ul li ul li {
+    display: block;
+}
+
+.rcmLayoutEditHelper .rcmContainerMenu ul li a,
+.rcmLayoutEditHelper .rcmContainerMenu ul li a:link,
+.rcmLayoutEditHelper .rcmContainerMenu ul li a:visited,
+.rcmLayoutEditHelper .rcmContainerMenu ul li a:active,
+.rcmLayoutEditHelper .rcmContainerMenu ul li a:focus {
+    background-color: transparent;
+    color: #000000 !important;
     display: block;
     font-weight: bold;
+    padding: .5em;
     text-decoration: none;
-    margin: 6px;
-    padding: 0;
-    color: black;
 }
 
-.rcmContainerMenu li {
-    padding-right: 20px;
-    padding-top: 10px;
-    float: left;
+.rcmLayoutEditHelper .rcmContainerMenu ul li a:hover {
+    box-shadow: 0px 0px 1px 1px rgba(127, 127, 127, 1);
+    color: #000000 !important;
 }
 
-.rcmContainerMenu ul li ul li:hover {
-    background: #FFFFFF;
-    color: #000000;
+[data-rcmsitewideplugin="1"] .rcmLayoutEditHelper .rcmContainerMenu ul li a:hover {
+    box-shadow: 0px 0px 1px 1px rgba(127, 0, 0, 1);
 }
 
-.rcmContainerMenu li ul li {
-    padding: 5px 30px 5px 5px;
-    float: none;
-}
-
-.rcmContainerMenu li ul li a {
-    font-weight: normal;
-    color: #FFFFFF;
-}
-
-.rcmContainerMenu li ul li:hover a {
-    font-weight: normal;
-    color: #000000;
-}
-
-.rcmContainerMenu li ul {
-    position: absolute;
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: #000000;
-    padding: 2px;
-    left: -999em;
-    z-index: 950;
-    opacity: 0.7;
-}
-
-.rcmContainerMenu li:hover ul, .rcmContainerMenu li.sfhover ul {
-    left: -120px;
-    top: 10px;
-}
-
-.rcmContainerMenu li ul li {
-    width: 130px;
-    padding: 0 0 5px 0;
-    float: left;
-}
+/* </Plugin Menu Overlays> */
 
 /* Container Drag Targets */
 html.rcmEditingPlugins .rcmPlugin:hover {
-    /*border: 1px dashed grey;*/
-    box-shadow: 0px 0px 1px 1px rgba(127,127,127,1);
+    box-shadow: 0px 0px 1px 1px rgba(127, 127, 127, 1);
     /* For IE 8 */
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=0, Color='#888888')";
+}
+
+/* Container Drag Targets */
+html.rcmEditingPlugins .rcmPlugin[data-rcmsitewideplugin="1"]:hover,
+html.rcmEditingPlugins .rcmPlugin[data-rcmsitewideplugin="Y"]:hover {
+    /*border: 1px dashed grey;*/
+    box-shadow: 0px 0px 1px 1px rgba(127, 0, 0, 1);
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=0, Color='#880000')";
 }
 
 html.rcmArrangingPlugins .rcmContainer > .row {
@@ -154,7 +173,7 @@ html.rcmArrangingPlugins .rcmContainer > .row {
     min-height: 3em;
 }
 
-html.rcmArrangingPlugins .rcmContainer{
+html.rcmArrangingPlugins .rcmContainer {
     border-bottom: 1px dashed grey;
 }
 

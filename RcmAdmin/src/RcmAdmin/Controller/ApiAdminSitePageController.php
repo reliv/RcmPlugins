@@ -208,7 +208,7 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         if (empty($page)) {
             return new ApiJsonModel(
-                null, 1, "Page was not found with id {$id}."
+                null, 404, "Page was not found with id {$id}."
             );
         }
 
@@ -348,4 +348,4 @@ class ApiAdminSitePageController extends ApiAdminBaseController
 
         return new ApiJsonModel($apiResponse, 0, 'Success: Page created');
     }
-} 
+}

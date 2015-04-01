@@ -40,7 +40,10 @@ var RcmAdminViewModel = function (config, model, page) {
                             click: function () {
 
                                 //Get user-entered data from form
-                                $(container).attr('data-rcmsitewideplugin', 'Y');
+                                self.model.RcmPluginModel.setIsSitewide(
+                                    $(container),
+                                    true
+                                );
                                 $(container).attr(
                                     'data-rcmplugindisplayname',
                                     pluginName.val()
@@ -131,70 +134,12 @@ var RcmAdminViewModel = function (config, model, page) {
 
         /**
          * enableEdit
+         * @param elm
          * @param onComplete
          */
         enableArrange: function (elm, onComplete) {
 
-            var id = self.model.RcmPluginModel.getId(elm);
-
-            var page = self.page;
-
-            var menu = '' +
-                '<div id="rcmLayoutEditHelper' + id + '">' +
-                ' <span class="rcmSortableHandle rcmLayoutEditHelper" title="Move Plugin"></span>' +
-                ' <span class="rcmContainerMenu rcmLayoutEditHelper" title="Container Menu">' +
-                '  <ul>' +
-                '   <li><a href="#"></a><ul>' +
-                '   <li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a> </li>' +
-                '   <li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
-                '   <li><a href="#" class="rcmResetSizePluginMenuItem">Reset Size</a> </li>' +
-                '  </ul>' +
-                ' </span>' +
-                '</div>';
-
-            elm.prepend(menu);
-
-            elm.hover(
-                function () {
-                    jQuery(this).find(".rcmLayoutEditHelper").each(
-                        function () {
-                            jQuery(this).show();
-                        }
-                    );
-                },
-                function () {
-                    jQuery(this).find(".rcmLayoutEditHelper").each(
-                        function () {
-                            jQuery(this).hide();
-                        }
-                    )
-                }
-            );
-
-            elm.find(".rcmDeletePluginMenuItem").click(
-                function (e) {
-                    // me.layoutEditor.deleteConfirm(this);
-                    page.removePlugin(id);
-
-                    page.registerObjects();
-                    e.preventDefault();
-                    self.rcmPluginDrag.refresh();
-                }
-            );
-
-            elm.find(".rcmSiteWidePluginMenuItem").click(
-                function (e) {
-                    self.RcmPluginViewModel.makeSiteWide(jQuery(this).parents(".rcmPlugin"));
-                    e.preventDefault();
-                }
-            );
-
-            elm.find(".rcmResetSizePluginMenuItem").click(
-                function (e) {
-                    self.rcmColunmResize.setClass(elm, self.rcmColunmResize.defaultClass);
-                    e.preventDefault();
-                }
-            );
+            self.RcmPluginViewModel.createLayoutHelper(elm);
 
             self.RcmPluginViewModel.enableResize(elm);
 
@@ -241,6 +186,8 @@ var RcmAdminViewModel = function (config, model, page) {
 
         /**
          * disableLinks
+         * @param elm
+         * @param onComplete
          */
         disableLinks: function (elm, onComplete) {
             // Disable normal events
@@ -258,6 +205,132 @@ var RcmAdminViewModel = function (config, model, page) {
                 onComplete(elm);
             }
         },
+
+        /**
+         * createLayoutHelper
+         * @param elm
+         * @param onComplete
+         */
+        createLayoutHelper: function(elm, onComplete) {
+
+            var id = self.model.RcmPluginModel.getId(elm);
+
+            var page = self.page;
+
+            var isSitewide = self.model.RcmPluginModel.isSitewide(elm);
+
+            var sitewideOption = '';
+
+            if (!isSitewide) {
+                sitewideOption = '<li><a href="#" class="rcmSiteWidePluginMenuItem">Mark as site-wide</a></li>';
+            }
+
+
+            var menu = jQuery(
+                '<div id="rcmLayoutEditHelper' + id + '" class="rcmLayoutEditHelper">' +
+                '</div>'
+            );
+
+            var sortableMenu = jQuery(
+                ' <div class="rcmHandle sortableMenu" title="Move Plugin">' +
+                '   <div class="icon"></div>' +
+                ' </div>'
+            );
+
+            var containerMenu = jQuery(
+                ' <div class="rcmHandle containerMenu" title="Container Menu">' +
+                '   <div class="icon"></div>' +
+                ' </div>'
+            );
+
+            var rcmContainerMenu = jQuery(
+                ' <div class="rcmContainerMenu" title="Container Menu">' +
+                '  <ul>' +
+                '   ' + sitewideOption +
+                '   <li><a href="#" class="rcmDeletePluginMenuItem">Delete Plugin</a> </li>' +
+                '   <li><a href="#" class="rcmResetSizePluginMenuItem">Reset Size</a> </li>' +
+                '  </ul>' +
+                ' </div>'
+            );
+
+            rcmContainerMenu.hide();
+
+            rcmContainerMenu.hover(
+                function () {
+                    rcmContainerMenu.show();
+                },
+                function () {
+                    rcmContainerMenu.hide();
+                }
+            );
+
+            containerMenu.hover(
+                function () {
+                    rcmContainerMenu.show();
+                },
+                function () {
+                    rcmContainerMenu.hide();
+                }
+            );
+
+            menu.append(sortableMenu);
+
+            menu.append(containerMenu);
+
+            menu.append(rcmContainerMenu);
+
+            elm.prepend(menu);
+
+            elm.hover(
+                function () {
+                    jQuery(this).find(".rcmLayoutEditHelper").each(
+                        function () {
+                            jQuery(this).show();
+                        }
+                    );
+                },
+                function () {
+                    jQuery(this).find(".rcmLayoutEditHelper").each(
+                        function () {
+                            jQuery(this).hide();
+                        }
+                    )
+                }
+            );
+
+            elm.find(".rcmDeletePluginMenuItem").click(
+                function (e) {
+                    // me.layoutEditor.deleteConfirm(this);
+                    page.removePlugin(id);
+
+                    page.registerObjects();
+                    e.preventDefault();
+                    self.rcmPluginDrag.refresh();
+                }
+            );
+
+            elm.find(".rcmSiteWidePluginMenuItem").click(
+                function (e) {
+                    self.RcmPluginViewModel.makeSiteWide(jQuery(this).parents(".rcmPlugin"));
+                    e.preventDefault();
+                }
+            );
+
+            elm.find(".rcmResetSizePluginMenuItem").click(
+                function (e) {
+                    self.rcmColunmResize.setClass(
+                        elm,
+                        self.rcmColunmResize.defaultClass
+                    );
+                    e.preventDefault();
+                }
+            );
+
+            if (typeof onComplete === 'function') {
+                onComplete(elm);
+            }
+        },
+
 
         /**
          * createEditableButtons

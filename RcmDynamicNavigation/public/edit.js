@@ -23,7 +23,8 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
     me.liClassesToFilter = [
         'dropdown',
         'open',
-        'context-menu-active'
+        'context-menu-active',
+        'HiddenLink'
     ];
 
     me.liClassesForLogin = [
@@ -322,7 +323,7 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
 
         var items = {};
 
-        jQuery.extend(items, editLinkPropertiesMenuItem, me.getSeperator(), editLinkPropertiesMenuItem, createNewLinkMenuItem, createSubMenuItem, deleteLinkMenuItem, me.getSeperator(), showAddLoginLinkMenu);
+        jQuery.extend(items, editLinkPropertiesMenuItem, me.getSeperator(), editLinkPropertiesMenuItem, permissionMenuItem, createNewLinkMenuItem, createSubMenuItem, deleteLinkMenuItem, me.getSeperator(), showAddLoginLinkMenu);
 
         return items;
     };

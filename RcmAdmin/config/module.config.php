@@ -199,6 +199,16 @@ return [
                     ],
                 ],
             ],
+            'RcmAdminApiCurrentSite' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/admin/current-site[/:id]',
+                    'defaults' => [
+                        'id' => 'current',
+                        'controller' => 'RcmAdmin\Controller\ApiAdminCurrentSiteController',
+                    ]
+                ],
+            ],
             'ApiAdminManageSitesController' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
@@ -268,6 +278,15 @@ return [
                     'route' => '/api/admin/pagetypes[/:id]',
                     'defaults' => [
                         'controller' => 'RcmAdmin\Controller\ApiAdminPageTypesController',
+                    ]
+                ],
+            ],
+            'RcmAdmin\\RpcAdminCanEdit' =>  [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/rpc/rcm-admin/can-edit',
+                    'defaults' => [
+                        'controller' => 'RcmAdmin\Controller\RpcAdminCanEdit',
                     ]
                 ],
             ],
@@ -485,7 +504,7 @@ return [
                     'modules/rcm-admin/rcm-admin/rcm-admin-service-html-editor-link.js',
                     'modules/rcm-admin/rcm-admin/angular-rcm-admin.js',
                     /* </rcm-admin-service> */
-
+                    'modules/rcm-admin/js/admin/edit-mode-check.js',
                     'modules/rcm-admin/js/admin/rcm-edit.js',
                     'modules/rcm-admin/js/jquery/jquery-dialog-inputs.js',
                     'modules/rcm-admin/js/admin/ajax-plugin-edit-helper.js',
@@ -499,7 +518,8 @@ return [
                     'modules/rcm-admin/js/manage-sites/rcm-admin-manage-sites.js',
                     'modules/rcm-admin/js/create-site/rcm-admin-create-site.js',
                     'modules/rcm-admin/js/site-page-copy/rcm-admin-site-page-copy.js',
-                    'modules/rcm-admin/js/dialog/rcm-permissions.js'
+                    'modules/rcm-admin/js/dialog/rcm-permissions.js',
+                    'modules/rcm-admin/js/admin/page-not-found.js'
                 ],
                 'modules/rcm-admin/css/rcm-admin.css' => [
                     'modules/rcm-admin/css/admin-jquery-ui.css',
@@ -561,6 +581,8 @@ return [
             => 'RcmAdmin\Controller\PagePermissionsController',
             'RcmAdmin\Controller\PageViewPermissionsController' =>
                 'RcmAdmin\Controller\PageViewPermissionsController',
+            'RcmAdmin\Controller\ApiAdminCurrentSiteController' =>
+                'RcmAdmin\Controller\ApiAdminCurrentSiteController',
             'RcmAdmin\Controller\ApiAdminManageSitesController'
             => 'RcmAdmin\Controller\ApiAdminManageSitesController',
             'RcmAdmin\Controller\ApiAdminSitesCloneController'
@@ -577,6 +599,8 @@ return [
             => 'RcmAdmin\Controller\ApiAdminSitePageCloneController',
             'RcmAdmin\Controller\ApiAdminPageTypesController'
             => 'RcmAdmin\Controller\ApiAdminPageTypesController',
+            'RcmAdmin\Controller\RpcAdminCanEdit'
+            => 'RcmAdmin\Controller\RpcAdminCanEdit',
         ],
     ],
 ];

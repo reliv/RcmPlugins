@@ -51,6 +51,11 @@ class IncludeCoreJs extends AbstractHelper
             $view->basePath() . '/modules/rcm/plugins.js'
         );
 
+        //Plugins inject their css into this file
+        $view->headLink()->prependStylesheet(
+            $view->basePath().'/modules/rcm/plugins.css'
+        );
+
         /* <CORE_JS_FILES> */
         $headScript()->prependFile(
             $view->basePath() . '/modules/rcm-lib/rcm-core.js'
@@ -61,7 +66,7 @@ class IncludeCoreJs extends AbstractHelper
         );
         /* <TwitterBootstrap> */
         $view->headLink()->prependStylesheet(
-            '/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css'
+            $view->basePath().'/modules/rcm-twitter-bootstrap/bootstrap/css/bootstrap.css'
         );
 
         $headScript()->prependFile(
@@ -70,7 +75,7 @@ class IncludeCoreJs extends AbstractHelper
         );
 
         $headScript()->appendFile(
-            '/modules/rcm-twitter-bootstrap/bootbox/bootbox.min.js'
+            $view->basePath().'/modules/rcm-twitter-bootstrap/bootbox/bootbox.min.js'
         );
         /* <TwitterBootstrap> */
         $headScript()->prependFile(

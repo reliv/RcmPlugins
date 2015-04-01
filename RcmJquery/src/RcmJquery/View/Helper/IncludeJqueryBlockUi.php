@@ -47,7 +47,7 @@ class IncludeJqueryBlockUi extends AbstractHelper
 
 
         $view->headScript()->prependFile(
-            '/modules/rcm-jquery/jquery-block-ui/jquery-block-ui.js'
+            $view->basePath().'/modules/rcm-jquery/jquery-block-ui/jquery-block-ui.js'
         );
     }
 }

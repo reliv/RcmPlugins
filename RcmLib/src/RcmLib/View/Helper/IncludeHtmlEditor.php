@@ -46,7 +46,7 @@ class IncludeHtmlEditor extends AbstractHelper
         $headScript = $view->headScript();
 
         $headScript->appendFile(
-            '/modules/rcm-lib/rcm-html-editor/rcm-html-editor.js'
+            $view->basePath().'/modules/rcm-lib/rcm-html-editor/rcm-html-editor.js'
         );
 
     }
