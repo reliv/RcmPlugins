@@ -72,4 +72,25 @@ class MessageManager
         $this->entityMgr->persist($userMessage);
         $this->entityMgr->flush($userMessage);
     }
+
+    /**
+     * Delete all messages with the given userId and source
+     *
+     * @param string $userId
+     * @param string $source
+     */
+    public function removeUserMessagesBySource($userId, $source)
+    {
+        $userMessages = $this->entityMgr
+            ->getRepository('RcmMessage\Entity\UserMessage')
+            ->findBy(['userId' => $userId]);
+        foreach ($userMessages as $userMessage) {
+            $message = $userMessage->getMessage();
+            if ($message->getSource() == $source) {
+                $this->entityMgr->remove($message);
+                $this->entityMgr->remove($userMessage);
+            }
+        }
+        $this->entityMgr->flush();
+    }
 }
