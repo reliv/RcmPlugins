@@ -90,14 +90,14 @@ var RcmRotatingImageEdit = function (instanceId, container, pluginHandler) {
         tools.append(me.numberDisplay);
 
         //Arrows
-        tools.append($('<img title="Last image" src="/modules/rcm-lib/images/icons/left.png" style="cursor: pointer;margin-left: 10px;">')
+        tools.append($('<img title="Last image" src="/modules/rcm/images/icons/left.png" style="cursor: pointer;margin-left: 10px;">')
             .click(function () {
                 --me.current;
                 me.render();
             }
         ));
 
-        tools.append($('<img title="Next image" src="/modules/rcm-lib/images/icons/right.png" style="cursor: pointer;margin-left:0">')
+        tools.append($('<img title="Next image" src="/modules/rcm/images/icons/right.png" style="cursor: pointer;margin-left:0">')
             .click(function () {
                 ++me.current;
                 me.render();
@@ -235,7 +235,7 @@ var RcmRotatingImageEdit = function (instanceId, container, pluginHandler) {
      * @return {Object}
      */
     me.getBlankImage = function () {
-        return {src: '/modules/rcm-lib/images/no-image.png', href: '', alt: ''};
+        return {src: '/modules/rcm/images/no-image.png', href: '', alt: ''};
     };
 
 };

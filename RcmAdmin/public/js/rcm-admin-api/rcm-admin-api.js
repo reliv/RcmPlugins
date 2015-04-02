@@ -1,5 +1,5 @@
 /**
- * requires rcmApi from rcm-core
+ * requires rcmApi from core
  */
 angular.module('rcmAdminApi', [])
     .factory(
@@ -8,7 +8,7 @@ angular.module('rcmAdminApi', [])
         function () {
 
             /**
-             * url map for APIs - These are parsed using the rcmApi service (rcm-core)
+             * url map for APIs - These are parsed using the rcmApi service (core)
              * NOTE: these are named like {leastSpecific}{moreSpecific}{mostSpecific} for consistency and order
              *
              * @type {object}
