@@ -43,6 +43,16 @@
     filter: alpha(opacity=40);
 }
 
+/* <Plugin Overlays> */
+.rcmPluginLocked {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; /* IE 8 */
+    filter: alpha(opacity=30); /* IE 5-7 */
+    -moz-opacity: 0.3; /* Netscape */
+    -khtml-opacity: 0.3; /* Safari 1.x */
+    opacity: 0.3;
+}
+/* </Plugin Overlays> */
+
 /* <Plugin Menu Overlays> */
 .rcmLayoutEditHelper {
     color: #000000;

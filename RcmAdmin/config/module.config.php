@@ -44,7 +44,7 @@ return [
                             'PageProperties' => [
                                 'label' => 'Page Properties',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
-                                'uri' => '/modules/rcm-admin/page-properties.html',
+                                'uri' => '/modules/rcm-admin/page-properties/page-properties.html',
                             ],
                             'PagePermissions' => [
                                 'label' => 'Page Permissions',
@@ -132,19 +132,19 @@ return [
                     'Manage Sites' => [
                         'label' => 'Manage Sites',
                         'class' => 'RcmAdminMenu rcmStandardDialog',
-                        'uri' => '/modules/rcm-admin/view/manage-sites.html',
+                        'uri' => '/modules/rcm-admin/manage-sites/manage-sites.html',
                         'title' => 'Manage Sites',
                     ],
                     'Create Site' => [
                         'label' => 'Create Site',
                         'class' => 'RcmAdminMenu rcmStandardDialog',
-                        'uri' => '/modules/rcm-admin/view/create-site.html',
+                        'uri' => '/modules/rcm-admin/create-site/create-site.html',
                         'title' => 'Create Site',
                     ],
                     'Copy Pages' => [
                         'label' => 'Copy Pages',
                         'class' => 'RcmAdminMenu rcmStandardDialog',
-                        'uri' => '/modules/rcm-admin/view/site-page-copy.html',
+                        'uri' => '/modules/rcm-admin/site-page-copy/site-page-copy.html',
                         'title' => 'Copy Pages',
                     ]
                 ]
@@ -409,6 +409,7 @@ return [
                             'displayName' => 'Login Area',
                             'instanceConfig' => [],
                             'layoutContainer' => '4',
+                            'saveData' => [],
                         ],
                     ],
                 ],
@@ -476,61 +477,71 @@ return [
             ],
             'collections' => [
                 'modules/rcm-admin/js/rcm-admin.js' => [
-                    'modules/rcm-admin/js/rcm-admin-api/rcm-admin-api.js',
+
+                    /* <core> */
+                    'modules/rcm-admin/core/rcm-admin-api.js',
+
                     // RcmUser services - include using ZF2 'admin/rcmuser/js/core.js',
                     'modules/rcm-user/js/rcm-user-roles-service.js',
                     'modules/rcm-user/js/rcm-user-role-selector.js',
-                    // general service - requires rcm-core
-                    'modules/rcm-admin/js/dialog/rcm-dialog.js',
-                    'modules/rcm-admin/js/navigation/rcm-admin-menu.js',
 
+                    'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js',
+
+                    'modules/rcm-admin/core/rcm-permissions.js',
+                    /* </core> */
+
+                    // general service - requires rcm-core
+                    'modules/rcm-admin/rcm-page-admin-panel/rcm-admin-menu.js',
                     'modules/rcm-admin/rcm-column-resize/rcm-column-resize.js',
 
-                    /* <rcm-admin-service> */
-                    'modules/rcm-admin/rcm-admin/rcm-admin-service-config.js',
-                    'modules/rcm-admin/rcm-admin/rcm-event-manager.js',
-                    'modules/rcm-admin/rcm-admin/rcm-loading.js',
-                    'modules/rcm-admin/rcm-admin/rcm-admin-model.js',
-                    'modules/rcm-admin/rcm-admin/rcm-admin-view-model.js',
+                    /* <rcm-page-admin> */
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-service-config.js',
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-model.js',
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-view-model.js',
 
-                    'modules/rcm-admin/rcm-admin/rcm-admin-plugin-edit-js.js',
-                    'modules/rcm-admin/rcm-admin/rcm-admin-plugin.js',
-                    'modules/rcm-admin/rcm-admin/rcm-admin-container.js',
-                    'modules/rcm-admin/rcm-admin/rcm-admin-page.js',
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-plugin-edit-js.js',
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-plugin.js',
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-container.js',
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-page.js',
 
-                    'modules/rcm-admin/rcm-admin/rcm-admin-service.js',
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-service.js',
 
-                    'modules/rcm-admin/rcm-admin/rcm-admin-service-edit-button-action.js',
-                    'modules/rcm-admin/rcm-admin/rcm-admin-service-html-editor-link.js',
-                    'modules/rcm-admin/rcm-admin/angular-rcm-admin.js',
-                    /* </rcm-admin-service> */
-                    'modules/rcm-admin/js/admin/edit-mode-check.js',
-                    'modules/rcm-admin/js/admin/rcm-edit.js',
-                    'modules/rcm-admin/js/jquery/jquery-dialog-inputs.js',
-                    'modules/rcm-admin/js/admin/ajax-plugin-edit-helper.js',
-                    'modules/rcm-admin/js/admin/available-plugins-menu.js',
-                    'modules/rcm-admin/js/admin/plugin-drag.js',
-                    'modules/rcm-admin/js/admin/session.js',
-                    'modules/rcm-admin/js/permissions/page-permissions.js',
-                    'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js',
-                    'modules/rcm-admin/js/dialog/rcm-popout-window.js',
-                    'modules/rcm-admin/js/admin/rcm-save-ajax-admin-window.js',
-                    'modules/rcm-admin/js/manage-sites/rcm-admin-manage-sites.js',
-                    'modules/rcm-admin/js/create-site/rcm-admin-create-site.js',
-                    'modules/rcm-admin/js/site-page-copy/rcm-admin-site-page-copy.js',
-                    'modules/rcm-admin/js/dialog/rcm-permissions.js',
-                    'modules/rcm-admin/js/admin/page-not-found.js'
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-service-edit-button-action.js',
+                    'modules/rcm-admin/rcm-page-admin/rcm-admin-service-html-editor-link.js',
+                    'modules/rcm-admin/rcm-page-admin/angular-rcm-admin.js',
+
+                    'modules/rcm-admin/rcm-page-admin/available-plugins-menu.js',
+                    'modules/rcm-admin/rcm-page-admin/plugin-drag.js',
+
+                    'modules/rcm-admin/rcm-page-admin/rcm-session-keep-alive.js',
+                    'modules/rcm-admin/rcm-page-admin/edit-mode-check.js',
+                    'modules/rcm-admin/rcm-page-admin/page-not-found.js',
+                    /* </rcm-page-admin> */
+
+                    'modules/rcm-admin/plugin-admin/ajax-plugin-edit-helper.js',
+                    'modules/rcm-admin/plugin-admin/jquery-dialog-inputs.js',
+
+                    'modules/rcm-admin/page-permissions/page-permissions.js',
+                    'modules/rcm-admin/manage-sites/rcm-admin-manage-sites.js',
+                    'modules/rcm-admin/create-site/rcm-admin-create-site.js',
+                    'modules/rcm-admin/site-page-copy/rcm-admin-site-page-copy.js',
+
+                    'modules/rcm-admin/save-ajax-admin-window/rcm-save-ajax-admin-window.js',
                 ],
                 'modules/rcm-admin/css/rcm-admin.css' => [
-                    'modules/rcm-admin/css/admin-jquery-ui.css',
-                    'modules/rcm-admin/css/cm-admin.css',
-                    'modules/rcm-admin/css/layout-editor.css',
-                    'modules/rcm-admin/css/rcm-admin-panel.css',
-                    'modules/rcm-admin/css/rcm-admin-navigation.css',
+                    'modules/rcm-admin/plugin-admin/admin-jquery-ui.css',
+
+                    'modules/rcm-admin/rcm-page-admin/layout-editor.css',
+
+                    'modules/rcm-admin/rcm-page-admin-panel/panel.css',
+                    'modules/rcm-admin/rcm-page-admin-panel/navigation.css',
+
                     'modules/rcm-admin/rcm-column-resize/style.css',
                     // RcmUser services - CSS
                     'modules/rcm-user/css/rcm-user-role-selector.css',
-                    'modules/rcm-admin/css/permissions.css',
+
+                    'modules/rcm-admin/page-permissions/permissions.css',
+
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.css'
                 ],
             ],

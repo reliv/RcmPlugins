@@ -1,4 +1,4 @@
-rcmShowPermissions = function (selectedRoles, onOkCallback)
+var rcmShowPermissions = function (selectedRoles, onOkCallback)
 {
 
     var me = this;

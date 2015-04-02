@@ -5,7 +5,7 @@
  * @param pluginHandler
  * @constructor
  */
-RcmAdminPluginEditJs = function (id, pluginContainer, pluginHandler) {
+var RcmAdminPluginEditJs = function (id, pluginContainer, pluginHandler) {
 
     var self = this;
     self.id = id;

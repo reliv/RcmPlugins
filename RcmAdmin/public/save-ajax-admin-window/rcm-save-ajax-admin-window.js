@@ -3,7 +3,7 @@
  * Replaces rcmEdit ajax lib
  * @type {{save: Function, post: Function, success: Function, error: Function}}
  */
-RcmSaveAjaxAdminWindow = {
+var RcmSaveAjaxAdminWindow = {
 
     /**
      * @deprecated
@@ -160,4 +160,4 @@ RcmSaveAjaxAdminWindow = {
         $(formContainer).find(".ajaxFormErrorLine").html('<br /><p style="color: #FF0000;">Communication Error!</p><br />').show();
         $(formContainer).parent().scrollTop(0);
     }
-}
+};

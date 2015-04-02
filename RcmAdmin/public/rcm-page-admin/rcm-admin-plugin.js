@@ -5,7 +5,7 @@
  * @param container
  * @constructor
  */
-RcmAdminPlugin = function (page, id, container, rcmAdminService) {
+var RcmAdminPlugin = function (page, id, container, rcmAdminService) {
 
     var self = this;
 

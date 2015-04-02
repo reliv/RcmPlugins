@@ -132,7 +132,7 @@ var inputImageEventsDelegated = false;
         }
 
         return true;
-    }
+    };
 
     var methods = {
         image: function (description, src) {

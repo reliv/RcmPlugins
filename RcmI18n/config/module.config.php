@@ -154,15 +154,6 @@ return [
             'aliases' => [
                 'modules/rcm-i18n/' => __DIR__ . '/../public/',
             ],
-//            'collections' => array(
-//                'modules/rcm-admin/js/rcm-admin.js' => array(
-//                    'vendor/reliv/RcmPlugins/RcmI18n/public/rcmTranslationsCtrl.js',
-//                    'vendor/reliv/RcmPlugins/RcmAngularJs/public/angular-ui/bootstrap/ui-bootstrap-0.11.0.min.js'
-//                ),
-//            ),
-//            'paths' => array(
-//                __DIR__ . '/../../..' , //. '/../public'
-//            ),
         ],
 
     ],

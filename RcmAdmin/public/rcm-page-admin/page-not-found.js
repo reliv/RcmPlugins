@@ -2,7 +2,7 @@
  * Created by bjanish on 3/6/15.
  */
 
-var RcmAdminPageNotFound = {
+RcmAdminService.rcmAdminPageNotFound = {
 
     onEditChange: function(page){
 
@@ -14,7 +14,7 @@ var RcmAdminPageNotFound = {
                     close: function () {
                         window.location = "/";
                     }
-                }
+                };
                 var dialog = RcmDialog.buildDialog('rcm-page-not-found-123', "Page does not exist. Create a new one?", '/rcm-admin/page/new?url=' + pageData.requestedPageData.rcmPageName + '', 'RcmFormDialog', actions);
                 dialog.params.saveLabel = "Create new page";
                 dialog.params.closeLabel = "Cancel";
@@ -32,11 +32,11 @@ var RcmAdminPageNotFound = {
         var page = RcmAdminService.getPage(
             function (page) {
                 page.events.on(
-                    'editingStateChange', RcmAdminPageNotFound.onEditChange
+                    'editingStateChange', RcmAdminService.rcmAdminPageNotFound.onEditChange
                 );
             }
         );
     }
 };
 
-RcmAdminPageNotFound.init();
+RcmAdminService.rcmAdminPageNotFound.init();

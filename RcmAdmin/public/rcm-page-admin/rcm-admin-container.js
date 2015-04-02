@@ -5,7 +5,7 @@
  * @param elm
  * @constructor
  */
-RcmAdminContainer = function (page, id, rcmContainerModel, onInitted) {
+var RcmAdminContainer = function (page, id, rcmContainerModel, onInitted) {
 
     var self = this;
 
