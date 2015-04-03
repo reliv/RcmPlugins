@@ -19,25 +19,38 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             $scope.messages = {};
             $scope.translations = false;
 
+            $scope.safeApply = function(fn) {
+                var phase = this.$root.$$phase;
+                if(phase == '$apply' || phase == '$digest') {
+                    if(fn && (typeof(fn) === 'function')) {
+                        fn();
+                    }
+                } else {
+                    this.$apply(fn);
+                }
+            };
+
             // Listen for editor events
             rcmHtmlEditorService.eventManager.on(
                 'rcmHtmlEditorService.loading.start',
                 function(args){
                     $scope.editorsLoading[args.editorId] = true;
-                    $scope.$apply();
+                    $scope.safeApply();
                 }
             );
             rcmHtmlEditorService.eventManager.on(
                 'rcmHtmlEditorService.loading.end',
                 function(args){
                     $scope.editorsLoading[args.editorId] = false;
-                    $scope.messages[args.editorId].editable = true;
-                    $scope.$apply();
-                    setTimeout(
-                        function() {
-                            $('#' + args.editorId).focus();
-                        }
-                    )
+                    if($scope.messages[args.editorId]) {
+                        $scope.messages[args.editorId].editable = true;
+                        $scope.safeApply();
+                        setTimeout(
+                            function () {
+                                $('#' + args.editorId).focus();
+                            }
+                        )
+                    }
                 }
             );
             rcmHtmlEditorService.eventManager.on(
@@ -53,9 +66,11 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                     args.tinyMceEditorInstance.on(
                         'blur',
                         function(e){
-                            $scope.messages[args.rcmHtmlEditor.id].editable = false;
-                            args.rcmHtmlEditor.destroy();
-                            $scope.$apply();
+                            if($scope.messages[args.rcmHtmlEditor.id]) {
+                                $scope.messages[args.rcmHtmlEditor.id].editable = false;
+                                args.rcmHtmlEditor.destroy();
+                                $scope.safeApply();
+                            }
                         }
                     );
                 }

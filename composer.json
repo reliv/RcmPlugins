@@ -52,7 +52,6 @@
             "RcmImageWithThumbNails": "RcmImageWithThumbNails/src/",
             "RcmInstall": "RcmInstall/src/",
             "RcmJquery": "RcmJquery/src/",
-            "RcmLib": "RcmLib/src/",
             "RcmLogin": "RcmLogin/src/",
             "RcmMockPlugin": "RcmMockPlugin/src/",
             "RcmNavigation": "RcmNavigation/src/",
