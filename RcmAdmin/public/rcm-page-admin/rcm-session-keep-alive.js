@@ -13,7 +13,7 @@
                     sessionKeepAlive = true;
                     setInterval(
                         function () {
-                            $.get('rcm-page-search/title');
+                            $.get('/rcm-page-search/title');
                 }, 300000
                     );
                 }
