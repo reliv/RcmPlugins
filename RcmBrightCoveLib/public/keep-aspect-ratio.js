@@ -19,12 +19,22 @@ new function () {
             var width = ele.width();
             var newHeight = width * ratioHeight / ratioWidth;
             ele.css('height', newHeight);
+            ele.css('overflow', 'hidden');
+
+            ele.find("iframe").height(newHeight).width(width);
+            setTimeout(function() { refreshIframe(ele); }, 500);
         })
     };
+
+    var refreshIframe = function(ele) {
+        var iframe = ele.find("iframe");
+        iframe.attr('src', iframe.attr('src'));
+    };
+
     //Run onReady
     $(setHeights);
     //Run when window is resized
     $(window).resize(setHeights);
     //Run when target elements are resized without a window resize
-    $('body').delegate('[data-keep-aspect-ratio]', 'resize', setHeights);
+    $('body').on('resize', '[data-keep-aspect-ratio]', setHeights);
 };
