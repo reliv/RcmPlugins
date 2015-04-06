@@ -41,6 +41,7 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
             rcmHtmlEditorService.eventManager.on(
                 'rcmHtmlEditorService.loading.end',
                 function(args){
+
                     $scope.editorsLoading[args.editorId] = false;
                     if($scope.messages[args.editorId]) {
                         $scope.messages[args.editorId].editable = true;
@@ -49,21 +50,21 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
                             function () {
                                 $('#' + args.editorId).focus();
                             }
-                        )
+                        );
                     }
                 }
             );
             rcmHtmlEditorService.eventManager.on(
                 'RcmHtmlEditor.onInit',
                 function(args){
-                    args.tinyMceEditorInstance.on(
+                    args.editorInstance.on(
                         'focus',
                         function(e){
-                            $scope.$apply();
+                            $scope.safeApply();
                         }
                     );
 
-                    args.tinyMceEditorInstance.on(
+                    args.editorInstance.on(
                         'blur',
                         function(e){
                             if($scope.messages[args.rcmHtmlEditor.id]) {
