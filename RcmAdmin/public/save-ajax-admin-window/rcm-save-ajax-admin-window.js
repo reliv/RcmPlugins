@@ -117,7 +117,7 @@ var RcmSaveAjaxAdminWindow = {
             if (keepOpen !== true) {
 
                 if (rcmDialog) {
-                    rcmDialog.actions.close();
+                    rcmDialog.actions.close.method();
                 } else {
                     $(formContainer).parent().dialog("close");
                 }
