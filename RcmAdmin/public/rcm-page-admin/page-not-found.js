@@ -11,13 +11,25 @@ RcmAdminService.rcmAdminPageNotFound = {
         if(page.editMode) {
             if (pageData.name != pageData.requestedPageData.rcmPageName) {
                 var actions = {
-                    close: function () {
-                        window.location = "/";
+                    close: {
+                        type: 'button',
+                        label: 'Cancel',
+                        css: 'btn btn-default',
+                        method: function () {
+                            window.location = "/";
+                        }
+                    },
+                    save: {
+                        label: 'Create new page',
+                        css: 'btn btn-primary'
                     }
                 };
-                var dialog = RcmDialog.buildDialog('rcm-page-not-found-123', "Page does not exist. Create a new one?", '/rcm-admin/page/new?url=' + pageData.requestedPageData.rcmPageName + '', 'RcmFormDialog', actions);
-                dialog.params.saveLabel = "Create new page";
-                dialog.params.closeLabel = "Cancel";
+                var dialog = RcmDialog.buildDialog(
+                    'rcm-page-not-found-123',
+                    "Page does not exist. Create a new one?", '/rcm-admin/page/new?url=' + pageData.requestedPageData.rcmPageName + '',
+                    'RcmFormDialog',
+                    actions
+                );
                 setTimeout(
                     function () {
                         dialog.open();
