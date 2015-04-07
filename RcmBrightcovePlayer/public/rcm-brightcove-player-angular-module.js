@@ -138,29 +138,23 @@ angular.module('rcmBrightcovePlayer', [])
                                 tab + '<a href="#tabs-' + key + '" role="tab" aria-controls="tabs-' + key + '" data-toggle="tab">' + playlist.name + '</a></li>'
                             );
 
-                            var tabContent = jQuery('<div role="tabpanel" class="tab-pane ' + active + '" id="tabs-' + key + '"></div>');
+                            var tabContent = jQuery('<div role="tabpanel" class="tab-pane ' + active + ' row" id="tabs-' + key + '"></div>');
 
 
                             jQuery.each(
                                 playlist.videos,
                                 function (pkey, video) {
                                     tabContent.append(
-                                        '  <a href="javascript:void(0);" ng-click="videoClick(' + video.id + ')" class="videoArea" >' +
-                                            '    <table>' +
-                                            '     <tr>' +
-                                            '      <td style="text-align: left;">' +
-                                            '       <img src="' + video.thumbnailURL + '" width="135px" height="70px"/>' +
-                                            '       </td>' +
-                                            '      </tr>' +
-                                            '      <tr>' +
-                                            '       <td>' +
-                                            '        <span class="title">' +
-                                            '         <p style="text-decoration: none; color: #333333; font-weight: bold; font-size: 10px;">' + video.name + '</p>' +
-                                            '        </span>' +
-                                            '       </td>' +
-                                            '       </tr>' +
-                                            '      </table>' +
-                                            '   </a>'
+                                        '<div class="col-sm-3 col-xs-6 videoItem">' +
+                                            '<a href="#bcPlayer_'+scope.instanceId+'" ng-click="videoClick(' + video.id + ')" class="videoArea" >' +
+                                                '<div class="videoImage">' +
+                                                    '<img src="' + video.thumbnailURL + '" width="135px" height="70px"/>' +
+                                                '</div>' +
+                                                '<div class="videoTitle">' +
+                                                    '<p>' + video.name + '</p>' +
+                                                '</div>' +
+                                            '</a>' +
+                                        '</div>'
                                     );
                                 }
                             );
@@ -169,6 +163,12 @@ angular.module('rcmBrightcovePlayer', [])
                             rcmBrightcovePlayerTabsContent.append(tabContent);
                         }
                     );
+
+                    $compile(tabWrapperElm.contents())(scope);
+
+                    if (typeof onComplete === 'function') {
+                        onComplete();
+                    }
 
                     tabWrapperElm.tab();
 
@@ -196,15 +196,6 @@ angular.module('rcmBrightcovePlayer', [])
                             accordionClass: 'visible-xs'
                         }
                     );
-
-
-                    $compile(tabWrapperElm.contents())(scope);
-
-                    if (typeof onComplete === 'function') {
-                        onComplete();
-                    }
-
-
                 };
 
                 var controller = function ($scope) {
@@ -248,46 +239,7 @@ angular.module('rcmBrightcovePlayer', [])
                     }
                 };
 
-                var template = '' +
-                    '<div class="rcm-brightcove-player-tabs-wrapper">' +
-                    ' <ul class="rcmBrightcovePlayerTabs">' +
-                    '  <li ng-repeat="(key,playlist) in playlists">' +
-                    '   {{playlist.videos.length | json}}' +
-                    '   <a href="#tabs-{{key}}">{{playlist.name}}</a>' +
-                    '  </li>' +
-                    ' </ul>' +
-                    '  <div class="videoAreaWrap" ng-repeat="(tkey,tplaylist) in playlists" id="tabs-{{tkey}}">' +
-                    '   <div ng-repeat="video in tplaylist.videos">' +
-                    '    <a href="javascript:void(0);" ng-click="videoClick(video.id)" class="videoArea">' +
-                    '     <table>' +
-                    '      <tr>' +
-                    '       <td style="text-align: left;">' +
-                    '        <img ng-src="{{video.thumbnailURL}}" width="135px" height="70px"/>' +
-                    '       </td>' +
-                    '      </tr>' +
-                    '      <tr>' +
-                    '       <td>' +
-                    '        <span class="title">' +
-                    '         <p style="text-decoration: none; color: #00a4e4; font-weight: bold; font-size: 10px;">' +
-                    '         {{video.name}}' +
-                    '         </p>' +
-                    '        </span>' +
-                    '       </td>' +
-                    '      </tr>' +
-                    '      <tr>' +
-                    '       <td>' +
-                    '        <span class="description">' +
-                    '         <p style="text-decoration: none;font-size: 10px;">' +
-                    '         {{video.shortDescription}}' +
-                    '         </p>' +
-                    '        </span>' +
-                    '       </td>' +
-                    '      </tr>' +
-                    '     </table>' +
-                    '    </a>' +
-                    '   </div>' +
-                    '  </div>' +
-                    '</div>'
+
 
                 return {
                     compile: compile,
