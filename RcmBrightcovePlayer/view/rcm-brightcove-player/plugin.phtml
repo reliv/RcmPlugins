@@ -9,6 +9,7 @@ $this->headScript()->appendFile(
 ?>
 <!-- <RcmBrightcovePlayer> -->
 <div>
+    <a id="bcPlayer_<?= $instanceId ?>"></a>
     <script>
         RcmBrightcoveApiService.bgReadToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['readToken']; ?>';
         RcmBrightcoveApiService.bgUrlToken = '<?= $config['rcmPlugin']['RcmBrightcovePlayer']['urlToken']; ?>';
