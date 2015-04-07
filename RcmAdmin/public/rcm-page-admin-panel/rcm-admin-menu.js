@@ -53,7 +53,8 @@ angular.module(
                             htlmLink.attr('title'),
                             htlmLink.attr('href'),
                             strategyName,
-                            rcmDialogActions
+                            rcmDialogActions,
+                            scope
                         );
 
                         dialog.open();
