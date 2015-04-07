@@ -77,20 +77,6 @@
 
                             $scope.index++;
                             $scope.myModel.list.push('NEW-' + $scope.index);
-
-                            //$scope.$evalAsync(
-                            //    function ($scope) {
-                            //        $scope.index++;
-                            //        $scope.myModel.list.push('NEW-' + $scope.index);
-                            //    }
-                            //)
-
-                            //$timeout(
-                            //    function () {
-                            //        $scope.index++;
-                            //        $scope.myModel.list.push('NEW-' + $scope.index);
-                            //    }
-                            //)
                         };
 
                         // EXAMPLE of adding custom options using attribute
@@ -129,6 +115,7 @@
         <div class="lead">
             <p>Objective: Make a standard Angular based adapter for open-source HTML editors (TinyMCE, CKEditor, etc..).</p>
             <p>Currently only supporting TinyMCE.</p>
+            <p>View source of this file for implementation details.</p>
         </div>
     </div>
 
@@ -136,7 +123,7 @@
         <div>
             <h4>Directive can take multiple attribute based arguments:</h4>
             <ul>
-                <li>html-editor-options="{'settings': 'jasone or angular model'}" - Additional config/settings or override of defaults. These will also be passed directly to the editor (TinyMCE, etc..).</li>
+                <li>html-editor-options="myAngularModel" - Additional config/settings or override of defaults. These will also be passed directly to the editor (TinyMCE, etc..).</li>
                 <li>html-editor-type="defaults" - The predifined config to use.  Defaults to the "defaults" config.</li>
                 <li>html-editor-attached-toolbar="true" - Used to create a toolbar that is only connected to the the current content.  Requires a toolbar did in the same dom scope as the editor and an ID related to the edito element (id="htmlEditorToolbar-myEditorId").</li>
                 <li>html-editor-size="small" - User to set some standard sizes for the toolbar that will be used.</li>

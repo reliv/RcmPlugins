@@ -35,8 +35,8 @@ return [
     ],
     'view_helpers' => [
         'invokables' => [
-            'rcmHtmlEditor\IncludeHtmlEditor' =>
-                'Rcm\View\Helper\IncludeHtmlEditor',
+            'rcmHtmlEditorIncludeHtmlEditor' =>
+                'RcmHtmlEditor\View\Helper\IncludeHtmlEditor',
         ]
     ],
 

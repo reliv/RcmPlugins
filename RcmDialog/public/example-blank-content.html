@@ -1,0 +1,18 @@
+<div id="RcmFormDialogIn" style="display: block;" ng-hide="dialog.loading">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="container-fluid dialog-content">
+                <p>Some Dialog Content</p>
+                <p>From: /modules/rcm-dialog/example-blank-content.html</p>
+                <p>scopeVar: {{contentscope.testVar}}</p>
+
+                <form action="/modules/rcm-dialog/example-blank-content.html">
+                    <label>My Input</label>
+                    <input type="text" ng-model="contentscope.testVar" />
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
