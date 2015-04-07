@@ -2,14 +2,6 @@
 
 $this->rcmJsLibIncludeCoreJs();
 $this->rcmIncludeJqueryUi();
-$this->rcmIncludeTwitterBootstrap();
-
-$this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-tinymce-js/tinymce/tinymce.js'
-);
-$this->headScript()->appendFile(
-    $this->basePath() . '/modules/rcm-html-editor/rcm-html-editor.js'
-);
 
 // RcmUser JS
 $this->headScript()->appendFile(
@@ -24,9 +16,7 @@ $this->headScript()->appendFile(
 $this->headLink()->appendStylesheet(
     $this->basePath().'/modules/rcm-admin/css/rcm-admin.css'
 );
-$this->headLink()->appendStylesheet(
-    $this->basePath().'/modules/rcm-html-editor/rcm-html-editor.css'
-);
+
 $this->headLink()->appendStylesheet(
     $this->basePath().'/modules/rcm-jquery/jquery-context-menu/jquery.contextMenu.css'
 );
