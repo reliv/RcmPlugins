@@ -38,11 +38,22 @@ angular.module(
                             }
                         }
 
+                        var rcmDialogActions = null;
+
+                        if (attrs.rcmDialogActions) {
+                            try {
+                                rcmDialogActions = scope.$eval(attrs.rcmDialogActions);
+                            } catch (e) {
+
+                            }
+                        }
+
                         var dialog = RcmDialog.buildDialog(
                             htlmLink.attr('href'), //id
                             htlmLink.attr('title'),
                             htlmLink.attr('href'),
-                            strategyName
+                            strategyName,
+                            rcmDialogActions
                         );
 
                         dialog.open();
