@@ -7,16 +7,25 @@
                 <h1 class="modal-title" id="myModalLabel">Page Properties</h1>
             </div>
             <div class="modal-body">
-                <div class="wrapperPageProp">
+                <div class="conatiner-fluid">
                     <form>
                         <div class="form-group">
                             <label>Page Title</label>
-                            <input class="form-control" ng-model="title" type="text">
+                            <input class="form-control"
+                                   ng-model="title"
+                                   type="text" style="min-width: 50%;">
+                        </div>
+                        <div class="form-group">
                             <label>Page Description</label>
-                            <input class="form-control" ng-model="description"
-                                   type="text">
+                            <input class="form-control"
+                                   ng-model="description"
+                                   type="text" style="min-width: 50%;">
+                        </div>
+                        <div class="form-group">
                             <label>Keywords</label>
-                            <input class="form-control" ng-model="keywords" type="text">
+                            <input class="form-control"
+                                   ng-model="keywords"
+                                   type="text" style="min-width: 50%;">
                         </div>
                     </form>
 
@@ -26,6 +35,7 @@
 
                     <div ng-show="saveFail" class="alert alert-danger" role="alert">
                         <p>Page properties failed to save</p>
+
                         <p>{{message}}</p>
                     </div>
                 </div>
