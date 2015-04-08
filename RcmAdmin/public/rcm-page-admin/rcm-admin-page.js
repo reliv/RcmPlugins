@@ -133,7 +133,9 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                     true,
                     self.loadingMessages.save
                 );
-                var data = self.getData();
+                var pagedata = self.getData();
+
+                var data = pagedata.page;
 
                 // loop containers and fire saves... aggregate data and sent to server
                 data.plugins = {};
