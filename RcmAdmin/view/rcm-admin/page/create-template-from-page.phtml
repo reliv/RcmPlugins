@@ -48,6 +48,8 @@ $form->setAttribute('method', 'post');
 // Get the form label plugin
 $formLabel = $this->plugin('formLabel');
 ?>
+<div class="rcm-admin-create-template-from-page">
+
 <div id="rcmCreateTemplateErrorLine"><?= $this->displayErrors($this->errors); ?></div>
 
 <?= $this->form()->openTag($form); ?>
@@ -64,3 +66,4 @@ $formLabel = $this->plugin('formLabel');
 </div>
 
 <?= $this->form()->closeTag(); ?>
+</div>

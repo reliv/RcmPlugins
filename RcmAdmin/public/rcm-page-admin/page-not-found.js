@@ -9,7 +9,7 @@ RcmAdminService.rcmAdminPageNotFound = {
         var pageData = page.model.getData();
 
         if(page.editMode) {
-            if (pageData.name != pageData.requestedPageData.rcmPageName) {
+            if (pageData.page.name != pageData.requestedPage.name) {
                 var actions = {
                     close: {
                         type: 'button',
@@ -26,7 +26,7 @@ RcmAdminService.rcmAdminPageNotFound = {
                 };
                 var dialog = RcmDialog.buildDialog(
                     'rcm-page-not-found-123',
-                    "Page does not exist. Create a new one?", '/rcm-admin/page/new?url=' + pageData.requestedPageData.rcmPageName + '',
+                    "Page does not exist. Create a new one?", '/rcm-admin/page/new?url=' + pageData.requestedPage.name + '',
                     'RcmFormDialog',
                     actions
                 );

@@ -3,48 +3,69 @@
  */
 
 rcm.addAngularModule('rcmAdminPage');
-angular.module('rcmAdminPage', [])
-    .controller('PageProperties',
-    function ($scope) {
-        var self = this;
-        //getting title, description and keywords from dom to our form
-        $scope.title = $('title').html();
-        $scope.description = $('meta[name="description"]').attr('content');
-        $scope.keywords = $('meta[name="keywords"]').attr('content');
-        //save function
-        $scope.save = function () {
+/**
+ * rcmAdminPage.PageProperties
+ */
+angular.module('rcmAdminPage', ['rcmApi', 'rcmAdminApi'])
+    .controller(
+    'PageProperties',
+    [
+        '$scope',
+        'rcmApiService',
+        'rcmAdminApiUrlService',
+        function ($scope, rcmApiService, rcmAdminApiUrlService) {
 
-            //if title tag doesn't exists then adding it to head
-            if ($('title').length == 0) {
-                $('head').append($('title'));
-            }
-            else {
-                $('title').html($scope.title);
-            }
-            var meta = $('<meta>');
-            var metaDesciption = $('meta[name="description"]');
+            var data = RcmAdminService.model.RcmPageModel.getData();
 
-            //if meta description doesn't exists then adding it to head
-            if (metaDesciption.length == 0) {
-                meta.attr('name', 'description');
-                meta.attr('content', $scope.description);
-                $('head').append(meta);
+            $scope.loading = false;
 
-            }
-            else {
-                metaDesciption.attr('content', $scope.description);
-            }
-            var metaKeywords = $('meta[name="keywords"]');
-            var metaK = $('<meta>');
-            //if meta keywords doesn't exists then adding it to head
-            if (metaKeywords.length == 0) {
-                metaK.attr('name', 'keywords');
-                metaK.attr('content', $scope.keywords);
-                $('head').append(metaK);
-            }
-            else {
-                metaKeywords.attr('content', $scope.keywords);
+            $scope.saveOk = false;
+            $scope.saveFail = false;
+            $scope.message = '';
+
+            //getting title, description and keywords from dom to our form
+            $scope.title = data.page.title;
+            $scope.description = data.page.description;
+            $scope.keywords = data.page.keywords;
+
+            //save function
+            $scope.save = function () {
+
+                $scope.saveOk = false;
+                $scope.saveFail = false;
+                $scope.message = '';
+
+                data.page.title = $scope.title;
+                data.page.description = $scope.description;
+                data.page.keywords = $scope.keywords;
+
+                RcmAdminService.model.RcmPageModel.setData(data);
+
+                var apiParams = {
+                    url: rcmAdminApiUrlService.sitePage,
+                    urlParams: {
+                        siteId: data.page.siteId,
+                        pageId: data.page.id
+                    },
+                    data: {
+                        pageTitle: data.page.title,
+                        description: data.page.description,
+                        keywords: data.page.keywords
+                    },
+                    loading: function (loading) {
+                        $scope.loading = loading;
+                    },
+                    success: function (data) {
+                        $scope.saveOk = true
+                    },
+                    error: function (data) {
+                        $scope.saveFail = true;
+                        $scope.message = 'An error occurred while saving data: ' + data.message
+                    }
+                };
+                // this service the put acts as a patch
+                rcmApiService.put(apiParams);
             }
         }
-    }
+    ]
 );

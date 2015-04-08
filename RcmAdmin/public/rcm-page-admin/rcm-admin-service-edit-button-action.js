@@ -22,7 +22,7 @@ RcmAdminService.rcmAdminEditButtonAction = function (editingState, onComplete) {
             }
 
             if (editingState == 'arrange') {
-                //scope.rcmAdminPage.arrange();
+
                 page.setEditingOn('page');
                 page.setEditingOn('layout');
                 page.setEditingOn('sitewide');
