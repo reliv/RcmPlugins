@@ -4,9 +4,9 @@ angular.module('rcmAdmin').controller(
         '$scope', '$http', 'rcmApiService', 'rcmAdminApiUrlService',
         function ($scope, $http, rcmApiService, rcmAdminApiUrlService) {
 
-            var siteData = RcmAdminService.model.RcmPageModel.getData();
+            var pageData = RcmAdminService.model.RcmPageModel.getData();
 
-            $scope.currentSiteId = siteData.siteId;
+            $scope.currentSiteId = pageData.page.siteId;
 
             var self = this;
 

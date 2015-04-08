@@ -19,6 +19,15 @@
                             <input class="form-control" ng-model="keywords" type="text">
                         </div>
                     </form>
+
+                    <div ng-show="saveOk" class="alert alert-success" role="alert">
+                        <p>Page properties saved!</p>
+                    </div>
+
+                    <div ng-show="saveFail" class="alert alert-danger" role="alert">
+                        <p>Page properties failed to save</p>
+                        <p>{{message}}</p>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -26,7 +35,7 @@
                         data-dismiss="modal">Close
                 </button>
                 <button type="button" ng-click="save()"
-                        class="btn btn-primary saveBtn" data-dismiss="modal">Save
+                        class="btn btn-primary saveBtn" XXXdata-dismiss="modal">Save
                 </button>
             </div>
         </div>

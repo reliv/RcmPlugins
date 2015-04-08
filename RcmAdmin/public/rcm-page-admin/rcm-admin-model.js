@@ -50,20 +50,94 @@ var RcmAdminModel = function () {
          */
         getData: function (onComplete) {
 
-            var pageInfo = JSON.parse(jQuery('meta[property="rcm:page"]').attr('content'));
+            var data = JSON.parse(jQuery('meta[property="rcm:page"]').attr('content'));
 
-            var data = {};
-            data.title = jQuery(document).find("head > title").text();
-            //data.url = jQuery(location).attr('href');
-            //data.path = jQuery(location).attr('pathname');
-            data.description = jQuery('meta[name="description"]').attr('content');
-            data.keywords = jQuery('meta[name="keywords"]').attr('content');
+            //data.title = jQuery(document).find("head > title").text();
+            ////data.url = jQuery(location).attr('href');
+            ////data.path = jQuery(location).attr('pathname');
+            //data.description = jQuery('meta[name="description"]').attr('content');
+            //data.keywords = jQuery('meta[name="keywords"]').attr('content');
+            //
+            //data.name = pageInfo.rcmPageName;
+            //data.type = pageInfo.rcmPageType;
+            //data.revision = pageInfo.rcmPageRevision;
+            //data.siteId = pageInfo.rcmSiteId;
+            //data.requestedPageData = pageInfo.requestedPageData;
 
-            data.name = pageInfo.rcmPageName;
-            data.type = pageInfo.rcmPageType;
-            data.revision = pageInfo.rcmPageRevision;
-            data.siteId = pageInfo.rcmSiteId;
-            data.requestedPageData = pageInfo.requestedPageData;
+            console.log(data);
+
+            if (typeof onComplete === 'function') {
+                onComplete(data)
+            }
+
+            return data;
+        },
+
+        /**
+         * setData
+         * @param data
+         * @param onComplete
+         * @returns {*}
+         */
+        setData: function (data, onComplete) {
+
+            var currentData = self.RcmPageModel.getData();
+
+            var newData = jQuery.extend(true, currentData, data);
+
+            console.log('setData', newData);
+
+            self.RcmPageModel.buildPageMeta(newData);
+
+            var tagData = JSON.stringify(newData);
+
+            jQuery('meta[property="rcm:page"]').attr('content', tagData);
+
+            if (typeof onComplete === 'function') {
+                onComplete(data)
+            }
+
+            return data;
+        },
+
+        /**
+         * buildPageMeta
+         * @param data
+         * @param onComplete
+         * @returns {*}
+         */
+        buildPageMeta: function(data, onComplete){
+
+            //if title tag doesn't exists then adding it to head
+            if ($('title').length == 0) {
+                $('head').append($('title'));
+            }
+            else {
+                $('title').html(data.page.title);
+            }
+            var meta = $('<meta>');
+            var metaDesciption = $('meta[name="description"]');
+
+            //if meta description doesn't exists then adding it to head
+            if (metaDesciption.length == 0) {
+                meta.attr('name', 'description');
+                meta.attr('content', data.page.description);
+                $('head').append(meta);
+            }
+            else {
+                metaDesciption.attr('content', data.page.description);
+            }
+            var metaKeywords = $('meta[name="keywords"]');
+            var metaK = $('<meta>');
+            //if meta keywords doesn't exists then adding it to head
+            if (metaKeywords.length == 0) {
+                metaK.attr('name', 'keywords');
+                metaK.attr('content', data.page.keywords);
+                $('head').append(metaK);
+            }
+            else {
+                metaKeywords.attr('content', data.page.keywords);
+            }
 
             if (typeof onComplete === 'function') {
                 onComplete(data)

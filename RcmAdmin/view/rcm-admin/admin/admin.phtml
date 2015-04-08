@@ -14,11 +14,12 @@ $this->headScript()->appendFile(
 );
 
 $this->headLink()->appendStylesheet(
-    $this->basePath().'/modules/rcm-admin/css/rcm-admin.css'
+    $this->basePath() . '/modules/rcm-admin/css/rcm-admin.css'
 );
 
 $this->headLink()->appendStylesheet(
-    $this->basePath().'/modules/rcm-jquery/jquery-context-menu/jquery.contextMenu.css'
+    $this->basePath()
+    . '/modules/rcm-jquery/jquery-context-menu/jquery.contextMenu.css'
 );
 $this->headScript()->appendFile(
     $this->basePath()
@@ -41,14 +42,19 @@ $site = $layout->site;
 /** @var array $requestedPageData */
 $requestedPageData = $layout->requestedPageData;
 
-$pageData = array(
-    'rcmPageRevision' => $page->getCurrentRevision()->getRevisionId(),
-    'rcmPageType' => $page->getPageType(),
-    'rcmPageName' => $page->getName(),
-    'rcmPageId' => $page->getPageId(),
-    'rcmSiteId' => $site->getSiteId(),
-    'requestedPageData' => $requestedPageData,
-);
+$pageData = [
+    'page' => [
+        'revision' => $page->getCurrentRevision()->getRevisionId(),
+        'type' => $page->getPageType(),
+        'name' => $page->getName(),
+        'id' => $page->getPageId(),
+        'title' => $page->getPageTitle(),
+        'keywords' => $page->getKeywords(),
+        'description' => $page->getDescription(),
+        'siteId' => $site->getSiteId(),
+    ],
+    'requestedPage' => $requestedPageData,
+];
 
 $this->headMeta()->setProperty(
     'rcm:page',
