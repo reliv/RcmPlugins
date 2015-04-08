@@ -152,7 +152,6 @@ var RcmDynamicNavigationEdit = function (instanceId, container, pluginHandler) {
         }
 
         var dataToggle = parentATag.attr('data-toggle');
-        console.log(dataToggle);
 
         if (dataToggle === undefined || dataToggle === false) {
             parentATag.attr('data-toggle',"dropdown" );

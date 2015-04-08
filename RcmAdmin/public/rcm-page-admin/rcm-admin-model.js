@@ -64,8 +64,6 @@ var RcmAdminModel = function () {
             //data.siteId = pageInfo.rcmSiteId;
             //data.requestedPageData = pageInfo.requestedPageData;
 
-            console.log(data);
-
             if (typeof onComplete === 'function') {
                 onComplete(data)
             }
@@ -84,8 +82,6 @@ var RcmAdminModel = function () {
             var currentData = self.RcmPageModel.getData();
 
             var newData = jQuery.extend(true, currentData, data);
-
-            console.log('setData', newData);
 
             self.RcmPageModel.buildPageMeta(newData);
 
