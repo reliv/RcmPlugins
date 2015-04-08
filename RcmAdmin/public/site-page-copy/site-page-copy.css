@@ -43,6 +43,10 @@
     padding: .5em;
 }
 
+.rcmAdminSitePageCopy .page-search label{
+    display: block;
+}
+
 .rcmAdminSitePageCopy .page-search .form-group {
     font-size: .8em;
 }
@@ -51,7 +55,11 @@
     height: 28px;
     line-height: 1;
     padding: .1em;
+}
 
+.rcmAdminSitePageCopy .page-search .form-group button {
+    position: absolute;
+    margin-top: 3px;
 }
 
 .rcmAdminSitePageCopy .page-copy .message {

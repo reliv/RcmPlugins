@@ -81,10 +81,10 @@
 
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                                 <label class="control-label">Pages to Copy</label>
                             </div>
-                            <div class="col-sm-offset-7 col-sm-2">
+                            <div class="col-sm-offset-6 col-sm-2">
                                 <button class="btn btn-primary btn-sm"
                                         data-ng-click="step=2"
                                         data-ng-disabled="!destinationSite || selectedPages.length < 1"
@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <div class="form-group" ng-hide="loadings.sourcePages">
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                                 <div class=""
                                      data-ng-repeat="page in (filteredPages = (sourcePages | rcmAdminPageTypeFilter:selectedPageType | rcmAdminPageNameFilter:pageNameSearch))">
                                     <div class="pageSelect">

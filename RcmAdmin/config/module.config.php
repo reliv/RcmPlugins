@@ -529,6 +529,7 @@ return [
                     'modules/rcm-admin/save-ajax-admin-window/rcm-save-ajax-admin-window.js',
                 ],
                 'modules/rcm-admin/css/rcm-admin.css' => [
+                    'modules/rcm-admin/core/styles.css',
                     'modules/rcm-admin/plugin-admin/admin-jquery-ui.css',
 
                     'modules/rcm-admin/rcm-page-admin/layout-editor.css',

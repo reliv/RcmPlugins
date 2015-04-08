@@ -1,9 +1,4 @@
 <div class="rcmAdminCreateSite">
-    <link href="/modules/rcm-admin/create-site/create-site.css"
-          media="screen"
-          rel="stylesheet"
-          type="text/css"/>
-
     <div data-ng-controller="rcmAdminCreateSiteController">
 
         <h2>Create Site</h2>
@@ -20,7 +15,7 @@
 
                     <div class="form-group"
                          ng-class="{'has-error': createResult.errors.siteTitle}">
-                        <label class="col-sm-3 control-label"
+                        <label class="col-sm-4 control-label"
                                for="site-siteTitle">Site Title</label>
 
                         <div class="col-sm-8">
@@ -35,7 +30,7 @@
 
                     <div class="form-group"
                          ng-class="{'has-error': createResult.errors.domain}">
-                        <label class="col-sm-3 control-label"
+                        <label class="col-sm-4 control-label"
                                for="site-domain">Domain</label>
 
                         <div class="col-sm-8">
@@ -51,7 +46,7 @@
 
                     <div class="form-group"
                          ng-class="{'has-error': createResult.errors.theme}">
-                        <label class="col-sm-3 control-label"
+                        <label class="col-sm-4 control-label"
                                for="site-theme">Theme</label>
 
                         <div class="col-sm-8">
@@ -68,7 +63,7 @@
 
                     <!-- Not available at this time - forcing default
                     <div class="form-group" ng-class="{'has-error': createResult.errors.siteLayout}">
-                        <label class="col-sm-3 control-label"
+                        <label class="col-sm-4 control-label"
                                for="site-siteLayout">Default Page Layout</label>
 
                         <div class="col-sm-8">
@@ -86,7 +81,7 @@
 
                     <div class="form-group"
                          ng-class="{'has-error': createResult.errors.country}">
-                        <label class="col-sm-3 control-label"
+                        <label class="col-sm-4 control-label"
                                for="site-country-iso3">Site Country</label>
 
                         <div class="col-sm-8">
@@ -103,7 +98,7 @@
 
                     <div class="form-group"
                          ng-class="{'has-error': createResult.errors.language}">
-                        <label class="col-sm-3 control-label"
+                        <label class="col-sm-4 control-label"
                                for="site-language-iso639_2t">Site Language</label>
 
                         <div class="col-sm-8">
@@ -120,7 +115,7 @@
 
                     <!-- Advanced -->
                     <div class="form-group" ng-hide="showAdvanced">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <button class="btn btn-info btn-xs"
                                     data-ng-click="showAdvanced = true">Show Advanced Options
                             </button>
@@ -130,7 +125,7 @@
                     <div ng-show="showAdvanced">
                         <div class="form-group"
                              ng-class="{'has-error': createResult.errors.status}">
-                            <label class="col-sm-3 control-label"
+                            <label class="col-sm-4 control-label"
                                    for="site-status">Site Status</label>
 
                             <div class="col-sm-8">
@@ -148,7 +143,7 @@
                         <!-- Not available at this time - forcing null
                         <div class="form-group"
                              ng-class="{'has-error': createResult.errors.favIcon}">
-                            <label class="col-sm-3 control-label"
+                            <label class="col-sm-4 control-label"
                                    for="site-favIcon">Site favIcon</label>
 
                             <div class="col-sm-8">
@@ -165,7 +160,7 @@
 
                         <div class="form-group"
                              ng-class="{'has-error': createResult.errors.loginPage}">
-                            <label class="col-sm-3 control-label"
+                            <label class="col-sm-4 control-label"
                                    for="site-loginPage">Site Login Page</label>
 
                             <div class="col-sm-8">
@@ -181,7 +176,7 @@
 
                         <div class="form-group"
                              ng-class="{'has-error': createResult.errors.notAuthorizedPage}">
-                            <label class="col-sm-3 control-label"
+                            <label class="col-sm-4 control-label"
                                    for="site-notAuthorizedPage">Site Not Authorized Page</label>
 
                             <div class="col-sm-8">
@@ -196,7 +191,7 @@
 
                         <div class="form-group"
                              ng-class="{'has-error': createResult.errors.notFoundPage}">
-                            <label class="col-sm-3 control-label"
+                            <label class="col-sm-4 control-label"
                                    for="site-notFoundPage">Site Not Found Page</label>
 
                             <div class="col-sm-8">
@@ -210,7 +205,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <button class="btn btn-default btn-xs"
                                         data-ng-click="showAdvanced = false">Hide Advanced Options
                                 </button>

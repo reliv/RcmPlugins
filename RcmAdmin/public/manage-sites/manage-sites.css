@@ -4,21 +4,24 @@
 .rcmAdminManageSites .tr {
     vertical-align: top;
 }
-.rcmAdminManageSites .siteDuplicateOptions {
+
+.rcmAdminManageSites .domain {
+    font-size: 1em;
+    font-weight: bold;
+}
+.rcmAdminManageSites .site-duplicate-options {
     margin: .8em 0;
     padding: .5em;
     border: .1em solid #AAAAAA;
     border-radius: .3em;
 }
 
-.rcmAdminManageSites .form-group label {
-    margin-top: .5em;
+.rcmAdminManageSites .site-duplicate-title {
+    margin-bottom: 1em;
+    border-bottom: 1px solid #EEEEEE;
 }
 
 .rcmAdminManageSites .buttons {
     margin: .5em 0;
     text-align :right;
-}
-
-.rcmAdminManageSites input[type="text"]{
 }
