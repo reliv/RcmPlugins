@@ -1,15 +1,52 @@
-.rcmMessage {
-    width: 99%;
-    padding: .2em .5% .2em .5%;
-}
-/** bootstrap over-ride **/
-.alert {
-    margin-bottom: .7em;
-}
 /** This is for the plugin **/
 .rcmPlugin.RcmMessageList {
     width: 100%;
 }
-.rcmMessageList {
 
+.rcmMessage {
+    width: 99%;
+    padding: .2em .5% .2em .5%;
+}
+
+.rcmMessage ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 0;
+}
+
+.rcmMessage ul li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Glyphicons from bootstrap */
+.rcmMessage.flashMessageList i {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    padding-right: 1em;
+}
+
+.rcmMessage.flashMessageList .alert-info i:before {
+    content: "\e086";
+}
+
+.rcmMessage.flashMessageList .alert-success i:before {
+    content: "\e089";
+}
+
+.rcmMessage.flashMessageList .alert-warning i:before {
+    content: "\e107";
+}
+
+.rcmMessage.flashMessageList .alert-danger i:before {
+    content: "\e086";
 }

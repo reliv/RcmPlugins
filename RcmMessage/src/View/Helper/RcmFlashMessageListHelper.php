@@ -57,8 +57,9 @@ class RcmFlashMessageListHelper extends AbstractHelper
         //$flashMessenger->addWarningMessage('WARN Message');
         //$flashMessenger->addErrorMessage('ERR Message');
         //$flashMessenger->addSuccessMessage('SUCCESS Message');
+        $messageHtml = '<link href="/modules/rcm-message/css/styles.css" media="screen,print" rel="stylesheet" type="text/css">';
 
-        $messageHtml = '<div class="rcmMessage flashMessageList">';
+        $messageHtml .= '<div class="rcmMessage flashMessageList">';
 
         $messageHtml .=  $flashMessenger->render('error',   array('alert', 'alert-dismissable', 'alert-danger'));
         $messageHtml .=  $flashMessenger->render('warning', array('alert', 'alert-dismissable', 'alert-warning'));
