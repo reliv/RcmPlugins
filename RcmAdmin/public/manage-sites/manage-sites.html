@@ -14,7 +14,9 @@
             </tr>
             <tr ng-repeat="site in sites track by $index">
                 <td style="vertical-align: top; padding-left: 25px;">{{site.siteId}}</td>
-                <td style="vertical-align: top;"><h2>{{site.domain}}</h2></td>
+                <td style="vertical-align: top;">
+                    <span class="domain">{{site.domain}}</span>
+                </td>
                 <td style="vertical-align: top;" ng-show="loadings[site.siteId]">
                     <div>Loading...</div>
                 </td>
@@ -41,61 +43,53 @@
                             <span style="color:#ffffff;">Duplicate Site</span>
                         </button>
                     </div>
-                    <div class="siteDuplicateOptions"
+                    <div class="site-duplicate-options"
                          ng-show="tempSites[site.siteId] && !tempSites[site.siteId].message">
-                        <h2>
-                            Duplicate Site
-                        </h2>
+                        <div class="site-duplicate-title">
+                            <h2>Duplicate Site</h2>
+                        </div>
 
                         <div class="container-fluid">
                             <form role="form">
                                 <div class="form-group"
                                      ng-class="{'has-error': createResult.errors.country}">
-                                    <label class="col-sm-10 control-label"
+                                    <label class="control-label"
                                            for="newDomain">
                                         <div>Enter new domain</div>
                                     </label>
-
-                                    <div class="col-sm-10">
-                                        <input class="form-control"
-                                               id="newDomain"
-                                               ng-model="tempSites[site.siteId].domain"
-                                               required="required"
-                                               ng-required="true"
-                                               type="text">
-                                    </div>
+                                    <input class="form-control"
+                                           id="newDomain"
+                                           ng-model="tempSites[site.siteId].domain"
+                                           required="required"
+                                           ng-required="true"
+                                           type="text">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-sm-10 control-label"
+                                    <label class="control-label"
                                            for="site-country-iso3">
                                         Site Country
                                     </label>
-
-                                    <div class="col-sm-10">
-                                        <select class="form-control"
-                                                id="site-country-iso3"
-                                                ng-model="tempSites[site.siteId].country"
-                                                ng-options="v.iso3 as v.countryName for (k, v) in countries"
-                                                >
-                                        </select>
-                                    </div>
+                                    <select class="form-control"
+                                            id="site-country-iso3"
+                                            ng-model="tempSites[site.siteId].country"
+                                            ng-options="v.iso3 as v.countryName for (k, v) in countries"
+                                            >
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-sm-10 control-label"
+                                    <label class="control-label"
                                            for="site-language-iso639_2t">
                                         Site Language
                                     </label>
 
-                                    <div class="col-sm-10">
-                                        <select class="form-control"
-                                                id="site-language-iso639_2t"
-                                                ng-model="tempSites[site.siteId].language"
-                                                ng-options="v.iso639_2t as v.languageName for (k, v) in languages"
-                                                >
-                                        </select>
-                                    </div>
+                                    <select class="form-control"
+                                            id="site-language-iso639_2t"
+                                            ng-model="tempSites[site.siteId].language"
+                                            ng-options="v.iso639_2t as v.languageName for (k, v) in languages"
+                                            >
+                                    </select>
                                 </div>
 
                             </form>

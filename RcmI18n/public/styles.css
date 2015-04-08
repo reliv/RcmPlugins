@@ -5,22 +5,42 @@
     -moz-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;
 }
-.rcmI18n #transMesages table {
+
+.rcmI18n form {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
-.rcmI18n #transMesages .col-default-text {
+
+.rcmI18n .message-table {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.rcmI18n .message-row {
+    display: table-row;
+    width: 100%;
+}
+
+.rcmI18n .message-cell {
+    border: 1px solid #eeeeee;
+    display: table-cell;
+    padding: .5em;
+}
+
+.rcmI18n .message-cell.col-1 {
+    width: 33%;
+    word-wrap: break-word;
+}
+
+.rcmI18n .message-cell.col-2 {
+    width: 67%;
+}
+
+.rcmI18n .message-cell .default-text {
     padding-top: 14px;
-    max-width: 20em;
-    //width: 20em;
-    width: 35%;
-}
-.rcmI18n #transMesages .col-messages {
-    /*max-width: 20em;*/
-    /*width: 20em;*/
-    width: 65%;
-}
-.rcmI18n #transMesages .col-button {
-    /*vertical-align: top;*/
-    /*max-width: 10em;*/
 }
 
 @-moz-keyframes spin {
@@ -57,28 +77,12 @@
 
 .rcmI18n .loadBar div {
     width: 5%;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin: 20px auto 0 auto;
 }
-/* fixes the bug in bootstrap form-control height is different in FF and in Chrome */
-@-moz-document url-prefix() {
-    .rcmI18n .form-control  {
-        height: 20px;
-    }
-}
-/* fixes the bug in bootstrap form-control input is too wide in Firefox, makes search icon disappear  */
-@-moz-document url-prefix() {
-    .rcmI18n .input-group .form-control  {
-    width: 90%;
-}
-}
+
 .rcmI18n .fixed {
     margin-top: 15px;
     padding: 0 15px 0 15px;
-}
-
-.rcmI18n .modal-header.fixed {
-    height: 5em;
 }
 
 .rcmI18n .invisible {
@@ -119,10 +123,6 @@
     width: 80%;
 }
 
-.rcmI18n .translation .message {
-    width: 100%;
-}
-
 .rcmI18n .translation .message .editor {
     border: none;
     padding: 6px 0 6px 0;
@@ -136,23 +136,4 @@
 
 .rcmI18n .titleTranslations {
     background-color: #F5F5F5;
-}
-
-.rcmI18n .defaultMes td {
-    padding-top: 25px;
-    padding-bottom: 25px;
-}
-
-@media (max-width:520px) {
-
-
-    .rcmI18n .responsiveStyle {width: 200px;
-        height: 40px;}
-
-}
-
-@media (max-width:500px) {
-    .rcmI18n .fixed label {
-        float:left;
-    }
 }
