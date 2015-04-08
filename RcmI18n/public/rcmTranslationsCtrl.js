@@ -103,6 +103,12 @@ angular.module('rcmLocales', ['RcmHtmlEditor'])
 
             self.getLocales();
 
+            $scope.messageChange = function(message) {
+                message.dirty = true;
+                message.textHtml = $sce.trustAsHtml(message.text);
+
+            };
+
             $scope.OpenLocale = function () {
                 $scope.loading = true;//loadin ng-show set to true when ng change OpenLocale() is called
                 var locale = $scope.selectedLocale;

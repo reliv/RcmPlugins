@@ -17,7 +17,6 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label></label>
                             <select class="form-control"
                                     ng-model="selectedLocale"
                                     ng-options="key as value for (key , value) in locales"
@@ -31,14 +30,14 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label></label>
-
                             <div class="input-group">
                                 <input ng-model="messageQuery"
                                        ng-disabled="loading || rcmHtmlEditorService.toolbarLoading"
                                        class="form-control"
                                        type="text"
+                                       placeholder="search"
                                         />
+
                                 <div class="input-group-addon glyphicon glyphicon-search"></div>
                             </div>
                         </div>
@@ -54,8 +53,8 @@
                             </div>
                         </div>
                         <div id="transMesages"
-                               ng-hide="loading"
-                               class="message-table">
+                             ng-hide="loading"
+                             class="message-table">
 
                             <div class="message-row titleTranslations">
                                 <div class="message-cell col-1">
@@ -66,7 +65,8 @@
                                 </div>
                             </div>
 
-                            <div class="message-row" ng-repeat="message in messages | filter:messageQuery">
+                            <div class="message-row"
+                                 ng-repeat="message in messages | filter:messageQuery">
 
                                 <div class="message-cell col-1 default-text">
                                     {{message.defaultText}}
@@ -76,19 +76,19 @@
                                     <div class="translation">
                                         <div class="toolbars"
                                              ng-class="{'editable': message.editable || message.dirty}">
-                                            <div class="toolbar-save">
-                                                <button ng-class="{invisible: !message.dirty}"
-                                                        id="button-{{message.id}}"
-                                                        ng-click="saveText(message)"
-                                                        class="glyphicon glyphicon-save btn btn-primary btn-sm">
-                                                    Save
-                                                </button>
-                                            </div>
-                                            <div class="toolbar-editor">
-                                                <div id="htmlEditorToolbar-{{message.id}}"></div>
-                                            </div>
+                                                <div class="toolbar-save">
+                                                    <button ng-class="{invisible: !message.dirty}"
+                                                            id="button-{{message.id}}"
+                                                            ng-click="saveText(message)"
+                                                            class="btn btn-primary btn-sm">
+                                                        <span class="glyphicon glyphicon-save"></span> Save
+                                                    </button>
+                                                </div>
+                                                <div class="toolbar-editor">
+                                                    <div id="htmlEditorToolbar-{{message.id}}"></div>
+                                                </div>
                                         </div>
-                                        <div>
+                                        <div class="message-editor">
                                             <div>
                                                 <i class="glyphicon glyphicon-refresh loading"
                                                    ng-class="{'active': editorsLoading[message.id]}"></i>
@@ -103,7 +103,7 @@
                                                      html-editor-attached-toolbar
                                                      html-editor-type="simpleText"
                                                      html-editor-size="small"
-                                                     ng-change="message.dirty = true"
+                                                     ng-change="messageChange(message)"
                                                      ng-model="message.text">
                                                 </div>
                                                 <div class="editor-link"
@@ -117,10 +117,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                </td>
+                                    </td>
 
+                                </div>
                             </div>
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
