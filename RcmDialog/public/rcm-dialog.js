@@ -126,7 +126,7 @@ var RcmDialog = {
         self.type = 'button'; // disabled, button, hide
         self.label = 'button';
         self.css = 'btn btn-default';
-        self.method = function () {
+        self.method = function (dialog) {
         }
     },
 
@@ -151,9 +151,9 @@ var RcmDialog = {
                 type: 'button',
                 label: 'Close',
                 css: 'btn btn-default',
-                method: function ()
+                method: function (dialog)
                 {
-                    self.close();
+                    dialog.close();
                 }
             }
         };
@@ -291,7 +291,7 @@ var RcmDialog = {
                     function (event) {
                         self.openState = 'closed';
                         if (self.actions.close && self.actions.close.type == 'button') {
-                            self.actions.close.method();
+                            self.actions.close.method(self);
                         } else {
                             self.close()
                         }
