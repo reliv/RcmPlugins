@@ -33,7 +33,7 @@ angular.module(
                     formAction.type = 'button';
                     formAction.label = 'Save';
                     formAction.css = 'btn btn-primary';
-                    formAction.method = function () {
+                    formAction.method = function (dialog) {
 
                         scope.dialog.loading = true;
                         // @todo may need scope.$apply()
@@ -109,12 +109,12 @@ angular.module(
                 ' <div class="modal-dialog">' +
                 '  <div class="modal-content">' +
                 '   <div class="modal-header">' +
-                '    <button ng-show="dialog.actions.close.type == \'button\'" type="button" class="close" aria-hidden="true" data-ng-click="dialog.actions.close.method()">&times;</button>' +
+                '    <button ng-show="dialog.actions.close.type == \'button\'" type="button" class="close" aria-hidden="true" data-ng-click="dialog.actions.close.method(dialog)">&times;</button>' +
                 '    <h1 class="modal-title" id="myModalLabel">{{dialog.title}}</h1>' +
                 '   </div>' +
                 '   <div class="modal-body"><!-- CONTENT LOADED HERE --></div>' +
                 '   <div class="modal-footer">' +
-                '    <button ng-repeat="(key, action) in dialog.actions" ng-show="action.type == \'button\'" type="button" class="{{action.css}}" data-ng-click="action.method()" >' +
+                '    <button ng-repeat="(key, action) in dialog.actions" ng-show="action.type == \'button\'" type="button" class="{{action.css}}" data-ng-click="action.method(dialog)" >' +
                 '        {{action.label}}' +
                 '    </button>' +
                 '   </div>' +
