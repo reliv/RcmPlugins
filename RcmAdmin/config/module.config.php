@@ -514,7 +514,7 @@ return [
                     'modules/rcm-admin/rcm-page-admin/plugin-drag.js',
 
                     'modules/rcm-admin/rcm-page-admin/rcm-session-keep-alive.js',
-                    'modules/rcm-admin/rcm-page-admin/edit-mode-check.js',
+                    'modules/rcm-admin/rcm-page-admin/edit-check-warning.js',
                     'modules/rcm-admin/rcm-page-admin/page-not-found.js',
                     /* </rcm-page-admin> */
 
