@@ -105,9 +105,9 @@
                     <div>
 
 <pre><code>    &lt;button class="btn btn-default"
-    rcm-dialog-link="/modules/rcm-dialog/example-content.html"
-    rcm-dialog-title="Some Dialog Title"
-    rcm-dialog-strategy="rcmStandardDialog"
+            rcm-dialog-link="/modules/rcm-dialog/example-content.html"
+            rcm-dialog-title="Some Dialog Title"
+            rcm-dialog-strategy="rcmStandardDialog"
     &gt;
     Simple Standard Dialog Link
     &lt;/button&gt;
@@ -151,6 +151,77 @@
     &gt;
     Standard Dialog Link
     &lt;/button&gt;
+</code></pre>
+                    </div>
+                </example>
+            </div>
+        </div>
+<!-- CODE EXAMPLE -->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <example>
+                    <div>
+                        <h3>Standard Dialog Using javascript</h3>
+                        <p></p>
+                    </div>
+
+                    <div>
+<pre><code>
+
+    // Example of ID
+    var rcmDialogId = "SomeUniqueId";
+
+    // Example of Title
+    var rcmDialogTitle = "My Dialog Title";
+
+    // Example of link/url of content
+    var rcmDialogLink = '/my/content/url.html';
+
+    // Example of strategies
+    var rcmDialogStrategy = 'rcmStandardDialog'; // rcmBlankDialog, rcmFormDialog, rcmBlankIframeDialog, etc..
+
+    // Example of scope.
+    // Generally we will pass local scope of our angular directive, but any object can be passed in the contentscope var.
+    var rcmDialogScope = $scope;
+
+    // Example of button actions over-ride
+    var rcmDialogActions = {
+        '00_myAction': {
+            type: 'button',
+            label: 'My Action',
+            css: 'btn btn-warning',
+            method: function (dialog) {
+                alert('My action!!!')
+            }
+        },
+        'close': {
+            label: 'My Close'
+        }
+    };
+
+    // Build dialog using the basic factory method
+    var dialog = RcmDialog.buildDialog(
+        rcmDialogId,        // if null, it will use the url
+        rcmDialogTitle,     // Title that will populate the dialog modal
+        rcmDialogLink,      // Link to the dialog content file
+        rcmDialogStrategy,  // Dialog strategy, will use the default strategy if null
+        rcmDialogActions,   // Button actions over-ride
+        rcmDialogScope      // Can pass a scope as &quot;contentscope&quot;
+    );
+
+    // Build dialog using class (alternative to factory)
+    var dialog = new RcmDialog.dialog();
+
+    dialog.id = rcmDialogId;
+    dialog.title = rcmDialogTitle;
+    dialog.url = rcmDialogLink;
+    dialog.strategyName = rcmDialogStrategy;
+    dialog.actions = rcmDialogActions;
+    dialog.contentscope = rcmDialogScope;
+
+    // Open the dialog
+    dialog.open();
+
 </code></pre>
                     </div>
                 </example>
