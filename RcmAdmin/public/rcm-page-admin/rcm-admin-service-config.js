@@ -1,5 +1,10 @@
 var rcmAdminServiceConfig = {
 
+    apiUrls: {
+        canEdit: '/api/rpc/rcm-admin/can-edit',
+        currentSite: '/api/admin/current-site'
+    },
+
     saveUrl: '/rcm-admin/page/save-page',
     loadingMessages: {
         _default: {

@@ -1,4 +1,4 @@
-RcmAdminService.editModeCheck = function () {
+RcmAdminService.editCheckWarning = function () {
 
     var showWarning = function () {
         bootbox.dialog(
@@ -31,32 +31,22 @@ RcmAdminService.editModeCheck = function () {
         )
     };
 
-    var method = function (page) {
+    var checkCanEdit = function(canEdit) {
 
-        if (page.editMode) {
-            //ajax call to canEdit service
-            $.ajax(
-                {
-                    url: '/api/rpc/rcm-admin/can-edit',
-                    type: 'post',
-                    dataType: 'json',
-                    success: function (data) {
-                        var editable = data.data;
-                        if (!editable.canEdit) {
-                            showWarning();
-                        }
-
-                    }
-                }
-            );
+        if(!canEdit) {
+            showWarning();
         }
     };
 
-    var callback = function (page) {
-        page.events.on('editingStateChange', method);
+    var checkPageEditMode = function (page) {
+
+        if (page.editMode) {
+            RcmAdminService.canEdit(); // will trigger rcmAdminService.editCheck event
+        }
     };
 
-    RcmAdminService.getPage(callback);
+    RcmAdminService.rcmEventManager.on('editingStateChange', checkPageEditMode);
+    RcmAdminService.rcmEventManager.on('rcmAdminService.editCheck', checkCanEdit);
 };
 
-RcmAdminService.editModeCheck();
+RcmAdminService.editCheckWarning();

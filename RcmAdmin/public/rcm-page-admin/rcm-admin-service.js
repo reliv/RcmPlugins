@@ -1,5 +1,11 @@
 /**
  * RcmAdminService
+ * REQUIRES:
+ * RcmEventManager
+ * rcmAdminServiceConfig
+ * RcmAdminModel
+ * RcmAdminViewModel
+ * RcmAdminPage
  */
 var RcmAdminService = new function () {
 
@@ -20,6 +26,39 @@ var RcmAdminService = new function () {
      * @constructor
      */
     self.rcmEventManager = new RcmEventManager();
+
+    /**
+     * canEdit - server check if use can edit
+     * @param callback
+     */
+    self.canEdit = function (callback) {
+        //ajax call to canEdit service
+        jQuery.ajax(
+            {
+                url: self.config.apiUrls.canEdit,
+                type: 'post',
+                dataType: 'json'
+            }
+        )
+            .done(
+            function (data) {
+                /** {bool} */
+                var canEdit = data.data.canEdit;
+                self.rcmEventManager.trigger('rcmAdminService.editCheck', canEdit);
+                if(typeof callback === 'function') {
+                    callback(canEdit);
+                }
+            }
+        )
+            .fail(
+            function () {
+                self.rcmEventManager.trigger('rcmAdminService.editCheck', false);
+                if(typeof callback === 'function') {
+                    callback(false);
+                }
+            }
+        );
+    };
 
     /**
      * RcmLoading
@@ -53,7 +92,7 @@ var RcmAdminService = new function () {
     /**
      * buildViewModel
      */
-    self.buildViewModel = function(){
+    self.buildViewModel = function () {
 
         self.viewModel = new RcmAdminViewModel(self.config, self.model, self.page);
 
@@ -79,13 +118,13 @@ var RcmAdminService = new function () {
 
             self.page = new RcmAdminPage(
                 self.model.RcmPageModel.getElm(),
-                function(page) {
+                function (page) {
 
                     self.page = page;
 
                     self.buildViewModel();
 
-                    if(typeof onBuilt === 'function') {
+                    if (typeof onBuilt === 'function') {
                         onBuilt(page);
                     }
                 },
