@@ -144,7 +144,7 @@ var RcmDialog = {
         self.elm = null;
         self.openState = 'init';
         self.preOpened = false;
-        self.contentscope = {}
+        self.contentscope = {};
 
         self.actions = {
             close: {
