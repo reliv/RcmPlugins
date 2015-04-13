@@ -44,11 +44,13 @@ return [
                             'PageProperties' => [
                                 'label' => 'Page Properties',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
+                                'title' => 'Page Properties',
                                 'uri' => '/modules/rcm-admin/page-properties/page-properties.html',
                             ],
                             'PagePermissions' => [
                                 'label' => 'Page Permissions',
                                 'class' => 'RcmAdminMenu RcmBlankDialog',
+                                'title' => 'Page Permissions',
                                 'route' => 'RcmAdmin\Page\PagePermissions',
                                 'params' => [
                                     'rcmPageName' => ':rcmPageName',

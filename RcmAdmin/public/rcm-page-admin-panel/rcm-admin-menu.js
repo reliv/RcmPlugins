@@ -64,8 +64,8 @@ angular.module(
                         event.preventDefault();
 
                         RcmAdminService.canEdit(
-                            function(canEdit) {
-                                if(canEdit){
+                            function (canEdit) {
+                                if (canEdit) {
                                     openDialog(scope, elm, attrs, linkElm);
                                 }
                             }

@@ -40,7 +40,7 @@ angular.module(
                 restrict: 'A',
                 compile: thisCompile,
                 scope: [],
-                template: '<div ng-include="dialog.url">--{{dialog.url}}--</div>'
+                template: '<div ng-include="dialog.url"><!--{{dialog.url}}--></div>'
             }
         }
     ]
