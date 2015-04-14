@@ -3,26 +3,30 @@
  */
 
 (function () {
-    var page = RcmAdminService.getPage();
-    var sessionKeepAlive = false;
-    page.events.on(
+
+    var sessionKeepAlive = null;
+    RcmAdminService.rcmEventManager.on(
         'editingStateChange',
         function (page) {
+            // Set interval if edit mode and no current interval
             if (page.editMode === true && !sessionKeepAlive) {
-                //preventing from session keep alive on multiple pages
-                sessionKeepAlive = true;
-                setInterval(
+
+                sessionKeepAlive = setInterval(
                     function () {
                         var timestamp = Math.floor(new Date().getTime() / 1000);
                         $.post(
                             '/api/rpc/rcm-admin/keep-alive',
                             {'requestTime': timestamp},
                             function(data){
-                                //console.log('keep-alive',data);
+                                // console.log('keep-alive',data);
                             }
                         );
                     }, 300000
                 );
+            }
+            // just in case
+            if (page.editMode === false && sessionKeepAlive) {
+                clearInterval(sessionKeepAlive);
             }
         }
     );
