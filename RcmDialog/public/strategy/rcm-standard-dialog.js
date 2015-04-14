@@ -16,11 +16,23 @@ angular.module(
         '$http',
         function ($compile, $timeout, $http) {
 
+
             var thisCompile = function (tElement, tAttrs, transclude) {
 
                 var thisLink = function (scope, elm, attrs, ctrl) {
 
                     var dialogId = attrs.rcmStandardDialog;
+
+                    scope.safeApply = function(fn) {
+                        var phase = this.$root.$$phase;
+                        if(phase == '$apply' || phase == '$digest') {
+                            if(fn && (typeof(fn) === 'function')) {
+                                fn();
+                            }
+                        } else {
+                            this.$apply(fn);
+                        }
+                    };
 
                     scope.dialog = RcmDialog.getDialog(dialogId);
 
@@ -44,7 +56,7 @@ angular.module(
 
                     scope.dialog.loading = false;
 
-                    scope.$apply();
+                    scope.safeApply();
                 };
 
                 return thisLink;

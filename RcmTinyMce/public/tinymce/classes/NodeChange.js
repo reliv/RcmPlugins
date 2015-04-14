@@ -15,8 +15,9 @@
  * @private
  */
 define("tinymce/NodeChange", [
-	"tinymce/dom/RangeUtils"
-], function(RangeUtils) {
+	"tinymce/dom/RangeUtils",
+	"tinymce/Env"
+], function(RangeUtils, Env) {
 	return function(editor) {
 		var lastRng, lastPath = [];
 
@@ -50,7 +51,7 @@ define("tinymce/NodeChange", [
 
 		// Gecko doesn't support the "selectionchange" event
 		if (!('onselectionchange' in editor.getDoc())) {
-			editor.on('NodeChange Click MouseUp KeyUp', function(e) {
+			editor.on('NodeChange Click MouseUp KeyUp Focus', function(e) {
 				var nativeRng, fakeRng;
 
 				// Since DOM Ranges mutate on modification
@@ -79,12 +80,33 @@ define("tinymce/NodeChange", [
 			editor.fire('SelectionChange');
 		});
 
+		// Selection change is delayed ~200ms on IE when you click inside the current range
 		editor.on('SelectionChange', function() {
-			var startElm = editor.selection.getStart();
+			var startElm = editor.selection.getStart(true);
 
-			// Selection change might fire when focus is lost so check if the start is still within the body
+			// IE 8 will fire a selectionchange event with an incorrect selection
+			// when focusing out of table cells. Click inside cell -> toolbar = Invalid SelectionChange event
+			if (!Env.range && editor.selection.isCollapsed()) {
+				return;
+			}
+
 			if (!isSameElementPath(startElm) && editor.dom.isChildOf(startElm, editor.getBody())) {
 				editor.nodeChanged({selectionChange: true});
+			}
+		});
+
+		// Fire an extra nodeChange on mouseup for compatibility reasons
+		editor.on('MouseUp', function(e) {
+			if (!e.isDefaultPrevented()) {
+				// Delay nodeChanged call for WebKit edge case issue where the range
+				// isn't updated until after you click outside a selected image
+				if (editor.selection.getNode().nodeName == 'IMG') {
+					setTimeout(function() {
+						editor.nodeChanged();
+					}, 0);
+				} else {
+					editor.nodeChanged();
+				}
 			}
 		});
 
@@ -99,7 +121,7 @@ define("tinymce/NodeChange", [
 			var selection = editor.selection, node, parents, root;
 
 			// Fix for bug #1896577 it seems that this can not be fired while the editor is loading
-			if (editor.initialized && !editor.settings.disable_nodechange && !editor.settings.readonly) {
+			if (editor.initialized && selection && !editor.settings.disable_nodechange && !editor.settings.readonly) {
 				// Get start node
 				root = editor.getBody();
 				node = selection.getStart() || root;

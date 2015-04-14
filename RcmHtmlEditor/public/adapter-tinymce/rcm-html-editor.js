@@ -40,13 +40,13 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     /**
      * onInit
      */
-    self.onInit = function (ed) {
+    self.onInit = function (editor) {
 
         rcmHtmlEditorService.eventManager.trigger(
             'RcmHtmlEditor.onInit',
             {
                 rcmHtmlEditor: self,
-                editorInstance: ed
+                editorInstance: editor
             }
         );
         clearTimeout(self.initTimeout);
@@ -142,10 +142,16 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.apply = function () {
 
         if (!self.scope.$root.$$phase) {
-            self.scope.$apply();
-        }
 
-        self.onApply();
+            self.scope.$apply(
+                function () {
+                    self.onApply();
+                }
+            );
+        } else {
+
+            self.onApply();
+        }
     };
 
     /**
@@ -153,104 +159,119 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
      */
     self.buildEditor = function () {
 
-        self.settings.setup = function (ed) {
+        self.settings.setup = function (editor) {
             var args;
             //
-            //ed.on('click', function (args) {
+            //editor.on('click', function (args) {
             //
             //    if (self.elm.click) {
             //        self.elm.click();
             //    }
             //});
-            ed.on(
-                'init', function (args) {
+            editor.on(
+                'init',
+                function (args) {
 
                     if (self.ngModel) {
                         self.ngModel.$render();
                         self.ngModel.$setPristine();
                     }
 
-                    self.onInit(ed);
+                    self.onInit(editor);
                     self.apply();
                 }
             );
             //
-            ed.on(
-                'postrender', function (args) {
+            editor.on(
+                'postrender',
+                function (args) {
                 }
             );
             // Update model on button click
-            ed.on(
-                'ExecCommand', function (e) {
-
-                    ed.save();
+            editor.on(
+                'ExecCommand',
+                function (e) {
+                    editor.save();
                     self.updateView();
                 }
             );
             // Update model on keypress
-            ed.on(
-                'KeyUp', function (e) {
-
-                    ed.save();
+            editor.on(
+                'KeyUp',
+                function (e) {
+                    editor.save();
                     self.updateView();
                 }
             );
             // Update model on change, i.e. copy/pasted text, plugins altering content
-            ed.on(
-                'SetContent', function (e) {
+            editor.on(
+                'SetContent',
+                function (e) {
 
                     if (!e.initial) {
 
                         if (self.ngModel) {
 
                             if (self.ngModel.$viewValue !== e.content) {
-                                ed.save();
+                                editor.save();
                                 self.updateView();
                             }
                         } else {
 
-                            ed.save();
+                            editor.save();
                             self.updateView();
                         }
                     }
                 }
             );
-            //
-            ed.on(
-                'blur', function (e) {
+            // blur
+            editor.on(
+                'blur',
+                function (e) {
 
                     rcmHtmlEditorService.isEditing = false;
 
-                    if (self.elm.blur) {
-                        //causing some issues //
-                        //self.elm.blur();
-                    }
                     self.updateView();
                 }
             );
-            //
-            ed.on(
-                'focus', function (e) {
+            // focus
+            editor.on(
+                'focus',
+                function (e) {
+
                     rcmHtmlEditorService.isEditing = true;
 
-                    if (self.elm.focus) {
-                        //causing some issues //
-                        //self.elm.focus();
-                    }
                     self.updateView();
                 }
             );
             // Update model when an object has been resized (table, image)
-            ed.on(
-                'ObjectResized', function (e) {
+            editor.on(
+                'ObjectResized',
+                function (e) {
 
-                    ed.save();
+                    editor.save();
                     self.updateView();
                 }
             );
+            // change
+            editor.on(
+                'change',
+                function (e) {
+
+                    self.updateView();
+                }
+            );
+            // cahnge selection
+            //editor.on(
+            //    'SelectionChange',
+            //    function () {
+            //
+            //        self.updateView();
+            //    }
+            //);
             // This might be needed if setup can be passed in
             //if (settings) {
-            //    settings(ed);
+            //    settings(editor);
             //}
         };
 
@@ -301,6 +322,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
         if (!self.tinyInstance) {
             self.tinyInstance = tinymce.get(self.id);
         }
+
         if (self.tinyInstance) {
             self.tinyInstance.remove();
         }

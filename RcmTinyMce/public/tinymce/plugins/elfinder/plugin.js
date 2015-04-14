@@ -8,7 +8,7 @@ tinymce.PluginManager.add(
              */
             var typeMap = {
                 'image': 'images'
-            }
+            };
 
             var getTypeMapValue = function(value){
 
@@ -18,7 +18,7 @@ tinymce.PluginManager.add(
                 }
 
                 return value;
-            }
+            };
 
             tinymce.activeEditor.windowManager.open(
                 {
