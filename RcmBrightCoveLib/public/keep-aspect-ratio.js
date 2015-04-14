@@ -35,6 +35,4 @@ new function () {
     $(setHeights);
     //Run when window is resized
     $(window).resize(setHeights);
-    //Run when target elements are resized without a window resize
-    $('body').on('resize', '[data-keep-aspect-ratio]', setHeights);
 };
