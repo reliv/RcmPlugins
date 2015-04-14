@@ -106,7 +106,7 @@
 	exports.define = define;
 	exports.require = require;
 
-	expose(["tinymce/pasteplugin/Utils","tinymce/pasteplugin/WordFilter"]);
+	expose(["tinymce/pasteplugin/Utils"]);
 
 	load('classes/Utils.js');
 	load('classes/Clipboard.js');
@@ -117,4 +117,4 @@
 	writeScripts();
 })(this);
 
-// $hash: b8136b3dda294bc40e7befbd111aabe1
+// $hash: eee82a60233ca209b9d162b8d91de650

@@ -369,7 +369,7 @@ define("tinymce/dom/DOMUtils", [
 		get: function(elm) {
 			var name;
 
-			if (elm && this.doc && typeof(elm) == 'string') {
+			if (elm && this.doc && typeof elm == 'string') {
 				name = elm;
 				elm = this.doc.getElementById(elm);
 
@@ -552,7 +552,7 @@ define("tinymce/dom/DOMUtils", [
 			}
 
 			// A call to tinymce.is doesn't work for some odd reason on IE9 possible bug inside their JS runtime
-			if (typeof(html) != "undefined") {
+			if (typeof html != "undefined") {
 				return outHtml + '>' + html + '</' + name + '>';
 			}
 
@@ -686,7 +686,11 @@ define("tinymce/dom/DOMUtils", [
 		 * tinymce.DOM.setStyles('mydiv', {'background-color': 'red', 'color': 'green'});
 		 */
 		setStyles: function(elm, styles) {
-			this.$$(elm).css(styles);
+			elm = this.$$(elm).css(styles);
+
+			if (this.settings.update_styles) {
+				elm.attr('data-mce-style', null);
+			}
 		},
 
 		/**
@@ -727,6 +731,10 @@ define("tinymce/dom/DOMUtils", [
 
 			elm = self.$$(elm);
 			originalValue = elm.attr(name);
+
+			if (!elm.length) {
+				return;
+			}
 
 			hook = self.attrHooks[name];
 			if (hook && hook.set) {
@@ -781,11 +789,14 @@ define("tinymce/dom/DOMUtils", [
 
 			elm = self.$$(elm);
 
-			hook = self.attrHooks[name];
-			if (hook && hook.get) {
-				value = hook.get(elm, name);
-			} else {
-				value = elm.attr(name);
+			if (elm.length) {
+				hook = self.attrHooks[name];
+
+				if (hook && hook.get) {
+					value = hook.get(elm, name);
+				} else {
+					value = elm.attr(name);
+				}
 			}
 
 			if (typeof value == 'undefined') {
@@ -804,21 +815,22 @@ define("tinymce/dom/DOMUtils", [
 		 * @return {object} Absolute position of the specified element object with x, y fields.
 		 */
 		getPos: function(elm, rootElm) {
-			var self = this, x = 0, y = 0, offsetParent, doc = self.doc, pos;
+			var self = this, x = 0, y = 0, offsetParent, doc = self.doc, body = doc.body, pos;
 
 			elm = self.get(elm);
-			rootElm = rootElm || doc.body;
+			rootElm = rootElm || body;
 
 			if (elm) {
 				// Use getBoundingClientRect if it exists since it's faster than looping offset nodes
-				if (rootElm === doc.body && elm.getBoundingClientRect) {
+				// Fallback to offsetParent calculations if the body isn't static better since it stops at the body root
+				if (rootElm === body && elm.getBoundingClientRect && $(body).css('position') === 'static') {
 					pos = elm.getBoundingClientRect();
-					rootElm = self.boxModel ? doc.documentElement : doc.body;
+					rootElm = self.boxModel ? doc.documentElement : body;
 
 					// Add scroll offsets from documentElement or body since IE with the wrong box model will use d.body and so do WebKit
 					// Also remove the body/documentelement clientTop/clientLeft on IE 6, 7 since they offset the position
-					x = pos.left + (doc.documentElement.scrollLeft || doc.body.scrollLeft) - rootElm.clientLeft;
-					y = pos.top + (doc.documentElement.scrollTop || doc.body.scrollTop) - rootElm.clientTop;
+					x = pos.left + (doc.documentElement.scrollLeft || body.scrollLeft) - rootElm.clientLeft;
+					y = pos.top + (doc.documentElement.scrollTop || body.scrollTop) - rootElm.clientTop;
 
 					return {x: x, y: y};
 				}
@@ -946,6 +958,8 @@ define("tinymce/dom/DOMUtils", [
 
 			each(url.split(','), function(url) {
 				var link;
+
+				url = Tools._addCacheSuffix(url);
 
 				if (self.files[url]) {
 					return;
@@ -1139,7 +1153,9 @@ define("tinymce/dom/DOMUtils", [
 		 */
 		getOuterHTML: function(elm) {
 			elm = this.get(elm);
-			return elm.nodeType == 1 ? elm.outerHTML : $('<div>').append($(elm).clone()).html();
+
+			// Older FF doesn't have outerHTML 3.6 is still used by some orgaizations
+			return elm.nodeType == 1 && "outerHTML" in elm ? elm.outerHTML : $('<div>').append($(elm).clone()).html();
 		},
 
 		/**
@@ -1161,11 +1177,17 @@ define("tinymce/dom/DOMUtils", [
 
 			self.$$(elm).each(function() {
 				try {
-					this.outerHTML = html;
+					// Older FF doesn't have outerHTML 3.6 is still used by some orgaizations
+					if ("outerHTML" in this) {
+						this.outerHTML = html;
+						return;
+					}
 				} catch (ex) {
-					// OuterHTML for IE it sometimes produces an "unknown runtime error"
-					self.remove($(this).html(html), true);
+					// Ignore
 				}
+
+				// OuterHTML for IE it sometimes produces an "unknown runtime error"
+				self.remove($(this).html(html), true);
 			});
 		},
 
@@ -1323,7 +1345,7 @@ define("tinymce/dom/DOMUtils", [
 		run: function(elm, func, scope) {
 			var self = this, result;
 
-			if (typeof(elm) === 'string') {
+			if (typeof elm === 'string') {
 				elm = self.get(elm);
 			}
 
@@ -1337,7 +1359,7 @@ define("tinymce/dom/DOMUtils", [
 
 				each(elm, function(elm, i) {
 					if (elm) {
-						if (typeof(elm) == 'string') {
+						if (typeof elm == 'string') {
 							elm = self.get(elm);
 						}
 
@@ -1407,7 +1429,7 @@ define("tinymce/dom/DOMUtils", [
 			node = node.firstChild;
 			if (node) {
 				walker = new TreeWalker(node, node.parentNode);
-				elements = elements || self.schema ? self.schema.getNonEmptyElements() : null;
+				elements = elements || (self.schema ? self.schema.getNonEmptyElements() : null);
 
 				do {
 					type = node.nodeType;
@@ -1779,7 +1801,7 @@ define("tinymce/dom/DOMUtils", [
 
 			if (node) {
 				// If expression make a function of it using is
-				if (typeof(func) == 'string') {
+				if (typeof func == 'string') {
 					func = function(node) {
 						return self.is(node, selector);
 					};
