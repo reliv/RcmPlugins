@@ -36,7 +36,7 @@ class RpcAdminKeepAlive extends ApiAdminBaseController {
 
         $result = [
                 'responseTime' => $dateTime->getTimestamp(),
-                'requestTime' => $data['requestTime']
+                'requestTime' => (float) $data['requestTime']
         ];
 
         return new ApiJsonModel($result);
