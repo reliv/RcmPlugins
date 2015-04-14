@@ -283,12 +283,21 @@ return [
                     ]
                 ],
             ],
-            'RcmAdmin\\RpcAdminCanEdit' =>  [
+            'RcmAdmin\\RpcAdminCanEdit' => [
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
                     'route' => '/api/rpc/rcm-admin/can-edit',
                     'defaults' => [
                         'controller' => 'RcmAdmin\Controller\RpcAdminCanEdit',
+                    ]
+                ],
+            ],
+            'RcmAdmin\\RpcAdminKeepAlive' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/rpc/rcm-admin/keep-alive',
+                    'defaults' => [
+                        'controller' => 'RcmAdmin\Controller\RpcAdminKeepAlive',
                     ]
                 ],
             ],
@@ -615,6 +624,8 @@ return [
             => 'RcmAdmin\Controller\ApiAdminPageTypesController',
             'RcmAdmin\Controller\RpcAdminCanEdit'
             => 'RcmAdmin\Controller\RpcAdminCanEdit',
+            'RcmAdmin\Controller\RpcAdminKeepAlive'
+            => 'RcmAdmin\Controller\RpcAdminKeepAlive',
         ],
     ],
 ];
