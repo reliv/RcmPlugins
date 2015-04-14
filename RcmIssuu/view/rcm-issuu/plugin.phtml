@@ -1,1 +1,20 @@
-<?= $embed ?>
+<?php
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-issuu/fit-container.js'
+);
+
+?>
+
+<script type="application/javascript" >
+    $(function() {
+        $(".RcmIssuu").each(function(i, v) {
+            $(this).find('.issuuembed').addClass('fit-container');
+        });
+
+        fitContainer();
+    });
+</script>
+
+<div class="issuuEmbedContainer">
+    <?= $embed ?>
+</div>

@@ -22,12 +22,15 @@ var RcmIssuuEdit = function (instanceId, container) {
     me.instanceId = instanceId;
     me.container = container;
 
+    me.defualtPageSize = 30;
+
+    me.apiProcessor = new RcmIssuuApiProcessor();
+    me.adminEditForm = new RcmIssuuEditDialogForm(me.apiProcessor);
+
     me.initEdit = function () {
 
-        //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function () {
-            me.showEditDialog();
-        });
+        $('head').append($('<link rel="stylesheet" type="text/css" href=""/>')
+            .attr('href', '/modules/rcm-issuu/edit.css'));
 
         //Add right click menu
         $.contextMenu({
@@ -41,11 +44,8 @@ var RcmIssuuEdit = function (instanceId, container) {
                         me.showEditDialog();
                     }
                 }
-
             }
         });
-
-
     };
 
     /**
@@ -66,82 +66,31 @@ var RcmIssuuEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      */
     me.showEditDialog = function () {
-
-        var feedUrl = $.dialogIn(
-            'text', 'Search', me.feedUrl
-        );
-
-        var searchButton = $('<input type="button" class="searchButton" value="Search" />');
-
-        var docListHolder = $('<div class="docListHolder" />');
-
-        searchButton.click(function(){
-            me.fetchList(feedUrl.val(), docListHolder);
-        });
-
-
-        //Create and show our edit dialog
-        var form = $('<form>')
-            .append(feedUrl, searchButton, docListHolder)
-            .dialog({
-                title: 'Properties',
-                modal: true,
-                width: 620,
-                buttons: {
-                    Cancel: function () {
-                        $(this).dialog("close");
-                    },
-                    Ok: function () {
-
-                        //Grab the non-jquery form so we can get its fields
-                        var domForm = form.get(0);
-
-                        //Get user-entered data from form
-                        me.feedUrl = feedUrl.val();
-                        me.feedLimit = feedLimit.val();
-
-                        new RssReader(
-                            me.feedProxy,
-                            me.instanceId,
-                            $(".rss-feed-" + me.instanceId),
-                            me.feedUrl,
-                            me.feedLimit
-                        );
-
-                        $(this).dialog("close");
-                    }
-                }
-            });
-
-    };
-
-    me.fetchList = function (search, holderDiv) {
-        $.getJSON('https://search.issuu.com/api/2_0/document?q='+search+'&username=reliv&pageSize=30&jsonCallback=?', function(data){
-            me.handleResponse(data.response, holderDiv);
+        me.adminEditForm.getForm().dialog({
+            title: 'Properties',
+            modal: true,
+            width: 620,
+            buttons: {
+                Cancel: function () {
+                    $(this).dialog("close");
+                },
+                Ok: me.handleOkButton
+            }
         });
     };
 
-    me.handleResponse = function ( response, holderDiv ) {
-        var start = response.start;
-        var totalCount = response.numFound;
-        var numReturned = response.docs.length;
+    me.handleOkButton = function () {
+        var document = me.adminEditForm.getCurrentDocument();
+        var container = me.container.find("issuuEmbedContainer");
 
-        $.each(response.docs, function(i, v) {
-            me.handleDocument(v, holderDiv);
-        });
-    };
+        container.html(document.getEmbedHtml());
+        container.attr('data-docId', document.getId());
+        container.attr('data-docName', document.getName());
 
-    me.handleDocument = function( document, holderDiv ) {
-        console.log(document);
-        var radio = $('<input type="radio" name="docSelection" class="docSectionRadio" value="'+document.documentId+'" />');
-        var docName = $('<span class="docName">'+document.docname+'</span>');
-        var docUserName = $('<span class="docUserName">'+document.username+'</span>');
+        me.container
 
-        var documentDivContainer = $('<div class="docDivContainer" />');
-
-        documentDivContainer.append(radio, docName, docUserName);
-
-        holderDiv.append(documentDivContainer)
-    };
-
+        $(me.container).find('.issuuembed').addClass('fit-container');
+        fitContainer();
+        $(this).dialog("close");
+    }
 };
