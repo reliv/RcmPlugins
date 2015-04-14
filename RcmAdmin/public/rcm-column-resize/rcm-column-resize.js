@@ -425,8 +425,8 @@ var rcmColunmResize = new function () {
      * @param newClass
      */
     self.setClass = function (elm, newClass) {
-
         RcmAdminService.model.RcmPluginModel.setColumnClass(elm, newClass);
+        jQuery(window).trigger('resize');
     };
 
     self.init = self.addControls;
