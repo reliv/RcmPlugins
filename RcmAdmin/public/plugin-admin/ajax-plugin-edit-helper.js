@@ -25,12 +25,14 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginHandler) {
      */
     me.buildInputGroups = function (groupDataKeyNames, data, defaultData) {
         var inputGroups = {};
-        $.each(groupDataKeyNames, function () {
-            inputGroups[this] = me.buildInputGroup(
-                data[this],
-                defaultData[this]
-            );
-        });
+        $.each(
+            groupDataKeyNames, function () {
+                inputGroups[this] = me.buildInputGroup(
+                    data[this],
+                    defaultData[this]
+                );
+            }
+        );
         return inputGroups;
     };
 
@@ -42,9 +44,11 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginHandler) {
      * @return {*}
      */
     me.captureInputGroups = function (inputGroups, data) {
-        $.each(inputGroups, function (inputGroupName, inputGroup) {
-            data = me.captureInputGroup(inputGroupName, inputGroup, data);
-        });
+        $.each(
+            inputGroups, function (inputGroupName, inputGroup) {
+                data = me.captureInputGroup(inputGroupName, inputGroup, data);
+            }
+        );
         return data;
     };
 
@@ -57,9 +61,11 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginHandler) {
      */
     me.buildInputGroup = function (currentTranslations, defaultTranslations) {
         var inputs = {};
-        $.each(defaultTranslations, function (key, value) {
-            inputs[key] = $.dialogIn('text', value, currentTranslations[key]);
-        });
+        $.each(
+            defaultTranslations, function (key, value) {
+                inputs[key] = $.dialogIn('text', value, currentTranslations[key]);
+            }
+        );
         return inputs
     };
 
@@ -72,11 +78,13 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginHandler) {
      * @return {*}
      */
     me.captureInputGroup = function (inputGroupName, inputGroup, instanceConfig) {
-        $.each(instanceConfig[inputGroupName], function (key) {
-            if (inputGroup[key]) {
-                instanceConfig[inputGroupName][key] = inputGroup[key].val()
+        $.each(
+            instanceConfig[inputGroupName], function (key) {
+                if (inputGroup[key]) {
+                    instanceConfig[inputGroupName][key] = inputGroup[key].val()
+                }
             }
-        });
+        );
         return instanceConfig;
     };
 
@@ -91,26 +99,30 @@ var AjaxPluginEditHelper = function (instanceId, container, pluginHandler) {
 
     this.attachPropertiesDialog = function (showMainPropertiesCallback) {
         //Double clicking will show properties dialog
-        container.delegate('div', 'dblclick', function (event) {
-            event.stopPropagation();
-            showMainPropertiesCallback();
-        });
+        container.delegate(
+            'div', 'dblclick', function (event) {
+                event.stopPropagation();
+                showMainPropertiesCallback();
+            }
+        );
 
         //Add right click menu
-        $.contextMenu({
-                          selector: rcm.getPluginContainerSelector(instanceId),
-                          //Here are the right click menu options
-                          items: {
-                              edit: {
-                                  name: 'Edit Properties',
-                                  icon: 'edit',
-                                  callback: function () {
-                                      showMainPropertiesCallback();
-                                  }
-                              }
+        $.contextMenu(
+            {
+                selector: rcm.getPluginContainerSelector(instanceId),
+                //Here are the right click menu options
+                items: {
+                    edit: {
+                        name: 'Edit Properties',
+                        icon: 'edit',
+                        callback: function () {
+                            showMainPropertiesCallback();
+                        }
+                    }
 
-                          }
-                      });
+                }
+            }
+        );
     }
 };
 /* </AjaxPluginEditHelper|ajax-plugin-edit-helper> */

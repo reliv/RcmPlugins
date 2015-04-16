@@ -17,6 +17,10 @@ var RcmHtmlEditorService = function (eventManager) {
     self.showFixedToolbar = false;
     self.fixedToolbarToggle = false;
 
+    /**
+     * updateState
+     * @param onUpdateComplete
+     */
     self.updateState = function (onUpdateComplete) {
 
         var hasEditors = false;
@@ -37,11 +41,26 @@ var RcmHtmlEditorService = function (eventManager) {
         }
     };
 
+    /**
+     * deleteEditor
+     * @param id
+     */
     self.deleteEditor = function (id) {
 
         delete self.editors[id];
+
+        // In case delete did not work
+        if(self.editors[id]){
+
+            self.editors[id] = undefined;
+        }
     };
 
+    /**
+     * hasEditorInstance
+     * @param id
+     * @returns {*}
+     */
     self.hasEditorInstance = function (id) {
 
         if (self.editors[id]) {
@@ -52,6 +71,12 @@ var RcmHtmlEditorService = function (eventManager) {
         return false;
     };
 
+    /**
+     * hasEditorInstance
+     * @param editorId
+     * @param loading
+     * @param msg
+     */
     self.loading = function (editorId, loading, msg) {
 
         if (loading) {
@@ -102,6 +127,9 @@ var RcmHtmlEditorService = function (eventManager) {
         }
     };
 
+    /**
+     * eventManager.on RcmHtmlEditor.onInit
+     */
     self.eventManager.on(
         'RcmHtmlEditor.onInit',
         function (args) {
@@ -124,6 +152,9 @@ var RcmHtmlEditorService = function (eventManager) {
         }
     );
 
+    /**
+     * eventManager.on RcmHtmlEditor.onDestroy
+     */
     self.eventManager.on(
         'RcmHtmlEditor.onDestroy',
         function (rcmHtmlEditor) {
