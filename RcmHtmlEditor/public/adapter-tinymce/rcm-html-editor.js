@@ -14,7 +14,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.ngModel;
 
     self.settings = {};
-    self.tinyInstance;
+
     self.tagName = "";
     self.initTimeout;
 
@@ -62,7 +62,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
             self
         );
         //console.warn('RcmHtmlEditor: ' + id + ' failed to init.');
-        self.destroy();
+        self.destroy('onInitTimout');
     };
 
     /**
@@ -116,6 +116,15 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     };
 
     /**
+     * getEditorInstance
+     * @returns {*}
+     */
+    self.getEditorInstance = function(){
+
+        return tinymce.get(self.id);
+    };
+
+    /**
      * isFormControl
      * @returns {boolean}
      */
@@ -130,7 +139,8 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.updateView = function () {
 
         if (self.ngModel) {
-            self.ngModel.$setViewValue(self.tinyInstance.getContent());
+            var editorInstance = self.getEditorInstance();
+            self.ngModel.$setViewValue(editorInstance.getContent());
         }
 
         self.apply();
@@ -160,8 +170,9 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.buildEditor = function () {
 
         self.settings.setup = function (editor) {
+
             var args;
-            //
+            // This did not work, might be a way to sync click events
             //editor.on('click', function (args) {
             //
             //    if (self.elm.click) {
@@ -203,12 +214,22 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
                     self.updateView();
                 }
             );
+            //editor.on(
+            //    'BeforeSetContent',
+            //    function (e) {
+            //    }
+            //);
             // Update model on change, i.e. copy/pasted text, plugins altering content
             editor.on(
                 'SetContent',
                 function (e) {
 
-                    if (!e.initial) {
+                    /**
+                     * IMPORTANT
+                     * We do NOT sync content on initial and when it is selection
+                     * Selection adds some special markup which causes issues when we sync it
+                     */
+                    if (!e.initial && !e.selection) {
 
                         if (self.ngModel) {
 
@@ -261,7 +282,8 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
                     self.updateView();
                 }
             );
-            // cahnge selection
+
+            // change selection
             //editor.on(
             //    'SelectionChange',
             //    function () {
@@ -286,13 +308,13 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
 
             self.ngModel.$render = function () {
 
-                if (!self.tinyInstance) {
-                    self.tinyInstance = tinymce.get(self.id);
-                }
-                if (self.tinyInstance) {
-                    self.tinyInstance.setContent(self.ngModel.$viewValue || self.getElmValue());
+                var editorInstance = self.getEditorInstance();
+
+                if (editorInstance) {
+                    editorInstance.setContent(self.ngModel.$viewValue || self.getElmValue());
                 } else {
-                    // self.destroy(null, 'tinyInstance not found')
+                    // Should not be required, was extra garbage cleanup
+                    // self.destroy('editorInstance not found')
                 }
             };
         }
@@ -300,7 +322,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
         self.elm.on(
             '$destroy', function () {
 
-                self.destroy();
+                self.destroy('self.elm.on $destroy');
             }
         );
 
@@ -316,15 +338,15 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
 
     /**
      * destroy
+     * @param msg For tracking only - not required
      */
-    self.destroy = function () {
+    self.destroy = function (msg) {
 
-        if (!self.tinyInstance) {
-            self.tinyInstance = tinymce.get(self.id);
-        }
+        var editorInstance = self.getEditorInstance();
 
-        if (self.tinyInstance) {
-            self.tinyInstance.remove();
+        if (editorInstance) {
+
+            editorInstance.remove();
         }
 
         self.onDestroy();
