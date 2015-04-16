@@ -9,7 +9,6 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
-     * @type {RcmDistributorApp}
      */
     var me = this;
 
@@ -99,14 +98,12 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
         var imageTag = '';
         var longDescNoimageCss = ' noimage';
 
-        if (person.largeImage && person.largeImage != 'undefined') {
-
             //We don't put anything in src so images only load later
-            imageTag = '<img ' +
+        imageTag = '<img ' +
             'class="largeImage" ' +
             'data-delayedSrc="' + person.largeImage + '">';
             longDescNoimageCss = '';
-        }
+
 
         return $(
             '<div class="personDetails"' + dataPersonId + ' style="display:none;"' + '>' +
@@ -187,7 +184,7 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      * @return {Object}
      */
     me.getPersonElements = function (personId) {
-        var dataSelector = '[data-personId=' + personId + ']';
+        var dataSelector = '[data-personid=' + personId + ']';
         var details = container.find('.personDetails' + dataSelector);
         var preview = container.find('.person' + dataSelector);
         return {
@@ -205,7 +202,14 @@ var RcmPeopleSlider = function (instanceId, instanceConfig) {
      * @param {Object} imageElement
      */
     me.loadDelayedImage = function (imageElement) {
+
+        var imageSrc = imageElement.attr('data-delayedSrc');
+
         imageElement.attr('src', imageElement.attr('data-delayedSrc'));
+
+        if (imageSrc == 'undefined') {
+            imageElement.hide();
+        }
     };
 
     me.init(rcm.getPluginContainer(instanceId));

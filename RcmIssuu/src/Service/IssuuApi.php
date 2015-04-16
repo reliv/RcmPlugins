@@ -6,13 +6,14 @@ use Guzzle\Http\Client;
 
 class IssuuApi
 {
-    public function getEmbed($url, $width, $height)
+    public function getEmbed($userName, $docTitle)
     {
         $endPoint = 'https://issuu.com/oembed';
 
+        $url = 'http://issuu.com/'.$userName.'/docs/'.$docTitle;
+
         $send = array(
             'url' => $url,
-//            'maxwidth' => 1024,
             'format' => 'json'
         );
 
@@ -36,6 +37,6 @@ class IssuuApi
             throw new \Exception('Invalid Format for response');
         }
 
-        return $jsonData['html'];
+        return $jsonData;
     }
 }

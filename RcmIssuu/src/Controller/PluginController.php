@@ -34,24 +34,39 @@ use Zend\View\Model\ViewModel;
  * @version   Release: 1.0
  *
  */
-class PluginController
-    extends BaseController
-    implements PluginInterface
+class PluginController extends BaseController implements PluginInterface
 {
-    /** @var \RcmIssuu\IssuuApi  */
+    /** @var \RcmIssuu\Service\IssuuApi  */
     protected $api;
 
-    public function __construct($config, IssuuApi $api) {
+    /**
+     * Constructor
+     *
+     * @param array                      $config Zend Config
+     * @param \RcmIssuu\Service\IssuuApi $api    Search API
+     */
+    public function __construct($config, IssuuApi $api)
+    {
         parent::__construct($config);
         $this->api = $api;
     }
 
+    /**
+     * Render an instance
+     *
+     * @param int   $instanceId     Instance ID
+     * @param array $instanceConfig Instance Config
+     *
+     * @return \Zend\View\Model\ViewModel
+     * @throws \Exception
+     */
     public function renderInstance($instanceId, $instanceConfig)
     {
         $embed = '<div class="issuuError">Please edit this plugin and select a document to show</div>';
 
         if ($instanceId > 0) {
-            $embed = $this->api->getEmbed('http://issuu.com/reliv/docs/spring2015ls', 700, 0);
+            $response = $this->api->getEmbed('reliv', 'spring2015ls');
+            $embed = $response['html'];
         }
 
         $view = new ViewModel([

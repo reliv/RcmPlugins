@@ -30,9 +30,27 @@ return [
         ],
     ],
 
+    'router' => array(
+        'routes' => array(
+            'issuuRest' => array(
+                'type'    => 'Segment',
+                'options' => array(
+                    'route'    => '/issuu/:username/:id',
+                    'defaults' => array(
+                        'controller' => 'RcmIssuu\Controller\DocumentListController',
+                    ),
+                ),
+            ),
+        ),
+    ),
+
     'view_manager' => [
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+
+        'strategies' => [
+            'ViewJsonStrategy',
         ],
     ],
 
@@ -43,6 +61,9 @@ return [
             ],
             'collections' => [
                 'modules/rcm-admin/js/rcm-admin.js' => [
+                    'modules/rcm-issuu/rcm-issuu-document.js',
+                    'modules/rcm-issuu/rcm-issuu-api-processor.js',
+                    'modules/rcm-issuu/rcm-issuu-edit-dialog-form.js',
                     'modules/rcm-issuu/edit.js',
                 ],
             ],
@@ -58,6 +79,7 @@ return [
     'controllers' => [
         'factories' => [
             'RcmIssuu' => '\RcmIssuu\Factory\PluginControllerFactory',
+            'RcmIssuu\Controller\DocumentListController' => '\RcmIssuu\Factory\DocumentListControllerFactory',
         ],
     ],
 ];
