@@ -191,12 +191,23 @@ var RcmPeopleSliderEdit = function (instanceId, container, pluginHandler) {
                     },
                     Ok: function () {
 
+                        var largeImageVal = largeImage.val();
+
+                        if (largeImageVal == 'undefined' || largeImageVal == '') {
+                            largeImageVal = undefined;
+                        }
+
                         //Get user-entered data from form
                         personEles.smallImage.attr('src', smallImage.val());
-                        personEles.largeImage.attr('src', largeImage.val());
-                        personEles.largeImage.attr(
-                            'delayed-src', largeImage.val()
-                        );
+
+                        if (largeImageVal) {
+                            personEles.largeImage.attr('src', largeImage.val());
+                            personEles.largeImage.attr('data-delayedsrc', largeImage.val());
+
+                            personEles.largeImage.show();
+                        } else {
+                            personEles.largeImage.hide();
+                        }
 
                         $(this).dialog('close');
                     }
