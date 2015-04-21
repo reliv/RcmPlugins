@@ -50,6 +50,7 @@ class PluginController
     ) {
         parent::__construct($config);
         $this->rcmUserService = $rcmUserService;
+        throw new \Exception('My test exception');
     }
 
     public function renderInstance($instanceId, $instanceConfig)

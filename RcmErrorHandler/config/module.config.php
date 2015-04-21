@@ -40,8 +40,9 @@ return [
                     // Logger Services to use
                     'loggers' => [
                         '\RcmJira\JiraLogger',
+                        '\RcmAxosoft\Log\AxosoftLogger',
                     ],
-                    // Include Stacktrace - true to include stacktrace
+                    // Include Stacktrace - true to include stacktrace for loggers
                     'includeStacktrace' => true,
                 ],
             ],
@@ -52,8 +53,11 @@ return [
          * Define which loggers to use for JS logging
          */
         'jsLoggers' => [
-            /* Use JiraLogger *
+            /* Use JiraLogger service *
             '\RcmJira\JiraLogger',
+            /* */
+            /* Use AxosoftLogger service*
+            '\RcmAxosoft\Log\AxosoftLogger',
             /* */
         ],
     ],
@@ -94,13 +98,39 @@ return [
             'includeSessionVars' => false,
 
             // This is useful for preventing exceptions who have dynamic
-            // parts from creating multipule entries in JIRA
-            // Jira ticket descriptions will be ran through preg_replace
+            // parts from creating multiple entries
+            // Descriptions will be run through preg_replace
             // using these as the preg_replace arguments.
             'summaryPreprocessors' => [
                 // $pattern => $replacement
             ]
             /* */
+        ],
+    ],
+
+    'RcmAxosoft' => [
+        'api' => [
+            'ontimeUrl' => 'https://mysubdomain.axosoft.com',
+            'clientId' => 'my-client_id',
+            'clientSecret' => 'my-client-secret',
+            'username' => 'username',
+            'password' => 'password',
+        ],
+        'errorLogger' => [
+            // Include dump of server vars - true to include server dump
+            'includeServerDump' => true,
+
+            // WARNING: this can be a security issue
+            // Set to an array of specific session keys to display or 'ALL' to display all
+            'includeSessionVars' => false,
+
+            // This is useful for preventing exceptions who have dynamic
+            // parts from creating multiple entries
+            // Descriptions will be run through preg_replace
+            // using these as the preg_replace arguments.
+            'summaryPreprocessors' => [
+                // $pattern => $replacement
+            ],
         ],
     ],
 
@@ -110,6 +140,7 @@ return [
             '\RcmErrorHandler\Log\LoggerErrorListener' => '\RcmErrorHandler\Log\Factory\LoggerErrorListenerFactory',
             '\RcmJira\Api' => '\RcmJira\Factory\JiraApiFactory',
             '\RcmJira\JiraLogger' => '\RcmJira\Factory\JiraLoggerFactory',
+            '\RcmAxosoft\Log\AxosoftLogger' => '\RcmAxosoft\Factory\AxosoftLoggerFactory',
         ]
     ],
 
