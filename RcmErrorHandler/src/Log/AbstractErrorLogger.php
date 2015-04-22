@@ -20,7 +20,6 @@ use Zend\Log\LoggerInterface;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-
 abstract class AbstractErrorLogger implements LoggerInterface
 {
     /**
@@ -38,6 +37,9 @@ abstract class AbstractErrorLogger implements LoggerInterface
             Logger::DEBUG => 'DEBUG',
         ];
 
+    /**
+     * @var array
+     */
     protected $options = [];
 
     /**
@@ -199,11 +201,12 @@ abstract class AbstractErrorLogger implements LoggerInterface
     /**
      * getDescription
      *
-     * @param array $extra
+     * @param array  $extra
+     * @param string $lineBreak
      *
      * @return string
      */
-    protected function getDescription($extra = [])
+    protected function getDescription($extra = [], $lineBreak = "\n")
     {
 
         $description = '';
@@ -213,41 +216,43 @@ abstract class AbstractErrorLogger implements LoggerInterface
         }
 
         if (isset($_SERVER) && isset($_SERVER['HTTP_HOST'])) {
-            $description .= "\n HOST: " . $_SERVER['HTTP_HOST'];
+            $description .= $lineBreak . ' HOST: ' . $_SERVER['HTTP_HOST'];
         }
 
         if (isset($_SERVER) && isset($_SERVER['REQUEST_URI'])) {
-            $description .= "\n URL: " . $_SERVER['REQUEST_URI'];
+            $description .= $lineBreak . ' URL: ' . $_SERVER['REQUEST_URI'];
         }
 
         if (isset($extra['file'])) {
-            $description .= "\n File: " . $extra['file'];
+            $description .= $lineBreak . ' File: ' . $extra['file'];
         }
 
         if (isset($extra['line'])) {
-            $description .= "\n Line: " . $extra['line'];
+            $description .= $lineBreak . ' Line: ' . $extra['line'];
         }
 
         if (isset($extra['message'])) {
-            $description .= "\n Message: " . $extra['message'];
+            $description .= $lineBreak . ' Message: ' . $extra['message'];
         }
 
         if (isset($extra['trace'])) {
-            $description .= "\n Stack trace: \n" . $extra['trace'];
+            $description .= $lineBreak . ' Stack trace: ' . $lineBreak
+                . $extra['trace'];
         }
 
         $includeServerDump = $this->getOption('includeServerDump', false);
 
         if (isset($_SERVER) && $includeServerDump) {
-            $description .= "\n" . $this->prepareArray('Server', $_SERVER);
+            $description .= $lineBreak . $this->prepareArray('Server', $_SERVER, $lineBreak);
         }
 
         $includeSessionVars = $this->getOption('includeSessionVars', null);
 
         if (isset($_SESSION) && !empty($includeSessionVars)) {
 
-            $description .= "\n" . $this->prepareSession(
-                    $includeSessionVars
+            $description .= $lineBreak . $this->prepareSession(
+                    $includeSessionVars,
+                    $lineBreak
                 );
         }
 
@@ -264,7 +269,6 @@ abstract class AbstractErrorLogger implements LoggerInterface
      */
     protected function prepareSummary($priority, $message)
     {
-
         $preprocessors = $this->getOption('summaryPreprocessors', []);
 
         foreach ($preprocessors as $pattern => $replacement) {
@@ -290,11 +294,12 @@ abstract class AbstractErrorLogger implements LoggerInterface
     /**
      * prepareSession
      *
-     * @param $includeSessionVars
+     * @param mixed  $includeSessionVars
+     * @param string $lineBreak
      *
      * @return string
      */
-    protected function prepareSession($includeSessionVars)
+    protected function prepareSession($includeSessionVars, $lineBreak = "\n")
     {
         $sessionVars = [];
 
@@ -312,7 +317,7 @@ abstract class AbstractErrorLogger implements LoggerInterface
             $sessionVars = $_SESSION;
         }
 
-        return $this->prepareArray('Session', $sessionVars);
+        return $this->prepareArray('Session', $sessionVars, $lineBreak);
     }
 
     /**
@@ -320,34 +325,35 @@ abstract class AbstractErrorLogger implements LoggerInterface
      *
      * @todo - Might implement recursive for array
      *
-     * @param $name
-     * @param $array
+     * @param        $name
+     * @param        $array
+     * @param string $lineBreak
      *
      * @return string
      */
-    protected function prepareArray($name, $array)
+    protected function prepareArray($name, $array, $lineBreak = "\n")
     {
-        $output = $name . ": \n";
+        $output = $name . ": " . $lineBreak;
 
         foreach ($array as $key => $val) {
 
             if (is_string($val)) {
 
-                $output .= ' - ' . $key . ' = "' . $val . "\"\n";
+                $output .= ' - ' . $key . ' = "' . $val . '"' . $lineBreak;
             } elseif (is_numeric($val)) {
 
-                $output .= ' - ' . $key . ' = ' . $val . "\n";
+                $output .= ' - ' . $key . ' = ' . $val . $lineBreak;
             } elseif (is_null($val)) {
 
-                $output .= ' - ' . $key . " = NULL\n";
+                $output .= ' - ' . $key . " = NULL" . $lineBreak;
             } elseif (is_bool($val)) {
 
                 $output
-                    .= ' - ' . $key . ' = ' . $val ? 'TRUE' : 'FALSE' . "\n";
+                    .= ' - ' . $key . ' = ' . ($val ? 'TRUE' : 'FALSE') . $lineBreak;
             } else {
 
-                $output .= ' - ' . $key . ' = (' . gettype($val) . ") \n" .
-                    '{code}' . print_r($val, true) . "{code}\n";
+                $output .= ' - ' . $key . ' = (' . gettype($val) . ") " . $lineBreak
+                    . '{code}' . print_r($val, true) . "{code}" . $lineBreak;
             }
         }
 

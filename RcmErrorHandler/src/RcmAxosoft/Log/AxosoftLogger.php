@@ -2,13 +2,11 @@
 
 namespace RcmAxosoft;
 
-use Reliv\AxosoftApi\Model\GenericApiRequest;
 use RcmAxosoft\Exception\AxosoftLoggerException;
 use RcmErrorHandler\Log\AbstractErrorLogger;
+use Reliv\AxosoftApi\Model\GenericApiRequest;
 use Reliv\AxosoftApi\V5\Items\ApiRequestList;
 use Reliv\AxosoftApi\V5\Items\Defects\ApiRequestCreate;
-use Zend\Log\Logger;
-
 
 /**
  * Class AxosoftLogger
@@ -39,16 +37,7 @@ class AxosoftLogger extends AbstractErrorLogger
      *
      * @var array $options
      */
-    protected $options
-        = [
-            'itemType' => 'defects',
-            // Bug
-            'projectId' => 10,
-            'enterIssueIfNotStatus' => [
-                'closed',
-                'resolved',
-            ],
-        ];
+    protected $options = [];
 
     /**
      * @var \Reliv\AxosoftApi\Service\AxosoftApi $api
@@ -114,19 +103,33 @@ class AxosoftLogger extends AbstractErrorLogger
         $api = $this->getApi();
 
         $request = new ApiRequestList();
-        $request->setProjectId($this->getOption('projectId'));
-        $request->setSearchString($summary);
+        $request->setProjectId($this->getOption('projectIdToCheckForIssues', 0));
+        $request->setSearchString($this->prepareSearchString($summary));
         $request->setSearchField('name');
-        $request->setPage(1);
-        $request->setPageSize(1);
+        $request->setSortFields('created_date_time');
 
         $response = $api->send($request);
 
-        $data = $response->getData();
-        // @todo Error Check
+        if ($api->hasError($response)) {
+            throw new AxosoftLoggerException('Existing item search failed. ' . $response->getMessage());
+        }
 
-        if (isset($data[0])) {
-            return $data[0];
+        $data = $response->getData();
+
+        if (count($data) < 1) {
+            return null;
+        }
+
+        $enterIssueIfNotStatus = $this->getOption('enterIssueIfNotStatus', []);
+
+        $existingItem = null;
+
+        foreach ($data as $item) {
+
+            if (!in_array($item['status']['name'], $enterIssueIfNotStatus)) {
+                // we return the first one we find
+                return $item;
+            }
         }
 
         return null;
@@ -145,26 +148,35 @@ class AxosoftLogger extends AbstractErrorLogger
     protected function addComment($existingItem, $summary, $extra = [])
     {
         $updateData = [];
-
         $updateDate = new \DateTime();
+
         $updateData['notify_customer'] = false;
         $updateData['item'] = []; //$data[0];
 
-        $updateData['item']['description']
-            = $existingItem['description'] . "<br/>- Error occured again: {$summary}"
-            . $updateDate->format(\DateTime::W3C);
+        $updateData['item']['description'] = $existingItem['description']
+            . "<br/>- Error occured again: "
+            . $updateDate->format(\DateTime::W3C)
+            . " " . $summary;
 
-        //$updateData['item']['notes'] = $data[0]['notes'] . "/n-This has been added on " . $updateDate->format(\DateTime::W3C);
+        //$updateData['item']['notes'] =
+        // $existingItem['notes']
+        // . "/n-This has been added on "
+        // . $updateDate->format(\DateTime::W3C);
+
         $updateData['item']['id'] = $existingItem['id'];
 
-        $updateUrl = '/api/v5/' . $existingItem['item_type'] . '/' . $existingItem['id'];
+        $updateUrl = '/api/v5/' . $existingItem['item_type']
+            . '/' . $existingItem['id'];
 
         $request = new GenericApiRequest($updateUrl, 'POST', $updateData);
 
         $api = $this->getApi();
 
         $response = $api->send($request);
-        // @todo Error Check
+
+        if ($api->hasError($response)) {
+            throw new AxosoftLoggerException('Could and comment to item. ' . $response->getMessage());
+        }
     }
 
     /**
@@ -181,12 +193,65 @@ class AxosoftLogger extends AbstractErrorLogger
         // Add a new defect
         $request = new ApiRequestCreate();
 
-        $request->setDescription('New Description');
+        $description = $this->getDescription($extra);
+
+        $request->setDescription($description);
         $request->setName($summary);
-        $request->setNotes('New Note');
+        $request->setProject($this->getOption('projectId', 0));
 
         $api = $this->getApi();
         $response = $api->send($request);
-        // @todo Error Check
+
+        if ($api->hasError($response)) {
+            throw new AxosoftLoggerException('Could not create item. ' . $response->getMessage());
+        }
+    }
+
+    /**
+     * getDescription
+     *
+     * @param array  $extra
+     * @param string $lineBreak
+     *
+     * @return mixed|string
+     */
+    protected function getDescription($extra = [], $lineBreak = '<br/>')
+    {
+        $description = parent::getDescription($extra, $lineBreak);
+
+        $description = str_replace("\n", $lineBreak, $description);
+
+        return $description;
+    }
+
+    /**
+     * prepareSummary
+     *
+     * @param $priority
+     * @param $message
+     *
+     * @return mixed|string
+     */
+    protected function prepareSummary($priority, $message)
+    {
+        $summary = parent::prepareSummary($priority, $message);
+
+        // Limit is 150 chars, we add quotes and dots, so we have 145 chars left
+        $summary = substr($summary, 0, 145) . '...';
+
+        return $summary;
+    }
+
+    /**
+     * prepareSearchString
+     *
+     * @param $searchString
+     *
+     * @return string
+     */
+    protected function prepareSearchString($searchString)
+    {
+        // Add proper quotes
+        return '"' . $searchString . '"';
     }
 }
