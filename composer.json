@@ -1,5 +1,5 @@
 {
-    "name": "reliv/RcmPlugins",
+    "name": "reliv/rcm-plugins",
     "description": "Development Tools for Reliv's Content Management system",
     "type": "library",
     "license": "BSD-3-Clause",
