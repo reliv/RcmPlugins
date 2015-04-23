@@ -120,7 +120,6 @@ class LoggerErrorListener extends HandlerListenerBase
      * @param \Zend\EventManager\Event $event
      *
      * @return void
-     * @throws JiraListenerException
      */
     public function update(\Zend\EventManager\Event $event)
     {

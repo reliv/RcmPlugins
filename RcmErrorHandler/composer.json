@@ -29,16 +29,11 @@
     }
   ],
   "require": {
-    "php": ">=5.5",
-    "chobie/jira-api-restclient": "2.0.*@dev",
-    "reliv/axosoft-api": "1.*"
+    "php": ">=5.5"
   },
   "autoload": {
-    "psr-0": {
-      "RcmErrorHandler": "src/"
-    },
-    "classmap": [
-      "./"
-    ]
+    "psr-4": {
+      "RcmErrorHandler\\": "src/"
+    }
   }
 }
