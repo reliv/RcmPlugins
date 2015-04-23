@@ -39,9 +39,10 @@ return [
                 'options' => [
                     // Logger Services to use
                     'loggers' => [
-                        '\RcmJira\JiraLogger',
+                        'Reliv\RcmJira\Log\JiraLogger',
+                        'Reliv\RcmAxosoft\Log\AxosoftLogger',
                     ],
-                    // Include Stacktrace - true to include stacktrace
+                    // Include Stacktrace - true to include stacktrace for loggers
                     'includeStacktrace' => true,
                 ],
             ],
@@ -52,54 +53,11 @@ return [
          * Define which loggers to use for JS logging
          */
         'jsLoggers' => [
-            /* Use JiraLogger *
-            '\RcmJira\JiraLogger',
+            /* Use JiraLogger service *
+            'Reliv\RcmJira\Log\JiraLogger',
             /* */
-        ],
-    ],
-
-    /**
-     * Configuration for JIRA API
-     */
-    'RcmJira' => [
-        'api' => [
-            'endpoint' => 'https://jira.example.com',
-            'username' => 'myUsername',
-            'password' => 'myPassword',
-        ],
-        'JiraLoggerOptions' => [
-            /* Options */
-
-            // Issue will be entered in this project
-            'projectKey' => 'REF',
-
-            // Will not enter an issue if one is found in these projects
-            // (includes the project above)
-            'projectsToCheckForIssues' => [
-                //'ISS' => 'ISS'
-            ],
-
-            // Will only enter an issue if one is not found in the projects
-            // that is NOT in one of the status below
-            'enterIssueIfNotStatus' => [
-                'closed' => 'closed',
-                'resolved' => 'resolved',
-            ],
-
-            // Include dump of server vars - true to include server dump
-            'includeServerDump' => true,
-
-            // WARNING: this can be a security issue
-            // Set to an array of specific session keys to display or 'ALL' to display all
-            'includeSessionVars' => false,
-
-            // This is useful for preventing exceptions who have dynamic
-            // parts from creating multipule entries in JIRA
-            // Jira ticket descriptions will be ran through preg_replace
-            // using these as the preg_replace arguments.
-            'summaryPreprocessors' => [
-                // $pattern => $replacement
-            ]
+            /* Use AxosoftLogger service*
+            'Reliv\RcmAxosoft\Log\AxosoftLogger',
             /* */
         ],
     ],
@@ -108,8 +66,6 @@ return [
         'factories' => [
             '\RcmErrorHandler\Config' => '\RcmErrorHandler\Factory\RcmErrorHandlerConfigFactory',
             '\RcmErrorHandler\Log\LoggerErrorListener' => '\RcmErrorHandler\Log\Factory\LoggerErrorListenerFactory',
-            '\RcmJira\Api' => '\RcmJira\Factory\JiraApiFactory',
-            '\RcmJira\JiraLogger' => '\RcmJira\Factory\JiraLoggerFactory',
         ]
     ],
 
@@ -146,9 +102,4 @@ return [
             ],
         ],
     ],
-//    'view_helpers' => [
-//        'invokables' => [
-//            'headscript' => 'RcmErrorHandler\ViewHelper\HeadScriptWithErrorHandlerFirst',
-//        ]
-//    ]
 ];
