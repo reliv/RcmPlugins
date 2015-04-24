@@ -65,6 +65,11 @@
             "RcmTabs": "RcmPlugins/RcmTabs/src/",
             "RcmTinyMce": "RcmPlugins/RcmTinyMce/src/",
             "RcmTwitterBootstrap": "RcmPlugins/RcmTwitterBootstrap/src/"
+        },
+        "psr-4":{
+            "RcmDynamicNavigation\\": "RcmPlugins/RcmDynamicNavigation/src/",
+            "RcmMessage\\":"RcmPlugins/RcmMessage/src/",
+            "RcmErrorHandler\\": "RcmPlugins/RcmErrorHandler/src/"
         }
     }
 }
