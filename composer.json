@@ -48,21 +48,7 @@
             "RcmEventCalenderCore\\": "RcmEventCalenderCore/src/",
             "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
             "RcmGoogleSearchBox\\": "RcmGoogleSearchBox/src/",
-            "RcmGoogleSearchResults\\": "RcmGoogleSearchResults/src/"
-        }
-        "psr-0": {
-            "RcmAdmin": "RcmAdmin/src/",
-            "RcmAngularJs": "RcmAngularJs/src/",
-            "RcmBrightCovePlayer": "RcmBrightCovePlayer/src/",
-            "RcmCallToActionBox": "RcmCallToActionBox/src/",
-            "RcmErrorHandler": "RcmErrorHandler/src/",
-            "RcmEventCalenderCore": "RcmEventCalenderCore/src/",
-            "RcmEventListDisplay": "RcmEventListDisplay/src/",
-            "RcmGoogleSearchBox": "RcmGoogleSearchBox/src/",
-            "RcmGoogleSearchResults": "RcmGoogleSearchResults/src/",
-            "RcmImageWithThumbNails": "RcmImageWithThumbNails/src/"
-        },
-        "psr-4": {
+            "RcmGoogleSearchResults\\": "RcmGoogleSearchResults/src/",
             "RcmHtmlArea\\": "RcmHtmlArea/src/",
             "RcmHtmlPurifier\\": "RcmHtmlPurifier/src/",
             "RcmI18n\\": "RcmI18n/src/",
