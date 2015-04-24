@@ -8,13 +8,13 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
+ * @author    Brian Janish <bjanish@relivinc.com>
+ * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
 
-namespace RcmEventListDisplay;
+namespace RcmGoogleSearchResults;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -31,27 +31,6 @@ namespace RcmEventListDisplay;
 class Module
 {
     /**
-     * getAutoloaderConfig() is a requirement for all Modules in ZF2.  This
-     * function is included as part of that standard.  See Docs on ZF2 for more
-     * information.
-     *
-     * @return array Returns array to be used by the ZF2 Module Manager
-     */
-    public function getAutoloaderConfig()
-    {
-        return [
-            'Zend\Loader\ClassMapAutoloader' => [
-                __DIR__ . '/autoload_classmap.php',
-            ],
-            'Zend\Loader\StandardAutoloader' => [
-                'namespaces' => [
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                ],
-            ],
-        ];
-    }
-
-    /**
      * getConfig() is a requirement for all Modules in ZF2.  This
      * function is included as part of that standard.  See Docs on ZF2 for more
      * information.
@@ -62,4 +41,5 @@ class Module
     {
         return include __DIR__ . '/../config/module.config.php';
     }
+
 }
