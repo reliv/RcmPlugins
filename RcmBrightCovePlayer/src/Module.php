@@ -14,7 +14,7 @@
  * @version   GIT: <git_id>
  */
 
-namespace RcmBrightCovePlayer;
+namespace RcmBrightcovePlayer;
 
 /**
  * ZF2 Module Config.  Required by ZF2

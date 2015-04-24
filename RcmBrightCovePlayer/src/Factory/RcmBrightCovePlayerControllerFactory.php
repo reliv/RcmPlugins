@@ -1,6 +1,6 @@
 <?php
 
-namespace RcmBrightCovePlayer\Factory;
+namespace RcmBrightcovePlayer\Factory;
 
 use Rcm\Plugin\BaseController;
 use Zend\ServiceManager\FactoryInterface;
@@ -18,7 +18,7 @@ class RcmBrightcovePlayerControllerFactory implements FactoryInterface
     {
         return new BaseController (
             $serviceLocator->get('config'),
-            'RcmBrightCovePlayer'
+            'RcmBrightcovePlayer'
         );
     }
 }
