@@ -6,7 +6,6 @@ return [
     'service_manager' => [
         'config_factories' => [
             'RcmMessage\Model\MessageManager' => [
-                'class' => 'RcmMessage\Model\MessageManager',
                 'arguments' => [
                     'Doctrine\Orm\EntityManager'
                 ]
