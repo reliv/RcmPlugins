@@ -1,48 +1,39 @@
 {
-    "name": "reliv/rcm-error-handler",
-    "description": "Error and Exception override and observers.",
-    "type": "library",
-    "license": "BSD-3-Clause",
-    "keywords": [
-        "reliv",
-        "error",
-        "exception",
-        "module",
-        "zf2"
-    ],
-    "homepage": "https://github.com/reliv/RcmErrorHandler",
-    "authors": [
-        {
-            "name": "James Jervis",
-            "email": "jjervis@relivinc.com",
-            "homepage": "https://github.com/reliv"
-        },
-        {
-            "name": "Westin Shafer",
-            "email": "wshafer@relivinc.com",
-            "homepage": "https://github.com/reliv"
-        },
-        {
-            "name": "Rod McNew",
-            "email": "rmcnew@relivinc.com",
-            "homepage": "https://github.com/reliv"
-        },
-        {
-            "name": "Brian Janish",
-            "email": "bjanish@relivinc.com",
-            "homepage": "https://github.com/reliv"
-        }
-    ],
-    "require": {
-        "php": ">=5.5",
-        "chobie/jira-api-restclient": "2.0.*@dev"
+  "name": "reliv/rcm-error-handler",
+  "description": "Error and Exception override and observers.",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "reliv",
+    "error",
+    "exception",
+    "module",
+    "zf2"
+  ],
+  "homepage": "https://github.com/reliv/RcmErrorHandler",
+  "authors": [
+    {
+      "name": "James Jervis",
+      "email": "jjervis@relivinc.com",
+      "homepage": "https://github.com/reliv"
     },
-    "autoload": {
-        "psr-0": {
-            "RcmErrorHandler": "src/"
-        },
-        "classmap": [
-            "./"
-        ]
+    {
+      "name": "Westin Shafer",
+      "email": "wshafer@relivinc.com",
+      "homepage": "https://github.com/reliv"
+    },
+    {
+      "name": "Rod McNew",
+      "email": "rmcnew@relivinc.com",
+      "homepage": "https://github.com/reliv"
     }
+  ],
+  "require": {
+    "php": ">=5.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "RcmErrorHandler\\": "src/"
+    }
+  }
 }
