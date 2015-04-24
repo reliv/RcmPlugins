@@ -22,7 +22,7 @@
 return [
 
     'rcmPlugin' => [
-        'RcmBrightcovePlayer' => [
+        'RcmBrightCovePlayer' => [
             'type'
             => 'Social Media',
             'display'
@@ -66,7 +66,7 @@ return [
     // @codingStandardsIgnoreStart
     'service_manager' => [
         'factories' => [
-            'RcmBrightcovePlayer' => 'RcmBrightcovePlayer\Factory\RcmBrightcovePlayerControllerFactory',
+            'RcmBrightCovePlayer' => 'RcmBrightCovePlayer\Factory\RcmBrightCovePlayerControllerFactory',
         ],
     ],
     // @codingStandardsIgnoreEnd
