@@ -35,9 +35,6 @@
         "reliv/zf2-factories-as-configuration": "1.0.5"
     },
     "autoload": {
-        "psr-0": {
-
-        },
         "psr-4":{
             "RcmDynamicNavigation\\": "RcmDynamicNavigation/src/",
             "RcmMessage\\":"RcmMessage/src/",
