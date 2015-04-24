@@ -8,13 +8,11 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
+ * @author    Brian Janish <bjanish@relivinc.com>
+ * @copyright 2014 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
-namespace RcmGoogleSearchBox;
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -39,7 +37,7 @@ class Module
      */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__ . '/../config/module.config.php';
     }
 
     /**
@@ -62,4 +60,5 @@ class Module
             ],
         ];
     }
+
 }

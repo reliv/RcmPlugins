@@ -1,6 +1,6 @@
 {
     "name": "reliv/rcm-plugins",
-    "description": "Development Tools for Reliv's Content Management system",
+    "description": "Extras For the RCM CMS",
     "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -32,11 +32,24 @@
         "ezyang/htmlpurifier": "4.6.0",
         "doctrine/doctrine-orm-module": "0.*",
         "zendframework/zendframework": "2.*",
-        "rm/factories-as-configuration-zf2-module": "1.*",
-        "reliv/rcm-user": "dev-master",
-        "reliv/rcm": "dev-master"
+        "reliv/zf2-factories-as-configuration": "1.0.5"
     },
     "autoload": {
+        "psr-4":{
+            "RcmActionButton\\": "RcmActionButton/src/",
+            "RcmAdmin\\": "RcmAdmin/src/",
+            "RcmAngularJs\\": "RcmAngularJs/src/",
+            "RcmBrightCoveLib\\": "RcmBrightCoveLib/src/",
+            "RcmBrightCovePlayer\\": "RcmBrightCovePlayer/src/",
+            "RcmCallToActionBox\\": "RcmCallToActionBox/src/",
+            "RcmDialog\\": "RcmDialog/src/",
+            "RcmDynamicNavigation\\": "RcmDynamicNavigation/src/",
+            "RcmErrorHandler\\": "RcmErrorHandler/src/",
+            "RcmEventCalenderCore\\": "RcmEventCalenderCore/src/",
+            "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
+            "RcmGoogleSearchBox\\": "RcmGoogleSearchBox/src/",
+            "RcmGoogleSearchResults\\": "RcmGoogleSearchResults/src/"
+        }
         "psr-0": {
             "RcmAdmin": "RcmAdmin/src/",
             "RcmAngularJs": "RcmAngularJs/src/",

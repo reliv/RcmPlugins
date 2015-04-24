@@ -8,13 +8,21 @@
  * LICENSE: No License yet
  *
  * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
+ * @author    Westin Shafer <wshafer@relivinc.com>
  * @copyright 2012 Reliv International
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
 
-namespace RcmBrightCoveLib;
+namespace RcmAngularJs;
+
+use
+    RcmAngularJs\Model\AngularRegistry;
+use
+    Zend\View\Renderer\PhpRenderer;
+use
+    Zend\View\ViewEvent;
+
 
 /**
  * ZF2 Module Config.  Required by ZF2
@@ -22,11 +30,11 @@ namespace RcmBrightCoveLib;
  * ZF2 requires a Module.php file to load up all the Module Dependencies.  This
  * file has been included as part of the ZF2 standards.
  *
- * @category                                    Reliv
- * @author                                      Brian Janish <bjanish@relivinc.com>
- * @copyright                                   2013 Reliv International
- * @licensRcmProductOptionSelect-skuSelectede   License.txt New BSD License
- * @version                                     Release: 1.0
+ * @category  Reliv
+ * @author    Westin Shafer <wshafer@relivinc.com>
+ * @copyright 2012 Reliv International
+ * @license   License.txt New BSD License
+ * @version   Release: 1.0
  */
 class Module
 {
@@ -39,6 +47,6 @@ class Module
      */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__ . '/../config/module.config.php';
     }
 }
