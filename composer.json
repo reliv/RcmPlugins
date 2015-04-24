@@ -40,7 +40,7 @@
             "RcmAdmin\\": "RcmAdmin/src/",
             "RcmAngularJs\\": "RcmAngularJs/src/",
             "RcmBrightCoveLib\\": "RcmBrightCoveLib/src/",
-            "RcmBrightcovePlayer\\": "RcmBrightCovePlayer/src/",
+            "RcmBrightCovePlayer\\": "RcmBrightCovePlayer/src/",
             "RcmCallToActionBox\\": "RcmCallToActionBox/src/",
             "RcmDialog\\": "RcmDialog/src/",
             "RcmDynamicNavigation\\": "RcmDynamicNavigation/src/",

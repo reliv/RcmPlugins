@@ -1,6 +1,6 @@
 <?php
 
-namespace RcmBrightcovePlayer\Factory;
+namespace RcmBrightCovePlayer\Factory;
 
 use Rcm\Plugin\BaseController;
 use Zend\ServiceManager\FactoryInterface;
