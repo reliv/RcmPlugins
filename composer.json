@@ -48,7 +48,29 @@
             "RcmEventCalenderCore\\": "RcmEventCalenderCore/src/",
             "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
             "RcmGoogleSearchBox\\": "RcmGoogleSearchBox/src/",
-            "RcmGoogleSearchResults\\": "RcmGoogleSearchResults/src/"
+            "RcmGoogleSearchResults\\": "RcmGoogleSearchResults/src/",
+            "RcmHtmlArea\\": "RcmHtmlArea/src/",
+            "RcmHtmlPurifier\\": "RcmHtmlPurifier/src/",
+            "RcmI18n\\": "RcmI18n/src/",
+            "RcmImageWithThumbnails\\": "RcmImageWithThumbnails/src/",
+            "RcmIssuu\\": "RcmIssuu/src/",
+            "RcmJquery\\": "RcmJquery/src/",
+            "RcmLogin\\": "RcmLogin/src/",
+            "RcmMessage\\": "RcmMessage/src/",
+            "RcmMessageList\\": "RcmMessageList/src/",
+            "RcmMockPlugin\\": "RcmMockPlugin/src/",
+            "RcmNavigation\\": "RcmNavigation/src/",
+            "RcmNavResponsive\\": "RcmNavResponsive/src/",
+            "RcmNumberFormat\\": "RcmNumberFormat/src/",
+            "RcmPeopleSlider\\": "RcmPeopleSlider/src/",
+            "RcmPortalAnnouncementBox\\": "RcmPortalAnnouncementBox/src/",
+            "RcmRotatingImage\\": "RcmRotatingImage/src/",
+            "RcmRssFeed\\": "RcmRssFeed/src/",
+            "RcmSocialButtons\\": "RcmSocialButtons/src/",
+            "RcmTabs\\": "RcmTabs/src/",
+            "RcmThreeChoices\\": "RcmThreeChoices/src/",
+            "RcmTinyMce\\": "RcmTinyMce/src/",
+            "RcmTwitterBootstrap\\": "RcmTwitterBootstrap/src/"
         }
     }
 }
