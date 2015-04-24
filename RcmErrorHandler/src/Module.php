@@ -11,10 +11,9 @@ namespace RcmErrorHandler;
 
 use RcmErrorHandler\Factory\RcmErrorHandlerFactory;
 use RcmErrorHandler\Model\Config;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\MvcEvent;
 
-class Module implements AutoloaderProviderInterface
+class Module
 {
     public function getConfig()
     {
