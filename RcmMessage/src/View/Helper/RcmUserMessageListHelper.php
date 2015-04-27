@@ -127,14 +127,6 @@ class RcmUserMessageListHelper extends AbstractHelper
 
         $messageHtml .= '<div class="rcmMessage userMessageList" data-ng-controller="rcmMessageList">';
 
-        if($showDefaultMessage) {
-            $messageHtml .=
-                '<div class="userMessageListEmpty" ng-show="messageHiddenCount >= '
-                . count($messages)
-                . '">';
-            $messageHtml .= $this->translator->translate('No Messages');
-            $messageHtml .= '</div>';
-        }
 
         foreach ($messages as $userMessage) {
             /** @var \RcmMessage\Entity\Message $message */
