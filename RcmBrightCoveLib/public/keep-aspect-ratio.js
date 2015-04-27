@@ -22,7 +22,6 @@ new function () {
             ele.css('overflow', 'hidden');
 
             ele.find("iframe").height(newHeight).width(width);
-            setTimeout(function() { refreshIframe(ele); }, 500);
         })
     };
 
