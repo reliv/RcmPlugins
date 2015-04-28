@@ -90,7 +90,7 @@ angular.module('pagePermissions', ['rcmUserRoleSelector'])
                     $http(
                         {
                             method: 'PUT',
-                            url: 'api/admin/page/permissions/' + data.pageName,
+                            url: '/api/admin/page/permissions/' + data.pageName,
                             data: data
                         }
                     ).

@@ -58,7 +58,7 @@ class Module
                 'RcmNavResponsive' => function ($serviceMgr) {
                         return new BaseController(
                             $serviceMgr->get('config'),
-                            __DIR__
+                            'RcmNavResponsive'
                         );
                     }
             ]
