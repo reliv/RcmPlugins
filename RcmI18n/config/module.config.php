@@ -94,7 +94,7 @@ return [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => [
-                    __DIR__ . '/../src/RcmI18n/Entity'
+                    __DIR__ . '/../src/Entity'
                 ]
             ],
             'orm_default' => [
