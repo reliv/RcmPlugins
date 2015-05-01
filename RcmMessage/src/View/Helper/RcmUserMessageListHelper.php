@@ -6,6 +6,7 @@ namespace RcmMessage\View\Helper;
 use RcmMessage\Repository\UserMessage;
 use RcmMessage\Entity\Message as MessageEntity;
 use RcmUser\Service\RcmUserService;
+use Zend\Escaper\Escaper;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
@@ -127,6 +128,7 @@ class RcmUserMessageListHelper extends AbstractHelper
 
         $messageHtml .= '<div class="rcmMessage userMessageList" data-ng-controller="rcmMessageList">';
 
+        $escaper = new Escaper('utf-8');
 
         foreach ($messages as $userMessage) {
             /** @var \RcmMessage\Entity\Message $message */
@@ -143,10 +145,10 @@ class RcmUserMessageListHelper extends AbstractHelper
               <span aria-hidden="true">&times;</span>
               </button>
               <span class="subject">
-              ' . $messageSubject . ':
+              ' . $escaper->escapeHtml($messageSubject) . ':
               </span>
               <span class="body">
-              ' . $messageBody . '
+              ' . $escaper->escapeHtml($messageBody) . '
               </span>
             </div>
             ';
