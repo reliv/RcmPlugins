@@ -148,6 +148,12 @@ return [
                         'class' => 'RcmAdminMenu rcmStandardDialog',
                         'uri' => '/modules/rcm-admin/site-page-copy/site-page-copy.html',
                         'title' => 'Copy Pages',
+                    ],
+                    'Google Analytics' => [
+                        'label' => 'Google Analytics',
+                        'class' => 'RcmAdminMenu rcmStandardDialog',
+                        'uri' => 'modules/rcm-google-analytics/admin-analytics.html',
+                        'title' => 'Google Analytics Settings',
                     ]
                 ]
             ],
@@ -491,39 +497,30 @@ return [
 
                     /* <core> */
                     'modules/rcm-admin/core/rcm-admin-api.js',
-
                     // RcmUser services - include using ZF2 'admin/rcmuser/js/core.js',
                     'modules/rcm-user/js/rcm-user-roles-service.js',
                     'modules/rcm-user/js/rcm-user-role-selector.js',
-
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.js',
-
                     'modules/rcm-admin/core/rcm-permissions.js',
                     /* </core> */
 
                     // general service - requires rcm-core
                     'modules/rcm-admin/rcm-page-admin-panel/rcm-admin-menu.js',
                     'modules/rcm-admin/rcm-column-resize/rcm-column-resize.js',
-
                     /* <rcm-page-admin> */
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-service-config.js',
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-model.js',
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-view-model.js',
-
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-plugin-edit-js.js',
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-plugin.js',
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-container.js',
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-page.js',
-
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-service.js',
-
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-service-edit-button-action.js',
                     'modules/rcm-admin/rcm-page-admin/rcm-admin-service-html-editor-link.js',
                     'modules/rcm-admin/rcm-page-admin/angular-rcm-admin.js',
-
                     'modules/rcm-admin/rcm-page-admin/available-plugins-menu.js',
                     'modules/rcm-admin/rcm-page-admin/plugin-drag.js',
-
                     'modules/rcm-admin/rcm-page-admin/rcm-session-keep-alive.js',
                     'modules/rcm-admin/rcm-page-admin/edit-check-warning.js',
                     'modules/rcm-admin/rcm-page-admin/page-not-found.js',
@@ -531,29 +528,22 @@ return [
 
                     'modules/rcm-admin/plugin-admin/ajax-plugin-edit-helper.js',
                     'modules/rcm-admin/plugin-admin/jquery-dialog-inputs.js',
-
                     'modules/rcm-admin/page-permissions/page-permissions.js',
                     'modules/rcm-admin/manage-sites/rcm-admin-manage-sites.js',
                     'modules/rcm-admin/create-site/rcm-admin-create-site.js',
                     'modules/rcm-admin/site-page-copy/rcm-admin-site-page-copy.js',
-
                     'modules/rcm-admin/save-ajax-admin-window/rcm-save-ajax-admin-window.js',
                 ],
                 'modules/rcm-admin/css/rcm-admin.css' => [
                     'modules/rcm-admin/core/styles.css',
                     'modules/rcm-admin/plugin-admin/admin-jquery-ui.css',
-
                     'modules/rcm-admin/rcm-page-admin/layout-editor.css',
-
                     'modules/rcm-admin/rcm-page-admin-panel/panel.css',
                     'modules/rcm-admin/rcm-page-admin-panel/navigation.css',
-
                     'modules/rcm-admin/rcm-column-resize/style.css',
                     // RcmUser services - CSS
                     'modules/rcm-user/css/rcm-user-role-selector.css',
-
                     'modules/rcm-admin/page-permissions/permissions.css',
-
                     'modules/rcm-angular-js/angular-multi-select/angular-multi-select.css'
                 ],
             ],
