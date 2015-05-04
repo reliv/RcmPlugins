@@ -151,8 +151,8 @@ return [
                     ],
                     'Google Analytics' => [
                         'label' => 'Google Analytics',
-                        //'class' => 'RcmAdminMenu rcmStandardDialog',
-                        'uri' => '/rcm-google-analytics',
+                        'class' => 'RcmAdminMenu rcmStandardDialog',
+                        'uri' => 'modules/rcm-google-analytics/admin-analytics.html',
                         'title' => 'Google Analytics Settings',
                     ]
                 ]
