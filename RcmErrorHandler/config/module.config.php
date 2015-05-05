@@ -92,7 +92,7 @@ return [
                 'may_terminate' => true,
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
-                    'route' => '/test/rcm-error-handler/test-error',
+                    'route' => '/test/rcm-error-handler/error',
                     'defaults' => [
                         'controller' => 'RcmErrorHandler\Controller\TestController',
                         'action' => 'error',
@@ -103,7 +103,7 @@ return [
                 'may_terminate' => true,
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
-                    'route' => '/test/rcm-error-handler/test-exception',
+                    'route' => '/test/rcm-error-handler/exception',
                     'defaults' => [
                         'controller' => 'RcmErrorHandler\Controller\TestController',
                         'action' => 'exception',
