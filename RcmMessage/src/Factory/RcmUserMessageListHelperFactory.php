@@ -35,7 +35,8 @@ class RcmUserMessageListHelperFactory implements FactoryInterface
         return new RcmUserMessageListHelper(
             $userMessageRepo,
             $rcmUserService,
-            $translator
+            $translator,
+            $serviceLocator->get('RcmHtmlPurifier')
         );
     }
 }

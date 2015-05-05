@@ -3,10 +3,9 @@
 
 namespace RcmMessage\View\Helper;
 
-use RcmMessage\Repository\UserMessage;
 use RcmMessage\Entity\Message as MessageEntity;
+use RcmMessage\Repository\UserMessage;
 use RcmUser\Service\RcmUserService;
-use Zend\Escaper\Escaper;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
@@ -45,19 +44,24 @@ class RcmUserMessageListHelper extends AbstractHelper
      */
     protected $translator;
 
+    protected $htmlPurifier;
+
     /**
      * @param UserMessage         $userMessageRepo
      * @param RcmUserService      $rcmUserService
      * @param TranslatorInterface $translator
+     * @param \HTMLPurifier       $htmlPurifier
      */
     public function __construct(
         UserMessage $userMessageRepo,
         RcmUserService $rcmUserService,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        \HTMLPurifier $htmlPurifier
     ) {
         $this->userMessageRepo = $userMessageRepo;
         $this->rcmUserService = $rcmUserService;
         $this->translator = $translator;
+        $this->htmlPurifier = $htmlPurifier;
 
         $currentUser = $this->rcmUserService->getCurrentUser(null);
 
@@ -70,10 +74,10 @@ class RcmUserMessageListHelper extends AbstractHelper
      * __invoke
      *
      * @param null|string $source
-     * @param null| $level
-     * @param null|bool $showHasViewed
-     * @param bool $showDefaultMessage
-     * @param null $userId
+     * @param null|       $level
+     * @param null|bool   $showHasViewed
+     * @param bool        $showDefaultMessage
+     * @param null        $userId
      *
      * @return string
      */
@@ -128,8 +132,6 @@ class RcmUserMessageListHelper extends AbstractHelper
 
         $messageHtml .= '<div class="rcmMessage userMessageList" data-ng-controller="rcmMessageList">';
 
-        $escaper = new Escaper('utf-8');
-
         foreach ($messages as $userMessage) {
             /** @var \RcmMessage\Entity\Message $message */
             $message = $userMessage->getMessage();
@@ -145,10 +147,10 @@ class RcmUserMessageListHelper extends AbstractHelper
               <span aria-hidden="true">&times;</span>
               </button>
               <span class="subject">
-              ' . $escaper->escapeHtml($messageSubject) . ':
+              ' . $this->htmlPurifier->purify($messageSubject) . ':
               </span>
               <span class="body">
-              ' . $escaper->escapeHtml($messageBody) . '
+              ' . $this->htmlPurifier->purify($messageBody) . '
               </span>
             </div>
             ';
