@@ -5,7 +5,6 @@ return [
         'overrideExceptions' => false,
         // enable Error overrides (false = off)
         'overrideErrors' => false,
-
         /**
          * Error formatters,
          * 'request/contentheader' => [
@@ -26,7 +25,6 @@ return [
                 'options' => [],
             ]
         ],
-
         /**
          * Listeners can be injected to listen for errors
          */
@@ -48,7 +46,6 @@ return [
             ],
             /* */
         ],
-
         /**
          * Define which loggers to use for JS logging
          */
@@ -61,27 +58,25 @@ return [
             /* */
         ],
     ],
-
     'service_manager' => [
         'factories' => [
             '\RcmErrorHandler\Config' => '\RcmErrorHandler\Factory\RcmErrorHandlerConfigFactory',
             '\RcmErrorHandler\Log\LoggerErrorListener' => '\RcmErrorHandler\Log\Factory\LoggerErrorListenerFactory',
         ]
     ],
-
     'controllers' => [
         'invokables' => [
             'RcmErrorHandler\Controller\ApiClientErrorLoggerController'
             => 'RcmErrorHandler\Controller\ApiClientErrorLoggerController',
+            'RcmErrorHandler\Controller\TestController'
+            => 'RcmErrorHandler\Controller\TestController',
         ],
     ],
-
     'view_manager' => array(
         'strategies' => array(
             'ViewJsonStrategy',
         ),
     ),
-
     'router' => [
         'routes' => [
             'RcmErrorHandler\ApiJsErrorLogger' => [
@@ -90,6 +85,28 @@ return [
                     'route' => '/api/rcm-error-handler/client-error[/:id]',
                     'defaults' => [
                         'controller' => 'RcmErrorHandler\Controller\ApiClientErrorLoggerController',
+                    ],
+                ],
+            ],
+            'RcmErrorHandler\TestError' => [
+                'may_terminate' => true,
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/test/rcm-error-handler/error',
+                    'defaults' => [
+                        'controller' => 'RcmErrorHandler\Controller\TestController',
+                        'action' => 'error',
+                    ],
+                ],
+            ],
+            'RcmErrorHandler\TestException' => [
+                'may_terminate' => true,
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/test/rcm-error-handler/exception',
+                    'defaults' => [
+                        'controller' => 'RcmErrorHandler\Controller\TestController',
+                        'action' => 'exception',
                     ],
                 ],
             ],
