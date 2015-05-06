@@ -311,7 +311,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
                 var editorInstance = self.getEditorInstance();
 
                 if (editorInstance) {
-                    editorInstance.setContent(self.ngModel.$viewValue || self.getElmValue());
+                    editorInstance.setContent(self.ngModel.$viewValue || self.getElmValue(), {format : 'raw'});
                 } else {
                     // Should not be required, was extra garbage cleanup
                     // self.destroy('editorInstance not found')
