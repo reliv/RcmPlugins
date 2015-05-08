@@ -6,12 +6,11 @@
     <div style="clear: both"></div>
     <div class="video"
          id="brightcoveObject"
-         data-keep-aspect-ratio="<?= $instanceConfig['aspectRatio'] ?>"
-         rcm-brightcove-player="<?= $instanceId ?>">
-        <div style="position: relative; width: 100%; padding-bottom: 100%;">
-            <div style="background-color: #000000;  color: #CCCCCC; position: absolute; width: 100%; min-height: 5em;">
-                VIDEO PLAYER
-            </div>
+         rcm-brightcove-player="<?= $instanceId ?>"
+         style="padding-bottom: <?= $aspectHeight ?>%;"
+    >
+        <div class="placeholder">
+            VIDEO PLAYER
         </div>
     </div>
 </div>
