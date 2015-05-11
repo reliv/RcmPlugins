@@ -90,7 +90,7 @@ class IncludeTwitterBootstrap extends AbstractHelper
 
         $view->headMeta()->appendName(
             'viewport',
-            'width=device-width, initial-scale=1'
+            'width=device-width, initial-scale=1.0'
         );
 
         $view->headMeta()->appendName(
