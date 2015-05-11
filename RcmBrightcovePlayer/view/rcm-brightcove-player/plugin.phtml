@@ -8,7 +8,7 @@ $this->headScript()->appendFile(
 );
 
 $aspectRatio = explode(':', $instanceConfig['aspectRatio']);
-$aspectHeight = $aspectRatio[1] / $aspectRatio[0] * 100;
+$aspectHeight = number_format($aspectRatio[1] / $aspectRatio[0] * 100, 2, '.');
 ?>
 <style type="text/css">
 
