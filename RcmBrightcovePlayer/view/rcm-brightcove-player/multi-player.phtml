@@ -16,7 +16,7 @@
         <div class="video"
              id="brightcoveObject"
              rcm-brightcove-player="<?= $instanceId ?>"
-             style="padding-bottom: <?= $aspectHeight ?>%;"
+             style="padding-bottom: <?= number_format($aspectHeight, 2, '.', ''); ?>%;"
             ><div class="placeholder">VIDEO PLAYER</div>
         </div>
 
