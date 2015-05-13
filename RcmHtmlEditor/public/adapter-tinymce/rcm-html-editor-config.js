@@ -27,7 +27,6 @@ var rcmHtmlEditorConfig = {
             force_p_newlines: true,
             forced_root_block: '',
             paste_as_text: true,
-            invalid_elements : "[contenteditable|rcm-html-edit|data-rcm-html-edit],rcm-html-edit",
 
             inline: true,
             encoding: "raw",
@@ -82,7 +81,6 @@ var rcmHtmlEditorConfig = {
             force_p_newlines: true,
             forced_root_block: '',
             paste_as_text: true,
-            invalid_elements : "[contenteditable|rcm-html-edit|data-rcm-html-edit],rcm-html-edit",
 
             inline: true,
             encoding: "raw",
@@ -111,7 +109,6 @@ var rcmHtmlEditorConfig = {
             force_p_newlines: true,
             forced_root_block: '',
             paste_as_text: true,
-            invalid_elements : "[contenteditable|rcm-html-edit|data-rcm-html-edit],rcm-html-edit",
 
             inline: true,
             encoding: "raw",
