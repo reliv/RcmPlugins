@@ -22,13 +22,18 @@ var RcmIssuuEdit = function (instanceId, container) {
     me.instanceId = instanceId;
     me.container = container;
 
+    me.embedContainer = me.container.find(".issuuEmbedContainer");
+
+    me.userName = me.embedContainer.attr('data-userName');
+    me.docName = me.embedContainer.attr('data-docName');
+    me.embed = me.embedContainer.attr('data-embed');
+
     me.defualtPageSize = 30;
 
     me.apiProcessor = new RcmIssuuApiProcessor();
     me.adminEditForm = new RcmIssuuEditDialogForm(me.apiProcessor);
 
     me.initEdit = function () {
-
         $('head').append($('<link rel="stylesheet" type="text/css" href=""/>')
             .attr('href', '/modules/rcm-issuu/edit.css'));
 
@@ -57,8 +62,9 @@ var RcmIssuuEdit = function (instanceId, container) {
     me.getSaveData = function () {
 
         return {
-            'rssFeedUrl': me.feedUrl,
-            'rssFeedLimit': me.feedLimit
+            'userName': me.userName,
+            'docName': me.docName,
+            'embed': me.embed
         }
     };
 
@@ -66,6 +72,7 @@ var RcmIssuuEdit = function (instanceId, container) {
      * Displays a dialog box to edit href and image src
      */
     me.showEditDialog = function () {
+        me.adminEditForm.initSelected(me.userName, me.docName);
         me.adminEditForm.getForm().dialog({
             title: 'Properties',
             modal: true,
@@ -81,13 +88,15 @@ var RcmIssuuEdit = function (instanceId, container) {
 
     me.handleOkButton = function () {
         var document = me.adminEditForm.getCurrentDocument();
-        var container = me.container.find("issuuEmbedContainer");
 
-        container.html(document.getEmbedHtml());
-        container.attr('data-docId', document.getId());
-        container.attr('data-docName', document.getName());
+        me.userName = document.getUserName();
+        me.docName = document.getName();
+        me.embed = document.getEmbedHtml();
 
-        me.container
+        me.embedContainer.html(document.getEmbedHtml());
+        me.embedContainer.attr('data-embed', me.embed);
+        me.embedContainer.attr('data-userName', me.userName);
+        me.embedContainer.attr('data-docName', me.docName);
 
         $(me.container).find('.issuuembed').addClass('fit-container');
         fitContainer();

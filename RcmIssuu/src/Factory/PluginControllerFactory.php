@@ -18,6 +18,7 @@
  */
 namespace RcmIssuu\Factory;
 
+use Rcm\Plugin\BaseController;
 use RcmIssuu\Controller\PluginController;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -47,15 +48,12 @@ class PluginControllerFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $controllerManager)
     {
-        /** @var \Zend\Mvc\Controller\ControllerManager $controllerMgr For IDE */
-        $controllerMgr = $controllerManager;
-
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $controllerMgr->getServiceLocator();
+        $serviceLocator = $controllerManager->getServiceLocator();
 
-        $api = $serviceLocator->get('RcmIssuu\Service\IssuuApi');
-
-        $config = $serviceLocator->get('config');
-        return new PluginController($config, $api);
+        return new BaseController (
+            $serviceLocator->get('config'),
+            'RcmIssuu'
+        );
     }
 }
