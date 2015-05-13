@@ -3,18 +3,32 @@ $this->headScript()->appendFile(
     $this->basePath() . '/modules/rcm-issuu/fit-container.js'
 );
 
+$this->headScript()->appendFile(
+    $this->basePath() . '/modules/rcm-issuu/rcm-issuu.js'
+);
+
+$docName = '';
+$userName = '';
+$embed = '<div class="issuuError">Please edit this plugin and select a document to show</div>';
+
+if (!empty($this->instanceConfig['userName'])) {
+    $userName = $this->instanceConfig['userName'];
+}
+
+if (!empty($this->instanceConfig['docName'])) {
+    $docName = $this->instanceConfig['docName'];
+}
+
+if (!empty($this->instanceConfig['embed'])) {
+    $embed = $this->instanceConfig['embed'];
+}
+
 ?>
 
-<script type="application/javascript" >
-    $(function() {
-        $(".RcmIssuu").each(function(i, v) {
-            $(this).find('.issuuembed').addClass('fit-container');
-        });
-
-        fitContainer();
-    });
-</script>
-
-<div class="issuuEmbedContainer">
+<div class="issuuEmbedContainer"
+     data-userName="<?= $userName; ?>"
+     data-docName="<?= $docName; ?>"
+     data-embed="<?= htmlentities($embed, ENT_QUOTES) ?>"
+>
     <?= $embed ?>
 </div>
