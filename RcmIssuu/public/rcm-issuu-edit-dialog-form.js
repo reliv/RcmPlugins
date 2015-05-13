@@ -122,5 +122,13 @@ var RcmIssuuEditDialogForm = function( apiProcessor ) {
 
     me.getCurrentDocument = function() {
         return me.currentDocument;
+    };
+
+    me.initSelected = function(userName, name) {
+        var document = new RcmIssuuDocument();
+        document.setName(name);
+        document.setUsername(userName);
+
+        me.changeSelected(document);
     }
 };

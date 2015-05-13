@@ -1,6 +1,8 @@
 var RcmIssuuApiProcessor = function () {
     var me = this;
 
+    me.defualtPageSize = 30;
+
     me.fetchList = function (subject, username, start, pageSize, form) {
         var url = 'https://search.issuu.com/api/2_0/document' +
             '?q=' + subject +
@@ -16,6 +18,8 @@ var RcmIssuuApiProcessor = function () {
     };
 
     me.handleResponse = function ( response, form ) {
+
+        console.log(response);
         var start = response.start;
         var totalCount = response.numFound;
 
