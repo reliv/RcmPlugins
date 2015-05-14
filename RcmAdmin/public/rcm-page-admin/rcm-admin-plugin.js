@@ -228,8 +228,10 @@ var RcmAdminPlugin = function (page, id, container, rcmAdminService) {
      */
     self.startLoading = function (id) {
 
-        self.rcmLoading.startLoading('RcmPlugin.' + self.id, id);
-
+        self.rcmLoading.setLoading(
+            'RcmPlugin.' + self.id,
+            0
+        );
     };
 
     /**
@@ -238,16 +240,19 @@ var RcmAdminPlugin = function (page, id, container, rcmAdminService) {
      */
     self.endLoading = function (id) {
 
-        self.rcmLoading.endLoading('RcmPlugin.' + self.id, id);
+        self.rcmLoading.setLoading(
+            'RcmPlugin.' + self.id,
+            0
+        );
     };
 
     /**
      * endLoading
      * @param id
      */
-    self.isLoading = function (id) {
+    self.isLoading = function () {
 
-        self.rcmLoading.isLoading('RcmPlugin.' + self.id, id);
+        return self.rcmLoading.isLoading('RcmPlugin.' + self.id);
     };
 
     /**

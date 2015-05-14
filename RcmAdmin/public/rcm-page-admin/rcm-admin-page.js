@@ -23,6 +23,8 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
     self.containers = {};
     self.plugins = {};
 
+    self.rcmLoading = rcmLoading;
+
     self.loading = 0;
     self.loadingMessage = null;
 
@@ -186,6 +188,11 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
      * cancel
      */
     self.cancel = function () {
+
+        self.rcmLoading.setLoading(
+            'RcmAdminPage.cancel',
+            .2
+        );
 
         self.events.trigger('cancel', {page: self});
 

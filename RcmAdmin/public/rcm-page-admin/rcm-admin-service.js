@@ -63,21 +63,7 @@ var RcmAdminService = new function () {
     /**
      * RcmLoading
      */
-    self.rcmLoading = new RcmLoading(
-        function (data) {
-            self.rcmEventManager.trigger(
-                'RcmAdminService.RcmLoading.start',
-                data
-            )
-        },
-        function (data) {
-
-            self.rcmEventManager.trigger(
-                '.RcmAdminServiceRcmLoading.end',
-                data
-            );
-        }
-    );
+    self.rcmLoading = rcmLoading;
 
     /**
      * model
