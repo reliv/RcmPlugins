@@ -12,7 +12,6 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
     self.containerModel = rcmAdminService.model.RcmContainerModel;
     self.pluginModel = rcmAdminService.model.RcmPluginModel;
 
-    self.loadingMessages = rcmAdminService.config.loadingMessages;
     self.saveUrl = rcmAdminService.config.saveUrl;
 
     self.events = rcmAdminService.rcmEventManager;
@@ -26,45 +25,6 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
     self.rcmLoading = rcmLoading;
 
     self.loading = 0;
-    self.loadingMessage = null;
-
-    /**
-     * setLoading
-     * @param loading
-     * @todo This can possibly use the RcmLoading service
-     */
-    self.setLoading = function (loading, loadingMessage) {
-
-        if (loading) {
-
-            self.loading++;
-
-            if (!self.loadingMessage) {
-                self.loadingMessage = self.loadingMessages._default;
-            }
-
-            if (!self.loadingMessage.title) {
-                self.loadingMessage.title = self.loadingMessages._default.title;
-            }
-
-            if (!self.loadingMessage.message) {
-                self.loadingMessage.message = self.loadingMessages._default.message;
-            }
-
-        } else {
-
-            if (self.loading > 0) {
-                self.loading--;
-            }
-        }
-
-        self.events.trigger(
-            'loadingStateChange', {
-                loading: self.loading,
-                loadingMessage: self.loadingMessage
-            }
-        );
-    };
 
     /**
      * setEditingOn
@@ -131,9 +91,9 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
         self.registerObjects(
             function (page) {
 
-                self.setLoading(
-                    true,
-                    self.loadingMessages.save
+                self.rcmLoading.setLoading(
+                    'RcmAdminPage',
+                    0
                 );
                 var pagedata = self.getData();
 
@@ -153,7 +113,10 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                     self.saveUrl + '/' + data.type + '/' + data.name + '/' + data.revision,
                     data,
                     function (msg) {
-                        self.setLoading(false);
+                        self.rcmLoading.setLoading(
+                            'RcmAdminPage',
+                            1
+                        );
                         //self.events.trigger('alert', {type:'success',message: 'Page saved'});
                         if (msg.redirect) {
                             window.location = msg.redirect;
@@ -171,7 +134,10 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                     'json'
                 ).fail(
                     function (msg) {
-                        self.setLoading(false);
+                        self.rcmLoading.setLoading(
+                            'RcmAdminPage',
+                            1
+                        );
                         self.events.trigger(
                             'alert', {
                                 type: 'warning',
@@ -191,7 +157,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
 
         self.rcmLoading.setLoading(
             'RcmAdminPage.cancel',
-            .2
+            .33
         );
 
         self.events.trigger('cancel', {page: self});

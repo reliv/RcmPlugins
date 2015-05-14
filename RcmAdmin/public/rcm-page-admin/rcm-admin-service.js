@@ -87,9 +87,11 @@ var RcmAdminService = new function () {
             self.viewModel.alertDisplay
         );
 
-        self.page.events.on(
-            'loadingStateChange',
-            self.viewModel.loadingDisplay
+        self.rcmLoading.onLoadingChange(
+            function(loadingParams) {
+                self.viewModel.loadingDisplay(loadingParams);
+            },
+            'RcmAdminService.loadingDisplay'
         );
     };
 
