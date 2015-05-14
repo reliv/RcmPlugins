@@ -43,6 +43,10 @@ $site = $layout->site;
 $requestedPageData = $layout->requestedPageData;
 
 $pageData = [
+    'site' => [
+        'id' => $site->getSiteId(),
+        'title' => $site->getSiteTitle(),
+    ],
     'page' => [
         'revision' => $page->getCurrentRevision()->getRevisionId(),
         'type' => $page->getPageType(),

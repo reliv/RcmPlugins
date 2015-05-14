@@ -102,38 +102,43 @@ var RcmAdminModel = function () {
          * @param onComplete
          * @returns {*}
          */
-        buildPageMeta: function(data, onComplete){
+        buildPageMeta: function (data, onComplete) {
 
+            var headElm = jQuery('head');
+
+            var titleElm = headElm.find('title');
             //if title tag doesn't exists then adding it to head
-            if ($('title').length == 0) {
-                $('head').append($('title'));
+            if (headElm.find('title').length == 0) {
+
+                titleElm = jQuery('title');
+                headElm.append(titleElm);
             }
-            else {
-                $('title').html(data.page.title);
-            }
-            var meta = $('<meta>');
-            var metaDesciption = $('meta[name="description"]');
+
+            headElm.find('title').html(data.site.title + ' - ' + data.page.title);
+
+            var metaDesciption = headElm.find('meta[name="description"]');
 
             //if meta description doesn't exists then adding it to head
             if (metaDesciption.length == 0) {
-                meta.attr('name', 'description');
-                meta.attr('content', data.page.description);
-                $('head').append(meta);
+
+                metaDesciption = jQuery('<meta>');
+                metaDesciption.attr('name', 'description');
+                headElm.append(metaDesciption);
             }
-            else {
-                metaDesciption.attr('content', data.page.description);
-            }
-            var metaKeywords = $('meta[name="keywords"]');
-            var metaK = $('<meta>');
+
+            metaDesciption.attr('content', data.page.description);
+
+            var metaKeywords = headElm.find('meta[name="keywords"]');
+
             //if meta keywords doesn't exists then adding it to head
             if (metaKeywords.length == 0) {
-                metaK.attr('name', 'keywords');
-                metaK.attr('content', data.page.keywords);
-                $('head').append(metaK);
+
+                metaKeywords = jQuery('<meta>');
+                metaKeywords.attr('name', 'keywords');
+                jQuery('head').append(metaKeywords);
             }
-            else {
-                metaKeywords.attr('content', data.page.keywords);
-            }
+
+            metaKeywords.attr('content', data.page.keywords);
 
             if (typeof onComplete === 'function') {
                 onComplete(data)
@@ -576,7 +581,7 @@ var RcmAdminModel = function () {
          */
         setIsSitewide: function (pluginElm, value, onComplete) {
 
-            if(value){
+            if (value) {
                 value = 1;
                 pluginElm.attr('data-rcmSiteWidePlugin', value);
 
