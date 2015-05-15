@@ -22,9 +22,19 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
     self.containers = {};
     self.plugins = {};
 
-    self.rcmLoading = rcmLoading;
-
     self.loading = 0;
+
+    /**
+     * setLoading
+     * @param name
+     * @param amount
+     */
+    self.setLoading = function(name, amount){
+        rcmLoading.setLoading(
+            name,
+            amount
+        );
+    };
 
     /**
      * setEditingOn
@@ -91,7 +101,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
         self.registerObjects(
             function (page) {
 
-                self.rcmLoading.setLoading(
+                self.setLoading(
                     'RcmAdminPage',
                     0
                 );
@@ -113,7 +123,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                     self.saveUrl + '/' + data.type + '/' + data.name + '/' + data.revision,
                     data,
                     function (msg) {
-                        self.rcmLoading.setLoading(
+                        self.setLoading(
                             'RcmAdminPage',
                             1
                         );
@@ -134,7 +144,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
                     'json'
                 ).fail(
                     function (msg) {
-                        self.rcmLoading.setLoading(
+                        self.setLoading(
                             'RcmAdminPage',
                             1
                         );
@@ -155,7 +165,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
      */
     self.cancel = function () {
 
-        self.rcmLoading.setLoading(
+        self.setLoading(
             'RcmAdminPage.cancel',
             .33
         );

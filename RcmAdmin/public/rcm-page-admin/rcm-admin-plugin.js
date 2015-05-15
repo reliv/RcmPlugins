@@ -223,32 +223,19 @@ var RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     };
 
     /**
-     * startLoading
-     * @param id
+     * endLoading
+     * @param amount 0 to 1
      */
-    self.startLoading = function (id) {
+    self.setLoading = function (amount) {
 
         self.rcmLoading.setLoading(
             'RcmPlugin.' + self.id,
-            0
+            amount
         );
     };
 
     /**
-     * endLoading
-     * @param id
-     */
-    self.endLoading = function (id) {
-
-        self.rcmLoading.setLoading(
-            'RcmPlugin.' + self.id,
-            0
-        );
-    };
-
-    /**
-     * endLoading
-     * @param id
+     * isLoading
      */
     self.isLoading = function () {
 
