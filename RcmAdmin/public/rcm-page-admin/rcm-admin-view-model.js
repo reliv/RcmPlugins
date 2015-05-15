@@ -402,47 +402,4 @@ var RcmAdminViewModel = function (config, model, page) {
         dialog: null,
         timout: null
     };
-
-    /**
-     * loadingDisplay
-     * @param loadingData
-     */
-    self.loadingDisplay = function (loadingData) {
-
-        var timout = 250;
-
-        if (self.loadingDialog.timout) {
-
-            clearTimeout(self.loadingDialog.timout);
-        }
-
-        if (loadingData.loading) {
-
-            // wait a bit so we dont get flashing message
-            self.loadingDialog.timout = setTimeout(
-                function () {
-                    if (self.loadingDialog.dialog) {
-
-                        self.loadingDialog.dialog.modal('show');
-                    } else {
-                        self.loadingDialog.dialog = bootbox.dialog(
-                            {
-                                message: '<div class="modal-body"><p>' + loadingData.loadingMessage.message + '</p></div>',
-                                title: '<h1 class="modal-title">' + loadingData.loadingMessage.title + '</h1>',
-                                buttons: {}
-                            }
-                        );
-                    }
-                },
-                timout
-            );
-
-        } else {
-
-            if (self.loadingDialog.dialog) {
-
-                self.loadingDialog.dialog.modal('hide');
-            }
-        }
-    };
 };

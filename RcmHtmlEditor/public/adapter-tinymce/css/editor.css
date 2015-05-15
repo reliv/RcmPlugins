@@ -5,12 +5,6 @@
 
 .htmlEditorToolbar .loading {
     background-color: rgba(255, 255, 255, .7);
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 2000px;
-    height: 2000px;
-    z-index: 30000;
 }
 
 .mce-tinymce {

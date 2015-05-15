@@ -102,6 +102,15 @@ var RcmHtmlEditorService = function (eventManager) {
                         }
                     );
                 }
+
+                self.eventManager.trigger(
+                    'rcmHtmlEditorService.loading.change',
+                    {
+                        editorId: editorId,
+                        loading: self.editorsLoading,
+                        amount: (1 / (self.editorsLoading.length + 1)) // is not the correct calc, but will work
+                    }
+                );
             }
 
         } else {
@@ -112,6 +121,15 @@ var RcmHtmlEditorService = function (eventManager) {
                     1
                 );
                 self.toolbarLoading = (self.editorsLoading.length > 0);
+
+                self.eventManager.trigger(
+                    'rcmHtmlEditorService.loading.change',
+                    {
+                        editorId: editorId,
+                        loading: self.editorsLoading,
+                        amount: (1 / (self.editorsLoading.length + 1)) // is not the correct calc, but will work
+                    }
+                );
 
                 if (!self.toolbarLoading) {
 

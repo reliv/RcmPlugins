@@ -93,7 +93,7 @@ angular.module(
     ]
 )
 /**
- * rcmAdmin.rcmAdminEditButton
+ * rcmAdmin.rcmAdminEditButton rcm-admin-edit-button
  */
     .directive(
     'rcmAdminEditButton',
@@ -115,40 +115,58 @@ angular.module(
                 }
             };
 
-            var getLoading = function (scope) {
-                scope.loading = (rcmAdminService.rcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
-                safeApply(scope);
-            };
-
             var thisLink = function (scope, elm, attrs) {
 
-                scope.loading = (rcmAdminService.rcmLoading.isLoading() || rcmHtmlEditorService.toolbarLoading);
+                scope.loading = false;
 
                 if (!eventsRegistered) {
 
-                    rcmAdminService.rcmEventManager.on(
-                        'RcmAdminService.RcmLoading.start',
-                        function () {
-                            getLoading(scope);
-                        }
-                    );
-                    rcmAdminService.rcmEventManager.on(
-                        'RcmAdminService.RcmLoading.end',
-                        function () {
-                            getLoading(scope);
-                        }
-                    );
+                    // @todo - Sync this in the service, not here
                     rcmHtmlEditorService.eventManager.on(
                         'rcmHtmlEditorService.loading.start',
                         function (obj) {
-                            getLoading(scope);
+                            rcmLoading.setLoading(
+                                'rcmHtmlEditorService.loading',
+                                0,
+                                {statusMessage: 'Editors Loading'}
+                            );
                         }
                     );
+
+                    rcmHtmlEditorService.eventManager.on(
+                        'rcmHtmlEditorService.loading.change',
+                        function (obj) {
+                            rcmLoading.setLoading(
+                                'rcmHtmlEditorService.loading',
+                                obj.amount
+                            );
+                        }
+                    );
+
                     rcmHtmlEditorService.eventManager.on(
                         'rcmHtmlEditorService.loading.end',
                         function (obj) {
-                            getLoading(scope);
+                            rcmLoading.setLoading(
+                                'rcmHtmlEditorService.loading',
+                                1
+                            );
                         }
+                    );
+
+                    rcmLoading.onLoadingStart(
+                        function (loadingParams) {
+                            scope.loading = true;
+                            safeApply(scope);
+                        },
+                        'rcmAdminEditButton.onLoadingStart'
+                    );
+
+                    rcmLoading.onLoadingComplete(
+                        function (loadingParams) {
+                            scope.loading = false;
+                            safeApply(scope);
+                        },
+                        'rcmAdminEditButton.onLoadingComplete'
                     );
 
                     eventsRegistered = true;

@@ -29,6 +29,7 @@
     ],
     "require": {
         "php": ">=5.4",
+        "reliv/rcm": "0.1.*"
     },
     "autoload": {
         "psr-0": {
