@@ -125,7 +125,7 @@ angular.module(
                     rcmHtmlEditorService.eventManager.on(
                         'rcmHtmlEditorService.loading.start',
                         function (obj) {
-                            rcmAdminService.rcmLoading.setLoading(
+                            rcmLoading.setLoading(
                                 'rcmHtmlEditorService.loading',
                                 0
                             );
@@ -135,7 +135,7 @@ angular.module(
                     rcmHtmlEditorService.eventManager.on(
                         'rcmHtmlEditorService.loading.change',
                         function (obj) {
-                            rcmAdminService.rcmLoading.setLoading(
+                            rcmLoading.setLoading(
                                 'rcmHtmlEditorService.loading',
                                 obj.amount
                             );
@@ -145,14 +145,14 @@ angular.module(
                     rcmHtmlEditorService.eventManager.on(
                         'rcmHtmlEditorService.loading.end',
                         function (obj) {
-                            rcmAdminService.rcmLoading.setLoading(
+                            rcmLoading.setLoading(
                                 'rcmHtmlEditorService.loading',
                                 1
                             );
                         }
                     );
 
-                    rcmAdminService.rcmLoading.onLoadingStart(
+                    rcmLoading.onLoadingStart(
                         function (loadingParams) {
                             scope.loading = true;
                             safeApply(scope);
@@ -160,7 +160,7 @@ angular.module(
                         'rcmAdminEditButton.onLoadingStart'
                     );
 
-                    rcmAdminService.rcmLoading.onLoadingComplete(
+                    rcmLoading.onLoadingComplete(
                         function (loadingParams) {
                             scope.loading = false;
                             safeApply(scope);

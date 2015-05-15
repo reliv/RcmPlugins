@@ -13,7 +13,6 @@ var RcmAdminPlugin = function (page, id, container, rcmAdminService) {
     self.viewModel = rcmAdminService.viewModel.RcmPluginViewModel;
     self.containerModel = rcmAdminService.model.RcmContainerModel;
 
-    self.rcmLoading = rcmAdminService.rcmLoading;
     self.angularCompile = rcmAdminService.angularCompile;
 
     self.page = page;
@@ -228,7 +227,7 @@ var RcmAdminPlugin = function (page, id, container, rcmAdminService) {
      */
     self.setLoading = function (amount) {
 
-        self.rcmLoading.setLoading(
+        rcmLoading.setLoading(
             'RcmPlugin.' + self.id,
             amount
         );
@@ -239,7 +238,7 @@ var RcmAdminPlugin = function (page, id, container, rcmAdminService) {
      */
     self.isLoading = function () {
 
-        return self.rcmLoading.isLoading('RcmPlugin.' + self.id);
+        return rcmLoading.isLoading('RcmPlugin.' + self.id);
     };
 
     /**

@@ -61,11 +61,6 @@ var RcmAdminService = new function () {
     };
 
     /**
-     * RcmLoading
-     */
-    self.rcmLoading = rcmLoading;
-
-    /**
      * model
      */
     self.model = new RcmAdminModel();
