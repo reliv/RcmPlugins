@@ -86,13 +86,6 @@ var RcmAdminService = new function () {
             'alert',
             self.viewModel.alertDisplay
         );
-
-        self.rcmLoading.onLoadingChange(
-            function(loadingParams) {
-                self.viewModel.loadingDisplay(loadingParams);
-            },
-            'RcmAdminService.loadingDisplay'
-        );
     };
 
     /**
