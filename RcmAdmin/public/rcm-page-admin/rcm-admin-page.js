@@ -167,7 +167,7 @@ var RcmAdminPage = function (elm, onInitted, rcmAdminService) {
 
         self.setLoading(
             'RcmAdminPage.cancel',
-            .33
+            0
         );
 
         self.events.trigger('cancel', {page: self});

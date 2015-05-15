@@ -127,7 +127,8 @@ angular.module(
                         function (obj) {
                             rcmLoading.setLoading(
                                 'rcmHtmlEditorService.loading',
-                                0
+                                0,
+                                {statusMessage: 'Editors Loading'}
                             );
                         }
                     );
