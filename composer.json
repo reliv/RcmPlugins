@@ -42,7 +42,6 @@
             "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
             "RcmHtmlEditor\\": "RcmHtmlEditor/src/",
             "RcmJquery\\": "RcmJquery/src/",
-            "RcmLogin\\": "RcmLogin/src/",
             "RcmMessage\\": "RcmMessage/src/",
             "RcmMessageList\\": "RcmMessageList/src/",
             "RcmMockPlugin\\": "RcmMockPlugin/src/",
