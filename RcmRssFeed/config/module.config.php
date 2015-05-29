@@ -70,7 +70,7 @@ return [
                 'modules/rcm-rss-feed/' => __DIR__ . '/../public/',
             ],
             'collections' => [
-                'modules/rcm-admin/js/rcm-admin.js' => [
+                'modules/rcm-admin/admin.js' => [
                     'modules/rcm-rss-feed/edit.js',
                 ],
             ],

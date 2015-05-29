@@ -36,6 +36,23 @@ return [
         'factories' => [
             'RcmMockPlugin' => 'RcmMockPlugin\Factory\PluginControllerFactory'
         ]
-    ]
-
+    ],
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
+                'modules/rcm-mock-plugin/' => __DIR__ . '/../public/',
+            ],
+            'collections' => [
+                'modules/rcm/modules.js' => [
+                    'modules/rcm-mock-plugin/script.js'
+                ],
+                'modules/rcm/modules.css' => [
+                    'modules/rcm-mock-plugin/style.css'
+                ],
+                'modules/rcm-admin/admin.js' => [
+                    'modules/rcm-message-list/rcm-message-list-edit.js',
+                ],
+            ],
+        ],
+    ],
 ];

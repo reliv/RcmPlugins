@@ -51,7 +51,7 @@ return [
                 'modules/rcm-social-buttons/' => __DIR__ . '/../public/',
             ],
             'collections' => [
-                'modules/rcm-admin/js/rcm-admin.js' => [
+                'modules/rcm-admin/admin.js' => [
                     'modules/rcm-social-buttons/edit.js',
                 ],
             ],

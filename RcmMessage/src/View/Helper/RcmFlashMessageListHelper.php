@@ -57,19 +57,34 @@ class RcmFlashMessageListHelper extends AbstractHelper
         //$flashMessenger->addWarningMessage('WARN Message');
         //$flashMessenger->addErrorMessage('ERR Message');
         //$flashMessenger->addSuccessMessage('SUCCESS Message');
-        $messageHtml = '<link href="/modules/rcm-message/css/styles.css" media="screen,print" rel="stylesheet" type="text/css">';
+        $messageHtml = '';
 
         $messageHtml .= '<div class="rcmMessage flashMessageList">';
 
-        $messageHtml .=  $flashMessenger->render('error',   array('alert', 'alert-dismissable', 'alert-danger'));
-        $messageHtml .=  $flashMessenger->render('warning', array('alert', 'alert-dismissable', 'alert-warning'));
-        $messageHtml .=  $flashMessenger->render('info',    array('alert', 'alert-dismissable', 'alert-info'));
-        $messageHtml .=  $flashMessenger->render('default', array('alert', 'alert-dismissable', 'alert-info'));
-        $messageHtml .=  $flashMessenger->render('success', array('alert', 'alert-dismissable', 'alert-success'));
+        $messageHtml .= $flashMessenger->render(
+            'error',
+            array('alert', 'alert-dismissable', 'alert-danger')
+        );
+        $messageHtml .= $flashMessenger->render(
+            'warning',
+            array('alert', 'alert-dismissable', 'alert-warning')
+        );
+        $messageHtml .= $flashMessenger->render(
+            'info',
+            array('alert', 'alert-dismissable', 'alert-info')
+        );
+        $messageHtml .= $flashMessenger->render(
+            'default',
+            array('alert', 'alert-dismissable', 'alert-info')
+        );
+        $messageHtml .= $flashMessenger->render(
+            'success',
+            array('alert', 'alert-dismissable', 'alert-success')
+        );
 
         $messageHtml .= '</div>';
 
-        if($clear) {
+        if ($clear) {
             $flashMessenger->clearMessages();
         }
 

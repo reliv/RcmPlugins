@@ -41,7 +41,7 @@ return [
                 'modules/rcm-event-list-display/' => __DIR__ . '/../public/',
             ],
             'collections' => [
-                'modules/rcm-admin/js/rcm-admin.js' => [
+                'modules/rcm-admin/admin.js' => [
                     'modules/rcm-event-list-display/rcm-event-list-display-edit.js',
                 ],
             ],

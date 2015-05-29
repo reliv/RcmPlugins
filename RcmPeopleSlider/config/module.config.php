@@ -41,7 +41,7 @@ return [
                 'modules/rcm-people-slider/' => __DIR__ . '/../public/',
             ],
             'collections' => [
-                'modules/rcm-admin/js/rcm-admin.js' => [
+                'modules/rcm-admin/admin.js' => [
                     'modules/rcm-people-slider/rcm-people-slider-edit.js',
                 ],
             ],

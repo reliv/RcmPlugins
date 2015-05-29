@@ -42,7 +42,7 @@ return [
                 'modules/rcm-nav-responsive/' => __DIR__ . '/../public/',
             ],
             'collections' => [
-                'modules/rcm-admin/js/rcm-admin.js' => [
+                'modules/rcm-admin/admin.js' => [
                     'modules/rcm-nav-responsive/edit.js',
                 ],
             ],
