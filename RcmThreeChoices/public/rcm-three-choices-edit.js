@@ -1,5 +1,5 @@
 /**
- * RcmThreeChoices
+ * RcmThreeChoices Edit
  *
  * JS for editing RcmThreeChoices
  *
