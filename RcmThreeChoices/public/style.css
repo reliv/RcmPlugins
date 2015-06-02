@@ -1,3 +1,5 @@
+/* <rcm-three-choices> */
+
 .RcmThreeChoices .choice:nth-of-type(1) {
     border-color: #F8971D;
 }
@@ -95,3 +97,5 @@
 .RcmThreeChoices ul{
     padding-left: 1em;
 }
+
+/* </rcm-three-choices> */

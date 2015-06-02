@@ -1,8 +1,8 @@
 /**
- *
+ * rcm-event-calender-core
  * @constructor
  */
-var RcmEventManager = function () {
+var RcmEventCalenderCore = function () {
 
     /**
      * Always refers to this object unlike the 'this' JS variable;
@@ -170,7 +170,7 @@ var RcmEventManager = function () {
                     }
                 );
 
-                $('body').trigger('rcmEventManagerRender');
+                $('body').trigger('rcmEventCalenderCoreRender');
             }
         );
     };

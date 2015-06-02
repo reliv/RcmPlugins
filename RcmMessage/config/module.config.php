@@ -20,6 +20,14 @@ return [
             'aliases' => [
                 'modules/rcm-message/' => __DIR__ . '/../public/',
             ],
+            'collections' => [
+                'modules/rcm/modules.js' => [
+                    'modules/rcm-message/js/rcm-message.js'
+                ],
+                'modules/rcm/modules.css' => [
+                    'modules/rcm-message/css/styles.css'
+                ],
+            ],
         ],
     ],
     /**

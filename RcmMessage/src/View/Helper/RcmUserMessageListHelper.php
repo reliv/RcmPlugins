@@ -124,11 +124,7 @@ class RcmUserMessageListHelper extends AbstractHelper
         $messages,
         $showDefaultMessage = false
     ) {
-        $messageHtml
-            = '<script type="text/javascript" src="/modules/rcm-message/js/rcm-message.js"></script>';
-
-        $messageHtml
-            .= '<link href="/modules/rcm-message/css/styles.css" media="screen,print" rel="stylesheet" type="text/css">';
+        $messageHtml = '';
 
         $messageHtml .= '<div class="rcmMessage userMessageList" data-ng-controller="rcmMessageList">';
 

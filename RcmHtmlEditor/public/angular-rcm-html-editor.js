@@ -66,7 +66,10 @@ angular.module('RcmHtmlEditor', [])
                     return;
                 }
 
-                rcmHtmlEditorService.editors[id] = new RcmHtmlEditor(id, rcmHtmlEditorService);
+                rcmHtmlEditorService.editors[id] = new RcmHtmlEditor(
+                    id,
+                    rcmHtmlEditorService
+                );
 
                 // this is to hide the default toolbar before init
                 rcmHtmlEditorService.loading(id, true, 'rcmHtmlEditorInit');
@@ -268,3 +271,9 @@ angular.module('RcmHtmlEditor', [])
         }
     ]
 );
+
+if (typeof rcm !== 'undefined') {
+    rcm.addAngularModule(
+        'RcmHtmlEditor'
+    );
+}
