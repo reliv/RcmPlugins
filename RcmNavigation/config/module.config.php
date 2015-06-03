@@ -41,6 +41,9 @@ return [
                 'modules/rcm-navigation/' => __DIR__ . '/../public/',
             ],
             'collections' => [
+                'modules/rcm/modules.css' => [
+                    'modules/rcm-navigation/style.css',
+                ],
                 'modules/rcm-admin/admin.js' => [
                     'modules/rcm-navigation/edit.js',
                 ],

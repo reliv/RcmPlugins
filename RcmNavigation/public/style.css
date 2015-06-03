@@ -62,12 +62,14 @@
     z-index: 950;
 }
 
-.RcmNavigation li:hover .popup, .RcmNavigation li.sfhover .popup {
+.RcmNavigation li:hover .popup,
+.RcmNavigation li.sfhover .popup {
     left: auto;
 }
 
 /* Disable hover on locked plugins */
-.rcmPluginLocked.RcmNavigation li:hover .popup, .rcmPluginLocked.RcmNavigation li.sfhover .popup {
+.rcmPluginLocked.RcmNavigation li:hover .popup,
+.rcmPluginLocked.RcmNavigation li.sfhover .popup {
     left: -999em;
 }
 
@@ -77,10 +79,12 @@
     float: left;
 }
 
-.RcmNavigation li .columnCount_2, #rcmContainer_1_0 .RcmNavigation li .columnCount_2 {
+.RcmNavigation li .columnCount_2,
+#rcmContainer_1_0 .RcmNavigation li .columnCount_2 {
     width: 502px;
 }
 
-.RcmNavigation .columnCount_2 .column_1, #rcmContainer_1 .columnCount_2 .column_1 {
+.RcmNavigation .columnCount_2 .column_1,
+#rcmContainer_1 .columnCount_2 .column_1 {
     border-right: 1px solid black;
 }
