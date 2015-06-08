@@ -107,7 +107,7 @@ var RcmDialog = {
             );
         }
 
-        if(contentscope){
+        if (contentscope) {
             dialog.contentscope = contentscope;
         }
 
@@ -151,9 +151,8 @@ var RcmDialog = {
                 type: 'button',
                 label: 'Close',
                 css: 'btn btn-default',
-                method: function (dialog)
-                {
-                    dialog.close();
+                method: function (dialog) {
+                    self.close();
                 }
             }
         };
@@ -192,8 +191,11 @@ var RcmDialog = {
          */
         self.setAction = function (actionName, action) {
 
-            if(self.actions[actionName]){
-                self.actions[actionName] = angular.extend(self.actions[actionName], action);
+            if (self.actions[actionName]) {
+                self.actions[actionName] = angular.extend(
+                    self.actions[actionName],
+                    action
+                );
             } else {
                 self.actions[actionName] = action;
             }
@@ -209,8 +211,8 @@ var RcmDialog = {
          * @param actionName
          * @returns {*}
          */
-        self.getAction = function (actionName){
-            if(self.actions[actionName]){
+        self.getAction = function (actionName) {
+            if (self.actions[actionName]) {
                 return self.actions[actionName];
             }
 

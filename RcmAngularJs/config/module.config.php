@@ -24,15 +24,6 @@ return [
             ],
         ],
     ],
-    'view_helpers' => [
-        'invokables' => [
-            'rcmIncludeAngularJsUiBootstrap' =>
-                'RcmAngularJs\View\Helper\IncludeAngularJsBootstrap',
-            'rcmIncludeAngularJsUiTinyMce' =>
-                'RcmAngularJs\View\Helper\IncludeAngularJsTinyMce',
-            'rcmAngularTemplateParse' => 'RcmAngularJs\View\Helper\AngularTemplateParser'
-        ],
-    ],
     'view_manager' => [
         'template_path_stack' => [
             __DIR__ . '/../view',

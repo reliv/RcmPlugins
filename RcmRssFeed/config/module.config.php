@@ -70,7 +70,13 @@ return [
                 'modules/rcm-rss-feed/' => __DIR__ . '/../public/',
             ],
             'collections' => [
-                'modules/rcm-admin/js/rcm-admin.js' => [
+                'modules/rcm/modules.js' => [
+                    'mmodules/rcm-rss-feed/script.js',
+                ],
+                'modules/rcm/modules.css' => [
+                    'modules/rcm-rss-feed/style.css'
+                ],
+                'modules/rcm-admin/admin.js' => [
                     'modules/rcm-rss-feed/edit.js',
                 ],
             ],

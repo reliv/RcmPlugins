@@ -1,5 +1,5 @@
 /**
- * RcmEventListDisplay
+ * RcmEventListDisplay rcm-event-list-display-edit
  *
  * JS for editing RcmEventListDisplay
  *
@@ -45,7 +45,7 @@ var RcmEventListDisplayEdit = function (instanceId, container, pluginHandler) {
 
     var ajaxEditHelper = new AjaxPluginEditHelper(instanceId, container, pluginHandler);
 
-    var eventManager = new RcmEventManager(
+    var eventManager = new RcmEventCalenderCore(
         container.find('dataContainer').attr('data-eventCategoryId')
     );
 
@@ -188,5 +188,5 @@ var RcmEventListDisplayEdit = function (instanceId, container, pluginHandler) {
     };
 
     //Re-render the list if events change in the event manager
-    $('body').bind('rcmEventManagerRender', me.render);
+    $('body').bind('rcmEventCalenderCoreRender', me.render);
 };
