@@ -24,11 +24,4 @@ return [
             ],
         ],
     ],
-    'view_helpers' => [
-        'invokables' => [
-            'rcmDialogIncludeRcmDialog' =>
-                'RcmDialog\View\Helper\IncludeRcmDialog',
-        ]
-    ],
-
 ];
