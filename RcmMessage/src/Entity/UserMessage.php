@@ -93,9 +93,10 @@ class UserMessage extends ApiBase
      */
     public function setViewed($viewed = true)
     {
-        if($viewed) {
+        if ($viewed) {
             $date = new \DateTime();
             $this->setDateViewed($date);
+
             return;
         }
 
@@ -107,8 +108,8 @@ class UserMessage extends ApiBase
      *
      * @return bool
      */
-    public function hasViewed(){
-
+    public function hasViewed()
+    {
         return !empty($this->dateViewed);
     }
 
@@ -131,7 +132,7 @@ class UserMessage extends ApiBase
      */
     public function setDateViewed($dateViewed)
     {
-        if(!empty($this->dateViewed)){
+        if (!empty($this->dateViewed)) {
             return;
         }
         $this->dateViewed = $dateViewed;
@@ -223,5 +224,4 @@ class UserMessage extends ApiBase
 
         return $array;
     }
-
 }

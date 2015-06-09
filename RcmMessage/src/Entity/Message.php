@@ -118,7 +118,7 @@ class Message extends ApiBase
      */
     public function setLevel($level)
     {
-        if(empty($level)){
+        if (empty($level)) {
             $level = null;
         }
         $this->level = $level;
@@ -187,7 +187,7 @@ class Message extends ApiBase
      */
     public function setSource($source)
     {
-        if(empty($source)){
+        if (empty($source)) {
             $source = null;
         }
         $this->source = $source;
