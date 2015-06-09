@@ -28,7 +28,8 @@ use Zend\Form\Element\DateTime;
  */
 class Message extends ApiBase
 {
-    //const LEVEL_DEFAULT = 'default';
+    const LEVEL_DEFAULT = 16;
+
     const LEVEL_CRITICAL = 2;
     const LEVEL_ERROR = 4;
     const LEVEL_WARNING = 8;
@@ -112,15 +113,16 @@ class Message extends ApiBase
     /**
      * setLevel
      *
-     * @param $level
+     * @param int $level
      *
      * @return void
      */
     public function setLevel($level)
     {
-        if(empty($level)){
-            $level = null;
+        if (empty($level)) {
+            $level = self::LEVEL_DEFAULT;
         }
+
         $this->level = $level;
     }
 
@@ -187,7 +189,7 @@ class Message extends ApiBase
      */
     public function setSource($source)
     {
-        if(empty($source)){
+        if (empty($source)) {
             $source = null;
         }
         $this->source = $source;
@@ -206,7 +208,7 @@ class Message extends ApiBase
     /**
      * setDateCreated
      *
-     * @param $dateCreated
+     * @param \DateTime $dateCreated
      *
      * @return void
      */

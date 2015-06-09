@@ -19,7 +19,6 @@ use Doctrine\ORM\EntityManager;
 use RcmMessage\Entity\Message;
 use RcmMessage\Entity\UserMessage;
 
-
 /**
  * MessageMgr
  *
