@@ -85,6 +85,50 @@ class UserMessage extends ApiBase
     }
 
     /**
+     * getUserId
+     *
+     * @return string
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * setUserId
+     *
+     * @param $userId
+     *
+     * @return void
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * getMessage
+     *
+     * @return Message
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * setMessage
+     *
+     * @param Message $message
+     *
+     * @return void
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
      * setViewed
      *
      * @param bool $viewed
@@ -164,50 +208,6 @@ class UserMessage extends ApiBase
         }
 
         return $this->dateViewed->format(\DateTime::ISO8601);
-    }
-
-    /**
-     * getUserId
-     *
-     * @return string
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * setUserId
-     *
-     * @param $userId
-     *
-     * @return void
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-    }
-
-    /**
-     * getMessage
-     *
-     * @return Message
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
-     * setMessage
-     *
-     * @param Message $message
-     *
-     * @return void
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
     }
 
     /**
