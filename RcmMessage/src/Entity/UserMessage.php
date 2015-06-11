@@ -85,87 +85,6 @@ class UserMessage extends ApiBase
     }
 
     /**
-     * setViewed
-     *
-     * @param bool $viewed
-     *
-     * @return void
-     */
-    public function setViewed($viewed = true)
-    {
-        if($viewed) {
-            $date = new \DateTime();
-            $this->setDateViewed($date);
-            return;
-        }
-
-        $this->dateViewed = null;
-    }
-
-    /**
-     * hasViewed
-     *
-     * @return bool
-     */
-    public function hasViewed(){
-
-        return !empty($this->dateViewed);
-    }
-
-    /**
-     * getDateViewed
-     *
-     * @return \DateTime
-     */
-    public function getDateViewed()
-    {
-        return $this->dateViewed;
-    }
-
-    /**
-     * setDateViewed
-     *
-     * @param $dateViewed
-     *
-     * @return \DateTime
-     */
-    public function setDateViewed($dateViewed)
-    {
-        if(!empty($this->dateViewed)){
-            return;
-        }
-        $this->dateViewed = $dateViewed;
-    }
-
-    /**
-     * setDateViewedString - from ISO8601 string
-     *
-     * @param $dateViewed
-     *
-     * @return void
-     */
-    public function setDateViewedString($dateViewed)
-    {
-        $date = \DateTime::createFromFormat(\DateTime::ISO8601, $dateViewed);
-
-        $this->setDateViewed($date);
-    }
-
-    /**
-     * getDateViewedString
-     *
-     * @return null|string
-     */
-    public function getDateViewedString()
-    {
-        if (empty($this->dateViewed)) {
-            return null;
-        }
-
-        return $this->dateViewed->format(\DateTime::ISO8601);
-    }
-
-    /**
      * getUserId
      *
      * @return string
@@ -210,6 +129,88 @@ class UserMessage extends ApiBase
     }
 
     /**
+     * setViewed
+     *
+     * @param bool $viewed
+     *
+     * @return void
+     */
+    public function setViewed($viewed = true)
+    {
+        if ($viewed) {
+            $date = new \DateTime();
+            $this->setDateViewed($date);
+
+            return;
+        }
+
+        $this->dateViewed = null;
+    }
+
+    /**
+     * hasViewed
+     *
+     * @return bool
+     */
+    public function hasViewed()
+    {
+        return !empty($this->dateViewed);
+    }
+
+    /**
+     * getDateViewed
+     *
+     * @return \DateTime
+     */
+    public function getDateViewed()
+    {
+        return $this->dateViewed;
+    }
+
+    /**
+     * setDateViewed
+     *
+     * @param $dateViewed
+     *
+     * @return \DateTime
+     */
+    public function setDateViewed($dateViewed)
+    {
+        if (!empty($this->dateViewed)) {
+            return;
+        }
+        $this->dateViewed = $dateViewed;
+    }
+
+    /**
+     * setDateViewedString - from ISO8601 string
+     *
+     * @param $dateViewed
+     *
+     * @return void
+     */
+    public function setDateViewedString($dateViewed)
+    {
+        $date = \DateTime::createFromFormat(\DateTime::ISO8601, $dateViewed);
+
+        $this->setDateViewed($date);
+    }
+
+    /**
+     * getDateViewedString
+     *
+     * @return null|string
+     */
+    public function getDateViewedString()
+    {
+        if (empty($this->dateViewed)) {
+            return null;
+        }
+
+        return $this->dateViewed->format(\DateTime::ISO8601);
+    }
+
+    /**
      * toArray
      *
      * @return array
@@ -223,5 +224,4 @@ class UserMessage extends ApiBase
 
         return $array;
     }
-
 }
