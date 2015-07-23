@@ -235,9 +235,6 @@ var RcmNavigationEdit = function (instanceId, container) {
         //Find out what css class this link has
         var cssClass = li.attr('class');
 
-
-
-
         if (typeof(cssClass) == 'undefined') {
             cssClass = '';
         }
