@@ -1,62 +1,63 @@
 {
-    "name": "reliv/rcm-plugins",
-    "description": "Extras For the RCM CMS",
-    "type": "library",
-    "license": "BSD-3-Clause",
-    "keywords": [
-        "reliv",
-        "plugins",
-        "module",
-        "zf2"
-    ],
-    "homepage": "http://www.reliv.com/",
-    "authors": [
-        {
-            "name": "Westin Shafer",
-            "email": "wshafer@relivinc.com",
-            "homepage": "http://www.reliv.com"
-        },
-        {
-            "name": "Rod McNew",
-            "email": "rmcnew@relivinc.com",
-            "homepage": "http://www.reliv.com/"
-        },
-        {
-            "name": "Brian Janish",
-            "email": "bjanish@relivinc.com",
-            "homepage": "http://www.reliv.com/"
-        }
-    ],
-    "require": {
-        "php": ">=5.4",
-        "ezyang/htmlpurifier": "4.6.0",
-        "doctrine/doctrine-orm-module": "0.*",
-        "zendframework/zendframework": "2.*",
-        "reliv/zf2-factories-as-configuration": ">=1.0.5"
+  "name": "reliv/rcm-plugins",
+  "description": "Extras For the RCM CMS",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "reliv",
+    "plugins",
+    "module",
+    "zf2"
+  ],
+  "homepage": "http://www.reliv.com/",
+  "authors": [
+    {
+      "name": "Westin Shafer",
+      "email": "wshafer@relivinc.com",
+      "homepage": "http://www.reliv.com"
     },
-    "autoload": {
-        "psr-4":{
-            "RcmAngularJs\\": "RcmAngularJs/src/",
-            "RcmDialog\\": "RcmDialog/src/",
-            "RcmEventCalenderCore\\": "RcmEventCalenderCore/src/",
-            "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
-            "RcmHtmlEditor\\": "RcmHtmlEditor/src/",
-            "RcmJquery\\": "RcmJquery/src/",
-            "RcmMessage\\": "RcmMessage/src/",
-            "RcmMessageList\\": "RcmMessageList/src/",
-            "RcmMockPlugin\\": "RcmMockPlugin/src/",
-            "RcmNavigation\\": "RcmNavigation/src/",
-            "RcmNavResponsive\\": "RcmNavResponsive/src/",
-            "RcmNumberFormat\\": "RcmNumberFormat/src/",
-            "RcmPeopleSlider\\": "RcmPeopleSlider/src/",
-            "RcmPortalAnnouncementBox\\": "RcmPortalAnnouncementBox/src/",
-            "RcmRotatingImage\\": "RcmRotatingImage/src/",
-            "RcmRssFeed\\": "RcmRssFeed/src/",
-            "RcmSocialButtons\\": "RcmSocialButtons/src/",
-            "RcmTabs\\": "RcmTabs/src/",
-            "RcmThreeChoices\\": "RcmThreeChoices/src/",
-            "RcmTinyMce\\": "RcmTinyMce/src/",
-            "RcmTwitterBootstrap\\": "RcmTwitterBootstrap/src/"
-        }
+    {
+      "name": "Rod McNew",
+      "email": "rmcnew@relivinc.com",
+      "homepage": "http://www.reliv.com/"
+    },
+    {
+      "name": "Brian Janish",
+      "email": "bjanish@relivinc.com",
+      "homepage": "http://www.reliv.com/"
     }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "ezyang/htmlpurifier": "4.6.0",
+    "doctrine/doctrine-orm-module": "0.*",
+    "zendframework/zendframework": "2.*",
+    "reliv/zf2-factories-as-configuration": ">=1.0.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "RcmAngularJs\\": "RcmAngularJs/src/",
+      "RcmDialog\\": "RcmDialog/src/",
+      "RcmEventCalenderCore\\": "RcmEventCalenderCore/src/",
+      "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
+      "RcmHtmlEditor\\": "RcmHtmlEditor/src/",
+      "RcmJquery\\": "RcmJquery/src/",
+      "RcmMessage\\": "RcmMessage/src/",
+      "RcmMessageList\\": "RcmMessageList/src/",
+      "RcmMockPlugin\\": "RcmMockPlugin/src/",
+      "RcmNavigation\\": "RcmNavigation/src/",
+      "RcmNavResponsive\\": "RcmNavResponsive/src/",
+      "RcmNumberFormat\\": "RcmNumberFormat/src/",
+      "RcmPeopleSlider\\": "RcmPeopleSlider/src/",
+      "RcmPortalAnnouncementBox\\": "RcmPortalAnnouncementBox/src/",
+      "RcmRotatingImage\\": "RcmRotatingImage/src/",
+      "RcmRssFeed\\": "RcmRssFeed/src/",
+      "RcmSocialButtons\\": "RcmSocialButtons/src/",
+      "RcmTabs\\": "RcmTabs/src/",
+      "RcmThreeChoices\\": "RcmThreeChoices/src/",
+      "RcmTinyMce\\": "RcmTinyMce/src/",
+      "RcmTwitterBootstrap\\": "RcmTwitterBootstrap/src/",
+      "DomainRedirector\\": "DomainRedirector/src/"
+    }
+  }
 }
