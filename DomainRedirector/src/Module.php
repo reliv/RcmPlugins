@@ -21,6 +21,7 @@ use App\Factory\DoctrineInjector;
 use App\Listener\DiscountLevelListener;
 use App\Listener\OrderManagerInitAuthListener;
 use App\Listener\RenewalAuthListener;
+use DomainRedirector\EventListener\DomainRedirectListener;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Mvc\MvcEvent;
 
@@ -59,9 +60,7 @@ class Module
         $event->getApplication()->getEventManager()->attach(
             MvcEvent::EVENT_ROUTE,
             [
-                $serviceManager->get(
-                    'DomainRedirector\EventListener\DomainRedirectListener'
-                ),
+                new DomainRedirectListener($serviceManager->get('config')),
                 'routeEvent'
             ],
             10001
