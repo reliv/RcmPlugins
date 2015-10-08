@@ -32,7 +32,7 @@
     "ezyang/htmlpurifier": "4.6.0",
     "doctrine/doctrine-orm-module": "0.*",
     "zendframework/zendframework": "2.*",
-    "reliv/zf2-factories-as-configuration": ">=1.0.5"
+    "reliv/reliv/zf-config-factories": ">=1.0.7"
   },
   "autoload": {
     "psr-4": {
