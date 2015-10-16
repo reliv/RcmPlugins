@@ -1,5 +1,5 @@
 {
-  "name": "reliv/rcm-plugins",
+  "name": "rcm/plugins",
   "description": "Extras For the RCM CMS",
   "type": "library",
   "license": "BSD-3-Clause",
