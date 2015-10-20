@@ -1,5 +1,5 @@
 tinymce.PluginManager.add(
-    "elfinder", function (editor, url) {
+    "rcmFileChooser", function (editor, url) {
         editor.settings.file_browser_callback = function (id, value, type, win) {
 
             /**
