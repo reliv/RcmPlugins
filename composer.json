@@ -56,8 +56,7 @@
       "RcmTabs\\": "RcmTabs/src/",
       "RcmThreeChoices\\": "RcmThreeChoices/src/",
       "RcmTinyMce\\": "RcmTinyMce/src/",
-      "RcmTwitterBootstrap\\": "RcmTwitterBootstrap/src/",
-      "DomainRedirector\\": "DomainRedirector/src/"
+      "RcmTwitterBootstrap\\": "RcmTwitterBootstrap/src/"
     }
   }
 }
