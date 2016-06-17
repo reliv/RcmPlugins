@@ -36,7 +36,6 @@
   },
   "autoload": {
     "psr-4": {
-      "RcmAngularJs\\": "RcmAngularJs/src/",
       "RcmDialog\\": "RcmDialog/src/",
       "RcmEventCalenderCore\\": "RcmEventCalenderCore/src/",
       "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
