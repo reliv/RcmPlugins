@@ -40,7 +40,6 @@
       "RcmEventCalenderCore\\": "RcmEventCalenderCore/src/",
       "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
       "RcmHtmlEditor\\": "RcmHtmlEditor/src/",
-      "RcmJquery\\": "RcmJquery/src/",
       "RcmMessage\\": "RcmMessage/src/",
       "RcmMessageList\\": "RcmMessageList/src/",
       "RcmMockPlugin\\": "RcmMockPlugin/src/",
