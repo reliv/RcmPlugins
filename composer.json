@@ -36,10 +36,12 @@
   },
   "autoload": {
     "psr-4": {
+      "RcmAngularJs\\": "RcmAngularJs/src/",
       "RcmDialog\\": "RcmDialog/src/",
       "RcmEventCalenderCore\\": "RcmEventCalenderCore/src/",
       "RcmEventListDisplay\\": "RcmEventListDisplay/src/",
       "RcmHtmlEditor\\": "RcmHtmlEditor/src/",
+      "RcmJquery\\": "RcmJquery/src/",
       "RcmMessage\\": "RcmMessage/src/",
       "RcmMessageList\\": "RcmMessageList/src/",
       "RcmMockPlugin\\": "RcmMockPlugin/src/",
@@ -53,8 +55,8 @@
       "RcmSocialButtons\\": "RcmSocialButtons/src/",
       "RcmTabs\\": "RcmTabs/src/",
       "RcmThreeChoices\\": "RcmThreeChoices/src/",
-      "RcmTwitterBootstrap\\": "RcmTwitterBootstrap/src/",
-      "DomainRedirector\\": "DomainRedirector/src/"
+      "RcmTinyMce\\": "RcmTinyMce/src/",
+      "RcmTwitterBootstrap\\": "RcmTwitterBootstrap/src/"
     }
   }
 }

@@ -28,7 +28,8 @@ return [
             'editJs' => '/modules/rcm-rotating-image/edit.js',
             'editCss' => '/modules/rcm-rotating-image/edit.css',
             'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php'
+                    __DIR__ . '/defaultInstanceConfig.php',
+            'canCache' => true,
         ],
     ],
     'view_manager' => [
