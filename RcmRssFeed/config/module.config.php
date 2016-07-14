@@ -27,8 +27,8 @@ return [
             'icon' => '',
             'editJs' => '/modules/rcm-rss-feed/edit.js',
             'defaultInstanceConfig' => include
-                    __DIR__ . '/defaultInstanceConfig.php',
-            'cacheable' => true,
+                __DIR__ . '/defaultInstanceConfig.php',
+            'canCache' => true,
         ],
     ],
     'view_manager' => [
@@ -55,15 +55,13 @@ return [
             'RcmRssFeed\Cache' => '\RcmRssFeed\Factory\RssCacheFactory'
         ]
     ],
-
     'controllers' => [
         'factories' => [
             'RcmRssFeed\Controller\ProxyController'
-                => '\RcmRssFeed\Factory\ProxyControllerFactory',
+            => '\RcmRssFeed\Factory\ProxyControllerFactory',
             'RcmRssFeed' => '\RcmRssFeed\Factory\PluginControllerFactory',
         ],
     ],
-
     'asset_manager' => [
         'resolver_configs' => [
             'aliases' => [
