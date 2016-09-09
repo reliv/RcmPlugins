@@ -69,7 +69,7 @@ return [
             ],
             'collections' => [
                 'modules/rcm/modules.js' => [
-                    'mmodules/rcm-rss-feed/script.js',
+                    'modules/rcm-rss-feed/script.js',
                 ],
                 'modules/rcm/modules.css' => [
                     'modules/rcm-rss-feed/style.css'
