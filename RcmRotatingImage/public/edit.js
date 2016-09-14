@@ -83,7 +83,7 @@ var RcmRotatingImageEdit = function (instanceId, container, pluginHandler) {
 
         //The div that holds our edit buttons
         var tools = $(
-            '<div class="tools" style="position: absolute; right: 10px; top: 5px; background-color: rgba(255, 255, 255, 0.2);"></div>'
+            '<div class="tools" style="position: absolute; right: 10px; top: 10px; background-color: rgba(255, 255, 255, 0.2);"></div>'
         );
         container.children('div').append(tools);
 
