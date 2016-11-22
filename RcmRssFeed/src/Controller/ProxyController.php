@@ -52,9 +52,10 @@ class ProxyController
         }
 
         $feedUrl = $instanceConfig['rssFeedUrl'];
+        $cacheKey = 'rcmrssfeed-' . md5($feedUrl);
 
-        if ($this->cacheMgr->hasItem($feedUrl)) {
-            $viewRssData = $this->cacheMgr->getItem($feedUrl);
+        if ($this->cacheMgr->hasItem($cacheKey)) {
+            $viewRssData = $this->cacheMgr->getItem($cacheKey);
             $this->sendJson($viewRssData);
         }
 
@@ -110,7 +111,7 @@ class ProxyController
             $feedCount++;
         }
 
-        $this->cacheMgr->addItem($feedUrl, $viewRssData);
+        $this->cacheMgr->addItem($cacheKey, $viewRssData);
 
         $this->sendJson($viewRssData);
 
