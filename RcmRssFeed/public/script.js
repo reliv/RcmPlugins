@@ -14,9 +14,9 @@ function RssReader(proxy, instanceId, displayContainer, urlOverride, limit) {
         limit: limit
     };
 
-    $.getJSON(me.proxy, me.dataToSend,function (data) {
+    $.getJSON(me.proxy, me.dataToSend, function (data) {
         $(displayContainer).html('');
-        if(data.length < 1 ){
+        if (data.length < 1) {
             var newLine = $("<p>").html('No RSS feed results found.');
             $(me.displayContainer).html(newLine);
         }
