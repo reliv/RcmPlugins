@@ -30,7 +30,7 @@
   "require": {
     "php": ">=5.4",
     "ezyang/htmlpurifier": "4.6.0",
-    "doctrine/doctrine-orm-module": "0.*",
+    "doctrine/doctrine-orm-module": "0.* || 1.*",
     "zendframework/zendframework": "2.*",
     "reliv/zf-config-factories": ">=1.0.7"
   },
