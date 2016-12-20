@@ -26,7 +26,7 @@ class PluginControllerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $controller = new PluginController(
-            $serviceLocator->get('config'),
+            $serviceLocator->get('Config'),
             $serviceLocator->get('Doctrine\ORM\EntityManager'),
             $serviceLocator->get('CalenderModel')
         );

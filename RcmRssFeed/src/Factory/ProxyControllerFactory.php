@@ -57,7 +57,7 @@ class ProxyControllerFactory implements FactoryInterface
 
         $controller
             = new ProxyController(
-            $serviceLocator->get('config'),
+            $serviceLocator->get('Config'),
             $serviceLocator->get('Rcm\Service\CurrentSite')->getSiteId(),
             $serviceLocator->get('RcmRssFeed\Cache')
         );

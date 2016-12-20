@@ -38,7 +38,7 @@ class PluginController
 {
     function renderInstance($instanceId, $instanceConfig)
     {
-        $config = $this->getServiceLocator()->get('config');
+        $config = $this->getServiceLocator()->get('Config');
         $view = parent::renderInstance($instanceId, $instanceConfig);
         $view->setVariable(
             'availableButtons',
