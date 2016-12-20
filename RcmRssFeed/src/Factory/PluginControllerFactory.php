@@ -55,7 +55,7 @@ class PluginControllerFactory implements FactoryInterface
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
         $serviceLocator = $controllerMgr->getServiceLocator();
 
-        $config = $serviceLocator->get('config');
+        $config = $serviceLocator->get('Config');
         return new PluginController($config);
     }
 }

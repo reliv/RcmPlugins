@@ -48,7 +48,7 @@ class RssCacheFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('config');
+        $config = $serviceLocator->get('Config');
 
         $extraOptions = [
             'namespace' => 'rcmRssCache',

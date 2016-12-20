@@ -60,7 +60,7 @@ class Module
         $event->getApplication()->getEventManager()->attach(
             MvcEvent::EVENT_ROUTE,
             [
-                new DomainRedirectListener($serviceManager->get('config')),
+                new DomainRedirectListener($serviceManager->get('Config')),
                 'routeEvent'
             ],
             10001
