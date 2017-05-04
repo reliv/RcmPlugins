@@ -1,26 +1,7 @@
 <?php
-/**
- * Module Config For ZF2
- *
- * PHP version 5.3
- *
- * LICENSE: No License yet
- *
- * @category  Reliv
- * @package   App
- * @author    Westin Shafer <wshafer@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
 
 namespace DomainRedirector;
 
-use App\Factory\DoctrineInjector;
-use App\Listener\DiscountLevelListener;
-use App\Listener\OrderManagerInitAuthListener;
-use App\Listener\RenewalAuthListener;
 use DomainRedirector\EventListener\DomainRedirectListener;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Mvc\MvcEvent;
