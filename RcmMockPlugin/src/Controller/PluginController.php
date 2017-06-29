@@ -2,12 +2,12 @@
 
 namespace RcmMockPlugin\Controller;
 
+use Rcm\Plugin\BaseController;
 use Rcm\Plugin\PluginInterface;
 use RcmMockPlugin\Exception\RuntimeException;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\Stdlib\RequestInterface;
 use Zend\View\Model\ViewModel;
-use Rcm\Plugin\BaseController;
 
 class PluginController extends BaseController implements PluginInterface
 {
@@ -15,12 +15,19 @@ class PluginController extends BaseController implements PluginInterface
     protected $cache;
     protected $activeCache;
 
-    public function __construct(StorageInterface $cache)
-    {
+    /**
+     * @param array            $config
+     * @param StorageInterface $cache
+     */
+    public function __construct(
+        $config,
+        StorageInterface $cache
+    ) {
         $this->cache = $cache;
 
         if ($this->cache->hasItem('mockPluginData')) {
             $this->activeCache = $this->cache->getItem('mockPluginData');
+
             return;
         }
 
@@ -32,8 +39,16 @@ class PluginController extends BaseController implements PluginInterface
         ];
 
         $this->cache->setItem('mockPluginData', $this->activeCache);
+
+        parent::__construct($config);
     }
 
+    /**
+     * @param int   $instanceId
+     * @param array $instanceConfig
+     *
+     * @return ViewModel
+     */
     public function renderInstance($instanceId, $instanceConfig)
     {
         $data = [];
@@ -48,15 +63,27 @@ class PluginController extends BaseController implements PluginInterface
             ]
         );
         $view->setTemplate('rcm-mock-plugin/plugin');
+
         return $view;
     }
 
+    /**
+     * @param $instanceId
+     * @param $data
+     *
+     * @return void
+     */
     public function saveInstance($instanceId, $data)
     {
         $this->activeCache[$instanceId] = $data;
         $this->cache->setItem('mockPluginData', $this->activeCache);
     }
 
+    /**
+     * @param $instanceId
+     *
+     * @return void
+     */
     public function deleteInstance($instanceId)
     {
         if ($instanceId == 5000000) {
@@ -67,6 +94,11 @@ class PluginController extends BaseController implements PluginInterface
         $this->cache->setItem('mockPluginData', $this->activeCache);
     }
 
+    /**
+     * @param RequestInterface $request
+     *
+     * @return void
+     */
     public function setRequest(RequestInterface $request)
     {
 

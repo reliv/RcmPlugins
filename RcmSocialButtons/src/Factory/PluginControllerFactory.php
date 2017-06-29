@@ -2,14 +2,12 @@
 
 namespace RcmSocialButtons\Factory;
 
+use Interop\Container\ContainerInterface;
 use RcmSocialButtons\Controller\PluginController;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
-* PluginControllerFactory
- *
- * LongDescHere
+ * PluginControllerFactory
  *
  * PHP version 5
  *
@@ -21,14 +19,19 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-
-class PluginControllerFactory implements FactoryInterface
+class PluginControllerFactory
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    /**
+     * __invoke
+     *
+     * @param $container ContainerInterface|ServiceLocatorInterface
+     *
+     * @return PluginController
+     */
+    public function __invoke($container)
     {
-        $controller = new PluginController(
-            $serviceLocator->get('Config')
+        return new PluginController(
+            $container->get('Config')
         );
-        return $controller;
     }
 }

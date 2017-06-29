@@ -16,7 +16,6 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
 return [
     'router' => [
         'routes' => [
@@ -51,7 +50,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            'NumberFormatController' => 'RcmNumberFormat\Factory\NumberFormatControllerFactory'
+            'NumberFormatController' => \RcmNumberFormat\Factory\NumberFormatControllerFactory::class
         ]
     ],
 ];

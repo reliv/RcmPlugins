@@ -2,14 +2,12 @@
 
 namespace RcmNumberFormat\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
 use RcmNumberFormat\Controller\NumberFormatController;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * RcmNumberFormat
- *
- * LongDescHere
  *
  * PHP version 5
  *
@@ -21,14 +19,20 @@ use RcmNumberFormat\Controller\NumberFormatController;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class NumberFormatControllerFactory implements FactoryInterface
+class NumberFormatControllerFactory
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    /**
+     * __invoke
+     *
+     * @param $container ContainerInterface|ServiceLocatorInterface
+     *
+     * @return NumberFormatController
+     */
+    public function __invoke($container)
     {
-        $controller = new NumberFormatController(
-            $serviceLocator->get('rcmNumberFormatter'),
-            $serviceLocator->get('rcmCurrencyFormatter')
+        return new NumberFormatController(
+            $container->get('rcmNumberFormatter'),
+            $container->get('rcmCurrencyFormatter')
         );
-        return $controller;
     }
 }

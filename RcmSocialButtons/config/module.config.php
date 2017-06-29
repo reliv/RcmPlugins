@@ -16,7 +16,6 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
 return [
 
     'rcmPlugin' => [
@@ -59,7 +58,7 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'RcmSocialButtons' => 'RcmSocialButtons\Factory\PluginControllerFactory'
+            'RcmSocialButtons' => \RcmSocialButtons\Factory\PluginControllerFactory::class
         ]
     ]
 ];
