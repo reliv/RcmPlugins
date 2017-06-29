@@ -2,8 +2,8 @@
 
 namespace RcmMockPlugin\Factory;
 
+use Interop\Container\ContainerInterface;
 use RcmMockPlugin\Controller\PluginController;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -21,13 +21,22 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class PluginControllerFactory implements FactoryInterface
+class PluginControllerFactory
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    /**
+     * __invoke
+     *
+     * @param $container ContainerInterface|ServiceLocatorInterface
+     *
+     * @return PluginController
+     */
+    public function __invoke($container)
     {
         $controller = new PluginController(
-            $serviceLocator->get('Rcm\Service\Cache')
+            $container->get('Config'),
+            $container->get(\Rcm\Service\Cache::class)
         );
+
         return $controller;
     }
 }

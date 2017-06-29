@@ -1,20 +1,5 @@
 <?php
 
-/**
- * Plugin Controller
- *
- * This is the main controller for this plugin
- *
- * PHP version 5.3
- *
- * LICENSE: No License yet
- *
- * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2012 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- */
 namespace RcmSocialButtons\Controller;
 
 use Rcm\Plugin\BaseController;
@@ -32,10 +17,14 @@ use Rcm\Plugin\PluginInterface;
  * @version   Release: 1.0
  *
  */
-class PluginController
-    extends BaseController
-    implements PluginInterface
+class PluginController extends BaseController implements PluginInterface
 {
+    /**
+     * @param int   $instanceId
+     * @param array $instanceConfig
+     *
+     * @return \Zend\View\Model\ViewModel
+     */
     function renderInstance($instanceId, $instanceConfig)
     {
         $config = $this->getServiceLocator()->get('Config');

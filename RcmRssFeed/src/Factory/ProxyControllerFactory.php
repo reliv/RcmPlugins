@@ -1,27 +1,11 @@
 <?php
-/**
- * Service Factory for the Proxy Controller
- *
- * This file contains the factory needed to generate a Proxy Controller
- *
- * PHP version 5.3
- *
- * LICENSE: BSD
- *
- * @category  Reliv
- * @package   RcmPlugins
- * @author    Westin Shafer <wshafer@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
+
 namespace RcmRssFeed\Factory;
 
-use Zend\Cache\StorageFactory;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
 use RcmRssFeed\Controller\ProxyController;
+use Zend\Mvc\Controller\ControllerManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Service Factory for the Proxy Controller
@@ -37,31 +21,26 @@ use RcmRssFeed\Controller\ProxyController;
  * @link      https://github.com/reliv
  *
  */
-class ProxyControllerFactory implements FactoryInterface
+class ProxyControllerFactory
 {
-
     /**
-     * Create Service
+     * __invoke
      *
-     * @param ServiceLocatorInterface $controllerManager Zend Controller Manager
+     * @param $container ContainerInterface|ServiceLocatorInterface|ControllerManager
      *
      * @return ProxyController
      */
-    public function createService(ServiceLocatorInterface $controllerManager)
+    public function __invoke($container)
     {
-        /** @var \Zend\Mvc\Controller\ControllerManager $controllerMgr For IDE */
-        $controllerMgr = $controllerManager;
+        // @BC for ZendFramework
+        if ($container instanceof ControllerManager) {
+            $container = $container->getServiceLocator();
+        }
 
-        /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $controllerMgr->getServiceLocator();
-
-        $controller
-            = new ProxyController(
-            $serviceLocator->get('Config'),
-            $serviceLocator->get('Rcm\Service\CurrentSite')->getSiteId(),
-            $serviceLocator->get('RcmRssFeed\Cache')
+        return new ProxyController(
+            $container->get('Config'),
+            $container->get(\Rcm\Service\CurrentSite::class)->getSiteId(),
+            $container->get('RcmRssFeed\Cache')
         );
-
-        return $controller;
     }
 }

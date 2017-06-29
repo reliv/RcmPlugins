@@ -1,25 +1,9 @@
 <?php
-/**
- * Service Factory for the Rss Proxy Cache
- *
- * This file contains the factory needed to generate a Rss Proxy Cache.
- *
- * PHP version 5.3
- *
- * LICENSE: BSD
- *
- * @category  Reliv
- * @package   RcmPlugins
- * @author    Westin Shafer <wshafer@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
+
 namespace RcmRssFeed\Factory;
 
+use Interop\Container\ContainerInterface;
 use Zend\Cache\StorageFactory;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -36,19 +20,18 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @link      https://github.com/reliv
  *
  */
-class RssCacheFactory implements FactoryInterface
+class RssCacheFactory
 {
-
     /**
-     * Create Service
+     * __invoke
      *
-     * @param ServiceLocatorInterface $serviceLocator Zend Service Manager
+     * @param $container ContainerInterface|ServiceLocatorInterface
      *
      * @return \Zend\Cache\Storage\StorageInterface
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke($container)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
 
         $extraOptions = [
             'namespace' => 'rcmRssCache',

@@ -16,7 +16,6 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
 return [
 
     'rcmPlugin' => [

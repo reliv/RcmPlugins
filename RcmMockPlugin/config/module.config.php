@@ -16,7 +16,6 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
 return [
 
     'rcmPlugin' => [
@@ -34,7 +33,7 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'RcmMockPlugin' => 'RcmMockPlugin\Factory\PluginControllerFactory'
+            'RcmMockPlugin' => \RcmMockPlugin\Factory\PluginControllerFactory::class
         ]
     ],
     'asset_manager' => [

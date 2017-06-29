@@ -16,9 +16,7 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
 return [
-
     'rcmPlugin' => [
         'RcmRssFeed' => [
             'type' => 'Social Media',
@@ -43,7 +41,7 @@ return [
                 'options' => [
                     'route' => '/rcm-rss-proxy',
                     'defaults' => [
-                        'controller' => 'RcmRssFeed\Controller\ProxyController',
+                        'controller' => \RcmRssFeed\Controller\ProxyController::class,
                         'action' => 'rssProxy',
                     ],
                 ],
@@ -52,14 +50,16 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'RcmRssFeed\Cache' => '\RcmRssFeed\Factory\RssCacheFactory'
+            'RcmRssFeed\Cache'
+            => \RcmRssFeed\Factory\RssCacheFactory::class
         ]
     ],
     'controllers' => [
         'factories' => [
-            'RcmRssFeed\Controller\ProxyController'
-            => '\RcmRssFeed\Factory\ProxyControllerFactory',
-            'RcmRssFeed' => '\RcmRssFeed\Factory\PluginControllerFactory',
+            \RcmRssFeed\Controller\ProxyController::class
+            => \RcmRssFeed\Factory\ProxyControllerFactory::class,
+            'RcmRssFeed'
+            => \RcmRssFeed\Factory\PluginControllerFactory::class,
         ],
     ],
     'asset_manager' => [
