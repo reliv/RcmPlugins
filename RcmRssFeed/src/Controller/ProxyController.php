@@ -8,6 +8,8 @@
  */
 namespace RcmRssFeed\Controller;
 
+use Rcm\Acl\ResourceName;
+use RcmUser\Service\RcmUserService;
 use Zend\Feed\Reader\Reader;
 use Zend\Http\Client;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -63,11 +65,25 @@ class ProxyController
             //$permissions = $this->userMgr->getLoggedInAdminPermissions();
             $permissions = null;
 
+            /** @var RcmUserService $rcmUserService */
+            $rcmUserService = $this->serviceLocator->get(RcmUserService::class);
+
+            /** @var ResourceName $resourceName */
+            $resourceName = $this->getServiceLocator()->get(
+                ResourceName::class
+            );
+
             /**
              * Only admins can override the url. This prevents people from using
              * our proxy to DDOS other sites.
              */
-            $allowed = $this->rcmIsAllowed('sites.' . $this->siteId, 'admin');
+            $allowed = $rcmUserService->isAllowed(
+                $resourceName->get(
+                    ResourceName::RESOURCE_SITES,
+                    $this->siteId
+                ),
+                'admin'
+            );
 
             if ($allowed) {
                 $feedUrl = $overrideFeedUrl;
