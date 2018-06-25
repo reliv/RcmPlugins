@@ -24,7 +24,7 @@ return [
                 'options' => [
                     'route' => '/rcm-number-format-http-api/currency/:value',
                     'defaults' => [
-                        'controller' => 'NumberFormatController',
+                        'controller' => \RcmNumberFormat\Controller\NumberFormatController::class,
                         'action' => 'currency',
                     ]
                 ],
@@ -34,7 +34,7 @@ return [
                 'options' => [
                     'route' => '/rcm-number-format-http-api/number/:value',
                     'defaults' => [
-                        'controller' => 'NumberFormatController',
+                        'controller' => \RcmNumberFormat\Controller\NumberFormatController::class,
                         'action' => 'number',
                     ]
                 ],
@@ -49,8 +49,8 @@ return [
         ],
     ],
     'controllers' => [
-        'factories' => [
-            'NumberFormatController' => \RcmNumberFormat\Factory\NumberFormatControllerFactory::class
+        'config_factories' => [
+            \RcmNumberFormat\Controller\NumberFormatController::class => []
         ]
     ],
 ];

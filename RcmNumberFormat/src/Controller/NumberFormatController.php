@@ -5,19 +5,6 @@ namespace RcmNumberFormat\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
-/**
- * Module Config For ZF2
- *
- * PHP version 5.4
- *
- * LICENSE: New BSD License
- *
- * @category  Reliv
- * @author    Rod McNew <rmcnew@relivinc.com>
- * @copyright 2013 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- */
 class NumberFormatController extends AbstractActionController
 {
     /**
