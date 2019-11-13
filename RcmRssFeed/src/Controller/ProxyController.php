@@ -61,34 +61,36 @@ class ProxyController
             $this->sendJson($viewRssData);
         }
 
-        if (!empty($overrideFeedUrl) && $overrideFeedUrl != 'null') {
-            //$permissions = $this->userMgr->getLoggedInAdminPermissions();
-            $permissions = null;
-
-            /** @var RcmUserService $rcmUserService */
-            $rcmUserService = $this->serviceLocator->get(RcmUserService::class);
-
-            /** @var ResourceName $resourceName */
-            $resourceName = $this->getServiceLocator()->get(
-                ResourceName::class
-            );
-
-            /**
-             * Only admins can override the url. This prevents people from using
-             * our proxy to DDOS other sites.
-             */
-            $allowed = $rcmUserService->isAllowed(
-                $resourceName->get(
-                    ResourceName::RESOURCE_SITES,
-                    $this->siteId
-                ),
-                'admin'
-            );
-
-            if ($allowed) {
-                $feedUrl = $overrideFeedUrl;
-            }
-        }
+//        //Was disabled becasue it doesn't follow new ACL rules and probably is not used.
+//        if (!empty($overrideFeedUrl) && $overrideFeedUrl != 'null') {
+//            //$permissions = $this->userMgr->getLoggedInAdminPermissions();
+//            $permissions = null;
+//
+//            /** @var RcmUserService $rcmUserService */
+//            $rcmUserService = $this->serviceLocator->get(RcmUserService::class);
+//
+//            /** @var ResourceName $resourceName */
+//            $resourceName = $this->getServiceLocator()->get(
+//                ResourceName::class
+//            );
+//
+//            $allowed=false;
+//            /**
+//             * Only admins can override the url. This prevents people from using
+//             * our proxy to DDOS other sites.
+//             */
+//            $allowed = $rxcmUserSxervice->isxAxllowed(
+//                $resourceName->get(
+//                    ResourceName::RESOURCE_SITES,
+//                    $this->siteId
+//                ),
+//                'admin'
+//            );
+//
+//            if ($allowed) {
+//                $feedUrl = $overrideFeedUrl;
+//            }
+//        }
 
         if (empty($limit)) {
             $limit = $instanceConfig['rssFeedLimit'];
