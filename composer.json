@@ -27,7 +27,7 @@
       "homepage": "http://www.reliv.com/"
     }
   ],
-  "require": {
+  "require-commented-out": {
     "php": ">=5.4",
     "doctrine/doctrine-orm-module": "0.* || 1.*",
     "rcm/core": "^1.20.0",
